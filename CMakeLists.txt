@@ -60,13 +60,9 @@ set (patch_ver ${CMAKE_MATCH_1})
 set (CC_TOOLS_QT_VERSION "${major_ver}.${minor_ver}.${patch_ver}")
 
 #######################################################################
-while (TRUE)
-    if (CC_TOOLS_QT_EXTERNAL_COMMS)
-        find_package(LibComms REQUIRED NO_MODULE)
-        message (FATAL_ERROR "NYI: Bring in cmake configuration scripts")
-        break ()
-    endif ()
+# Get COMMS library target
 
+if (NOT CC_TOOLS_QT_EXTERNAL_COMMS)
     set (comms_src_dir "${CC_TOOLS_QT_EXTERNALS_DIR}/comms")
     include (${CMAKE_SCRIPTS_DIR}/CC_CommsPrefetch.cmake)
     cc_comms_prefetch(SRC_DIR "${comms_src_dir}")
@@ -82,9 +78,12 @@ while (TRUE)
     )
 
     list (APPEND CMAKE_PREFIX_PATH ${comms_install_dir})
-    find_package(LibComms REQUIRED NO_MODULE)
     break ()
-endwhile ()
+endif ()
+
+find_package(LibComms REQUIRED NO_MODULE)
+
+#######################################################################
 
 # Compiler options
 set (warn_opt)
@@ -101,6 +100,11 @@ set (ccache_opt)
 if ((UNIX) AND (CC_TOOLS_QT_USE_CCACHE))
     set (ccache_opt USE_CCACHE)
 endif ()
+
+if ("${CC_COMMS_CMAKE_DIR}" STREQUAL "")
+    message (FATAL_ERROR "CC_COMMS_CMAKE_DIR variable is not set")
+endif ()
+
 include (${CC_COMMS_CMAKE_DIR}/CC_Compile.cmake)
 cc_compile(${warn_opt} ${static_runtime_opt} ${ccache_opt})
 cc_msvc_force_warn_opt("/W4")
