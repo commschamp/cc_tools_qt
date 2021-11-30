@@ -30,9 +30,9 @@ function (cc_plugin_raw_data_protocol)
     )
     
     add_library (${name} MODULE ${src} ${moc})
-    target_link_libraries(${name} PRIVATE cc::${COMMS_CHAMPION_LIB_NAME})
+    target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME})
     
-    if (CC_INSTALL_TOOLS)
+    if (CC_TOOLS_QT_INSTALL_BINS)
         install (
             TARGETS ${name}
             DESTINATION ${PLUGIN_INSTALL_DIR})

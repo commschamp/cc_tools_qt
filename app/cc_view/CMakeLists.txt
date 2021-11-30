@@ -1,13 +1,13 @@
 add_subdirectory (src)
 
-if (UNIX AND CC_INSTALL_TOOLS)
+if (UNIX AND CC_TOOLS_QT_INSTALL_BINS)
     install(
         PROGRAMS script/cc_view.sh
         DESTINATION ${BIN_INSTALL_DIR}
     )
 endif ()  
 
-if (WIN32 AND (NOT "${CC_QT_DIR}" STREQUAL "") AND CC_INSTALL_TOOLS)
+if (WIN32 AND (NOT "${CC_QT_DIR}" STREQUAL "") AND CC_TOOLS_QT_INSTALL_BINS)
     execute_process(
         COMMAND ${CMAKE_COMMAND} -DAPP_NAME=cc_view -DEXTRA_PATH=${CC_QT_DIR}\\bin
             -DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}

@@ -5,7 +5,7 @@ include_directories (
 
 add_subdirectory (cc_plugin)
 
-if (CC_INSTALL_TOOLS)
+if (CC_TOOLS_QT_INSTALL_BINS)
     install (
         DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/config/
         DESTINATION ${CONFIG_INSTALL_DIR}

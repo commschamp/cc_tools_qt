@@ -1,5 +1,5 @@
-function (lib_comms_champion)
-    set (name "${COMMS_CHAMPION_LIB_NAME}")
+function (lib_tools)
+    set (name "${PROJECT_NAME}")
     
     if (NOT Qt5Core_FOUND)
         message(WARNING "Can NOT build ${name} due to missing Qt5Core library")
@@ -53,7 +53,7 @@ function (lib_comms_champion)
     )
     
     add_library(${name} SHARED ${src} ${moc})
-    add_library (cc::${COMMS_CHAMPION_LIB_NAME} ALIAS ${name})
+    add_library (cc::${PROJECT_NAME} ALIAS ${name})
 
     target_link_libraries(${name} PUBLIC cc::comms Qt5::Widgets Qt5::Core ${CC_PLATFORM_SPECIFIC})
     target_include_directories(${name} 
@@ -65,22 +65,22 @@ function (lib_comms_champion)
             $<INSTALL_INTERFACE:include>
     )
 
-    target_compile_definitions(${name} PRIVATE -DCC_LIB_EXPORT)    
+    target_compile_definitions(${name} PRIVATE -DCC_TOOLS_QT_EXPORT)    
     target_compile_options(${name} PUBLIC
         $<$<CXX_COMPILER_ID:MSVC>:/bigobj /wd4127 /wd5054 /wd5240>
     )
     
-    set_target_properties(${name} PROPERTIES VERSION ${COMMS_VERSION})
+    set_target_properties(${name} PROPERTIES VERSION ${CC_TOOLS_QT_VERSION})
     
-    if (CC_INSTALL_TOOLS_LIBRARY)    
+    if (CC_TOOLS_QT_INSTALL_LIBRARY)    
         install (
-            TARGETS ${name} EXPORT ${COMMS_CHAMPION_LIB_NAME}Export
+            TARGETS ${name} EXPORT ${name}Export
             LIBRARY DESTINATION ${LIB_INSTALL_DIR}
             RUNTIME DESTINATION ${BIN_INSTALL_DIR}
             ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
         )
 
-        install(EXPORT ${COMMS_CHAMPION_LIB_NAME}Export NAMESPACE cc::
+        install(EXPORT ${name}Export NAMESPACE cc::
             DESTINATION ${LIB_INSTALL_DIR}/${INSTALL_NAME}/cmake
         )
     endif ()
@@ -105,4 +105,4 @@ if (WIN32)
 
 endif ()   
 
-lib_comms_champion()
+lib_tools()

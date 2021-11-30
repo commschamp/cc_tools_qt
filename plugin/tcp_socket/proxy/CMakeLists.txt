@@ -51,9 +51,9 @@ function (plugin_tcp_proxy_socket)
     
     
     add_library (${name} MODULE ${src} ${moc} ${ui})
-    target_link_libraries(${name} PRIVATE cc::${COMMS_CHAMPION_LIB_NAME} Qt5::Network Qt5::Widgets Qt5::Core)
+    target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt5::Network Qt5::Widgets Qt5::Core)
     
-    if (CC_INSTALL_TOOLS)
+    if (CC_TOOLS_QT_INSTALL_BINS)
         install (
             TARGETS ${name}
             DESTINATION ${PLUGIN_INSTALL_DIR})

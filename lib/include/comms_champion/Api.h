@@ -19,11 +19,11 @@
 
 #ifdef WIN32
 
-#ifdef CC_LIB_EXPORT
+#ifdef CC_TOOLS_QT_EXPORT
 #define CC_API __declspec(dllexport)
-#else // #ifdef CC_LIB_EXPORT
+#else // #ifdef CC_TOOLS_QT_EXPORT
 #define CC_API __declspec(dllimport)
-#endif // #ifdef CC_LIB_EXPORT
+#endif // #ifdef CC_TOOLS_QT_EXPORT
 
 #else // #ifdef WIN32
 #define CC_API

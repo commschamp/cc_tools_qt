@@ -21,9 +21,9 @@ function (bin_cc_dump)
     #qt5_add_resources(resources ${CMAKE_CURRENT_SOURCE_DIR}/ui.qrc)
 
     add_executable(${name} ${src} ${moc})
-    target_link_libraries(${name} PRIVATE cc::comms_champion Qt5::Core)
+    target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt5::Core)
     
-    if (CC_INSTALL_TOOLS)
+    if (CC_TOOLS_QT_INSTALL_BINS)
         install (
             TARGETS ${name}
             DESTINATION ${BIN_INSTALL_DIR})
