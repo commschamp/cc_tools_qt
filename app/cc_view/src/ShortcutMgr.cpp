@@ -20,7 +20,7 @@
 #include <type_traits>
 
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 ShortcutMgr::~ShortcutMgr() noexcept = default;
@@ -109,4 +109,4 @@ void ShortcutMgr::createInitialMap()
 }
 
 
-} // namespace comms_champion
+} // namespace cc_tools_qt

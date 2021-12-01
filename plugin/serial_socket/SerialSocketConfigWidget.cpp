@@ -22,7 +22,7 @@
 #include <algorithm>
 #include <iterator>
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -191,6 +191,6 @@ void SerialSocketConfigWidget::flowControlChanged(int value)
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "comms_champion/MsgFileMgr.h"
+#include "cc_tools_qt/MsgFileMgr.h"
 
 #include <cassert>
 #include <algorithm>
@@ -31,9 +31,9 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QVariantMap>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/property/message.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -667,6 +667,6 @@ void MsgFileMgr::flushRecvFile(FileSaveHandler handler)
     assert(handler);
     handler->flush();
 }
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

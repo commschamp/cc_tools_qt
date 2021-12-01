@@ -22,10 +22,10 @@
 #include <limits>
 #include <cmath>
 
-#include "comms_champion/property/field.h"
+#include "cc_tools_qt/property/field.h"
 #include "SpecialValueWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 LongLongIntValueFieldWidget::LongLongIntValueFieldWidget(
@@ -197,6 +197,6 @@ bool LongLongIntValueFieldWidget::createSpecialsWidget(const SpecialsList& speci
     return true;
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

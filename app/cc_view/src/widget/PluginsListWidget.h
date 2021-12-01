@@ -27,7 +27,7 @@ CC_DISABLE_WARNINGS()
 #include "ui_PluginsListWidget.h"
 CC_ENABLE_WARNINGS()
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class PluginsListWidget : public QWidget
@@ -61,7 +61,7 @@ private:
     Ui::PluginsListWidget m_ui;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 
 

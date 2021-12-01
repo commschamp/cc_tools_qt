@@ -27,9 +27,9 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QCheckBox>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/property/field.h"
+#include "cc_tools_qt/property/field.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 BitmaskValueFieldWidget::BitmaskValueFieldWidget(
@@ -155,6 +155,6 @@ void BitmaskValueFieldWidget::checkBoxUpdated(int value)
     }
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

@@ -20,9 +20,9 @@
 #include <algorithm>
 #include <cassert>
 
-#include "comms_champion/property/field.h"
+#include "cc_tools_qt/property/field.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 ArrayListElementWidget::ArrayListElementWidget(
@@ -310,6 +310,6 @@ void ArrayListFieldWidget::updatePrefixField()
     m_ui.m_prefixFieldWidget->show();
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

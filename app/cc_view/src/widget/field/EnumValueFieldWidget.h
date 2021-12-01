@@ -18,12 +18,12 @@
 
 #pragma once
 
-#include "comms_champion/field_wrapper/EnumValueWrapper.h"
+#include "cc_tools_qt/field_wrapper/EnumValueWrapper.h"
 #include "FieldWidget.h"
 
 #include "ui_EnumValueFieldWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class EnumValueFieldWidget : public FieldWidget
@@ -59,6 +59,6 @@ private:
 };
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

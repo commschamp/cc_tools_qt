@@ -26,10 +26,10 @@ CC_DISABLE_WARNINGS()
 #include "ui_MessageUpdateDialog.h"
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/Protocol.h"
+#include "cc_tools_qt/Protocol.h"
 #include "MessageDisplayWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class MessageUpdateDialog : public QDialog
@@ -45,7 +45,7 @@ public:
 private slots:
     void msgUpdated();
     void newItemSelected();
-    void displayMessagePostponed(comms_champion::MessagePtr msg, bool force);
+    void displayMessagePostponed(cc_tools_qt::MessagePtr msg, bool force);
     void refreshDisplayedList(const QString& searchText);
     void refreshDelayInfo(int checkboxValue);
     void delayUpdated(int value);
@@ -78,5 +78,5 @@ private:
     static const Qt::CheckState DisabledSendIndefinitelyState = Qt::Unchecked;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

@@ -20,11 +20,11 @@
 
 #include <memory>
 
-#include "comms_champion/Plugin.h"
+#include "cc_tools_qt/Plugin.h"
 
 #include "Socket.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -36,11 +36,11 @@ namespace udp_socket
 namespace client
 {
 
-class Plugin : public comms_champion::Plugin
+class Plugin : public cc_tools_qt::Plugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "cc.UdpSocketPlugin" FILE "udp_socket.json")
-    Q_INTERFACES(comms_champion::Plugin)
+    Q_INTERFACES(cc_tools_qt::Plugin)
 
 public:
     Plugin();
@@ -62,7 +62,7 @@ private:
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 
 

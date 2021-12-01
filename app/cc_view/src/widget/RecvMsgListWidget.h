@@ -19,7 +19,7 @@
 
 #include "MsgListWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class RecvMsgListWidget: public MsgListWidget
@@ -41,4 +41,4 @@ private:
     static QString getTitlePrefix();
 };
 
-} /* namespace comms_champion */
+} /* namespace cc_tools_qt */

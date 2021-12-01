@@ -17,9 +17,9 @@
 
 #include <utility>
 #include <type_traits>
-#include "comms_champion/ErrorStatus.h"
+#include "cc_tools_qt/ErrorStatus.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 CC_API ErrorStatus transformErrorStatus(comms::ErrorStatus value)
@@ -52,6 +52,6 @@ CC_API ErrorStatus transformErrorStatus(comms::ErrorStatus value)
     return Map[castedValue];
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

@@ -20,13 +20,13 @@
 
 #include <vector>
 
-#include "comms_champion/field_wrapper/BitmaskValueWrapper.h"
+#include "cc_tools_qt/field_wrapper/BitmaskValueWrapper.h"
 #include "FieldWidget.h"
 
 #include "ui_BitmaskValueFieldWidget.h"
 
 class QCheckBox;
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class BitmaskValueFieldWidget : public FieldWidget
@@ -61,6 +61,6 @@ private:
 };
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

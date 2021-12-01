@@ -26,7 +26,7 @@ CC_ENABLE_WARNINGS()
 
 #include <algorithm>
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -132,4 +132,4 @@ void SerialSocket::errorOccurred(QSerialPort::SerialPortError err)
 
 } // namespace plugin
 
-} // namespace comms_champion
+} // namespace cc_tools_qt

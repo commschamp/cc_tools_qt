@@ -28,7 +28,7 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QAction>
 CC_ENABLE_WARNINGS()
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class ShortcutMgr : public QObject
@@ -87,5 +87,5 @@ private:
     KeyMap m_map;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

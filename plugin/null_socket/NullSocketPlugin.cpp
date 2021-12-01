@@ -22,7 +22,7 @@
 
 #include "NullSocket.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -42,6 +42,6 @@ NullSocketPlugin::~NullSocketPlugin() noexcept = default;
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

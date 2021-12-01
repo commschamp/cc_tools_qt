@@ -26,7 +26,7 @@ CC_ENABLE_WARNINGS()
 
 #include "Socket.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -269,4 +269,4 @@ bool Socket::bindSocket(QUdpSocket& socket)
 
 } // namespace plugin
 
-} // namespace comms_champion
+} // namespace cc_tools_qt

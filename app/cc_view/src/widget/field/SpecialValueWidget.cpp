@@ -20,7 +20,7 @@
 #include <cassert>
 #include <cmath>
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 template <typename T>
@@ -170,6 +170,6 @@ void SpecialValueWidget::itemSelected(int idx)
     emit sigIntValueChanged(value);
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

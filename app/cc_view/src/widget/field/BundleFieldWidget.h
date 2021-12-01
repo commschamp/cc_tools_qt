@@ -27,10 +27,10 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QLabel>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/field_wrapper/BundleWrapper.h"
+#include "cc_tools_qt/field_wrapper/BundleWrapper.h"
 #include "FieldWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class BundleFieldWidget : public FieldWidget
@@ -67,6 +67,6 @@ private:
 };
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

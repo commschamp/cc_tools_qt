@@ -20,7 +20,7 @@
 
 #include "MessageDisplayWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class MsgDetailsWidget;
@@ -47,7 +47,7 @@ private:
     bool m_globalEditEnabled = true;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 
 

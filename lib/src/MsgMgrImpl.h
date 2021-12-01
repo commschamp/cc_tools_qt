@@ -20,9 +20,9 @@
 
 #include <vector>
 
-#include "comms_champion/MsgMgr.h"
+#include "cc_tools_qt/MsgMgr.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class MsgMgrImpl
@@ -109,4 +109,4 @@ private:
     SocketDisconnectedReportCallbackFunc m_socketDisconnectReportCallback;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt

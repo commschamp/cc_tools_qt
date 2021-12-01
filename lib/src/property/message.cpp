@@ -15,9 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/property/message.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace property
@@ -75,5 +75,5 @@ const QByteArray Comment::PropName = Comment::Name.toUtf8();
 
 }  // namespace property
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

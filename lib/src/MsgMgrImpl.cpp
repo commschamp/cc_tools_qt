@@ -29,9 +29,9 @@ CC_DISABLE_WARNINGS()
 CC_ENABLE_WARNINGS()
 
 #include "comms/util/ScopeGuard.h"
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/property/message.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -433,5 +433,5 @@ void MsgMgrImpl::reportSocketDisconnected()
     }
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

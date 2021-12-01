@@ -15,9 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "comms_champion/Socket.h"
+#include "cc_tools_qt/Socket.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 Socket::Socket() = default;
@@ -130,4 +130,4 @@ void Socket::reportDisconnected()
     }
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt

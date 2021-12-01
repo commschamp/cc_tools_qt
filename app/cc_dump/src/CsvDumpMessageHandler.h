@@ -21,13 +21,13 @@
 #include <iostream>
 #include <memory>
 
-#include "comms_champion/MessageHandler.h"
+#include "cc_tools_qt/MessageHandler.h"
 
 namespace comms_dump
 {
 
 class CsvDumpFieldsHandler;
-class CsvDumpMessageHandler : public comms_champion::MessageHandler
+class CsvDumpMessageHandler : public cc_tools_qt::MessageHandler
 {
 public:
     CsvDumpMessageHandler(
@@ -51,7 +51,7 @@ public:
     }
 
 protected:
-    virtual void beginMsgHandlingImpl(comms_champion::Message& msg) override;
+    virtual void beginMsgHandlingImpl(cc_tools_qt::Message& msg) override;
     virtual void addFieldImpl(FieldWrapperPtr wrapper) override;
     virtual void endMsgHandlingImpl() override;
 

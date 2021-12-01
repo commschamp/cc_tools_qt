@@ -18,11 +18,11 @@
 
 #pragma once
 
-#include "comms_champion/comms_champion.h"
+#include "cc_tools_qt/cc_tools_qt.h"
 #include "cc_plugin/Stack.h"
 #include "cc_plugin/TransportMessage.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -35,12 +35,12 @@ namespace cc_plugin
 {
 
 class Protocol : public
-    comms_champion::ProtocolBase<
+    cc_tools_qt::ProtocolBase<
         cc_plugin::Stack,
         TransportMessage
     >
 {
-    typedef comms_champion::ProtocolBase<
+    typedef cc_tools_qt::ProtocolBase<
         cc_plugin::Stack,
         TransportMessage
     > Base;
@@ -58,4 +58,4 @@ protected:
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt

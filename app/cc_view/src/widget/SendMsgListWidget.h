@@ -19,7 +19,7 @@
 
 #include "MsgListWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class SendMsgListWidget: public MsgListWidget
@@ -43,4 +43,4 @@ private:
     State m_state;
 };
 
-} /* namespace comms_champion */
+} /* namespace cc_tools_qt */

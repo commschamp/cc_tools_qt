@@ -18,7 +18,7 @@
 
 #include "MessageWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 MessageWidget::MessageWidget(QWidget* parentObj)
@@ -51,5 +51,5 @@ void MessageWidget::emitMsgUpdated()
     emit sigMsgUpdated();
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

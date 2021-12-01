@@ -16,11 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include "comms_champion/MsgMgr.h"
+#include "cc_tools_qt/MsgMgr.h"
 
 #include "MsgMgrImpl.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 MsgMgr::MsgMgr()
@@ -116,5 +116,5 @@ void MsgMgr::setSocketDisconnectReportCallbackFunc(
     m_impl->setSocketDisconnectReportCallbackFunc(std::move(func));
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

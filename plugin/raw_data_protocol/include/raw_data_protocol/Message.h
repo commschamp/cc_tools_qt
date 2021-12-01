@@ -22,7 +22,7 @@
 
 #include "comms/comms.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -53,6 +53,6 @@ public:
 
 }  // namespace plugin
 
-} // namespace comms_champion
+} // namespace cc_tools_qt
 
 

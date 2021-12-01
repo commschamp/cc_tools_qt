@@ -18,12 +18,12 @@
 
 #pragma once
 
-#include "comms_champion/field_wrapper/IntValueWrapper.h"
+#include "cc_tools_qt/field_wrapper/IntValueWrapper.h"
 #include "FieldWidget.h"
 
 #include "ui_LongIntValueFieldWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class SpecialValueWidget;
@@ -64,6 +64,6 @@ private:
 };
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

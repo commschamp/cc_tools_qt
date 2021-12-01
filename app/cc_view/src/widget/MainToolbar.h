@@ -23,7 +23,7 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QToolBar>
 CC_ENABLE_WARNINGS()
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class MainToolbar : public QToolBar
@@ -40,5 +40,5 @@ private:
     QAction* m_socketDisconnect = nullptr;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

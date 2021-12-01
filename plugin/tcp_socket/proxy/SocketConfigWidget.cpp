@@ -19,7 +19,7 @@
 
 #include <limits>
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -91,6 +91,6 @@ void SocketConfigWidget::remotePortValueChanged(int value)
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

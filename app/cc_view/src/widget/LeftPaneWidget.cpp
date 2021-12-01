@@ -26,7 +26,7 @@ CC_ENABLE_WARNINGS()
 #include "RecvMsgListWidget.h"
 #include "SendMsgListWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 LeftPaneWidget::LeftPaneWidget(QWidget* parentObj)
@@ -37,6 +37,6 @@ LeftPaneWidget::LeftPaneWidget(QWidget* parentObj)
     addWidget(new SendMsgListWidget());
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

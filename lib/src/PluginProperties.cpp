@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "comms_champion/PluginProperties.h"
+#include "cc_tools_qt/PluginProperties.h"
 
 #include <cassert>
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -138,6 +138,6 @@ QVariant PluginProperties::getCustomProperty(const QString& name) const
     return m_props.value(name);
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

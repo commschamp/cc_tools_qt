@@ -18,14 +18,14 @@
 
 #pragma once
 
-#include "comms_champion/StaticSingleton.h"
-#include "comms_champion/MsgFileMgr.h"
+#include "cc_tools_qt/StaticSingleton.h"
+#include "cc_tools_qt/MsgFileMgr.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 using MsgFileMgrG = StaticSingleton<MsgFileMgr>;
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
-extern template class comms_champion::StaticSingleton<comms_champion::MsgFileMgr>;
+extern template class cc_tools_qt::StaticSingleton<cc_tools_qt::MsgFileMgr>;

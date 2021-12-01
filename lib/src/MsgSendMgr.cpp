@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "comms_champion/MsgSendMgr.h"
+#include "cc_tools_qt/MsgSendMgr.h"
 
 #include "MsgSendMgrImpl.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 MsgSendMgr::MsgSendMgr()
@@ -49,5 +49,5 @@ void MsgSendMgr::stop()
     m_impl->stop();
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

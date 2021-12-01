@@ -28,9 +28,9 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QFrame>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/property/field.h"
+#include "cc_tools_qt/property/field.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 BitfieldFieldWidget::BitfieldFieldWidget(
@@ -151,6 +151,6 @@ void BitfieldFieldWidget::refreshMembers()
     }
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

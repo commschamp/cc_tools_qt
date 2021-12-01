@@ -19,9 +19,9 @@
 
 #include "DataMessage.h"
 
-namespace cc = comms_champion;
+namespace cc = cc_tools_qt;
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -73,4 +73,4 @@ const QVariantList& DataMessage::fieldsPropertiesImpl() const
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt

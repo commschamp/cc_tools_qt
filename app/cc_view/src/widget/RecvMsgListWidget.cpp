@@ -26,12 +26,12 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QVBoxLayout>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/property/message.h"
 #include "RecvAreaToolBar.h"
 #include "GuiAppMgr.h"
 #include "MsgFileMgrG.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 RecvMsgListWidget::RecvMsgListWidget(QWidget* parentObj)
@@ -139,4 +139,4 @@ QString RecvMsgListWidget::getTitlePrefix()
     return Str;
 }
 
-} // namespace comms_champion
+} // namespace cc_tools_qt

@@ -26,14 +26,14 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QVBoxLayout>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/property/field.h"
+#include "cc_tools_qt/property/field.h"
 
 #include "ShortIntValueFieldWidget.h"
 #include "LongIntValueFieldWidget.h"
 #include "LongLongIntValueFieldWidget.h"
 #include "ScaledIntValueFieldWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 IntValueFieldWidget::IntValueFieldWidget(WrapperPtr wrapper, QWidget* parentObj)
@@ -112,5 +112,5 @@ void IntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
         this, SIGNAL(sigFieldUpdated()));
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

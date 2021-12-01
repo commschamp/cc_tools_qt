@@ -20,12 +20,12 @@
 
 #include <vector>
 
-#include "comms_champion/field_wrapper/BitfieldWrapper.h"
+#include "cc_tools_qt/field_wrapper/BitfieldWrapper.h"
 #include "FieldWidget.h"
 
 #include "ui_BitfieldFieldWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class BitfieldFieldWidget : public FieldWidget
@@ -65,6 +65,6 @@ private:
 };
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

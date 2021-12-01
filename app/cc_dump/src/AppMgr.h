@@ -27,10 +27,10 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QTimer>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/PluginMgr.h"
-#include "comms_champion/MsgMgr.h"
-#include "comms_champion/MsgFileMgr.h"
-#include "comms_champion/MsgSendMgr.h"
+#include "cc_tools_qt/PluginMgr.h"
+#include "cc_tools_qt/MsgMgr.h"
+#include "cc_tools_qt/MsgFileMgr.h"
+#include "cc_tools_qt/MsgSendMgr.h"
 
 #include "CsvDumpMessageHandler.h"
 #include "RecordMessageHandler.h"
@@ -62,17 +62,17 @@ private slots:
     void flushOutput();
 
 private:
-    typedef comms_champion::PluginMgr::ListOfPluginInfos ListOfPluginInfos;
+    typedef cc_tools_qt::PluginMgr::ListOfPluginInfos ListOfPluginInfos;
     typedef std::unique_ptr<CsvDumpMessageHandler> CsvDumpMessageHandlerPtr;
     typedef std::unique_ptr<RecordMessageHandler> RecordMessageHandlerPtr;
 
     bool applyPlugins(const ListOfPluginInfos& plugins);
-    void dispatchMsg(comms_champion::Message& msg);
+    void dispatchMsg(cc_tools_qt::Message& msg);
 
-    comms_champion::PluginMgr m_pluginMgr;
-    comms_champion::MsgMgr m_msgMgr;
-    comms_champion::MsgFileMgr m_msgFileMgr;
-    comms_champion::MsgSendMgr m_msgSendMgr;
+    cc_tools_qt::PluginMgr m_pluginMgr;
+    cc_tools_qt::MsgMgr m_msgMgr;
+    cc_tools_qt::MsgFileMgr m_msgFileMgr;
+    cc_tools_qt::MsgSendMgr m_msgSendMgr;
     Config m_config;
     CsvDumpMessageHandlerPtr m_csvDump;
     RecordMessageHandlerPtr m_record;

@@ -50,7 +50,7 @@ set (ICON_INSTALL_DIR ${DATA_INSTALL_DIR}/icon)
 set (CONFIG_INSTALL_REL_DIR ${CMAKE_INSTALL_DATADIR}/${INSTALL_NAME})
 set (CONFIG_INSTALL_DIR ${CONFIG_INSTALL_REL_DIR})
 
-file (READ "${PROJECT_SOURCE_DIR}/lib/include/comms_champion/version.h" version_file)
+file (READ "${PROJECT_SOURCE_DIR}/lib/include/cc_tools_qt/version.h" version_file)
 string (REGEX MATCH "CC_TOOLS_QT_MAJOR_VERSION ([0-9]*)U*" _ ${version_file})
 set (major_ver ${CMAKE_MATCH_1})
 string (REGEX MATCH "CC_TOOLS_QT_MINOR_VERSION ([0-9]*)U*" _ ${version_file})
@@ -58,6 +58,12 @@ set (minor_ver ${CMAKE_MATCH_1})
 string (REGEX MATCH "CC_TOOLS_QT_PATCH_VERSION ([0-9]*)U*" _ ${version_file})
 set (patch_ver ${CMAKE_MATCH_1})
 set (CC_TOOLS_QT_VERSION "${major_ver}.${minor_ver}.${patch_ver}")
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    ${CMAKE_BINARY_DIR}/cc_tools_qtVersion.cmake
+    VERSION ${CC_TOOLS_QT_VERSION}
+    COMPATIBILITY AnyNewerVersion)
 
 #######################################################################
 # Get COMMS library target
@@ -113,7 +119,7 @@ cc_msvc_force_warn_opt("/W4")
 
 #find_package (Doxygen)
 #if (DOXYGEN_FOUND)
-#    set (doc_output_dir "${CMAKE_INSTALL_PREFIX}/${DOC_INSTALL_DIR}/comms_champion")
+#    set (doc_output_dir "${CMAKE_INSTALL_PREFIX}/${DOC_INSTALL_DIR}/cc_tools_qt")
 #    set (match_str "OUTPUT_DIRECTORY[^\n]*")
 #    set (replacement_str "OUTPUT_DIRECTORY = ${doc_output_dir}")
 #    set (output_file "${CMAKE_CURRENT_BINARY_DIR}/doxygen.conf")
@@ -133,6 +139,17 @@ cc_msvc_force_warn_opt("/W4")
 #            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 #endif ()
 
+#######################################################################
+set (LIB_CC_TOOLS_QT_CMAKE_FILES
+    ${PROJECT_SOURCE_DIR}/cmake/cc_tools_qtConfig.cmake
+    ${CMAKE_BINARY_DIR}/cc_tools_qtVersion.cmake
+)
+
+install (
+    FILES ${LIB_CC_TOOLS_QT_CMAKE_FILES}
+    DESTINATION ${LIB_INSTALL_DIR}/cc_tools_qt/cmake/
+)
+
 include_directories (
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/include
 )
@@ -140,3 +157,4 @@ include_directories (
 add_subdirectory (lib)
 add_subdirectory (plugin)
 add_subdirectory (app)
+

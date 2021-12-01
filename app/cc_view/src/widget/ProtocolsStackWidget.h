@@ -26,9 +26,9 @@ CC_DISABLE_WARNINGS()
 #include "ui_ProtocolsStackWidget.h"
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/Message.h"
+#include "cc_tools_qt/Message.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class ProtocolsStackWidget : public QWidget
@@ -57,6 +57,6 @@ private:
     Ui::ProtocolsStackWidget m_ui;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

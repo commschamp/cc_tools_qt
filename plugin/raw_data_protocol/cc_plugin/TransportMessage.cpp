@@ -21,9 +21,9 @@
 
 #include <QtCore/QVariantMap>
 
-namespace cc = comms_champion;
+namespace cc = cc_tools_qt;
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -65,4 +65,4 @@ const QVariantList& TransportMessage::fieldsPropertiesImpl() const
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt

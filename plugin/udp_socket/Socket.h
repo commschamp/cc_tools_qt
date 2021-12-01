@@ -25,10 +25,10 @@ CC_DISABLE_WARNINGS()
 #include <QtNetwork/QUdpSocket>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/Socket.h"
+#include "cc_tools_qt/Socket.h"
 
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -41,10 +41,10 @@ namespace client
 {
 
 class Socket : public QObject,
-               public comms_champion::Socket
+               public cc_tools_qt::Socket
 {
     Q_OBJECT
-    using Base = comms_champion::Socket;
+    using Base = cc_tools_qt::Socket;
 
 public:
     typedef unsigned short PortType;
@@ -124,4 +124,4 @@ private:
 
 } // namespace plugin
 
-} // namespace comms_champion
+} // namespace cc_tools_qt

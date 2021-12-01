@@ -18,12 +18,12 @@
 
 #pragma once
 
-#include "comms_champion/field_wrapper/ArrayListRawDataWrapper.h"
+#include "cc_tools_qt/field_wrapper/ArrayListRawDataWrapper.h"
 #include "FieldWidget.h"
 
 #include "ui_ArrayListRawDataFieldWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class ArrayListRawDataFieldWidget : public FieldWidget
@@ -53,6 +53,6 @@ private:
 };
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

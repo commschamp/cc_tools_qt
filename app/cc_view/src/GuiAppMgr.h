@@ -30,13 +30,13 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QAction>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/Message.h"
-#include "comms_champion/PluginMgr.h"
-#include "comms_champion/MsgSendMgr.h"
+#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/PluginMgr.h"
+#include "cc_tools_qt/MsgSendMgr.h"
 
 #include "MsgMgrG.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class GuiAppMgr : public QObject
@@ -252,6 +252,6 @@ private /*data*/:
     MsgSendMgr m_sendMgr;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
-Q_DECLARE_METATYPE(comms_champion::GuiAppMgr::ActionPtr);
+Q_DECLARE_METATYPE(cc_tools_qt::GuiAppMgr::ActionPtr);

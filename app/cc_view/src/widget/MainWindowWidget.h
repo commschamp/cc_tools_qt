@@ -30,11 +30,11 @@ CC_DISABLE_WARNINGS()
 #include "ui_MainWindowWidget.h"
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/Protocol.h"
+#include "cc_tools_qt/Protocol.h"
 
 #include "GuiAppMgr.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class MainWindowWidget : public QMainWindow
@@ -74,4 +74,4 @@ private:
     std::list<ActionPtr> m_customActions;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt

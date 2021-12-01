@@ -20,12 +20,12 @@
 
 #include <functional>
 
-#include "comms_champion/field_wrapper/VariantWrapper.h"
+#include "cc_tools_qt/field_wrapper/VariantWrapper.h"
 #include "FieldWidget.h"
 
 #include "ui_VariantFieldWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class VariantFieldWidget : public FieldWidget
@@ -77,6 +77,6 @@ private:
 };
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

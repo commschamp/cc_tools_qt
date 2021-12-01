@@ -30,10 +30,10 @@ CC_DISABLE_WARNINGS()
 #include "ui_ArrayListFieldWidget.h"
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/field_wrapper/ArrayListWrapper.h"
+#include "cc_tools_qt/field_wrapper/ArrayListWrapper.h"
 #include "FieldWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class ArrayListElementWidget : public QWidget
@@ -115,6 +115,6 @@ private:
     bool m_appendIndexToElementName = false;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

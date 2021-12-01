@@ -21,10 +21,10 @@
 #include <cassert>
 #include <limits>
 
-#include "comms_champion/property/field.h"
+#include "cc_tools_qt/property/field.h"
 #include "SpecialValueWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 ShortIntValueFieldWidget::ShortIntValueFieldWidget(
@@ -171,6 +171,6 @@ bool ShortIntValueFieldWidget::createSpecialsWidget(const SpecialsList& specials
     return true;
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

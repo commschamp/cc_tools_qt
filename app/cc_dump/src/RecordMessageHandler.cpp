@@ -18,7 +18,7 @@
 
 #include "RecordMessageHandler.h"
 
-namespace cc = comms_champion;
+namespace cc = cc_tools_qt;
 
 namespace comms_dump
 {

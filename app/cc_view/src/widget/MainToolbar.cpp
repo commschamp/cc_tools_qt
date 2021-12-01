@@ -21,7 +21,7 @@
 #include "icon.h"
 #include "ShortcutMgr.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 MainToolbar::MainToolbar()
@@ -70,6 +70,6 @@ void MainToolbar::socketConnectEnabled(bool enabled)
     m_socketDisconnect->setEnabled(enabled);
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

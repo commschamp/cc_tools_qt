@@ -35,10 +35,10 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QByteArray>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/property/message.h"
 #include "DefaultMessageDisplayWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -336,7 +336,7 @@ void MessageUpdateDialog::msgUpdated()
         this,
         "displayMessagePostponed",
         Qt::QueuedConnection,
-        Q_ARG(comms_champion::MessagePtr, std::move(msg)),
+        Q_ARG(cc_tools_qt::MessagePtr, std::move(msg)),
         Q_ARG(bool, forceUpdate));
     //m_msgDisplayWidget->displayMessage(std::move(msg), forceUpdate);
 }
@@ -561,6 +561,6 @@ void MessageUpdateDialog::refreshButtons()
     setButtonEnabledFunc(QDialogButtonBox::Reset, msgSelected);
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

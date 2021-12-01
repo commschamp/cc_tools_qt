@@ -27,11 +27,11 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QFrame>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/Message.h"
+#include "cc_tools_qt/Message.h"
 #include "MessageWidget.h"
 #include "field/FieldWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class DefaultMessageWidget : public MessageWidget
@@ -64,6 +64,6 @@ private:
     uint m_curFieldIdx = 0;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

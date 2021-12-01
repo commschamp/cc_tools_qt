@@ -24,7 +24,7 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QWidget>
 CC_ENABLE_WARNINGS()
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class MessageWidget : public QWidget
@@ -51,6 +51,6 @@ protected:
     virtual void setEditEnabledImpl(bool enabled) = 0;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

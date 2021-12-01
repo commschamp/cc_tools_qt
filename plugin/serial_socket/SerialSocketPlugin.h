@@ -20,11 +20,11 @@
 
 #include <memory>
 
-#include "comms_champion/Plugin.h"
+#include "cc_tools_qt/Plugin.h"
 
 #include "SerialSocket.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -33,11 +33,11 @@ namespace plugin
 namespace serial_socket
 {
 
-class SerialSocketPlugin : public comms_champion::Plugin
+class SerialSocketPlugin : public cc_tools_qt::Plugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "cc.SerialSocketPlugin" FILE "serial_socket.json")
-    Q_INTERFACES(comms_champion::Plugin)
+    Q_INTERFACES(cc_tools_qt::Plugin)
 
 public:
     SerialSocketPlugin();
@@ -57,7 +57,7 @@ private:
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 
 

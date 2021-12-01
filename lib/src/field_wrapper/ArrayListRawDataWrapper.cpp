@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "comms_champion/field_wrapper/ArrayListRawDataWrapper.h"
+#include "cc_tools_qt/field_wrapper/ArrayListRawDataWrapper.h"
 
-#include "comms_champion/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace field_wrapper
@@ -61,6 +61,6 @@ void ArrayListRawDataWrapper::dispatchImpl(FieldWrapperHandler& handler)
 
 }  // namespace field_wrapper
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include "comms_champion/Message.h"
+#include "cc_tools_qt/Message.h"
 
 #include <cassert>
 
@@ -27,7 +27,7 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QWidget>
 CC_ENABLE_WARNINGS()
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 Message::~Message() noexcept = default;
@@ -99,5 +99,5 @@ const QVariantList& Message::fieldsPropertiesImpl() const
     return Props;
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

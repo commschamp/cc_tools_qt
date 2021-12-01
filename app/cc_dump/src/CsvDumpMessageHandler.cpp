@@ -20,10 +20,10 @@
 
 #include <iomanip>
 
-#include "comms_champion/field_wrapper/FieldWrapperHandler.h"
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/property/message.h"
 
-namespace cc = comms_champion;
+namespace cc = cc_tools_qt;
 
 namespace comms_dump
 {

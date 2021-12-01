@@ -28,10 +28,10 @@ CC_DISABLE_WARNINGS()
 #include "ui_PluginConfigDialog.h"
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/PluginMgr.h"
+#include "cc_tools_qt/PluginMgr.h"
 #include "PluginsListWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class PluginConfigDialog: public QDialog
@@ -134,4 +134,4 @@ private:
     PluginsListWidget* m_currentSelectedList = nullptr;
 };
 
-} // namespace comms_champion
+} // namespace cc_tools_qt

@@ -31,12 +31,12 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QPluginLoader>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/Plugin.h"
-#include "comms_champion/PluginMgr.h"
-#include "comms_champion/ConfigMgr.h"
+#include "cc_tools_qt/Plugin.h"
+#include "cc_tools_qt/PluginMgr.h"
+#include "cc_tools_qt/ConfigMgr.h"
 
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class PluginMgrImpl
@@ -80,6 +80,6 @@ private:
     ConfigMgr m_configMgr;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

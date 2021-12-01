@@ -32,7 +32,7 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QSpinBox>
 CC_ENABLE_WARNINGS()
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -229,5 +229,5 @@ void FieldWidget::performNameLabelUpdate(const property::field::Common& props)
     m_nameLabel->show();
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

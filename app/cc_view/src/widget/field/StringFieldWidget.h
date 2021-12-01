@@ -18,12 +18,12 @@
 
 #pragma once
 
-#include "comms_champion/field_wrapper/StringWrapper.h"
+#include "cc_tools_qt/field_wrapper/StringWrapper.h"
 #include "FieldWidget.h"
 
 #include "ui_StringFieldWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class StringFieldWidget : public FieldWidget
@@ -53,6 +53,6 @@ private:
 };
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

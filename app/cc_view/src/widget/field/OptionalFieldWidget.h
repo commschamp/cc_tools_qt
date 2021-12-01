@@ -20,12 +20,12 @@
 
 #include <vector>
 
-#include "comms_champion/field_wrapper/OptionalWrapper.h"
+#include "cc_tools_qt/field_wrapper/OptionalWrapper.h"
 #include "FieldWidget.h"
 
 #include "ui_OptionalFieldWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class OptionalFieldWidget : public FieldWidget
@@ -65,6 +65,6 @@ private:
 };
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

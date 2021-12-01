@@ -29,7 +29,7 @@ CC_ENABLE_WARNINGS()
 #include "MsgDetailsWidget.h"
 #include "ProtocolsStackWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 DefaultMessageDisplayWidget::DefaultMessageDisplayWidget(QWidget* parentObj)
@@ -100,6 +100,6 @@ void DefaultMessageDisplayWidget::msgUpdated()
     }
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

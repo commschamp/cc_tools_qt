@@ -17,7 +17,7 @@
 
 #include "PluginsListWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 PluginsListWidget::PluginsListWidget(
@@ -91,6 +91,6 @@ void PluginsListWidget::insertItem(int row, QListWidgetItem* itemPtr)
     m_ui.m_listWidget->insertItem(row, itemPtr);
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

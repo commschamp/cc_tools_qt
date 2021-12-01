@@ -27,10 +27,10 @@ CC_DISABLE_WARNINGS()
 #include "ui_MsgDetailsWidget.h"
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/Message.h"
+#include "cc_tools_qt/Message.h"
 #include "DefaultMessageDisplayHandler.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class MsgDetailsWidget: public QWidget
@@ -61,4 +61,4 @@ private:
     bool m_editEnabled = true;
 };
 
-} /* namespace comms_champion */
+} /* namespace cc_tools_qt */

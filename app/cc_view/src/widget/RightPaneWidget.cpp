@@ -26,7 +26,7 @@ CC_ENABLE_WARNINGS()
 #include "DefaultMessageDisplayWidget.h"
 #include "GuiAppMgr.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 RightPaneWidget::RightPaneWidget(QWidget* parentObj)
@@ -45,6 +45,6 @@ RightPaneWidget::RightPaneWidget(QWidget* parentObj)
     setLayout(paneLayout);
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

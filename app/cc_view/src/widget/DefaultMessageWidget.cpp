@@ -28,7 +28,7 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QVariant>
 CC_ENABLE_WARNINGS()
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 DefaultMessageWidget::DefaultMessageWidget(
@@ -126,6 +126,6 @@ void DefaultMessageWidget::connectFieldSignals(FieldWidget* field)
     connect(field, SIGNAL(sigFieldUpdated()), this, SIGNAL(sigMsgUpdated()));
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

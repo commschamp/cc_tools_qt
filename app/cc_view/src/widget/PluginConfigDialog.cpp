@@ -36,7 +36,7 @@ CC_ENABLE_WARNINGS()
 #include "icon.h"
 #include "dir.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -923,4 +923,4 @@ PluginsListWidget* PluginConfigDialog::getSelectedListForAvailable(
     return nullptr;
 }
 
-} // namespace comms_champion
+} // namespace cc_tools_qt

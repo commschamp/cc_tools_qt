@@ -27,7 +27,7 @@ CC_ENABLE_WARNINGS()
 
 #include "GuiAppMgr.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class SendAreaToolBar : public QToolBar
@@ -87,6 +87,6 @@ private:
     unsigned m_listTotal = 0;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

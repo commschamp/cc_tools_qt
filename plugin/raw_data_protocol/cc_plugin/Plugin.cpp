@@ -19,9 +19,9 @@
 #include "Plugin.h"
 #include "Protocol.h"
 
-namespace cc = comms_champion;
+namespace cc = cc_tools_qt;
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -51,4 +51,4 @@ Plugin::~Plugin() noexcept = default;
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt

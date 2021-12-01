@@ -23,7 +23,7 @@
 #include "SerialSocket.h"
 #include "SerialSocketConfigWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -148,6 +148,6 @@ void SerialSocketPlugin::createSocketIfNeeded()
 }  // namespace plugin
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

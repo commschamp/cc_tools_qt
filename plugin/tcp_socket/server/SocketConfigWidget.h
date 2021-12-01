@@ -27,7 +27,7 @@ CC_ENABLE_WARNINGS()
 
 #include "Socket.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -66,6 +66,6 @@ private:
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

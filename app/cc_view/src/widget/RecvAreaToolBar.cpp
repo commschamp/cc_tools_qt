@@ -30,7 +30,7 @@ CC_ENABLE_WARNINGS()
 #include "icon.h"
 #include "ShortcutMgr.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -374,5 +374,5 @@ bool RecvAreaToolBar::listEmpty() const
 }
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

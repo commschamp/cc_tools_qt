@@ -26,10 +26,10 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QTimer>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/MsgSendMgr.h"
-#include "comms_champion/Protocol.h"
+#include "cc_tools_qt/MsgSendMgr.h"
+#include "cc_tools_qt/Protocol.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class MsgSendMgrImpl : public QObject
@@ -70,4 +70,4 @@ private:
     QTimer m_timer;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt

@@ -18,12 +18,12 @@
 
 #pragma once
 
-#include "comms_champion/field_wrapper/UnknownValueWrapper.h"
+#include "cc_tools_qt/field_wrapper/UnknownValueWrapper.h"
 #include "FieldWidget.h"
 
 #include "ui_UnknownValueFieldWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class UnknownValueFieldWidget : public FieldWidget
@@ -52,6 +52,6 @@ private:
 };
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

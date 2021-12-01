@@ -28,12 +28,12 @@ CC_DISABLE_WARNINGS()
 #include "ui_MsgListWidget.h"
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/Message.h"
-#include "comms_champion/Protocol.h"
+#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/Protocol.h"
 
 #include "GuiAppMgr.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class Message;
@@ -106,6 +106,6 @@ private:
     QListWidgetItem* m_selectedItem = nullptr;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

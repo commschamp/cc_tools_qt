@@ -29,11 +29,11 @@ CC_ENABLE_WARNINGS()
 
 #include "comms/comms.h"
 
-#include "comms_champion/Message.h"
-#include "comms_champion/MessageHandler.h"
+#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/MessageHandler.h"
 #include "widget/DefaultMessageWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class DefaultMessageDisplayHandler : public MessageHandler
@@ -57,6 +57,6 @@ private:
     DefaultMsgWidgetPtr m_widget;
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

@@ -26,9 +26,9 @@ CC_DISABLE_WARNINGS()
 CC_ENABLE_WARNINGS()
 
 
-#include "comms_champion/Socket.h"
+#include "cc_tools_qt/Socket.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class EchoSocket : public QObject, public Socket
@@ -58,6 +58,6 @@ SocketPtr makeEchoSocket()
     return SocketPtr(new EchoSocket());
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

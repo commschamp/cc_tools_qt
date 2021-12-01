@@ -21,7 +21,7 @@
 #include <cassert>
 #include <limits>
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 ArrayListRawDataFieldWidget::ArrayListRawDataFieldWidget(
@@ -123,6 +123,6 @@ void ArrayListRawDataFieldWidget::valueChanged()
     emitFieldUpdated();
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

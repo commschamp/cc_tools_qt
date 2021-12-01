@@ -25,7 +25,7 @@ CC_ENABLE_WARNINGS()
 
 #include "Socket.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -173,4 +173,4 @@ void Socket::socketErrorOccurred(QAbstractSocket::SocketError err)
 
 } // namespace plugin
 
-} // namespace comms_champion
+} // namespace cc_tools_qt

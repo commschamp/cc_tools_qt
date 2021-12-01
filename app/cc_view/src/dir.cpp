@@ -25,7 +25,7 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QStandardPaths>
 CC_ENABLE_WARNINGS()
 
-namespace comms_champion {
+namespace cc_tools_qt {
 
 QString getRootDir()
 {
@@ -85,4 +85,4 @@ QString getGlobalDataDir()
     return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
 }
 
-} // namespace comms_champion
+} // namespace cc_tools_qt

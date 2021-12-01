@@ -24,7 +24,7 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QWidget>
 CC_ENABLE_WARNINGS()
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class RightPaneWidget : public QWidget
@@ -34,6 +34,6 @@ public:
     RightPaneWidget(QWidget* parentObj = nullptr);
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

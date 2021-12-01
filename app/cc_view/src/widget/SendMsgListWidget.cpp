@@ -25,12 +25,12 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QVBoxLayout>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/property/message.h"
 #include "SendAreaToolBar.h"
 #include "GuiAppMgr.h"
 #include "MsgFileMgrG.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 SendMsgListWidget::SendMsgListWidget(QWidget* parentObj)
@@ -161,4 +161,4 @@ void SendMsgListWidget::saveMessagesImpl(const QString& filename)
     MsgFileMgrG::instanceRef().save(MsgFileMgr::Type::Send, filename, allMsgs());
 }
 
-} // namespace comms_champion
+} // namespace cc_tools_qt

@@ -19,9 +19,9 @@
 
 #include <cassert>
 
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/property/message.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 MsgSendMgrImpl::MsgSendMgrImpl()
@@ -158,4 +158,4 @@ void MsgSendMgrImpl::sendPendingAndWait()
         m_sendCompleteCallback();
     }
 }
-}  // namespace comms_champion
+}  // namespace cc_tools_qt

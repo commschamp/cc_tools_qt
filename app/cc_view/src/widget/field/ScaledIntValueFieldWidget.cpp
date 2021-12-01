@@ -22,10 +22,10 @@
 #include <limits>
 #include <cmath>
 
-#include "comms_champion/property/field.h"
+#include "cc_tools_qt/property/field.h"
 #include "SpecialValueWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -179,6 +179,6 @@ bool ScaledIntValueFieldWidget::createSpecialsWidget(const SpecialsList& special
     return true;
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

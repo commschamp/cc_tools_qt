@@ -28,9 +28,9 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QPushButton>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/property/message.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 RawHexDataDialog::RawHexDataDialog(
@@ -165,4 +165,4 @@ void RawHexDataDialog::reset()
     m_ui.m_rawDataText->clear();
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt

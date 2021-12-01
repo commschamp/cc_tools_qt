@@ -24,7 +24,7 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QSplitter>
 CC_ENABLE_WARNINGS()
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class LeftPaneWidget : public QSplitter
@@ -34,7 +34,7 @@ public:
     LeftPaneWidget(QWidget* parentObj = nullptr);
 };
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 
 

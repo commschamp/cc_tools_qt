@@ -19,7 +19,7 @@
 
 #include <cassert>
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 EchoSocket::EchoSocket()
@@ -64,6 +64,6 @@ void EchoSocket::sendDataPostponed()
     }
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

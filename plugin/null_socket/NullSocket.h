@@ -18,9 +18,9 @@
 
 #pragma once
 
-#include "comms_champion/Socket.h"
+#include "cc_tools_qt/Socket.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class NullSocket : public Socket
@@ -40,6 +40,6 @@ SocketPtr makeNullSocket()
     return SocketPtr(new NullSocket());
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

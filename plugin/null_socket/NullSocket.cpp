@@ -19,7 +19,7 @@
 
 #include <cassert>
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 NullSocket::NullSocket() = default;
@@ -36,6 +36,6 @@ unsigned NullSocket::connectionPropertiesImpl() const
     return ConnectionProperty_Autoconnect | ConnectionProperty_NonDisconnectable;
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

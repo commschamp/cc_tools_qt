@@ -27,7 +27,7 @@ CC_ENABLE_WARNINGS()
 #include "SerialSocket.h"
 #include "ui_SerialSocketConfigWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -67,6 +67,6 @@ private:
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

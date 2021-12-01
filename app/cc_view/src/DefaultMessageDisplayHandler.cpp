@@ -21,7 +21,7 @@
 
 #include <QtWidgets/QApplication>
 
-#include "comms_champion/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
 #include "widget/field/IntValueFieldWidget.h"
 #include "widget/field/UnsignedLongLongIntValueFieldWidget.h"
 #include "widget/field/BitmaskValueFieldWidget.h"
@@ -36,7 +36,7 @@
 #include "widget/field/VariantFieldWidget.h"
 #include "widget/field/UnknownValueFieldWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -250,6 +250,6 @@ void DefaultMessageDisplayHandler::addFieldImpl(FieldWrapperPtr wrapper)
     m_widget->addFieldWidget(fieldWidget.release());
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

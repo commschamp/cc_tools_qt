@@ -30,7 +30,7 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QFile>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/property/message.h"
 #include "DefaultMessageDisplayHandler.h"
 #include "PluginMgrG.h"
 #include "MsgFileMgrG.h"
@@ -38,7 +38,7 @@ CC_ENABLE_WARNINGS()
 
 #include <iostream>
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -934,5 +934,5 @@ void GuiAppMgr::refreshRecvState()
     recvStopClicked();
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

@@ -20,7 +20,7 @@
 #include <algorithm>
 #include <cassert>
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 StringFieldWidget::StringFieldWidget(
@@ -91,6 +91,6 @@ void StringFieldWidget::stringChanged()
     emitFieldUpdated();
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

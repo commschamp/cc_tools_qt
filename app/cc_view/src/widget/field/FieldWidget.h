@@ -29,15 +29,15 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QWidget>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/property/field.h"
-#include "comms_champion/field_wrapper/FieldWrapper.h"
+#include "cc_tools_qt/property/field.h"
+#include "cc_tools_qt/field_wrapper/FieldWrapper.h"
 
 class QLineEdit;
 class QLabel;
 class QPlainTextEdit;
 class QSpinBox;
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class FieldWidget : public QWidget
@@ -144,7 +144,7 @@ private:
 
 typedef std::unique_ptr<FieldWidget> FieldWidgetPtr;
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 
 

@@ -22,7 +22,7 @@
 #include "Message.h"
 #include "DataMessage.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -45,5 +45,5 @@ typedef raw_data_protocol::Stack<
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

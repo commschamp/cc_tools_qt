@@ -3,17 +3,17 @@
 /// The @b CommsChampion project uses
 /// <a href="http://doc.qt.io/qt-5/qtplugin.html">QT5 Infrastructure</a>
 /// to define and load plugins. The custom plugin definition shared object needs
-/// to contain its own @b Plugin class that inherits from comms_champion::Plugin and
+/// to contain its own @b Plugin class that inherits from cc_tools_qt::Plugin and
 /// uses various QT5 macros to describe itself. As an example please take
 /// a look at
-/// <a href="https://github.com/commschamp/comms_champion/blob/master/comms_champion/plugin/echo_socket/EchoSocketPlugin.h">EchoSocketPlugin.h</a> 
+/// <a href="https://github.com/arobenko/cc_tools_qt/blob/master/plugin/echo_socket/EchoSocketPlugin.h">EchoSocketPlugin.h</a> 
 /// from this project.
 /// @code
-/// class EchoSocketPlugin : public comms_champion::Plugin
+/// class EchoSocketPlugin : public cc_tools_qt::Plugin
 /// {
 ///     Q_OBJECT
 ///     Q_PLUGIN_METADATA(IID "cc.EchoSocketPlugin" FILE "echo_socket.json")
-///     Q_INTERFACES(comms_champion::Plugin)
+///     Q_INTERFACES(cc_tools_qt::Plugin)
 ///     ...
 /// };
 /// @endcode
@@ -32,7 +32,7 @@
 ///     @b filter, or @b protocol.
 ///
 /// Please take a look at 
-/// <a href="https://github.com/commschamp/comms_champion/blob/master/comms_champion/plugin/echo_socket/echo_socket.json">echo_socket.json</a>
+/// <a href="https://github.com/arobenko/cc_tools_qt/blob/master/plugin/echo_socket/echo_socket.json">echo_socket.json</a>
 /// as an example.
 /// @code
 /// {
@@ -44,7 +44,7 @@
 /// }
 /// @endcode
 /// The plugin definition class must also contain explicit declaration of implementing
-/// comms_champion::Plugin interface using
+/// cc_tools_qt::Plugin interface using
 /// <a href="http://doc.qt.io/qt-5/qobject.html#Q_INTERFACES">Q_INTERFACES()</a>
 /// macro.
 ///
@@ -58,7 +58,7 @@
 /// Some plugins may require an ability to be configured. For example, remote address
 /// and/or port for TCP/IP client socket.
 ///
-/// The <a href="https://github.com/commschamp/comms_champion#commschampion-tools">CommsChampion Tools</a> 
+/// The <a href="https://github.com/arobenko/cc_tools_qt#commschampion-tools">CommsChampion Tools</a> 
 /// implement an ability to save and load the list of plugins with their
 /// respective configurations. Such list as well as plugins' configurations are
 /// stored in single file as human readable 
@@ -70,16 +70,16 @@
 /// by filling the given @b QVariantMap object as well as retrieve and apply the new
 /// configuration from it.
 ///
-/// The comms_champion::Plugin class is implemented using  
+/// The cc_tools_qt::Plugin class is implemented using  
 /// <a href="https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Non-Virtual_Interface">Non-Virtual Interface Idiom</a>
 /// It's non-virtual public interface is used by the driving application. The
 /// inheriting class needs to implement virtual @b *Impl() functions to override
 /// the default behaviour.
 ///
-/// The comms_champion::Plugin class defines the following virtual functions
+/// The cc_tools_qt::Plugin class defines the following virtual functions
 /// that are used for getting / setting the plugin's configuration.
 /// @code
-/// namespace comms_champion
+/// namespace cc_tools_qt
 /// {
 /// class Plugin : public QObject
 /// {
@@ -91,7 +91,7 @@
 ///     // Apply new configuration
 ///     virtual void reconfigureImpl(const QVariantMap& config);
 /// };
-/// } // namespace comms_champion
+/// } // namespace cc_tools_qt
 /// @endcode
 /// If the custom plugin being implemented requires external configuration,
 /// the inheriting class is expected to override these functions. It is 
@@ -99,7 +99,7 @@
 /// single @b QVariantMap object, which will be inserted as one value into
 /// the provided @b QVariantMap full configuration object. For example,
 /// let's take a look at 
-/// <a href="https://github.com/commschamp/comms_champion/blob/master/comms_champion/plugin/tcp_socket/client/SocketPlugin.cpp">TCP/IP Client Socket</a>
+/// <a href="https://github.com/arobenko/cc_tools_qt/blob/master/plugin/tcp_socket/client/SocketPlugin.cpp">TCP/IP Client Socket</a>
 /// plugin configuration:
 /// @code
 /// const QString MainConfigKey("cc_tcp_client_socket");
@@ -152,10 +152,10 @@
 /// @section page_plugin_properties Plugin Properties
 /// In addition to explained above configuration, the plugin is expected to 
 /// apply extra properties which will allow the running application to use
-/// it properly. The comms_champion::Plugin class provides an access to
-/// comms_champion::PluginProperties object, which is stored as its data member.
+/// it properly. The cc_tools_qt::Plugin class provides an access to
+/// cc_tools_qt::PluginProperties object, which is stored as its data member.
 /// @code
-/// namespace comms_champion
+/// namespace cc_tools_qt
 /// {
 /// class Plugin : public QObject
 /// {
@@ -167,12 +167,12 @@
 /// private:
 ///     PluginProperties m_props;
 /// };
-/// }  // namespace comms_champion
+/// }  // namespace cc_tools_qt
 /// @endcode
 /// The deriving @b Plugin class is expected to grab a hold on the properties
 /// object and apply its relevant properties.
 /// @code
-/// class MyPlugin : public comms_champion::Plugin
+/// class MyPlugin : public cc_tools_qt::Plugin
 /// {
 ///     ...
 /// public:
@@ -180,7 +180,7 @@
 ///     {
 ///         pluginProperties()
 ///             .setSocketCreateFunc(
-///                 [this]() -> comms_champion::SocketPtr
+///                 [this]() -> cc_tools_qt::SocketPtr
 ///                 {
 ///                     ...
 ///                 })
@@ -197,13 +197,13 @@
 ///
 /// @subsection page_plugin_properties_socket Socket Allocation Callback
 /// The @b Socket plugin (see @ref page_socket_plugin) is expected to be able
-/// to create and return comms_champion::Socket object when requested. However, it is up to
+/// to create and return cc_tools_qt::Socket object when requested. However, it is up to
 /// the application to decide when. As the result, the actual plugin class 
-/// needs to provide a callback to be called when new comms_champion::Socket
+/// needs to provide a callback to be called when new cc_tools_qt::Socket
 /// object is required. It is done using call to 
-/// comms_champion::PluginProperties::setSocketCreateFunc().
+/// cc_tools_qt::PluginProperties::setSocketCreateFunc().
 /// @code
-/// class MySocketPlugin : public comms_champion::Plugin
+/// class MySocketPlugin : public cc_tools_qt::Plugin
 /// {
 ///     ...
 /// public:
@@ -211,7 +211,7 @@
 ///     {
 ///         pluginProperties()
 ///             .setSocketCreateFunc(
-///                 [this]() -> comms_champion::SocketPtr
+///                 [this]() -> cc_tools_qt::SocketPtr
 ///                 {
 ///                     ...
 ///                 });
@@ -222,13 +222,13 @@
 ///
 /// @subsection page_plugin_properties_protocol Protocol Allocation Callback
 /// The @b Protocol plugin (see @ref page_protocol_plugin) is expected to be able
-/// to create and return comms_champion::Protocol object when requested. However, it is up to
+/// to create and return cc_tools_qt::Protocol object when requested. However, it is up to
 /// the application to decide when. As the result, the actual plugin class 
-/// needs to provide a callback to be called when new comms_champion::Protocol
+/// needs to provide a callback to be called when new cc_tools_qt::Protocol
 /// object is required. It is done using call to 
-/// comms_champion::PluginProperties::setProtocolCreateFunc().
+/// cc_tools_qt::PluginProperties::setProtocolCreateFunc().
 /// @code
-/// class MyProtocolPlugin : public comms_champion::Plugin
+/// class MyProtocolPlugin : public cc_tools_qt::Plugin
 /// {
 ///     ...
 /// public:
@@ -236,7 +236,7 @@
 ///     {
 ///         pluginProperties()
 ///             .setProtocolCreateFunc(
-///                 [this]() -> comms_champion::ProtocolPtr
+///                 [this]() -> cc_tools_qt::ProtocolPtr
 ///                 {
 ///                     ...
 ///                 });
@@ -247,13 +247,13 @@
 ///
 /// @subsection page_plugin_properties_filter Filter Allocation Callback
 /// The @b Filter plugin (see @ref page_filter_plugin) is expected to be able
-/// to create and return comms_champion::Filter object when requested. However, it is up to
+/// to create and return cc_tools_qt::Filter object when requested. However, it is up to
 /// the application to decide when. As the result, the actual plugin class 
-/// needs to provide a callback to be called when new comms_champion::Filter
+/// needs to provide a callback to be called when new cc_tools_qt::Filter
 /// object is required. It is done using call to 
-/// comms_champion::PluginProperties::setFiltersCreateFunc().
+/// cc_tools_qt::PluginProperties::setFiltersCreateFunc().
 /// @code
-/// class MyFilterPlugin : public comms_champion::Plugin
+/// class MyFilterPlugin : public cc_tools_qt::Plugin
 /// {
 ///     ...
 /// public:
@@ -273,15 +273,15 @@
 /// way to allow user to perform such configuration. 
 ///
 /// The developed plugins are expected to be used "as-is" with any of the 
-/// <a href="https://github.com/commschamp/comms_champion#commschampion-tools">CommsChampion Tools</a>
+/// <a href="https://github.com/arobenko/cc_tools_qt#commschampion-tools">CommsChampion Tools</a>
 /// applications, both GUI and command-line ones. As the result, the developed
 /// plugin is expected to be able to create and return a widget object, which will be
 /// displayed by the GUI application at some stage. If plugin requires configuration
 /// it should also provide a callback to allow creation of such widget.
-/// Use comms_champion::PluginProperties::setConfigWidgetCreateFunc() function
+/// Use cc_tools_qt::PluginProperties::setConfigWidgetCreateFunc() function
 /// to set the callback.
 /// @code
-/// class MyPlugin : public comms_champion::Plugin
+/// class MyPlugin : public cc_tools_qt::Plugin
 /// {
 ///     ...
 /// public:
@@ -306,10 +306,10 @@
 /// <a href="http://doc.qt.io/qt-5/qaction.html">QAction</a> objects.
 /// This objects will be inserted into main toolbar of the GUI application allowing
 /// users to perform quick updates / notifications to the running plugins.
-/// Use comms_champion::PluginProperties::setGuiActionsCreateFunc() function
+/// Use cc_tools_qt::PluginProperties::setGuiActionsCreateFunc() function
 /// to set the callback.
 /// @code
-/// class MyPlugin : public comms_champion::Plugin
+/// class MyPlugin : public cc_tools_qt::Plugin
 /// {
 ///     ...
 /// public:

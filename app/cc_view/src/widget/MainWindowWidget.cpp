@@ -30,7 +30,7 @@ CC_DISABLE_WARNINGS()
 #include <QtGui/QKeySequence>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/property/message.h"
 #include "LeftPaneWidget.h"
 #include "RightPaneWidget.h"
 #include "MessageUpdateDialog.h"
@@ -42,7 +42,7 @@ CC_ENABLE_WARNINGS()
 #include "MainToolbar.h"
 #include "MsgCommentDialog.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 MainWindowWidget::MainWindowWidget(QWidget* parentObj)
@@ -338,4 +338,4 @@ QString MainWindowWidget::saveMsgsDialog()
 
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt

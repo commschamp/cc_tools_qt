@@ -18,11 +18,11 @@
 
 #pragma once
 
-#include "comms_champion/comms_champion.h"
+#include "cc_tools_qt/cc_tools_qt.h"
 #include "raw_data_protocol/DataMessage.h"
 #include "cc_plugin/Message.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -35,7 +35,7 @@ namespace cc_plugin
 {
 
 class DataMessage : public
-    comms_champion::ProtocolMessageBase<
+    cc_tools_qt::ProtocolMessageBase<
         raw_data_protocol::DataMessage<raw_data_protocol::cc_plugin::Message>,
         DataMessage>
 {
@@ -59,5 +59,5 @@ protected:
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

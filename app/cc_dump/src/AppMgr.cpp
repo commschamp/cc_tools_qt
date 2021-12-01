@@ -26,9 +26,9 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QCoreApplication>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/property/message.h"
 
-namespace cc = comms_champion;
+namespace cc = cc_tools_qt;
 
 namespace comms_dump
 {
@@ -223,7 +223,7 @@ bool AppMgr::applyPlugins(const ListOfPluginInfos& plugins)
     return true;
 }
 
-void AppMgr::dispatchMsg(comms_champion::Message& msg)
+void AppMgr::dispatchMsg(cc_tools_qt::Message& msg)
 {
     if (m_csvDump) {
         msg.dispatch(*m_csvDump);

@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "comms_champion/ConfigMgr.h"
+#include "cc_tools_qt/ConfigMgr.h"
 
 #include <cassert>
 #include <iostream>
@@ -29,7 +29,7 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QVariantMap>
 CC_ENABLE_WARNINGS()
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 ConfigMgr::ConfigMgr() = default;
@@ -132,6 +132,6 @@ bool ConfigMgr::saveConfig(
     return true;
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

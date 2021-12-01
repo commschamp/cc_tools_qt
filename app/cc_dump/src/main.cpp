@@ -27,14 +27,14 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QStringList>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/Message.h"
-#include "comms_champion/Protocol.h"
-#include "comms_champion/PluginMgr.h"
-#include "comms_champion/DataInfo.h"
+#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/Protocol.h"
+#include "cc_tools_qt/PluginMgr.h"
+#include "cc_tools_qt/DataInfo.h"
 
 #include "AppMgr.h"
 
-namespace cc = comms_champion;
+namespace cc = cc_tools_qt;
 
 namespace
 {

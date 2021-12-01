@@ -20,7 +20,7 @@
 #include <algorithm>
 #include <cassert>
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 UnknownValueFieldWidget::UnknownValueFieldWidget(
@@ -88,6 +88,6 @@ void UnknownValueFieldWidget::setFieldValid(bool valid)
     setValidityStyleSheet(*m_ui.m_serBackLabel, valid);
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

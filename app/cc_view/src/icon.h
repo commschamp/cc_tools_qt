@@ -24,7 +24,7 @@ CC_DISABLE_WARNINGS()
 #include <QtGui/QIcon>
 CC_ENABLE_WARNINGS()
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace icon
@@ -58,7 +58,7 @@ const QIcon& dup();
 
 }  // namespace icon
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 
 

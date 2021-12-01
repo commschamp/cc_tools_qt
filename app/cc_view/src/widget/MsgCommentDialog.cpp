@@ -19,9 +19,9 @@
 #include "MsgCommentDialog.h"
 
 #include <cassert>
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/property/message.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 MsgCommentDialog::MsgCommentDialog(
@@ -40,6 +40,6 @@ void MsgCommentDialog::accept()
     Base::accept();
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

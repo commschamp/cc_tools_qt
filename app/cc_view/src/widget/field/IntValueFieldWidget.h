@@ -20,10 +20,10 @@
 
 #include <memory>
 
-#include "comms_champion/field_wrapper/IntValueWrapper.h"
+#include "cc_tools_qt/field_wrapper/IntValueWrapper.h"
 #include "FieldWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class IntValueFieldWidget : public FieldWidget
@@ -52,6 +52,6 @@ private:
 };
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

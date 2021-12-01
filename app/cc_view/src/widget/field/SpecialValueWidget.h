@@ -24,7 +24,7 @@
 
 #include "ui_SpecialValueWidget.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class SpecialValueWidget : public QWidget
@@ -70,6 +70,6 @@ private:
 };
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

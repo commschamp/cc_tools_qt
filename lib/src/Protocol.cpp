@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "comms_champion/Protocol.h"
+#include "cc_tools_qt/Protocol.h"
 
 #include "comms/CompileControl.h"
 
@@ -25,9 +25,9 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QByteArray>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/property/message.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 Protocol::~Protocol() noexcept = default;
@@ -230,6 +230,6 @@ bool Protocol::getForceExtraInfoExistenceFromMessageProperties(const Message& ms
 }
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

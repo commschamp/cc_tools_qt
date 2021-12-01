@@ -26,13 +26,13 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QString>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/MessageHandler.h"
-#include "comms_champion/MsgFileMgr.h"
+#include "cc_tools_qt/MessageHandler.h"
+#include "cc_tools_qt/MsgFileMgr.h"
 
 namespace comms_dump
 {
 
-class RecordMessageHandler : public comms_champion::MessageHandler
+class RecordMessageHandler : public cc_tools_qt::MessageHandler
 {
 public:
     RecordMessageHandler(const QString& filename);
@@ -42,10 +42,10 @@ public:
     void flush();
 
 protected:
-    virtual void beginMsgHandlingImpl(comms_champion::Message& msg) override;
+    virtual void beginMsgHandlingImpl(cc_tools_qt::Message& msg) override;
 
 private:
-    typedef comms_champion::MsgFileMgr::FileSaveHandler FileSaveHandler;
+    typedef cc_tools_qt::MsgFileMgr::FileSaveHandler FileSaveHandler;
     FileSaveHandler m_saveHandler;
 
 };

@@ -20,9 +20,9 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QtPlugin>
-#include "comms_champion/comms_champion.h"
+#include "cc_tools_qt/cc_tools_qt.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -34,11 +34,11 @@ namespace raw_data_protocol
 namespace cc_plugin
 {
 
-class Plugin : public comms_champion::Plugin
+class Plugin : public cc_tools_qt::Plugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "cc.RawDataProtocol" FILE "raw_data_protocol.json")
-    Q_INTERFACES(comms_champion::Plugin)
+    Q_INTERFACES(cc_tools_qt::Plugin)
 
 public:
     Plugin();
@@ -51,4 +51,4 @@ public:
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt

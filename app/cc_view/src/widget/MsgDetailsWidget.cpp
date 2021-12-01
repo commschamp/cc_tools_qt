@@ -23,10 +23,10 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QScrollBar>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/property/message.h"
 #include "GuiAppMgr.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -124,4 +124,4 @@ void MsgDetailsWidget::widgetScrolled(int value)
     property::message::ScrollPos().setTo(value, *m_displayedMsg);
 }
 
-} // namespace comms_champion
+} // namespace cc_tools_qt

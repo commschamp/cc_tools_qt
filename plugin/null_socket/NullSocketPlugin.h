@@ -20,32 +20,32 @@
 
 #include <memory>
 
-#include "comms_champion/Plugin.h"
-#include "comms_champion/Socket.h"
+#include "cc_tools_qt/Plugin.h"
+#include "cc_tools_qt/Socket.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
 {
 
-class NullSocketPlugin : public comms_champion::Plugin
+class NullSocketPlugin : public cc_tools_qt::Plugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "cc.NullSocketPlugin" FILE "null_socket.json")
-    Q_INTERFACES(comms_champion::Plugin)
+    Q_INTERFACES(cc_tools_qt::Plugin)
 
 public:
     NullSocketPlugin();
     ~NullSocketPlugin() noexcept;
 
 private:
-    comms_champion::SocketPtr m_socket;
+    cc_tools_qt::SocketPtr m_socket;
 };
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 
 

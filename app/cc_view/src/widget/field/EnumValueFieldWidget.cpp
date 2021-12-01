@@ -21,9 +21,9 @@
 #include <cassert>
 #include <limits>
 
-#include "comms_champion/property/field.h"
+#include "cc_tools_qt/property/field.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -219,6 +219,6 @@ void EnumValueFieldWidget::valueUpdated(int idx)
     refresh();
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

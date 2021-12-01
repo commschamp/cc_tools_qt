@@ -26,10 +26,10 @@ CC_DISABLE_WARNINGS()
 #include "ui_RawHexDataDialog.h"
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/Protocol.h"
+#include "cc_tools_qt/Protocol.h"
 
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 class RawHexDataDialog : public QDialog
@@ -55,6 +55,6 @@ private:
     Ui::RawHexDataDialog m_ui;
 };
 
-} // namespace comms_champion
+} // namespace cc_tools_qt
 
 

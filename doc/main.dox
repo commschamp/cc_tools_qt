@@ -1,15 +1,15 @@
-/// @mainpage CommsChampion Library
+/// @mainpage cc_tools_qt Library
 /// @tableofcontents
-/// The <a href="https://github.com/commschamp/comms_champion#commschampion-tools">CommsChampion Tools</a> 
+/// The <a href="https://github.com/arobenko/cc_tools_qt#commschampion-tools">CommsChampion Tools</a> 
 /// are there to provide consistent and generic environment for binary protocols 
 /// visualisation, traffic monitor and analysis. They are all plugin based. 
 /// Plugins are used to select I/O socket, protocol definition itself as well as 
-/// zero or more data filters in between. The @b CommsChampion Library can be 
+/// zero or more data filters in between. The @b cc_tools_qt library can be 
 /// used to develop such plugins as well as new custom tool applications.
 ///
 /// The overall picture looks like this:
 /// @diafile app_plugin_lib_rel.dia
-/// The @b CommsChampion (comms_champion.dll) shared library contains common code that 
+/// The @b cc_tools_qt shared library contains common code that 
 /// is used by both the application and the plugin to it. The plugin itself is
 /// also a shared library, which is loaded by the application at run-time. It allows
 /// the @b application to be completely generic and used with any protocol.
@@ -29,7 +29,7 @@
 /// I/O @b socket and the data delivered to the analysed communication 
 /// @b protocol for processing. 
 ///
-/// The @b CommsChampion (comms_champion.dll) shared library is implemented using
+/// The @b cc_tools_qt shared library is implemented using
 /// <a href="http://doc.qt.io/qt-5/qt5-intro.html">QT5</a> framework using its
 /// signals/slots functionality and expects
 /// the main application to drive the event loop using 
@@ -48,7 +48,7 @@
 /// the relevant include statement. The @b CommsChampion library also provides
 /// single "include all" file which can be used.
 /// @code
-/// #include "comms_champion/comms_champion.h"
+/// #include "cc_tools_qt/cc_tools_qt.h"
 /// @endcode
 ///
 /// @section mainpage_tutorials Tutorials

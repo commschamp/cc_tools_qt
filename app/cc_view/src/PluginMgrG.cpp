@@ -17,5 +17,5 @@
 
 #include "PluginMgrG.h"
 
-template class comms_champion::StaticSingleton<comms_champion::PluginMgr>;
+template class cc_tools_qt::StaticSingleton<cc_tools_qt::PluginMgr>;
 

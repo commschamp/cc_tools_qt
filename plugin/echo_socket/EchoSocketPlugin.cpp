@@ -22,7 +22,7 @@
 
 #include "EchoSocket.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -42,6 +42,6 @@ EchoSocketPlugin::~EchoSocketPlugin() noexcept = default;
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

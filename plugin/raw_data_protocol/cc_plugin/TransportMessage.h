@@ -18,11 +18,11 @@
 
 #pragma once
 
-#include "comms_champion/comms_champion.h"
+#include "cc_tools_qt/cc_tools_qt.h"
 #include "cc_plugin/Message.h"
 #include "cc_plugin/Stack.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -46,11 +46,11 @@ using TransportMessageFields =
 }  // namespace details
 
 class TransportMessage : public
-    comms_champion::TransportMessageBase<
+    cc_tools_qt::TransportMessageBase<
         cc_plugin::Stack::Message,
         details::TransportMessageFields>
 {
-    typedef comms_champion::TransportMessageBase<
+    typedef cc_tools_qt::TransportMessageBase<
         cc_plugin::Stack::Message,
         details::TransportMessageFields> Base;
 public:
@@ -72,4 +72,4 @@ protected:
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt

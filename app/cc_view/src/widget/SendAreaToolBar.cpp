@@ -29,7 +29,7 @@ CC_ENABLE_WARNINGS()
 #include "icon.h"
 #include "ShortcutMgr.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -477,5 +477,5 @@ bool SendAreaToolBar::listEmpty() const
     return 0 == m_listTotal;
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

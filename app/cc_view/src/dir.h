@@ -24,7 +24,7 @@ CC_DISABLE_WARNINGS()
 CC_ENABLE_WARNINGS()
 
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 QString getRootDir();
@@ -38,4 +38,4 @@ QString getAppDataDir();
 QString getGlobalDataDir();
 
 
-} // namespace comms_champion
+} // namespace cc_tools_qt

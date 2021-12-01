@@ -32,9 +32,9 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QVariantList>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/Plugin.h"
+#include "cc_tools_qt/Plugin.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -397,6 +397,6 @@ PluginMgrImpl::PluginInfoPtr PluginMgrImpl::readPluginInfo(const QString& filena
     return ptr;
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

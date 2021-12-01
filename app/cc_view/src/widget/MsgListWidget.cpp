@@ -26,11 +26,11 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QDateTime>
 CC_ENABLE_WARNINGS()
 
-#include "comms_champion/Message.h"
-#include "comms_champion/property/message.h"
+#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/property/message.h"
 #include "GuiAppMgr.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -472,6 +472,6 @@ void MsgListWidget::processClick(QListWidgetItem* item)
 }
 
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

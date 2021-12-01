@@ -18,7 +18,7 @@
 
 #include "icon.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace icon
@@ -176,5 +176,5 @@ const QIcon& dup()
 
 }  // namespace icon
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 

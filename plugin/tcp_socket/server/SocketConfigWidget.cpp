@@ -19,7 +19,7 @@
 
 #include <limits>
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -64,6 +64,6 @@ void SocketConfigWidget::portValueChanged(int value)
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

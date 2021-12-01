@@ -18,10 +18,10 @@
 
 #pragma once
 
-#include "comms_champion/comms_champion.h"
+#include "cc_tools_qt/cc_tools_qt.h"
 #include "raw_data_protocol/Message.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
@@ -35,9 +35,9 @@ namespace cc_plugin
 
 template <typename... TOptions>
 class MessageT :
-    public comms_champion::MessageBase<raw_data_protocol::MessageT, TOptions...>
+    public cc_tools_qt::MessageBase<raw_data_protocol::MessageT, TOptions...>
 {
-    typedef comms_champion::MessageBase<raw_data_protocol::MessageT, TOptions...> Base;
+    typedef cc_tools_qt::MessageBase<raw_data_protocol::MessageT, TOptions...> Base;
 public:
     virtual ~MessageT() {}
 
@@ -63,4 +63,4 @@ typedef MessageT<> Message;
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt

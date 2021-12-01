@@ -19,9 +19,9 @@
 
 #include <cassert>
 
-#include "comms_champion/property/field.h"
+#include "cc_tools_qt/property/field.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace
@@ -303,6 +303,6 @@ void VariantFieldWidget::createMemberWidget()
         this, SLOT(memberFieldUpdated()));
 }
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 

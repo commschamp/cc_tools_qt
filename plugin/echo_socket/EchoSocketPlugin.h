@@ -20,32 +20,32 @@
 
 #include <memory>
 
-#include "comms_champion/Plugin.h"
-#include "comms_champion/Socket.h"
+#include "cc_tools_qt/Plugin.h"
+#include "cc_tools_qt/Socket.h"
 
-namespace comms_champion
+namespace cc_tools_qt
 {
 
 namespace plugin
 {
 
-class EchoSocketPlugin : public comms_champion::Plugin
+class EchoSocketPlugin : public cc_tools_qt::Plugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "cc.EchoSocketPlugin" FILE "echo_socket.json")
-    Q_INTERFACES(comms_champion::Plugin)
+    Q_INTERFACES(cc_tools_qt::Plugin)
 
 public:
     EchoSocketPlugin();
     ~EchoSocketPlugin() noexcept;
 
 private:
-    comms_champion::SocketPtr m_socket;
+    cc_tools_qt::SocketPtr m_socket;
 };
 
 }  // namespace plugin
 
-}  // namespace comms_champion
+}  // namespace cc_tools_qt
 
 
 
