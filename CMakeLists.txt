@@ -3,8 +3,11 @@ project ("cc_tools_qt")
 
 # Available options
 
-option (CC_TOOLS_QT_INSTALL_LIBRARY "Install tools library." ON)
-option (CC_TOOLS_QT_INSTALL_BINS "Install tools binaries." ON)
+option (CC_TOOLS_QT_INSTALL_LIBRARY_HEADERS "Install tools library headers." ON)
+option (CC_TOOLS_QT_BUILD_APPS "Build tool applications." ON)
+option (CC_TOOLS_QT_INSTALL_APPS "Install tools binaries." ${CC_TOOLS_QT_BUILD_APPS})
+option (CC_TOOLS_QT_BUILD_PLUGINS "Build plugins." ${CC_TOOLS_QT_BUILD_APPS})
+option (CC_TOOLS_QT_INSTALL_PLUGINS "Install plugins." ${CC_TOOLS_QT_BUILD_PLUGINS})
 option (CC_TOOLS_QT_BUILD_DEMO_PROTOCOL "Build demo protocol plugin." OFF)
 option (CC_TOOLS_QT_INSTALL_DEMO_PROTOCOL "Install demo protocol plugin." ${CC_TOOLS_QT_BUILD_DEMO_PROTOCOL})
 option (CC_TOOLS_QT_WARN_AS_ERR "Treat warning as error" ON)
@@ -140,15 +143,17 @@ cc_msvc_force_warn_opt("/W4")
 #endif ()
 
 #######################################################################
-set (LIB_CC_TOOLS_QT_CMAKE_FILES
-    ${PROJECT_SOURCE_DIR}/cmake/cc_tools_qtConfig.cmake
-    ${CMAKE_BINARY_DIR}/cc_tools_qtVersion.cmake
-)
+if (CC_TOOLS_QT_INSTALL_LIBRARY_HEADERS)
+    set (LIB_CC_TOOLS_QT_CMAKE_FILES
+        ${PROJECT_SOURCE_DIR}/cmake/cc_tools_qtConfig.cmake
+        ${CMAKE_BINARY_DIR}/cc_tools_qtVersion.cmake
+    )
 
-install (
-    FILES ${LIB_CC_TOOLS_QT_CMAKE_FILES}
-    DESTINATION ${LIB_INSTALL_DIR}/cc_tools_qt/cmake/
-)
+    install (
+        FILES ${LIB_CC_TOOLS_QT_CMAKE_FILES}
+        DESTINATION ${LIB_INSTALL_DIR}/cc_tools_qt/cmake/
+    )
+endif ()
 
 include_directories (
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/include

@@ -1,3 +1,7 @@
+if (NOT CC_TOOLS_QT_BUILD_APPS)
+    return ()
+endif ()
+
 # No RPATH for binaries
 set (CMAKE_SKIP_RPATH TRUE)
 

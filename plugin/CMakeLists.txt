@@ -1,3 +1,7 @@
+if (NOT CC_TOOLS_QT_BUILD_PLUGINS)
+    return ()
+endif ()
+
 add_subdirectory (null_socket)
 add_subdirectory (tcp_socket)
 add_subdirectory (serial_socket)

@@ -23,7 +23,7 @@ function (bin_cc_dump)
     add_executable(${name} ${src} ${moc})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt5::Core)
     
-    if (CC_TOOLS_QT_INSTALL_BINS)
+    if (CC_TOOLS_QT_INSTALL_APPS)
         install (
             TARGETS ${name}
             DESTINATION ${BIN_INSTALL_DIR})

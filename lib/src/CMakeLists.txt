@@ -72,14 +72,14 @@ function (lib_tools)
     
     set_target_properties(${name} PROPERTIES VERSION ${CC_TOOLS_QT_VERSION})
     
-    if (CC_TOOLS_QT_INSTALL_LIBRARY)    
-        install (
-            TARGETS ${name} EXPORT ${name}Export
-            LIBRARY DESTINATION ${LIB_INSTALL_DIR}
-            RUNTIME DESTINATION ${BIN_INSTALL_DIR}
-            ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
-        )
+    install (
+        TARGETS ${name} EXPORT ${name}Export
+        LIBRARY DESTINATION ${LIB_INSTALL_DIR}
+        RUNTIME DESTINATION ${BIN_INSTALL_DIR}
+        ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
+    )
 
+    if (CC_TOOLS_QT_INSTALL_LIBRARY_HEADERS)
         install(EXPORT ${name}Export NAMESPACE cc::
             DESTINATION ${LIB_INSTALL_DIR}/${INSTALL_NAME}/cmake
         )
