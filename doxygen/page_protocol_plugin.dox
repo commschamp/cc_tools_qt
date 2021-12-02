@@ -457,7 +457,7 @@
 /// file contains code of this function. Please refer to @ref page_fields_properties
 /// tutorial page to learn how to set field's properties.
 ///
-/// @the @b TransportMessage is also a descendent of common message interface class
+/// the @b TransportMessage is also a descendent of common message interface class
 /// defined as part of the protocol definition (@b demo::Message). One of the
 /// base classes up the inheritance chain provides default implementation of
 /// @b comms::Message::readImpl() virtual function. However, in case of the

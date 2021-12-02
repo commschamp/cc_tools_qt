@@ -43,6 +43,8 @@ namespace field_wrapper
 {
 
 class FieldWrapperHandler;
+
+/// @brief Field wrapping class.
 class CC_API FieldWrapper
 {
 public:

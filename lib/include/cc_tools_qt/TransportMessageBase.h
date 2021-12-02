@@ -49,7 +49,7 @@ class TransportMessageImpl : public
 
 }  // namespace details
 
-/// @breif Base class for @b TransportMessage definition in @b protocol
+/// @brief Base class for @b TransportMessage definition in @b protocol
 ///     plugin.
 /// @tparam TMessage Common interface class for @b protocol plugin.
 /// @tparam TAllFields All transport fields difined by <b>protocol stack</b>.

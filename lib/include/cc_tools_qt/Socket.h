@@ -94,7 +94,7 @@ public:
     /// @brief Request socket to send data
     /// @details Invokes the sendDataImpl(), which must be implemented in
     ///     the derived class.
-    /// @param[in] Information about outging data
+    /// @param[in] dataPtr Information about outging data
     void sendData(DataInfoPtr dataPtr);
 
     /// @brief Callback to report incoming data.
@@ -176,14 +176,14 @@ protected:
     /// @details This function needs to be invoked by the derived class when
     ///     new data has been received from the I/O link. This function
     ///     will invoke callback set by setDataReceivedCallback().
-    /// @param[in] New data information.
+    /// @param[in] dataPtr New data information.
     void reportDataReceived(DataInfoPtr dataPtr);
 
     /// @brief Report I/O operation error.
     /// @details This function is expected to be invoked by the derived class,
     ///     when I/O error is detected. This function will invoke
     ///     callback set by setErrorReportCallback().
-    /// @param[in] Error message.
+    /// @param[in] msg Error message.
     void reportError(const QString& msg);
 
     /// @brief Report socket disconnection.

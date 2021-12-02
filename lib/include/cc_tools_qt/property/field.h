@@ -114,7 +114,7 @@ protected:
     /// @brief set element value to the map
     /// @param[in] val Value to set
     /// @param[in] name Name of the property
-    /// @param[in, out] Map to update
+    /// @param[in, out] props Map to update
     template <typename U>
     static void setElemTo(U&& val, const QString& name, QVariantMap& props)
     {
@@ -124,7 +124,7 @@ protected:
     /// @brief read element value from the map
     /// @param[in] props Properties map
     /// @param[in] name Property name
-    /// @param[in] defaultValue Value to return if not found in map
+    /// @param[in] defaultVal Value to return if not found in map
     /// @return Value of found property in the map
     template <typename TValueType>
     static TValueType getElemFrom(
@@ -407,7 +407,7 @@ public:
     BitmaskValue& add(int idx, const QString& bitName);
 
     /// @brief Add bit description.
-    /// @param[in] The bit index is assumed to be the last inserted one
+    /// @details The bit index is assumed to be the last inserted one
     ///     incremented by 1.
     /// @param[in] bitName Name of the bit
     BitmaskValue& add(const QString& bitName);

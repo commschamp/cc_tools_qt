@@ -46,7 +46,7 @@ public:
     /// @brief Constructor
     Filter();
 
-    /// @bried Destructor
+    /// @brief Destructor
     virtual ~Filter() noexcept;
 
     /// @brief Start filter's operation
@@ -131,14 +131,14 @@ protected:
     /// @details This function needs to be invoked by the derived class when
     ///     when it has new data to be sent over I/O link. This function
     ///     will invoke callback set by setDataToSendCallback().
-    /// @param[in] New data information.
+    /// @param[in] dataPtr New data information.
     void reportDataToSend(DataInfoPtr dataPtr);
 
     /// @brief Report operation error.
     /// @details This function is expected to be invoked by the derived class,
     ///     when some error is detected. This function will invoke
     ///     callback set by setErrorReportCallback().
-    /// @param[in] Error message.
+    /// @param[in] msg Error message.
     void reportError(const QString& msg);
 
 private:

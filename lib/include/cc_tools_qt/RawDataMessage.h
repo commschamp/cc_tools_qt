@@ -51,6 +51,7 @@ class RawDataMessageImpl : public
 
 }  // namespace details
 
+/// @brief Raw data message.
 template <typename TProtStack>
 class RawDataMessage : public
     ProtocolMessageBase<
