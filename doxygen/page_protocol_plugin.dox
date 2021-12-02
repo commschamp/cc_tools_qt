@@ -7,7 +7,7 @@
 /// (the sources are 
 /// <a href="https://github.com/arobenko/cc_tools_qt/tree/master/demo">here</a>) 
 /// provided as part of the
-/// <a href="https://github.com/arobenko/cc_tools_qt">CommsChampion Project</a>.
+/// <a href="https://github.com/arobenko/cc_tools_qt">CommsChampion Tools Project</a>.
 ///
 /// @section page_protocol_plugin_protocol_def Protocol Definition
 /// The protocol messages as well as wrapping transport information need to be
@@ -16,7 +16,7 @@
 /// in a certain generic way, which will allow it to be compiled and used
 /// in any application, whether it is bare-metal platform with limited resouces or
 /// @b protocol plugin for
-/// <a href="https://github.com/arobenko/cc_tools_qt#commschampion-tools">CommsChampion Tools</a>.
+/// <a href="https://github.com/arobenko/cc_tools_qt">CommsChampion Tools</a>.
 ///
 /// First of all, the common message interface class needs to inherit from or
 /// be alias to @b comms::Message class, while providing only endian and type
@@ -359,9 +359,13 @@
 /// how the @b cc_view (main GUI application of the <b>CommsChampion Tools</b>)
 /// displays a message. The bottom right area allows to request a display of
 /// "Transport" information instead of message itself with its fields.
+///
 /// <img src="image/protocol_stack_transport.png">
+///
 /// When clicked it displays the transport information instead of application message.
+///
 /// <img src="image/protocol_stack_transport_msg.png">
+///
 /// The displayed transport information is presented like any other message, but
 /// with fields difined by the "protocol stack".
 ///
@@ -514,7 +518,7 @@
 /// interface class to create and update messages. It means that our @b protocol
 /// definition class needs to be a descendent of cc_tools_qt::Protocol. The
 /// latter defines multiple pure virtual functions, which the derived class
-/// must implement. The @b CommsChampion library also provides 
+/// must implement. The @b cc_tools_qt library also provides 
 /// cc_tools_qt::ProtocolBase template class, which inherits from 
 /// cc_tools_qt::Protocol and implements most of the
 /// required virtual functions using info from provided template parameters. 

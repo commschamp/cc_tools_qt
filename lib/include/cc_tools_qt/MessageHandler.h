@@ -28,7 +28,7 @@
 namespace cc_tools_qt
 {
 
-/// @brief Generic message handler used by @b CommsChampion Tools
+/// @brief Generic message handler used by @b CommsChampion @b Tools
 /// @details Provides polymorphic behavior via its protected functions, which
 ///     can be overriden in the derived class.
 /// @headerfile cc_tools_qt/MessageHandler.h

@@ -77,7 +77,7 @@ Plugin* getPlugin(QPluginLoader& loader)
         }
 
         std::cerr << "ERROR: The selected library \"" <<
-            loader.fileName().toStdString() << "\" is not a CommsChampion plugin!" << std::endl;
+            loader.fileName().toStdString() << "\" is not a cc_tools_qt plugin!" << std::endl;
     } while (false);
     return plugin;
 }

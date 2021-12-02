@@ -77,7 +77,7 @@ QString getAppDataDir()
 {
     return 
         QDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
-            .absoluteFilePath("CommsChampion");
+            .absoluteFilePath("cc_tools_qt");
 }
 
 QString getGlobalDataDir()

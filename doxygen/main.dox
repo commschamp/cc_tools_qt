@@ -1,6 +1,6 @@
 /// @mainpage cc_tools_qt Library
 /// @tableofcontents
-/// The <a href="https://github.com/arobenko/cc_tools_qt#commschampion-tools">CommsChampion Tools</a> 
+/// The <a href="https://github.com/arobenko/cc_tools_qt">CommsChampion Tools</a> 
 /// are there to provide consistent and generic environment for binary protocols 
 /// visualisation, traffic monitor and analysis. They are all plugin based. 
 /// Plugins are used to select I/O socket, protocol definition itself as well as 
@@ -45,7 +45,7 @@
 ///
 /// @section mainpage_headers Header Files
 /// The documentation page of every mentioned in the tutorial class specifies
-/// the relevant include statement. The @b CommsChampion library also provides
+/// the relevant include statement. The @b cc_tools_qt library also provides
 /// single "include all" file which can be used.
 /// @code
 /// #include "cc_tools_qt/cc_tools_qt.h"

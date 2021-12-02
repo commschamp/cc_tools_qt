@@ -1,6 +1,6 @@
 /// @page page_plugin Defining a Plugin
 /// @tableofcontents
-/// The @b CommsChampion project uses
+/// This project uses
 /// <a href="http://doc.qt.io/qt-5/qtplugin.html">QT5 Infrastructure</a>
 /// to define and load plugins. The custom plugin definition shared object needs
 /// to contain its own @b Plugin class that inherits from cc_tools_qt::Plugin and
@@ -58,7 +58,7 @@
 /// Some plugins may require an ability to be configured. For example, remote address
 /// and/or port for TCP/IP client socket.
 ///
-/// The <a href="https://github.com/arobenko/cc_tools_qt#commschampion-tools">CommsChampion Tools</a> 
+/// The <a href="https://github.com/arobenko/cc_tools_qt">CommsChampion Tools</a> 
 /// implement an ability to save and load the list of plugins with their
 /// respective configurations. Such list as well as plugins' configurations are
 /// stored in single file as human readable 
@@ -273,7 +273,7 @@
 /// way to allow user to perform such configuration. 
 ///
 /// The developed plugins are expected to be used "as-is" with any of the 
-/// <a href="https://github.com/arobenko/cc_tools_qt#commschampion-tools">CommsChampion Tools</a>
+/// <a href="https://github.com/arobenko/cc_tools_qt">CommsChampion Tools</a>
 /// applications, both GUI and command-line ones. As the result, the developed
 /// plugin is expected to be able to create and return a widget object, which will be
 /// displayed by the GUI application at some stage. If plugin requires configuration

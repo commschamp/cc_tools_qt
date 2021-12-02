@@ -1,5 +1,5 @@
 /// @namespace cc_tools_qt
-/// @brief Main namespace for all classes / functions in @b CommsChampion shared library.
+/// @brief Main namespace for all classes / functions of the shared library.
 ///
 /// @namespace cc_tools_qt::property
 /// @brief Namespace containing classes describing various properties

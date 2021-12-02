@@ -2,7 +2,7 @@
 /// @tableofcontents
 /// The @b socket plugin is responsible to send the data over I/O link when
 /// requested as well as report any incoming data via callback. The 
-/// <a href="https://github.com/arobenko/cc_tools_qt">CommsChampion Project</a>
+/// <a href="https://github.com/arobenko/cc_tools_qt">CommsChampion Tools Project</a>
 /// contains implementation of multiple available 
 /// <a href="https://github.com/arobenko/cc_tools_qt/tree/master/plugin">plugins</a>
 /// It is recommended to follow this tutorial while looking at available examples. The
