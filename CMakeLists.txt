@@ -17,7 +17,7 @@ option (CC_TOOLS_QT_STATIC_RUNTIME "Enable/Disable static runtime" OFF)
 option (CC_TOOLS_QT_EXTERNAL_COMMS "External COMMS Library" OFF)
 
 # Extra variables
-# CC_QT_DIR=dir - Directory of QT5 installation. Can be used to provide path to QT5 if
+# CC_TOOLS_QT_DIR=dir - Directory of QT5 installation. Can be used to provide path to QT5 if
 #   differs from system default installation path.
 # CC_TOOLS_QT_EXTERNALS_DIR - Directory where pull externals, defaults to 
 #   ${PROJECT_SOURCE_DIR}/externals
@@ -143,6 +143,7 @@ if (DOXYGEN_FOUND)
 endif ()
 
 #######################################################################
+
 if (CC_TOOLS_QT_INSTALL_LIBRARY_HEADERS)
     set (LIB_CC_TOOLS_QT_CMAKE_FILES
         ${PROJECT_SOURCE_DIR}/cmake/cc_tools_qtConfig.cmake
@@ -158,6 +159,31 @@ endif ()
 include_directories (
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/include
 )
+
+#######################################################################
+while (TRUE)
+    if (NOT WIN32)
+        break()
+    endif ()
+
+    if (CC_TOOLS_QT_DIR)
+        break ()
+    endif ()
+
+    if (QT_DIR)
+        set (CC_TOOLS_QT_DIR ${CC_TOOLS_QT_DIR}) 
+    endif ()
+
+    if (Qt5_DIR)
+        set (CC_TOOLS_QT_DIR ${Qt5_DIR}) 
+    endif ()    
+    break()
+endwhile ()
+
+if (CC_TOOLS_QT_DIR)
+    list (APPEND CMAKE_PREFIX_PATH ${CC_TOOLS_QT_DIR})
+endif ()
+#######################################################################
 
 add_subdirectory (lib)
 add_subdirectory (plugin)

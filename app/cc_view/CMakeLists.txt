@@ -7,16 +7,3 @@ if (UNIX AND CC_TOOLS_QT_INSTALL_APPS)
     )
 endif ()  
 
-if (WIN32 AND (NOT "${CC_QT_DIR}" STREQUAL "") AND CC_TOOLS_QT_INSTALL_APPS)
-    execute_process(
-        COMMAND ${CMAKE_COMMAND} -DAPP_NAME=cc_view -DEXTRA_PATH=${CC_QT_DIR}\\bin
-            -DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}
-            -P ${PROJECT_SOURCE_DIR}/cmake/CC_GenWinAppStartBat.cmake
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    )
-    
-    install(
-        PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/cc_view.bat"
-        DESTINATION ${BIN_INSTALL_DIR}
-    )
-endif ()
