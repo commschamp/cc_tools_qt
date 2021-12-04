@@ -87,7 +87,6 @@ if (NOT CC_TOOLS_QT_EXTERNAL_COMMS)
     )
 
     list (APPEND CMAKE_PREFIX_PATH ${comms_install_dir})
-    break ()
 endif ()
 
 find_package(LibComms REQUIRED NO_MODULE)

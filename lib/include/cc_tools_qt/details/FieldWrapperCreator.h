@@ -249,7 +249,7 @@ private:
                 if (field.currentFieldValid()) {
                     field.currentFieldExec(
                         SubfieldsCreateHelper(
-                            [&ptr](FieldWrapperPtr fieldWrapper)
+                            [&ptr](FieldWrapperPtr fieldWrapper) noexcept
                             {
                                 ptr = std::move(fieldWrapper);
                             }));
