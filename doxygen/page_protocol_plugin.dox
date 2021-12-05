@@ -12,7 +12,7 @@
 /// @section page_protocol_plugin_protocol_def Protocol Definition
 /// The protocol messages as well as wrapping transport information need to be
 /// implemented using 
-/// <a href="https://github.com/arobenko/cc_tools_qt#comms-library">COMMS Library</a>
+/// <a href="https://github.com/arobenko/comms">COMMS Library</a>
 /// in a certain generic way, which will allow it to be compiled and used
 /// in any application, whether it is bare-metal platform with limited resouces or
 /// @b protocol plugin for
