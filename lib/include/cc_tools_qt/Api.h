@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include "comms_champion.h"
+
 #ifdef WIN32
 
 #ifdef CC_TOOLS_QT_EXPORT
@@ -28,3 +30,4 @@
 #else // #ifdef WIN32
 #define CC_API
 #endif // #ifdef WIN32
+

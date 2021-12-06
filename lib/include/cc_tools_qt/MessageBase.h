@@ -28,6 +28,7 @@
 
 #include "Message.h"
 #include "MessageHandler.h"
+#include "comms_champion.h"
 
 namespace cc_tools_qt
 {

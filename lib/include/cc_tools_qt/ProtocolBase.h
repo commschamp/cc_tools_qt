@@ -40,6 +40,7 @@ CC_ENABLE_WARNINGS()
 #include "RawDataMessage.h"
 #include "InvalidMessage.h"
 #include "ExtraInfoMessage.h"
+#include "comms_champion.h"
 
 namespace cc_tools_qt
 {

@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2021 - 2022 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -15,30 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+/// @file
+/// @brief Supporting comms_champion as alias namespace to cc_tools_qt
 
 #pragma once
 
-#include "comms_champion.h"
-
-namespace cc_tools_qt
-{
-
-template <typename T>
-class StaticSingleton
-{
-public:
-    static T* instance()
-    {
-        return &(instanceRef());
-    }
-
-    static T& instanceRef()
-    {
-        static T obj;
-        return obj;
-    }
-};
-
-}  // namespace cc_tools_qt
-
+namespace cc_tools_qt {}
+namespace comms_champion = cc_tools_qt;
 
