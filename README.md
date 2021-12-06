@@ -8,7 +8,7 @@ not suitable for general use yet.
 
 # Overview
 This project also contains a set of tool applications , which can be used to 
-develop, monitor and debug custom binary communication protocols, that where
+develop, monitor and debug custom binary communication protocols, that were
 developed using the [COMMS Library](https://github.com/arobenko/comms). 
 All the applications are plug-in based, i.e. plug-ins are used to define 
 I/O socket, data filters, and the custom protocol itself. The tools
