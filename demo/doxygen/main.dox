@@ -4,7 +4,7 @@
 /// @b DEMO is a binary protocol that is provided as part of
 /// "CommsChampion" package. Its main purpose is to demonstrate 
 /// and test abilities of 
-/// <a href="https://github.com/arobenko/comms">COMMS Library</a>  
+/// <a href="https://github.com/commschamp/comms">COMMS Library</a>  
 /// as well as 
 /// <a href="https://github.com/commschamp/cc_tools_qt">CommsChampion Tools</a>.
 ///

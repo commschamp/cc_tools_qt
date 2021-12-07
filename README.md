@@ -9,7 +9,7 @@ not suitable for general use yet.
 # Overview
 This project also contains a set of tool applications , which can be used to 
 develop, monitor and debug custom binary communication protocols, that were
-developed using the [COMMS Library](https://github.com/arobenko/comms). 
+developed using the [COMMS Library](https://github.com/commschamp/comms). 
 All the applications are plug-in based, i.e. plug-ins are used to define 
 I/O socket, data filters, and the custom protocol itself. The tools
 use [Qt5](http://www.qt.io/) framework for GUI interfaces as well as loading
@@ -54,7 +54,7 @@ raw data being received from I/O socket.
 ### Developing Custom Socket/Filter/Protocol Plugin
 The full tutorial as well as API documentation can be downloaded as
 **doc_cc_tools_qt_vX.zip** archive from
-from [release artefacts](https://github.com/arobenko/cc_tools_qt/releases).
+from [release artefacts](https://github.com/commschamp/cc_tools_qt/releases).
 
 # Branching Model
 This repository will follow the 
