@@ -23,7 +23,7 @@ IF "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (
     
 ) ELSE IF "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" (
     set TOOLCHAIN=msvc16
-    set QT_SUBDIR=msvc2017
+    set QT_SUBDIR=msvc2019
     set QT_VER=5.15.2
     IF "%PLATFORM%"=="x86" (
         echo Performing x86 build in VS2019
@@ -34,6 +34,7 @@ IF "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (
     )
 ) ELSE IF "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2022" (
     set TOOLCHAIN=msvc17
+    set QT_SUBDIR=msvc2019
     set QT_VER=5.15.2
     IF "%PLATFORM%"=="x86" (
         echo Performing x86 build in VS2022
