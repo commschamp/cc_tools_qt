@@ -1,11 +1,3 @@
-# IMPORTANT NOTE
-This project is an **experimental** split of the **CommsChampion Tools**
-from the [comms_champion](https://github.com/commschamp/comms_champion) as
-a stand alone project. It is work in progress and 
-not suitable for general use yet.
-
-----
-
 # Overview
 This project also contains a set of tool applications , which can be used to 
 develop, monitor and debug custom binary communication protocols, that were
@@ -16,7 +8,7 @@ use [Qt5](http://www.qt.io/) framework for GUI interfaces as well as loading
 and managing plug-ins.
 
 The current list of available applications is below. Please refer to the
-[wiki page](https://github.com/commschamp/comms_champion/wiki/How-to-Use-CommsChampion-Tools)
+[wiki page](https://github.com/commschamp/cc_tools_qt/wiki/How-to-Use-CommsChampion-Tools)
 for tutorial on how to use them.
 
 - **cc_view** is the main generic GUI application for visualisation and analysis of the
