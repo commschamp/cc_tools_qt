@@ -21,7 +21,7 @@ option (CC_TOOLS_QT_EXTERNAL_COMMS "External COMMS Library" OFF)
 #   differs from system default installation path.
 # CC_TOOLS_QT_EXTERNALS_DIR - Directory where pull externals, defaults to 
 #   ${PROJECT_SOURCE_DIR}/externals
-
+# COMMS_TAG - Tag/Branch of the COMMS library to checkout if needed. 
 
 #######################################################################
 
@@ -38,6 +38,10 @@ set (CMAKE_SCRIPTS_DIR "${PROJECT_SOURCE_DIR}/cmake")
 if (("${CMAKE_CXX_STANDARD}" STREQUAL "") AND (NOT CC_COMMS_SKIP_CXX_STANDARD_FORCING))
     set (CMAKE_CXX_STANDARD 11)
 endif()
+
+if ("${COMMS_TAG}" STREQUAL "")
+    set (COMMS_TAG "master")
+endif ()
 
 include(GNUInstallDirs)
 set (INSTALL_NAME "cc_tools_qt")
@@ -74,7 +78,7 @@ write_basic_package_version_file(
 if (NOT CC_TOOLS_QT_EXTERNAL_COMMS)
     set (comms_src_dir "${CC_TOOLS_QT_EXTERNALS_DIR}/comms")
     include (${CMAKE_SCRIPTS_DIR}/CC_CommsPrefetch.cmake)
-    cc_comms_prefetch(SRC_DIR "${comms_src_dir}")
+    cc_comms_prefetch(SRC_DIR "${comms_src_dir}" TAG "${COMMS_TAG}")
     set (CC_COMMS_CMAKE_DIR "${comms_src_dir}/cmake")
     include (${CC_COMMS_CMAKE_DIR}/CC_CommsExternal.cmake)
 
