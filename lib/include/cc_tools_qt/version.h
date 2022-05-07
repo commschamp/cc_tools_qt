@@ -19,8 +19,6 @@
 
 #pragma once
 
-#include "comms_champion.h"
-
 /// @brief Major verion of the library
 #define CC_TOOLS_QT_MAJOR_VERSION 4U
 

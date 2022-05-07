@@ -21,6 +21,7 @@
 #pragma once
 
 #include "Api.h"
+#include "version.h"
 #include "Message.h"
 #include "MessageHandler.h"
 #include "MessageBase.h"

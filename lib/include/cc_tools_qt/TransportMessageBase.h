@@ -28,7 +28,7 @@ CC_ENABLE_WARNINGS()
 
 #include "comms/comms.h"
 #include "ProtocolMessageBase.h"
-#include "comms_champion.h"
+#include "cc_tools_qt.h"
 
 namespace cc_tools_qt
 {
