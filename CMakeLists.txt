@@ -40,7 +40,7 @@ if (("${CMAKE_CXX_STANDARD}" STREQUAL "") AND (NOT CC_COMMS_SKIP_CXX_STANDARD_FO
 endif()
 
 if ("${COMMS_TAG}" STREQUAL "")
-    set (COMMS_TAG "master")
+    set (COMMS_TAG "v4.0")
 endif ()
 
 include(GNUInstallDirs)
