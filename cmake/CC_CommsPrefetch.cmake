@@ -39,6 +39,15 @@ function (cc_comms_prefetch)
     endif ()
 
     if (EXISTS "${CC_FETCH_SRC_DIR}/cmake/CC_CommsExternal.cmake")
+        execute_process (
+            COMMAND ${GIT_EXECUTABLE} fetch
+            WORKING_DIRECTORY ${CC_FETCH_SRC_DIR}
+        )    
+
+        execute_process (
+            COMMAND ${GIT_EXECUTABLE} checkout ${CC_FETCH_TAG}
+            WORKING_DIRECTORY ${CC_FETCH_SRC_DIR}
+        )            
         return ()
     endif()    
 
