@@ -40,7 +40,7 @@ if (("${CMAKE_CXX_STANDARD}" STREQUAL "") AND (NOT CC_COMMS_SKIP_CXX_STANDARD_FO
 endif()
 
 if ("${COMMS_TAG}" STREQUAL "")
-    set (COMMS_TAG "v4.0")
+    set (COMMS_TAG "develop")
 endif ()
 
 include(GNUInstallDirs)
@@ -79,12 +79,14 @@ if (NOT CC_TOOLS_QT_EXTERNAL_COMMS)
     set (comms_src_dir "${CC_TOOLS_QT_EXTERNALS_DIR}/comms")
     include (${CMAKE_SCRIPTS_DIR}/CC_CommsPrefetch.cmake)
     cc_comms_prefetch(SRC_DIR "${comms_src_dir}" TAG "${COMMS_TAG}")
+
     set (CC_COMMS_CMAKE_DIR "${comms_src_dir}/cmake")
     include (${CC_COMMS_CMAKE_DIR}/CC_CommsExternal.cmake)
 
     set (comms_build_dir "${CMAKE_CURRENT_BINARY_DIR}/comms")
     set (comms_install_dir "${comms_build_dir}/install")
     cc_comms_build_during_config(
+        NO_REPO
         SRC_DIR "${comms_src_dir}"
         BUILD_DIR ${comms_build_dir}
         CMAKE_ARGS -DCC_COMMS_BUILD_UNIT_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${comms_install_dir}

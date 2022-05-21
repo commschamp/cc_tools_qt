@@ -228,7 +228,7 @@ private:
         typedef typename Field::ParsedOptions::SequenceSizeFieldPrefix SizePrefixField;
 
         SizePrefixField sizePrefixField;
-        sizePrefixField.value() = static_cast<typename SizePrefixField::ValueType>(sizeVal);
+        sizePrefixField.setValue(sizeVal);
         auto writeIter = std::back_inserter(seq);
         auto es = sizePrefixField.write(writeIter, seq.max_size() - seq.size());
         return es == comms::ErrorStatus::Success;
@@ -246,7 +246,7 @@ private:
         typedef typename Field::ParsedOptions::SequenceSerLengthFieldPrefix LengthPrefixField;
 
         LengthPrefixField lengthPrefixField;
-        lengthPrefixField.value() = static_cast<typename LengthPrefixField::ValueType>(sizeVal);
+        lengthPrefixField.setValue(sizeVal);
         auto writeIter = std::back_inserter(seq);
         auto es = lengthPrefixField.write(writeIter, seq.max_size() - seq.size());
         return es == comms::ErrorStatus::Success;
