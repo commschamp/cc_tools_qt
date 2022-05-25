@@ -269,7 +269,7 @@ private:
         using SizeField = typename Field::ParsedOptions::SequenceSizeFieldPrefix;
         SizeField sizeField;
         sizeField.setValue(Base::field().value().size());
-        return std::make_pair(sizeField.getValue(), getPrefixFieldSerialised(sizeField));
+        return std::make_pair(static_cast<int>(sizeField.getValue()), getPrefixFieldSerialised(sizeField));
     }
 
     PrefixFieldInfo getPrefixFieldInfoInternal(SerLengthFieldTag) const
@@ -290,7 +290,7 @@ private:
         using LengthField = typename Field::ParsedOptions::SequenceSerLengthFieldPrefix;
         LengthField lenField;
         lenField.setValue(Base::field().length() - LengthField::maxLength());
-        return std::make_pair(lenField.getValue(), getPrefixFieldSerialised(lenField));
+        return std::make_pair(static_cast<int>(lenField.getValue()), getPrefixFieldSerialised(lenField));
     }
 
     PrefixFieldInfo getPrefixFieldInfoInternal(SerLengthFieldVarTag) const
@@ -305,12 +305,12 @@ private:
         lenField.setValue(fullLen - tmpLen);
         if (lenField.length() == tmpLen) {
             assert(static_cast<int>(lenField.getValue()) <= std::numeric_limits<int>::max());
-            return std::make_pair(lenField.getValue(), getPrefixFieldSerialised(lenField));
+            return std::make_pair(static_cast<int>(lenField.getValue()), getPrefixFieldSerialised(lenField));
         }
 
         lenField.setValue(fullLen - lenField.length());
         assert(static_cast<int>(lenField.getValue()) <= std::numeric_limits<int>::max());
-        return std::make_pair(lenField.getValue(), getPrefixFieldSerialised(lenField));
+        return std::make_pair(static_cast<int>(lenField.getValue()), getPrefixFieldSerialised(lenField));
     }
 
     template <typename TPrefixField>
