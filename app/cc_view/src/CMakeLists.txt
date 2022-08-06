@@ -132,7 +132,12 @@ function (bin_cc_view)
     
     qt5_add_resources(resources ${CMAKE_CURRENT_SOURCE_DIR}/ui.qrc)
 
-    add_executable(${name} ${src} ${moc} ${ui} ${resources})
+    set (gui_exe)
+    if (WIN32 and ("${CMAKE_BUILD_TYPE}" STREQUAL "Release"))
+        set (gui_exe WIN32)
+    endif ()
+
+    add_executable(${name} ${gui_exe} ${src} ${moc} ${ui} ${resources})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt5::Widgets Qt5::Core)
     
     if (CC_TOOLS_QT_INSTALL_APPS)
