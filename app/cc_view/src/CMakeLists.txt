@@ -133,7 +133,7 @@ function (bin_cc_view)
     qt5_add_resources(resources ${CMAKE_CURRENT_SOURCE_DIR}/ui.qrc)
 
     set (gui_exe)
-    if (WIN32 and ("${CMAKE_BUILD_TYPE}" STREQUAL "Release"))
+    if (WIN32 AND ("${CMAKE_BUILD_TYPE}" STREQUAL "Release"))
         set (gui_exe WIN32)
     endif ()
 
