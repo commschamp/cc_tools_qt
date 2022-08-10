@@ -53,7 +53,7 @@ endfunction()
 
 ######################################################################
 
-find_package(Qt5 COMPONENTS Network)
+find_package(Qt5 OPTIONAL_COMPONENTS Network)
 
 include_directories (
     ${CMAKE_CURRENT_BINARY_DIR}
