@@ -56,10 +56,7 @@ endfunction()
 
 ######################################################################
 
-find_package(Qt5Core REQUIRED)
-
 include_directories(
-    ${Qt5Core_INCLUDE_DIRS}
     ${PROJECT_SOURCE_DIR}/lib/include)
 
 cc_plugin_demo ()

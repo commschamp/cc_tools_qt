@@ -30,7 +30,7 @@ function (cc_plugin_raw_data_protocol)
     )
     
     add_library (${name} MODULE ${src} ${moc})
-    target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME})
+    target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt5::Core)
     
     if (CC_TOOLS_QT_INSTALL_PLUGINS)
         install (
@@ -41,10 +41,5 @@ function (cc_plugin_raw_data_protocol)
 endfunction()
 
 ######################################################################
-
-find_package(Qt5Core REQUIRED)
-
-include_directories(
-    ${Qt5Core_INCLUDE_DIRS})
 
 cc_plugin_raw_data_protocol ()

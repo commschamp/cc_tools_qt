@@ -1,11 +1,6 @@
 function (plugin_null_socket)
     set (name "null_socket")
     
-    if (NOT Qt5Core_FOUND)
-        message(WARNING "Can NOT build ${name} due to missing Qt5Core library")
-        return()
-    endif ()
-    
     set (meta_file "${CMAKE_CURRENT_SOURCE_DIR}/null_socket.json")
     set (stamp_file "${CMAKE_CURRENT_BINARY_DIR}/refresh_stamp.txt")
     if ((NOT EXISTS ${stamp_file}) OR (${meta_file} IS_NEWER_THAN ${stamp_file}))
@@ -41,7 +36,5 @@ function (plugin_null_socket)
 endfunction()
 
 ######################################################################
-
-find_package(Qt5Core)
 
 plugin_null_socket ()

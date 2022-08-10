@@ -97,32 +97,32 @@ protected:
 
     virtual bool isNanImpl() const override
     {
-        return std::isnan(Base::field().value());
+        return std::isnan(Base::field().getValue());
     }
 
     virtual void setNanImpl() override
     {
-        Base::field().value() = std::numeric_limits<typename TField::ValueType>::quiet_NaN();
+        Base::field().setValue(std::numeric_limits<typename TField::ValueType>::quiet_NaN());
     }
 
     virtual bool isInfImpl() const override
     {
-        return std::isinf(Base::field().value()) && (0 < Base::field().value());
+        return std::isinf(Base::field().getValue()) && (0 < Base::field().getValue());
     }
 
     virtual void setInfImpl() override
     {
-        Base::field().value() = std::numeric_limits<typename TField::ValueType>::infinity();
+        Base::field().setValue(std::numeric_limits<typename TField::ValueType>::infinity());
     }
 
     virtual bool isMinusInfImpl() const override
     {
-        return std::isinf(Base::field().value()) && (Base::field().value() < 0);
+        return std::isinf(Base::field().getValue()) && (Base::field().getValue() < 0);
     }
 
     virtual void setMinusInfImpl() override
     {
-        Base::field().value() = -std::numeric_limits<typename TField::ValueType>::infinity();
+        Base::field().setValue(-std::numeric_limits<typename TField::ValueType>::infinity());
     }
 
     virtual double getEpsilonImpl() const override

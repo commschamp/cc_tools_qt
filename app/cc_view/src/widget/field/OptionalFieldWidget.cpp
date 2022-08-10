@@ -134,17 +134,20 @@ void OptionalFieldWidget::refreshInternal()
     if (mode == Mode::Exists) {
         m_ui.m_optCheckBox->setCheckState(Qt::Checked);
         m_ui.m_nameLabel->hide();
+        hideSpacer();
         m_field->show();
     }
     else if (mode == Mode::Tentative) {
         m_ui.m_optCheckBox->setCheckState(Qt::Unchecked);
         m_ui.m_nameLabel->hide();
+        hideSpacer();
         m_field->show();
     }
     else {
         assert(mode == Mode::Missing);
         m_ui.m_optCheckBox->setCheckState(Qt::Unchecked);
         m_ui.m_nameLabel->show();
+        showSpacer();
         m_field->hide();
     }
 }
@@ -153,6 +156,16 @@ void OptionalFieldWidget::refreshField()
 {
     assert(m_field != nullptr);
     m_field->refresh();
+}
+
+void OptionalFieldWidget::showSpacer()
+{
+    m_ui.m_optSpacer->changeSize(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+}
+
+void OptionalFieldWidget::hideSpacer()
+{
+    m_ui.m_optSpacer->changeSize(0, 0, QSizePolicy::Minimum, QSizePolicy::Minimum);
 }
 
 

@@ -1,16 +1,6 @@
 function (bin_cc_view)
     set (name "cc_view")
     
-    if (NOT Qt5Core_FOUND)
-        message(WARNING "Can NOT build ${name} due to missing Qt5Core library")
-        return()
-    endif ()
-    
-    if (NOT Qt5Widgets_FOUND)
-        message(WARNING "Can NOT build ${name} due to missing Qt5Widgets library")
-        return()
-    endif ()
-
     set (src
         main.cpp
         dir.cpp
@@ -132,7 +122,12 @@ function (bin_cc_view)
     
     qt5_add_resources(resources ${CMAKE_CURRENT_SOURCE_DIR}/ui.qrc)
 
-    add_executable(${name} ${src} ${moc} ${ui} ${resources})
+    set (gui_exe)
+    if (WIN32 AND ("${CMAKE_BUILD_TYPE}" STREQUAL "Release"))
+        set (gui_exe WIN32)
+    endif ()
+
+    add_executable(${name} ${gui_exe} ${src} ${moc} ${ui} ${resources})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt5::Widgets Qt5::Core)
     
     if (CC_TOOLS_QT_INSTALL_APPS)
@@ -150,9 +145,6 @@ function (bin_cc_view)
 endfunction ()
 
 ###########################################################
-
-find_package(Qt5Widgets)
-find_package(Qt5Core)
 
 include_directories (
     ${CMAKE_CURRENT_BINARY_DIR}

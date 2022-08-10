@@ -68,31 +68,35 @@ struct EnumValuesFields
         Value4 = 1028 ///< Value4
     };
 
-    /// @brief Value validator class for @ref field2
-    struct ValuesField2Validator
-    {
-        template <typename TField>
-        bool operator()(const TField& field) const
-        {
-            auto value = field.value();
-            return
-                (value == ValuesField2::Value1) ||
-                (value == ValuesField2::Value2) ||
-                (value == ValuesField2::Value3) ||
-                (value == ValuesField2::Value4);
-        }
-    };
-
     /// @brief Enumeration, that has sparse and signed values, as well as
     ///     serialised using 2 bytes.
-    using field2 =
+    struct field2 : public
         comms::field::EnumValue<
             demo::FieldBase,
             ValuesField2,
             typename TOpt::message::EnumValuesFields::field2,
-            comms::option::ContentsValidator<ValuesField2Validator>,
             comms::option::DefaultNumValue<(int)ValuesField2::Value1>
-    >;
+        >
+    {
+        using Base = 
+            comms::field::EnumValue<
+                demo::FieldBase,
+                ValuesField2,
+                typename TOpt::message::EnumValuesFields::field2,
+                comms::option::DefaultNumValue<(int)ValuesField2::Value1>
+            >;
+
+    public:
+        // @brief Custom validity check
+        bool valid() const
+        {
+            return
+                (Base::value() == ValuesField2::Value1) ||
+                (Base::value() == ValuesField2::Value2) ||
+                (Base::value() == ValuesField2::Value3) ||
+                (Base::value() == ValuesField2::Value4);            
+        }
+    };
 
     /// @brief Enumeration type for the @ref field3
     /// @details The values are sparse and unsigned. They are serialised
@@ -106,33 +110,37 @@ struct EnumValuesFields
         Value5 = 200 ///< Value5
     };
 
-    /// @brief Value validator class for @ref field3
-    struct ValuesField3Validator
-    {
-        template <typename TField>
-        bool operator()(const TField& field) const
-        {
-            auto value = field.value();
-            return
-                (value == ValuesField3::Value1) ||
-                (value == ValuesField3::Value2) ||
-                (value == ValuesField3::Value3) ||
-                (value == ValuesField3::Value4) ||
-                (value == ValuesField3::Value5);
-        }
-    };
-
     /// @brief Enumeration, that has sparse and unsigned values, as well as
     ///     serialised using base-128 encoding.
-    using field3 =
+    struct field3 : public
         comms::field::EnumValue<
             demo::FieldBase,
             ValuesField3,
             typename TOpt::message::EnumValuesFields::field3,
-            comms::option::ContentsValidator<ValuesField3Validator>,
             comms::option::VarLength<1, 2>,
             comms::option::DefaultNumValue<(int)ValuesField3::Value1>
-    >;
+        >
+    {
+        using Base = 
+            comms::field::EnumValue<
+                demo::FieldBase,
+                ValuesField3,
+                typename TOpt::message::EnumValuesFields::field3,
+                comms::option::VarLength<1, 2>,
+                comms::option::DefaultNumValue<(int)ValuesField3::Value1>
+            >;
+
+    public:
+        bool valid() const
+        {
+            return
+                (Base::value() == ValuesField3::Value1) ||
+                (Base::value() == ValuesField3::Value2) ||
+                (Base::value() == ValuesField3::Value3) ||
+                (Base::value() == ValuesField3::Value4) ||
+                (Base::value() == ValuesField3::Value5);            
+        }
+    };
 
     /// @brief Enumeration type for the @ref field4
     /// @details The values are sequential and serialised as single byte

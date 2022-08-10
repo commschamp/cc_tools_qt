@@ -58,6 +58,8 @@ private:
 
     void refreshInternal();
     void refreshField();
+    void showSpacer();
+    void hideSpacer();
 
     Ui::OptionalFieldWidget m_ui;
     WrapperPtr m_wrapper;

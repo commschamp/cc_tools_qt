@@ -122,12 +122,12 @@ protected:
 
     virtual UnderlyingType getValueImpl() const override
     {
-        return static_cast<UnderlyingType>(Base::field().value());
+        return static_cast<UnderlyingType>(Base::field().getValue());
     }
 
     virtual void setValueImpl(UnderlyingType value) override
     {
-        Base::field().value() = static_cast<ValueType>(value);
+        Base::field().setValue(value);
     }
 
     virtual std::size_t minLengthImpl() const override

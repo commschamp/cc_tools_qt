@@ -88,12 +88,12 @@ protected:
     virtual QString getValueImpl() const override
     {
         auto& strField = Base::field();
-        return QString::fromUtf8(strField.value().c_str(), static_cast<int>(strField.value().size()));
+        return QString::fromUtf8(strField.getValue().c_str(), static_cast<int>(strField.getValue().size()));
     }
 
     virtual void setValueImpl(const QString& val) override
     {
-        Base::field().value() = val.toStdString().c_str();
+        Base::field().setValue(val.toStdString().c_str());
     }
 
     virtual bool setSerialisedValueImpl(const SerialisedSeq& value) override
@@ -162,7 +162,7 @@ private:
             static_cast<int>(
                 std::min(
                     static_cast<std::size_t>(std::numeric_limits<int>::max()),
-                    Base::field().value().max_size()));
+                    Base::field().getValue().max_size()));
     }
 };
 
