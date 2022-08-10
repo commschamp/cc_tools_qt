@@ -22,7 +22,7 @@ jobs:
       run: sudo apt-get update --fix-missing    
       
     - name: Install Packages
-      run: sudo apt install libxml2-dev gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}}
+      run: sudo apt install qtbase5-dev libxml2-dev gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}}
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build    
@@ -71,7 +71,7 @@ jobs:
       run: sudo apt-get update --fix-missing    
       
     - name: Install Packages
-      run: sudo apt install libxml2-dev gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}} 
+      run: sudo apt install qtbase5-dev libxml2-dev gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}} 
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build    
@@ -124,7 +124,7 @@ jobs:
       run: sudo apt-get update --fix-missing    
       
     - name: Install Packages
-      run: sudo apt install libxml2-dev gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}}
+      run: sudo apt install qtbase5-dev libxml2-dev gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}}
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build      
@@ -177,7 +177,7 @@ jobs:
       run: sudo apt-get update --fix-missing    
       
     - name: Install Packages
-      run: sudo apt install libxml2-dev clang-${{matrix.cc_ver}}
+      run: sudo apt install qtbase5-dev libxml2-dev clang-${{matrix.cc_ver}}
 
 
     - name: Create Build Environment
@@ -232,7 +232,7 @@ jobs:
       run: sudo apt-get update --fix-missing    
       
     - name: Install Packages
-      run: sudo apt install libxml2-dev clang-${{matrix.cc_ver}}
+      run: sudo apt install qtbase5-dev libxml2-dev clang-${{matrix.cc_ver}}
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build      
