@@ -6,4 +6,4 @@ BUILD_DIR="${ROOT_DIR}/build.clang"
 mkdir -p ${BUILD_DIR}
 cd ${BUILD_DIR}
 
-CC=clang CXX=clang++ cmake .. -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Debug -DCC_TOOLS_QT_BUILD_DEMO_PROTOCOL=ON
+CC=clang CXX=clang++ cmake .. -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Debug -DCC_TOOLS_QT_BUILD_DEMO_PROTOCOL=ON "$@"

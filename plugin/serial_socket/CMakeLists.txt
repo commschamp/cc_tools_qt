@@ -1,17 +1,7 @@
 function (plugin_serial_socket)
     set (name "serial_socket")
     
-    if (NOT Qt5Core_FOUND)
-        message(WARNING "Can NOT build ${name} due to missing Qt5Core library")
-        return()
-    endif ()
-    
-    if (NOT Qt5Widgets_FOUND)
-        message(WARNING "Can NOT build ${name} due to missing Qt5Widgets library")
-        return()
-    endif ()
-    
-    if (NOT Qt5SerialPort_FOUND)
+    if (NOT TARGET Qt5::SerialPort)
         message(WARNING "Can NOT build ${name} due to missing Qt5SerialPort library")
         return()
     endif ()
@@ -62,9 +52,7 @@ endfunction()
 
 ######################################################################
 
-find_package(Qt5Core)
-find_package(Qt5Widgets)
-find_package(Qt5SerialPort)
+find_package(Qt5 COMPONENTS SerialPort)
 
 include_directories (
     ${CMAKE_CURRENT_BINARY_DIR}

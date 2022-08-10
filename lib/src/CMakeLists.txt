@@ -1,16 +1,6 @@
 function (lib_tools)
     set (name "${PROJECT_NAME}")
     
-    if (NOT Qt5Core_FOUND)
-        message(WARNING "Can NOT build ${name} due to missing Qt5Core library")
-        return()
-    endif ()
-    
-    if (NOT Qt5Widgets_FOUND)
-        message(WARNING "Can NOT build ${name} due to missing Qt5Widgets library")
-        return()
-    endif ()
-    
     set (src
         ErrorStatus.cpp
         Message.cpp
@@ -89,13 +79,10 @@ endfunction ()
 
 ###########################################################
 
-find_package(Qt5Core)
-find_package(Qt5Widgets)
-
 if (WIN32)
-    if (NOT "${CC_TOOLS_QT_DIR}" STREQUAL "")
-        find_library(QT5PLATFORMSUPPORT_REL Qt5PlatformSupport HINTS "${CC_TOOLS_QT_DIR}/lib")
-        find_library(QT5PLATFORMSUPPORT_DEB Qt5PlatformSupportd HINTS "${CC_TOOLS_QT_DIR}/lib")
+    if (NOT "${Qt5_DIR}" STREQUAL "")
+        find_library(QT5PLATFORMSUPPORT_REL Qt5PlatformSupport HINTS "${Qt5_DIR}/lib")
+        find_library(QT5PLATFORMSUPPORT_DEB Qt5PlatformSupportd HINTS "${Qt5_DIR}/lib")
         set(QT5PLATFORMSUPPORT optimized ${QT5PLATFORMSUPPORT_REL} debug ${QT5PLATFORMSUPPORT_DEB})
     endif ()
 

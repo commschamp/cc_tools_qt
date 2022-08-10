@@ -1,16 +1,6 @@
 function (bin_cc_view)
     set (name "cc_view")
     
-    if (NOT Qt5Core_FOUND)
-        message(WARNING "Can NOT build ${name} due to missing Qt5Core library")
-        return()
-    endif ()
-    
-    if (NOT Qt5Widgets_FOUND)
-        message(WARNING "Can NOT build ${name} due to missing Qt5Widgets library")
-        return()
-    endif ()
-
     set (src
         main.cpp
         dir.cpp
@@ -155,9 +145,6 @@ function (bin_cc_view)
 endfunction ()
 
 ###########################################################
-
-find_package(Qt5Widgets)
-find_package(Qt5Core)
 
 include_directories (
     ${CMAKE_CURRENT_BINARY_DIR}
