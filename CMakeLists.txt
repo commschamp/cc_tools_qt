@@ -15,19 +15,11 @@ option (CC_TOOLS_QT_USE_CCACHE "Use ccache on UNIX systems if it's available" ON
 option (CC_TOOLS_QT_SKIP_CXX_STANDARD_FORCING "Do NOT force C++ standard to C++11, use compiler's default one." ON)
 option (CC_TOOLS_QT_STATIC_RUNTIME "Enable/Disable static runtime" OFF)
 
-# Extra variables
-# CC_TOOLS_QT_EXTERNALS_DIR - Directory where pull externals, defaults to 
-#   ${PROJECT_SOURCE_DIR}/externals
-
 #######################################################################
 
 if (CMAKE_TOOLCHAIN_FILE AND EXISTS ${CMAKE_TOOLCHAIN_FILE})
     message(STATUS "Loading toolchain from ${CMAKE_TOOLCHAIN_FILE}")
 endif()
-
-if (NOT CC_TOOLS_QT_EXTERNALS_DIR)
-    set (CC_TOOLS_QT_EXTERNALS_DIR "${PROJECT_SOURCE_DIR}/externals")
-endif ()
 
 set (CMAKE_SCRIPTS_DIR "${PROJECT_SOURCE_DIR}/cmake")
 
