@@ -52,7 +52,7 @@ public:
     static FieldWrapperPtr createWrapper(TField& field)
     {
         typedef typename std::decay<decltype(field)>::type DecayedField;
-        typedef typename DecayedField::Tag Tag;
+        typedef typename DecayedField::CommsTag Tag;
         return createWrapperInternal(field, Tag());
     }
 private:

@@ -28,7 +28,7 @@
 #define CC_TOOLS_QT_MINOR_VERSION 0U
 
 /// @brief Patch level of the library
-#define CC_TOOLS_QT_PATCH_VERSION 1U
+#define CC_TOOLS_QT_PATCH_VERSION 2U
 
 /// @brief Macro to create numeric version as single unsigned number
 #define CC_TOOLS_QT_MAKE_VERSION(major_, minor_, patch_) \
@@ -77,7 +77,7 @@ constexpr unsigned version()
     return CC_TOOLS_QT_VERSION;
 }
 
-static_assert(COMMS_MAKE_VERSION(5, 0, 0) <= comms::version(),
+static_assert(COMMS_MAKE_VERSION(5, 1, 0) <= comms::version(),
     "The version of COMMS library is too old");
 
 } // namespace cc_tools_qt

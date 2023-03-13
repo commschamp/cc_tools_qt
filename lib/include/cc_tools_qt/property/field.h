@@ -935,7 +935,7 @@ struct ForTag<comms::field::tag::NoValue>
 /// @tparam TField Type of the field
 /// @headerfile cc_tools_qt/property/field.h
 template <typename TField>
-using ForField = typename details::ForTag<typename TField::Tag>::Type;
+using ForField = typename details::ForTag<typename TField::CommsTag>::Type;
 
 }  // namespace field
 
