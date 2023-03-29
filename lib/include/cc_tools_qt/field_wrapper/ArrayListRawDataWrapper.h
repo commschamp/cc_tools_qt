@@ -172,15 +172,14 @@ private:
     struct FixedSizeTag {};
     struct NoLimitsTag {};
 
-    typedef typename Field::ParsedOptions FieldOptions;
     typedef typename std::conditional<
-        FieldOptions::HasSequenceSizeFieldPrefix,
+        Field::hasSizeFieldPrefix(),
         SizeFieldExistsTag,
         typename std::conditional<
-            FieldOptions::HasSequenceSerLengthFieldPrefix,
+            Field::hasSerLengthFieldPrefix(),
             SerLengthFieldExistsTag,
             typename std::conditional<
-                FieldOptions::HasSequenceFixedSize,
+                Field::hasFixedSize(),
                 FixedSizeTag,
                 NoLimitsTag
             >::type
@@ -202,19 +201,19 @@ private:
 
     static int maxSizeInternal(SizeFieldExistsTag)
     {
-        typedef typename FieldOptions::SequenceSizeFieldPrefix PrefixField;
+        typedef typename Field::SizeFieldPrefix PrefixField;
         return maxSizeByPrefix<PrefixField>();
     }
 
     static int maxSizeInternal(SerLengthFieldExistsTag)
     {
-        typedef typename FieldOptions::SequenceSerLengthFieldPrefix PrefixField;
+        typedef typename Field::SerLengthFieldPrefix PrefixField;
         return maxSizeByPrefix<PrefixField>();
     }
 
     static int maxSizeInternal(FixedSizeTag)
     {
-        return static_cast<int>(FieldOptions::SequenceFixedSize);
+        return static_cast<int>(Field::fixedSize());
     }
 
     int maxSizeInternal(NoLimitsTag) const
@@ -238,7 +237,7 @@ private:
 
     static int minSizeInternal(FixedSizeTag)
     {
-        return static_cast<int>(FieldOptions::SequenceFixedSize);
+        return static_cast<int>(Field::fixedSize());
     }
 
     int minSizeInternal(NoLimitsTag) const

@@ -381,7 +381,7 @@
 /// {
 ///     typedef ListsFields::field2 Field2;
 ///     static const auto ElemCount =
-///         Field2::ParsedOptions::SequenceFixedSize;
+///         Field2::fixedSize();
 /// 
 ///     cc::property::field::ForField<ListsFields::field2> props;
 ///     props.name("field2");

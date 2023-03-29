@@ -815,42 +815,6 @@ private:
     bool m_indexHidden = false;
 };
 
-/// @brief Class to contain all the properties relevant to
-///     @b comms::field::NoValue fields.
-/// @headerfile cc_tools_qt/property/field.h
-class CC_API NoValue : public CommonBase<NoValue>
-{
-    typedef CommonBase<NoValue> Base;
-public:
-    /// @brief Default constructor
-    NoValue();
-
-    /// @brief Copy constructor
-    NoValue(const NoValue&);
-
-    /// @brief Move constructor
-    NoValue(NoValue&&);
-
-    /// @brief Construct from QVariantMap
-    NoValue(const QVariantMap& props);
-
-    /// @brief Construct from QVariant containing QVariantMap
-    NoValue(const QVariant& props);
-
-    /// @brief Descructor
-    ~NoValue() noexcept;
-
-    /// @brief Copy assignment
-    NoValue& operator=(const NoValue&);
-
-    /// @brief Move assignment
-    NoValue& operator=(NoValue&&);
-
-    /// @brief Retrieve all properties as map.
-    QVariantMap asMap() const;
-};
-
-
 namespace details
 {
 
@@ -921,12 +885,6 @@ template <>
 struct ForTag<comms::field::tag::Variant>
 {
     typedef cc_tools_qt::property::field::Variant Type;
-};
-
-template <>
-struct ForTag<comms::field::tag::NoValue>
-{
-    typedef cc_tools_qt::property::field::NoValue Type;
 };
 
 }  // namespace details

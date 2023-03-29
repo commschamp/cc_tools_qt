@@ -39,7 +39,7 @@ namespace details
 
 using TransportMessageFields =
     std::tuple<
-        comms::field::NoValue<cc_plugin::Stack::Message::Field>,
+        comms::field::IntValue<cc_plugin::Stack::Message::Field, std::uint8_t, comms::option::def::EmptySerialization>,
         raw_data_protocol::DataField<>
     >;
 

@@ -149,10 +149,10 @@ protected:
             return false;
         }
 
-        if ((!Field::ParsedOptions::HasSequenceSizeFieldPrefix) &&
-            (!Field::ParsedOptions::HasSequenceSerLengthFieldPrefix) &&
-            (!Field::ParsedOptions::HasSequenceTrailingFieldSuffix) &&
-            (!Field::ParsedOptions::HasSequenceTerminationFieldSuffix)){
+        if ((!CollectionPrefixDetect<Field, IsCollection>::HasSizeFieldPrefix) &&
+            (!CollectionPrefixDetect<Field, IsCollection>::HasSerLengthFieldPrefix) &&
+            (!CollectionPrefixDetect<Field, IsCollection>::HasTrailingFieldSuffix) &&
+            (!CollectionPrefixDetect<Field, IsCollection>::HasTerminationFieldSuffix)) {
             auto iter = &value[0];
             auto es = m_field.read(iter, value.size());
             return es == comms::ErrorStatus::Success;
@@ -199,33 +199,53 @@ protected:
     }
 
 private:
+    template <typename T, bool TIsCollection>
+    struct CollectionPrefixDetect
+    {
+        static const bool HasSizeFieldPrefix = false;
+        static const bool HasSerLengthFieldPrefix = false;
+        static const bool HasTrailingFieldSuffix = false;
+        static const bool HasTerminationFieldSuffix = false;
+    };
+
+    template <typename T>
+    struct CollectionPrefixDetect<T, true>
+    {
+        static const bool HasSizeFieldPrefix = Field::hasSizeFieldPrefix();
+        static const bool HasSerLengthFieldPrefix = Field::hasSerLengthFieldPrefix();
+        static const bool HasTrailingFieldSuffix = TField::hasTrailingFieldSuffix();
+        static const bool HasTerminationFieldSuffix = Field::hasTerminationFieldSuffix();
+    };
+
+    static constexpr bool IsCollection = comms::field::isString<Field>() || comms::field::isArrayList<Field>();
+
     typedef typename std::conditional<
-        Field::ParsedOptions::HasSequenceSizeFieldPrefix,
+        CollectionPrefixDetect<Field, IsCollection>::HasSizeFieldPrefix,
         HasPrefixSuffixTag,
         NoPrefixSuffixTag
     >::type SerialisedSizePrefixTag;
 
     typedef typename std::conditional<
-        Field::ParsedOptions::HasSequenceSerLengthFieldPrefix,
+        CollectionPrefixDetect<Field, IsCollection>::HasSerLengthFieldPrefix,
         HasPrefixSuffixTag,
         NoPrefixSuffixTag
     >::type SerialisedLengthPrefixTag;
 
     typedef typename std::conditional<
-        Field::ParsedOptions::HasSequenceTrailingFieldSuffix,
+        CollectionPrefixDetect<Field, IsCollection>::HasTrailingFieldSuffix,
         HasPrefixSuffixTag,
         NoPrefixSuffixTag
     >::type SerialisedTrailSuffixTag;
 
     typedef typename std::conditional<
-        Field::ParsedOptions::HasSequenceTerminationFieldSuffix,
+        CollectionPrefixDetect<Field, IsCollection>::HasTerminationFieldSuffix,
         HasPrefixSuffixTag,
         NoPrefixSuffixTag
     >::type SerialisedTermSuffixTag;
 
     bool writeSerialisedSize(SerialisedSeq& seq, std::size_t sizeVal, HasPrefixSuffixTag)
     {
-        typedef typename Field::ParsedOptions::SequenceSizeFieldPrefix SizePrefixField;
+        typedef typename Field::SizeFieldPrefix SizePrefixField;
 
         SizePrefixField sizePrefixField;
         sizePrefixField.setValue(sizeVal);
@@ -243,7 +263,7 @@ private:
 
     bool writeSerialisedLength(SerialisedSeq& seq, std::size_t sizeVal, HasPrefixSuffixTag)
     {
-        typedef typename Field::ParsedOptions::SequenceSerLengthFieldPrefix LengthPrefixField;
+        typedef typename Field::SerLengthFieldPrefix LengthPrefixField;
 
         LengthPrefixField lengthPrefixField;
         lengthPrefixField.setValue(sizeVal);
@@ -261,7 +281,7 @@ private:
 
     bool writeTrailSuffix(SerialisedSeq& seq, HasPrefixSuffixTag)
     {
-        typedef typename Field::ParsedOptions::SequenceTrailingFieldSuffix TrailingSuffixField;
+        typedef typename Field::TrailingFieldSuffix TrailingSuffixField;
         TrailingSuffixField trailingSuffixField;
         auto writeIter = std::back_inserter(seq);
         auto es = trailingSuffixField.write(writeIter, seq.max_size() - seq.size());
@@ -276,7 +296,7 @@ private:
 
     bool writeTermSuffix(SerialisedSeq& seq, HasPrefixSuffixTag)
     {
-        typedef typename Field::ParsedOptions::SequenceTerminationFieldSuffix TermSuffixField;
+        typedef typename Field::TerminationFieldSuffix TermSuffixField;
         TermSuffixField termSuffixField;
         auto writeIter = std::back_inserter(seq);
         auto es = termSuffixField.write(writeIter, seq.max_size() - seq.size());
