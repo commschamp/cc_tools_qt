@@ -96,6 +96,9 @@ protected:
     /// @brief Type of "Extra Info Message"
     using ExtraInfoMsg = ExtraInfoMessage<ProtocolMessage>;
 
+    /// @brief Type of message factory
+    using MsgFactory = typename TProtStack::MsgFactory;
+
     static_assert(
         !std::is_void<AllMessages>::value,
         "AllMessages must be a normal type");
@@ -481,19 +484,21 @@ protected:
     template <typename TMsgsTuple>
     MessagesList createAllMessagesInTuple()
     {
-        MessagesList allMsgs;
-        comms::util::tupleForEachType<TMsgsTuple>(AllMsgsCreateHelper(allMsgs));
-        for (auto& msgPtr : allMsgs) {
-            setNameToMessageProperties(*msgPtr);
-            setForceExtraInfoExistenceToMessageProperties(*msgPtr);
-            updateMessage(*msgPtr);
-        }
-        return allMsgs;
+        using Tag = 
+            typename std::conditional<
+                std::is_void<MsgFactory>::value,
+                NoMsgFactoryTag,
+                HasMsgFactoryTag
+            >::type;
+
+        return createAllMessagesInTupleInternal<TMsgsTuple>(Tag());
     }
 
 private:
     struct NumericIdTag {};
     struct OtherIdTag {};
+    struct HasMsgFactoryTag{};
+    struct NoMsgFactoryTag{};
 
     typedef typename std::conditional<
         (std::is_enum<MsgIdType>::value || std::is_integral<MsgIdType>::value),
@@ -586,6 +591,48 @@ private:
         }
         return result;
     }
+
+    template <typename TMsgsTuple>
+    MessagesList createAllMessagesInTupleInternal(NoMsgFactoryTag)
+    {
+        MessagesList allMsgs;
+        comms::util::tupleForEachType<TMsgsTuple>(AllMsgsCreateHelper(allMsgs));
+        for (auto& msgPtr : allMsgs) {
+            setNameToMessageProperties(*msgPtr);
+            setForceExtraInfoExistenceToMessageProperties(*msgPtr);
+            updateMessage(*msgPtr);
+        }
+        return allMsgs;
+    }    
+
+    template <typename TMsgsTuple>
+    MessagesList createAllMessagesInTupleInternal(HasMsgFactoryTag)
+    {
+        static_assert(std::tuple_size<TMsgsTuple>::value > 0U, "At least one message is expected to be defined");
+        using FirstType = typename std::tuple_element<0, TMsgsTuple>::type;
+        using LastType = typename std::tuple_element<std::tuple_size<TMsgsTuple>::value - 1U, TMsgsTuple>::type;
+        auto firstId = static_cast<std::uintmax_t>(FirstType::doGetId());
+        auto lastId = static_cast<std::uintmax_t>(LastType::doGetId());
+
+        MessagesList allMsgs;
+        MsgFactory factory;
+        for (std::uintmax_t id = firstId; id <= lastId; ++id) {
+            auto count = factory.msgCount(static_cast<MsgIdType>(id));
+            for (auto idx = 0U; idx < count; ++idx) {
+                auto msgPtr = factory.createMsg(static_cast<MsgIdType>(id), idx);
+                if (msgPtr) {
+                    allMsgs.push_back(std::move(msgPtr));
+                }
+            }
+        }
+
+        for (auto& msgPtr : allMsgs) {
+            setNameToMessageProperties(*msgPtr);
+            setForceExtraInfoExistenceToMessageProperties(*msgPtr);
+            updateMessage(*msgPtr);
+        }
+        return allMsgs;
+    }    
 
     ProtocolStack m_protStack;
     std::vector<std::uint8_t> m_data;
