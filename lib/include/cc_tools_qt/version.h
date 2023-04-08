@@ -25,10 +25,10 @@
 #define CC_TOOLS_QT_MAJOR_VERSION 4U
 
 /// @brief Minor verion of the library
-#define CC_TOOLS_QT_MINOR_VERSION 0U
+#define CC_TOOLS_QT_MINOR_VERSION 1U
 
 /// @brief Patch level of the library
-#define CC_TOOLS_QT_PATCH_VERSION 3U
+#define CC_TOOLS_QT_PATCH_VERSION 0U
 
 /// @brief Macro to create numeric version as single unsigned number
 #define CC_TOOLS_QT_MAKE_VERSION(major_, minor_, patch_) \
