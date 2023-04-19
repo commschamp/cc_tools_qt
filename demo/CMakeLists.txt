@@ -4,9 +4,7 @@ endif ()
 
 find_package (Doxygen)
 if (DOXYGEN_FOUND)
-    set (doc_output_dir "${CMAKE_INSTALL_PREFIX}/${DOC_INSTALL_DIR}/cc_demo")
-    make_directory (${doc_output_dir})
-    
+    set (doc_output_dir "${DOC_INSTALL_DIR}/cc_demo")
     set (match_str "OUTPUT_DIRECTORY[^\n]*")
     set (replacement_str "OUTPUT_DIRECTORY = ${doc_output_dir}")
     set (output_file "${CMAKE_CURRENT_BINARY_DIR}/doxygen.conf")
