@@ -35,7 +35,7 @@ namespace raw_data_protocol
 {
 
 template <typename TField, typename... TOptions>
-using IdField = comms::field::NoValue<TField>;
+using IdField = comms::field::IntValue<TField, std::uint8_t, comms::option::def::EmptySerialization>;
 
 template <typename... TOptions>
 using DataField = typename comms::protocol::MsgDataLayer<TOptions...>::Field;

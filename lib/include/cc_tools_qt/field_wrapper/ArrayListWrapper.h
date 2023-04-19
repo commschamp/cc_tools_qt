@@ -192,14 +192,14 @@ protected:
 
     virtual bool hasFixedSizeImpl() const override
     {
-        return Field::ParsedOptions::HasSequenceFixedSize;
+        return Field::hasFixedSize();
     }
 
     virtual void adjustFixedSizeImpl() override
     {
         using Tag =
             typename std::conditional<
-                Field::ParsedOptions::HasSequenceFixedSize,
+                Field::hasFixedSize(),
                 HasFixedSizeTag,
                 HasVarSizeTag
             >::type;
@@ -238,10 +238,10 @@ protected:
     {
         using Tag =
             typename std::conditional<
-                Field::ParsedOptions::HasSequenceSizeFieldPrefix,
+                Field::hasSizeFieldPrefix(),
                 ElemCountFieldTag,
                 typename std::conditional<
-                    Field::ParsedOptions::HasSequenceSerLengthFieldPrefix,
+                    Field::hasSerLengthFieldPrefix(),
                     SerLengthFieldTag,
                     NoPrefixFieldTag
                 >::type
@@ -266,7 +266,7 @@ private:
 
     PrefixFieldInfo getPrefixFieldInfoInternal(ElemCountFieldTag) const
     {
-        using SizeField = typename Field::ParsedOptions::SequenceSizeFieldPrefix;
+        using SizeField = typename Field::SizeFieldPrefix;
         SizeField sizeField;
         sizeField.setValue(Base::field().value().size());
         return std::make_pair(static_cast<int>(sizeField.getValue()), getPrefixFieldSerialised(sizeField));
@@ -274,10 +274,10 @@ private:
 
     PrefixFieldInfo getPrefixFieldInfoInternal(SerLengthFieldTag) const
     {
-        using LengthField = typename Field::ParsedOptions::SequenceSerLengthFieldPrefix;
+        using LengthField = typename Field::SerLengthFieldPrefix;
         using Tag =
             typename std::conditional<
-                LengthField::ParsedOptions::HasVarLengthLimits,
+                LengthField::hasVarLength(),
                 SerLengthFieldVarTag,
                 SerLengthFieldFixedTag
             >::type;
@@ -287,7 +287,7 @@ private:
 
     PrefixFieldInfo getPrefixFieldInfoInternal(SerLengthFieldFixedTag) const
     {
-        using LengthField = typename Field::ParsedOptions::SequenceSerLengthFieldPrefix;
+        using LengthField = typename Field::SerLengthFieldPrefix;
         LengthField lenField;
         lenField.setValue(Base::field().length() - LengthField::maxLength());
         return std::make_pair(static_cast<int>(lenField.getValue()), getPrefixFieldSerialised(lenField));
@@ -295,7 +295,7 @@ private:
 
     PrefixFieldInfo getPrefixFieldInfoInternal(SerLengthFieldVarTag) const
     {
-        using LengthField = typename Field::ParsedOptions::SequenceSerLengthFieldPrefix;
+        using LengthField = typename Field::SerLengthFieldPrefix;
 
         auto fullLen = Base::field().length();
         LengthField lenFieldTmp;
@@ -334,7 +334,7 @@ private:
 
     void adjustFixedSizeInternal(HasFixedSizeTag)
     {
-        Base::field().value().resize(Field::ParsedOptions::SequenceFixedSize);
+        Base::field().value().resize(Field::fixedSize());
     }
 
 

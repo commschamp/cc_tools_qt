@@ -798,28 +798,6 @@ void Variant::getFrom(const QVariantMap& props)
     m_indexHidden = getElemFrom<bool>(props, indexHiddenKey());
 }
 
-NoValue::NoValue() = default;
-NoValue::NoValue(const NoValue&) = default;
-NoValue::NoValue(NoValue&&) = default;
-NoValue::NoValue(const QVariantMap& props) : Base(props)
-{
-};
-
-NoValue::NoValue(const QVariant& props) : Base(props)
-{
-};
-NoValue::~NoValue() noexcept = default;
-
-NoValue& NoValue::operator=(const NoValue&) = default;
-NoValue& NoValue::operator=(NoValue&&) = default;
-
-QVariantMap NoValue::asMap() const
-{
-    QVariantMap props;
-    Base::setTo(props);
-    return props;
-}
-
 }  // namespace field
 
 }  // namespace property

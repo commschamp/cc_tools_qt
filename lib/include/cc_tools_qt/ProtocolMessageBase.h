@@ -92,7 +92,7 @@ protected:
         static_assert(comms::isMessageBase<TMsgBase>(), "TMsgBase is expected to be proper message");
 
         using Tag = typename std::conditional<
-                TMsgBase::ImplOptions::HasName,
+                TMsgBase::hasCustomName(),
                 HasNameTag,
                 NoNameTag
             >::type;
