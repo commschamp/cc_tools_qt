@@ -16,6 +16,8 @@ option (CC_TOOLS_QT_SKIP_CXX_STANDARD_FORCING "Do NOT force C++ standard to C++1
 option (CC_TOOLS_QT_STATIC_RUNTIME "Enable/Disable static runtime" OFF)
 option (CC_TOOLS_QT_USE_QT5 "Don't look for Qt6" OFF)
 
+# Extra configuration variable
+set (CC_TOOLS_QT_MAJOR_QT_VERSION 5 CACHE STRING "Major Qt version")
 
 #######################################################################
 
