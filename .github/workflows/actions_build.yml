@@ -120,6 +120,7 @@ jobs:
         type: [Debug, Release, MinSizeRel]
         cc_ver: [9, 10, 11, 12]
         cpp: [11, 14, 17, 20]
+        qt_ver: [5, 6]
 
     steps:
     - uses: actions/checkout@v2
@@ -128,7 +129,7 @@ jobs:
       run: sudo apt-get update --fix-missing    
       
     - name: Install Packages
-      run: sudo apt install qtbase5-dev libqt5serialport5-dev libxml2-dev gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}}
+      run: sudo apt install qtbase${{matrix.qt_ver}}-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev libxml2-dev gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}}
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build      
@@ -149,7 +150,10 @@ jobs:
     - name: Configure CMake
       shell: bash
       working-directory: ${{runner.workspace}}/build
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.type}} -DCMAKE_INSTALL_PREFIX=install -DCMAKE_PREFIX_PATH=${{runner.workspace}}/build/install -DCMAKE_CXX_STANDARD=${{matrix.cpp}} -DCC_TOOLS_QT_BUILD_DEMO_PROTOCOL=ON
+      run: |
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.type}} -DCMAKE_INSTALL_PREFIX=install \
+          -DCMAKE_PREFIX_PATH=${{runner.workspace}}/build/install -DCMAKE_CXX_STANDARD=${{matrix.cpp}} \
+          -DCC_TOOLS_QT_BUILD_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=${{matrix.qt_ver}}
       env:
         CC: gcc-${{matrix.cc_ver}}
         CXX: g++-${{matrix.cc_ver}}
@@ -281,6 +285,7 @@ jobs:
         type: [Debug, Release, MinSizeRel]
         cc_ver: [12, 13, 14]
         cpp: [11, 14, 17, 20]
+        qt_ver: [5, 6]
 
     steps:
     - uses: actions/checkout@v2
@@ -289,7 +294,7 @@ jobs:
       run: sudo apt-get update --fix-missing    
       
     - name: Install Packages
-      run: sudo apt install qtbase5-dev libqt5serialport5-dev libxml2-dev clang-${{matrix.cc_ver}}
+      run: sudo apt install qtbase${{matrix.qt_ver}}-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev libxml2-dev clang-${{matrix.cc_ver}}
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build      
@@ -310,7 +315,10 @@ jobs:
     - name: Configure CMake
       shell: bash
       working-directory: ${{runner.workspace}}/build
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.type}} -DCMAKE_INSTALL_PREFIX=install -DCMAKE_PREFIX_PATH=${{runner.workspace}}/build/install -DCMAKE_CXX_STANDARD=${{matrix.cpp}} -DCC_TOOLS_QT_BUILD_DEMO_PROTOCOL=ON
+      run: |
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.type}} -DCMAKE_INSTALL_PREFIX=install \
+          -DCMAKE_PREFIX_PATH=${{runner.workspace}}/build/install -DCMAKE_CXX_STANDARD=${{matrix.cpp}} \
+          -DCC_TOOLS_QT_BUILD_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=${{matrix.qt_ver}}
       env:
         CC: clang-${{matrix.cc_ver}}
         CXX: clang++-${{matrix.cc_ver}}
