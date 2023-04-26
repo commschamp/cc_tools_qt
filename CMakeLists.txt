@@ -14,6 +14,8 @@ option (CC_TOOLS_QT_WARN_AS_ERR "Treat warning as error" ON)
 option (CC_TOOLS_QT_USE_CCACHE "Use ccache on UNIX systems if it's available" ON)
 option (CC_TOOLS_QT_SKIP_CXX_STANDARD_FORCING "Do NOT force C++ standard to C++11, use compiler's default one." ON)
 option (CC_TOOLS_QT_STATIC_RUNTIME "Enable/Disable static runtime" OFF)
+option (CC_TOOLS_QT_USE_QT5 "Don't look for Qt6" OFF)
+
 
 #######################################################################
 
@@ -126,7 +128,8 @@ include_directories (
 
 #######################################################################
 
-find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
+include (${PROJECT_SOURCE_DIR}/cmake/CC_FindQt.cmake)
+cc_find_qt_major ()
 
 add_subdirectory (lib)
 add_subdirectory (plugin)

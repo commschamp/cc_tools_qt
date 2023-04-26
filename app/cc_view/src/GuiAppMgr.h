@@ -27,13 +27,13 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QString>
 #include <QtCore/QTimer>
 #include <QtWidgets/QWidget>
-#include <QtWidgets/QAction>
 CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/Message.h"
 #include "cc_tools_qt/PluginMgr.h"
 #include "cc_tools_qt/MsgSendMgr.h"
 
+#include "ActionWrap.h"
 #include "MsgMgrG.h"
 
 namespace cc_tools_qt

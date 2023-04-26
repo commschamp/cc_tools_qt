@@ -33,7 +33,7 @@ function (cc_plugin_demo)
         Plugin.h
     )
     
-    qt5_wrap_cpp(
+    cc_qt_wrap_cpp(
         moc
         ${hdr}
     )

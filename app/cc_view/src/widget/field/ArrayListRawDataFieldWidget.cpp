@@ -71,7 +71,7 @@ void ArrayListRawDataFieldWidget::refreshImpl()
 
     if (valueUpdateNeeded) {
         auto curs = m_ui.m_valuePlainTextEdit->textCursor();
-        auto newPosition = std::min(curs.position(), value.size());
+        auto newPosition = std::min(curs.position(), static_cast<int>(value.size()));
         assert(m_ui.m_valuePlainTextEdit != nullptr);
         m_ui.m_valuePlainTextEdit->setPlainText(value);
         curs.setPosition(newPosition);

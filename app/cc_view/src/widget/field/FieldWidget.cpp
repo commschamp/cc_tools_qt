@@ -139,7 +139,7 @@ void FieldWidget::updateValue(QLineEdit& line, const QString& value)
         return;
     }
 
-    auto cursorPos = std::min(value.size(), line.cursorPosition());
+    auto cursorPos = std::min(static_cast<int>(value.size()), line.cursorPosition());
     line.setText(value);
     line.setCursorPosition(cursorPos);
 }

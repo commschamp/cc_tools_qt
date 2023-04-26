@@ -8,15 +8,13 @@ function (bin_cc_dump)
         RecordMessageHandler.cpp
     )
     
-    qt5_wrap_cpp(
+    cc_qt_wrap_cpp(
         moc
         AppMgr.h
     )
     
-    #qt5_add_resources(resources ${CMAKE_CURRENT_SOURCE_DIR}/ui.qrc)
-
     add_executable(${name} ${src} ${moc})
-    target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt5::Core)
+    target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Core)
     
     if (CC_TOOLS_QT_INSTALL_APPS)
         install (

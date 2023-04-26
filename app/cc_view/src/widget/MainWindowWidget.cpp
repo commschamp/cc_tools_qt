@@ -23,7 +23,6 @@
 
 CC_DISABLE_WARNINGS()
 #include <QtWidgets/QSplitter>
-#include <QtWidgets/QShortcut>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMessageBox>
 #include <QtGui/QIcon>
@@ -41,6 +40,7 @@ CC_ENABLE_WARNINGS()
 #include "icon.h"
 #include "MainToolbar.h"
 #include "MsgCommentDialog.h"
+#include "ShortcutWrap.h"
 
 namespace cc_tools_qt
 {

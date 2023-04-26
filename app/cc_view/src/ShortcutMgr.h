@@ -25,8 +25,9 @@
 CC_DISABLE_WARNINGS()
 #include <QtCore/QObject>
 #include <QtGui/QKeySequence>
-#include <QtWidgets/QAction>
 CC_ENABLE_WARNINGS()
+
+#include "ActionWrap.h"
 
 namespace cc_tools_qt
 {

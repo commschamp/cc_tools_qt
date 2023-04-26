@@ -93,7 +93,7 @@ void RawHexDataDialog::valueChanged()
 
     if (m_ui.m_rawDataText->toPlainText() != str) {
         auto curs = m_ui.m_rawDataText->textCursor();
-        auto newPosition = std::min(curs.position(), str.size());
+        auto newPosition = std::min(curs.position(), static_cast<int>(str.size()));
         m_ui.m_rawDataText->setPlainText(str);
         curs.setPosition(newPosition);
         m_ui.m_rawDataText->setTextCursor(curs);

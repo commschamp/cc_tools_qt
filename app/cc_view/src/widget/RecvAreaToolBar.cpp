@@ -23,12 +23,12 @@
 
 CC_DISABLE_WARNINGS()
 #include <QtCore/QObject>
-#include <QtWidgets/QAction>
 #include <QtGui/QIcon>
 CC_ENABLE_WARNINGS()
 
 #include "icon.h"
 #include "ShortcutMgr.h"
+#include "ActionWrap.h"
 
 namespace cc_tools_qt
 {

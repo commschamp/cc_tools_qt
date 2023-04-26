@@ -54,7 +54,7 @@ void StringFieldWidget::refreshImpl()
     auto value = m_wrapper->getValue();
     if (m_ui.m_valuePlainTextEdit->toPlainText() != value) {
         auto curs = m_ui.m_valuePlainTextEdit->textCursor();
-        auto newPosition = std::min(curs.position(), value.size());
+        auto newPosition = std::min(curs.position(), static_cast<int>(value.size()));
         m_ui.m_valuePlainTextEdit->setPlainText(value);
         curs.setPosition(newPosition);
         m_ui.m_valuePlainTextEdit->setTextCursor(curs);

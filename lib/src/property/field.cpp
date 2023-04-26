@@ -390,7 +390,7 @@ BitmaskValue& BitmaskValue::add(int idx, const QString& bitName)
 
 BitmaskValue& BitmaskValue::add(const QString& bitName)
 {
-    return add(m_bits.size(), bitName);
+    return add(static_cast<int>(m_bits.size()), bitName);
 }
 
 QVariantMap BitmaskValue::asMap() const

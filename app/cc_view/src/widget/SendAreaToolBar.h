@@ -22,10 +22,10 @@
 
 CC_DISABLE_WARNINGS()
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QAction>
 CC_ENABLE_WARNINGS()
 
 #include "GuiAppMgr.h"
+#include "ActionWrap.h"
 
 namespace cc_tools_qt
 {
