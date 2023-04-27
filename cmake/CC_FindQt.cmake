@@ -4,10 +4,12 @@ macro (cc_find_qt_major)
 
     if (NOT TARGET Qt::Core)
         add_library(Qt::Core ALIAS Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}::Core)
+        set_target_properties(Qt::Core PROPERTIES IMPORTED_GLOBAL TRUE)
     endif ()
 
     if (NOT TARGET Qt::Widgets)
-        add_library(Qt::Core ALIAS Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}::Widgets)
+        add_library(Qt::Widgets ALIAS Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}::Widgets)
+        set_target_properties(Qt::Widgets PROPERTIES IMPORTED_GLOBAL TRUE)
     endif ()    
 endmacro ()
 
@@ -21,6 +23,7 @@ macro (cc_find_qt_components)
 
         if (NOT TARGET Qt::${c})
             add_library(Qt::${c} ALIAS Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}::${c})
+            set_target_properties(Qt::${c} PROPERTIES IMPORTED_GLOBAL TRUE)
         endif ()        
     endforeach ()
 endmacro ()
