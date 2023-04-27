@@ -3,13 +3,13 @@ macro (cc_find_qt_major)
     message (STATUS "Using Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}")
 
     if (NOT TARGET Qt::Core)
+        set_target_properties(Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}::Core PROPERTIES IMPORTED_GLOBAL TRUE)
         add_library(Qt::Core ALIAS Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}::Core)
-        set_target_properties(Qt::Core PROPERTIES IMPORTED_GLOBAL TRUE)
     endif ()
 
     if (NOT TARGET Qt::Widgets)
+        set_target_properties(Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}::Widgets PROPERTIES IMPORTED_GLOBAL TRUE)
         add_library(Qt::Widgets ALIAS Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}::Widgets)
-        set_target_properties(Qt::Widgets PROPERTIES IMPORTED_GLOBAL TRUE)
     endif ()    
 endmacro ()
 
