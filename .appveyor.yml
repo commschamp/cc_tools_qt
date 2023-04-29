@@ -64,7 +64,9 @@ install:
 build_script:
     - echo ------------------------- Building Project -------------------------
     - cd %BUILD_DIR%
-    - cmake .. -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%COMMON_INSTALL_DIR%" -DCMAKE_PREFIX_PATH="%COMMON_INSTALL_DIR%;%QTDIR%" -DCMAKE_CXX_STANDARD=%CPP_STD% -DCC_TOOLS_QT_BUILD_DEMO_PROTOCOL=ON
+    - cmake .. -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%COMMON_INSTALL_DIR%" ^
+        -DCMAKE_PREFIX_PATH="%COMMON_INSTALL_DIR%;%QTDIR%" -DCMAKE_CXX_STANDARD=%CPP_STD% ^
+        -DCC_TOOLS_QT_BUILD_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=%QT_MAJOR%
     - cmake --build . --config %CONFIGURATION% --target install
     - echo -------------------------- Deploying Qt5 ---------------------------
     - cmake --build . --config %CONFIGURATION% --target deploy_qt
