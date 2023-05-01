@@ -55,17 +55,17 @@ IF "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (
     exit -1
 )
 
-set QTDIR_PREFIX=C:\Qt\%QT_VER%
+set QTDIR_PREFIX="C:\\Qt\\%QT_VER%"
 IF "%PLATFORM%"=="x86" (
     set QTDIR_SUFFIX=
 ) ELSE (
     set QTDIR_SUFFIX=_64
 )
 
-set QTDIR=%QTDIR_PREFIX%\%QT_SUBDIR%%QTDIR_SUFFIX%
-IF NOT EXIST %QTDIR% (
+set QTDIR="%QTDIR_PREFIX%\\%QT_SUBDIR%%QTDIR_SUFFIX%"
+IF NOT EXIST "%QTDIR%" (
     echo WARNING: %QTDIR% does not exist!!!
-    dir %QTDIR_PREFIX%
+    dir "C:\\Qt"
 )
 
 echo Using Qt%QT_MAJOR% from %QTDIR%
