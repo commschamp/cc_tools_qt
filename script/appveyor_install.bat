@@ -24,7 +24,7 @@ IF "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (
     set TOOLCHAIN=msvc16
     set QT_SUBDIR=msvc2019
     IF "%QT_MAJOR%"=="6" (
-        set QT_VER=6.4.2
+        set QT_VER=6.4.3
     ) ELSE (
         set QT_VER=5.15.2
     )
@@ -39,7 +39,7 @@ IF "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (
     set TOOLCHAIN=msvc17
     set QT_SUBDIR=msvc2019
     IF "%QT_MAJOR%"=="6" (
-        set QT_VER=6.4.2
+        set QT_VER=6.4.3
     ) ELSE (
         set QT_VER=5.15.2
     )
@@ -69,4 +69,4 @@ IF NOT EXIST %QTDIR% (
 )
 
 echo Using Qt%QT_MAJOR% from %QTDIR%
-dir C:\Qt
+
