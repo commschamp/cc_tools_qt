@@ -4,7 +4,7 @@ develop, monitor and debug custom binary communication protocols, that were
 developed using the [COMMS Library](https://github.com/commschamp/comms). 
 All the applications are plug-in based, i.e. plug-ins are used to define 
 I/O socket, data filters, and the custom protocol itself. The tools
-use [Qt5](http://www.qt.io/) framework for GUI interfaces as well as loading
+use [Qt](http://www.qt.io/) framework for GUI interfaces as well as loading
 and managing plug-ins.
 
 The current list of available applications is below. Please refer to the

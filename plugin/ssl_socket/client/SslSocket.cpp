@@ -21,6 +21,7 @@
 
 CC_DISABLE_WARNINGS()
 #include <QtNetwork/QHostAddress>
+#include <QtNetwork/QSslConfiguration>
 CC_ENABLE_WARNINGS()
 
 #include "SslSocket.h"
@@ -57,6 +58,9 @@ SslSocket::SslSocket()
     connect(
         &m_socket, SIGNAL(error(QAbstractSocket::SocketError)),
         this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));
+    connect(
+        &m_socket, SIGNAL(sslErrors(const QList<QSslError>&)),
+        this, SLOT(sslErrorsOccurred(const QList<QSslError>&)));        
 }
 
 SslSocket::~SslSocket() noexcept
@@ -66,13 +70,13 @@ SslSocket::~SslSocket() noexcept
 
 bool SslSocket::socketConnectImpl()
 {
-    if ((m_socket.state() == QTcpSocket::ConnectedState) ||
-        (m_socket.state() == QTcpSocket::ConnectingState)) {
+    if ((m_socket.state() == QSslSocket::ConnectedState) ||
+        (m_socket.state() == QSslSocket::ConnectingState)) {
         static constexpr bool Already_connected = false;
         static_cast<void>(Already_connected);
         assert(Already_connected); 
         static const QString AlreadyConnectedError(
-            tr("TCP/IP Client is already connected or trying to connect."));
+            tr("SSL Client is already connected or trying to connect."));
         reportError(AlreadyConnectedError);
         return false;
     }
@@ -81,10 +85,40 @@ bool SslSocket::socketConnectImpl()
         m_host = QHostAddress(QHostAddress::LocalHost).toString();
     }
 
-    m_socket.connectToHost(m_host, m_port);
-    if (!m_socket.waitForConnected(1000)) {
+    if (!m_caFiles.isEmpty()) {
+        QSslConfiguration config;
+        auto caValues = m_caFiles.split(',');
+        for (auto& ca : caValues) {
+            if (ca.isEmpty()) {
+                continue;
+            }
+
+            if (!config.addCaCertificates(ca, m_caFormat)) {
+                static const QString FailedToAddCaError(
+                    tr("Failed to add CA certificate(s) from "));
+                reportError(FailedToAddCaError + ca);
+            }
+        }
+
+        m_socket.setSslConfiguration(config);
+    }
+
+    m_socket.setPeerVerifyMode(m_verifyMode);
+    m_socket.setProtocol(m_protocol);
+
+    if (!m_certFile.isEmpty()) {
+        m_socket.setLocalCertificate(m_certFile, m_certFormat);
+    }
+
+    if (!m_privKeyFile.isEmpty()) {
+        m_socket.setPrivateKey(m_privKeyFile, m_privKeyAlg, m_privKeyFormat, m_privKeyPass.toUtf8());
+    }
+
+    m_socket.connectToHostEncrypted(m_host, m_port);
+    if (!m_socket.waitForEncrypted(3000)) {
         return false;
     }
+
     return true;
 }
 
@@ -119,16 +153,12 @@ void SslSocket::sendDataImpl(DataInfoPtr dataPtr)
 
 void SslSocket::socketDisconnected()
 {
-//    static const QString DisconnectedError(
-//        tr("Connection to TCP/IP Server was disconnected."));
-//    reportError(DisconnectedError);
-
     reportDisconnected();
 }
 
 void SslSocket::readFromSocket()
 {
-    auto* socket = qobject_cast<QTcpSocket*>(sender());
+    auto* socket = qobject_cast<QSslSocket*>(sender());
     assert(socket != nullptr);
 
     auto dataPtr = makeDataInfo();
@@ -157,13 +187,20 @@ void SslSocket::readFromSocket()
 void SslSocket::socketErrorOccurred(QAbstractSocket::SocketError err)
 {
     static_cast<void>(err);
-    auto* socket = qobject_cast<QTcpSocket*>(sender());
+    auto* socket = qobject_cast<QSslSocket*>(sender());
     assert(socket != nullptr);
 
     reportError(socket->errorString());
 
-    if (socket->state() != QTcpSocket::ConnectedState) {
+    if (socket->state() != QSslSocket::ConnectedState) {
         reportDisconnected();
+    }
+}
+
+void SslSocket::sslErrorsOccurred(const QList<QSslError>& errs)
+{
+    for (auto& e : errs) {
+        reportError(e.errorString());
     }
 }
 

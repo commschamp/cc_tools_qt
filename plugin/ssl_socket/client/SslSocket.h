@@ -22,7 +22,6 @@
 #include "comms/CompileControl.h"
 
 CC_DISABLE_WARNINGS()
-#include <QtNetwork/QTcpSocket>
 #include <QtNetwork/QSslSocket>
 CC_ENABLE_WARNINGS()
 
@@ -83,14 +82,14 @@ public:
         return m_caFiles;
     }
 
-    QSsl::EncodingFormat getCaFormat() const
-    {
-        return m_caFormat;
-    }
-
     void setCaFormat(QSsl::EncodingFormat value)
     {
         m_caFormat = value;
+    }    
+
+    QSsl::EncodingFormat getCaFormat() const
+    {
+        return m_caFormat;
     }
 
     void setVerifyMode(QSslSocket::PeerVerifyMode value)
@@ -113,64 +112,64 @@ public:
         return m_protocol;
     }
 
-    const QString& getCertFile() const
-    {
-        return m_certFile;
-    }
-
     void setCertFile(const QString& value)
     {
         m_certFile = value;
     }
 
-    QSsl::EncodingFormat getCertFormat() const
+    const QString& getCertFile() const
     {
-        return m_certFormat;
-    }
+        return m_certFile;
+    }    
 
     void setCertFormat(QSsl::EncodingFormat value)
     {
         m_certFormat = value;
     }
 
+    QSsl::EncodingFormat getCertFormat() const
+    {
+        return m_certFormat;
+    }   
+
+    void setPrivKeyFile(const QString& value)
+    {
+        m_privKeyFile = value;
+    }     
+
     const QString& getPrivKeyFile() const
     {
         return m_privKeyFile;
     }
 
-    void setPrivKeyFile(const QString& value)
+    void setPrivKeyAlg(QSsl::KeyAlgorithm value)
     {
-        m_privKeyFile = value;
-    }
+        m_privKeyAlg = value;
+    }    
 
     QSsl::KeyAlgorithm getPrivKeyAlg() const
     {
         return m_privKeyAlg;
     }
 
-    void setPrivKeyAlg(QSsl::KeyAlgorithm value)
+    void setPrivKeyFormat(QSsl::EncodingFormat value)
     {
-        m_privKeyAlg = value;
-    }
+        m_privKeyFormat = value;
+    }    
 
     QSsl::EncodingFormat getPrivKeyFormat() const
     {
         return m_privKeyFormat;
     }
 
-    void setPrivKeyFormat(QSsl::EncodingFormat value)
-    {
-        m_privKeyFormat = value;
-    }
-
-    const QString& getPrivKeyPass() const
-    {
-        return m_privKeyPass;
-    }
-
     void setPrivKeyPass(const QString& value)
     {
         m_privKeyPass = value;
+    }
+    
+    const QString& getPrivKeyPass() const
+    {
+        return m_privKeyPass;
     }
 
 protected:
@@ -182,6 +181,7 @@ private slots:
     void socketDisconnected();
     void readFromSocket();
     void socketErrorOccurred(QAbstractSocket::SocketError err);
+    void sslErrorsOccurred(const QList<QSslError>& errs);
 
 private:
     static const PortType DefaultPort = 20000;
@@ -189,7 +189,6 @@ private:
     PortType m_port = DefaultPort;
     QString m_caFiles;
     QSsl::EncodingFormat m_caFormat = QSsl::Pem;
-    QTcpSocket m_socket;
     QSslSocket::PeerVerifyMode m_verifyMode = QSslSocket::VerifyNone;
     QSsl::SslProtocol m_protocol = QSsl::SecureProtocols;
     QString m_certFile;
@@ -198,6 +197,7 @@ private:
     QSsl::KeyAlgorithm m_privKeyAlg = QSsl::Rsa;
     QSsl::EncodingFormat m_privKeyFormat = QSsl::Pem;
     QString m_privKeyPass;
+    QSslSocket m_socket;
 };
 
 }  // namespace client

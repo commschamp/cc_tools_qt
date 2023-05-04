@@ -40,6 +40,16 @@ namespace
 const QString MainConfigKey("cc_ssl_client_socket");
 const QString HostSubKey("host");
 const QString PortSubKey("port");
+const QString CaFileSubKey("ca");
+const QString CaFormatSubKey("ca_format");
+const QString VerifySubKey("verify");
+const QString SslProtSubKey("prot");
+const QString CertSubKey("cert");
+const QString CertFormatSubKey("cert_format");
+const QString PrivFileSubKey("priv");
+const QString PrivAlgSubKey("priv_alg");
+const QString PrivFormatSubKey("priv_format");
+
 
 }  // namespace
 
@@ -69,6 +79,15 @@ void SslSocketPlugin::getCurrentConfigImpl(QVariantMap& config)
     QVariantMap subConfig;
     subConfig.insert(HostSubKey, m_socket->getHost());
     subConfig.insert(PortSubKey, m_socket->getPort());
+    subConfig.insert(CaFileSubKey, m_socket->getCaFiles());
+    subConfig.insert(CaFormatSubKey, static_cast<int>(m_socket->getCaFormat()));
+    subConfig.insert(VerifySubKey, static_cast<int>(m_socket->getVerifyMode()));
+    subConfig.insert(SslProtSubKey, static_cast<int>(m_socket->getSslProtocol()));
+    subConfig.insert(CertSubKey, m_socket->getCertFile());
+    subConfig.insert(CertFormatSubKey, static_cast<int>(m_socket->getCertFormat()));
+    subConfig.insert(PrivFileSubKey, m_socket->getPrivKeyFile());
+    subConfig.insert(PrivAlgSubKey, static_cast<int>(m_socket->getPrivKeyAlg()));
+    subConfig.insert(PrivFormatSubKey, static_cast<int>(m_socket->getPrivKeyFormat()));
     config.insert(MainConfigKey, QVariant::fromValue(subConfig));
 }
 
@@ -95,6 +114,60 @@ void SslSocketPlugin::reconfigureImpl(const QVariantMap& config)
         auto port = portVar.value<PortType>();
         m_socket->setPort(port);
     }
+
+    auto caVar = subConfig.value(CaFileSubKey);
+    if (caVar.isValid() && caVar.canConvert<QString>()) {
+        auto ca = caVar.value<QString>();
+        m_socket->setCaFiles(ca);
+    }    
+
+    auto caFormatVar = subConfig.value(CaFormatSubKey);
+    if (caFormatVar.isValid() && caFormatVar.canConvert<int>()) {
+        auto caFormat = static_cast<QSsl::EncodingFormat>(caFormatVar.value<int>());
+        m_socket->setCaFormat(caFormat);
+    }
+
+    auto verifyVar = subConfig.value(VerifySubKey);
+    if (verifyVar.isValid() && verifyVar.canConvert<int>()) {
+        auto verify = static_cast<QSslSocket::PeerVerifyMode>(verifyVar.value<int>());
+        m_socket->setVerifyMode(verify);
+    }  
+
+    auto protVar = subConfig.value(SslProtSubKey);
+    if (protVar.isValid() && protVar.canConvert<int>()) {
+        auto prot = static_cast<QSsl::SslProtocol>(protVar.value<int>());
+        m_socket->setSslProtocol(prot);
+    }
+
+    auto certVar = subConfig.value(CertSubKey);
+    if (certVar.isValid() && certVar.canConvert<QString>()) {
+        auto cert = certVar.value<QString>();
+        m_socket->setCertFile(cert);
+    }    
+
+    auto certFormatVar = subConfig.value(CertFormatSubKey);
+    if (certFormatVar.isValid() && certFormatVar.canConvert<int>()) {
+        auto certFormat = static_cast<QSsl::EncodingFormat>(certFormatVar.value<int>());
+        m_socket->setCertFormat(certFormat);
+    }     
+
+    auto privFileVar = subConfig.value(PrivFileSubKey);
+    if (privFileVar.isValid() && privFileVar.canConvert<QString>()) {
+        auto privFile = certVar.value<QString>();
+        m_socket->setPrivKeyFile(privFile);
+    } 
+
+    auto prevAlgVar = subConfig.value(PrivAlgSubKey);
+    if (prevAlgVar.isValid() && prevAlgVar.canConvert<int>()) {
+        auto privAlg = static_cast<QSsl::KeyAlgorithm>(prevAlgVar.value<int>());
+        m_socket->setPrivKeyAlg(privAlg);
+    }  
+
+    auto privFormatVar = subConfig.value(PrivFormatSubKey);
+    if (privFormatVar.isValid() && privFormatVar.canConvert<int>()) {
+        auto privFormat = static_cast<QSsl::EncodingFormat>(privFormatVar.value<int>());
+        m_socket->setPrivKeyFormat(privFormat);
+    } 
 }
 
 void SslSocketPlugin::createSocketIfNeeded()
