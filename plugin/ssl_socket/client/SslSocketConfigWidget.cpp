@@ -22,6 +22,8 @@
 
 #include <QtGlobal>
 
+#include "comms/CompileControl.h"
+
 namespace cc_tools_qt
 {
 
@@ -74,6 +76,8 @@ const PeerVerifyModeMap& peerVerifyModeMap()
     return Map;
 }
 
+COMMS_MSVC_WARNING_PUSH
+COMMS_MSVC_WARNING_DISABLE(4996) // Disable deprecated values warning
 const SslProtocolMap& sslProtocolMap()
 {
     static const SslProtocolMap Map = {
@@ -97,6 +101,7 @@ const SslProtocolMap& sslProtocolMap()
 
     return Map;
 }
+COMMS_MSVC_WARNING_POP
 
 const EncodingFormatMap& encodingFormatMap()
 {
