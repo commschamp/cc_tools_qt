@@ -59,6 +59,10 @@ public:
 
     Ptr clone();
 
+    bool getForcedShowAll() const;
+    void setForcedShowAll(bool val = true);
+    bool isTruncated() const;
+
 protected:
     virtual QString getValueImpl() const = 0;
     virtual void setValueImpl(const QString& val) = 0;
@@ -67,6 +71,11 @@ protected:
     virtual Ptr cloneImpl() = 0;
 
     void dispatchImpl(FieldWrapperHandler& handler);
+
+    static const std::size_t TruncateLength = 128;
+
+private:
+    bool m_forcedShowAll = false;    
 };
 
 template <typename TField>
@@ -97,7 +106,17 @@ protected:
         QString retStr;
         auto& dataField = Base::field();
         auto& data = dataField.value();
+
+        int maxLen = static_cast<int>(Base::length() * 2);
+        if (Base::isTruncated()) {
+            maxLen = static_cast<decltype(maxLen)>(Base::TruncateLength * 2);
+        }
+
         for (auto byte : data) {
+            if (maxLen <= retStr.size()) {
+                break;
+            }
+
             retStr.append(QString("%1").arg(static_cast<uint>(byte), 2, 16, QChar('0')));
         }
         return retStr;
@@ -140,6 +159,16 @@ protected:
         }
 
         Base::setSerialisedValueImpl(data);
+    }
+
+    virtual SerialisedSeq getSerialisedValueImpl() const override
+    {
+        auto serValue = Base::getSerialisedValueImpl();
+        if (Base::isTruncated()) {
+            serValue.resize(Base::TruncateLength);
+        }
+        
+        return serValue;
     }
 
     virtual bool setSerialisedValueImpl(const SerialisedSeq& value) override

@@ -45,6 +45,7 @@ protected:
 
 private slots:
     void valueChanged();
+    void showAllPressed();
 
 private:
 

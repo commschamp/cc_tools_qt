@@ -54,6 +54,25 @@ ArrayListRawDataWrapper::Ptr ArrayListRawDataWrapper::clone()
     return cloneImpl();
 }
 
+bool ArrayListRawDataWrapper::getForcedShowAll() const
+{
+    return m_forcedShowAll;
+}
+
+void ArrayListRawDataWrapper::setForcedShowAll(bool val)
+{
+    m_forcedShowAll = val;
+}
+
+bool ArrayListRawDataWrapper::isTruncated() const
+{
+    if (m_forcedShowAll) {
+        return false;
+    }
+
+    return TruncateLength < length();
+}
+
 void ArrayListRawDataWrapper::dispatchImpl(FieldWrapperHandler& handler)
 {
     handler.handle(*this);
