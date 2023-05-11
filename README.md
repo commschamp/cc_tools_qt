@@ -44,7 +44,39 @@ remote a client and a server.
 type with one field of unlimited length data. It can be used to review the
 raw data being received from I/O socket.
 
-### Developing Custom Socket/Filter/Protocol Plugin
+# How to Build
+In addition to the [Qt](http://www.qt.io/) framework, this project depends on the 
+[COMMS Library](https://github.com/commschamp/comms) as well and tries 
+to find it through invocation of the `find_package()` cmake function. There is a need to 
+provide its location using **CMAKE_PREFIX_PATH** variable.
+```
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=/path/to/install/dir -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/path/to/comms/install
+cmake --build . --target install
+```
+
+For Windows platfrom there may be a need to also add a Qt installation path to the **CMAKE_PREFIX_PATH** as 
+well as build extra **deploy_qt** target to deploy the Qt libraries into the installation directory.
+```
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=/path/to/install/dir -DCMAKE_BUILD_TYPE=Release ^
+    -DCMAKE_PREFIX_PATH=/path/to/comms/install;/path/to/qt/install
+cmake --build . --target install
+cmake --build . --target deploy_qt    
+```
+
+The build should support both Qt5 (default) and Qt6. It is possible to force usage of 
+specific Qt major version by using **CC_TOOLS_QT_MAJOR_QT_VERSION** cmake variable.
+```
+cmake -DCC_TOOLS_QT_MAJOR_QT_VERSION=6 ...
+```
+
+It is highly recommended to open main[CMakeLists.txt](CMakeLists.txt) file and review the available
+configuration options and variables.
+
+# Developing Custom Socket/Filter/Protocol Plugin
 The full tutorial as well as API documentation can be downloaded as
 **doc_cc_tools_qt_vX.zip** archive from
 from [release artefacts](https://github.com/commschamp/cc_tools_qt/releases).
