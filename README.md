@@ -39,6 +39,7 @@ connections from TCP/IP clients, sends and receives data to/from them.
 side of TCP/IP connection, can be used to monitor traffic of the messages between
 remote a client and a server.
 - **udp_socket** - Generic (client/server) UDP/IP socket.
+- **ssl_client_socket** - Client secure (SSL/TLS) connection socket.
 - **raw_data_protocol** - Protocol definition that defines only a single message
 type with one field of unlimited length data. It can be used to review the
 raw data being received from I/O socket.
