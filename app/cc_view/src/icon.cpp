@@ -174,6 +174,19 @@ const QIcon& dup()
     return iconObj;
 }
 
+const QIcon& filterEdit()
+{
+    static const QIcon iconObj(":/image/filter_advanced.png");
+    return iconObj;
+}
+
+const QIcon& filterApply()
+{
+    static const QIcon iconObj(":/image/filter_reapply.png");
+    return iconObj;
+}
+
+
 }  // namespace icon
 
 }  // namespace cc_tools_qt

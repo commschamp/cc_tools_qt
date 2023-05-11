@@ -120,6 +120,7 @@ QString RecvMsgListWidget::getTitlePrefix()
 {
     auto* guiAppMgr = GuiAppMgr::instance();
     assert(guiAppMgr != nullptr);
+
     if (guiAppMgr->recvListShowsReceived() && guiAppMgr->recvListShowsSent()) {
         static const QString Str("All Messages");
         return Str;

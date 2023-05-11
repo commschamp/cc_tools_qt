@@ -94,6 +94,7 @@ void ShortcutMgr::createInitialMap()
         /* Key_SaveSend */ "Ctrl+V,S",
         /* Key_SaveRecv */ "Ctrl+V,R",
         /* Key_Receive */ "F5",
+        /* Key_EditFilter */ "Ctrl+Shift+F",
     };
 
     static const std::size_t KeysSize = std::extent<decltype(Keys)>::value;

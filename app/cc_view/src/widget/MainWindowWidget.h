@@ -63,6 +63,7 @@ private slots:
     void saveSendMsgsDialog();
     void msgCommentDialog(MessagePtr msg);
     void aboutInfo();
+    void recvFilterDialog(ProtocolPtr protocol);
 
 private:
     void clearCustomToolbarActions();

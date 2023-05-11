@@ -63,6 +63,7 @@ public:
         Key_SaveSend,
         Key_SaveRecv,
         Key_Receive,
+        Key_EditFilter,
         Key_NumOfValues // Must be last
     };
 

@@ -55,6 +55,8 @@ const QIcon& connect();
 const QIcon& disconnect();
 const QIcon& comment();
 const QIcon& dup();
+const QIcon& filterEdit();
+const QIcon& filterApply();
 
 }  // namespace icon
 
