@@ -185,9 +185,9 @@ void MessagesFilterDialog::refreshButtons()
     m_ui.m_showSelectedPushButton->setEnabled(!m_ui.m_hiddenListWidget->selectedItems().empty());
 }
 
-void MessagesFilterDialog::refreshMessagesList(const MessagesFilterDialog::FilteredMessages& messages, QListWidget& list, QScrollArea& scroll)
+void MessagesFilterDialog::refreshMessagesList(const MessagesFilterDialog::FilteredMessages& messages, QListWidget& list, QScrollArea& scrollArea)
 {
-    auto* scrollBar = scroll.verticalScrollBar();
+    auto* scrollBar = scrollArea.verticalScrollBar();
     auto scrollValue = 0;
     if (scrollBar != nullptr) {
         scrollValue = scrollBar->value();
@@ -202,7 +202,7 @@ void MessagesFilterDialog::refreshMessagesList(const MessagesFilterDialog::Filte
         list.addItem(m);
     }
 
-    auto* updatedScrollBar = scroll.verticalScrollBar();
+    auto* updatedScrollBar = scrollArea.verticalScrollBar();
     if (updatedScrollBar != nullptr) {
         updatedScrollBar->setValue(scrollValue);
     }
