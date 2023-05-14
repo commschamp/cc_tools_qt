@@ -37,7 +37,7 @@ function (lib_tools)
         property/field.cpp
     )
     
-    qt5_wrap_cpp(
+    cc_qt_wrap_cpp(
         moc
         MsgSendMgrImpl.h
     )
@@ -45,7 +45,7 @@ function (lib_tools)
     add_library(${name} SHARED ${src} ${moc})
     add_library (cc::${PROJECT_NAME} ALIAS ${name})
 
-    target_link_libraries(${name} PUBLIC cc::comms Qt5::Widgets Qt5::Core ${CC_PLATFORM_SPECIFIC})
+    target_link_libraries(${name} PUBLIC cc::comms Qt::Widgets Qt::Core ${CC_PLATFORM_SPECIFIC})
     target_include_directories(${name} 
         PRIVATE
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>

@@ -24,13 +24,13 @@ function (cc_plugin_raw_data_protocol)
         Plugin.h
     )
     
-    qt5_wrap_cpp(
+    cc_qt_wrap_cpp(
         moc
         ${hdr}
     )
     
     add_library (${name} MODULE ${src} ${moc})
-    target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt5::Core)
+    target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Core)
     
     if (CC_TOOLS_QT_INSTALL_PLUGINS)
         install (

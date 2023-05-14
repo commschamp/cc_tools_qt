@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,7 +22,6 @@
 CC_DISABLE_WARNINGS()
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QLineEdit>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QPushButton>
 
 #include "ui_PluginConfigDialog.h"
@@ -30,6 +29,7 @@ CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/PluginMgr.h"
 #include "PluginsListWidget.h"
+#include "ActionWrap.h"
 
 namespace cc_tools_qt
 {

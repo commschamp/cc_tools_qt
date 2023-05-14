@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -62,6 +62,7 @@ private:
     void refreshDupButton();
     void refreshDeleteButton();
     void refreshClearButton();
+    void refreshEditFilterButton();
 
     bool msgSelected() const;
     bool listEmpty() const;
@@ -73,6 +74,8 @@ private:
     QAction* m_dupButton = nullptr;
     QAction* m_deleteButton = nullptr;
     QAction* m_clearButton = nullptr;
+    QAction* m_editFilterButton = nullptr;
+    QAction* m_applyFilterButton = nullptr;
     QAction* m_showGarbageButton = nullptr;
     QAction* m_showRecvButton = nullptr;
     QAction* m_showSentButton = nullptr;

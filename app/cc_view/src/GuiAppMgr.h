@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -27,13 +27,13 @@ CC_DISABLE_WARNINGS()
 #include <QtCore/QString>
 #include <QtCore/QTimer>
 #include <QtWidgets/QWidget>
-#include <QtWidgets/QAction>
 CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/Message.h"
 #include "cc_tools_qt/PluginMgr.h"
 #include "cc_tools_qt/MsgSendMgr.h"
 
+#include "ActionWrap.h"
 #include "MsgMgrG.h"
 
 namespace cc_tools_qt
@@ -61,13 +61,16 @@ public:
     enum RecvListMode : unsigned {
         RecvListMode_ShowReceived = 1U << 0,
         RecvListMode_ShowSent = 1U << 1,
-        RecvListMode_ShowGarbage = 1U << 2
+        RecvListMode_ShowGarbage = 1U << 2,
+        RecvListMode_ApplyFilter = 1U << 3
     };
 
-    typedef MsgMgr::MsgType MsgType;
-    typedef std::shared_ptr<QAction> ActionPtr;
-    typedef PluginMgr::ListOfPluginInfos ListOfPluginInfos;
-    typedef Protocol::MessagesList MessagesList;
+    using MsgType = MsgMgr::MsgType ;
+    using ActionPtr = std::shared_ptr<QAction>;
+    using ListOfPluginInfos = PluginMgr::ListOfPluginInfos;
+    using MessagesList = Protocol::MessagesList;
+    using FilteredMessages = std::vector<QString>;
+
     enum class ActivityState
     {
         Clear,
@@ -92,6 +95,7 @@ public:
     bool recvListShowsReceived() const;
     bool recvListShowsSent() const;
     bool recvListShowsGarbage() const;
+    bool recvListApplyFilter() const;
     unsigned recvListModeMask() const;
 
     SendState sendState() const;
@@ -109,6 +113,11 @@ public:
     bool applyNewPlugins(const ListOfPluginInfos& plugins);
     void msgCommentUpdated(MessagePtr msg);
 
+    const FilteredMessages& getFilteredMessages() const;
+    void setFilteredMessages(FilteredMessages&& filteredMessages);
+
+    static QString messageDesc(const Message& msg);
+
 public slots:
     void pluginsEditClicked();
 
@@ -120,9 +129,11 @@ public slots:
     void recvDupClicked();
     void recvDeleteClicked();
     void recvClearClicked();
+    void recvEditFilterClicked();
     void recvShowRecvToggled(bool checked);
     void recvShowSentToggled(bool checked);
     void recvShowGarbageToggled(bool checked);
+    void recvApplyFilterToggled(bool checked);
 
     void sendStartClicked();
     void sendStartAllClicked();
@@ -196,6 +207,7 @@ signals:
     void sigSocketConnectEnabled(bool enabled);
     void sigMsgCommentDialog(MessagePtr msg);
     void sigMsgCommentUpdated(MessagePtr msg);
+    void sigRecvFilterDialog(ProtocolPtr protocol);
 
 private:
     enum class SelectionType
@@ -237,7 +249,8 @@ private /*data*/:
     unsigned m_recvListMode =
         RecvListMode_ShowReceived |
         RecvListMode_ShowSent |
-        RecvListMode_ShowGarbage;
+        RecvListMode_ShowGarbage |
+        RecvListMode_ApplyFilter;
 
     SendState m_sendState = SendState::Idle;
     unsigned m_sendListCount = 0;
@@ -250,6 +263,8 @@ private /*data*/:
     bool m_pendingDisplayWaitInProgress = false;
 
     MsgSendMgr m_sendMgr;
+
+    FilteredMessages m_filteredMessages;
 };
 
 }  // namespace cc_tools_qt

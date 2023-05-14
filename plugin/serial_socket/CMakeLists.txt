@@ -1,8 +1,8 @@
 function (plugin_serial_socket)
     set (name "serial_socket")
     
-    if (NOT TARGET Qt5::SerialPort)
-        message(WARNING "Can NOT build ${name} due to missing Qt5SerialPort library")
+    if (NOT TARGET Qt::SerialPort)
+        message(WARNING "Can NOT build ${name} due to missing Qt::SerialPort library")
         return()
     endif ()
     
@@ -29,18 +29,18 @@ function (plugin_serial_socket)
         SerialSocketConfigWidget.h
     )
     
-    qt5_wrap_cpp(
+    cc_qt_wrap_cpp(
         moc
         ${hdr}
     )
     
-    qt5_wrap_ui(
+    cc_qt_wrap_ui(
         ui
         SerialSocketConfigWidget.ui
     )
     
     add_library (${name} MODULE ${src} ${moc} ${ui})
-    target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt5::SerialPort Qt5::Widgets Qt5::Core)
+    target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::SerialPort Qt::Widgets Qt::Core)
     
     if (CC_TOOLS_QT_INSTALL_PLUGINS)
         install (
@@ -52,7 +52,7 @@ endfunction()
 
 ######################################################################
 
-find_package(Qt5 OPTIONAL_COMPONENTS SerialPort)
+cc_find_qt_components (SerialPort)
 
 include_directories (
     ${CMAKE_CURRENT_BINARY_DIR}

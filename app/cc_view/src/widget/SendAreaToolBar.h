@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,10 +22,10 @@
 
 CC_DISABLE_WARNINGS()
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QAction>
 CC_ENABLE_WARNINGS()
 
 #include "GuiAppMgr.h"
+#include "ActionWrap.h"
 
 namespace cc_tools_qt
 {

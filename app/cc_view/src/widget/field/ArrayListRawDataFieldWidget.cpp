@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -36,12 +36,15 @@ ArrayListRawDataFieldWidget::ArrayListRawDataFieldWidget(
     setSeparatorWidget(m_ui.m_sepLine);
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
+    refresh();
+
     connect(
         m_ui.m_valuePlainTextEdit, SIGNAL(textChanged()),
         this, SLOT(valueChanged()));
 
-
-    refresh();
+    connect(
+        m_ui.m_showAllPushButton, SIGNAL(clicked()),
+        this, SLOT(showAllPressed()));
 }
 
 ArrayListRawDataFieldWidget::~ArrayListRawDataFieldWidget() noexcept = default;
@@ -71,7 +74,7 @@ void ArrayListRawDataFieldWidget::refreshImpl()
 
     if (valueUpdateNeeded) {
         auto curs = m_ui.m_valuePlainTextEdit->textCursor();
-        auto newPosition = std::min(curs.position(), value.size());
+        auto newPosition = std::min(curs.position(), static_cast<int>(value.size()));
         assert(m_ui.m_valuePlainTextEdit != nullptr);
         m_ui.m_valuePlainTextEdit->setPlainText(value);
         curs.setPosition(newPosition);
@@ -84,12 +87,23 @@ void ArrayListRawDataFieldWidget::refreshImpl()
     setValidityStyleSheet(*m_ui.m_valuePlainTextEdit, valid);
     setValidityStyleSheet(*m_ui.m_serValuePlainTextEdit, valid);
     setValidityStyleSheet(*m_ui.m_serBackLabel, valid);
+
+    m_ui.m_showAllWidget->setVisible(m_wrapper->isTruncated());
 }
 
 void ArrayListRawDataFieldWidget::editEnabledUpdatedImpl()
 {
     bool readonly = !isEditEnabled();
     m_ui.m_valuePlainTextEdit->setReadOnly(readonly);
+    if (readonly) {
+        return;
+    }
+
+    bool refreshNeeded = m_wrapper->isTruncated();
+    m_wrapper->setForcedShowAll(true);
+    if (refreshNeeded) {
+        refresh();
+    }
 }
 
 void ArrayListRawDataFieldWidget::valueChanged()
@@ -119,8 +133,16 @@ void ArrayListRawDataFieldWidget::valueChanged()
     if (!m_wrapper->canWrite()) {
         m_wrapper->setValue(oldValue);
     }
+
+    m_wrapper->setForcedShowAll(true);
     refresh();
     emitFieldUpdated();
+}
+
+void ArrayListRawDataFieldWidget::showAllPressed()
+{
+    m_wrapper->setForcedShowAll(true);
+    refresh();
 }
 
 }  // namespace cc_tools_qt

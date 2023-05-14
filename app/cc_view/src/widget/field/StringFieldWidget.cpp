@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -54,7 +54,7 @@ void StringFieldWidget::refreshImpl()
     auto value = m_wrapper->getValue();
     if (m_ui.m_valuePlainTextEdit->toPlainText() != value) {
         auto curs = m_ui.m_valuePlainTextEdit->textCursor();
-        auto newPosition = std::min(curs.position(), value.size());
+        auto newPosition = std::min(curs.position(), static_cast<int>(value.size()));
         m_ui.m_valuePlainTextEdit->setPlainText(value);
         curs.setPosition(newPosition);
         m_ui.m_valuePlainTextEdit->setTextCursor(curs);

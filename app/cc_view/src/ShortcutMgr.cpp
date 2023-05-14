@@ -1,5 +1,5 @@
 //
-// Copyright 2019 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2019 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -94,6 +94,7 @@ void ShortcutMgr::createInitialMap()
         /* Key_SaveSend */ "Ctrl+V,S",
         /* Key_SaveRecv */ "Ctrl+V,R",
         /* Key_Receive */ "F5",
+        /* Key_EditFilter */ "Ctrl+Shift+F",
     };
 
     static const std::size_t KeysSize = std::extent<decltype(Keys)>::value;

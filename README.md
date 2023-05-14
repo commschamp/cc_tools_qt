@@ -4,7 +4,7 @@ develop, monitor and debug custom binary communication protocols, that were
 developed using the [COMMS Library](https://github.com/commschamp/comms). 
 All the applications are plug-in based, i.e. plug-ins are used to define 
 I/O socket, data filters, and the custom protocol itself. The tools
-use [Qt5](http://www.qt.io/) framework for GUI interfaces as well as loading
+use [Qt](http://www.qt.io/) framework for GUI interfaces as well as loading
 and managing plug-ins.
 
 The current list of available applications is below. Please refer to the
@@ -39,11 +39,44 @@ connections from TCP/IP clients, sends and receives data to/from them.
 side of TCP/IP connection, can be used to monitor traffic of the messages between
 remote a client and a server.
 - **udp_socket** - Generic (client/server) UDP/IP socket.
+- **ssl_client_socket** - Client secure (SSL/TLS) connection socket.
 - **raw_data_protocol** - Protocol definition that defines only a single message
 type with one field of unlimited length data. It can be used to review the
 raw data being received from I/O socket.
 
-### Developing Custom Socket/Filter/Protocol Plugin
+# How to Build
+In addition to the [Qt](http://www.qt.io/) framework, this project depends on the 
+[COMMS Library](https://github.com/commschamp/comms) as well and tries 
+to find it through invocation of the `find_package()` cmake function. There is a need to 
+provide its location using **CMAKE_PREFIX_PATH** variable.
+```
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=/path/to/install/dir -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/path/to/comms/install
+cmake --build . --target install
+```
+
+For Windows platfrom there may be a need to also add a Qt installation path to the **CMAKE_PREFIX_PATH** as 
+well as build extra **deploy_qt** target to deploy the Qt libraries into the installation directory.
+```
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=/path/to/install/dir -DCMAKE_BUILD_TYPE=Release ^
+    -DCMAKE_PREFIX_PATH=/path/to/comms/install;/path/to/qt/install
+cmake --build . --target install
+cmake --build . --target deploy_qt    
+```
+
+The build should support both Qt5 (default) and Qt6. It is possible to force usage of 
+specific Qt major version by using **CC_TOOLS_QT_MAJOR_QT_VERSION** cmake variable.
+```
+cmake -DCC_TOOLS_QT_MAJOR_QT_VERSION=6 ...
+```
+
+It is highly recommended to open main[CMakeLists.txt](CMakeLists.txt) file and review the available
+configuration options and variables.
+
+# Developing Custom Socket/Filter/Protocol Plugin
 The full tutorial as well as API documentation can be downloaded as
 **doc_cc_tools_qt_vX.zip** archive from
 from [release artefacts](https://github.com/commschamp/cc_tools_qt/releases).

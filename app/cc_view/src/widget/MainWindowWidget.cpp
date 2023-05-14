@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 
 CC_DISABLE_WARNINGS()
 #include <QtWidgets/QSplitter>
-#include <QtWidgets/QShortcut>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMessageBox>
 #include <QtGui/QIcon>
@@ -34,6 +33,7 @@ CC_ENABLE_WARNINGS()
 #include "LeftPaneWidget.h"
 #include "RightPaneWidget.h"
 #include "MessageUpdateDialog.h"
+#include "MessagesFilterDialog.h"
 #include "RawHexDataDialog.h"
 #include "PluginConfigDialog.h"
 #include "GuiAppMgr.h"
@@ -41,6 +41,7 @@ CC_ENABLE_WARNINGS()
 #include "icon.h"
 #include "MainToolbar.h"
 #include "MsgCommentDialog.h"
+#include "ShortcutWrap.h"
 
 namespace cc_tools_qt
 {
@@ -111,6 +112,9 @@ MainWindowWidget::MainWindowWidget(QWidget* parentObj)
     connect(
         m_ui.m_actionAbout, SIGNAL(triggered()),
         this, SLOT(aboutInfo()));
+    connect(
+        guiAppMgr, SIGNAL(sigRecvFilterDialog(ProtocolPtr)),
+        this, SLOT(recvFilterDialog(ProtocolPtr)));        
 }
 
 MainWindowWidget::~MainWindowWidget() noexcept
@@ -276,6 +280,16 @@ void MainWindowWidget::aboutInfo()
         "<a href=\"http://www.fatcow.com/free-icons\">FatCow</a>");
 
     QMessageBox::information(this, tr("About"), AboutTxt);
+}
+
+void MainWindowWidget::recvFilterDialog(ProtocolPtr protocol)
+{
+    static_cast<void>(protocol);
+    auto* guiAppMgr = GuiAppMgr::instance();
+    GuiAppMgr::FilteredMessages hiddenMessages = guiAppMgr->getFilteredMessages();
+    MessagesFilterDialog dialog(hiddenMessages, std::move(protocol), this);
+    dialog.exec();
+    guiAppMgr->setFilteredMessages(std::move(hiddenMessages));
 }
 
 void MainWindowWidget::clearCustomToolbarActions()

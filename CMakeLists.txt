@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.1)
+cmake_minimum_required (VERSION 3.11)
 project ("cc_tools_qt")
 
 # Available options
@@ -14,6 +14,9 @@ option (CC_TOOLS_QT_WARN_AS_ERR "Treat warning as error" ON)
 option (CC_TOOLS_QT_USE_CCACHE "Use ccache on UNIX systems if it's available" ON)
 option (CC_TOOLS_QT_SKIP_CXX_STANDARD_FORCING "Do NOT force C++ standard to C++11, use compiler's default one." ON)
 option (CC_TOOLS_QT_STATIC_RUNTIME "Enable/Disable static runtime" OFF)
+
+# Extra configuration variables
+set (CC_TOOLS_QT_MAJOR_QT_VERSION 5 CACHE STRING "Major Qt version")
 
 #######################################################################
 
@@ -126,7 +129,8 @@ include_directories (
 
 #######################################################################
 
-find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
+include (${PROJECT_SOURCE_DIR}/cmake/CC_FindQt.cmake)
+cc_find_qt_major ()
 
 add_subdirectory (lib)
 add_subdirectory (plugin)

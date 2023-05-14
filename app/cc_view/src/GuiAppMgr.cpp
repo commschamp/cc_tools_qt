@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -119,6 +119,29 @@ void GuiAppMgr::msgCommentUpdated(MessagePtr msg)
     emit sigMsgCommentUpdated(std::move(msg));
 }
 
+const GuiAppMgr::FilteredMessages& GuiAppMgr::getFilteredMessages() const
+{
+    return m_filteredMessages;
+}
+
+void GuiAppMgr::setFilteredMessages(FilteredMessages&& filteredMessages)
+{
+    if (filteredMessages == m_filteredMessages) {
+        return;
+    }
+    
+    m_filteredMessages = std::move(filteredMessages);
+
+    if (recvListApplyFilter()) {
+        refreshRecvList();
+    }
+}
+
+QString GuiAppMgr::messageDesc(const Message& msg)
+{
+    return QString("(%1) %2").arg(msg.idAsString()).arg(msg.name());
+}
+
 void GuiAppMgr::pluginsEditClicked()
 {
     emit sigPluginsEditDialog();
@@ -183,6 +206,11 @@ void GuiAppMgr::recvClearClicked()
     clearRecvList(true);
 }
 
+void GuiAppMgr::recvEditFilterClicked()
+{
+    emit sigRecvFilterDialog(MsgMgrG::instanceRef().getProtocol());
+}
+
 void GuiAppMgr::recvShowRecvToggled(bool checked)
 {
     updateRecvListMode(RecvListMode_ShowReceived, checked);
@@ -196,6 +224,11 @@ void GuiAppMgr::recvShowSentToggled(bool checked)
 void GuiAppMgr::recvShowGarbageToggled(bool checked)
 {
     updateRecvListMode(RecvListMode_ShowGarbage, checked);
+}
+
+void GuiAppMgr::recvApplyFilterToggled(bool checked)
+{
+    updateRecvListMode(RecvListMode_ApplyFilter, checked);
 }
 
 void GuiAppMgr::sendStartClicked()
@@ -422,6 +455,11 @@ bool GuiAppMgr::recvListShowsSent() const
 bool GuiAppMgr::recvListShowsGarbage() const
 {
     return (m_recvListMode & RecvListMode_ShowGarbage) != 0;
+}
+
+bool GuiAppMgr::recvListApplyFilter() const
+{
+    return (m_recvListMode & RecvListMode_ApplyFilter) != 0;
 }
 
 unsigned GuiAppMgr::recvListModeMask() const
@@ -867,15 +905,26 @@ bool GuiAppMgr::canAddToRecvList(
 {
     assert((type == MsgType::Received) || (type == MsgType::Sent));
 
-    if (type == MsgType::Sent) {
-        return recvListShowsSent();
+    if (msg.idAsString().isEmpty()) {
+        assert(type == MsgType::Received);
+        return recvListShowsGarbage();
     }
 
-    if (!msg.idAsString().isEmpty()) {
-        return recvListShowsReceived();
+    if ((type == MsgType::Sent) && (!recvListShowsSent())) {
+        return false;
     }
 
-    return recvListShowsGarbage();
+    if ((type == MsgType::Received) && (!recvListShowsReceived())) {
+        return false;
+    }
+
+    if (!recvListApplyFilter()) {
+        return true;
+    }
+
+    auto desc = messageDesc(msg);
+    auto iter = std::lower_bound(m_filteredMessages.begin(), m_filteredMessages.end(), desc);
+    return (iter == m_filteredMessages.end()) || (*iter != desc);
 }
 
 void GuiAppMgr::decRecvListCount()

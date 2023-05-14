@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -173,6 +173,19 @@ const QIcon& dup()
     static const QIcon iconObj(":/image/msg_copy.png");
     return iconObj;
 }
+
+const QIcon& filterEdit()
+{
+    static const QIcon iconObj(":/image/filter_advanced.png");
+    return iconObj;
+}
+
+const QIcon& filterApply()
+{
+    static const QIcon iconObj(":/image/filter_reapply.png");
+    return iconObj;
+}
+
 
 }  // namespace icon
 

@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -120,6 +120,7 @@ QString RecvMsgListWidget::getTitlePrefix()
 {
     auto* guiAppMgr = GuiAppMgr::instance();
     assert(guiAppMgr != nullptr);
+
     if (guiAppMgr->recvListShowsReceived() && guiAppMgr->recvListShowsSent()) {
         static const QString Str("All Messages");
         return Str;

@@ -1,8 +1,8 @@
 function (plugin_tcp_server_socket)
     set (name "tcp_server_socket")
     
-    if (NOT TARGET Qt5::Network)
-        message(WARNING "Can NOT build ${name} due to missing Qt5Network library")
+    if (NOT TARGET Qt::Network)
+        message(WARNING "Can NOT build ${name} due to missing Qt::Network library")
         return()
     endif ()
 
@@ -29,19 +29,19 @@ function (plugin_tcp_server_socket)
         SocketConfigWidget.h
     )
     
-    qt5_wrap_cpp(
+    cc_qt_wrap_cpp(
         moc
         ${hdr}
     )
     
-    qt5_wrap_ui(
+    cc_qt_wrap_ui(
         ui
         SocketConfigWidget.ui
     )
     
     
     add_library (${name} MODULE ${src} ${moc} ${ui})
-    target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt5::Network Qt5::Widgets Qt5::Core)
+    target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Network Qt::Widgets Qt::Core)
     
     if (CC_TOOLS_QT_INSTALL_PLUGINS)
         install (
@@ -53,7 +53,7 @@ endfunction()
 
 ######################################################################
 
-find_package(Qt5 OPTIONAL_COMPONENTS Network)
+cc_find_qt_components (Network)
 
 include_directories (
     ${CMAKE_CURRENT_BINARY_DIR}

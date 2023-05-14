@@ -31,6 +31,7 @@ function (bin_cc_view)
         widget/PluginConfigDialog.cpp
         widget/MsgCommentDialog.cpp
         widget/field/FieldWidget.cpp
+        widget/MessagesFilterDialog.cpp
         widget/field/ShortIntValueFieldWidget.cpp
         widget/field/LongIntValueFieldWidget.cpp
         widget/field/LongLongIntValueFieldWidget.cpp
@@ -51,7 +52,7 @@ function (bin_cc_view)
         widget/field/SpecialValueWidget.cpp
     )
     
-    qt5_wrap_cpp(
+    cc_qt_wrap_cpp(
         moc
         GuiAppMgr.h
         ShortcutMgr.h
@@ -71,6 +72,7 @@ function (bin_cc_view)
         widget/MainToolbar.h
         widget/DefaultMessageDisplayWidget.h
         widget/MsgCommentDialog.h
+        widget/MessagesFilterDialog.h
         widget/field/FieldWidget.h 
         widget/field/ShortIntValueFieldWidget.h
         widget/field/LongIntValueFieldWidget.h
@@ -91,7 +93,7 @@ function (bin_cc_view)
         widget/field/SpecialValueWidget.h
     )
     
-    qt5_wrap_ui(
+    cc_qt_wrap_ui(
         ui
         ui/MainWindowWidget.ui
         ui/MsgListWidget.ui
@@ -118,9 +120,10 @@ function (bin_cc_view)
         ui/UnknownValueFieldWidget.ui
         ui/SpecialValueWidget.ui
         ui/MsgCommentDialog.ui
+        ui/MessagesFilterDialog.ui
     )
     
-    qt5_add_resources(resources ${CMAKE_CURRENT_SOURCE_DIR}/ui.qrc)
+    cc_qt_add_resources(resources ${CMAKE_CURRENT_SOURCE_DIR}/ui.qrc)
 
     set (gui_exe)
     if (WIN32 AND ("${CMAKE_BUILD_TYPE}" STREQUAL "Release"))
@@ -128,7 +131,7 @@ function (bin_cc_view)
     endif ()
 
     add_executable(${name} ${gui_exe} ${src} ${moc} ${ui} ${resources})
-    target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt5::Widgets Qt5::Core)
+    target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Widgets Qt::Core)
     
     if (CC_TOOLS_QT_INSTALL_APPS)
         install (

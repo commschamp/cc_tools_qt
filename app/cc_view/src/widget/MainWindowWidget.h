@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -63,6 +63,7 @@ private slots:
     void saveSendMsgsDialog();
     void msgCommentDialog(MessagePtr msg);
     void aboutInfo();
+    void recvFilterDialog(ProtocolPtr protocol);
 
 private:
     void clearCustomToolbarActions();

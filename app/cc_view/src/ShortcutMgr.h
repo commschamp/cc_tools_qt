@@ -1,5 +1,5 @@
 //
-// Copyright 2019 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2019 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -25,8 +25,9 @@
 CC_DISABLE_WARNINGS()
 #include <QtCore/QObject>
 #include <QtGui/QKeySequence>
-#include <QtWidgets/QAction>
 CC_ENABLE_WARNINGS()
+
+#include "ActionWrap.h"
 
 namespace cc_tools_qt
 {
@@ -62,6 +63,7 @@ public:
         Key_SaveSend,
         Key_SaveRecv,
         Key_Receive,
+        Key_EditFilter,
         Key_NumOfValues // Must be last
     };
 

@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -52,6 +52,25 @@ int ArrayListRawDataWrapper::minSize() const
 ArrayListRawDataWrapper::Ptr ArrayListRawDataWrapper::clone()
 {
     return cloneImpl();
+}
+
+bool ArrayListRawDataWrapper::getForcedShowAll() const
+{
+    return m_forcedShowAll;
+}
+
+void ArrayListRawDataWrapper::setForcedShowAll(bool val)
+{
+    m_forcedShowAll = val;
+}
+
+bool ArrayListRawDataWrapper::isTruncated() const
+{
+    if (m_forcedShowAll) {
+        return false;
+    }
+
+    return TruncateLength < length();
 }
 
 void ArrayListRawDataWrapper::dispatchImpl(FieldWrapperHandler& handler)

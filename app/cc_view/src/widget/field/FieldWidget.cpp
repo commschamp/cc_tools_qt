@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -139,7 +139,7 @@ void FieldWidget::updateValue(QLineEdit& line, const QString& value)
         return;
     }
 
-    auto cursorPos = std::min(value.size(), line.cursorPosition());
+    auto cursorPos = std::min(static_cast<int>(value.size()), line.cursorPosition());
     line.setText(value);
     line.setCursorPosition(cursorPos);
 }

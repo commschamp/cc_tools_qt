@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2021 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -23,12 +23,12 @@
 
 CC_DISABLE_WARNINGS()
 #include <QtCore/QObject>
-#include <QtWidgets/QAction>
 #include <QtGui/QIcon>
 CC_ENABLE_WARNINGS()
 
 #include "icon.h"
 #include "ShortcutMgr.h"
+#include "ActionWrap.h"
 
 namespace cc_tools_qt
 {
@@ -102,6 +102,28 @@ QAction* createClearButton(QToolBar& bar)
     return action;
 }
 
+QAction* createEditFilterButton(QToolBar& bar)
+{
+    auto* action = bar.addAction(icon::filterEdit(), "Filter Displayed Messages");
+    QObject::connect(action, SIGNAL(triggered()),
+                     GuiAppMgr::instance(), SLOT(recvEditFilterClicked()));
+    ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_EditFilter);
+    return action;
+}
+
+QAction* createApplyFilter(QToolBar& bar)
+{
+    auto guiAppMgr = GuiAppMgr::instance();
+    auto* action = bar.addAction(
+        icon::filterApply(), "Apply Filter");
+    action->setCheckable(true);
+    action->setChecked(guiAppMgr->recvListApplyFilter());
+    QObject::connect(
+        action, SIGNAL(triggered(bool)),
+        guiAppMgr, SLOT(recvApplyFilterToggled(bool)));
+    return action;
+}
+
 QAction* createShowGarbage(QToolBar& bar)
 {
     auto guiAppMgr = GuiAppMgr::instance();
@@ -152,6 +174,8 @@ RecvAreaToolBar::RecvAreaToolBar(QWidget* parentObj)
     m_dupButton(createDupButton(*this)),
     m_deleteButton(createDeleteButton(*this)),
     m_clearButton(createClearButton(*this)),
+    m_editFilterButton(createEditFilterButton(*this)),
+    m_applyFilterButton(createApplyFilter(*this)),
     m_showGarbageButton(createShowGarbage(*this)),
     m_showRecvButton(createShowReceived(*this)),
     m_showSentButton(createShowSent(*this)),
@@ -159,10 +183,10 @@ RecvAreaToolBar::RecvAreaToolBar(QWidget* parentObj)
     m_sendState(GuiAppMgr::instance()->sendState()),
     m_activeState(GuiAppMgr::instance()->getActivityState())
 {
-    insertSeparator(m_showGarbageButton);
+    insertSeparator(m_applyFilterButton);
     auto empty = new QWidget();
     empty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    insertWidget(m_showGarbageButton, empty);
+    insertWidget(m_applyFilterButton, empty);
 
     connect(
         m_startStopButton, SIGNAL(triggered()),
@@ -259,6 +283,7 @@ void RecvAreaToolBar::refresh()
     refreshDupButton();
     refreshDeleteButton();
     refreshClearButton();
+    refreshEditFilterButton();
 }
 
 void RecvAreaToolBar::refreshStartStopButton()
@@ -358,6 +383,15 @@ void RecvAreaToolBar::refreshClearButton()
     bool enabled =
         (m_activeState == ActivityState::Active) &&
         (!listEmpty());
+    button->setEnabled(enabled);
+}
+
+void RecvAreaToolBar::refreshEditFilterButton()
+{
+    auto* button = m_editFilterButton;
+    assert(button);
+    bool enabled =
+        (m_activeState == ActivityState::Active);
     button->setEnabled(enabled);
 }
 
