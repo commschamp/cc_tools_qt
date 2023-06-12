@@ -303,6 +303,7 @@ protected:
 
         dataInfo->m_timestamp = DataInfo::TimestampClock::now();
         dataInfo->m_data = std::move(data);
+        dataInfo->m_extraProperties = getExtraInfoFromMessageProperties(msg);
         return dataInfo;
     }
 
