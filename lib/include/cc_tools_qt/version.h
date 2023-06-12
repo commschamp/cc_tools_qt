@@ -77,7 +77,7 @@ constexpr unsigned version()
     return CC_TOOLS_QT_VERSION;
 }
 
-static_assert(COMMS_MAKE_VERSION(5, 2, 0) <= comms::version(),
+static_assert(COMMS_MAKE_VERSION(5, 2, 1) <= comms::version(),
     "The version of COMMS library is too old");
 
 } // namespace cc_tools_qt
