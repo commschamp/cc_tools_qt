@@ -3,7 +3,7 @@ name: Github Actions Build
 on: [push]
 
 env:
-  COMMS_BRANCH: v5.2
+  COMMS_BRANCH: v5.2.1
 
 jobs:
   build_gcc_old_ubuntu_20_04:

@@ -73,6 +73,7 @@ function (bin_cc_view)
         widget/DefaultMessageDisplayWidget.h
         widget/MsgCommentDialog.h
         widget/MessagesFilterDialog.h
+        widget/RightPaneWidget.h
         widget/field/FieldWidget.h 
         widget/field/ShortIntValueFieldWidget.h
         widget/field/LongIntValueFieldWidget.h
