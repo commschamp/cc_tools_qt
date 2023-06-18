@@ -24,14 +24,26 @@ CC_DISABLE_WARNINGS()
 #include <QtWidgets/QWidget>
 CC_ENABLE_WARNINGS()
 
+#include "MessageDisplayWidget.h"
+
 namespace cc_tools_qt
 {
 
 class RightPaneWidget : public QWidget
 {
+    Q_OBJECT
     using Base = QWidget;
 public:
     RightPaneWidget(QWidget* parentObj = nullptr);
+
+private slots:
+    void displayMessage(MessagePtr msg);    
+    void displayMessagePostponed(cc_tools_qt::MessagePtr msg, bool force);    
+    void msgUpdated();
+
+private:
+    MessageDisplayWidget* m_displayWidget = nullptr;  
+    MessagePtr m_displayedMsg;
 };
 
 }  // namespace cc_tools_qt
