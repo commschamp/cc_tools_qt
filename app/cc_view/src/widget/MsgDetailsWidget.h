@@ -52,6 +52,7 @@ signals:
 
 private slots:
     void widgetScrolled(int value);
+    void msgUpdated();
 
 private:
     Ui::MsgDetailsWidget m_ui;
