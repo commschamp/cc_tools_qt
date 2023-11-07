@@ -72,25 +72,45 @@ public:
         return m_port;
     }
 
-    void setCaFiles(const QString& value)
+    void setCaDir(const QString& value)
     {
-        m_caFiles = value;
+        m_caDir = value;
     }    
 
-    const QString& getCaFiles() const
+    const QString& getCaDir() const
     {
-        return m_caFiles;
+        return m_caDir;
     }
 
-    void setCaFormat(QSsl::EncodingFormat value)
+    void setCaDirFormat(QSsl::EncodingFormat value)
     {
-        m_caFormat = value;
+        m_caDirFormat = value;
     }    
 
-    QSsl::EncodingFormat getCaFormat() const
+    QSsl::EncodingFormat getCaDirFormat() const
     {
-        return m_caFormat;
+        return m_caDirFormat;
     }
+
+    void setCaFile(const QString& value)
+    {
+        m_caFile = value;
+    }    
+
+    const QString& getCaFile() const
+    {
+        return m_caFile;
+    }
+
+    void setCaFileFormat(QSsl::EncodingFormat value)
+    {
+        m_caFileFormat = value;
+    }    
+
+    QSsl::EncodingFormat getCaFileFormat() const
+    {
+        return m_caFileFormat;
+    }    
 
     void setVerifyMode(QSslSocket::PeerVerifyMode value)
     {
@@ -100,6 +120,16 @@ public:
     QSslSocket::PeerVerifyMode getVerifyMode() const
     {
         return m_verifyMode;
+    }
+
+    void setVerifyName(const QString& value)
+    {
+        m_verifyName = value;
+    }
+
+    const QString& getVerifyName() const
+    {
+        return m_verifyName;
     }
 
     void setSslProtocol(QSsl::SslProtocol value)
@@ -187,9 +217,12 @@ private:
     static const PortType DefaultPort = 20000;
     QString m_host;
     PortType m_port = DefaultPort;
-    QString m_caFiles;
-    QSsl::EncodingFormat m_caFormat = QSsl::Pem;
+    QString m_caDir;
+    QSsl::EncodingFormat m_caDirFormat = QSsl::Pem;
+    QString m_caFile;
+    QSsl::EncodingFormat m_caFileFormat = QSsl::Pem;
     QSslSocket::PeerVerifyMode m_verifyMode = QSslSocket::VerifyNone;
+    QString m_verifyName;
     QSsl::SslProtocol m_protocol = QSsl::SecureProtocols;
     QString m_certFile;
     QSsl::EncodingFormat m_certFormat = QSsl::Pem;
