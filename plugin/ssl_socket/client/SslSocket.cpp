@@ -85,25 +85,29 @@ bool SslSocket::socketConnectImpl()
         m_host = QHostAddress(QHostAddress::LocalHost).toString();
     }
 
-    if (!m_caFiles.isEmpty()) {
+    if ((!m_caDir.isEmpty()) || (!m_caFile.isEmpty())) {
         QSslConfiguration config;
-        auto caValues = m_caFiles.split(',');
-        for (auto& ca : caValues) {
-            if (ca.isEmpty()) {
-                continue;
-            }
 
-            if (!config.addCaCertificates(ca, m_caFormat)) {
-                static const QString FailedToAddCaError(
-                    tr("Failed to add CA certificate(s) from "));
-                reportError(FailedToAddCaError + ca);
-            }
+        static const QString FailedToAddCaError(
+            tr("Failed to add CA certificate(s) from "));        
+
+        if (!m_caDir.isEmpty()) {
+            if (!config.addCaCertificates(m_caDir + "/*", m_caDirFormat, QSslCertificate::PatternSyntax::Wildcard)) {
+                reportError(FailedToAddCaError + m_caDir);
+            }            
+        }
+
+        if (!m_caFile.isEmpty()) {
+            if (!config.addCaCertificates(m_caFile, m_caFileFormat)) {
+                reportError(FailedToAddCaError + m_caFile);
+            }                
         }
 
         m_socket.setSslConfiguration(config);
     }
 
     m_socket.setPeerVerifyMode(m_verifyMode);
+    m_socket.setPeerVerifyName(m_verifyName);
     m_socket.setProtocol(m_protocol);
 
     if (!m_certFile.isEmpty()) {

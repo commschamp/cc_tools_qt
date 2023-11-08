@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>434</width>
-    <height>372</height>
+    <width>483</width>
+    <height>456</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -71,23 +71,70 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QLabel" name="m_caLabel">
+      <widget class="QLabel" name="m_caDirLabel">
        <property name="toolTip">
-        <string>comma separated</string>
+        <string/>
        </property>
        <property name="text">
-        <string>CA (dirs/files):</string>
+        <string>CA Directory:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="m_caLineEdit"/>
+      <widget class="QLineEdit" name="m_caDirLineEdit"/>
      </item>
      <item>
-      <widget class="QComboBox" name="m_caFormatComboBox"/>
+      <widget class="QToolButton" name="m_caDirToolButton">
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="m_caDirFormatComboBox"/>
      </item>
      <item>
       <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_10">
+     <item>
+      <widget class="QLabel" name="m_caFileLabel">
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="text">
+        <string>CA File(s):</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="m_caFileLineEdit"/>
+     </item>
+     <item>
+      <widget class="QToolButton" name="m_caFileToolButton">
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="m_caFileFormatComboBox"/>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_10">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -115,6 +162,33 @@
      </item>
      <item>
       <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_9">
+     <item>
+      <widget class="QLabel" name="m_verifyNameLabel">
+       <property name="text">
+        <string>Verify Name:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="m_verifyNameLineEdit"/>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_9">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -171,6 +245,13 @@
       <widget class="QLineEdit" name="m_certLineEdit"/>
      </item>
      <item>
+      <widget class="QToolButton" name="m_certToolButton">
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QComboBox" name="m_certFormatComboBox"/>
      </item>
      <item>
@@ -199,6 +280,13 @@
      </item>
      <item>
       <widget class="QLineEdit" name="m_privKeyLineEdit"/>
+     </item>
+     <item>
+      <widget class="QToolButton" name="m_privKeyToolButton">
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QComboBox" name="m_privKeyAlgComboBox"/>

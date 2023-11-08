@@ -21,6 +21,7 @@
 #include <utility>
 
 #include <QtGlobal>
+#include <QtWidgets/QFileDialog>
 
 #include "comms/CompileControl.h"
 
@@ -145,12 +146,18 @@ SslSocketConfigWidget::SslSocketConfigWidget(
     m_ui.m_portSpinBox->setValue(
         static_cast<int>(m_socket.getPort()));
 
-    m_ui.m_caLineEdit->setText(m_socket.getCaFiles());
-    fillComboBox(encodingFormatMap(), *m_ui.m_caFormatComboBox);
-    selectComboBoxText(encodingFormatMap(), m_socket.getCaFormat(), *m_ui.m_caFormatComboBox);     
+    m_ui.m_caDirLineEdit->setText(m_socket.getCaDir());
+    fillComboBox(encodingFormatMap(), *m_ui.m_caDirFormatComboBox);
+    selectComboBoxText(encodingFormatMap(), m_socket.getCaDirFormat(), *m_ui.m_caDirFormatComboBox);     
+
+    m_ui.m_caFileLineEdit->setText(m_socket.getCaFile());
+    fillComboBox(encodingFormatMap(), *m_ui.m_caFileFormatComboBox);
+    selectComboBoxText(encodingFormatMap(), m_socket.getCaFileFormat(), *m_ui.m_caFileFormatComboBox);     
 
     fillComboBox(peerVerifyModeMap(), *m_ui.m_verifyHostComboBox);
     selectComboBoxText(peerVerifyModeMap(), m_socket.getVerifyMode(), *m_ui.m_verifyHostComboBox);
+
+    m_ui.m_verifyNameLineEdit->setText(m_socket.getVerifyName());
 
     fillComboBox(sslProtocolMap(), *m_ui.m_protocolComboBox);    
     selectComboBoxText(sslProtocolMap(), m_socket.getSslProtocol(), *m_ui.m_protocolComboBox);
@@ -176,16 +183,36 @@ SslSocketConfigWidget::SslSocketConfigWidget(
         this, SLOT(portValueChanged(int)));
 
     connect(
-        m_ui.m_caLineEdit, &QLineEdit::textChanged,
-        this, &SslSocketConfigWidget::caValueChanged);  
+        m_ui.m_caDirLineEdit, &QLineEdit::textChanged,
+        this, &SslSocketConfigWidget::caDirValueChanged);  
 
     connect(
-        m_ui.m_caFormatComboBox,  SIGNAL(currentIndexChanged(int)),
-        this, SLOT(caFormatIndexChanged(int)));     
+        m_ui.m_caDirToolButton, SIGNAL(clicked()),
+        this, SLOT(caDirSelectClicked()));
+
+    connect(
+        m_ui.m_caDirFormatComboBox,  SIGNAL(currentIndexChanged(int)),
+        this, SLOT(caDirFormatIndexChanged(int)));     
+
+    connect(
+        m_ui.m_caFileLineEdit, &QLineEdit::textChanged,
+        this, &SslSocketConfigWidget::caFileValueChanged);  
+
+    connect(
+        m_ui.m_caFileToolButton, SIGNAL(clicked()),
+        this, SLOT(caFileSelectClicked()));
+
+    connect(
+        m_ui.m_caFileFormatComboBox,  SIGNAL(currentIndexChanged(int)),
+        this, SLOT(caFileFormatIndexChanged(int)));         
 
     connect(
         m_ui.m_verifyHostComboBox,  SIGNAL(currentIndexChanged(int)),
         this, SLOT(verifyHostIndexChanged(int)));     
+
+    connect(
+        m_ui.m_verifyNameLineEdit, &QLineEdit::textChanged,
+        this, &SslSocketConfigWidget::verifyNameValueChanged);          
 
     connect(
         m_ui.m_protocolComboBox,  SIGNAL(currentIndexChanged(int)),
@@ -196,12 +223,20 @@ SslSocketConfigWidget::SslSocketConfigWidget(
         this, &SslSocketConfigWidget::certValueChanged);
 
     connect(
+        m_ui.m_certToolButton, SIGNAL(clicked()),
+        this, SLOT(certSelectClicked()));         
+
+    connect(
         m_ui.m_certFormatComboBox,  SIGNAL(currentIndexChanged(int)),
         this, SLOT(certFormatIndexChanged(int)));     
 
     connect(
         m_ui.m_privKeyLineEdit,  &QLineEdit::textChanged,
         this, &SslSocketConfigWidget::privKeyValueChanged);
+
+    connect(
+        m_ui.m_privKeyToolButton, SIGNAL(clicked()),
+        this, SLOT(privKeySelectClicked()));        
 
     connect(
         m_ui.m_privKeyAlgComboBox,  SIGNAL(currentIndexChanged(int)),
@@ -228,21 +263,64 @@ void SslSocketConfigWidget::portValueChanged(int value)
     m_socket.setPort(static_cast<PortType>(value));
 }
 
-void SslSocketConfigWidget::caValueChanged(const QString& value)
+void SslSocketConfigWidget::caDirValueChanged(const QString& value)
 {
-    m_socket.setCaFiles(value);
+    m_socket.setCaDir(value);
 }
 
-void SslSocketConfigWidget::caFormatIndexChanged(int value)
+void SslSocketConfigWidget::caDirSelectClicked()
+{
+    QString dir = 
+        QFileDialog::getExistingDirectory(
+            this, 
+            tr("Select CA Directory"),
+            m_socket.getCaDir(),
+            QFileDialog::ShowDirsOnly);
+
+    if (!dir.isEmpty()) {
+        m_ui.m_caDirLineEdit->setText(dir);
+    }
+}
+
+void SslSocketConfigWidget::caDirFormatIndexChanged(int value)
 {
     static_cast<void>(value);
-    m_socket.setCaFormat(static_cast<QSsl::EncodingFormat>(m_ui.m_caFormatComboBox->currentData().toInt()));
+    m_socket.setCaDirFormat(static_cast<QSsl::EncodingFormat>(m_ui.m_caDirFormatComboBox->currentData().toInt()));
+}
+
+void SslSocketConfigWidget::caFileValueChanged(const QString& value)
+{
+    m_socket.setCaFile(value);
+}
+
+void SslSocketConfigWidget::caFileSelectClicked()
+{
+    QString file = 
+        QFileDialog::getOpenFileName(
+            this, 
+            tr("Select CA File"),
+            m_socket.getCaFile());
+
+    if (!file.isEmpty()) {
+        m_ui.m_caFileLineEdit->setText(file);
+    }
+}
+
+void SslSocketConfigWidget::caFileFormatIndexChanged(int value)
+{
+    static_cast<void>(value);
+    m_socket.setCaFileFormat(static_cast<QSsl::EncodingFormat>(m_ui.m_caFileFormatComboBox->currentData().toInt()));
 }
 
 void SslSocketConfigWidget::verifyHostIndexChanged(int value)
 {
     static_cast<void>(value);
     m_socket.setVerifyMode(static_cast<QSslSocket::PeerVerifyMode>(m_ui.m_verifyHostComboBox->currentData().toInt()));
+}
+
+void SslSocketConfigWidget::verifyNameValueChanged(const QString& value)
+{
+    m_socket.setVerifyName(value);
 }
 
 void SslSocketConfigWidget::sslProtocolIndexChanged(int value)
@@ -256,6 +334,19 @@ void SslSocketConfigWidget::certValueChanged(const QString& value)
     m_socket.setCertFile(value);
 }
 
+void SslSocketConfigWidget::certSelectClicked()
+{
+    QString file = 
+        QFileDialog::getOpenFileName(
+            this, 
+            tr("Select Local Certificate File"),
+            m_socket.getCertFile());
+
+    if (!file.isEmpty()) {
+        m_ui.m_certLineEdit->setText(file);
+    }
+}
+
 void SslSocketConfigWidget::certFormatIndexChanged(int value)
 {
     static_cast<void>(value);
@@ -265,6 +356,19 @@ void SslSocketConfigWidget::certFormatIndexChanged(int value)
 void SslSocketConfigWidget::privKeyValueChanged(const QString& value)
 {
     m_socket.setPrivKeyFile(value);
+}
+
+void SslSocketConfigWidget::privKeySelectClicked()
+{
+    QString file = 
+        QFileDialog::getOpenFileName(
+            this, 
+            tr("Select Private Key File"),
+            m_socket.getPrivKeyFile());
+
+    if (!file.isEmpty()) {
+        m_ui.m_privKeyLineEdit->setText(file);
+    }
 }
 
 void SslSocketConfigWidget::privKeyAlgIndexChanged(int value)

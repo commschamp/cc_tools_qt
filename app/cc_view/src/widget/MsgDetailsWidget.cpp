@@ -21,6 +21,7 @@
 
 CC_DISABLE_WARNINGS()
 #include <QtWidgets/QScrollBar>
+#include <QtWidgets/QWidget>
 CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/property/message.h"
@@ -36,6 +37,20 @@ const QString& getTitlePrefix()
 {
     static const QString Str(QObject::tr("Message Details"));
     return Str;
+}
+
+void updateValidityStyle(
+    QWidget& widget,
+    bool valid,
+    const QString& invalidStylesheet)
+{
+    static const auto DefaultStylesheet = QWidget().styleSheet();
+    auto* stylesheet = &DefaultStylesheet;
+    if (!valid) {
+        stylesheet = &invalidStylesheet;
+    }
+
+    widget.setStyleSheet(*stylesheet);
 }
 
 }  // namespace
@@ -71,6 +86,10 @@ void MsgDetailsWidget::displayMessage(MessagePtr msg)
         msgWidget.get(), SIGNAL(sigMsgUpdated()),
         this, SIGNAL(sigMsgUpdated()));
 
+    connect(
+        msgWidget.get(), SIGNAL(sigMsgUpdated()),
+        this, SLOT(msgUpdated()));        
+
     m_displayedMsgWidget = msgWidget.get();
 
     auto* scrollBar = m_ui.m_scrollArea->verticalScrollBar();
@@ -96,7 +115,10 @@ void MsgDetailsWidget::updateTitle(MessagePtr msg)
         title.append(idStr);
         title.append(")");
     }
+
     m_ui.m_groupBox->setTitle(title);
+    static const QString InvalidStylesheet("QGroupBox { color: red }");
+    updateValidityStyle(*m_ui.m_groupBox, msg->isValid(), InvalidStylesheet);
 }
 
 void MsgDetailsWidget::clear()
@@ -122,6 +144,15 @@ void MsgDetailsWidget::widgetScrolled(int value)
     }
 
     property::message::ScrollPos().setTo(value, *m_displayedMsg);
+}
+
+void MsgDetailsWidget::msgUpdated()
+{
+    if (sender() != m_displayedMsg.get()) {
+        return;
+    }
+
+    updateTitle(m_displayedMsg);
 }
 
 } // namespace cc_tools_qt

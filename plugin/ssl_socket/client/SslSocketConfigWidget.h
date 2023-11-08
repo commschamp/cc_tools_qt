@@ -55,13 +55,20 @@ public:
 private slots:
     void hostValueChanged(const QString& value);
     void portValueChanged(int value);
-    void caValueChanged(const QString& value);
-    void caFormatIndexChanged(int value);
+    void caDirValueChanged(const QString& value);
+    void caDirSelectClicked();
+    void caDirFormatIndexChanged(int value);
+    void caFileValueChanged(const QString& value);
+    void caFileSelectClicked();
+    void caFileFormatIndexChanged(int value);
     void verifyHostIndexChanged(int value);
+    void verifyNameValueChanged(const QString& value);
     void sslProtocolIndexChanged(int value);
     void certValueChanged(const QString& value);
+    void certSelectClicked();
     void certFormatIndexChanged(int value);
     void privKeyValueChanged(const QString& value);
+    void privKeySelectClicked();
     void privKeyAlgIndexChanged(int value);
     void privKeyFormatIndexChanged(int value);
     void privKeyPassValueChanged(const QString& value);
