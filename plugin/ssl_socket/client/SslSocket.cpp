@@ -92,7 +92,7 @@ bool SslSocket::socketConnectImpl()
             tr("Failed to add CA certificate(s) from "));        
 
         if (!m_caDir.isEmpty()) {
-            if (!config.addCaCertificates(m_caDir, m_caDirFormat)) {
+            if (!config.addCaCertificates(m_caDir + "/*", m_caDirFormat, QSslCertificate::PatternSyntax::Wildcard)) {
                 reportError(FailedToAddCaError + m_caDir);
             }            
         }
