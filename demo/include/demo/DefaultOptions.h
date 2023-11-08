@@ -192,6 +192,18 @@ struct DefaultOptions
 
             /// @brief Extra options for @ref demo::message::VariantsFields::field1
             using field1 = comms::option::EmptyOption;
+
+            /// @brief Extra options for @ref demo::message::VariantsFields::field2_var1
+            using field2_var1 = comms::option::EmptyOption;
+
+            /// @brief Extra options for @ref demo::message::VariantsFields::field2_var2
+            using field2_var2 = comms::option::EmptyOption;
+
+            /// @brief Extra options for @ref demo::message::VariantsFields::field2_var3
+            using field2_var3 = comms::option::EmptyOption;
+
+            /// @brief Extra options for @ref demo::message::VariantsFields::field2
+            using field2 = comms::option::EmptyOption;            
         };
 
         /// @brief Extra options for @ref demo::message::Bitfields message

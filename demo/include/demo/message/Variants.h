@@ -58,6 +58,12 @@ struct VariantsFields
             comms::option::FailOnInvalid<>
         >;
 
+    /// @brief field used to identify the remaining length.
+    using lengthField = 
+        comms::field::IntValue<
+            demo::FieldBase,
+            std::uint8_t>;
+
     /// @brief First type that can be stored in @ref field1 variant field.
     /// @details Identified by @ref VarId::Elem1 (0) value which is followed by
     ///     the 1 byte unsigned integer.
@@ -223,9 +229,172 @@ struct VariantsFields
         COMMS_VARIANT_MEMBERS_NAMES(val1, val2, val3);
     };
 
+    /// @brief First type that can be stored in @ref field2 variant field.
+    /// @details Identified by @ref VarId::Elem1 (0) value which is followed by
+    ///     the length and 1 byte unsigned integer.
+    class field2_var1 : public
+        comms::field::Bundle<
+            demo::FieldBase,
+            std::tuple<
+                varIdField<VarId::Elem1>,
+                lengthField,
+                comms::field::IntValue<
+                    demo::FieldBase,
+                    std::uint8_t,
+                    typename TOpt::message::VariantsFields::field1_var1
+                >
+            >,
+            comms::option::def::RemLengthMemberField<1>
+        >
+    {
+        using Base =
+            comms::field::Bundle<
+                demo::FieldBase,
+                std::tuple<
+                    varIdField<VarId::Elem1>,
+                    lengthField,
+                    comms::field::IntValue<
+                        demo::FieldBase,
+                        std::uint8_t,
+                        typename TOpt::message::VariantsFields::field1_var1
+                    >
+                >,
+                comms::option::def::RemLengthMemberField<1>
+            >;
+    public:
+        /// @brief Allow access to internal fields.
+        /// @details See definition of @b COMMS_FIELD_MEMBERS_ACCESS_NOTEMPLATE macro
+        ///     related to @b comms::field::Bundle class from COMMS library
+        ///     for details. @n
+        ///     The names are:
+        ///     @b id for @ref varIdField<VarId::Elem1>
+        ///     @b length for @ref lengthField.
+        ///     @b value for 1 byte unsigned integer field.
+        COMMS_FIELD_MEMBERS_NAMES(id, length, value);
+    };
+
+    /// @brief Second type that can be stored in @ref field2 variant field.
+    /// @details Identified by @ref VarId::Elem2 (1) value which is followed by
+    ///     the 4 bytes unsigned integer.
+    class field2_var2 : public
+        comms::field::Bundle<
+            demo::FieldBase,
+            std::tuple<
+                varIdField<VarId::Elem2>,
+                lengthField,
+                comms::field::IntValue<
+                    demo::FieldBase,
+                    std::uint32_t,
+                    typename TOpt::message::VariantsFields::field1_var2
+                >
+            >,
+            comms::option::def::RemLengthMemberField<1>
+        >
+    {
+        using Base =
+            comms::field::Bundle<
+                demo::FieldBase,
+                std::tuple<
+                    varIdField<VarId::Elem2>,
+                    lengthField,
+                    comms::field::IntValue<
+                        demo::FieldBase,
+                        std::uint32_t,
+                        typename TOpt::message::VariantsFields::field1_var2
+                    >
+                >,
+                comms::option::def::RemLengthMemberField<1>
+            >;
+    public:
+        /// @brief Allow access to internal fields.
+        /// @details See definition of @b COMMS_FIELD_MEMBERS_ACCESS_NOTEMPLATE macro
+        ///     related to @b comms::field::Bundle class from COMMS library
+        ///     for details. @n
+        ///     The names are:
+        ///     @b id for @ref varIdField<VarId::Elem1>
+        ///     @b length for @ref lengthField.
+        ///     @b value for 4 bytes unsigned integer field.
+        COMMS_FIELD_MEMBERS_NAMES(id, length, value);
+    };
+
+    /// @brief Third type that can be stored in @ref field2 variant field.
+    /// @details Identified by @ref VarId::Elem3 (2) value which is followed by
+    ///     the string prefixed with its lengths (1 byte).
+    class field2_var3 : public
+        comms::field::Bundle<
+            demo::FieldBase,
+            std::tuple<
+                varIdField<VarId::Elem3>,
+                lengthField,
+                comms::field::String<demo::FieldBase>
+            >,
+            comms::option::def::RemLengthMemberField<1>
+        >
+    {
+        using Base =
+            comms::field::Bundle<
+                demo::FieldBase,
+                std::tuple<
+                    varIdField<VarId::Elem3>,
+                    lengthField,
+                    comms::field::String<demo::FieldBase>
+                >,
+                comms::option::def::RemLengthMemberField<1>
+            >;
+    public:
+        /// @brief Allow access to internal fields.
+        /// @details See definition of @b COMMS_FIELD_MEMBERS_ACCESS_NOTEMPLATE macro
+        ///     related to @b comms::field::Bundle class from COMMS library
+        ///     for details. @n
+        ///     The names are:
+        ///     @b id for @ref varIdField<VarId::Elem1>
+        ///     @b length for @ref lengthField.
+        ///     @b value for string field.
+        COMMS_FIELD_MEMBERS_NAMES(id, length, value);
+    };    
+
+    /// @brief Variant field.
+    /// @details Can be one of the following:
+    ///     @li @ref field2_var1
+    ///     @li @ref field2_var2
+    ///     @li @ref field2_var3
+    class field2 : public
+        comms::field::Variant<
+            demo::FieldBase,
+            std::tuple<
+                field2_var1,
+                field2_var2,
+                field2_var3
+            >,
+            typename TOpt::message::VariantsFields::field2
+        >
+    {
+        using Base =
+            comms::field::Variant<
+                demo::FieldBase,
+                std::tuple<
+                    field2_var1,
+                    field2_var2,
+                    field2_var3
+                >,
+                typename TOpt::message::VariantsFields::field2
+            >;
+    public:
+        /// @brief Allow access to internal fields.
+        /// @details See definition of @b COMMS_VARIANT_MEMBERS_NAMES macro
+        ///     related to @b comms::field::Variant class from COMMS library
+        ///     for details. @n
+        ///     The names are:
+        ///     @b val1 for @ref field2_var1
+        ///     @b val2 for @ref field2_var2
+        ///     @b val3 for @ref field2_var3
+        COMMS_VARIANT_MEMBERS_NAMES(val1, val2, val3);
+    };    
+
     /// @brief All the fields bundled in std::tuple.
     using All = std::tuple<
-        field1
+        field1,
+        field2
     >;
 };
 
@@ -268,7 +437,7 @@ public:
     /// @details See definition of @b COMMS_MSG_FIELDS_NAMES macro
     ///     related to @b comms::MessageBase class from COMMS library
     ///     for details.
-    COMMS_MSG_FIELDS_NAMES(field1);
+    COMMS_MSG_FIELDS_NAMES(field1, field2);
 
     // Check serialisation lengths
     // For some reason VS2015 compiler fails when call to doMinLength()
