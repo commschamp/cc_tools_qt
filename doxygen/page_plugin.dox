@@ -1,10 +1,10 @@
 /// @page page_plugin Defining a Plugin
 /// @tableofcontents
 /// This project uses
-/// <a href="http://doc.qt.io/qt-5/qtplugin.html">QT5 Infrastructure</a>
+/// <a href="http://doc.qt.io/qt-5/qtplugin.html">Qt Infrastructure</a>
 /// to define and load plugins. The custom plugin definition shared object needs
 /// to contain its own @b Plugin class that inherits from cc_tools_qt::Plugin and
-/// uses various QT5 macros to describe itself. As an example please take
+/// uses various Qt macros to describe itself. As an example please take
 /// a look at
 /// <a href="https://github.com/commschamp/cc_tools_qt/blob/master/plugin/echo_socket/EchoSocketPlugin.h">EchoSocketPlugin.h</a> 
 /// from this project.
@@ -63,7 +63,7 @@
 /// respective configurations. Such list as well as plugins' configurations are
 /// stored in single file as human readable 
 /// <a href="https://www.w3schools.com/js/js_json_objects.asp">json object</a>.
-/// The QT5 framework implements its own parsing and handling of such files. The
+/// The Qt framework implements its own parsing and handling of such files. The
 /// parsed json object is returned as 
 /// <a href="http://doc.qt.io/qt-5/qvariant.html#QVariantMap-typedef">QVariantMap</a>.
 /// When requested, every plugin must be able to provide its own configuration

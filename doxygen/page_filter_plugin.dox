@@ -21,7 +21,7 @@
 ///     ...
 /// };
 /// @endcode
-/// If filter implementation uses QT5 signals/slots infrastructure, it can use
+/// If filter implementation uses Qt signals/slots infrastructure, it can use
 /// multiple inheritance and extend @b QObject as well.
 /// @code
 /// class MyFilter : public QObject, public cc_tools_qt::Filter

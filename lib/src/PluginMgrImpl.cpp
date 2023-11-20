@@ -71,7 +71,7 @@ Plugin* getPlugin(QPluginLoader& loader)
 
         if (inst == nullptr) {
             std::cerr << "ERROR: The selected library \"" <<
-                loader.fileName().toStdString() << "\" is not a Qt5 plugin: " <<
+                loader.fileName().toStdString() << "\" is not a Qt plugin: " <<
                 loader.errorString().toStdString() << std::endl;
             break;
         }
