@@ -68,6 +68,6 @@ build_script:
         -DCMAKE_PREFIX_PATH="%COMMON_INSTALL_DIR%;%QTDIR%" -DCMAKE_CXX_STANDARD=%CPP_STD% ^
         -DCC_TOOLS_QT_BUILD_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=%QT_MAJOR%
     - cmake --build . --config %CONFIGURATION% --target install
-    - echo -------------------------- Deploying Qt5 ---------------------------
+    - echo -------------------------- Deploying Qt ---------------------------
     - cmake --build . --config %CONFIGURATION% --target deploy_qt
 

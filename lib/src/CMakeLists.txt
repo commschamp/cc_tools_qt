@@ -80,17 +80,17 @@ endfunction ()
 ###########################################################
 
 if (WIN32)
-    if (NOT "${Qt5_DIR}" STREQUAL "")
-        find_library(QT5PLATFORMSUPPORT_REL Qt5PlatformSupport HINTS "${Qt5_DIR}/lib")
-        find_library(QT5PLATFORMSUPPORT_DEB Qt5PlatformSupportd HINTS "${Qt5_DIR}/lib")
-        set(QT5PLATFORMSUPPORT optimized ${QT5PLATFORMSUPPORT_REL} debug ${QT5PLATFORMSUPPORT_DEB})
+    if (NOT "${Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}_DIR}" STREQUAL "")
+        find_library(QTPLATFORMSUPPORT_REL Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}PlatformSupport HINTS "${Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}_DIR}/lib")
+        find_library(QTPLATFORMSUPPORT_DEB Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}PlatformSupportd HINTS "${Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}_DIR}/lib")
+        set(QTPLATFORMSUPPORT optimized ${QTPLATFORMSUPPORT_REL} debug ${QTPLATFORMSUPPORT_DEB})
     endif ()
 
-    if (NOT QT5PLATFORMSUPPORT)
-        set (QT5PLATFORMSUPPORT)
+    if (NOT QTPLATFORMSUPPORT)
+        set (QTPLATFORMSUPPORT)
     endif ()
     
-    set (CC_PLATFORM_SPECIFIC ${QT5PLATFORMSUPPORT} Setupapi.lib Ws2_32.lib opengl32.lib imm32.lib winmm.lib)
+    set (CC_PLATFORM_SPECIFIC ${QTPLATFORMSUPPORT} Setupapi.lib Ws2_32.lib opengl32.lib imm32.lib winmm.lib)
 
 endif ()   
 

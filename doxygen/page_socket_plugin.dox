@@ -18,7 +18,7 @@
 ///     ...
 /// };
 /// @endcode
-/// If socket implementation uses QT5 signals/slots infrastructure, it can use
+/// If socket implementation uses Qt signals/slots infrastructure, it can use
 /// multiple inheritance and extend @b QObject as well.
 /// @code
 /// class MySocket : public QObject, public cc_tools_qt::Socket
@@ -68,7 +68,7 @@
 /// @subsection page_socket_plugin_data_recv Data Reception
 /// The @b socket object is expected to detect and report incoming data. It must
 /// be done @b asynchronously, hence it is recommended to use available signal/slot
-/// mechanism provided by the QT5 framework. However, if can also be done
+/// mechanism provided by the Qt framework. However, if can also be done
 /// using other third party code. In this case it is recommended to do such thing
 /// in separate thread (especially if there are blocking calls involved) and communicate 
 /// the updates to the main thread using the same signal/slot facility.

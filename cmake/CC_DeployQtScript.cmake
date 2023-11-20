@@ -1,11 +1,11 @@
-# This script deploys Qt5 libraries on Windows.
+# This script deploys Qt libraries on Windows.
 # 
 # Expected input variables
 # CC_BIN_DIR - Directory where all binaries are installed
 # CC_PLUGIN_DIR - Directory where all plugins are installed
 
 if (NOT WIN32)
-    message (FATAL_ERROR "Qt5 deployment works only on Windows.")
+    message (FATAL_ERROR "Qt deployment works only on Windows.")
 endif ()
 
 if ("${CC_BIN_DIR}" STREQUAL "")
