@@ -21,6 +21,7 @@
 #include "comms/CompileControl.h"
 
 CC_DISABLE_WARNINGS()
+#include <QtCore/QtGlobal>
 #include <QtSerialPort/QSerialPortInfo>
 CC_ENABLE_WARNINGS()
 
@@ -49,13 +50,19 @@ SerialSocket::SerialSocket()
         m_name = firstDev->systemLocation();
     }
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0) 
+    connect(
+        &m_serial, &QSerialPort::errorOccurred,
+        this, &SerialSocket::errorOccurred);
+#else // #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0) 
     connect(
         &m_serial, SIGNAL(error(QSerialPort::SerialPortError)),
         this, SLOT(errorOccurred(QSerialPort::SerialPortError)));
+#endif // #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)         
 
     connect(
-        &m_serial, SIGNAL(readyRead()),
-        this, SLOT(performRead()));
+        &m_serial, &QSerialPort::readyRead,
+        this, &SerialSocket::performRead);
 }
 
 SerialSocket::~SerialSocket() noexcept = default;

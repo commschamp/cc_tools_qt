@@ -351,7 +351,7 @@ void MsgMgrImpl::socketDataReceived(DataInfoPtr dataInfoPtr)
     }
 
     QList<DataInfoPtr> data;
-    data.append(std::move(dataInfoPtr));
+    data.append(dataInfoPtr);
     for (auto filt : m_filters) {
         assert(filt);
 
