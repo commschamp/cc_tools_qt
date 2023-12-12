@@ -20,6 +20,7 @@
 #include "comms/CompileControl.h"
 
 CC_DISABLE_WARNINGS()
+#include <QtCore/QtGlobal>
 #include <QtNetwork/QHostAddress>
 CC_ENABLE_WARNINGS()
 
@@ -48,12 +49,12 @@ const QString ToPropName("tcp.to");
 Socket::Socket()
 {
     QObject::connect(
-        &m_server, SIGNAL(newConnection()),
-        this, SLOT(newConnection()));
+        &m_server, &QTcpServer::newConnection,
+        this, &Socket::newConnection);
 
     QObject::connect(
-        &m_server, SIGNAL(acceptError(QAbstractSocket::SocketError)),
-        this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));
+        &m_server, &QTcpServer::acceptError,
+        this, &Socket::socketErrorOccurred);
 }
 
 Socket::~Socket() noexcept
@@ -146,25 +147,39 @@ void Socket::newConnection()
 {
     auto *newConnSocket = m_server.nextPendingConnection();
     connect(
-        newConnSocket, SIGNAL(disconnected()),
-        this, SLOT(clientConnectionTerminated()));
+        newConnSocket, &QTcpSocket::disconnected,
+        this, &Socket::clientConnectionTerminated);
+        
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    connect(
+        newConnSocket, &QTcpSocket::errorOccurred,
+        this, &Socket::socketErrorOccurred);
+#else // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
     connect(
         newConnSocket, SIGNAL(error(QAbstractSocket::SocketError)),
         this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));
+#endif // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
 
     ConnectionSocketPtr connectionSocket(new QTcpSocket);
     connect(
-        connectionSocket.get(), SIGNAL(connected()),
-        this, SLOT(connectionSocketConnected()));
+        connectionSocket.get(), &QTcpSocket::connected,
+        this, &Socket::connectionSocketConnected);
     connect(
-        connectionSocket.get(), SIGNAL(disconnected()),
-        this, SLOT(connectionSocketDisconnected()));
+        connectionSocket.get(), &QTcpSocket::disconnected,
+        this, &Socket::connectionSocketDisconnected);
     connect(
-        connectionSocket.get(), SIGNAL(readyRead()),
-        this, SLOT(readFromConnectionSocket()));
+        connectionSocket.get(), &QTcpSocket::readyRead,
+        this, &Socket::readFromConnectionSocket);
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    connect(
+        connectionSocket.get(), &QTcpSocket::errorOccurred,
+        this, &Socket::socketErrorOccurred);
+#else // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
     connect(
         connectionSocket.get(), SIGNAL(error(QAbstractSocket::SocketError)),
         this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));
+#endif        
 
     if (m_remoteHost.isEmpty()) {
         m_remoteHost = QHostAddress(QHostAddress::LocalHost).toString();

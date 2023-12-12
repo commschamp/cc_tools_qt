@@ -50,14 +50,17 @@ const QString ToPropName("ssl.to");
 SslSocket::SslSocket()
 {
     connect(
-        &m_socket, SIGNAL(disconnected()),
-        this, SLOT(socketDisconnected()));
+        &m_socket, &QSslSocket::disconnected,
+        this, &SslSocket::socketDisconnected);
+
     connect(
-        &m_socket, SIGNAL(readyRead()),
-        this, SLOT(readFromSocket()));
+        &m_socket, &QSslSocket::readyRead,
+        this, &SslSocket::readFromSocket);
+
     connect(
-        &m_socket, SIGNAL(error(QAbstractSocket::SocketError)),
-        this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));
+        &m_socket, &QSslSocket::errorOccurred,
+        this, &SslSocket::socketErrorOccurred);
+
     connect(
         &m_socket, SIGNAL(sslErrors(const QList<QSslError>&)),
         this, SLOT(sslErrorsOccurred(const QList<QSslError>&)));        

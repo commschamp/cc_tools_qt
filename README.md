@@ -1,5 +1,5 @@
 # Overview
-This project also contains a set of tool applications , which can be used to 
+This project contains a set of tool applications , which can be used to
 develop, monitor and debug custom binary communication protocols, that were
 developed using the [COMMS Library](https://github.com/commschamp/comms). 
 All the applications are plug-in based, i.e. plug-ins are used to define 
@@ -73,7 +73,7 @@ specific Qt major version by using **CC_TOOLS_QT_MAJOR_QT_VERSION** cmake variab
 cmake -DCC_TOOLS_QT_MAJOR_QT_VERSION=6 ...
 ```
 
-It is highly recommended to open main[CMakeLists.txt](CMakeLists.txt) file and review the available
+It is highly recommended to open main [CMakeLists.txt](CMakeLists.txt) file and review the available
 configuration options and variables.
 
 # Developing Custom Socket/Filter/Protocol Plugin

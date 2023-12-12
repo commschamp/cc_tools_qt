@@ -20,6 +20,7 @@
 #include "comms/CompileControl.h"
 
 CC_DISABLE_WARNINGS()
+#include <QtCore/QtGlobal>
 #include <QtNetwork/QHostAddress>
 CC_ENABLE_WARNINGS()
 
@@ -49,14 +50,21 @@ const QString ToPropName("tcp.to");
 Socket::Socket()
 {
     connect(
-        &m_socket, SIGNAL(disconnected()),
-        this, SLOT(socketDisconnected()));
+        &m_socket, &QTcpSocket::disconnected,
+        this, &Socket::socketDisconnected);
     connect(
-        &m_socket, SIGNAL(readyRead()),
-        this, SLOT(readFromSocket()));
+        &m_socket, &QTcpSocket::readyRead,
+        this, &Socket::readFromSocket);
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
+    connect(
+        &m_socket, &QTcpSocket::errorOccurred,
+        this, &Socket::socketErrorOccurred);
+#else // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     connect(
         &m_socket, SIGNAL(error(QAbstractSocket::SocketError)),
         this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));
+#endif        
 }
 
 Socket::~Socket() noexcept

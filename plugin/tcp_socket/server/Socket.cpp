@@ -20,6 +20,7 @@
 #include "comms/CompileControl.h"
 
 CC_DISABLE_WARNINGS()
+#include <QtCore/QtGlobal>
 #include <QtNetwork/QHostAddress>
 CC_ENABLE_WARNINGS()
 
@@ -48,12 +49,12 @@ const QString ToPropName("tcp.to");
 Socket::Socket()
 {
     QObject::connect(
-        &m_server, SIGNAL(acceptError(QAbstractSocket::SocketError)),
-        this, SLOT(acceptErrorOccurred(QAbstractSocket::SocketError)));
+        &m_server, &QTcpServer::acceptError,
+        this, &Socket::acceptErrorOccurred);
 
     QObject::connect(
-        &m_server, SIGNAL(newConnection()),
-        this, SLOT(newConnection()));
+        &m_server, &QTcpServer::newConnection,
+        this, &Socket::newConnection);
 }
 
 Socket::~Socket() noexcept
@@ -128,17 +129,24 @@ void Socket::newConnection()
     auto *newConnSocket = m_server.nextPendingConnection();
     m_sockets.push_back(newConnSocket);
     connect(
-        newConnSocket, SIGNAL(disconnected()),
-        newConnSocket, SLOT(deleteLater()));
+        newConnSocket, &QTcpSocket::disconnected,
+        newConnSocket, &Socket::deleteLater);
     connect(
-        newConnSocket, SIGNAL(disconnected()),
-        this, SLOT(connectionTerminated()));
+        newConnSocket, &QTcpSocket::disconnected,
+        this, &Socket::connectionTerminated);
     connect(
-        newConnSocket, SIGNAL(readyRead()),
-        this, SLOT(readFromSocket()));
+        newConnSocket, &QTcpSocket::readyRead,
+        this, &Socket::readFromSocket);
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)  
+    connect(
+        newConnSocket, &QTcpSocket::errorOccurred,
+        this, &Socket::socketErrorOccurred);      
+#else // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)                
     connect(
         newConnSocket, SIGNAL(error(QAbstractSocket::SocketError)),
         this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));
+#endif // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)                
 }
 
 void Socket::connectionTerminated()

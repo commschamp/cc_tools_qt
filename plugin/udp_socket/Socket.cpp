@@ -21,6 +21,7 @@
 #include "comms/CompileControl.h"
 
 CC_DISABLE_WARNINGS()
+#include <QtCore/QtGlobal>
 #include <QtNetwork/QHostAddress>
 CC_ENABLE_WARNINGS()
 
@@ -54,20 +55,31 @@ Socket::Socket()
     m_broadcastPropName(DefaultBroadcastPropName)
 {
     connect(
-        &m_socket, SIGNAL(disconnected()),
-        this, SLOT(socketDisconnected()));
+        &m_socket, &QUdpSocket::disconnected,
+        this, &Socket::socketDisconnected);
     connect(
-        &m_socket, SIGNAL(readyRead()),
-        this, SLOT(readFromSocket()));
+        &m_socket, &QUdpSocket::readyRead,
+        this, &Socket::readFromSocket);
+    connect(
+        &m_broadcastSocket, &QUdpSocket::readyRead,
+        this, &Socket::readFromBroadcastSocket);
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
+    connect(
+        &m_socket, &QUdpSocket::errorOccurred,
+        this, &Socket::socketErrorOccurred);  
+
+    connect(
+        &m_broadcastSocket, &QUdpSocket::errorOccurred,
+        this, &Socket::socketErrorOccurred);
+#else // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
     connect(
         &m_socket, SIGNAL(error(QAbstractSocket::SocketError)),
-        this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));
-    connect(
-        &m_broadcastSocket, SIGNAL(readyRead()),
-        this, SLOT(readFromBroadcastSocket()));
+        this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));        
     connect(
         &m_broadcastSocket, SIGNAL(error(QAbstractSocket::SocketError)),
         this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));
+#endif // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)                
 }
 
 Socket::~Socket() noexcept
