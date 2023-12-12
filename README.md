@@ -73,7 +73,7 @@ specific Qt major version by using **CC_TOOLS_QT_MAJOR_QT_VERSION** cmake variab
 cmake -DCC_TOOLS_QT_MAJOR_QT_VERSION=6 ...
 ```
 
-It is highly recommended to open main[CMakeLists.txt](CMakeLists.txt) file and review the available
+It is highly recommended to open main [CMakeLists.txt](CMakeLists.txt) file and review the available
 configuration options and variables.
 
 # Developing Custom Socket/Filter/Protocol Plugin
