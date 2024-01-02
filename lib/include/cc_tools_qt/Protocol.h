@@ -108,6 +108,10 @@ public:
     /// @brief Invokes createInvalidMessageImpl().
     MessagePtr createInvalidMessage(const MsgDataSeq& data);
 
+    /// @brief Make the protocol aware about socket connection status
+    /// @param[in] connected Socket connection status.
+    void socketConnectionReport(bool connected);    
+
 protected:
     /// @brief Polymorphic protocol name retrieval.
     /// @details Invoked by name().
@@ -146,6 +150,10 @@ protected:
 
     /// @brief Polymorphic creation of message object representing extra info.
     virtual MessagePtr createExtraInfoMessageImpl() = 0;
+
+    /// @brief Polymorphic processing of the socket connection report
+    /// @param[in] connected Socket connection status
+    virtual void socketConnectionReportImpl(bool connected);    
 
     /// @brief Helper function to assign protocol name to message properties.
     /// @details Expected to be used by the derived class.

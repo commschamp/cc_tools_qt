@@ -171,6 +171,16 @@ MessagePtr Protocol::createInvalidMessage(const MsgDataSeq& data)
     return invalidMsg;
 }
 
+void Protocol::socketConnectionReport(bool connected)
+{
+    socketConnectionReportImpl(connected);
+}
+
+void Protocol::socketConnectionReportImpl(bool connected)
+{
+    static_cast<void>(connected);
+}
+
 void Protocol::setNameToMessageProperties(Message& msg)
 {
     property::message::ProtocolName().setTo(name(), msg);

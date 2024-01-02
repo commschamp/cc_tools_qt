@@ -43,6 +43,11 @@ QList<DataInfoPtr> Filter::sendData(DataInfoPtr dataPtr)
     return sendDataImpl(std::move(dataPtr));
 }
 
+void Filter::socketConnectionReport(bool connected)
+{
+    return socketConnectionReportImpl(connected);
+}
+
 bool Filter::startImpl()
 {
     return true;
@@ -50,6 +55,11 @@ bool Filter::startImpl()
 
 void Filter::stopImpl()
 {
+}
+
+void Filter::socketConnectionReportImpl(bool connected)
+{
+    static_cast<void>(connected);
 }
 
 void Filter::reportDataToSend(DataInfoPtr dataPtr)
