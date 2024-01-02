@@ -12,10 +12,10 @@ option (CC_TOOLS_QT_BUILD_DEMO_PROTOCOL "Build demo protocol plugin." OFF)
 option (CC_TOOLS_QT_INSTALL_DEMO_PROTOCOL "Install demo protocol plugin." ${CC_TOOLS_QT_BUILD_DEMO_PROTOCOL})
 option (CC_TOOLS_QT_WARN_AS_ERR "Treat warning as error" ON)
 option (CC_TOOLS_QT_USE_CCACHE "Use ccache on UNIX systems if it's available" ON)
-option (CC_TOOLS_QT_SKIP_CXX_STANDARD_FORCING "Do NOT force C++ standard to C++11, use compiler's default one." ON)
 option (CC_TOOLS_QT_STATIC_RUNTIME "Enable/Disable static runtime" OFF)
 
 # Extra configuration variables
+set (CMAKE_CXX_STANDARD 17 CACHE STRING "C++ standard to use")
 set (CC_TOOLS_QT_MAJOR_QT_VERSION 5 CACHE STRING "Major Qt version")
 
 #######################################################################
@@ -25,10 +25,6 @@ if (CMAKE_TOOLCHAIN_FILE AND EXISTS ${CMAKE_TOOLCHAIN_FILE})
 endif()
 
 set (CMAKE_SCRIPTS_DIR "${PROJECT_SOURCE_DIR}/cmake")
-
-if (("${CMAKE_CXX_STANDARD}" STREQUAL "") AND (NOT CC_COMMS_SKIP_CXX_STANDARD_FORCING))
-    set (CMAKE_CXX_STANDARD 11)
-endif()
 
 include(GNUInstallDirs)
 set (INSTALL_NAME "cc_tools_qt")
