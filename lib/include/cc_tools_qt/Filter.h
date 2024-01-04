@@ -122,14 +122,14 @@ protected:
     virtual void stopImpl();
 
     /// @brief Polymorphic processing of incoming data.
-    /// @details Invoked by recvData() and must be implemented in the derived
-    ///     class
-    virtual QList<DataInfoPtr> recvDataImpl(DataInfoPtr dataPtr) = 0;
+    /// @details Invoked by recvData() and expected be overridden in the derived
+    ///     class. Default implementation is pass-through of data.
+    virtual QList<DataInfoPtr> recvDataImpl(DataInfoPtr dataPtr);
 
     /// @brief Polymorphic processing of outgoing data.
-    /// @details Invoked by sendData() and must be implemented in the derived
-    ///     class
-    virtual QList<DataInfoPtr> sendDataImpl(DataInfoPtr dataPtr) = 0;
+    /// @details Invoked by sendData() and expected be overridden in the derived
+    ///     class. Default implementation is pass-through of data.
+    virtual QList<DataInfoPtr> sendDataImpl(DataInfoPtr dataPtr);
 
     /// @brief Polymorphic processing of the socket connection report
     /// @param[in] connected Socket connection status

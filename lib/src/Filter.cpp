@@ -57,6 +57,20 @@ void Filter::stopImpl()
 {
 }
 
+QList<DataInfoPtr> Filter::recvDataImpl(DataInfoPtr dataPtr)
+{
+    QList<DataInfoPtr> result;
+    result.append(std::move(dataPtr));
+    return result;
+}
+
+QList<DataInfoPtr> Filter::sendDataImpl(DataInfoPtr dataPtr)
+{
+    QList<DataInfoPtr> result;
+    result.append(std::move(dataPtr));
+    return result;
+}
+
 void Filter::socketConnectionReportImpl(bool connected)
 {
     static_cast<void>(connected);

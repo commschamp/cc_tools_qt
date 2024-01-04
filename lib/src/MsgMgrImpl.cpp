@@ -277,10 +277,18 @@ void MsgMgrImpl::setSocket(SocketPtr socket)
             reportError(msg);
         });
 
-    socket->setDisconnectedReportCallback(
-        [this]()
+    socket->setConnectionStatusReportCallback(
+        [this](bool connected)
         {
-            reportSocketDisconnected();
+            for (auto& filter : m_filters) {
+                filter->socketConnectionReport(connected);
+            }
+
+            if (m_protocol) {
+                m_protocol->socketConnectionReport(connected);
+            }
+            
+            reportSocketConnectionStatus(connected);
         });
 
     m_socket = std::move(socket);
@@ -426,10 +434,10 @@ void MsgMgrImpl::reportError(const QString& error)
     }
 }
 
-void MsgMgrImpl::reportSocketDisconnected()
+void MsgMgrImpl::reportSocketConnectionStatus(bool connected)
 {
-    if (m_socketDisconnectReportCallback) {
-        m_socketDisconnectReportCallback();
+    if (m_socketConnectionStatusReportCallback) {
+        m_socketConnectionStatusReportCallback(connected);
     }
 }
 

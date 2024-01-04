@@ -65,7 +65,7 @@ public:
 
     typedef MsgMgr::MsgAddedCallbackFunc MsgAddedCallbackFunc;
     typedef MsgMgr::ErrorReportCallbackFunc ErrorReportCallbackFunc;
-    typedef MsgMgr::SocketDisconnectedReportCallbackFunc SocketDisconnectedReportCallbackFunc;
+    typedef MsgMgr::SocketConnectionStatusReportCallbackFunc SocketConnectionStatusReportCallbackFunc;
 
     template <typename TFunc>
     void setMsgAddedCallbackFunc(TFunc&& func)
@@ -80,9 +80,9 @@ public:
     }
 
     template <typename TFunc>
-    void setSocketDisconnectReportCallbackFunc(TFunc&& func)
+    void setSocketConnectionStatusReportCallbackFunc(TFunc&& func)
     {
-        m_socketDisconnectReportCallback = std::forward<TFunc>(func);
+        m_socketConnectionStatusReportCallback = std::forward<TFunc>(func);
     }
 
 private:
@@ -93,7 +93,7 @@ private:
     void updateInternalId(Message& msg);
     void reportMsgAdded(MessagePtr msg);
     void reportError(const QString& error);
-    void reportSocketDisconnected();
+    void reportSocketConnectionStatus(bool connected);
 
     AllMessages m_allMsgs;
     bool m_recvEnabled = false;
@@ -106,7 +106,7 @@ private:
 
     MsgAddedCallbackFunc m_msgAddedCallback;
     ErrorReportCallbackFunc m_errorReportCallback;
-    SocketDisconnectedReportCallbackFunc m_socketDisconnectReportCallback;
+    SocketConnectionStatusReportCallbackFunc m_socketConnectionStatusReportCallback;
 };
 
 }  // namespace cc_tools_qt

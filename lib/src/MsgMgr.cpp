@@ -110,10 +110,10 @@ void MsgMgr::setErrorReportCallbackFunc(ErrorReportCallbackFunc&& func)
     m_impl->setErrorReportCallbackFunc(std::move(func));
 }
 
-void MsgMgr::setSocketDisconnectReportCallbackFunc(
-    SocketDisconnectedReportCallbackFunc&& func)
+void MsgMgr::setSocketConnectionStatusReportCallbackFunc(
+    SocketConnectionStatusReportCallbackFunc&& func)
 {
-    m_impl->setSocketDisconnectReportCallbackFunc(std::move(func));
+    m_impl->setSocketConnectionStatusReportCallbackFunc(std::move(func));
 }
 
 }  // namespace cc_tools_qt

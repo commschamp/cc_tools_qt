@@ -119,16 +119,16 @@ public:
         m_errorReportCallback = std::forward<TFunc>(func);
     }
 
-    /// @brief Callback to report socket disconnection
-    using DisconnectedReportCallback = std::function <void ()>;
+    /// @brief Callback to report socket connection status
+    using ConnectionStatusReportCallback = std::function <void (bool)>;
 
-    /// @brief Set callback to report socket disconnection
-    /// @details The callback must have the same signature as @ref DisconnectedReportCallback.
+    /// @brief Set callback to report socket connection
+    /// @details The callback must have the same signature as @ref ConnectionStatusReportCallback.
     template <typename TFunc>
-    void setDisconnectedReportCallback(TFunc&& func)
+    void setConnectionStatusReportCallback(TFunc&& func)
     {
-        m_disconnectedReportCallback = std::forward<TFunc>(func);
-    }
+        m_connectionStatusReportCallback = std::forward<TFunc>(func);
+    }    
 
     /// @brief Get properties describing socket connection right after plugins
     ///     have been loaded and applied.
@@ -196,7 +196,7 @@ protected:
 private:
     DataReceivedCallback m_dataReceivedCallback;
     ErrorReportCallback m_errorReportCallback;
-    DisconnectedReportCallback m_disconnectedReportCallback;
+    ConnectionStatusReportCallback m_connectionStatusReportCallback;
 
     bool m_running = false;
     bool m_connected = false;

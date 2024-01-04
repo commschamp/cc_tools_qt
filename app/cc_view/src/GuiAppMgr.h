@@ -224,7 +224,6 @@ private:
 private slots:
     void msgAdded(MessagePtr msg);
     void errorReported(const QString& msg);
-    void socketDisconnected();
     void pendingDisplayTimeout();
 
 private /*data*/:
