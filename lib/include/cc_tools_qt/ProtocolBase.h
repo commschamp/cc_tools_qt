@@ -167,8 +167,7 @@ protected:
                     setNameToMessageProperties(*invalidMsgPtr);
                     std::unique_ptr<RawDataMsg> rawDataMsgPtr(new RawDataMsg());
                     ReadIterator garbageReadIterator = &m_garbage[0];
-                    auto esTmp = rawDataMsgPtr->read(garbageReadIterator, m_garbage.size());
-                    static_cast<void>(esTmp);
+                    [[maybe_unused]] auto esTmp = rawDataMsgPtr->read(garbageReadIterator, m_garbage.size());
                     assert(esTmp == comms::ErrorStatus::Success);
                     setRawDataToMessageProperties(MessagePtr(rawDataMsgPtr.release()), *invalidMsgPtr);
                     setExtraInfoFunc(*invalidMsgPtr);
@@ -214,15 +213,13 @@ protected:
 
                     auto readTransportIterBegTmp = readIterBeg;
                     std::unique_ptr<TransportMsg> transportMsgPtr(new TransportMsg());
-                    auto esTmp = transportMsgPtr->read(readTransportIterBegTmp, dataSize);
-                    static_cast<void>(esTmp);
+                    [[maybe_unused]] auto esTmp = transportMsgPtr->read(readTransportIterBegTmp, dataSize);
                     assert(esTmp == comms::ErrorStatus::Success);
                     setTransportToMessageProperties(MessagePtr(transportMsgPtr.release()), *msgPtr);
 
                     auto readRawIterBegTmp = readIterBeg;
                     std::unique_ptr<RawDataMsg> rawDataMsgPtr(new RawDataMsg());
                     esTmp = rawDataMsgPtr->read(readRawIterBegTmp, dataSize);
-                    static_cast<void>(esTmp);
                     assert(esTmp == comms::ErrorStatus::Success);
                     setRawDataToMessageProperties(MessagePtr(rawDataMsgPtr.release()), *msgPtr);
                     setExtraInfoFunc(*msgPtr);
@@ -247,8 +244,7 @@ protected:
             addMsgInfoGuard.release();
 
             if (es == comms::ErrorStatus::MsgAllocFailure) {
-                static constexpr bool Must_not_be_happen = false;
-                static_cast<void>(Must_not_be_happen);
+                [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
                 assert(Must_not_be_happen); 
                 break;
             }
@@ -292,8 +288,7 @@ protected:
         }
 
         if (es != comms::ErrorStatus::Success) {
-            static constexpr bool Unexpected_write_update_failure = false;
-            static_cast<void>(Unexpected_write_update_failure);
+            [[maybe_unused]] static constexpr bool Unexpected_write_update_failure = false;
             assert(Unexpected_write_update_failure); 
             return DataInfoPtr();
         }
@@ -331,8 +326,7 @@ protected:
             }
 
             if (es != comms::ErrorStatus::Success) {
-                static constexpr bool Unexpected_write_update_failure = false;
-                static_cast<void>(Unexpected_write_update_failure);
+                [[maybe_unused]] static constexpr bool Unexpected_write_update_failure = false;
                 assert(Unexpected_write_update_failure); 
                 break;
             }
@@ -355,16 +349,14 @@ protected:
 
             std::unique_ptr<TransportMsg> transportMsgPtr(new TransportMsg());
             if (!readMessageFunc(*transportMsgPtr)) {
-                static constexpr bool Unexpected_failure_to_read_transport_message = false;
-                static_cast<void>(Unexpected_failure_to_read_transport_message);
+                [[maybe_unused]] static constexpr bool Unexpected_failure_to_read_transport_message = false;
                 assert(Unexpected_failure_to_read_transport_message);        
                 break;
             }
 
             std::unique_ptr<RawDataMsg> rawDataMsgPtr(new RawDataMsg());
             if (!readMessageFunc(*rawDataMsgPtr)) {
-                static constexpr bool Unexpected_failure_to_read_raw_data = false;
-                static_cast<void>(Unexpected_failure_to_read_raw_data);
+                [[maybe_unused]] static constexpr bool Unexpected_failure_to_read_raw_data = false;
                 assert(Unexpected_failure_to_read_raw_data);                   
                 break;
             }

@@ -93,16 +93,13 @@ protected:
 
     virtual void resetImpl() override
     {
-        static constexpr bool Must_not_be_called = false;
-        static_cast<void>(Must_not_be_called);
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
         assert(Must_not_be_called); 
     }
 
-    virtual bool assignImpl(const cc_tools_qt::Message& other) override
+    virtual bool assignImpl([[maybe_unused]] const cc_tools_qt::Message& other) override
     {
-        static_cast<void>(other);
-        static constexpr bool Must_not_be_called = false;
-        static_cast<void>(Must_not_be_called);
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
         assert(Must_not_be_called); 
         return false;
     }

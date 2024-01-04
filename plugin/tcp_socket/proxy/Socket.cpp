@@ -67,8 +67,7 @@ Socket::~Socket() noexcept
 bool Socket::socketConnectImpl()
 {
     if (m_server.isListening()) {
-        static constexpr bool Already_listening = false;
-        static_cast<void>(Already_listening);
+        [[maybe_unused]] static constexpr bool Already_listening = false;
         assert(Already_listening); 
         static const QString AlreadyListeningError(
             tr("Previous run of TCP/IP Server socket wasn't terminated properly."));
@@ -193,8 +192,7 @@ void Socket::clientConnectionTerminated()
 {
     auto* socket = qobject_cast<QTcpSocket*>(sender());
     if (socket == nullptr) {
-        static constexpr bool Signal_from_unknown_object = false;
-        static_cast<void>(Signal_from_unknown_object);
+        [[maybe_unused]] static constexpr bool Signal_from_unknown_object = false;
         assert(Signal_from_unknown_object);         
         return;
     }
@@ -232,16 +230,14 @@ void Socket::socketErrorOccurred(QAbstractSocket::SocketError err)
         return;
     }
 
-    static_cast<void>(err);
     auto* socket = qobject_cast<QTcpSocket*>(sender());
     assert(socket != nullptr);
 
     reportError(socket->errorString());
 }
 
-void Socket::acceptErrorOccurred(QAbstractSocket::SocketError err)
+void Socket::acceptErrorOccurred([[maybe_unused]] QAbstractSocket::SocketError err)
 {
-    static_cast<void>(err);
     reportError(m_server.errorString());
     if (!m_server.isListening()) {
         reportDisconnected();
@@ -252,8 +248,7 @@ void Socket::connectionSocketConnected()
 {
     auto* socket = qobject_cast<QTcpSocket*>(sender());
     if (socket == nullptr) {
-        static constexpr bool Signal_from_unknown_object = false;
-        static_cast<void>(Signal_from_unknown_object);
+        [[maybe_unused]] static constexpr bool Signal_from_unknown_object = false;
         assert(Signal_from_unknown_object);  
         return;
     }
@@ -276,8 +271,7 @@ void Socket::connectionSocketDisconnected()
 {
     auto* socket = qobject_cast<QTcpSocket*>(sender());
     if (socket == nullptr) {
-        static constexpr bool Signal_from_unknown_object = false;
-        static_cast<void>(Signal_from_unknown_object);
+        [[maybe_unused]] static constexpr bool Signal_from_unknown_object = false;
         assert(Signal_from_unknown_object);  
         return;
     }

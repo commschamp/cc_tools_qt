@@ -47,8 +47,7 @@ DefaultMessageWidget::DefaultMessageWidget(
 void DefaultMessageWidget::addExtraTransportFieldWidget(FieldWidget* field)
 {
     if (field == nullptr) {
-        static constexpr bool Field_object_should_be_provided = false;
-        static_cast<void>(Field_object_should_be_provided);
+        [[maybe_unused]] static constexpr bool Field_object_should_be_provided = false;
         assert(Field_object_should_be_provided);
         return;
     }
@@ -76,8 +75,7 @@ void DefaultMessageWidget::addExtraTransportFieldWidget(FieldWidget* field)
 void DefaultMessageWidget::addFieldWidget(FieldWidget* field)
 {
     if (field == nullptr) {
-        static constexpr bool Field_object_should_be_provided = false;
-        static_cast<void>(Field_object_should_be_provided);
+        [[maybe_unused]] static constexpr bool Field_object_should_be_provided = false;
         assert(Field_object_should_be_provided);
         return;
     }

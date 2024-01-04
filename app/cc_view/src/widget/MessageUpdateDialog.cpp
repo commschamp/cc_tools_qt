@@ -149,8 +149,7 @@ long long unsigned durationToMs(int value, Duration dur)
 {
 
     if (Duration::NumOfDurations <= dur) {
-        static constexpr bool Incorrect_duration = false;
-        static_cast<void>(Incorrect_duration);
+        [[maybe_unused]] static constexpr bool Incorrect_duration = false;
         assert(Incorrect_duration);
         return static_cast<long long unsigned>(value);
     }
@@ -163,8 +162,7 @@ int msToDurationUnits(long long unsigned value, Duration dur)
 {
 
     if (Duration::NumOfDurations <= dur) {
-        static constexpr bool Incorrect_duration = false;
-        static_cast<void>(Incorrect_duration);
+        [[maybe_unused]] static constexpr bool Incorrect_duration = false;
         assert(Incorrect_duration);
         return static_cast<int>(value);
     }

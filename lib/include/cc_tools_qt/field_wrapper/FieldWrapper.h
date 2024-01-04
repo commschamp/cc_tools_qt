@@ -136,8 +136,7 @@ protected:
         SerialisedSeq seq;
         seq.reserve(m_field.length());
         auto iter = std::back_inserter(seq);
-        auto es = m_field.write(iter, seq.max_size());
-        static_cast<void>(es);
+        [[maybe_unused]] auto es = m_field.write(iter, seq.max_size());
         assert(es == comms::ErrorStatus::Success);
         assert(seq.size() == m_field.length());
         return seq;
@@ -254,10 +253,8 @@ private:
         return es == comms::ErrorStatus::Success;
     }
 
-    bool writeSerialisedSize(SerialisedSeq& seq, std::size_t sizeVal, NoPrefixSuffixTag)
+    bool writeSerialisedSize([[maybe_unused]] SerialisedSeq& seq, [[maybe_unused]] std::size_t sizeVal, NoPrefixSuffixTag)
     {
-        static_cast<void>(seq);
-        static_cast<void>(sizeVal);
         return true;
     }
 
@@ -272,10 +269,8 @@ private:
         return es == comms::ErrorStatus::Success;
     }
 
-    bool writeSerialisedLength(SerialisedSeq& seq, std::size_t sizeVal, NoPrefixSuffixTag)
+    bool writeSerialisedLength([[maybe_unused]] SerialisedSeq& seq, [[maybe_unused]] std::size_t sizeVal, NoPrefixSuffixTag)
     {
-        static_cast<void>(seq);
-        static_cast<void>(sizeVal);
         return true;
     }
 
@@ -288,9 +283,8 @@ private:
         return es == comms::ErrorStatus::Success;
     }
 
-    bool writeTrailSuffix(SerialisedSeq& seq, NoPrefixSuffixTag)
+    bool writeTrailSuffix([[maybe_unused]] SerialisedSeq& seq, NoPrefixSuffixTag)
     {
-        static_cast<void>(seq);
         return true;
     }
 
@@ -303,9 +297,8 @@ private:
         return es == comms::ErrorStatus::Success;
     }
 
-    bool writeTermSuffix(SerialisedSeq& seq, NoPrefixSuffixTag)
+    bool writeTermSuffix([[maybe_unused]] SerialisedSeq& seq, NoPrefixSuffixTag)
     {
-        static_cast<void>(seq);
         return true;
     }
 

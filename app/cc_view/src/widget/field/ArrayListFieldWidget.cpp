@@ -206,8 +206,7 @@ void ArrayListFieldWidget::removeField()
     auto* sigSender = sender();
     auto iter = std::find(m_elements.begin(), m_elements.end(), sigSender);
     if (iter == m_elements.end()) {
-        static constexpr bool Something_is_not_right = false;
-        static_cast<void>(Something_is_not_right);
+        [[maybe_unused]] static constexpr bool Something_is_not_right = false;
         assert(Something_is_not_right);  
         return;
     }
@@ -277,8 +276,7 @@ void ArrayListFieldWidget::updateUi()
 void ArrayListFieldWidget::addMissingFields()
 {
     if (!m_createMissingDataFieldsCallback) {
-        static constexpr bool Callback_should_exist = false;
-        static_cast<void>(Callback_should_exist);
+        [[maybe_unused]] static constexpr bool Callback_should_exist = false;
         assert(Callback_should_exist);          
         return;
     }

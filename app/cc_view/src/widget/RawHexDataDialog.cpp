@@ -114,7 +114,6 @@ void RawHexDataDialog::accept()
         {
             bool ok = false;
             auto byte = static_cast<DataInfo::DataSeq::value_type>(numStr.toUInt(&ok, 16));
-            static_cast<void>(ok);
             assert(ok);
             dataInfo.m_data.push_back(byte);
             numStr.clear();
@@ -144,8 +143,7 @@ void RawHexDataDialog::accept()
     if (!m_ui.m_convertCheckBox->isChecked()) {
         auto msg = m_protocol->createInvalidMessage(dataInfo.m_data);
         if (!msg) {
-            static constexpr bool Invalid_message_was_not_created_by_the_protocol = false;
-            static_cast<void>(Invalid_message_was_not_created_by_the_protocol);
+            [[maybe_unused]] static constexpr bool Invalid_message_was_not_created_by_the_protocol = false;
             assert(Invalid_message_was_not_created_by_the_protocol);               
             Base::accept();
             return;

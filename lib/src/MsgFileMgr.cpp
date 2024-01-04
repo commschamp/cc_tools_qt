@@ -257,7 +257,6 @@ MessagePtr createMsgObjectFrom(
         assert(num.size() == 2);
         bool ok = false;
         auto byte = num.toInt(&ok, 16);
-        static_cast<void>(ok);
         assert(ok);
         assert((0 <= byte) && (byte <= 0xff));
         data.push_back(static_cast<Message::DataSeq::value_type>(byte));
@@ -341,8 +340,7 @@ QVariantList convertRecvMsgList(
     QVariantList convertedList;
     for (auto& msg : allMsgs) {
         if (!msg) {
-            static constexpr bool Message_must_exist = false;
-            static_cast<void>(Message_must_exist);
+            [[maybe_unused]] static constexpr bool Message_must_exist = false;
             assert(Message_must_exist);  
             continue;
         }
@@ -396,8 +394,7 @@ QVariantList convertSendMsgList(
     QVariantList convertedList;
     for (auto& msg : allMsgs) {
         if (!msg) {
-            static constexpr bool Message_must_exist = false;
-            static_cast<void>(Message_must_exist);
+            [[maybe_unused]] static constexpr bool Message_must_exist = false;
             assert(Message_must_exist); 
             continue;
         }

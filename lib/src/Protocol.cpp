@@ -94,8 +94,7 @@ Protocol::UpdateStatus Protocol::updateMessage(Message& msg)
 
     auto infoMsg = createExtraInfoMessageImpl();
     if (!infoMsg) {
-        static constexpr bool Info_must_be_created = false;
-        static_cast<void>(Info_must_be_created);
+        [[maybe_unused]] static constexpr bool Info_must_be_created = false;
         assert(Info_must_be_created);        
         return UpdateStatus::NoChange;
     }
@@ -176,9 +175,8 @@ void Protocol::socketConnectionReport(bool connected)
     socketConnectionReportImpl(connected);
 }
 
-void Protocol::socketConnectionReportImpl(bool connected)
+void Protocol::socketConnectionReportImpl([[maybe_unused]] bool connected)
 {
-    static_cast<void>(connected);
 }
 
 void Protocol::setNameToMessageProperties(Message& msg)

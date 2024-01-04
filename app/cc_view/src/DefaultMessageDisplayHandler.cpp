@@ -194,11 +194,9 @@ public:
         m_widget.reset(new UnknownValueFieldWidget(wrapper.clone(), m_parent));
     }
 
-    virtual void handle(field_wrapper::FieldWrapper& wrapper) override
+    virtual void handle([[maybe_unused]] field_wrapper::FieldWrapper& wrapper) override
     {
-        static_cast<void>(wrapper);
-        static constexpr bool Unexpected_wrapper = false;
-        static_cast<void>(Unexpected_wrapper);
+        [[maybe_unused]] static constexpr bool Unexpected_wrapper = false;
         assert(Unexpected_wrapper);
     }
 

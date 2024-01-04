@@ -127,7 +127,6 @@ void SerialSocket::errorOccurred(QSerialPort::SerialPortError err)
         return;
     }
 
-    static_cast<void>(err);
     reportError(m_serial.errorString());
     m_serial.clearError();
     if (!m_serial.isOpen()) {

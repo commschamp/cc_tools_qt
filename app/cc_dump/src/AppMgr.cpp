@@ -47,8 +47,7 @@ AppMgr::AppMgr()
         [this](cc::MessagePtr msg)
         {
             if (!msg) {
-                static constexpr bool Application_message_was_not_provided = false;
-                static_cast<void>(Application_message_was_not_provided);
+                [[maybe_unused]] static constexpr bool Application_message_was_not_provided = false;
                 assert(Application_message_was_not_provided);
                 return;
             }
@@ -184,8 +183,7 @@ bool AppMgr::applyPlugins(const ListOfPluginInfos& plugins)
     for (auto& info : plugins) {
         cc::Plugin* plugin = m_pluginMgr.loadPlugin(*info);
         if (plugin == nullptr) {
-            static constexpr bool Failed_to_load_plugin = false;
-            static_cast<void>(Failed_to_load_plugin);
+            [[maybe_unused]] static constexpr bool Failed_to_load_plugin = false;
             assert(Failed_to_load_plugin);
             continue;
         }

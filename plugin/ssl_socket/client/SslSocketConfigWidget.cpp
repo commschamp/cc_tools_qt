@@ -282,9 +282,8 @@ void SslSocketConfigWidget::caDirSelectClicked()
     }
 }
 
-void SslSocketConfigWidget::caDirFormatIndexChanged(int value)
+void SslSocketConfigWidget::caDirFormatIndexChanged([[maybe_unused]] int value)
 {
-    static_cast<void>(value);
     m_socket.setCaDirFormat(static_cast<QSsl::EncodingFormat>(m_ui.m_caDirFormatComboBox->currentData().toInt()));
 }
 
@@ -306,15 +305,13 @@ void SslSocketConfigWidget::caFileSelectClicked()
     }
 }
 
-void SslSocketConfigWidget::caFileFormatIndexChanged(int value)
+void SslSocketConfigWidget::caFileFormatIndexChanged([[maybe_unused]] int value)
 {
-    static_cast<void>(value);
     m_socket.setCaFileFormat(static_cast<QSsl::EncodingFormat>(m_ui.m_caFileFormatComboBox->currentData().toInt()));
 }
 
-void SslSocketConfigWidget::verifyHostIndexChanged(int value)
+void SslSocketConfigWidget::verifyHostIndexChanged([[maybe_unused]] int value)
 {
-    static_cast<void>(value);
     m_socket.setVerifyMode(static_cast<QSslSocket::PeerVerifyMode>(m_ui.m_verifyHostComboBox->currentData().toInt()));
 }
 
@@ -323,9 +320,8 @@ void SslSocketConfigWidget::verifyNameValueChanged(const QString& value)
     m_socket.setVerifyName(value);
 }
 
-void SslSocketConfigWidget::sslProtocolIndexChanged(int value)
+void SslSocketConfigWidget::sslProtocolIndexChanged([[maybe_unused]] int value)
 {
-    static_cast<void>(value);
     m_socket.setSslProtocol(static_cast<QSsl::SslProtocol>(m_ui.m_protocolComboBox->currentData().toInt()));
 }
 
@@ -347,9 +343,8 @@ void SslSocketConfigWidget::certSelectClicked()
     }
 }
 
-void SslSocketConfigWidget::certFormatIndexChanged(int value)
+void SslSocketConfigWidget::certFormatIndexChanged([[maybe_unused]] int value)
 {
-    static_cast<void>(value);
     m_socket.setCertFormat(static_cast<QSsl::EncodingFormat>(m_ui.m_certFormatComboBox->currentData().toInt()));
 }
 
@@ -371,15 +366,13 @@ void SslSocketConfigWidget::privKeySelectClicked()
     }
 }
 
-void SslSocketConfigWidget::privKeyAlgIndexChanged(int value)
+void SslSocketConfigWidget::privKeyAlgIndexChanged([[maybe_unused]] int value)
 {
-    static_cast<void>(value);
     m_socket.setPrivKeyAlg(static_cast<QSsl::KeyAlgorithm>(m_ui.m_privKeyAlgComboBox->currentData().toInt()));
 }
 
-void SslSocketConfigWidget::privKeyFormatIndexChanged(int value)
+void SslSocketConfigWidget::privKeyFormatIndexChanged([[maybe_unused]] int value)
 {
-    static_cast<void>(value);
     m_socket.setPrivKeyFormat(static_cast<QSsl::EncodingFormat>(m_ui.m_privKeyFormatComboBox->currentData().toInt()));
 }
 

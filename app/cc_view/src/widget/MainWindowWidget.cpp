@@ -134,7 +134,6 @@ void MainWindowWidget::newSendMsgDialog(ProtocolPtr protocol)
 
 void MainWindowWidget::sendRawMsgDialog(ProtocolPtr protocol)
 {
-    static_cast<void>(protocol);
     RawHexDataDialog::MessagesList msgs;
     RawHexDataDialog dialog(msgs, std::move(protocol), this);
     dialog.exec();
@@ -188,8 +187,7 @@ void MainWindowWidget::addMainToolbarAction(ActionPtr action)
     auto iter = std::find(m_customActions.begin(), m_customActions.end(), action);
     if (iter != m_customActions.end())
     {
-        static constexpr bool Adding_action_second_time = false;
-        static_cast<void>(Adding_action_second_time);
+        [[maybe_unused]] static constexpr bool Adding_action_second_time = false;
         assert(Adding_action_second_time);
         return;
     }
@@ -284,7 +282,6 @@ void MainWindowWidget::aboutInfo()
 
 void MainWindowWidget::recvFilterDialog(ProtocolPtr protocol)
 {
-    static_cast<void>(protocol);
     auto* guiAppMgr = GuiAppMgr::instance();
     GuiAppMgr::FilteredMessages hiddenMessages = guiAppMgr->getFilteredMessages();
     MessagesFilterDialog dialog(hiddenMessages, std::move(protocol), this);
@@ -321,8 +318,7 @@ std::tuple<QString, bool> MainWindowWidget::loadMsgsDialog(bool askForClear)
         assert(cancelButton != nullptr);
         auto* clearButton = msgBox.addButton(tr("Clear"), QMessageBox::ActionRole);
         assert(clearButton != nullptr);
-        auto* appendButton = msgBox.addButton(tr("Append"), QMessageBox::ActionRole);
-        static_cast<void>(appendButton);
+        [[maybe_unused]] auto* appendButton = msgBox.addButton(tr("Append"), QMessageBox::ActionRole);
         assert(appendButton != nullptr);
         msgBox.setDefaultButton(clearButton);
         msgBox.setEscapeButton(cancelButton);

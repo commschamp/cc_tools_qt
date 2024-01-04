@@ -75,8 +75,7 @@ bool SslSocket::socketConnectImpl()
 {
     if ((m_socket.state() == QSslSocket::ConnectedState) ||
         (m_socket.state() == QSslSocket::ConnectingState)) {
-        static constexpr bool Already_connected = false;
-        static_cast<void>(Already_connected);
+        [[maybe_unused]] static constexpr bool Already_connected = false;
         assert(Already_connected); 
         static const QString AlreadyConnectedError(
             tr("SSL Client is already connected or trying to connect."));
@@ -191,9 +190,8 @@ void SslSocket::readFromSocket()
     reportDataReceived(std::move(dataPtr));
 }
 
-void SslSocket::socketErrorOccurred(QAbstractSocket::SocketError err)
+void SslSocket::socketErrorOccurred([[maybe_unused]] QAbstractSocket::SocketError err)
 {
-    static_cast<void>(err);
     auto* socket = qobject_cast<QSslSocket*>(sender());
     assert(socket != nullptr);
 

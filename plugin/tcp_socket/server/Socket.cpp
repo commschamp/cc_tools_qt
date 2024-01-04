@@ -67,8 +67,7 @@ Socket::~Socket() noexcept
 bool Socket::socketConnectImpl()
 {
     if (m_server.isListening()) {
-        static constexpr bool Already_listening = false;
-        static_cast<void>(Already_listening);
+        [[maybe_unused]] static constexpr bool Already_listening = false;
         assert(Already_listening); 
         static const QString AlreadyListeningError(
             tr("Previous run of TCP/IP Server socket wasn't terminated properly."));
@@ -154,8 +153,7 @@ void Socket::connectionTerminated()
     auto* socket = sender();
     auto iter = std::find(m_sockets.begin(), m_sockets.end(), socket);
     if (iter == m_sockets.end()) {
-        static constexpr bool Must_have_found_socket = false;
-        static_cast<void>(Must_have_found_socket);
+        [[maybe_unused]] static constexpr bool Must_have_found_socket = false;
         assert(Must_have_found_socket);          
         return;
     }
@@ -199,16 +197,14 @@ void Socket::socketErrorOccurred(QAbstractSocket::SocketError err)
         return;
     }
 
-    static_cast<void>(err);
     auto* socket = qobject_cast<QTcpSocket*>(sender());
     assert(socket != nullptr);
 
     reportError(socket->errorString());
 }
 
-void Socket::acceptErrorOccurred(QAbstractSocket::SocketError err)
+void Socket::acceptErrorOccurred([[maybe_unused]] QAbstractSocket::SocketError err)
 {
-    static_cast<void>(err);
     reportError(m_server.errorString());
     if (!m_server.isListening()) {
         reportDisconnected();

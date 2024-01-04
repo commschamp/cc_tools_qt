@@ -206,9 +206,8 @@ void PluginConfigDialog::addClicked()
     refreshButtonBox();
 }
 
-void PluginConfigDialog::searchTextChanged(const QString& text)
+void PluginConfigDialog::searchTextChanged([[maybe_unused]] const QString& text)
 {
-    static_cast<void>(text);
     refreshAvailable();
 }
 
@@ -329,8 +328,7 @@ void PluginConfigDialog::topClicked()
     assert(m_currentSelectedList != nullptr);
     auto curRow = m_currentSelectedList->currentRow();
     if (curRow <= 0) {
-        static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
-        static_cast<void>(No_item_is_selected_or_moving_up_top_item);
+        [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
         assert(No_item_is_selected_or_moving_up_top_item);          
         return;
     }
@@ -343,8 +341,7 @@ void PluginConfigDialog::upClicked()
     assert(m_currentSelectedList != nullptr);
     auto curRow = m_currentSelectedList->currentRow();
     if (curRow <= 0) {
-        static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
-        static_cast<void>(No_item_is_selected_or_moving_up_top_item);
+        [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
         assert(No_item_is_selected_or_moving_up_top_item);   
         return;
     }
@@ -357,8 +354,7 @@ void PluginConfigDialog::downClicked()
     assert(m_currentSelectedList != nullptr);
     auto curRow = m_currentSelectedList->currentRow();
     if ((m_currentSelectedList->count() - 1) <= curRow) {
-        static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
-        static_cast<void>(No_item_is_selected_or_moving_down_bottom_item);
+        [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
         assert(No_item_is_selected_or_moving_down_bottom_item);           
         return;
     }
@@ -371,8 +367,7 @@ void PluginConfigDialog::bottomClicked()
     assert(m_currentSelectedList != nullptr);
     auto curRow = m_currentSelectedList->currentRow();
     if ((m_currentSelectedList->count() - 1) <= curRow) {
-        static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
-        static_cast<void>(No_item_is_selected_or_moving_down_bottom_item);
+        [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
         assert(No_item_is_selected_or_moving_down_bottom_item);        
         return;
     }

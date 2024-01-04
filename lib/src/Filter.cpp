@@ -71,9 +71,8 @@ QList<DataInfoPtr> Filter::sendDataImpl(DataInfoPtr dataPtr)
     return result;
 }
 
-void Filter::socketConnectionReportImpl(bool connected)
+void Filter::socketConnectionReportImpl([[maybe_unused]] bool connected)
 {
-    static_cast<void>(connected);
 }
 
 void Filter::reportDataToSend(DataInfoPtr dataPtr)

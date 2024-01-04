@@ -76,8 +76,7 @@ bool Socket::socketConnectImpl()
 {
     if ((m_socket.state() == QTcpSocket::ConnectedState) ||
         (m_socket.state() == QTcpSocket::ConnectingState)) {
-        static constexpr bool Already_connected = false;
-        static_cast<void>(Already_connected);
+        [[maybe_unused]] static constexpr bool Already_connected = false;
         assert(Already_connected); 
         static const QString AlreadyConnectedError(
             tr("TCP/IP Client is already connected or trying to connect."));
@@ -162,9 +161,8 @@ void Socket::readFromSocket()
     reportDataReceived(std::move(dataPtr));
 }
 
-void Socket::socketErrorOccurred(QAbstractSocket::SocketError err)
+void Socket::socketErrorOccurred([[maybe_unused]] QAbstractSocket::SocketError err)
 {
-    static_cast<void>(err);
     auto* socket = qobject_cast<QTcpSocket*>(sender());
     assert(socket != nullptr);
 

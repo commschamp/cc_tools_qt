@@ -165,9 +165,8 @@ void FieldWidget::editEnabledUpdatedImpl()
 {
 }
 
-void FieldWidget::updatePropertiesImpl(const QVariantMap& props)
+void FieldWidget::updatePropertiesImpl([[maybe_unused]] const QVariantMap& props)
 {
-    static_cast<void>(props);
 }
 
 void FieldWidget::performUiElementsVisibilityCheck(const property::field::Common& props)

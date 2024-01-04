@@ -66,7 +66,6 @@ Plugin::~Plugin() noexcept = default;
 
 void Plugin::getCurrentConfigImpl(QVariantMap& config)
 {
-    static_cast<void>(config);
     createSocketIfNeeded();
 
     QVariantMap subConfig;

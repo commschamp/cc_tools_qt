@@ -149,9 +149,8 @@ void SpecialValueWidget::setFpValue(double value, double cmpEpsilon)
 }
 
 
-void SpecialValueWidget::itemSelected(int idx)
+void SpecialValueWidget::itemSelected([[maybe_unused]] int idx)
 {
-    static_cast<void>(idx);
     auto valueVar = m_ui.m_specialComboBox->currentData();
     if (!valueVar.isValid()) {
         emit sigRefreshReq();

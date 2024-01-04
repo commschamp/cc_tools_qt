@@ -36,8 +36,7 @@ MsgSendMgrImpl::~MsgSendMgrImpl() noexcept = default;
 
 void MsgSendMgrImpl::start(ProtocolPtr protocol, const MessagesList& msgs)
 {
-    static constexpr bool The_previous_sending_must_be_stopped_first = false;
-    static_cast<void>(The_previous_sending_must_be_stopped_first);
+    [[maybe_unused]] static constexpr bool The_previous_sending_must_be_stopped_first = false;
     assert(m_msgsToSend.empty() || The_previous_sending_must_be_stopped_first);
     m_protocol = std::move(protocol);
     for (auto& m : msgs) {
@@ -94,8 +93,7 @@ void MsgSendMgrImpl::sendPendingAndWait()
 
         if (reinsert) {
             if (!m_protocol) {
-                static constexpr bool Protocol_must_be_valid = false;
-                static_cast<void>(Protocol_must_be_valid);
+                [[maybe_unused]] static constexpr bool Protocol_must_be_valid = false;
                 assert(Protocol_must_be_valid);                 
                 continue;
             }

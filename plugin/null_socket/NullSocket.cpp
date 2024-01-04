@@ -26,9 +26,8 @@ NullSocket::NullSocket() = default;
 NullSocket::~NullSocket() noexcept = default;
 
 
-void NullSocket::sendDataImpl(DataInfoPtr dataPtr)
+void NullSocket::sendDataImpl([[maybe_unused]] DataInfoPtr dataPtr)
 {
-    static_cast<void>(dataPtr);
 }
 
 unsigned NullSocket::connectionPropertiesImpl() const

@@ -22,19 +22,16 @@ namespace cc_tools_qt
 
 MessageHandler::~MessageHandler() noexcept = default;
 
-void MessageHandler::beginMsgHandlingImpl(Message& msg)
+void MessageHandler::beginMsgHandlingImpl([[maybe_unused]] Message& msg)
 {
-    static_cast<void>(msg);
 }
 
-void MessageHandler::addExtraTransportFieldImpl(FieldWrapperPtr wrapper)
+void MessageHandler::addExtraTransportFieldImpl([[maybe_unused]] FieldWrapperPtr wrapper)
 {
-    static_cast<void>(wrapper);
 }
 
-void MessageHandler::addFieldImpl(FieldWrapperPtr wrapper)
+void MessageHandler::addFieldImpl([[maybe_unused]] FieldWrapperPtr wrapper)
 {
-    static_cast<void>(wrapper);
 }
 
 void MessageHandler::endMsgHandlingImpl()

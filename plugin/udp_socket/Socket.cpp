@@ -225,9 +225,8 @@ void Socket::readFromBroadcastSocket()
     readData(m_broadcastSocket);
 }
 
-void Socket::socketErrorOccurred(QAbstractSocket::SocketError err)
+void Socket::socketErrorOccurred([[maybe_unused]] QAbstractSocket::SocketError err)
 {
-    static_cast<void>(err);
     std::cout << "ERROR: UDP Socket: " << m_socket.errorString().toStdString() << std::endl;
 }
 
