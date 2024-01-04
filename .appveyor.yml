@@ -48,12 +48,14 @@ install:
     - set COMMON_INSTALL_DIR=%BUILD_DIR%\install
     - set COMMON_BUILD_TYPE=%CONFIGURATION%
     - set COMMON_CXX_STANDARD=%CPP_STD%
+    - set GENERATOR="%CMAKE_GENERATOR%"
+    - set PLATFORM="%CMAKE_PLATFORM%"
     - call script\prepare_externals.bat
 
 build_script:
     - echo ------------------------- Building Project -------------------------
     - cd %BUILD_DIR%
-    - cmake .. -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%COMMON_INSTALL_DIR%" ^
+    - cmake .. -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G "%CMAKE_GENERATOR%" %PLATFORM_PARAM% -DCMAKE_INSTALL_PREFIX="%COMMON_INSTALL_DIR%" ^
         -DCMAKE_PREFIX_PATH="%COMMON_INSTALL_DIR%;%QTDIR%" -DCMAKE_CXX_STANDARD=%CPP_STD% ^
         -DCC_TOOLS_QT_BUILD_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=%QT_MAJOR%
     - cmake --build . --config %CONFIGURATION% --target install
