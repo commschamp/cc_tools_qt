@@ -24,7 +24,7 @@ jobs:
       run: sudo apt-get update --fix-missing    
       
     - name: Install Packages
-      run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev libxml2-dev gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}}
+      run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}}
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build      
@@ -86,7 +86,7 @@ jobs:
       run: sudo apt-get update --fix-missing    
       
     - name: Install Packages
-      run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev libxml2-dev clang-${{matrix.cc_ver}}
+      run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev clang-${{matrix.cc_ver}}
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build      
