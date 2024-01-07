@@ -78,7 +78,6 @@ void Plugin::getCurrentConfigImpl(QVariantMap& config)
 
 void Plugin::reconfigureImpl(const QVariantMap& config)
 {
-    static_cast<void>(config);
     auto subConfigVar = config.value(MainConfigKey);
     if ((!subConfigVar.isValid()) || (!subConfigVar.canConvert<QVariantMap>())) {
         return;

@@ -46,7 +46,7 @@ public:
     int count() const;
     QListWidgetItem* item(int idx);
     QListWidgetItem* takeItem(int idx);
-    void addItem(const QString& name);
+    void addItem(const QString& name, const QString& desc);
     void setCurrentRow(int rowIdx);
     void setCurrentItem(QListWidgetItem* itemPtr);
     int currentRow() const;

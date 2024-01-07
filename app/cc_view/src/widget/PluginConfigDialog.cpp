@@ -193,7 +193,7 @@ void PluginConfigDialog::addClicked()
     auto* selectedListWidget = getSelectedListForAvailable(m_currentAvailableList);
     assert(selectedListWidget != nullptr);
 
-    selectedListWidget->addItem(pluginInfoPtr->getName());
+    selectedListWidget->addItem(pluginInfoPtr->getName(), pluginInfoPtr->getDescription());
     auto* selectedItem = selectedListWidget->item(selectedListWidget->count() - 1);
 
     selectedItem->setData(
@@ -254,7 +254,6 @@ void PluginConfigDialog::loadClicked()
     if ((m_currentAvailableList == nullptr) ||
         (m_currentAvailableList->currentItem() == nullptr)) {
         clearConfiguration();
-        clearDescription();
     }
 }
 
@@ -296,7 +295,6 @@ void PluginConfigDialog::removeClicked()
     item = m_currentSelectedList->currentItem();
     if (item == nullptr) {
         clearConfiguration();
-        clearDescription();
         m_currentSelectedList = nullptr;
         return;
     }
@@ -319,7 +317,6 @@ void PluginConfigDialog::clearClicked()
 
     if (displayingSelected) {
         clearConfiguration();
-        clearDescription();
     }
 }
 
@@ -401,7 +398,6 @@ void PluginConfigDialog::availPluginClicked(
     auto pluginInfoPtr = getPluginInfo(item);
     assert(pluginInfoPtr);
 
-    m_ui.m_descLabel->setText(pluginInfoPtr->getDescription());
     refreshAvailableToolbar();
 }
 
@@ -451,7 +447,6 @@ void PluginConfigDialog::selectedPluginClicked(
         m_ui.m_configScrollArea->setWidget(configWidget);
     } while (false);
 
-    m_ui.m_descLabel->setText(pluginInfoPtr->getDescription());
     refreshSelectedToolbar();
 }
 
@@ -680,10 +675,14 @@ void PluginConfigDialog::refreshAvailablePlugins()
                     continue;
                 }
 
-                availableList->addItem(name);
+                availableList->addItem(name, pluginInfoPtr->getDescription());
                 auto* item = availableList->item(availableList->count() - 1);
-                static const QString Tooltip("Use double click to select");
-                item->setToolTip(Tooltip);
+                auto tooltip = item->toolTip();
+                if (!tooltip.isEmpty()) {
+                    tooltip.append("\n\n");
+                }
+                tooltip.append("Use double click to select");
+                item->setToolTip(tooltip);
 
                 item->setData(
                     Qt::UserRole,
@@ -747,7 +746,8 @@ void PluginConfigDialog::refreshSelectedPlugins(
                 }
 
                 auto& name = pluginInfoPtr->getName();
-                list->addItem(name);
+                auto& desc = pluginInfoPtr->getDescription();
+                list->addItem(name, desc);
                 auto* item = list->item(list->count() - 1);
 
                 item->setData(
@@ -849,11 +849,6 @@ void PluginConfigDialog::refreshBottomButton()
 void PluginConfigDialog::clearConfiguration()
 {
     m_ui.m_configScrollArea->setWidget(new QWidget());
-}
-
-void PluginConfigDialog::clearDescription()
-{
-    m_ui.m_descLabel->setText(QString());
 }
 
 void PluginConfigDialog::moveSelectedPlugin(int fromRow, int toRow)

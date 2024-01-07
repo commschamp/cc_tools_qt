@@ -61,9 +61,11 @@ QListWidgetItem* PluginsListWidget::takeItem(int idx)
     return m_ui.m_listWidget->takeItem(idx);
 }
 
-void PluginsListWidget::addItem(const QString& name)
+void PluginsListWidget::addItem(const QString& name, const QString& desc)
 {
-    m_ui.m_listWidget->addItem(name);
+    auto item = new QListWidgetItem(name);
+    item->setToolTip(desc);
+    m_ui.m_listWidget->addItem(item);
 }
 
 void PluginsListWidget::setCurrentRow(int rowIdx)

@@ -102,7 +102,6 @@ private:
     void refreshDownBotton();
     void refreshBottomButton();
     void clearConfiguration();
-    void clearDescription();
     void moveSelectedPlugin(int fromRow, int toRow);
 
     PluginInfoPtr getPluginInfo(QListWidgetItem* item) const;
