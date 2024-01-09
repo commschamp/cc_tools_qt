@@ -102,6 +102,9 @@ PluginConfigDialog::PluginConfigDialog(
     m_applyButton = m_ui.m_buttonBox->button(QDialogButtonBox::Ok);
     m_applyButton->setText(tr("Apply"));
     refreshAll();
+
+    m_allConfigWidget = new PluginConfigWrapsListWidget(this);
+    m_ui.m_allConfigScrollArea->setWidget(m_allConfigWidget);
 }
 
 void PluginConfigDialog::accept()
@@ -204,6 +207,8 @@ void PluginConfigDialog::addClicked()
     refreshAvailablePlugins();
     refreshSelectedToolbar();
     refreshButtonBox();
+
+    m_allConfigWidget->addPluginConfig(pluginInfoPtr);
 }
 
 void PluginConfigDialog::searchTextChanged([[maybe_unused]] const QString& text)
@@ -250,11 +255,6 @@ void PluginConfigDialog::loadClicked()
     assert(m_selectedSocketsWidget->currentItem() == nullptr);
     assert(m_selectedFiltersWidget->currentItem() == nullptr);
     assert(m_selectedProtocolsWidget->currentItem() == nullptr);
-
-    if ((m_currentAvailableList == nullptr) ||
-        (m_currentAvailableList->currentItem() == nullptr)) {
-        clearConfiguration();
-    }
 }
 
 void PluginConfigDialog::saveClicked()
@@ -287,6 +287,11 @@ void PluginConfigDialog::removeClicked()
     assert(m_currentSelectedList != nullptr);
     auto* item = m_currentSelectedList->currentItem();
     assert(item != nullptr);
+
+    auto pluginInfoPtr = getPluginInfo(item);
+    assert(pluginInfoPtr);
+    m_allConfigWidget->removePluginConfig(pluginInfoPtr);
+
     delete item;
     refreshAvailablePlugins();
     refreshSelectedToolbar();
@@ -294,7 +299,6 @@ void PluginConfigDialog::removeClicked()
 
     item = m_currentSelectedList->currentItem();
     if (item == nullptr) {
-        clearConfiguration();
         m_currentSelectedList = nullptr;
         return;
     }
@@ -304,20 +308,14 @@ void PluginConfigDialog::removeClicked()
 
 void PluginConfigDialog::clearClicked()
 {
-    bool displayingSelected =
-        (m_currentSelectedList != nullptr) &&
-        (m_currentSelectedList->currentItem() != nullptr);
     m_selectedSocketsWidget->clear();
     m_selectedFiltersWidget->clear();
     m_selectedProtocolsWidget->clear();
+    m_allConfigWidget->removeAll();
     m_currentSelectedList = nullptr;
     refreshAvailablePlugins();
     refreshSelectedToolbar();
     refreshButtonBox();
-
-    if (displayingSelected) {
-        clearConfiguration();
-    }
 }
 
 void PluginConfigDialog::topClicked()
@@ -393,11 +391,6 @@ void PluginConfigDialog::availPluginClicked(
     m_currentAvailableList->setCurrentItem(item);
     assert(m_currentAvailableList->currentRow() == m_currentAvailableList->getRow(item));
 
-    clearConfiguration();
-
-    auto pluginInfoPtr = getPluginInfo(item);
-    assert(pluginInfoPtr);
-
     refreshAvailableToolbar();
 }
 
@@ -424,28 +417,6 @@ void PluginConfigDialog::selectedPluginClicked(
     assert(selectedList != nullptr);
     selectedList->setCurrentItem(item);
     assert(selectedList->currentRow() == selectedList->getRow(item));
-
-    do {
-        auto clearGuard =
-            comms::util::makeScopeGuard(
-                [this]()
-                {
-                    clearConfiguration();
-                });
-
-        auto* plugin = PluginMgrG::instanceRef().loadPlugin(*pluginInfoPtr);
-        if (plugin == nullptr) {
-            break;
-        }
-
-        auto* configWidget = plugin->createConfiguarionWidget();
-        if (configWidget == nullptr) {
-            break;
-        }
-
-        clearGuard.release();
-        m_ui.m_configScrollArea->setWidget(configWidget);
-    } while (false);
 
     refreshSelectedToolbar();
 }
@@ -844,11 +815,6 @@ void PluginConfigDialog::refreshBottomButton()
         (0 <= row) &&
         (row < (m_currentSelectedList->count() - 1));
     button->setEnabled(enabled);
-}
-
-void PluginConfigDialog::clearConfiguration()
-{
-    m_ui.m_configScrollArea->setWidget(new QWidget());
 }
 
 void PluginConfigDialog::moveSelectedPlugin(int fromRow, int toRow)

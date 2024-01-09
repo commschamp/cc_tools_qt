@@ -58,6 +58,11 @@ public:
             NumOfValues
         };
 
+        const QString& getIid() const
+        {
+            return m_iid;
+        }
+
         const QString& getName() const
         {
             return m_name;

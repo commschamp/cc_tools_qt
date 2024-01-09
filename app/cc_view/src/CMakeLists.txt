@@ -29,6 +29,8 @@ function (bin_cc_view)
         widget/MessageUpdateDialog.cpp
         widget/PluginsListWidget.cpp
         widget/PluginConfigDialog.cpp
+        widget/PluginConfigWrapWidget.cpp
+        widget/PluginConfigWrapsListWidget.cpp
         widget/MsgCommentDialog.cpp
         widget/field/FieldWidget.cpp
         widget/MessagesFilterDialog.cpp
@@ -104,6 +106,7 @@ function (bin_cc_view)
         ui/RawHexDataDialog.ui
         ui/PluginsListWidget.ui
         ui/PluginConfigDialog.ui
+        ui/PluginConfigWrapWidget.ui
         ui/ShortIntValueFieldWidget.ui
         ui/LongIntValueFieldWidget.ui
         ui/LongLongIntValueFieldWidget.ui
