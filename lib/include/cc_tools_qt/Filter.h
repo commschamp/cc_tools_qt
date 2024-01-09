@@ -40,7 +40,7 @@ namespace cc_tools_qt
 /// @details The filter can be used to implement encryption / decryption of
 ///     the data, and/or additional transport layer.
 /// @headerfile cc_tools_qt/Filter.h
-class CC_API Filter : public QObject
+class CC_API Filter
 {
 public:
     /// @brief Constructor
