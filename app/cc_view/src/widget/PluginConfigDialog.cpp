@@ -101,10 +101,11 @@ PluginConfigDialog::PluginConfigDialog(
 
     m_applyButton = m_ui.m_buttonBox->button(QDialogButtonBox::Ok);
     m_applyButton->setText(tr("Apply"));
-    refreshAll();
 
     m_allConfigWidget = new PluginConfigWrapsListWidget(this);
     m_ui.m_allConfigScrollArea->setWidget(m_allConfigWidget);
+
+    refreshAll();
 }
 
 void PluginConfigDialog::accept()
@@ -729,9 +730,14 @@ void PluginConfigDialog::refreshSelectedPlugins(
         };
 
     m_currentSelectedList = nullptr;
+    assert(m_allConfigWidget != nullptr);
+    m_allConfigWidget->removeAll();
     refreshListFunc(m_selectedSocketsWidget, PluginType::Socket);
     refreshListFunc(m_selectedFiltersWidget, PluginType::Filter);
     refreshListFunc(m_selectedProtocolsWidget, PluginType::Protocol);
+    for (auto& pluginInfoPtr : infos) {
+        m_allConfigWidget->addPluginConfig(pluginInfoPtr);
+    }
 }
 
 void PluginConfigDialog::refreshButtonBox()
