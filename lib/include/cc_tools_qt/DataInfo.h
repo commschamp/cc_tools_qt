@@ -63,6 +63,10 @@ using DataInfoPtr = std::shared_ptr<DataInfo>;
 /// @brief Dynamically allocate @ref DataInfo and return in in @ref DataInfoPtr;
 CC_API DataInfoPtr makeDataInfo();
 
+/// @brief Dynamically allocate @ref DataInfo and return in in @ref DataInfoPtr;
+/// @details Automatically populate the timestamp.
+CC_API DataInfoPtr makeDataInfoTimed();
+
 }  // namespace cc_tools_qt
 
 Q_DECLARE_METATYPE(cc_tools_qt::DataInfoPtr);

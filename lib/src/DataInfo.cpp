@@ -22,4 +22,11 @@ CC_API DataInfoPtr makeDataInfo()
     return DataInfoPtr(new DataInfo());
 }
 
+CC_API DataInfoPtr makeDataInfoTimed()
+{
+    auto info = makeDataInfo();
+    info->m_timestamp = DataInfo::TimestampClock::now();
+    return info;
+}
+
 } // namespace cc_tools_qt
