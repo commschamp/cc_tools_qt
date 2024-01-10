@@ -22,13 +22,13 @@
 #include "comms/version.h"
 
 /// @brief Major verion of the library
-#define CC_TOOLS_QT_MAJOR_VERSION 4U
+#define CC_TOOLS_QT_MAJOR_VERSION 5U
 
 /// @brief Minor verion of the library
-#define CC_TOOLS_QT_MINOR_VERSION 2U
+#define CC_TOOLS_QT_MINOR_VERSION 0U
 
 /// @brief Patch level of the library
-#define CC_TOOLS_QT_PATCH_VERSION 5U
+#define CC_TOOLS_QT_PATCH_VERSION 0U
 
 /// @brief Macro to create numeric version as single unsigned number
 #define CC_TOOLS_QT_MAKE_VERSION(major_, minor_, patch_) \
