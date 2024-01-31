@@ -1,5 +1,5 @@
 {
-    "name" : "Echo Socket",
+    "name" : "CC Echo Socket",
     "desc" : [
         "This socket duplicates outgoing data and echoes it as an incoming one."
     ],

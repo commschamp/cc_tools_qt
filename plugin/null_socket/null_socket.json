@@ -1,5 +1,5 @@
 {
-    "name" : "NULL Socket",
+    "name" : "CC NULL Socket",
     "desc" : [
         "This socket doesn't generate any incoming data and discards all ",
         "the data being written to it."

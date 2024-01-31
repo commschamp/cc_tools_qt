@@ -7,13 +7,13 @@ function (plugin_udp_client_socket)
         return()
     endif ()
     
-    set (meta_file "${CMAKE_CURRENT_SOURCE_DIR}/udp_client_socket.json")
-    set (stamp_file "${CMAKE_CURRENT_BINARY_DIR}/client_refresh_stamp.txt")
+    set (meta_file "${CMAKE_CURRENT_SOURCE_DIR}/udp_socket.json")
+    set (stamp_file "${CMAKE_CURRENT_BINARY_DIR}/refresh_stamp.txt")
     
     set (refresh_plugin_header TRUE)
     if ((NOT EXISTS ${stamp_file}) OR (${meta_file} IS_NEWER_THAN ${stamp_file}))
         execute_process(
-            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_SOURCE_DIR}/SocketPlugin.h)
+            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_SOURCE_DIR}/Plugin.h)
         execute_process(
             COMMAND ${CMAKE_COMMAND} -E touch ${stamp_file})
     endif ()

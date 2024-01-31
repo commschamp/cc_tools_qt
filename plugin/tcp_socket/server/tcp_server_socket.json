@@ -1,5 +1,5 @@
 {
-    "name" : "TCP/IP Server Socket",
+    "name" : "CC TCP/IP Server Socket",
     "desc" : [
         "I/O socket that is bound to a local port and allows\n",
         "communication via TCP/IP connection."

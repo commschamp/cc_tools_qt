@@ -1,5 +1,5 @@
 {
-    "name" : "TCP/IP Proxy Socket",
+    "name" : "CC TCP/IP Proxy Socket",
     "desc" : [
         "I/O socket that serves as proxy TCP/IP server."
     ],
