@@ -7,21 +7,21 @@ function (cc_plugin_raw_data_protocol)
     set (refresh_plugin_header TRUE)
     if ((NOT EXISTS ${stamp_file}) OR (${meta_file} IS_NEWER_THAN ${stamp_file}))
         execute_process(
-            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_SOURCE_DIR}/Plugin.h)
+            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_SOURCE_DIR}/RawDataProtocolPlugin.h)
         execute_process(
             COMMAND ${CMAKE_COMMAND} -E touch ${stamp_file})
     endif ()
     
     
     set (src
-        Plugin.cpp
-        Protocol.cpp
-        TransportMessage.cpp
-        DataMessage.cpp
+        RawDataProtocolPlugin.cpp
+        RawDataProtocol.cpp
+        RawDataProtocolTransportMessage.cpp
+        RawDataProtocolDataMessage.cpp
     )
     
     set (hdr
-        Plugin.h
+        RawDataProtocolPlugin.h
     )
     
     cc_qt_wrap_cpp(

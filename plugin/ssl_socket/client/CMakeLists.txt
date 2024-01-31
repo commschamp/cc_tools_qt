@@ -13,21 +13,21 @@ function (plugin_ssl_client_socket)
     set (refresh_plugin_header TRUE)
     if ((NOT EXISTS ${stamp_file}) OR (${meta_file} IS_NEWER_THAN ${stamp_file}))
         execute_process(
-            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_SOURCE_DIR}/SslSocketPlugin.h)
+            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_SOURCE_DIR}/SslClientSocketPlugin.h)
         execute_process(
             COMMAND ${CMAKE_COMMAND} -E touch ${stamp_file})
     endif ()
     
     set (src
-        SslSocket.cpp
-        SslSocketPlugin.cpp
-        SslSocketConfigWidget.cpp
+        SslClientSocket.cpp
+        SslClientSocketPlugin.cpp
+        SslClientSocketConfigWidget.cpp
     )
     
     set (hdr
-        SslSocket.h
-        SslSocketPlugin.h
-        SslSocketConfigWidget.h
+        SslClientSocket.h
+        SslClientSocketPlugin.h
+        SslClientSocketConfigWidget.h
     )
     
     cc_qt_wrap_cpp(
@@ -37,7 +37,7 @@ function (plugin_ssl_client_socket)
     
     cc_qt_wrap_ui(
         ui
-        SslSocketConfigWidget.ui
+        SslClientSocketConfigWidget.ui
     )
     
     add_library (${name} MODULE ${src} ${moc} ${ui})

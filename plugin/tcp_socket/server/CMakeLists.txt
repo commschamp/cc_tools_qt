@@ -12,21 +12,21 @@ function (plugin_tcp_server_socket)
     set (refresh_plugin_header TRUE)
     if ((NOT EXISTS ${stamp_file}) OR (${meta_file} IS_NEWER_THAN ${stamp_file}))
         execute_process(
-            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_SOURCE_DIR}/SocketPlugin.h)
+            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_SOURCE_DIR}/TcpServerSocketPlugin.h)
         execute_process(
             COMMAND ${CMAKE_COMMAND} -E touch ${stamp_file})
     endif ()
     
     set (src
-        Socket.cpp
-        SocketPlugin.cpp
-        SocketConfigWidget.cpp
+        TcpServerSocket.cpp
+        TcpServerSocketPlugin.cpp
+        TcpServerSocketConfigWidget.cpp
     )
     
     set (hdr
-        Socket.h
-        SocketPlugin.h
-        SocketConfigWidget.h
+        TcpServerSocket.h
+        TcpServerSocketPlugin.h
+        TcpServerSocketConfigWidget.h
     )
     
     cc_qt_wrap_cpp(
@@ -36,7 +36,7 @@ function (plugin_tcp_server_socket)
     
     cc_qt_wrap_ui(
         ui
-        SocketConfigWidget.ui
+        TcpServerSocketConfigWidget.ui
     )
     
     

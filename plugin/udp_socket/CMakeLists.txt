@@ -13,21 +13,21 @@ function (plugin_udp_client_socket)
     set (refresh_plugin_header TRUE)
     if ((NOT EXISTS ${stamp_file}) OR (${meta_file} IS_NEWER_THAN ${stamp_file}))
         execute_process(
-            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_SOURCE_DIR}/Plugin.h)
+            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_SOURCE_DIR}/UdpSocketPlugin.h)
         execute_process(
             COMMAND ${CMAKE_COMMAND} -E touch ${stamp_file})
     endif ()
     
     set (src
-        Plugin.cpp
-        Socket.cpp
-        SocketConfigWidget.cpp
+        UdpSocket.cpp
+        UdpSocketPlugin.cpp
+        UdpSocketConfigWidget.cpp
     )
     
     set (hdr
-        Plugin.h
-        Socket.h
-        SocketConfigWidget.h
+        UdpSocketPlugin.h
+        UdpSocket.h
+        UdpSocketConfigWidget.h
     )
     
     cc_qt_wrap_cpp(
@@ -37,7 +37,7 @@ function (plugin_udp_client_socket)
     
     cc_qt_wrap_ui(
         ui
-        SocketConfigWidget.ui
+        UdpSocketConfigWidget.ui
     )
     
     add_library (${name} MODULE ${src} ${moc} ${ui})
