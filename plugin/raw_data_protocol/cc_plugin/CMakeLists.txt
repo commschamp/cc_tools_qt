@@ -1,5 +1,5 @@
 function (cc_plugin_raw_data_protocol)
-    set (name "raw_data_protocol")
+    set (name "cc_tools_plugin_raw_data_protocol")
     
     set (meta_file "${CMAKE_CURRENT_SOURCE_DIR}/raw_data_protocol.json")
     set (stamp_file "${CMAKE_CURRENT_BINARY_DIR}/refresh_stamp.txt")

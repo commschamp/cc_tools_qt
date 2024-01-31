@@ -51,7 +51,7 @@ struct DataInfo
     /// @brief Type of extra properties storage
     using PropertiesMap = QVariantMap;
 
-    Timestamp m_timestamp; ///< Timestam when data has been received / sent
+    Timestamp m_timestamp; ///< Timestamp when data has been received / sent
     DataSeq m_data; ///< Actual raw data
     PropertiesMap m_extraProperties; ///< Extra properties that can be used by
                                      /// other componets

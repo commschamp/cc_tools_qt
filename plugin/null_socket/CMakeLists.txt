@@ -1,5 +1,5 @@
 function (plugin_null_socket)
-    set (name "null_socket")
+    set (name "cc_tools_plugin_null_socket")
     
     set (meta_file "${CMAKE_CURRENT_SOURCE_DIR}/null_socket.json")
     set (stamp_file "${CMAKE_CURRENT_BINARY_DIR}/refresh_stamp.txt")

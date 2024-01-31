@@ -1,5 +1,5 @@
 function (plugin_serial_socket)
-    set (name "serial_socket")
+    set (name "cc_tools_plugin_serial_socket")
     
     if (NOT TARGET Qt::SerialPort)
         message(WARNING "Can NOT build ${name} due to missing Qt::SerialPort library")

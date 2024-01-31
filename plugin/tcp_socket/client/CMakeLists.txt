@@ -1,6 +1,6 @@
 
 function (plugin_tcp_client_socket)
-    set (name "tcp_client_socket")
+    set (name "cc_tools_plugin_tcp_client_socket")
     
     if (NOT TARGET Qt::Network)
         message(WARNING "Can NOT build ${name} due to missing Qt::Network library")

@@ -1,6 +1,6 @@
 
 function (plugin_udp_client_socket)
-    set (name "udp_client_socket")
+    set (name "cc_tools_plugin_udp_client_socket")
     
     if (NOT TARGET Qt::Network)
         message(WARNING "Can NOT build ${name} due to missing Qt::Network library")

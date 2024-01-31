@@ -1,6 +1,6 @@
 
 function (plugin_echo_socket)
-    set (name "echo_socket")
+    set (name "cc_tools_plugin_echo_socket")
     
     set (meta_file "${CMAKE_CURRENT_SOURCE_DIR}/echo_socket.json")
     set (stamp_file "${CMAKE_CURRENT_BINARY_DIR}/refresh_stamp.txt")
