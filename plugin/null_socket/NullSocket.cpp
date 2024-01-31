@@ -22,6 +22,9 @@
 namespace cc_tools_qt
 {
 
+namespace plugin    
+{
+
 NullSocket::NullSocket() = default;
 NullSocket::~NullSocket() noexcept = default;
 
@@ -34,6 +37,8 @@ unsigned NullSocket::connectionPropertiesImpl() const
 {
     return ConnectionProperty_Autoconnect | ConnectionProperty_NonDisconnectable;
 }
+
+} // namespace plugin
 
 }  // namespace cc_tools_qt
 

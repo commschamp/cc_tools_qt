@@ -32,12 +32,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace tcp_socket
-{
-
-namespace proxy
-{
-
 namespace
 {
 
@@ -386,10 +380,6 @@ void TcpProxySocket::performReadWrite(QTcpSocket& readFromSocket, QTcpSocket& wr
 
     reportDataReceived(std::move(dataPtr));
 }
-
-}  // namespace proxy
-
-}  // namespace tcp_socket
 
 } // namespace plugin
 

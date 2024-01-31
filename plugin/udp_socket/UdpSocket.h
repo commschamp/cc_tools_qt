@@ -34,12 +34,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace udp_socket
-{
-
-namespace client
-{
-
 class UdpSocket : public QObject, public cc_tools_qt::Socket
 {
     Q_OBJECT
@@ -116,10 +110,6 @@ private:
     QUdpSocket m_broadcastSocket;
     bool m_running = false;
 };
-
-}  // namespace client
-
-}  // namespace udp_socket
 
 } // namespace plugin
 

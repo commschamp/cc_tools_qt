@@ -30,12 +30,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace tcp_socket
-{
-
-namespace client
-{
-
 class TcpClientSocketPlugin : public cc_tools_qt::Plugin
 {
     Q_OBJECT
@@ -55,10 +49,6 @@ private:
 
     std::shared_ptr<TcpClientSocket> m_socket;
 };
-
-}  // namespace client
-
-}  // namespace tcp_socket
 
 }  // namespace plugin
 

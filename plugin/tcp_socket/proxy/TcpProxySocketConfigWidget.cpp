@@ -25,12 +25,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace tcp_socket
-{
-
-namespace proxy
-{
-
 TcpProxySocketConfigWidget::TcpProxySocketConfigWidget(
     TcpProxySocket& socket,
     QWidget* parentObj)
@@ -84,10 +78,6 @@ void TcpProxySocketConfigWidget::remotePortValueChanged(int value)
 {
     m_socket.setRemotePort(static_cast<PortType>(value));
 }
-
-}  // namespace proxy
-
-}  // namespace tcp_socket
 
 }  // namespace plugin
 

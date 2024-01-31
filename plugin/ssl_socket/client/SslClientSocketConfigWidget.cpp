@@ -31,12 +31,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace ssl_socket
-{
-
-namespace client
-{
-
 namespace 
 {
 
@@ -380,10 +374,6 @@ void SslClientSocketConfigWidget::privKeyPassValueChanged(const QString& value)
 {
     m_socket.setPrivKeyPass(value);
 }
-
-}  // namespace client
-
-}  // namespace ssl_socket
 
 }  // namespace plugin
 

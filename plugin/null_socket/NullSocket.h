@@ -23,6 +23,9 @@
 namespace cc_tools_qt
 {
 
+namespace plugin
+{
+
 class NullSocket : public Socket
 {
 public:
@@ -39,6 +42,8 @@ SocketPtr makeNullSocket()
 {
     return SocketPtr(new NullSocket());
 }
+
+} // namespace plugin
 
 }  // namespace cc_tools_qt
 

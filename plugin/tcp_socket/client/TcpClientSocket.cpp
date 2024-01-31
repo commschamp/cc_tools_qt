@@ -32,12 +32,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace tcp_socket
-{
-
-namespace client
-{
-
 namespace
 {
 
@@ -172,10 +166,6 @@ void TcpClientSocket::socketErrorOccurred([[maybe_unused]] QAbstractSocket::Sock
         reportDisconnected();
     }
 }
-
-}  // namespace client
-
-}  // namespace tcp_socket
 
 } // namespace plugin
 

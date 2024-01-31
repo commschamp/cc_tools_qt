@@ -25,12 +25,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace tcp_socket
-{
-
-namespace client
-{
-
 TcpClientSocketConfigWidget::TcpClientSocketConfigWidget(
     TcpClientSocket& socket,
     QWidget* parentObj)
@@ -68,10 +62,6 @@ void TcpClientSocketConfigWidget::portValueChanged(int value)
 {
     m_socket.setPort(static_cast<PortType>(value));
 }
-
-}  // namespace client
-
-}  // namespace tcp_socket
 
 }  // namespace plugin
 

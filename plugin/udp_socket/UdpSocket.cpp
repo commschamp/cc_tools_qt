@@ -33,12 +33,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace udp_socket
-{
-
-namespace client
-{
-
 namespace
 {
 
@@ -273,10 +267,6 @@ bool UdpSocket::bindSocket(QUdpSocket& socket)
 
     return socket.open(QUdpSocket::ReadWrite);
 }
-
-}  // namespace client
-
-}  // namespace udp_socket
 
 } // namespace plugin
 

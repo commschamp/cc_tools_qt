@@ -34,12 +34,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace ssl_socket
-{
-
-namespace client
-{
-
 class SslClientSocket : public QObject,
                public cc_tools_qt::Socket
 {
@@ -232,10 +226,6 @@ private:
     QString m_privKeyPass;
     QSslSocket m_socket;
 };
-
-}  // namespace client
-
-}  // namespace ssl_socket
 
 } // namespace plugin
 

@@ -30,12 +30,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace udp_socket
-{
-
-namespace client
-{
-
 class UdpSocketPlugin : public cc_tools_qt::Plugin
 {
     Q_OBJECT
@@ -55,10 +49,6 @@ private:
 
     std::shared_ptr<UdpSocket> m_socket;
 };
-
-}  // namespace client
-
-}  // namespace udp_socket
 
 }  // namespace plugin
 

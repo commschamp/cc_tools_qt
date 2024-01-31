@@ -33,12 +33,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace udp_socket
-{
-
-namespace client
-{
-
 class UdpSocketConfigWidget : public QWidget
 {
     Q_OBJECT
@@ -62,10 +56,6 @@ private:
     UdpSocket& m_socket;
     Ui::UdpSocketConfigWidget m_ui;
 };
-
-}  // namespace client
-
-}  // namespace udp_socket
 
 }  // namespace plugin
 

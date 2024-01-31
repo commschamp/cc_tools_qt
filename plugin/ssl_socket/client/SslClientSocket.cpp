@@ -32,12 +32,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace ssl_socket
-{
-
-namespace client
-{
-
 namespace
 {
 
@@ -208,10 +202,6 @@ void SslClientSocket::sslErrorsOccurred(const QList<QSslError>& errs)
         reportError(e.errorString());
     }
 }
-
-}  // namespace client
-
-}  // namespace ssl_socket
 
 } // namespace plugin
 

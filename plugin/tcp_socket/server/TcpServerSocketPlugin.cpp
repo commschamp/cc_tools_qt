@@ -29,12 +29,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace tcp_socket
-{
-
-namespace server
-{
-
 namespace
 {
 
@@ -98,10 +92,6 @@ void TcpServerSocketPlugin::createSocketIfNeeded()
         m_socket.reset(new TcpServerSocket());
     }
 }
-
-}  // namespace server
-
-}  // namespace tcp_socket
 
 }  // namespace plugin
 

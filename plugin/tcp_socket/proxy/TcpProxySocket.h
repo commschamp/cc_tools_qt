@@ -35,12 +35,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace tcp_socket
-{
-
-namespace proxy
-{
-
 class TcpProxySocket : public QObject, public cc_tools_qt::Socket
 {
     Q_OBJECT
@@ -117,10 +111,6 @@ private:
     QTcpServer m_server;
     SocketsList m_sockets;
 };
-
-}  // namespace proxy
-
-}  // namespace tcp_socket
 
 } // namespace plugin
 

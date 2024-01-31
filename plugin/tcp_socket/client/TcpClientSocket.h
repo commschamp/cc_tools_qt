@@ -34,12 +34,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace tcp_socket
-{
-
-namespace client
-{
-
 class TcpClientSocket : public QObject, public cc_tools_qt::Socket
 {
     Q_OBJECT
@@ -88,10 +82,6 @@ private:
     PortType m_port = DefaultPort;
     QTcpSocket m_socket;
 };
-
-}  // namespace client
-
-}  // namespace tcp_socket
 
 } // namespace plugin
 

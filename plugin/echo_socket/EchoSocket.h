@@ -31,6 +31,9 @@ CC_ENABLE_WARNINGS()
 namespace cc_tools_qt
 {
 
+namespace plugin
+{
+
 class EchoSocket : public QObject, public Socket
 {
     Q_OBJECT
@@ -57,6 +60,8 @@ SocketPtr makeEchoSocket()
 {
     return SocketPtr(new EchoSocket());
 }
+
+} // namespace plugin
 
 }  // namespace cc_tools_qt
 

@@ -33,12 +33,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace tcp_socket
-{
-
-namespace client
-{
-
 class TcpClientSocketConfigWidget : public QWidget
 {
     Q_OBJECT
@@ -60,10 +54,6 @@ private:
     TcpClientSocket& m_socket;
     Ui::TcpClientSocketConfigWidget m_ui;
 };
-
-}  // namespace client
-
-}  // namespace tcp_socket
 
 }  // namespace plugin
 

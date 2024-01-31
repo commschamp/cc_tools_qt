@@ -22,6 +22,9 @@
 namespace cc_tools_qt
 {
 
+namespace plugin
+{
+
 EchoSocket::EchoSocket()
 {
     m_timer.setSingleShot(true);
@@ -63,6 +66,8 @@ void EchoSocket::sendDataPostponed()
         reportDataReceived(std::move(inDataPtr));
     }
 }
+
+} // namespace plugin
 
 }  // namespace cc_tools_qt
 

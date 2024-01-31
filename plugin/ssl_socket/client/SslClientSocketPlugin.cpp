@@ -28,12 +28,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace ssl_socket
-{
-
-namespace client
-{
-
 namespace
 {
 
@@ -200,10 +194,6 @@ void SslClientSocketPlugin::createSocketIfNeeded()
         m_socket.reset(new SslClientSocket());
     }
 }
-
-}  // namespace client
-
-}  // namespace ssl_socket
 
 }  // namespace plugin
 

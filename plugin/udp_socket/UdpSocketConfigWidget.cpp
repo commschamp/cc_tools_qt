@@ -25,12 +25,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace udp_socket
-{
-
-namespace client
-{
-
 UdpSocketConfigWidget::UdpSocketConfigWidget(
     UdpSocket& socket,
     QWidget* parentObj)
@@ -96,10 +90,6 @@ void UdpSocketConfigWidget::broadcastValueChanged(const QString& value)
 {
     m_socket.setBroadcastPropName(value);
 }
-
-}  // namespace client
-
-}  // namespace udp_socket
 
 }  // namespace plugin
 

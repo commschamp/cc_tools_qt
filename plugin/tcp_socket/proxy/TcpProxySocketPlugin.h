@@ -30,12 +30,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace tcp_socket
-{
-
-namespace proxy
-{
-
 
 class TcpProxySocketPlugin : public cc_tools_qt::Plugin
 {
@@ -56,10 +50,6 @@ private:
 
     std::shared_ptr<TcpProxySocket> m_socket;
 };
-
-}  // namespace proxy
-
-}  // namespace tcp_socket
 
 }  // namespace plugin
 

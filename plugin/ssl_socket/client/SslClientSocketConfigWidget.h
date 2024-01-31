@@ -33,12 +33,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace ssl_socket
-{
-
-namespace client
-{
-
 class SslClientSocketConfigWidget : public QWidget
 {
     Q_OBJECT
@@ -77,10 +71,6 @@ private:
     SslClientSocket& m_socket;
     Ui::SslClientSocketConfigWidget m_ui;
 };
-
-}  // namespace client
-
-}  // namespace ssl_socket
 
 }  // namespace plugin
 

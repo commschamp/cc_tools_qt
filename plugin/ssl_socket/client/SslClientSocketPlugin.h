@@ -30,12 +30,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace ssl_socket
-{
-
-namespace client
-{
-
 class SslClientSocketPlugin : public cc_tools_qt::Plugin
 {
     Q_OBJECT
@@ -55,10 +49,6 @@ private:
 
     std::shared_ptr<SslClientSocket> m_socket;
 };
-
-}  // namespace client
-
-}  // namespace ssl_socket
 
 }  // namespace plugin
 

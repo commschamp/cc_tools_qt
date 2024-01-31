@@ -28,12 +28,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace udp_socket
-{
-
-namespace client
-{
-
 namespace
 {
 
@@ -119,10 +113,6 @@ void UdpSocketPlugin::createSocketIfNeeded()
         m_socket.reset(new UdpSocket());
     }
 }
-
-}  // namespace client
-
-}  // namespace udp_socket
 
 }  // namespace plugin
 

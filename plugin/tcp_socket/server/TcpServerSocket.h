@@ -35,12 +35,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace tcp_socket
-{
-
-namespace server
-{
-
 class TcpServerSocket : public QObject, public cc_tools_qt::Socket
 {
     Q_OBJECT
@@ -81,10 +75,6 @@ private:
     std::list<QTcpSocket*> m_sockets;
     QTcpServer m_server;
 };
-
-}  // namespace server
-
-}  // namespace tcp_socket
 
 } // namespace plugin
 

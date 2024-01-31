@@ -29,12 +29,6 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace tcp_socket
-{
-
-namespace proxy
-{
-
 namespace
 {
 
@@ -116,10 +110,6 @@ void TcpProxySocketPlugin::createSocketIfNeeded()
         m_socket.reset(new TcpProxySocket());
     }
 }
-
-}  // namespace proxy
-
-}  // namespace tcp_socket
 
 }  // namespace plugin
 
