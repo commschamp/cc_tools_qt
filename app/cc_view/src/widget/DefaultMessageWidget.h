@@ -20,12 +20,8 @@
 
 #include <memory>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QFrame>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/Message.h"
 #include "MessageWidget.h"

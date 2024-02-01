@@ -18,11 +18,7 @@
 
 #pragma once
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QWidget>
-CC_ENABLE_WARNINGS()
 
 #include "SerialSocket.h"
 #include "ui_SerialSocketConfigWidget.h"

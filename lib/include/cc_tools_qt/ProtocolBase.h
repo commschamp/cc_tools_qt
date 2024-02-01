@@ -23,13 +23,9 @@
 #include <cassert>
 
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QByteArray>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/ErrorStatus.h"
 #include "comms/util/ScopeGuard.h"

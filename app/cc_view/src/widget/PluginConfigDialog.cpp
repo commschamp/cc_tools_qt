@@ -20,16 +20,12 @@
 #include <cassert>
 #include <memory>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMessageBox>
 #include <QtCore/QDir>
-CC_ENABLE_WARNINGS()
 
 #include "comms/util/ScopeGuard.h"
 #include "PluginMgrG.h"

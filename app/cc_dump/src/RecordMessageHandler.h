@@ -20,11 +20,7 @@
 
 #include <memory>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QString>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/MessageHandler.h"
 #include "cc_tools_qt/MsgFileMgr.h"

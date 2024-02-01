@@ -22,13 +22,9 @@
 #include <list>
 #include <array>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QString>
 #include <QtCore/QVariantMap>
 #include <QtCore/QPluginLoader>
-CC_ENABLE_WARNINGS()
 
 #include "Api.h"
 #include "Plugin.h"

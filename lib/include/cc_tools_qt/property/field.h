@@ -18,15 +18,11 @@
 
 #pragma once
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QString>
 #include <QtCore/QVariantMap>
 #include <QtCore/QVariantList>
 #include <QtCore/QList>
 #include <QtCore/QPair>
-CC_ENABLE_WARNINGS()
 
 #include "comms/comms.h"
 #include "cc_tools_qt/Api.h"

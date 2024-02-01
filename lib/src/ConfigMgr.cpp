@@ -20,14 +20,10 @@
 #include <cassert>
 #include <iostream>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QFile>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
 #include <QtCore/QVariantMap>
-CC_ENABLE_WARNINGS()
 
 namespace cc_tools_qt
 {

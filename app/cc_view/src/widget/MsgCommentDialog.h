@@ -18,13 +18,9 @@
 
 #pragma once
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QDialog>
 
 #include "ui_MsgCommentDialog.h"
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/Message.h"
 

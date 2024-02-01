@@ -21,14 +21,10 @@
 #include <cassert>
 #include <memory>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QTimer>
 #include <QtCore/QStandardPaths>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/property/message.h"
 #include "DefaultMessageDisplayHandler.h"

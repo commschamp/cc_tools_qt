@@ -19,12 +19,8 @@
 
 #include <cassert>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QSplitter>
-CC_ENABLE_WARNINGS()
 
 #include "MsgDetailsWidget.h"
 #include "ProtocolsStackWidget.h"

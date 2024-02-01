@@ -23,14 +23,10 @@
 #include <iterator>
 #include <cassert>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QSpinBox>
-CC_ENABLE_WARNINGS()
 
 namespace cc_tools_qt
 {

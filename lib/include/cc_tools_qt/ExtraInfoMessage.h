@@ -22,14 +22,10 @@
 #include <cassert>
 #include <tuple>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QString>
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QByteArray>
-CC_ENABLE_WARNINGS()
 
 #include "comms/comms.h"
 #include "property/field.h"

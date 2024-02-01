@@ -18,11 +18,7 @@
 
 #pragma once
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtGui/QIcon>
-CC_ENABLE_WARNINGS()
 
 namespace cc_tools_qt
 {

@@ -19,13 +19,9 @@
 
 #include <memory>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QWidget>
 
 #include "ui_MsgDetailsWidget.h"
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/Message.h"
 #include "DefaultMessageDisplayHandler.h"

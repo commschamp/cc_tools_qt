@@ -20,12 +20,8 @@
 
 #include <vector>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QLabel>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/field_wrapper/BundleWrapper.h"
 #include "FieldWidget.h"

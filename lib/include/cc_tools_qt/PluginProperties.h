@@ -20,15 +20,11 @@
 
 #include <functional>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QVariant>
 #include <QtCore/QVariantMap>
 #include <QtCore/QString>
 #include <QtCore/QMetaType>
 #include <QtCore/QList>
-CC_ENABLE_WARNINGS()
 
 #include "Socket.h"
 #include "Protocol.h"

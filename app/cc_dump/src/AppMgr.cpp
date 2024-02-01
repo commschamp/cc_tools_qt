@@ -21,10 +21,8 @@
 #include <type_traits>
 #include <string>
 
-CC_DISABLE_WARNINGS()
 #include <QtCore/QDir>
 #include <QtCore/QCoreApplication>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/property/message.h"
 

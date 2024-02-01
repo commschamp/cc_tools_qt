@@ -18,8 +18,6 @@
 
 #pragma once
 
-#include "comms/CompileControl.h"
-
 #include <QtWidgets/QDialog>
 
 #include "ui_MessagesFilterDialog.h"

@@ -23,12 +23,8 @@
 #include <cstddef>
 #include <list>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QMetaType>
 #include <QtCore/QString>
-CC_ENABLE_WARNINGS()
 
 #include "Api.h"
 #include "Message.h"

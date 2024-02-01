@@ -17,15 +17,11 @@
 
 #pragma once
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 
 #include "ui_PluginConfigDialog.h"
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/PluginMgr.h"
 #include "PluginsListWidget.h"

@@ -19,12 +19,8 @@
 
 #include <cassert>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QVariant>
 #include <QtCore/QDateTime>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/Message.h"
 #include "cc_tools_qt/property/message.h"

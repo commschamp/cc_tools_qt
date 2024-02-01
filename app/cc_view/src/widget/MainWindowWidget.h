@@ -21,14 +21,10 @@
 #include <list>
 #include <tuple>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QToolBar>
 
 #include "ui_MainWindowWidget.h"
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/Protocol.h"
 

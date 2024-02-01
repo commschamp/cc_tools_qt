@@ -23,12 +23,8 @@
 #include <vector>
 #include <functional>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QString>
 #include <QtCore/QList>
-CC_ENABLE_WARNINGS()
 
 #include "DataInfo.h"
 #include "Api.h"

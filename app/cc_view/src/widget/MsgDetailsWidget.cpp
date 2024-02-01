@@ -19,10 +19,8 @@
 
 #include <cassert>
 
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QScrollBar>
 #include <QtWidgets/QWidget>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/property/message.h"
 #include "GuiAppMgr.h"

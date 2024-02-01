@@ -22,15 +22,11 @@
 #include <type_traits>
 #include <iostream>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QString>
 #include <QtCore/QVariantList>
 #include <QtCore/QDir>
 #include <QtCore/QJsonArray>
 #include <QtCore/QVariantList>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/Plugin.h"
 

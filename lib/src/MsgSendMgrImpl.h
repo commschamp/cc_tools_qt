@@ -19,12 +19,8 @@
 
 #include <memory>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QObject>
 #include <QtCore/QTimer>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/MsgSendMgr.h"
 #include "cc_tools_qt/Protocol.h"

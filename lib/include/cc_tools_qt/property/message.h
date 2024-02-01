@@ -20,13 +20,9 @@
 
 #include <cassert>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QObject>
 #include <QtCore/QString>
 #include <QtCore/QVariantMap>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/Api.h"
 #include "cc_tools_qt/Message.h"

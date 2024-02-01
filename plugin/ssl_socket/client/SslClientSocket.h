@@ -19,11 +19,7 @@
 
 #include <list>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtNetwork/QSslSocket>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/Socket.h"
 

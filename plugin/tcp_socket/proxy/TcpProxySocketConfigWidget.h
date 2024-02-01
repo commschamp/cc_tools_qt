@@ -18,12 +18,8 @@
 
 #pragma once
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QWidget>
 #include "ui_TcpProxySocketConfigWidget.h"
-CC_ENABLE_WARNINGS()
 
 #include "TcpProxySocket.h"
 

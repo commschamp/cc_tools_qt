@@ -17,11 +17,7 @@
 
 #include "LeftPaneWidget.h"
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QLabel>
-CC_ENABLE_WARNINGS()
 
 #include "RecvMsgListWidget.h"
 #include "SendMsgListWidget.h"

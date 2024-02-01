@@ -19,11 +19,9 @@
 
 #include <cassert>
 
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QApplication>
 #include <QtCore/QDir>
 #include <QtCore/QStandardPaths>
-CC_ENABLE_WARNINGS()
 
 namespace cc_tools_qt {
 

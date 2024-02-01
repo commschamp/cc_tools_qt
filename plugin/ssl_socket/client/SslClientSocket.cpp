@@ -17,12 +17,8 @@
 
 #include <cassert>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtNetwork/QHostAddress>
 #include <QtNetwork/QSslConfiguration>
-CC_ENABLE_WARNINGS()
 
 #include "SslClientSocket.h"
 

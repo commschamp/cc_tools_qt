@@ -18,14 +18,10 @@
 
 #pragma once
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QListWidgetItem>
 
 #include "ui_PluginsListWidget.h"
-CC_ENABLE_WARNINGS()
 
 namespace cc_tools_qt
 {

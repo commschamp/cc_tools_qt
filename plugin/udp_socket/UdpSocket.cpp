@@ -18,12 +18,8 @@
 #include <cassert>
 #include <iostream>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QtGlobal>
 #include <QtNetwork/QHostAddress>
-CC_ENABLE_WARNINGS()
 
 #include "UdpSocket.h"
 

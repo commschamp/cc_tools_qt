@@ -24,9 +24,7 @@
 #include <algorithm>
 #include <iterator>
 
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QPushButton>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/property/message.h"
 

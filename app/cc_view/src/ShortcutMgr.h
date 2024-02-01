@@ -20,12 +20,8 @@
 
 #include <array>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QObject>
 #include <QtGui/QKeySequence>
-CC_ENABLE_WARNINGS()
 
 #include "ActionWrap.h"
 

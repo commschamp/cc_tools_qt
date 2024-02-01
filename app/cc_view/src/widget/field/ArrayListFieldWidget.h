@@ -21,14 +21,10 @@
 #include <functional>
 #include <vector>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QVariantMap>
 
 #include "ui_ArrayListElementWidget.h"
 #include "ui_ArrayListFieldWidget.h"
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/field_wrapper/ArrayListWrapper.h"
 #include "FieldWidget.h"

@@ -18,15 +18,11 @@
 
 #pragma once
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QWidget>
 #include <QtCore/QString>
 #include <QtCore/qnamespace.h>
 
 #include "ui_MsgListWidget.h"
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/Message.h"
 #include "cc_tools_qt/Protocol.h"

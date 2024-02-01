@@ -17,11 +17,7 @@
 
 #include "RightPaneWidget.h"
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QVBoxLayout>
-CC_ENABLE_WARNINGS()
 
 #include "DefaultMessageDisplayWidget.h"
 #include "GuiAppMgr.h"
