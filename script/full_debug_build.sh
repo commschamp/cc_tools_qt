@@ -17,7 +17,7 @@ ${SCRIPT_DIR}/prepare_externals.sh
 
 cd ${BUILD_DIR}
 cmake .. -DCMAKE_INSTALL_PREFIX=${COMMON_INSTALL_DIR} -DCMAKE_BUILD_TYPE=${COMMON_BUILD_TYPE} \
-    -DCC_TOOLS_QT_BUILD_DEMO_PROTOCOL=ON "$@"
+    -DCC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL=ON "$@"
 
 procs=$(nproc)
 if [ -n "${procs}" ]; then

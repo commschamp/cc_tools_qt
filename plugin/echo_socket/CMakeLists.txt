@@ -1,3 +1,8 @@
+if (NOT CC_TOOLS_QT_BUILD_PLUGIN_ECHO_SOCKET)
+    return()
+endif ()
+
+######################################################################
 
 function (plugin_echo_socket)
     set (name "cc_tools_plugin_echo_socket")
@@ -29,11 +34,9 @@ function (plugin_echo_socket)
     add_library (${name} MODULE ${src} ${moc})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Core)
     
-    if (CC_TOOLS_QT_INSTALL_PLUGINS)
-        install (
-            TARGETS ${name}
-            DESTINATION ${PLUGIN_INSTALL_DIR})
-    endif ()
+    install (
+        TARGETS ${name}
+        DESTINATION ${PLUGIN_INSTALL_DIR})
     
 endfunction()
 

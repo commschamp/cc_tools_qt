@@ -1,3 +1,9 @@
+if (NOT CC_TOOLS_QT_BUILD_PLUGIN_TCP_SERVER_SOCKET)
+    return()
+endif ()
+
+######################################################################
+
 function (plugin_tcp_server_socket)
     set (name "cc_tools_plugin_tcp_server_socket")
     
@@ -43,11 +49,9 @@ function (plugin_tcp_server_socket)
     add_library (${name} MODULE ${src} ${moc} ${ui})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Network Qt::Widgets Qt::Core)
     
-    if (CC_TOOLS_QT_INSTALL_PLUGINS)
-        install (
-            TARGETS ${name}
-            DESTINATION ${PLUGIN_INSTALL_DIR})
-    endif ()
+    install (
+        TARGETS ${name}
+        DESTINATION ${PLUGIN_INSTALL_DIR})
     
 endfunction()
 

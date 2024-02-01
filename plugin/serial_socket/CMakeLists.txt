@@ -1,3 +1,9 @@
+if (NOT CC_TOOLS_QT_BUILD_PLUGIN_SERIAL_SOCKET)
+    return()
+endif ()
+
+######################################################################
+
 function (plugin_serial_socket)
     set (name "cc_tools_plugin_serial_socket")
     
@@ -42,11 +48,9 @@ function (plugin_serial_socket)
     add_library (${name} MODULE ${src} ${moc} ${ui})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::SerialPort Qt::Widgets Qt::Core)
     
-    if (CC_TOOLS_QT_INSTALL_PLUGINS)
-        install (
-            TARGETS ${name}
-            DESTINATION ${PLUGIN_INSTALL_DIR})
-    endif ()
+    install (
+        TARGETS ${name}
+        DESTINATION ${PLUGIN_INSTALL_DIR})
     
 endfunction()
 

@@ -57,7 +57,7 @@ build_script:
     - cd %BUILD_DIR%
     - cmake .. -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G "%CMAKE_GENERATOR%" %PLATFORM_PARAM% -DCMAKE_INSTALL_PREFIX="%COMMON_INSTALL_DIR%" ^
         -DCMAKE_PREFIX_PATH="%COMMON_INSTALL_DIR%;%QTDIR%" -DCMAKE_CXX_STANDARD=%CPP_STD% ^
-        -DCC_TOOLS_QT_BUILD_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=%QT_MAJOR%
+        -DCC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=%QT_MAJOR%
     - cmake --build . --config %CONFIGURATION% --target install
     - echo -------------------------- Deploying Qt ---------------------------
     - cmake --build . --config %CONFIGURATION% --target deploy_qt

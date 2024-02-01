@@ -32,11 +32,9 @@ function (cc_plugin_raw_data_protocol)
     add_library (${name} MODULE ${src} ${moc})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Core)
     
-    if (CC_TOOLS_QT_INSTALL_PLUGINS)
-        install (
-            TARGETS ${name}
-            DESTINATION ${PLUGIN_INSTALL_DIR})
-    endif ()
+    install (
+        TARGETS ${name}
+        DESTINATION ${PLUGIN_INSTALL_DIR})
         
 endfunction()
 

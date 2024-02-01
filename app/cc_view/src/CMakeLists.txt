@@ -137,17 +137,15 @@ function (bin_cc_view)
     add_executable(${name} ${gui_exe} ${src} ${moc} ${ui} ${resources})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Widgets Qt::Core)
     
-    if (CC_TOOLS_QT_INSTALL_APPS)
-        install (
-            TARGETS ${name}
-            DESTINATION ${BIN_INSTALL_DIR})
-            
-        install (
-            FILES image/app_icon.png
-            DESTINATION ${ICON_INSTALL_DIR}
-            RENAME cc_view.png
-        )
-    endif ()
+    install (
+        TARGETS ${name}
+        DESTINATION ${BIN_INSTALL_DIR})
+        
+    install (
+        FILES image/app_icon.png
+        DESTINATION ${ICON_INSTALL_DIR}
+        RENAME cc_view.png
+    )
         
 endfunction ()
 

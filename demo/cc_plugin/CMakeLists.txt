@@ -46,11 +46,9 @@ function (cc_plugin_demo)
         $<$<CXX_COMPILER_ID:Clang>:-Wno-old-style-cast>
     )      
     
-    if (CC_TOOLS_QT_INSTALL_DEMO_PROTOCOL)
-        install (
-            TARGETS ${name}
-            DESTINATION ${PLUGIN_INSTALL_DIR})
-    endif ()
+    install (
+        TARGETS ${name}
+        DESTINATION ${PLUGIN_INSTALL_DIR})
         
 endfunction()
 
