@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -92,14 +92,12 @@ QVariant Plugin::getCustomProperty(const QString& name)
     return m_props.getCustomProperty(name);
 }
 
-void Plugin::getCurrentConfigImpl(QVariantMap& config)
+void Plugin::getCurrentConfigImpl([[maybe_unused]] QVariantMap& config)
 {
-    static_cast<void>(config);
 }
 
-void Plugin::reconfigureImpl(const QVariantMap& config)
+void Plugin::reconfigureImpl([[maybe_unused]] const QVariantMap& config)
 {
-    static_cast<void>(config);
 }
 
 PluginProperties& Plugin::pluginProperties()

@@ -1,33 +1,38 @@
+if (NOT CC_TOOLS_QT_BUILD_PLUGIN_UDP_SOCKET)
+    return()
+endif ()
+
+######################################################################
 
 function (plugin_udp_client_socket)
-    set (name "udp_client_socket")
+    set (name "cc_tools_plugin_udp_client_socket")
     
     if (NOT TARGET Qt::Network)
         message(WARNING "Can NOT build ${name} due to missing Qt::Network library")
         return()
     endif ()
     
-    set (meta_file "${CMAKE_CURRENT_SOURCE_DIR}/udp_client_socket.json")
-    set (stamp_file "${CMAKE_CURRENT_BINARY_DIR}/client_refresh_stamp.txt")
+    set (meta_file "${CMAKE_CURRENT_SOURCE_DIR}/udp_socket.json")
+    set (stamp_file "${CMAKE_CURRENT_BINARY_DIR}/refresh_stamp.txt")
     
     set (refresh_plugin_header TRUE)
     if ((NOT EXISTS ${stamp_file}) OR (${meta_file} IS_NEWER_THAN ${stamp_file}))
         execute_process(
-            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_SOURCE_DIR}/SocketPlugin.h)
+            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_SOURCE_DIR}/UdpSocketPlugin.h)
         execute_process(
             COMMAND ${CMAKE_COMMAND} -E touch ${stamp_file})
     endif ()
     
     set (src
-        Plugin.cpp
-        Socket.cpp
-        SocketConfigWidget.cpp
+        UdpSocket.cpp
+        UdpSocketPlugin.cpp
+        UdpSocketConfigWidget.cpp
     )
     
     set (hdr
-        Plugin.h
-        Socket.h
-        SocketConfigWidget.h
+        UdpSocketPlugin.h
+        UdpSocket.h
+        UdpSocketConfigWidget.h
     )
     
     cc_qt_wrap_cpp(
@@ -37,17 +42,15 @@ function (plugin_udp_client_socket)
     
     cc_qt_wrap_ui(
         ui
-        SocketConfigWidget.ui
+        UdpSocketConfigWidget.ui
     )
     
     add_library (${name} MODULE ${src} ${moc} ${ui})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Network Qt::Widgets Qt::Core)
     
-    if (CC_TOOLS_QT_INSTALL_PLUGINS)
-        install (
-            TARGETS ${name}
-            DESTINATION ${PLUGIN_INSTALL_DIR})
-    endif ()
+    install (
+        TARGETS ${name}
+        DESTINATION ${PLUGIN_INSTALL_DIR})
     
 endfunction()
 

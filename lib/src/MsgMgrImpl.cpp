@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,11 +22,7 @@
 #include <algorithm>
 #include <iterator>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QVariant>
-CC_ENABLE_WARNINGS()
 
 #include "comms/util/ScopeGuard.h"
 #include "cc_tools_qt/property/message.h"
@@ -71,8 +67,7 @@ MsgMgrImpl::~MsgMgrImpl() noexcept = default;
 void MsgMgrImpl::start()
 {
     if (m_running) {
-        static constexpr bool Already_running = false;
-        static_cast<void>(Already_running);
+        [[maybe_unused]] static constexpr bool Already_running = false;
         assert(Already_running);         
         return;
     }
@@ -91,8 +86,7 @@ void MsgMgrImpl::start()
 void MsgMgrImpl::stop()
 {
     if (!m_running) {
-        static constexpr bool Already_stopped = false;
-        static_cast<void>(Already_stopped);
+        [[maybe_unused]] static constexpr bool Already_stopped = false;
         assert(Already_stopped);   
         return;
     }
@@ -111,8 +105,7 @@ void MsgMgrImpl::stop()
 void MsgMgrImpl::clear()
 {
     if (m_running) {
-        static constexpr bool Still_running = false;
-        static_cast<void>(Still_running);
+        [[maybe_unused]] static constexpr bool Still_running = false;
         assert(Still_running); ;
         stop();
     }
@@ -154,8 +147,7 @@ void MsgMgrImpl::deleteMsg(MessagePtr msg)
         });
 
     if (iter == m_allMsgs.end()) {
-        static constexpr bool Deleting_non_existing_message = false;
-        static_cast<void>(Deleting_non_existing_message);
+        [[maybe_unused]] static constexpr bool Deleting_non_existing_message = false;
         assert(Deleting_non_existing_message);         
         return;
     }
@@ -232,15 +224,13 @@ void MsgMgrImpl::addMsgs(const MessagesList& msgs, bool reportAdded)
 
     for (auto& m : msgs) {
         if (!m) {
-            static constexpr bool Invalid_message_in_the_list = false;
-            static_cast<void>(Invalid_message_in_the_list);
+            [[maybe_unused]] static constexpr bool Invalid_message_in_the_list = false;
             assert(Invalid_message_in_the_list);
             continue;
         }
 
         if (property::message::Type().getFrom(*m) == MsgType::Invalid) {
-            static constexpr bool Invalid_type_of_message = false;
-            static_cast<void>(Invalid_type_of_message);
+            [[maybe_unused]] static constexpr bool Invalid_type_of_message = false;
             assert(Invalid_type_of_message);            
             continue;
         }
@@ -277,10 +267,18 @@ void MsgMgrImpl::setSocket(SocketPtr socket)
             reportError(msg);
         });
 
-    socket->setDisconnectedReportCallback(
-        [this]()
+    socket->setConnectionStatusReportCallback(
+        [this](bool connected)
         {
-            reportSocketDisconnected();
+            for (auto& filter : m_filters) {
+                filter->socketConnectionReport(connected);
+            }
+
+            if (m_protocol) {
+                m_protocol->socketConnectionReport(connected);
+            }
+            
+            reportSocketConnectionStatus(connected);
         });
 
     m_socket = std::move(socket);
@@ -426,10 +424,10 @@ void MsgMgrImpl::reportError(const QString& error)
     }
 }
 
-void MsgMgrImpl::reportSocketDisconnected()
+void MsgMgrImpl::reportSocketConnectionStatus(bool connected)
 {
-    if (m_socketDisconnectReportCallback) {
-        m_socketDisconnectReportCallback();
+    if (m_socketConnectionStatusReportCallback) {
+        m_socketConnectionStatusReportCallback(connected);
     }
 }
 

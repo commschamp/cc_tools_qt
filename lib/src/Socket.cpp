@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -47,6 +47,9 @@ bool Socket::isRunning() const
 bool Socket::socketConnect()
 {
     m_connected = socketConnectImpl();
+    if (m_connectionStatusReportCallback) {
+        m_connectionStatusReportCallback(m_connected);
+    }    
     return m_connected;
 }
 
@@ -54,6 +57,9 @@ void Socket::socketDisconnect()
 {
     socketDisconnectImpl();
     m_connected = false;
+    if (m_connectionStatusReportCallback) {
+        m_connectionStatusReportCallback(false);
+    }      
 }
 
 bool Socket::isSocketConnected() const
@@ -125,8 +131,8 @@ void Socket::reportError(const QString& msg)
 void Socket::reportDisconnected()
 {
     m_connected = false;
-    if (m_running && m_disconnectedReportCallback) {
-        m_disconnectedReportCallback();
+    if (m_running && m_connectionStatusReportCallback) {
+        m_connectionStatusReportCallback(false);
     }
 }
 

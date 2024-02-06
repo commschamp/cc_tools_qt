@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -138,8 +138,7 @@ protected:
 
         col.push_back(ElementType());
         if (!m_wrapFieldFunc) {
-            static constexpr bool Callback_is_not_set = false;
-            static_cast<void>(Callback_is_not_set);
+            [[maybe_unused]] static constexpr bool Callback_is_not_set = false;
             assert(Callback_is_not_set);       
             mems.clear();
             return;
@@ -176,11 +175,9 @@ protected:
         }
     }
 
-    virtual bool setSerialisedValueImpl(const SerialisedSeq& value) override
+    virtual bool setSerialisedValueImpl([[maybe_unused]] const SerialisedSeq& value) override
     {
-        static_cast<void>(value);
-        static constexpr bool Must_not_be_called = false;
-        static_cast<void>(Must_not_be_called);
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
         assert(Must_not_be_called); 
         return false;
     }
@@ -216,8 +213,7 @@ protected:
     virtual void refreshMembersImpl() override
     {
         if (!m_wrapFieldFunc) {
-            static constexpr bool Callback_is_not_set = false;
-            static_cast<void>(Callback_is_not_set);
+            [[maybe_unused]] static constexpr bool Callback_is_not_set = false;
             assert(Callback_is_not_set);  
         }
 
@@ -319,16 +315,14 @@ private:
         SerialisedSeq serData;
         serData.reserve(prefixField.length());
         auto writeIter = std::back_inserter(serData);
-        auto es = prefixField.write(writeIter, serData.max_size());
-        static_cast<void>(es);
+        [[maybe_unused]] auto es = prefixField.write(writeIter, serData.max_size());
         assert(es == comms::ErrorStatus::Success);
         return serData;
     }
 
     void adjustFixedSizeInternal(HasVarSizeTag)
     {
-        static constexpr bool Must_not_be_called = false;
-        static_cast<void>(Must_not_be_called);
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
         assert(Must_not_be_called); 
     }
 

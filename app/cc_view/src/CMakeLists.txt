@@ -29,6 +29,8 @@ function (bin_cc_view)
         widget/MessageUpdateDialog.cpp
         widget/PluginsListWidget.cpp
         widget/PluginConfigDialog.cpp
+        widget/PluginConfigWrapWidget.cpp
+        widget/PluginConfigWrapsListWidget.cpp
         widget/MsgCommentDialog.cpp
         widget/field/FieldWidget.cpp
         widget/MessagesFilterDialog.cpp
@@ -104,6 +106,7 @@ function (bin_cc_view)
         ui/RawHexDataDialog.ui
         ui/PluginsListWidget.ui
         ui/PluginConfigDialog.ui
+        ui/PluginConfigWrapWidget.ui
         ui/ShortIntValueFieldWidget.ui
         ui/LongIntValueFieldWidget.ui
         ui/LongLongIntValueFieldWidget.ui
@@ -134,17 +137,15 @@ function (bin_cc_view)
     add_executable(${name} ${gui_exe} ${src} ${moc} ${ui} ${resources})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Widgets Qt::Core)
     
-    if (CC_TOOLS_QT_INSTALL_APPS)
-        install (
-            TARGETS ${name}
-            DESTINATION ${BIN_INSTALL_DIR})
-            
-        install (
-            FILES image/app_icon.png
-            DESTINATION ${ICON_INSTALL_DIR}
-            RENAME cc_view.png
-        )
-    endif ()
+    install (
+        TARGETS ${name}
+        DESTINATION ${BIN_INSTALL_DIR})
+        
+    install (
+        FILES image/app_icon.png
+        DESTINATION ${ICON_INSTALL_DIR}
+        RENAME cc_view.png
+    )
         
 endfunction ()
 

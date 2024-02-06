@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -20,14 +20,10 @@
 
 #include <memory>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QObject>
 #include <QtCore/QString>
 #include <QtCore/QTimer>
 #include <QtWidgets/QWidget>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/Message.h"
 #include "cc_tools_qt/PluginMgr.h"
@@ -224,7 +220,6 @@ private:
 private slots:
     void msgAdded(MessagePtr msg);
     void errorReported(const QString& msg);
-    void socketDisconnected();
     void pendingDisplayTimeout();
 
 private /*data*/:

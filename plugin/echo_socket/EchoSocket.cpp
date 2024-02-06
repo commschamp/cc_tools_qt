@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -20,6 +20,9 @@
 #include <cassert>
 
 namespace cc_tools_qt
+{
+
+namespace plugin
 {
 
 EchoSocket::EchoSocket()
@@ -63,6 +66,8 @@ void EchoSocket::sendDataPostponed()
         reportDataReceived(std::move(inDataPtr));
     }
 }
+
+} // namespace plugin
 
 }  // namespace cc_tools_qt
 

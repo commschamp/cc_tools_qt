@@ -1,4 +1,4 @@
-if (NOT CC_TOOLS_QT_BUILD_DEMO_PROTOCOL)
+if ((NOT CC_TOOLS_QT_BUILD_PLUGINS) OR (NOT CC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL))
     return ()
 endif ()
 
@@ -27,17 +27,15 @@ include_directories (
 
 add_subdirectory (cc_plugin)
 
-if (CC_TOOLS_QT_INSTALL_DEMO_PROTOCOL)
-    install (
-        DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/demo
-        DESTINATION ${INC_INSTALL_DIR}
-    )
+install (
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/demo
+    DESTINATION ${INC_INSTALL_DIR}
+)
 
-    install (
-        DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/config/
-        DESTINATION ${CONFIG_INSTALL_DIR}
-    )
-endif ()
+install (
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/config/
+    DESTINATION ${CONFIG_INSTALL_DIR}
+)
 
 FILE(GLOB_RECURSE headers "include/*.h")
 add_custom_target(demo.headers SOURCES ${headers})

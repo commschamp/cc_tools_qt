@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -65,11 +65,11 @@ public:
 
     typedef std::function<void (MessagePtr msg)> MsgAddedCallbackFunc;
     typedef std::function<void (const QString& error)> ErrorReportCallbackFunc;
-    typedef std::function<void ()> SocketDisconnectedReportCallbackFunc;
+    typedef std::function<void (bool connected)> SocketConnectionStatusReportCallbackFunc;
 
     void setMsgAddedCallbackFunc(MsgAddedCallbackFunc&& func);
     void setErrorReportCallbackFunc(ErrorReportCallbackFunc&& func);
-    void setSocketDisconnectReportCallbackFunc(SocketDisconnectedReportCallbackFunc&& func);
+    void setSocketConnectionStatusReportCallbackFunc(SocketConnectionStatusReportCallbackFunc&& func);
 
 private:
     std::unique_ptr<MsgMgrImpl> m_impl;

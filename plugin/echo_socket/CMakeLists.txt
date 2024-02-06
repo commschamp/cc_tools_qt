@@ -1,6 +1,11 @@
+if (NOT CC_TOOLS_QT_BUILD_PLUGIN_ECHO_SOCKET)
+    return()
+endif ()
+
+######################################################################
 
 function (plugin_echo_socket)
-    set (name "echo_socket")
+    set (name "cc_tools_plugin_echo_socket")
     
     set (meta_file "${CMAKE_CURRENT_SOURCE_DIR}/echo_socket.json")
     set (stamp_file "${CMAKE_CURRENT_BINARY_DIR}/refresh_stamp.txt")
@@ -29,11 +34,9 @@ function (plugin_echo_socket)
     add_library (${name} MODULE ${src} ${moc})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Core)
     
-    if (CC_TOOLS_QT_INSTALL_PLUGINS)
-        install (
-            TARGETS ${name}
-            DESTINATION ${PLUGIN_INSTALL_DIR})
-    endif ()
+    install (
+        TARGETS ${name}
+        DESTINATION ${PLUGIN_INSTALL_DIR})
     
 endfunction()
 

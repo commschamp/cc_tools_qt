@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -20,12 +20,8 @@
 
 #include <memory>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QFrame>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/Message.h"
 #include "MessageWidget.h"

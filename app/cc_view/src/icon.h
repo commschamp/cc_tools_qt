@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,11 +18,7 @@
 
 #pragma once
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtGui/QIcon>
-CC_ENABLE_WARNINGS()
 
 namespace cc_tools_qt
 {

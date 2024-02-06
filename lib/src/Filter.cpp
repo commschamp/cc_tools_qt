@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -43,12 +43,35 @@ QList<DataInfoPtr> Filter::sendData(DataInfoPtr dataPtr)
     return sendDataImpl(std::move(dataPtr));
 }
 
+void Filter::socketConnectionReport(bool connected)
+{
+    return socketConnectionReportImpl(connected);
+}
+
 bool Filter::startImpl()
 {
     return true;
 }
 
 void Filter::stopImpl()
+{
+}
+
+QList<DataInfoPtr> Filter::recvDataImpl(DataInfoPtr dataPtr)
+{
+    QList<DataInfoPtr> result;
+    result.append(std::move(dataPtr));
+    return result;
+}
+
+QList<DataInfoPtr> Filter::sendDataImpl(DataInfoPtr dataPtr)
+{
+    QList<DataInfoPtr> result;
+    result.append(std::move(dataPtr));
+    return result;
+}
+
+void Filter::socketConnectionReportImpl([[maybe_unused]] bool connected)
 {
 }
 

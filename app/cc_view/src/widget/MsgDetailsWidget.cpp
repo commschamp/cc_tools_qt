@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -19,10 +19,8 @@
 
 #include <cassert>
 
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QScrollBar>
 #include <QtWidgets/QWidget>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/property/message.h"
 #include "GuiAppMgr.h"

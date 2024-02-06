@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -17,13 +17,9 @@
 
 #include "cc_tools_qt/Protocol.h"
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QByteArray>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/property/message.h"
 
@@ -94,8 +90,7 @@ Protocol::UpdateStatus Protocol::updateMessage(Message& msg)
 
     auto infoMsg = createExtraInfoMessageImpl();
     if (!infoMsg) {
-        static constexpr bool Info_must_be_created = false;
-        static_cast<void>(Info_must_be_created);
+        [[maybe_unused]] static constexpr bool Info_must_be_created = false;
         assert(Info_must_be_created);        
         return UpdateStatus::NoChange;
     }
@@ -169,6 +164,15 @@ MessagePtr Protocol::createInvalidMessage(const MsgDataSeq& data)
 
     setRawDataToMessageProperties(std::move(rawDataMsg), *invalidMsg);
     return invalidMsg;
+}
+
+void Protocol::socketConnectionReport(bool connected)
+{
+    socketConnectionReportImpl(connected);
+}
+
+void Protocol::socketConnectionReportImpl([[maybe_unused]] bool connected)
+{
 }
 
 void Protocol::setNameToMessageProperties(Message& msg)

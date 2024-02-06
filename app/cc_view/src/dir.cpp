@@ -1,5 +1,5 @@
 //
-// Copyright 2017 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2017 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -19,11 +19,9 @@
 
 #include <cassert>
 
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QApplication>
 #include <QtCore/QDir>
 #include <QtCore/QStandardPaths>
-CC_ENABLE_WARNINGS()
 
 namespace cc_tools_qt {
 

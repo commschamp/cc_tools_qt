@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -21,10 +21,8 @@
 #include <type_traits>
 #include <string>
 
-CC_DISABLE_WARNINGS()
 #include <QtCore/QDir>
 #include <QtCore/QCoreApplication>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/property/message.h"
 
@@ -47,8 +45,7 @@ AppMgr::AppMgr()
         [this](cc::MessagePtr msg)
         {
             if (!msg) {
-                static constexpr bool Application_message_was_not_provided = false;
-                static_cast<void>(Application_message_was_not_provided);
+                [[maybe_unused]] static constexpr bool Application_message_was_not_provided = false;
                 assert(Application_message_was_not_provided);
                 return;
             }
@@ -184,8 +181,7 @@ bool AppMgr::applyPlugins(const ListOfPluginInfos& plugins)
     for (auto& info : plugins) {
         cc::Plugin* plugin = m_pluginMgr.loadPlugin(*info);
         if (plugin == nullptr) {
-            static constexpr bool Failed_to_load_plugin = false;
-            static_cast<void>(Failed_to_load_plugin);
+            [[maybe_unused]] static constexpr bool Failed_to_load_plugin = false;
             assert(Failed_to_load_plugin);
             continue;
         }

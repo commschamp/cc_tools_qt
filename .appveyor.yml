@@ -2,7 +2,6 @@ image:
     - Visual Studio 2022
     - Visual Studio 2019
     - Visual Studio 2017
-    - Visual Studio 2015
 
 init:
     - git config --global core.autocrlf input
@@ -19,12 +18,8 @@ configuration:
     - Release
 
 environment:
-    COMMS_BRANCH: v5.2.1
+    COMMS_BRANCH: v5.2.2
     matrix:
-        - CPP_STD: 11
-          QT_MAJOR: 5
-        - CPP_STD: 14
-          QT_MAJOR: 5
         - CPP_STD: 17
           QT_MAJOR: 5
         - CPP_STD: 17
@@ -37,14 +32,8 @@ environment:
 matrix:
     fast_finish: false
     exclude:
-        - image: Visual Studio 2015
-          CPP_STD: 17 
-        - image: Visual Studio 2015
-          CPP_STD: 20    
         - image: Visual Studio 2017
           CPP_STD: 20         
-        - image: Visual Studio 2015
-          QT_MAJOR: 6 
         - image: Visual Studio 2017
           QT_MAJOR: 6
         - platform: x86
@@ -59,14 +48,16 @@ install:
     - set COMMON_INSTALL_DIR=%BUILD_DIR%\install
     - set COMMON_BUILD_TYPE=%CONFIGURATION%
     - set COMMON_CXX_STANDARD=%CPP_STD%
+    - set GENERATOR="%CMAKE_GENERATOR%"
+    - set PLATFORM="%CMAKE_PLATFORM%"
     - call script\prepare_externals.bat
 
 build_script:
     - echo ------------------------- Building Project -------------------------
     - cd %BUILD_DIR%
-    - cmake .. -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX="%COMMON_INSTALL_DIR%" ^
+    - cmake .. -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G "%CMAKE_GENERATOR%" %PLATFORM_PARAM% -DCMAKE_INSTALL_PREFIX="%COMMON_INSTALL_DIR%" ^
         -DCMAKE_PREFIX_PATH="%COMMON_INSTALL_DIR%;%QTDIR%" -DCMAKE_CXX_STANDARD=%CPP_STD% ^
-        -DCC_TOOLS_QT_BUILD_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=%QT_MAJOR%
+        -DCC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=%QT_MAJOR%
     - cmake --build . --config %CONFIGURATION% --target install
     - echo -------------------------- Deploying Qt ---------------------------
     - cmake --build . --config %CONFIGURATION% --target deploy_qt

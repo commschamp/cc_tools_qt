@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -19,12 +19,8 @@
 
 #include <cassert>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QVariant>
 #include <QtCore/QDateTime>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/Message.h"
 #include "cc_tools_qt/property/message.h"
@@ -108,8 +104,7 @@ void MsgListWidget::updateCurrentMessage(MessagePtr msg)
 {
     auto* item = m_ui.m_listWidget->currentItem();
     if (item == nullptr) {
-        static constexpr bool No_item_is_selected_for_update = false;
-        static_cast<void>(No_item_is_selected_for_update);
+        [[maybe_unused]] static constexpr bool No_item_is_selected_for_update = false;
         assert(No_item_is_selected_for_update);
         return;
     }
@@ -140,8 +135,7 @@ void MsgListWidget::deleteCurrentMessage()
 {
     auto* item = m_ui.m_listWidget->currentItem();
     if (item == nullptr) {
-        static constexpr bool No_item_is_selected_for_deletion = false;
-        static_cast<void>(No_item_is_selected_for_deletion);
+        [[maybe_unused]] static constexpr bool No_item_is_selected_for_deletion = false;
         assert(No_item_is_selected_for_deletion);        
         return;
     }
@@ -204,8 +198,7 @@ void MsgListWidget::moveSelectedTop()
 {
     auto curRow = m_ui.m_listWidget->currentRow();
     if (curRow <= 0) {
-        static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
-        static_cast<void>(No_item_is_selected_or_moving_up_top_item);
+        [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
         assert(No_item_is_selected_or_moving_up_top_item);         
         return;
     }
@@ -217,8 +210,7 @@ void MsgListWidget::moveSelectedUp()
 {
     auto curRow = m_ui.m_listWidget->currentRow();
     if (curRow <= 0) {
-        static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
-        static_cast<void>(No_item_is_selected_or_moving_up_top_item);
+        [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
         assert(No_item_is_selected_or_moving_up_top_item);
         return;
     }
@@ -230,8 +222,7 @@ void MsgListWidget::moveSelectedDown()
 {
     auto curRow = m_ui.m_listWidget->currentRow();
     if ((m_ui.m_listWidget->count() - 1) <= curRow) {
-        static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
-        static_cast<void>(No_item_is_selected_or_moving_down_bottom_item);
+        [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
         assert(No_item_is_selected_or_moving_down_bottom_item);        
         return;
     }
@@ -243,8 +234,7 @@ void MsgListWidget::moveSelectedBottom()
 {
     auto curRow = m_ui.m_listWidget->currentRow();
     if ((m_ui.m_listWidget->count() - 1) <= curRow) {
-        static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
-        static_cast<void>(No_item_is_selected_or_moving_down_bottom_item);
+        [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
         assert(No_item_is_selected_or_moving_down_bottom_item); 
         return;
     }
@@ -283,26 +273,20 @@ void MsgListWidget::selectMsg(int idx)
     m_ui.m_listWidget->blockSignals(false);
 }
 
-void MsgListWidget::msgClickedImpl(MessagePtr msg, int idx)
+void MsgListWidget::msgClickedImpl([[maybe_unused]] MessagePtr msg, [[maybe_unused]] int idx)
 {
-    static_cast<void>(msg);
-    static_cast<void>(idx);
 }
 
-void MsgListWidget::msgDoubleClickedImpl(MessagePtr msg, int idx)
+void MsgListWidget::msgDoubleClickedImpl([[maybe_unused]] MessagePtr msg, [[maybe_unused]] int idx)
 {
-    static_cast<void>(msg);
-    static_cast<void>(idx);
 }
 
-void MsgListWidget::msgListClearedImpl(MessagesList&& msgs)
+void MsgListWidget::msgListClearedImpl([[maybe_unused]] MessagesList&& msgs)
 {
-    static_cast<void>(msgs);
 }
 
-QString MsgListWidget::msgPrefixImpl(const Message& msg) const
+QString MsgListWidget::msgPrefixImpl([[maybe_unused]] const Message& msg) const
 {
-    static_cast<void>(msg);
     return QString();
 }
 
@@ -311,39 +295,32 @@ const QString& MsgListWidget::msgTooltipImpl() const
     return EmptyStr;
 }
 
-void MsgListWidget::stateChangedImpl(int state)
+void MsgListWidget::stateChangedImpl([[maybe_unused]] int state)
 {
-    static_cast<void>(state);
 }
 
-Qt::GlobalColor MsgListWidget::getItemColourImpl(MsgType type, bool valid) const
+Qt::GlobalColor MsgListWidget::getItemColourImpl([[maybe_unused]] MsgType type, bool valid) const
 {
-    static_cast<void>(type);
     return defaultItemColour(valid);
 }
 
-void MsgListWidget::msgMovedImpl(int idx)
+void MsgListWidget::msgMovedImpl([[maybe_unused]] int idx)
 {
-    static_cast<void>(idx);
 }
 
 QString MsgListWidget::getTitleImpl() const
 {
-    static constexpr bool Should_not_be_called = false;
-    static_cast<void>(Should_not_be_called);
+    [[maybe_unused]] static constexpr bool Should_not_be_called = false;
     assert(Should_not_be_called);     
     return QString();
 }
 
-void MsgListWidget::loadMessagesImpl(const QString& filename, Protocol& protocol)
+void MsgListWidget::loadMessagesImpl([[maybe_unused]] const QString& filename, [[maybe_unused]] Protocol& protocol)
 {
-    static_cast<void>(filename);
-    static_cast<void>(protocol);
 }
 
-void MsgListWidget::saveMessagesImpl(const QString& filename)
+void MsgListWidget::saveMessagesImpl([[maybe_unused]] const QString& filename)
 {
-    static_cast<void>(filename);
 }
 
 MessagePtr MsgListWidget::currentMsg() const
@@ -380,10 +357,8 @@ void MsgListWidget::itemClicked(QListWidgetItem* item)
     processClick(item);
 }
 
-void MsgListWidget::currentItemChanged(QListWidgetItem* current, QListWidgetItem* prev)
+void MsgListWidget::currentItemChanged(QListWidgetItem* current, [[maybe_unused]] QListWidgetItem* prev)
 {
-    static_cast<void>(prev);
-
     m_selectedItem = current;
     if (current != nullptr) {
         m_lastSelectionTimestamp = QDateTime::currentMSecsSinceEpoch();

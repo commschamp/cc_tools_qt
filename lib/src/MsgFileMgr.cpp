@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,14 +22,10 @@
 #include <iterator>
 #include <iostream>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonArray>
 #include <QtCore/QJsonObject>
 #include <QtCore/QVariantMap>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/property/message.h"
 
@@ -257,7 +253,6 @@ MessagePtr createMsgObjectFrom(
         assert(num.size() == 2);
         bool ok = false;
         auto byte = num.toInt(&ok, 16);
-        static_cast<void>(ok);
         assert(ok);
         assert((0 <= byte) && (byte <= 0xff));
         data.push_back(static_cast<Message::DataSeq::value_type>(byte));
@@ -341,8 +336,7 @@ QVariantList convertRecvMsgList(
     QVariantList convertedList;
     for (auto& msg : allMsgs) {
         if (!msg) {
-            static constexpr bool Message_must_exist = false;
-            static_cast<void>(Message_must_exist);
+            [[maybe_unused]] static constexpr bool Message_must_exist = false;
             assert(Message_must_exist);  
             continue;
         }
@@ -396,8 +390,7 @@ QVariantList convertSendMsgList(
     QVariantList convertedList;
     for (auto& msg : allMsgs) {
         if (!msg) {
-            static constexpr bool Message_must_exist = false;
-            static_cast<void>(Message_must_exist);
+            [[maybe_unused]] static constexpr bool Message_must_exist = false;
             assert(Message_must_exist); 
             continue;
         }

@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -156,9 +156,8 @@ protected:
         DataSeq data;
         data.reserve(CommsBase::length());
         auto iter = std::back_inserter(data);
-        auto es = CommsBase::write(iter, data.max_size());
+        [[maybe_unused]] auto es = CommsBase::write(iter, data.max_size());
         assert(es == comms::ErrorStatus::Success);
-        static_cast<void>(es);
         return data;
     }
 

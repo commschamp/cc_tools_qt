@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -23,12 +23,8 @@
 #include <cstddef>
 #include <list>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QMetaType>
 #include <QtCore/QString>
-CC_ENABLE_WARNINGS()
 
 #include "Api.h"
 #include "Message.h"
@@ -108,6 +104,10 @@ public:
     /// @brief Invokes createInvalidMessageImpl().
     MessagePtr createInvalidMessage(const MsgDataSeq& data);
 
+    /// @brief Make the protocol aware about socket connection status
+    /// @param[in] connected Socket connection status.
+    void socketConnectionReport(bool connected);    
+
 protected:
     /// @brief Polymorphic protocol name retrieval.
     /// @details Invoked by name().
@@ -146,6 +146,10 @@ protected:
 
     /// @brief Polymorphic creation of message object representing extra info.
     virtual MessagePtr createExtraInfoMessageImpl() = 0;
+
+    /// @brief Polymorphic processing of the socket connection report
+    /// @param[in] connected Socket connection status
+    virtual void socketConnectionReportImpl(bool connected);    
 
     /// @brief Helper function to assign protocol name to message properties.
     /// @details Expected to be used by the derived class.

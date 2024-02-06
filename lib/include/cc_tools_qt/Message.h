@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,13 +22,9 @@
 #include <cstdint>
 #include <memory>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QObject>
 #include <QtCore/QVariantList>
 #include <QtCore/QVariantMap>
-CC_ENABLE_WARNINGS()
 
 #include "Api.h"
 

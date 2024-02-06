@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -120,11 +120,9 @@ public:
         m_out << m_sep << wrapper.getValue();
     }
 
-    virtual void handle(cc::field_wrapper::VariantWrapper& wrapper) override
+    virtual void handle([[maybe_unused]] cc::field_wrapper::VariantWrapper& wrapper) override
     {
-        static_cast<void>(wrapper);
-        static constexpr bool Not_yet_implemented = false;
-        static_cast<void>(Not_yet_implemented);
+        [[maybe_unused]] static constexpr bool Not_yet_implemented = false;
         assert(Not_yet_implemented);
     }
 
@@ -133,11 +131,9 @@ public:
         m_out << m_sep << '\"' << wrapper.getSerialisedString().toStdString() << '\"';
     }
 
-    virtual void handle(cc::field_wrapper::FieldWrapper& wrapper) override
+    virtual void handle([[maybe_unused]] cc::field_wrapper::FieldWrapper& wrapper) override
     {
-        static_cast<void>(wrapper);
-        static constexpr bool Unexpected_wrapper = false;
-        static_cast<void>(Unexpected_wrapper);
+        [[maybe_unused]] static constexpr bool Unexpected_wrapper = false;
         assert(Unexpected_wrapper);
     }
 

@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -20,16 +20,12 @@
 #include <cassert>
 #include <memory>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMessageBox>
 #include <QtCore/QDir>
-CC_ENABLE_WARNINGS()
 
 #include "comms/util/ScopeGuard.h"
 #include "PluginMgrG.h"
@@ -101,6 +97,10 @@ PluginConfigDialog::PluginConfigDialog(
 
     m_applyButton = m_ui.m_buttonBox->button(QDialogButtonBox::Ok);
     m_applyButton->setText(tr("Apply"));
+
+    m_allConfigWidget = new PluginConfigWrapsListWidget(this);
+    m_ui.m_allConfigScrollArea->setWidget(m_allConfigWidget);
+
     refreshAll();
 }
 
@@ -193,7 +193,7 @@ void PluginConfigDialog::addClicked()
     auto* selectedListWidget = getSelectedListForAvailable(m_currentAvailableList);
     assert(selectedListWidget != nullptr);
 
-    selectedListWidget->addItem(pluginInfoPtr->getName());
+    selectedListWidget->addItem(pluginInfoPtr->getName(), pluginInfoPtr->getDescription());
     auto* selectedItem = selectedListWidget->item(selectedListWidget->count() - 1);
 
     selectedItem->setData(
@@ -204,11 +204,12 @@ void PluginConfigDialog::addClicked()
     refreshAvailablePlugins();
     refreshSelectedToolbar();
     refreshButtonBox();
+
+    m_allConfigWidget->addPluginConfig(pluginInfoPtr);
 }
 
-void PluginConfigDialog::searchTextChanged(const QString& text)
+void PluginConfigDialog::searchTextChanged([[maybe_unused]] const QString& text)
 {
-    static_cast<void>(text);
     refreshAvailable();
 }
 
@@ -251,12 +252,6 @@ void PluginConfigDialog::loadClicked()
     assert(m_selectedSocketsWidget->currentItem() == nullptr);
     assert(m_selectedFiltersWidget->currentItem() == nullptr);
     assert(m_selectedProtocolsWidget->currentItem() == nullptr);
-
-    if ((m_currentAvailableList == nullptr) ||
-        (m_currentAvailableList->currentItem() == nullptr)) {
-        clearConfiguration();
-        clearDescription();
-    }
 }
 
 void PluginConfigDialog::saveClicked()
@@ -289,6 +284,11 @@ void PluginConfigDialog::removeClicked()
     assert(m_currentSelectedList != nullptr);
     auto* item = m_currentSelectedList->currentItem();
     assert(item != nullptr);
+
+    auto pluginInfoPtr = getPluginInfo(item);
+    assert(pluginInfoPtr);
+    m_allConfigWidget->removePluginConfig(pluginInfoPtr);
+
     delete item;
     refreshAvailablePlugins();
     refreshSelectedToolbar();
@@ -296,8 +296,6 @@ void PluginConfigDialog::removeClicked()
 
     item = m_currentSelectedList->currentItem();
     if (item == nullptr) {
-        clearConfiguration();
-        clearDescription();
         m_currentSelectedList = nullptr;
         return;
     }
@@ -307,21 +305,14 @@ void PluginConfigDialog::removeClicked()
 
 void PluginConfigDialog::clearClicked()
 {
-    bool displayingSelected =
-        (m_currentSelectedList != nullptr) &&
-        (m_currentSelectedList->currentItem() != nullptr);
     m_selectedSocketsWidget->clear();
     m_selectedFiltersWidget->clear();
     m_selectedProtocolsWidget->clear();
+    m_allConfigWidget->removeAll();
     m_currentSelectedList = nullptr;
     refreshAvailablePlugins();
     refreshSelectedToolbar();
     refreshButtonBox();
-
-    if (displayingSelected) {
-        clearConfiguration();
-        clearDescription();
-    }
 }
 
 void PluginConfigDialog::topClicked()
@@ -329,8 +320,7 @@ void PluginConfigDialog::topClicked()
     assert(m_currentSelectedList != nullptr);
     auto curRow = m_currentSelectedList->currentRow();
     if (curRow <= 0) {
-        static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
-        static_cast<void>(No_item_is_selected_or_moving_up_top_item);
+        [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
         assert(No_item_is_selected_or_moving_up_top_item);          
         return;
     }
@@ -343,8 +333,7 @@ void PluginConfigDialog::upClicked()
     assert(m_currentSelectedList != nullptr);
     auto curRow = m_currentSelectedList->currentRow();
     if (curRow <= 0) {
-        static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
-        static_cast<void>(No_item_is_selected_or_moving_up_top_item);
+        [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
         assert(No_item_is_selected_or_moving_up_top_item);   
         return;
     }
@@ -357,8 +346,7 @@ void PluginConfigDialog::downClicked()
     assert(m_currentSelectedList != nullptr);
     auto curRow = m_currentSelectedList->currentRow();
     if ((m_currentSelectedList->count() - 1) <= curRow) {
-        static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
-        static_cast<void>(No_item_is_selected_or_moving_down_bottom_item);
+        [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
         assert(No_item_is_selected_or_moving_down_bottom_item);           
         return;
     }
@@ -371,8 +359,7 @@ void PluginConfigDialog::bottomClicked()
     assert(m_currentSelectedList != nullptr);
     auto curRow = m_currentSelectedList->currentRow();
     if ((m_currentSelectedList->count() - 1) <= curRow) {
-        static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
-        static_cast<void>(No_item_is_selected_or_moving_down_bottom_item);
+        [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
         assert(No_item_is_selected_or_moving_down_bottom_item);        
         return;
     }
@@ -401,12 +388,6 @@ void PluginConfigDialog::availPluginClicked(
     m_currentAvailableList->setCurrentItem(item);
     assert(m_currentAvailableList->currentRow() == m_currentAvailableList->getRow(item));
 
-    clearConfiguration();
-
-    auto pluginInfoPtr = getPluginInfo(item);
-    assert(pluginInfoPtr);
-
-    m_ui.m_descLabel->setText(pluginInfoPtr->getDescription());
     refreshAvailableToolbar();
 }
 
@@ -434,29 +415,6 @@ void PluginConfigDialog::selectedPluginClicked(
     selectedList->setCurrentItem(item);
     assert(selectedList->currentRow() == selectedList->getRow(item));
 
-    do {
-        auto clearGuard =
-            comms::util::makeScopeGuard(
-                [this]()
-                {
-                    clearConfiguration();
-                });
-
-        auto* plugin = PluginMgrG::instanceRef().loadPlugin(*pluginInfoPtr);
-        if (plugin == nullptr) {
-            break;
-        }
-
-        auto* configWidget = plugin->createConfiguarionWidget();
-        if (configWidget == nullptr) {
-            break;
-        }
-
-        clearGuard.release();
-        m_ui.m_configScrollArea->setWidget(configWidget);
-    } while (false);
-
-    m_ui.m_descLabel->setText(pluginInfoPtr->getDescription());
     refreshSelectedToolbar();
 }
 
@@ -685,10 +643,14 @@ void PluginConfigDialog::refreshAvailablePlugins()
                     continue;
                 }
 
-                availableList->addItem(name);
+                availableList->addItem(name, pluginInfoPtr->getDescription());
                 auto* item = availableList->item(availableList->count() - 1);
-                static const QString Tooltip("Use double click to select");
-                item->setToolTip(Tooltip);
+                auto tooltip = item->toolTip();
+                if (!tooltip.isEmpty()) {
+                    tooltip.append("\n\n");
+                }
+                tooltip.append("Use double click to select");
+                item->setToolTip(tooltip);
 
                 item->setData(
                     Qt::UserRole,
@@ -752,7 +714,8 @@ void PluginConfigDialog::refreshSelectedPlugins(
                 }
 
                 auto& name = pluginInfoPtr->getName();
-                list->addItem(name);
+                auto& desc = pluginInfoPtr->getDescription();
+                list->addItem(name, desc);
                 auto* item = list->item(list->count() - 1);
 
                 item->setData(
@@ -763,9 +726,14 @@ void PluginConfigDialog::refreshSelectedPlugins(
         };
 
     m_currentSelectedList = nullptr;
+    assert(m_allConfigWidget != nullptr);
+    m_allConfigWidget->removeAll();
     refreshListFunc(m_selectedSocketsWidget, PluginType::Socket);
     refreshListFunc(m_selectedFiltersWidget, PluginType::Filter);
     refreshListFunc(m_selectedProtocolsWidget, PluginType::Protocol);
+    for (auto& pluginInfoPtr : infos) {
+        m_allConfigWidget->addPluginConfig(pluginInfoPtr);
+    }
 }
 
 void PluginConfigDialog::refreshButtonBox()
@@ -849,16 +817,6 @@ void PluginConfigDialog::refreshBottomButton()
         (0 <= row) &&
         (row < (m_currentSelectedList->count() - 1));
     button->setEnabled(enabled);
-}
-
-void PluginConfigDialog::clearConfiguration()
-{
-    m_ui.m_configScrollArea->setWidget(new QWidget());
-}
-
-void PluginConfigDialog::clearDescription()
-{
-    m_ui.m_descLabel->setText(QString());
 }
 
 void PluginConfigDialog::moveSelectedPlugin(int fromRow, int toRow)

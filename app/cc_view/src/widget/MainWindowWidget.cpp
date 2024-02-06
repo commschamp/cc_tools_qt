@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -19,15 +19,11 @@
 
 #include <cassert>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMessageBox>
 #include <QtGui/QIcon>
 #include <QtGui/QKeySequence>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/property/message.h"
 #include "LeftPaneWidget.h"
@@ -134,7 +130,6 @@ void MainWindowWidget::newSendMsgDialog(ProtocolPtr protocol)
 
 void MainWindowWidget::sendRawMsgDialog(ProtocolPtr protocol)
 {
-    static_cast<void>(protocol);
     RawHexDataDialog::MessagesList msgs;
     RawHexDataDialog dialog(msgs, std::move(protocol), this);
     dialog.exec();
@@ -188,8 +183,7 @@ void MainWindowWidget::addMainToolbarAction(ActionPtr action)
     auto iter = std::find(m_customActions.begin(), m_customActions.end(), action);
     if (iter != m_customActions.end())
     {
-        static constexpr bool Adding_action_second_time = false;
-        static_cast<void>(Adding_action_second_time);
+        [[maybe_unused]] static constexpr bool Adding_action_second_time = false;
         assert(Adding_action_second_time);
         return;
     }
@@ -274,17 +268,21 @@ void MainWindowWidget::msgCommentDialog(MessagePtr msg)
 void MainWindowWidget::aboutInfo()
 {
     static const QString AboutTxt(
-        "<p>This is a generic "
-        "communication protocols analysis tool.</p>"
+        "<p>This application is a generic "
+        "communication protocols analysis and visualization tool. " 
+        "It is developed as a member project of the "
+        "<a href=\"https://commschamp.github.io\">CommsChampion Ecosystem</a>."
+        "</p>"
+        "<p>"
         "The icons for this application were taken from: "
-        "<a href=\"http://www.fatcow.com/free-icons\">FatCow</a>");
+        "<a href=\"http://www.fatcow.com/free-icons\">FatCow</a>"
+        "</p>");
 
     QMessageBox::information(this, tr("About"), AboutTxt);
 }
 
 void MainWindowWidget::recvFilterDialog(ProtocolPtr protocol)
 {
-    static_cast<void>(protocol);
     auto* guiAppMgr = GuiAppMgr::instance();
     GuiAppMgr::FilteredMessages hiddenMessages = guiAppMgr->getFilteredMessages();
     MessagesFilterDialog dialog(hiddenMessages, std::move(protocol), this);
@@ -321,8 +319,7 @@ std::tuple<QString, bool> MainWindowWidget::loadMsgsDialog(bool askForClear)
         assert(cancelButton != nullptr);
         auto* clearButton = msgBox.addButton(tr("Clear"), QMessageBox::ActionRole);
         assert(clearButton != nullptr);
-        auto* appendButton = msgBox.addButton(tr("Append"), QMessageBox::ActionRole);
-        static_cast<void>(appendButton);
+        [[maybe_unused]] auto* appendButton = msgBox.addButton(tr("Append"), QMessageBox::ActionRole);
         assert(appendButton != nullptr);
         msgBox.setDefaultButton(clearButton);
         msgBox.setEscapeButton(cancelButton);

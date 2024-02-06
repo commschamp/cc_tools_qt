@@ -1,5 +1,5 @@
 function (cc_plugin_demo)
-    set (name "demo")
+    set (name "cc_tools_plugin_demo_protocol")
     
     set (meta_file "${CMAKE_CURRENT_SOURCE_DIR}/demo.json")
     set (stamp_file "${CMAKE_CURRENT_BINARY_DIR}/demo_refresh_stamp.txt")
@@ -46,11 +46,9 @@ function (cc_plugin_demo)
         $<$<CXX_COMPILER_ID:Clang>:-Wno-old-style-cast>
     )      
     
-    if (CC_TOOLS_QT_INSTALL_DEMO_PROTOCOL)
-        install (
-            TARGETS ${name}
-            DESTINATION ${PLUGIN_INSTALL_DIR})
-    endif ()
+    install (
+        TARGETS ${name}
+        DESTINATION ${PLUGIN_INSTALL_DIR})
         
 endfunction()
 

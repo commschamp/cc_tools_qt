@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -23,14 +23,10 @@
 #include <iterator>
 #include <cassert>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QSpinBox>
-CC_ENABLE_WARNINGS()
 
 namespace cc_tools_qt
 {
@@ -165,9 +161,8 @@ void FieldWidget::editEnabledUpdatedImpl()
 {
 }
 
-void FieldWidget::updatePropertiesImpl(const QVariantMap& props)
+void FieldWidget::updatePropertiesImpl([[maybe_unused]] const QVariantMap& props)
 {
-    static_cast<void>(props);
 }
 
 void FieldWidget::performUiElementsVisibilityCheck(const property::field::Common& props)

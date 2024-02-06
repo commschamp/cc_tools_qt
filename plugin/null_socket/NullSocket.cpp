@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,19 +22,23 @@
 namespace cc_tools_qt
 {
 
+namespace plugin    
+{
+
 NullSocket::NullSocket() = default;
 NullSocket::~NullSocket() noexcept = default;
 
 
-void NullSocket::sendDataImpl(DataInfoPtr dataPtr)
+void NullSocket::sendDataImpl([[maybe_unused]] DataInfoPtr dataPtr)
 {
-    static_cast<void>(dataPtr);
 }
 
 unsigned NullSocket::connectionPropertiesImpl() const
 {
     return ConnectionProperty_Autoconnect | ConnectionProperty_NonDisconnectable;
 }
+
+} // namespace plugin
 
 }  // namespace cc_tools_qt
 

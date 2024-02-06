@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -24,11 +24,7 @@
 #include <memory>
 #include <limits>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QString>
-CC_ENABLE_WARNINGS()
 
 #include "comms/comms.h"
 
@@ -171,11 +167,9 @@ protected:
         return serValue;
     }
 
-    virtual bool setSerialisedValueImpl(const SerialisedSeq& value) override
+    virtual bool setSerialisedValueImpl([[maybe_unused]] const SerialisedSeq& value) override
     {
-        static_cast<void>(value);
-        static constexpr bool Must_not_be_called = false;
-        static_cast<void>(Must_not_be_called);
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
         assert(Must_not_be_called); 
         return false;
     }

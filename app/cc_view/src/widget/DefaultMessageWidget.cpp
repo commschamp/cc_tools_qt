@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -20,13 +20,9 @@
 #include <memory>
 #include <cassert>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QFrame>
 #include <QtCore/QVariant>
-CC_ENABLE_WARNINGS()
 
 namespace cc_tools_qt
 {
@@ -47,8 +43,7 @@ DefaultMessageWidget::DefaultMessageWidget(
 void DefaultMessageWidget::addExtraTransportFieldWidget(FieldWidget* field)
 {
     if (field == nullptr) {
-        static constexpr bool Field_object_should_be_provided = false;
-        static_cast<void>(Field_object_should_be_provided);
+        [[maybe_unused]] static constexpr bool Field_object_should_be_provided = false;
         assert(Field_object_should_be_provided);
         return;
     }
@@ -76,8 +71,7 @@ void DefaultMessageWidget::addExtraTransportFieldWidget(FieldWidget* field)
 void DefaultMessageWidget::addFieldWidget(FieldWidget* field)
 {
     if (field == nullptr) {
-        static constexpr bool Field_object_should_be_provided = false;
-        static_cast<void>(Field_object_should_be_provided);
+        [[maybe_unused]] static constexpr bool Field_object_should_be_provided = false;
         assert(Field_object_should_be_provided);
         return;
     }

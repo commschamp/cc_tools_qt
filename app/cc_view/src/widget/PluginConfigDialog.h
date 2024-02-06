@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -17,19 +17,16 @@
 
 #pragma once
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 
 #include "ui_PluginConfigDialog.h"
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/PluginMgr.h"
 #include "PluginsListWidget.h"
 #include "ActionWrap.h"
+#include "PluginConfigWrapsListWidget.h"
 
 namespace cc_tools_qt
 {
@@ -101,8 +98,6 @@ private:
     void refreshUpBotton();
     void refreshDownBotton();
     void refreshBottomButton();
-    void clearConfiguration();
-    void clearDescription();
     void moveSelectedPlugin(int fromRow, int toRow);
 
     PluginInfoPtr getPluginInfo(QListWidgetItem* item) const;
@@ -132,6 +127,8 @@ private:
     PluginsListWidget* m_selectedFiltersWidget = nullptr;
     PluginsListWidget* m_selectedProtocolsWidget = nullptr;
     PluginsListWidget* m_currentSelectedList = nullptr;
+
+    PluginConfigWrapsListWidget* m_allConfigWidget;
 };
 
 } // namespace cc_tools_qt

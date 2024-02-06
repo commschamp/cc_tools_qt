@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -57,8 +57,7 @@ const int NumOfStopBitValues =
 QSerialPort::Parity mapParityFromIdx(int idx)
 {
     if ((idx < 0) || (NumOfParityValues <= idx)) {
-        static constexpr bool Invalid_index = false;
-        static_cast<void>(Invalid_index);
+        [[maybe_unused]] static constexpr bool Invalid_index = false;
         assert(Invalid_index); 
         return ParityMap[0];
     }
@@ -70,8 +69,7 @@ int mapParityToIdx(QSerialPort::Parity value)
 {
     auto iter = std::find(std::begin(ParityMap), std::end(ParityMap), value);
     if (iter == std::end(ParityMap)) {
-        static constexpr bool Invalid_value = false;
-        static_cast<void>(Invalid_value);
+        [[maybe_unused]] static constexpr bool Invalid_value = false;
         assert(Invalid_value); 
         return 0;
     }
@@ -82,8 +80,7 @@ int mapParityToIdx(QSerialPort::Parity value)
 QSerialPort::StopBits mapStopBitsFromIdx(int idx)
 {
     if ((idx < 0) || (NumOfStopBitValues <= idx)) {
-        static constexpr bool Invalid_index = false;
-        static_cast<void>(Invalid_index);
+        [[maybe_unused]] static constexpr bool Invalid_index = false;
         assert(Invalid_index); 
         return StopBitMap[0];
     }
@@ -95,8 +92,7 @@ int mapStopBitToIdx(QSerialPort::StopBits value)
 {
     auto iter = std::find(std::begin(StopBitMap), std::end(StopBitMap), value);
     if (iter == std::end(StopBitMap)) {
-        static constexpr bool Invalid_value = false;
-        static_cast<void>(Invalid_value);
+        [[maybe_unused]] static constexpr bool Invalid_value = false;
         assert(Invalid_value); 
         return 0;
     }

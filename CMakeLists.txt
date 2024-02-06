@@ -2,20 +2,28 @@ cmake_minimum_required (VERSION 3.11)
 project ("cc_tools_qt")
 
 # Available options
-
 option (CC_TOOLS_QT_INSTALL_LIBRARY_HEADERS "Install tools library headers." ON)
 option (CC_TOOLS_QT_BUILD_APPS "Build tool applications." ON)
-option (CC_TOOLS_QT_INSTALL_APPS "Install tools binaries." ${CC_TOOLS_QT_BUILD_APPS})
 option (CC_TOOLS_QT_BUILD_PLUGINS "Build plugins." ${CC_TOOLS_QT_BUILD_APPS})
-option (CC_TOOLS_QT_INSTALL_PLUGINS "Install plugins." ${CC_TOOLS_QT_BUILD_PLUGINS})
-option (CC_TOOLS_QT_BUILD_DEMO_PROTOCOL "Build demo protocol plugin." OFF)
-option (CC_TOOLS_QT_INSTALL_DEMO_PROTOCOL "Install demo protocol plugin." ${CC_TOOLS_QT_BUILD_DEMO_PROTOCOL})
 option (CC_TOOLS_QT_WARN_AS_ERR "Treat warning as error" ON)
 option (CC_TOOLS_QT_USE_CCACHE "Use ccache on UNIX systems if it's available" ON)
-option (CC_TOOLS_QT_SKIP_CXX_STANDARD_FORCING "Do NOT force C++ standard to C++11, use compiler's default one." ON)
 option (CC_TOOLS_QT_STATIC_RUNTIME "Enable/Disable static runtime" OFF)
 
+# More fine-grained options
+option (CC_TOOLS_QT_BUILD_PLUGIN_ECHO_SOCKET "Build echo socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
+option (CC_TOOLS_QT_BUILD_PLUGIN_NULL_SOCKET "Build null socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
+option (CC_TOOLS_QT_BUILD_PLUGIN_SERIAL_SOCKET "Build serial socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
+option (CC_TOOLS_QT_BUILD_PLUGIN_SSL_CLIENT_SOCKET "Build SSL client socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
+option (CC_TOOLS_QT_BUILD_PLUGIN_TCP_CLIENT_SOCKET "Build TCP client socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
+option (CC_TOOLS_QT_BUILD_PLUGIN_TCP_PROXY_SOCKET "Build TCP proxy socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
+option (CC_TOOLS_QT_BUILD_PLUGIN_TCP_SERVER_SOCKET "Build TCP server socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
+option (CC_TOOLS_QT_BUILD_PLUGIN_UDP_SOCKET "Build UDP socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
+option (CC_TOOLS_QT_BUILD_PLUGIN_RAW_DATA_PROTOCOL "Build raw data protocol plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
+option (CC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL "Build demo protocol plugin." OFF)
+
+
 # Extra configuration variables
+set (CMAKE_CXX_STANDARD 17 CACHE STRING "C++ standard to use")
 set (CC_TOOLS_QT_MAJOR_QT_VERSION 5 CACHE STRING "Major Qt version")
 
 #######################################################################
@@ -25,10 +33,6 @@ if (CMAKE_TOOLCHAIN_FILE AND EXISTS ${CMAKE_TOOLCHAIN_FILE})
 endif()
 
 set (CMAKE_SCRIPTS_DIR "${PROJECT_SOURCE_DIR}/cmake")
-
-if (("${CMAKE_CXX_STANDARD}" STREQUAL "") AND (NOT CC_COMMS_SKIP_CXX_STANDARD_FORCING))
-    set (CMAKE_CXX_STANDARD 11)
-endif()
 
 include(GNUInstallDirs)
 set (INSTALL_NAME "cc_tools_qt")

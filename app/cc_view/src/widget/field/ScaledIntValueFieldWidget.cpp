@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -106,8 +106,7 @@ void ScaledIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
         m_ui.m_valueSpinBox->setDecimals(decimals);
     }
     else {
-        static constexpr bool Should_not_happen = false;
-        static_cast<void>(Should_not_happen);
+        [[maybe_unused]] static constexpr bool Should_not_happen = false;
         assert(Should_not_happen);  
         m_ui.m_valueSpinBox->setDecimals(0);
     }

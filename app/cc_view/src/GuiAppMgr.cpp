@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -21,14 +21,10 @@
 #include <cassert>
 #include <memory>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QTimer>
 #include <QtCore/QStandardPaths>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/property/message.h"
 #include "DefaultMessageDisplayHandler.h"
@@ -399,8 +395,7 @@ void GuiAppMgr::connectSocketClicked()
 {
     auto socket = MsgMgrG::instanceRef().getSocket();
     assert(socket);
-    bool connected = socket->socketConnect();
-    emit sigSocketConnected(connected);
+    [[maybe_unused]] bool connected = socket->socketConnect();
 }
 
 void GuiAppMgr::disconnectSocketClicked()
@@ -408,7 +403,6 @@ void GuiAppMgr::disconnectSocketClicked()
     auto socket = MsgMgrG::instanceRef().getSocket();
     assert(socket);
     socket->socketDisconnect();
-    socketDisconnected();
 }
 
 GuiAppMgr::RecvState GuiAppMgr::recvState() const
@@ -572,7 +566,6 @@ bool GuiAppMgr::applyNewPlugins(const ListOfPluginInfos& plugins)
     auto currSocket = msgMgr.getSocket();
     if (currSocket) {
         currSocket->socketDisconnect();
-        emit sigSocketConnected(false);
         currSocket.reset();
     }
 
@@ -628,8 +621,7 @@ bool GuiAppMgr::applyNewPlugins(const ListOfPluginInfos& plugins)
     for (auto& info : plugins) {
         Plugin* plugin = pluginMgr.loadPlugin(*info);
         if (plugin == nullptr) {
-            static constexpr bool Failed_to_load_plugin = false;
-            static_cast<void>(Failed_to_load_plugin);
+            [[maybe_unused]] static constexpr bool Failed_to_load_plugin = false;
             assert(Failed_to_load_plugin);
             continue;
         }
@@ -686,11 +678,9 @@ bool GuiAppMgr::applyNewPlugins(const ListOfPluginInfos& plugins)
     bool connectDisabled = socketAutoConnect && socketNonDisconnectable;
     emit sigSocketConnectEnabled(!connectDisabled);
 
-    bool socketConnected = false;
     if (socketAutoConnect) {
-        socketConnected = msgMgr.getSocket()->socketConnect();
+        msgMgr.getSocket()->socketConnect();
     }
-    emit sigSocketConnected(socketConnected);
     return true;
 }
 
@@ -728,10 +718,10 @@ GuiAppMgr::GuiAppMgr(QObject* parentObj)
             errorReported(error);
         });
 
-    msgMgr.setSocketDisconnectReportCallbackFunc(
-        [this]()
+    msgMgr.setSocketConnectionStatusReportCallbackFunc(
+        [this](bool connected)
         {
-            socketDisconnected();
+            emit sigSocketConnected(connected);
         });
 
     refreshRecvState();
@@ -791,11 +781,6 @@ void GuiAppMgr::msgAdded(MessagePtr msg)
 void GuiAppMgr::errorReported(const QString& msg)
 {
     emit sigErrorReported(msg + tr("\nThe tool may not work properly!"));
-}
-
-void GuiAppMgr::socketDisconnected()
-{
-    emit sigSocketConnected(false);
 }
 
 void GuiAppMgr::pendingDisplayTimeout()

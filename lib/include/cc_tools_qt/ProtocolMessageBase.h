@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -110,8 +110,7 @@ private:
 
     const char* nameInternal(NoNameTag) const
     {
-        static constexpr bool Must_be_overriden = false;
-        static_cast<void>(Must_be_overriden);
+        [[maybe_unused]] static constexpr bool Must_be_overriden = false;
         assert(Must_be_overriden);         
         return nullptr;
     }

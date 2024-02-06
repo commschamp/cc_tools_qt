@@ -1,3 +1,9 @@
+if (NOT CC_TOOLS_QT_BUILD_PLUGIN_RAW_DATA_PROTOCOL)
+    return()
+endif ()
+
+######################################################################
+
 include_directories (
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -5,9 +11,7 @@ include_directories (
 
 add_subdirectory (cc_plugin)
 
-if (CC_TOOLS_QT_INSTALL_PLUGINS)
-    install (
-        DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/config/
-        DESTINATION ${CONFIG_INSTALL_DIR}
-    )
-endif ()
+install (
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/config/
+    DESTINATION ${CONFIG_INSTALL_DIR}
+)

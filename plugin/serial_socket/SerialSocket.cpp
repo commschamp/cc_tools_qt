@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,12 +18,8 @@
 #include <cassert>
 #include "SerialSocket.h"
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QtGlobal>
 #include <QtSerialPort/QSerialPortInfo>
-CC_ENABLE_WARNINGS()
 
 #include <algorithm>
 
@@ -127,7 +123,6 @@ void SerialSocket::errorOccurred(QSerialPort::SerialPortError err)
         return;
     }
 
-    static_cast<void>(err);
     reportError(m_serial.errorString());
     m_serial.clearError();
     if (!m_serial.isOpen()) {

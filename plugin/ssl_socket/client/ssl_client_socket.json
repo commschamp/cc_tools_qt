@@ -1,5 +1,5 @@
 {
-    "name" : "SSL Client Socket",
+    "name" : "CC SSL Client Socket",
     "desc" : [
         "Network socket that allows encrypted connection and/or remote host verification."
     ],

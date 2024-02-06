@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -194,11 +194,9 @@ public:
         m_widget.reset(new UnknownValueFieldWidget(wrapper.clone(), m_parent));
     }
 
-    virtual void handle(field_wrapper::FieldWrapper& wrapper) override
+    virtual void handle([[maybe_unused]] field_wrapper::FieldWrapper& wrapper) override
     {
-        static_cast<void>(wrapper);
-        static constexpr bool Unexpected_wrapper = false;
-        static_cast<void>(Unexpected_wrapper);
+        [[maybe_unused]] static constexpr bool Unexpected_wrapper = false;
         assert(Unexpected_wrapper);
     }
 

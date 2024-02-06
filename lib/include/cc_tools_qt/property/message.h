@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -20,13 +20,9 @@
 
 #include <cassert>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QObject>
 #include <QtCore/QString>
 #include <QtCore/QVariantMap>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/Api.h"
 #include "cc_tools_qt/Message.h"

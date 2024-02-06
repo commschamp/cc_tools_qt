@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,14 +18,10 @@
 
 #pragma once
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QListWidgetItem>
 
 #include "ui_PluginsListWidget.h"
-CC_ENABLE_WARNINGS()
 
 namespace cc_tools_qt
 {
@@ -46,7 +42,7 @@ public:
     int count() const;
     QListWidgetItem* item(int idx);
     QListWidgetItem* takeItem(int idx);
-    void addItem(const QString& name);
+    void addItem(const QString& name, const QString& desc);
     void setCurrentRow(int rowIdx);
     void setCurrentItem(QListWidgetItem* itemPtr);
     int currentRow() const;

@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -25,15 +25,11 @@
 #include <map>
 #include <utility>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QPushButton>
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QByteArray>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/property/message.h"
 #include "DefaultMessageDisplayWidget.h"
@@ -149,8 +145,7 @@ long long unsigned durationToMs(int value, Duration dur)
 {
 
     if (Duration::NumOfDurations <= dur) {
-        static constexpr bool Incorrect_duration = false;
-        static_cast<void>(Incorrect_duration);
+        [[maybe_unused]] static constexpr bool Incorrect_duration = false;
         assert(Incorrect_duration);
         return static_cast<long long unsigned>(value);
     }
@@ -163,8 +158,7 @@ int msToDurationUnits(long long unsigned value, Duration dur)
 {
 
     if (Duration::NumOfDurations <= dur) {
-        static constexpr bool Incorrect_duration = false;
-        static_cast<void>(Incorrect_duration);
+        [[maybe_unused]] static constexpr bool Incorrect_duration = false;
         assert(Incorrect_duration);
         return static_cast<int>(value);
     }

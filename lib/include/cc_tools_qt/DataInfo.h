@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -23,12 +23,8 @@
 #include <string>
 #include <memory>
 
-#include "comms/CompileControl.h"
-
-CC_DISABLE_WARNINGS()
 #include <QtCore/QVariant>
 #include <QtCore/QVariantMap>
-CC_ENABLE_WARNINGS()
 
 #include "Api.h"
 
@@ -51,7 +47,7 @@ struct DataInfo
     /// @brief Type of extra properties storage
     using PropertiesMap = QVariantMap;
 
-    Timestamp m_timestamp; ///< Timestam when data has been received / sent
+    Timestamp m_timestamp; ///< Timestamp when data has been received / sent
     DataSeq m_data; ///< Actual raw data
     PropertiesMap m_extraProperties; ///< Extra properties that can be used by
                                      /// other componets
@@ -62,6 +58,10 @@ using DataInfoPtr = std::shared_ptr<DataInfo>;
 
 /// @brief Dynamically allocate @ref DataInfo and return in in @ref DataInfoPtr;
 CC_API DataInfoPtr makeDataInfo();
+
+/// @brief Dynamically allocate @ref DataInfo and return in in @ref DataInfoPtr;
+/// @details Automatically populate the timestamp.
+CC_API DataInfoPtr makeDataInfoTimed();
 
 }  // namespace cc_tools_qt
 

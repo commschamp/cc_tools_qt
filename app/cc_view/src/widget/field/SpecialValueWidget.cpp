@@ -1,5 +1,5 @@
 //
-// Copyright 2019 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2019 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -149,9 +149,8 @@ void SpecialValueWidget::setFpValue(double value, double cmpEpsilon)
 }
 
 
-void SpecialValueWidget::itemSelected(int idx)
+void SpecialValueWidget::itemSelected([[maybe_unused]] int idx)
 {
-    static_cast<void>(idx);
     auto valueVar = m_ui.m_specialComboBox->currentData();
     if (!valueVar.isValid()) {
         emit sigRefreshReq();

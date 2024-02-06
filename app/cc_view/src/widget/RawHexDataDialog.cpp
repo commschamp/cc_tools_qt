@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2023 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -24,9 +24,7 @@
 #include <algorithm>
 #include <iterator>
 
-CC_DISABLE_WARNINGS()
 #include <QtWidgets/QPushButton>
-CC_ENABLE_WARNINGS()
 
 #include "cc_tools_qt/property/message.h"
 
@@ -114,7 +112,6 @@ void RawHexDataDialog::accept()
         {
             bool ok = false;
             auto byte = static_cast<DataInfo::DataSeq::value_type>(numStr.toUInt(&ok, 16));
-            static_cast<void>(ok);
             assert(ok);
             dataInfo.m_data.push_back(byte);
             numStr.clear();
@@ -144,8 +141,7 @@ void RawHexDataDialog::accept()
     if (!m_ui.m_convertCheckBox->isChecked()) {
         auto msg = m_protocol->createInvalidMessage(dataInfo.m_data);
         if (!msg) {
-            static constexpr bool Invalid_message_was_not_created_by_the_protocol = false;
-            static_cast<void>(Invalid_message_was_not_created_by_the_protocol);
+            [[maybe_unused]] static constexpr bool Invalid_message_was_not_created_by_the_protocol = false;
             assert(Invalid_message_was_not_created_by_the_protocol);               
             Base::accept();
             return;
