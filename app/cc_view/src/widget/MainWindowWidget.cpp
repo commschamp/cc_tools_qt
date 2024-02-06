@@ -268,10 +268,15 @@ void MainWindowWidget::msgCommentDialog(MessagePtr msg)
 void MainWindowWidget::aboutInfo()
 {
     static const QString AboutTxt(
-        "<p>This is a generic "
-        "communication protocols analysis tool.</p>"
+        "<p>This application is a generic "
+        "communication protocols analysis and visualization tool. " 
+        "It is developed as a member project of the "
+        "<a href=\"https://commschamp.github.io\">CommsChampion Ecosystem</a>."
+        "</p>"
+        "<p>"
         "The icons for this application were taken from: "
-        "<a href=\"http://www.fatcow.com/free-icons\">FatCow</a>");
+        "<a href=\"http://www.fatcow.com/free-icons\">FatCow</a>"
+        "</p>");
 
     QMessageBox::information(this, tr("About"), AboutTxt);
 }
