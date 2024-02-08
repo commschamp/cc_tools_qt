@@ -76,6 +76,8 @@ cmake -DCC_TOOLS_QT_MAJOR_QT_VERSION=6 ...
 It is highly recommended to open main [CMakeLists.txt](CMakeLists.txt) file and review the available
 configuration options and variables.
 
+Since **v5.0** this project uses and requires minimum **C++17** support from the compiler.
+
 # Developing Custom Socket/Filter/Protocol Plugin
 The full tutorial as well as API documentation can be downloaded as
 **doc_cc_tools_qt_vX.zip** archive from

@@ -33,7 +33,7 @@ namespace
 {
 
 const QString DefaultHost("127.0.0.1");
-const QString DefaultBroadcastPropName("broadcast");
+const QString DefaultBroadcastPropName("udp.broadcast");
 const QString FromPropName("udp.from");
 const QString ToPropName("udp.to");
 

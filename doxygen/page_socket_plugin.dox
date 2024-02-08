@@ -107,7 +107,7 @@
 /// the data has arrived from in case of network socket. Such extra information 
 /// can be reported by the driving application when reporting received message details.
 /// For example, take a look at 
-/// <a href="https://github.com/commschamp/cc_tools_qt/blob/master/plugin/tcp_socket/server/Socket.cpp">TCP/IP Server Socket</a> implementation.
+/// <a href="https://github.com/commschamp/cc_tools_qt/blob/master/plugin/tcp_socket/server/TcpServerSocket.cpp">TCP/IP Server Socket</a> implementation.
 /// 
 /// @subsection page_socket_plugin_data_send Sending Data
 /// The socket object receives requests to send outgoing data using call to

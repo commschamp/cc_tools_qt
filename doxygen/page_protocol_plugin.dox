@@ -2,8 +2,7 @@
 /// @tableofcontents
 /// Developing the @b protocol plugins is significantly more complex than
 /// developing the @b socket or @b filter ones. Please follow this tutorial, 
-/// while observing the implementation of the 
-/// <a href="https://github.com/commschamp/cc_tools_qt#demo-protocol">Demo Protocol</a>
+/// while observing the implementation of the <b>Demo Protocol</b>
 /// (the sources are 
 /// <a href="https://github.com/commschamp/cc_tools_qt/tree/master/demo">here</a>) 
 /// provided as part of the
