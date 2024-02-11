@@ -1,4 +1,4 @@
-# Overview
+# CommsChampion Tools
 This project contains a set of tool applications , which can be used to
 develop, monitor and debug custom binary communication protocols, that were
 developed using the [COMMS Library](https://github.com/commschamp/comms). 
