@@ -71,14 +71,14 @@ public:
         return m_localPort;
     }
 
-    void setBroadcastPropName(const QString& value)
+    void setBroadcastMask(const QString& value)
     {
-        m_broadcastPropName = value;
+        m_broadcastMask = value;
     }
 
-    const QString& getBroadcastPropName() const
+    const QString& getBroadcastMask() const
     {
-        return m_broadcastPropName;
+        return m_broadcastMask;
     }
 
 protected:
@@ -101,7 +101,7 @@ private:
     QString m_host;
     PortType m_port = DefaultPort;
     PortType m_localPort = 0;
-    QString m_broadcastPropName;
+    QString m_broadcastMask = "255.255.255.255";
     QUdpSocket m_socket;
     QUdpSocket m_broadcastSocket;
     bool m_running = false;

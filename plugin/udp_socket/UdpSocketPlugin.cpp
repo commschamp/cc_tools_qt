@@ -35,7 +35,7 @@ const QString MainConfigKey("cc_udp_socket");
 const QString HostSubKey("host");
 const QString PortSubKey("port");
 const QString LocalPortSubKey("local_port");
-const QString BroadcastPropName("broadcast_prop");
+const QString BroadcastMaskSubKey("broadcast_prop");
 
 }  // namespace
 
@@ -66,7 +66,7 @@ void UdpSocketPlugin::getCurrentConfigImpl(QVariantMap& config)
     subConfig.insert(HostSubKey, m_socket->getHost());
     subConfig.insert(PortSubKey, m_socket->getPort());
     subConfig.insert(LocalPortSubKey, m_socket->getLocalPort());
-    subConfig.insert(BroadcastPropName, m_socket->getBroadcastPropName());
+    subConfig.insert(BroadcastMaskSubKey, m_socket->getBroadcastMask());
     config.insert(MainConfigKey, QVariant::fromValue(subConfig));
 }
 
@@ -100,10 +100,10 @@ void UdpSocketPlugin::reconfigureImpl(const QVariantMap& config)
         m_socket->setLocalPort(port);
     }
 
-    auto broadcastBroadcastNameVar = subConfig.value(BroadcastPropName);
-    if (broadcastBroadcastNameVar.isValid() && broadcastBroadcastNameVar.canConvert<QString>()) {
-        auto propName = broadcastBroadcastNameVar.value<QString>();
-        m_socket->setBroadcastPropName(propName);
+    auto broadcastMaskVar = subConfig.value(BroadcastMaskSubKey);
+    if (broadcastMaskVar.isValid() && broadcastMaskVar.canConvert<QString>()) {
+        auto broadcastMask = broadcastMaskVar.value<QString>();
+        m_socket->setBroadcastMask(broadcastMask);
     }
 }
 

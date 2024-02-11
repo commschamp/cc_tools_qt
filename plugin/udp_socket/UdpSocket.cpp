@@ -33,7 +33,8 @@ namespace
 {
 
 const QString DefaultHost("127.0.0.1");
-const QString DefaultBroadcastPropName("udp.broadcast");
+const QString BroadcastPropName("udp.broadcast");
+const QString BroadcastMaskPropName("udp.broadcast_mask");
 const QString FromPropName("udp.from");
 const QString ToPropName("udp.to");
 
@@ -41,8 +42,7 @@ const QString ToPropName("udp.to");
 
 
 UdpSocket::UdpSocket()
-  : m_host(DefaultHost),
-    m_broadcastPropName(DefaultBroadcastPropName)
+  : m_host(DefaultHost)
 {
     connect(
         &m_socket, &QUdpSocket::disconnected,
@@ -143,10 +143,15 @@ void UdpSocket::sendDataImpl(DataInfoPtr dataPtr)
     dataPtr->m_extraProperties.insert(FromPropName, from);
 
     do {
-        if ((!dataPtr->m_extraProperties.contains(m_broadcastPropName)) ||
+        if ((!dataPtr->m_extraProperties.contains(BroadcastPropName)) ||
             (!m_broadcastSocket.isOpen()) ||
             (m_port == 0)) {
             break;
+        }
+
+        auto broadcastMask = dataPtr->m_extraProperties.value(BroadcastMaskPropName).toString();
+        if (broadcastMask.isEmpty()) {
+            broadcastMask = m_broadcastMask;
         }
 
         std::size_t writtenCount = 0;
@@ -156,7 +161,7 @@ void UdpSocket::sendDataImpl(DataInfoPtr dataPtr)
                 m_broadcastSocket.writeDatagram(
                     reinterpret_cast<const char*>(&dataPtr->m_data[writtenCount]),
                     remSize,
-                    QHostAddress::Broadcast,
+                    QHostAddress(broadcastMask),
                     m_port);
 
             if (count < 0) {
