@@ -106,7 +106,18 @@ public:
 
     /// @brief Make the protocol aware about socket connection status
     /// @param[in] connected Socket connection status.
-    void socketConnectionReport(bool connected);    
+    void socketConnectionReport(bool connected);   
+
+    /// @brief Type of callback to report errors
+    using ErrorReportCallback = std::function<void (const QString& msg)>;
+
+    /// @brief Set callback to report errors
+    /// @details The callback must have the same signature as @ref ErrorReportCallback
+    template <typename TFunc>
+    void setErrorReportCallback(TFunc&& func)
+    {
+        m_errorReportCallback = std::forward<TFunc>(func);
+    }     
 
 protected:
     /// @brief Polymorphic protocol name retrieval.
@@ -155,6 +166,13 @@ protected:
     /// @details Expected to be used by the derived class.
     void setNameToMessageProperties(Message& msg);
 
+    /// @brief Report operation error.
+    /// @details This function is expected to be invoked by the derived class,
+    ///     when some error is detected. This function will invoke
+    ///     callback set by @ref setErrorReportCallback().
+    /// @param[in] msg Error message.
+    void reportError(const QString& msg);    
+
     /// @brief Helper function to assign "tranport message" object as a property
     ///     of application message object.
     static void setTransportToMessageProperties(MessagePtr transportMsg, Message& msg);
@@ -186,6 +204,8 @@ protected:
     /// @brief Helper function to check whether "extra info" existence is force.
     static bool getForceExtraInfoExistenceFromMessageProperties(const Message& msg);
 
+private:
+    ErrorReportCallback m_errorReportCallback;
 };
 
 /// @brief Pointer to @ref Protocol object.

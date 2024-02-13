@@ -141,7 +141,7 @@ protected:
     /// @brief Report operation error.
     /// @details This function is expected to be invoked by the derived class,
     ///     when some error is detected. This function will invoke
-    ///     callback set by setErrorReportCallback().
+    ///     callback set by @ref setErrorReportCallback().
     /// @param[in] msg Error message.
     void reportError(const QString& msg);
 

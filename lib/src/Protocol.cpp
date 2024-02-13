@@ -180,6 +180,13 @@ void Protocol::setNameToMessageProperties(Message& msg)
     property::message::ProtocolName().setTo(name(), msg);
 }
 
+void Protocol::reportError(const QString& msg)
+{
+    if (m_errorReportCallback) {
+        m_errorReportCallback(msg);
+    }
+}
+
 void Protocol::setTransportToMessageProperties(MessagePtr transportMsg, Message& msg)
 {
     property::message::TransportMsg().setTo(std::move(transportMsg), msg);

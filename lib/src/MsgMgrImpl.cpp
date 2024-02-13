@@ -286,6 +286,12 @@ void MsgMgrImpl::setSocket(SocketPtr socket)
 
 void MsgMgrImpl::setProtocol(ProtocolPtr protocol)
 {
+    protocol->setErrorReportCallback(
+        [this](const QString& msg)
+        {
+            reportError(msg);
+        });
+
     m_protocol = std::move(protocol);
 }
 
