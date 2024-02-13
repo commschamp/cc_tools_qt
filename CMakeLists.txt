@@ -21,18 +21,23 @@ option (CC_TOOLS_QT_BUILD_PLUGIN_UDP_SOCKET "Build UDP socket plugin." ${CC_TOOL
 option (CC_TOOLS_QT_BUILD_PLUGIN_RAW_DATA_PROTOCOL "Build raw data protocol plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
 option (CC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL "Build demo protocol plugin." OFF)
 
-
 # Extra configuration variables
-set (CMAKE_CXX_STANDARD 17 CACHE STRING "C++ standard to use")
-set (CC_TOOLS_QT_MAJOR_QT_VERSION 5 CACHE STRING "Major Qt version")
+# CC_TOOLS_QT_MAJOR_QT_VERSION - Major Qt version, defaults to 5.
+
+# Used standard CMake variables
+# CMAKE_CXX_STANDARD - Defaults to 17.
 
 #######################################################################
 
-if (CMAKE_TOOLCHAIN_FILE AND EXISTS ${CMAKE_TOOLCHAIN_FILE})
-    message(STATUS "Loading toolchain from ${CMAKE_TOOLCHAIN_FILE}")
-endif()
-
 set (CMAKE_SCRIPTS_DIR "${PROJECT_SOURCE_DIR}/cmake")
+
+if ("${CMAKE_CXX_STANDARD}" STREQUAL "")
+    set (CMAKE_CXX_STANDARD 17)
+endif ()
+
+if ("${CC_TOOLS_QT_MAJOR_QT_VERSION}" STREQUAL "")
+    set (CC_TOOLS_QT_MAJOR_QT_VERSION 5)
+endif ()
 
 include(GNUInstallDirs)
 set (INSTALL_NAME "cc_tools_qt")
