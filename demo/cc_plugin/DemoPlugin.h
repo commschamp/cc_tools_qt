@@ -16,10 +16,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include "Plugin.h"
-#include "Protocol.h"
+#pragma once
 
-namespace cc = cc_tools_qt;
+#include <QtCore/QObject>
+#include <QtCore/QtPlugin>
+#include "cc_tools_qt/cc_tools_qt.h"
 
 namespace demo
 {
@@ -27,17 +28,16 @@ namespace demo
 namespace cc_plugin
 {
 
-Plugin::Plugin()
+class DemoPlugin : public cc_tools_qt::Plugin
 {
-    pluginProperties()
-        .setProtocolCreateFunc(
-            []()
-            {
-                return cc::ProtocolPtr(new Protocol());
-            });
-}
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "cc.DemoProtocol" FILE "demo.json")
+    Q_INTERFACES(cc_tools_qt::Plugin)
 
-Plugin::~Plugin() noexcept = default;
+public:
+    DemoPlugin();
+    ~DemoPlugin() noexcept;
+};
 
 }  // namespace cc_plugin
 

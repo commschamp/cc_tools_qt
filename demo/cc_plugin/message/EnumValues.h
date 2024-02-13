@@ -20,7 +20,7 @@
 
 #include "cc_tools_qt/cc_tools_qt.h"
 #include "demo/message/EnumValues.h"
-#include "cc_plugin/Message.h"
+#include "cc_plugin/DemoMessage.h"
 
 namespace demo
 {
@@ -33,7 +33,7 @@ namespace message
 
 class EnumValues : public
     cc_tools_qt::ProtocolMessageBase<
-        demo::message::EnumValues<demo::cc_plugin::Message>,
+        demo::message::EnumValues<demo::cc_plugin::DemoMessage>,
         EnumValues>
 {
 public:

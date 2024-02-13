@@ -18,9 +18,9 @@
 
 #pragma once
 
-#include <QtCore/QObject>
-#include <QtCore/QtPlugin>
 #include "cc_tools_qt/cc_tools_qt.h"
+#include "cc_plugin/DemoStack.h"
+#include "cc_plugin/DemoTransportMessage.h"
 
 namespace demo
 {
@@ -28,15 +28,18 @@ namespace demo
 namespace cc_plugin
 {
 
-class Plugin : public cc_tools_qt::Plugin
+class DemoProtocol : public
+    cc_tools_qt::ProtocolBase<
+        cc_plugin::DemoStack,
+        DemoTransportMessage
+    >
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "cc.DemoProtocol" FILE "demo.json")
-    Q_INTERFACES(cc_tools_qt::Plugin)
-
 public:
-    Plugin();
-    ~Plugin() noexcept;
+    DemoProtocol() = default;
+    virtual ~DemoProtocol() noexcept;
+
+protected:
+    virtual const QString& nameImpl() const override;
 };
 
 }  // namespace cc_plugin

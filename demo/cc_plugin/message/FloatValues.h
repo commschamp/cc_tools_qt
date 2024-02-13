@@ -20,7 +20,7 @@
 
 #include "cc_tools_qt/cc_tools_qt.h"
 #include "demo/message/FloatValues.h"
-#include "cc_plugin/Message.h"
+#include "cc_plugin/DemoMessage.h"
 
 namespace demo
 {
@@ -33,7 +33,7 @@ namespace message
 
 class FloatValues : public
     cc_tools_qt::ProtocolMessageBase<
-        demo::message::FloatValues<demo::cc_plugin::Message>,
+        demo::message::FloatValues<demo::cc_plugin::DemoMessage>,
         FloatValues>
 {
 public:

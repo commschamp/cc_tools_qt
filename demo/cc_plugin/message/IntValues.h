@@ -20,7 +20,7 @@
 
 #include "cc_tools_qt/cc_tools_qt.h"
 #include "demo/message/IntValues.h"
-#include "cc_plugin/Message.h"
+#include "cc_plugin/DemoMessage.h"
 
 namespace demo
 {
@@ -33,7 +33,7 @@ namespace message
 
 class IntValues : public
     cc_tools_qt::ProtocolMessageBase<
-        demo::message::IntValues<demo::cc_plugin::Message>,
+        demo::message::IntValues<demo::cc_plugin::DemoMessage>,
         IntValues>
 {
 public:

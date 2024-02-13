@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "Message.h"
+#include "DemoMessage.h"
 
 #include <cassert>
 
@@ -35,16 +35,16 @@ static QVariantList createFieldsProperties()
     QVariantList props;
     props.append(cc::property::field::IntValue().name("Version").serialisedHidden().hiddenWhenReadOnly().asMap());
 
-    assert(props.size() == demo::Message<>::TransportFieldIdx_numOfValues);
+    assert(props.size() == demo::DemoMessage<>::TransportFieldIdx_numOfValues);
     return props;
 }
 
 } // namespace
 
-Message::Message() = default;
-Message::~Message() noexcept = default;
+DemoMessage::DemoMessage() = default;
+DemoMessage::~DemoMessage() noexcept = default;
 
-const QVariantList& Message::extraTransportFieldsPropertiesImpl() const
+const QVariantList& DemoMessage::extraTransportFieldsPropertiesImpl() const
 {
     if (getId() != demo::MsgId_Optionals) {
         return Base::extraTransportFieldsPropertiesImpl();
@@ -54,7 +54,7 @@ const QVariantList& Message::extraTransportFieldsPropertiesImpl() const
     return Props;
 }
 
-QString Message::idAsStringImpl() const
+QString DemoMessage::idAsStringImpl() const
 {
     return QString("0x%1").arg(getId(), 2, 16, QChar('0'));
 }

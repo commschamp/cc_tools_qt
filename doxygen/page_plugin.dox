@@ -36,7 +36,7 @@
 /// as an example.
 /// @code
 /// {
-///     "name" : "Echo Socket",
+///     "name" : "CC Echo Socket",
 ///     "desc" : [
 ///         "This socket duplicates outgoing data and echoes it as an incoming one."
 ///     ],
@@ -99,14 +99,14 @@
 /// single @b QVariantMap object, which will be inserted as one value into
 /// the provided @b QVariantMap full configuration object. For example,
 /// let's take a look at 
-/// <a href="https://github.com/commschamp/cc_tools_qt/blob/master/plugin/tcp_socket/client/SocketPlugin.cpp">TCP/IP Client Socket</a>
+/// <a href="https://github.com/commschamp/cc_tools_qt/blob/master/plugin/tcp_socket/client/TcpClientSocketPlugin.cpp">TCP/IP Client Socket</a>
 /// plugin configuration:
 /// @code
 /// const QString MainConfigKey("cc_tcp_client_socket");
 /// const QString HostSubKey("host");
 /// const QString PortSubKey("port");
 ///
-/// void SocketPlugin::getCurrentConfigImpl(QVariantMap& config)
+/// void TcpClientSocketPlugin::getCurrentConfigImpl(QVariantMap& config)
 /// {
 ///     ...
 /// 
@@ -121,7 +121,7 @@
 ///     config.insert(MainConfigKey, QVariant::fromValue(subConfig)); 
 /// }
 ///
-/// void SocketPlugin::reconfigureImpl(const QVariantMap& config)
+/// void TcpClientSocketPlugin::reconfigureImpl(const QVariantMap& config)
 /// {
 ///     // Retrieve the relevant configuration containing object
 ///     auto subConfigVar = config.value(MainConfigKey);

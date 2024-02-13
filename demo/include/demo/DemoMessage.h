@@ -60,7 +60,7 @@ using ExtraTransportFields =
 /// @tparam TOptions Zero or more extra options to be passed to @b comms::Message
 ///     to define the interface.
 template <typename... TOptions>
-struct Message : public
+struct DemoMessage : public
     comms::Message<
         ProtocolEndian,
         comms::option::MsgIdType<MsgId>,

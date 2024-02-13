@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2016 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -16,11 +16,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#pragma once
+#include "DemoPlugin.h"
+#include "DemoProtocol.h"
 
-#include "demo/Stack.h"
-#include "Message.h"
-#include "AllMessages.h"
+namespace cc = cc_tools_qt;
 
 namespace demo
 {
@@ -28,10 +27,17 @@ namespace demo
 namespace cc_plugin
 {
 
-using Stack = demo::Stack<
-    cc_plugin::Message,
-    cc_plugin::AllMessages
->;
+DemoPlugin::DemoPlugin()
+{
+    pluginProperties()
+        .setProtocolCreateFunc(
+            []()
+            {
+                return cc::ProtocolPtr(new DemoProtocol());
+            });
+}
+
+DemoPlugin::~DemoPlugin() noexcept = default;
 
 }  // namespace cc_plugin
 
