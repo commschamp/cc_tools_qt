@@ -57,6 +57,20 @@
 /// };
 /// @endcode
 ///
+/// @subsection page_filter_plugin_socket_connect Socket Connection Status
+/// The communication link is driven by the @ref page_socket_plugin "socket" plugin.
+/// Quite often it can be necessary for the filter plugin to be aware about socket
+/// connection status. To do so override the virtual @ref cc_tools_qt::Filter::socketConnectionReportImpl()
+/// function
+/// @code
+/// class MyFilter : public cc_tools_qt::Filter
+/// {
+///     ...
+/// protected:
+///     virtual void socketConnectionReportImpl(bool connected) override;
+/// };
+/// @endcode
+///
 /// @subsection page_filter_plugin_data_proc Processing Data
 /// The new incoming data will be reported to the @b filter using virtual
 /// cc_tools_qt::Filter::recvDataImpl(). The derived class must override and

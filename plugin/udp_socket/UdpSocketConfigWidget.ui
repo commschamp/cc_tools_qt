@@ -72,6 +72,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
       <widget class="QLabel" name="m_localPortLabel">
+       <property name="toolTip">
+        <string>0 means not bound, chosen by the OS</string>
+       </property>
        <property name="text">
         <string>Local Port:</string>
        </property>
@@ -100,12 +103,12 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Broadcast Property:</string>
+        <string>Broadcast Mask</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="m_broadcastLineEdit"/>
+      <widget class="QLineEdit" name="m_broadcastMaskLineEdit"/>
      </item>
      <item>
       <spacer name="horizontalSpacer_3">

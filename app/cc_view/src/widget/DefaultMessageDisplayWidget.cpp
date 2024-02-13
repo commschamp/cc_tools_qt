@@ -21,9 +21,13 @@
 
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QSplitter>
+#include <QtCore/QJsonObject>
+#include <QtCore/QJsonDocument>
 
 #include "MsgDetailsWidget.h"
 #include "ProtocolsStackWidget.h"
+
+#include "cc_tools_qt/property/message.h"
 
 namespace cc_tools_qt
 {
@@ -57,6 +61,7 @@ void DefaultMessageDisplayWidget::displayMessageImpl(
     bool force)
 {
     assert(msg);
+    m_displayedMsg = msg;
     m_msgDetailsWidget->updateTitle(msg);
     m_protocolsDetailsWidget->displayMessage(std::move(msg), force);
 }
@@ -93,7 +98,31 @@ void DefaultMessageDisplayWidget::msgUpdated()
 {
     if (!m_protocolsDetailsWidget->isExtraInfoSelected()) {
         emit sigMsgUpdated();
+        return;
     }
+
+    assert(m_displayedMsg);
+    if (!m_displayedMsg) {
+        return;
+    }
+
+    auto extraInfoMsg = property::message::ExtraInfoMsg().getFrom(*m_displayedMsg);
+    if ((!extraInfoMsg) || (!extraInfoMsg->isValid())) {
+        return;
+    }
+
+    auto extraData = extraInfoMsg->encodeData();
+    if (extraData.empty()) {
+        property::message::ExtraInfo().setTo(QVariantMap(), *m_displayedMsg);
+        return;
+    }
+
+    auto doc =
+        QJsonDocument::fromJson(
+            QByteArray(
+                reinterpret_cast<const char*>(&extraData[0]),
+                static_cast<int>(extraData.size())));
+    property::message::ExtraInfo().setTo(doc.object().toVariantMap(), *m_displayedMsg);    
 }
 
 }  // namespace cc_tools_qt

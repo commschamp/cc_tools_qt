@@ -8,12 +8,7 @@ function (bin_cc_dump)
         RecordMessageHandler.cpp
     )
     
-    cc_qt_wrap_cpp(
-        moc
-        AppMgr.h
-    )
-    
-    add_executable(${name} ${src} ${moc})
+    add_executable(${name} ${src})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Core)
     
     install (

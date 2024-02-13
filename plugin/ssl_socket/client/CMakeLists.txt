@@ -23,30 +23,20 @@ function (plugin_ssl_client_socket)
         execute_process(
             COMMAND ${CMAKE_COMMAND} -E touch ${stamp_file})
     endif ()
+
+    set (
+        ui
+        SslClientSocketConfigWidget.ui
+    )    
     
     set (src
         SslClientSocket.cpp
+        SslClientSocketPlugin.h
         SslClientSocketPlugin.cpp
         SslClientSocketConfigWidget.cpp
     )
     
-    set (hdr
-        SslClientSocket.h
-        SslClientSocketPlugin.h
-        SslClientSocketConfigWidget.h
-    )
-    
-    cc_qt_wrap_cpp(
-        moc
-        ${hdr}
-    )
-    
-    cc_qt_wrap_ui(
-        ui
-        SslClientSocketConfigWidget.ui
-    )
-    
-    add_library (${name} MODULE ${src} ${moc} ${ui})
+    add_library (${name} MODULE ${ui} ${src})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Network Qt::Widgets Qt::Core)
     
     install (

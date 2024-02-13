@@ -37,12 +37,7 @@ function (lib_tools)
         property/field.cpp
     )
     
-    cc_qt_wrap_cpp(
-        moc
-        MsgSendMgrImpl.h
-    )
-    
-    add_library(${name} SHARED ${src} ${moc})
+    add_library(${name} SHARED ${src})
     add_library (cc::${PROJECT_NAME} ALIAS ${name})
 
     target_link_libraries(${name} PUBLIC cc::comms Qt::Widgets Qt::Core ${CC_PLATFORM_SPECIFIC})

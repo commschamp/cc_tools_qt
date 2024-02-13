@@ -46,7 +46,7 @@ private slots:
     void hostValueChanged(const QString& value);
     void portValueChanged(int value);
     void localPortValueChanged(int value);
-    void broadcastValueChanged(const QString& value);
+    void broadcastMaskValueChanged(const QString& value);
 
 private:
     UdpSocket& m_socket;

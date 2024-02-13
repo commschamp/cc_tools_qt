@@ -19,18 +19,10 @@ function (plugin_null_socket)
     set (src
         NullSocket.cpp
         NullSocketPlugin.cpp
-    )
-    
-    set (hdr
         NullSocketPlugin.h
     )
     
-    cc_qt_wrap_cpp(
-        moc
-        ${hdr}
-    )
-    
-    add_library (${name} MODULE ${src} ${moc})
+    add_library (${name} MODULE ${src})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Core)
     
     install (

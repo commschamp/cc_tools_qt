@@ -22,30 +22,20 @@ function (plugin_serial_socket)
         execute_process(
             COMMAND ${CMAKE_COMMAND} -E touch ${stamp_file})
     endif ()
-    
-    set (src
-        SerialSocket.cpp
-        SerialSocketPlugin.cpp
-        SerialSocketConfigWidget.cpp
-    )
-    
-    set (hdr
-        SerialSocket.h
-        SerialSocketPlugin.h
-        SerialSocketConfigWidget.h
-    )
-    
-    cc_qt_wrap_cpp(
-        moc
-        ${hdr}
-    )
-    
-    cc_qt_wrap_ui(
+
+    set (
         ui
         SerialSocketConfigWidget.ui
     )
     
-    add_library (${name} MODULE ${src} ${moc} ${ui})
+    set (src
+        SerialSocket.cpp
+        SerialSocketPlugin.h
+        SerialSocketPlugin.cpp
+        SerialSocketConfigWidget.cpp
+    )
+    
+    add_library (${name} MODULE ${ui} ${src})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::SerialPort Qt::Widgets Qt::Core)
     
     install (

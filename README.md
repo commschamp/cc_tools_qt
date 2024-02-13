@@ -1,4 +1,4 @@
-# Overview
+# CommsChampion Tools
 This project contains a set of tool applications , which can be used to
 develop, monitor and debug custom binary communication protocols, that were
 developed using the [COMMS Library](https://github.com/commschamp/comms). 
@@ -75,6 +75,8 @@ cmake -DCC_TOOLS_QT_MAJOR_QT_VERSION=6 ...
 
 It is highly recommended to open main [CMakeLists.txt](CMakeLists.txt) file and review the available
 configuration options and variables.
+
+Since **v5.0** this project uses and requires minimum **C++17** support from the compiler.
 
 # Developing Custom Socket/Filter/Protocol Plugin
 The full tutorial as well as API documentation can be downloaded as

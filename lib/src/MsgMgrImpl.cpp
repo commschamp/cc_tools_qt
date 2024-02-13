@@ -310,7 +310,7 @@ void MsgMgrImpl::addFilter(FilterPtr filter)
             data.append(std::move(dataPtr));
             for (auto iter = m_filters.rbegin() + static_cast<std::intmax_t>(revIdx); iter != m_filters.rend(); ++iter) {
 
-                if (!data.isEmpty()) {
+                if (data.isEmpty()) {
                     break;
                 }
 

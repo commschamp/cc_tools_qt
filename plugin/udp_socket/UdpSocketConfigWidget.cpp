@@ -49,23 +49,23 @@ UdpSocketConfigWidget::UdpSocketConfigWidget(
     m_ui.m_localPortSpinBox->setValue(
         static_cast<int>(m_socket.getLocalPort()));
 
-    m_ui.m_broadcastLineEdit->setText(m_socket.getBroadcastPropName());
+    m_ui.m_broadcastMaskLineEdit->setText(m_socket.getBroadcastMask());
 
     connect(
-        m_ui.m_hostLineEdit, SIGNAL(textChanged(const QString&)),
-        this, SLOT(hostValueChanged(const QString&)));
+        m_ui.m_hostLineEdit, &QLineEdit::textChanged,
+        this, &UdpSocketConfigWidget::hostValueChanged);
 
     connect(
-        m_ui.m_portSpinBox, SIGNAL(valueChanged(int)),
-        this, SLOT(portValueChanged(int)));
+        m_ui.m_portSpinBox, qOverload<int>(&QSpinBox::valueChanged),
+        this, &UdpSocketConfigWidget::portValueChanged);
 
     connect(
-        m_ui.m_localPortSpinBox, SIGNAL(valueChanged(int)),
-        this, SLOT(localPortValueChanged(int)));
+        m_ui.m_localPortSpinBox, qOverload<int>(&QSpinBox::valueChanged),
+        this, &UdpSocketConfigWidget::localPortValueChanged);
 
     connect(
-        m_ui.m_broadcastLineEdit, SIGNAL(textChanged(const QString&)),
-        this, SLOT(broadcastValueChanged(const QString&)));
+        m_ui.m_broadcastMaskLineEdit, &QLineEdit::textChanged,
+        this, &UdpSocketConfigWidget::broadcastMaskValueChanged);
 
 }
 
@@ -86,9 +86,9 @@ void UdpSocketConfigWidget::localPortValueChanged(int value)
     m_socket.setLocalPort(static_cast<PortType>(value));
 }
 
-void UdpSocketConfigWidget::broadcastValueChanged(const QString& value)
+void UdpSocketConfigWidget::broadcastMaskValueChanged(const QString& value)
 {
-    m_socket.setBroadcastPropName(value);
+    m_socket.setBroadcastMask(value);
 }
 
 }  // namespace plugin

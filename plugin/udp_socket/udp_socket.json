@@ -1,7 +1,11 @@
 {
     "name" : "CC UDP/IP Socket",
     "desc" : [
-        "I/O socket that allows communication via UDP/IP connection."
+        "I/O socket that allows communication via UDP/IP connection.\n",
+        "\n",
+        "Supported message properties:\n",
+        "   \"udp.broadcast: true\" - Broadcast the packet.\n",
+        "   \"udp.broadcast_mask: <string> - Override the configured broadcast mask.\n"
     ],
     "type" : "socket"
 }

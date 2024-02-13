@@ -22,31 +22,20 @@ function (plugin_tcp_proxy_socket)
         execute_process(
             COMMAND ${CMAKE_COMMAND} -E touch ${stamp_file})
     endif ()
+
+    set (
+        ui
+        TcpProxySocketConfigWidget.ui
+    )     
     
     set (src
         TcpProxySocket.cpp
+        TcpProxySocketPlugin.h
         TcpProxySocketPlugin.cpp
         TcpProxySocketConfigWidget.cpp
     )
     
-    set (hdr
-        TcpProxySocket.h
-        TcpProxySocketPlugin.h
-        TcpProxySocketConfigWidget.h
-    )
-    
-    cc_qt_wrap_cpp(
-        moc
-        ${hdr}
-    )
-    
-    cc_qt_wrap_ui(
-        ui
-        TcpProxySocketConfigWidget.ui
-    )
-    
-    
-    add_library (${name} MODULE ${src} ${moc} ${ui})
+    add_library (${name} MODULE ${ui} ${src})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Network Qt::Widgets Qt::Core)
     
     install (

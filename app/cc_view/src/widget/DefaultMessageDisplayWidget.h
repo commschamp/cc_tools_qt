@@ -44,6 +44,7 @@ private slots:
 private:
     MsgDetailsWidget* m_msgDetailsWidget = nullptr;
     ProtocolsStackWidget* m_protocolsDetailsWidget = nullptr;
+    MessagePtr m_displayedMsg;
     bool m_globalEditEnabled = true;
 };
 

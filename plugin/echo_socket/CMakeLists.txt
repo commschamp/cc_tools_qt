@@ -19,19 +19,10 @@ function (plugin_echo_socket)
     set (src
         EchoSocket.cpp
         EchoSocketPlugin.cpp
-    )
-    
-    set (hdr
-        EchoSocket.h
         EchoSocketPlugin.h
     )
     
-    cc_qt_wrap_cpp(
-        moc
-        ${hdr}
-    )
-    
-    add_library (${name} MODULE ${src} ${moc})
+    add_library (${name} MODULE ${src})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Core)
     
     install (
