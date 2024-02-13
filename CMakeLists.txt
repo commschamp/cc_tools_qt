@@ -136,6 +136,10 @@ include_directories (
 include (${PROJECT_SOURCE_DIR}/cmake/CC_FindQt.cmake)
 cc_find_qt_major ()
 
+set (CMAKE_AUTOMOC ON)
+set (CMAKE_AUTOUIC ON)
+set (CMAKE_AUTORCC ON)
+
 add_subdirectory (lib)
 add_subdirectory (plugin)
 add_subdirectory (app)

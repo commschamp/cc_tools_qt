@@ -22,31 +22,20 @@ function (plugin_tcp_server_socket)
         execute_process(
             COMMAND ${CMAKE_COMMAND} -E touch ${stamp_file})
     endif ()
+
+    set (
+        ui
+        TcpServerSocketConfigWidget.ui
+    )       
     
     set (src
         TcpServerSocket.cpp
+        TcpServerSocketPlugin.h
         TcpServerSocketPlugin.cpp
         TcpServerSocketConfigWidget.cpp
     )
     
-    set (hdr
-        TcpServerSocket.h
-        TcpServerSocketPlugin.h
-        TcpServerSocketConfigWidget.h
-    )
-    
-    cc_qt_wrap_cpp(
-        moc
-        ${hdr}
-    )
-    
-    cc_qt_wrap_ui(
-        ui
-        TcpServerSocketConfigWidget.ui
-    )
-    
-    
-    add_library (${name} MODULE ${src} ${moc} ${ui})
+    add_library (${name} MODULE ${ui} ${src})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Network Qt::Widgets Qt::Core)
     
     install (

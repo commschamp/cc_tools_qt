@@ -32,8 +32,9 @@ function (bin_cc_view)
         widget/PluginConfigWrapWidget.cpp
         widget/PluginConfigWrapsListWidget.cpp
         widget/MsgCommentDialog.cpp
-        widget/field/FieldWidget.cpp
         widget/MessagesFilterDialog.cpp
+        widget/MessageDisplayWidget.h
+        widget/field/FieldWidget.cpp
         widget/field/ShortIntValueFieldWidget.cpp
         widget/field/LongIntValueFieldWidget.cpp
         widget/field/LongLongIntValueFieldWidget.cpp
@@ -54,49 +55,7 @@ function (bin_cc_view)
         widget/field/SpecialValueWidget.cpp
     )
     
-    cc_qt_wrap_cpp(
-        moc
-        GuiAppMgr.h
-        ShortcutMgr.h
-        widget/MessageDisplayWidget.h
-        widget/MessageWidget.h
-        widget/DefaultMessageWidget.h
-        widget/RecvAreaToolBar.h
-        widget/SendAreaToolBar.h
-        widget/MsgListWidget.h
-        widget/MsgDetailsWidget.h
-        widget/ProtocolsStackWidget.h
-        widget/MessageUpdateDialog.h
-        widget/RawHexDataDialog.h
-        widget/PluginsListWidget.h
-        widget/PluginConfigDialog.h
-        widget/MainWindowWidget.h
-        widget/MainToolbar.h
-        widget/DefaultMessageDisplayWidget.h
-        widget/MsgCommentDialog.h
-        widget/MessagesFilterDialog.h
-        widget/RightPaneWidget.h
-        widget/field/FieldWidget.h 
-        widget/field/ShortIntValueFieldWidget.h
-        widget/field/LongIntValueFieldWidget.h
-        widget/field/LongLongIntValueFieldWidget.h
-        widget/field/UnsignedLongLongIntValueFieldWidget.h
-        widget/field/ScaledIntValueFieldWidget.h
-        widget/field/BitmaskValueFieldWidget.h
-        widget/field/EnumValueFieldWidget.h
-        widget/field/StringFieldWidget.h
-        widget/field/BitfieldFieldWidget.h
-        widget/field/OptionalFieldWidget.h
-        widget/field/BundleFieldWidget.h
-        widget/field/ArrayListRawDataFieldWidget.h
-        widget/field/ArrayListFieldWidget.h
-        widget/field/FloatValueFieldWidget.h
-        widget/field/VariantFieldWidget.h
-        widget/field/UnknownValueFieldWidget.h
-        widget/field/SpecialValueWidget.h
-    )
-    
-    cc_qt_wrap_ui(
+    set (
         ui
         ui/MainWindowWidget.ui
         ui/MsgListWidget.ui
@@ -126,15 +85,19 @@ function (bin_cc_view)
         ui/MsgCommentDialog.ui
         ui/MessagesFilterDialog.ui
     )
-    
-    cc_qt_add_resources(resources ${CMAKE_CURRENT_SOURCE_DIR}/ui.qrc)
 
+    set (resources
+        ui.qrc
+    )
+    
     set (gui_exe)
     if (WIN32 AND ("${CMAKE_BUILD_TYPE}" STREQUAL "Release"))
         set (gui_exe WIN32)
     endif ()
 
-    add_executable(${name} ${gui_exe} ${src} ${moc} ${ui} ${resources})
+    set (CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/ui")
+
+    add_executable(${name} ${gui_exe} ${ui} ${resources} ${src})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Widgets Qt::Core)
     
     install (

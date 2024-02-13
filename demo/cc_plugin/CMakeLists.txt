@@ -14,6 +14,7 @@ function (cc_plugin_demo)
     
     
     set (src
+        Plugin.h
         Plugin.cpp
         Protocol.cpp
         TransportMessage.cpp
@@ -29,16 +30,7 @@ function (cc_plugin_demo)
         message/Variants.cpp
     )
     
-    set (hdr
-        Plugin.h
-    )
-    
-    cc_qt_wrap_cpp(
-        moc
-        ${hdr}
-    )
-    
-    add_library (${name} MODULE ${src} ${moc})
+    add_library (${name} MODULE ${src})
     target_link_libraries(${name} PRIVATE cc::cc_tools_qt)
 
     target_compile_options(${name} PRIVATE

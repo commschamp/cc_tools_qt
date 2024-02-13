@@ -22,30 +22,20 @@ function (plugin_udp_client_socket)
         execute_process(
             COMMAND ${CMAKE_COMMAND} -E touch ${stamp_file})
     endif ()
+
+    set (
+        ui
+        UdpSocketConfigWidget.ui
+    )    
     
     set (src
         UdpSocket.cpp
+        UdpSocketPlugin.h
         UdpSocketPlugin.cpp
         UdpSocketConfigWidget.cpp
     )
     
-    set (hdr
-        UdpSocketPlugin.h
-        UdpSocket.h
-        UdpSocketConfigWidget.h
-    )
-    
-    cc_qt_wrap_cpp(
-        moc
-        ${hdr}
-    )
-    
-    cc_qt_wrap_ui(
-        ui
-        UdpSocketConfigWidget.ui
-    )
-    
-    add_library (${name} MODULE ${src} ${moc} ${ui})
+    add_library (${name} MODULE ${ui} ${src})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Network Qt::Widgets Qt::Core)
     
     install (

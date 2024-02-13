@@ -18,18 +18,10 @@ function (cc_plugin_raw_data_protocol)
         RawDataProtocol.cpp
         RawDataProtocolTransportMessage.cpp
         RawDataProtocolDataMessage.cpp
-    )
-    
-    set (hdr
         RawDataProtocolPlugin.h
     )
     
-    cc_qt_wrap_cpp(
-        moc
-        ${hdr}
-    )
-    
-    add_library (${name} MODULE ${src} ${moc})
+    add_library (${name} MODULE ${src})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Core)
     
     install (
