@@ -215,6 +215,8 @@ void MsgMgrImpl::sendMsgs(MessagesList&& msgs)
                 m_protocol->updateMessage(*msgPtr);
             }
         }
+
+        m_protocol->messageSentReport(msgPtr);
     }
 }
 
@@ -402,6 +404,7 @@ void MsgMgrImpl::socketDataReceived(DataInfoPtr dataInfoPtr)
             updateMsgTimestamp(*m, now);
         }
 
+        m_protocol->messageReceivedReport(m);
         reportMsgAdded(m);
     }
 

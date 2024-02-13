@@ -171,7 +171,25 @@ void Protocol::socketConnectionReport(bool connected)
     socketConnectionReportImpl(connected);
 }
 
+void Protocol::messageReceivedReport(MessagePtr msg)
+{
+    messageReceivedReportImpl(std::move(msg));
+}
+
+void Protocol::messageSentReport(MessagePtr msg)
+{
+    messageSentReportImpl(std::move(msg));
+}
+
 void Protocol::socketConnectionReportImpl([[maybe_unused]] bool connected)
+{
+}
+
+void Protocol::messageReceivedReportImpl([[maybe_unused]] MessagePtr msg)
+{
+}
+
+void Protocol::messageSentReportImpl([[maybe_unused]] MessagePtr msg)
 {
 }
 
