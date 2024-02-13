@@ -198,10 +198,17 @@ void Protocol::setNameToMessageProperties(Message& msg)
     property::message::ProtocolName().setTo(name(), msg);
 }
 
-void Protocol::reportError(const QString& msg)
+void Protocol::reportError(const QString& str)
 {
     if (m_errorReportCallback) {
-        m_errorReportCallback(msg);
+        m_errorReportCallback(str);
+    }
+}
+
+void Protocol::sendMessageRequest(MessagePtr msg)
+{
+    if (m_sendMessageRequestCallback) {
+        m_sendMessageRequestCallback(std::move(msg));
     }
 }
 

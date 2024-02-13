@@ -130,6 +130,17 @@ public:
         m_errorReportCallback = std::forward<TFunc>(func);
     }     
 
+    /// @brief Type of callback to request message being sent initiated by the plugin itself
+    using SendMessageRequestCallback = std::function<void (MessagePtr)>;
+
+    /// @brief Set the callback to allow request of extra messages to be sent out
+    /// @details The callback must have the same signature as @ref SendMessageRequestCallback
+    template <typename TFunc>
+    void setSendMessageRequestCallback(TFunc&& func)
+    {
+        m_sendMessageRequestCallback = std::forward<TFunc>(func);
+    }
+
 protected:
     /// @brief Polymorphic protocol name retrieval.
     /// @details Invoked by name().
@@ -192,8 +203,15 @@ protected:
     /// @details This function is expected to be invoked by the derived class,
     ///     when some error is detected. This function will invoke
     ///     callback set by @ref setErrorReportCallback().
-    /// @param[in] msg Error message.
-    void reportError(const QString& msg);    
+    /// @param[in] str Error string.
+    void reportError(const QString& str);  
+
+    /// @brief Request a protocol message to be sent out.
+    /// @details This function is expected to be invoked by the derived class,
+    ///     when an extra message needs to be sent out. This function will invoke
+    ///     callback set by @ref setSendMessageRequestCallback().
+    /// @param[in] msg Pointer to the message object.
+    void sendMessageRequest(MessagePtr msg);  
 
     /// @brief Helper function to assign "tranport message" object as a property
     ///     of application message object.
@@ -228,6 +246,7 @@ protected:
 
 private:
     ErrorReportCallback m_errorReportCallback;
+    SendMessageRequestCallback m_sendMessageRequestCallback;
 };
 
 /// @brief Pointer to @ref Protocol object.

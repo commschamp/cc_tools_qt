@@ -283,16 +283,35 @@ void MsgMgrImpl::setSocket(SocketPtr socket)
             reportSocketConnectionStatus(connected);
         });
 
+    if (m_socket) {
+        m_socket->setDataReceivedCallback(nullptr);
+        m_socket->setErrorReportCallback(nullptr);
+        m_socket->setConnectionStatusReportCallback(nullptr);
+    }        
+
     m_socket = std::move(socket);
 }
 
 void MsgMgrImpl::setProtocol(ProtocolPtr protocol)
 {
     protocol->setErrorReportCallback(
-        [this](const QString& msg)
+        [this](const QString& str)
         {
-            reportError(msg);
+            reportError(str);
         });
+
+    protocol->setSendMessageRequestCallback(
+        [this](MessagePtr msg)
+        {
+            MessagesList msgsList;
+            msgsList.push_back(std::move(msg));
+            sendMsgs(std::move(msgsList));
+        });
+
+    if (m_protocol) {
+        m_protocol->setErrorReportCallback(nullptr);
+        m_protocol->setSendMessageRequestCallback(nullptr);
+    }
 
     m_protocol = std::move(protocol);
 }
