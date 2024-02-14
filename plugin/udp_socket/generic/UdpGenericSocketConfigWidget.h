@@ -19,9 +19,9 @@
 #pragma once
 
 #include <QtWidgets/QWidget>
-#include "ui_UdpSocketConfigWidget.h"
+#include "ui_UdpGenericSocketConfigWidget.h"
 
-#include "UdpSocket.h"
+#include "UdpGenericSocket.h"
 
 namespace cc_tools_qt
 {
@@ -29,18 +29,18 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-class UdpSocketConfigWidget : public QWidget
+class UdpGenericSocketConfigWidget : public QWidget
 {
     Q_OBJECT
     typedef QWidget Base;
 public:
-    typedef UdpSocket::PortType PortType;
+    typedef UdpGenericSocket::PortType PortType;
 
-    explicit UdpSocketConfigWidget(
-        UdpSocket& socket,
+    explicit UdpGenericSocketConfigWidget(
+        UdpGenericSocket& socket,
         QWidget* parentObj = nullptr);
 
-    ~UdpSocketConfigWidget() noexcept;
+    ~UdpGenericSocketConfigWidget() noexcept;
 
 private slots:
     void hostValueChanged(const QString& value);
@@ -49,8 +49,8 @@ private slots:
     void broadcastMaskValueChanged(const QString& value);
 
 private:
-    UdpSocket& m_socket;
-    Ui::UdpSocketConfigWidget m_ui;
+    UdpGenericSocket& m_socket;
+    Ui::UdpGenericSocketConfigWidget m_ui;
 };
 
 }  // namespace plugin

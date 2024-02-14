@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "UdpSocketConfigWidget.h"
+#include "UdpProxySocketConfigWidget.h"
 
 #include <limits>
 
@@ -25,8 +25,8 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-UdpSocketConfigWidget::UdpSocketConfigWidget(
-    UdpSocket& socket,
+UdpProxySocketConfigWidget::UdpProxySocketConfigWidget(
+    UdpProxySocket& socket,
     QWidget* parentObj)
   : Base(parentObj),
     m_socket(socket)
@@ -49,46 +49,34 @@ UdpSocketConfigWidget::UdpSocketConfigWidget(
     m_ui.m_localPortSpinBox->setValue(
         static_cast<int>(m_socket.getLocalPort()));
 
-    m_ui.m_broadcastMaskLineEdit->setText(m_socket.getBroadcastMask());
-
     connect(
         m_ui.m_hostLineEdit, &QLineEdit::textChanged,
-        this, &UdpSocketConfigWidget::hostValueChanged);
+        this, &UdpProxySocketConfigWidget::hostValueChanged);
 
     connect(
         m_ui.m_portSpinBox, qOverload<int>(&QSpinBox::valueChanged),
-        this, &UdpSocketConfigWidget::portValueChanged);
+        this, &UdpProxySocketConfigWidget::portValueChanged);
 
     connect(
         m_ui.m_localPortSpinBox, qOverload<int>(&QSpinBox::valueChanged),
-        this, &UdpSocketConfigWidget::localPortValueChanged);
-
-    connect(
-        m_ui.m_broadcastMaskLineEdit, &QLineEdit::textChanged,
-        this, &UdpSocketConfigWidget::broadcastMaskValueChanged);
-
+        this, &UdpProxySocketConfigWidget::localPortValueChanged);
 }
 
-UdpSocketConfigWidget::~UdpSocketConfigWidget() noexcept = default;
+UdpProxySocketConfigWidget::~UdpProxySocketConfigWidget() noexcept = default;
 
-void UdpSocketConfigWidget::hostValueChanged(const QString& value)
+void UdpProxySocketConfigWidget::hostValueChanged(const QString& value)
 {
     m_socket.setHost(value);
 }
 
-void UdpSocketConfigWidget::portValueChanged(int value)
+void UdpProxySocketConfigWidget::portValueChanged(int value)
 {
     m_socket.setPort(static_cast<PortType>(value));
 }
 
-void UdpSocketConfigWidget::localPortValueChanged(int value)
+void UdpProxySocketConfigWidget::localPortValueChanged(int value)
 {
     m_socket.setLocalPort(static_cast<PortType>(value));
-}
-
-void UdpSocketConfigWidget::broadcastMaskValueChanged(const QString& value)
-{
-    m_socket.setBroadcastMask(value);
 }
 
 }  // namespace plugin

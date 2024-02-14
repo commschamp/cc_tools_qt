@@ -18,6 +18,7 @@ option (CC_TOOLS_QT_BUILD_PLUGIN_TCP_CLIENT_SOCKET "Build TCP client socket plug
 option (CC_TOOLS_QT_BUILD_PLUGIN_TCP_PROXY_SOCKET "Build TCP proxy socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
 option (CC_TOOLS_QT_BUILD_PLUGIN_TCP_SERVER_SOCKET "Build TCP server socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
 option (CC_TOOLS_QT_BUILD_PLUGIN_UDP_SOCKET "Build UDP socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
+option (CC_TOOLS_QT_BUILD_PLUGIN_UDP_PROXY_SOCKET "Build UDP proxy socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
 option (CC_TOOLS_QT_BUILD_PLUGIN_RAW_DATA_PROTOCOL "Build raw data protocol plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
 option (CC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL "Build demo protocol plugin." OFF)
 

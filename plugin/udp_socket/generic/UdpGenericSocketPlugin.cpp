@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "UdpSocketPlugin.h"
+#include "UdpGenericSocketPlugin.h"
 
 #include <memory>
 #include <cassert>
 
-#include "UdpSocketConfigWidget.h"
+#include "UdpGenericSocketConfigWidget.h"
 
 namespace cc_tools_qt
 {
@@ -39,7 +39,7 @@ const QString BroadcastMaskSubKey("broadcast_prop");
 
 }  // namespace
 
-UdpSocketPlugin::UdpSocketPlugin()
+UdpGenericSocketPlugin::UdpGenericSocketPlugin()
 {
     pluginProperties()
         .setSocketCreateFunc(
@@ -52,13 +52,13 @@ UdpSocketPlugin::UdpSocketPlugin()
             [this]() -> QWidget*
             {
                 createSocketIfNeeded();
-                return new UdpSocketConfigWidget(*m_socket);
+                return new UdpGenericSocketConfigWidget(*m_socket);
             });
 }
 
-UdpSocketPlugin::~UdpSocketPlugin() noexcept = default;
+UdpGenericSocketPlugin::~UdpGenericSocketPlugin() noexcept = default;
 
-void UdpSocketPlugin::getCurrentConfigImpl(QVariantMap& config)
+void UdpGenericSocketPlugin::getCurrentConfigImpl(QVariantMap& config)
 {
     createSocketIfNeeded();
 
@@ -70,7 +70,7 @@ void UdpSocketPlugin::getCurrentConfigImpl(QVariantMap& config)
     config.insert(MainConfigKey, QVariant::fromValue(subConfig));
 }
 
-void UdpSocketPlugin::reconfigureImpl(const QVariantMap& config)
+void UdpGenericSocketPlugin::reconfigureImpl(const QVariantMap& config)
 {
     auto subConfigVar = config.value(MainConfigKey);
     if ((!subConfigVar.isValid()) || (!subConfigVar.canConvert<QVariantMap>())) {
@@ -87,7 +87,7 @@ void UdpSocketPlugin::reconfigureImpl(const QVariantMap& config)
         m_socket->setHost(host);
     }
 
-    typedef UdpSocket::PortType PortType;
+    typedef UdpGenericSocket::PortType PortType;
     auto portVar = subConfig.value(PortSubKey);
     if (portVar.isValid() && portVar.canConvert<PortType>()) {
         auto port = portVar.value<PortType>();
@@ -107,10 +107,10 @@ void UdpSocketPlugin::reconfigureImpl(const QVariantMap& config)
     }
 }
 
-void UdpSocketPlugin::createSocketIfNeeded()
+void UdpGenericSocketPlugin::createSocketIfNeeded()
 {
     if (!m_socket) {
-        m_socket.reset(new UdpSocket());
+        m_socket.reset(new UdpGenericSocket());
     }
 }
 

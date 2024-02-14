@@ -22,7 +22,7 @@
 
 #include "cc_tools_qt/Plugin.h"
 
-#include "UdpSocket.h"
+#include "UdpGenericSocket.h"
 
 namespace cc_tools_qt
 {
@@ -30,15 +30,15 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-class UdpSocketPlugin : public cc_tools_qt::Plugin
+class UdpGenericSocketPlugin : public cc_tools_qt::Plugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "cc.UdpSocketPlugin" FILE "udp_socket.json")
     Q_INTERFACES(cc_tools_qt::Plugin)
 
 public:
-    UdpSocketPlugin();
-    ~UdpSocketPlugin() noexcept;
+    UdpGenericSocketPlugin();
+    ~UdpGenericSocketPlugin() noexcept;
 
     virtual void getCurrentConfigImpl(QVariantMap& config) override;
     virtual void reconfigureImpl(const QVariantMap& config) override;
@@ -47,7 +47,7 @@ private:
 
     void createSocketIfNeeded();
 
-    std::shared_ptr<UdpSocket> m_socket;
+    std::shared_ptr<UdpGenericSocket> m_socket;
 };
 
 }  // namespace plugin
