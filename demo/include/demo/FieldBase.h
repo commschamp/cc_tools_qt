@@ -22,7 +22,7 @@
 
 #include "comms/Field.h"
 
-#include "Message.h"
+#include "DemoMessage.h"
 
 namespace demo
 {

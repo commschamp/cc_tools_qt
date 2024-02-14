@@ -24,7 +24,7 @@
 #include "comms/comms.h"
 
 #include "MsgId.h"
-#include "Message.h"
+#include "DemoMessage.h"
 #include "FieldBase.h"
 
 namespace demo
@@ -89,7 +89,7 @@ using StackBase =
                     TMessages,
                     comms::protocol::TransportValueLayer<
                         VersionField,
-                        Message<>::TransportFieldIdx_version,
+                        DemoMessage<>::TransportFieldIdx_version,
                         comms::protocol::MsgDataLayer<
                             TDataFieldStorageOptions
                         >
