@@ -36,6 +36,10 @@ if ("${CMAKE_CXX_STANDARD}" STREQUAL "")
     set (CMAKE_CXX_STANDARD 17)
 endif ()
 
+if ("${CMAKE_CXX_STANDARD}" VERSION_LESS "17")
+    message (FATAL_ERROR "Use C++17 or later to compile this project.")
+endif()
+
 if ("${CC_TOOLS_QT_MAJOR_QT_VERSION}" STREQUAL "")
     set (CC_TOOLS_QT_MAJOR_QT_VERSION 5)
 endif ()
