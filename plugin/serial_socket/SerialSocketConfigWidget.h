@@ -45,6 +45,10 @@ public:
 
 private slots:
     void nameChanged(const QString& value);
+    void deviceChanged(int idx);
+    void deviceRefreshClicked(bool checked);
+    void deviceEditClicked(bool checked);
+    
     void baudChanged(int value);
     void dataBitsChanged(int value);
     void parityChanged(int value);
@@ -52,8 +56,13 @@ private slots:
     void flowControlChanged(int value);
 
 private:
+    void refreshDeviceConfig();
+    void refreshDeviceConfigComboSignalsBlocked();
+
     SerialSocket& m_socket;
     Ui::SerialSocketConfigWidget m_ui;
+    bool m_deviceEditForced = false;
+    bool m_editMode = false;
 };
 
 

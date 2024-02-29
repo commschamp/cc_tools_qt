@@ -22,6 +22,8 @@
 #include <algorithm>
 #include <iterator>
 
+#include <QtSerialPort/QSerialPortInfo>
+
 namespace cc_tools_qt
 {
 
@@ -110,6 +112,21 @@ int mapFlowControlToIdx(QSerialPort::FlowControl value)
     return static_cast<int>(value);
 }
 
+void populateAvailableSerialPorts(QComboBox& box)
+{
+    auto infos = QSerialPortInfo::availablePorts();
+    QStringList devices;
+    for (auto& i : infos) {
+        devices.append(i.systemLocation());
+    }
+
+    devices.sort();
+    box.clear();
+    for (auto& d : devices) {
+        box.addItem(d);
+    }
+}
+
 }  // namespace
 
 SerialSocketConfigWidget::SerialSocketConfigWidget(
@@ -119,6 +136,8 @@ SerialSocketConfigWidget::SerialSocketConfigWidget(
     m_socket(socket)
 {
     m_ui.setupUi(this);
+    populateAvailableSerialPorts(*m_ui.m_deviceComboBox);
+
     m_ui.m_deviceLineEdit->setText(m_socket.name());
     m_ui.m_baudSpinBox->setValue(m_socket.baud());
     m_ui.m_dataBitsSpinBox->setValue(m_socket.dataBits());
@@ -126,36 +145,82 @@ SerialSocketConfigWidget::SerialSocketConfigWidget(
     m_ui.m_stopBitsComboBox->setCurrentIndex(mapStopBitToIdx(m_socket.stopBits()));
     m_ui.m_flowComboBox->setCurrentIndex(mapFlowControlToIdx(m_socket.flowControl()));
 
-    connect(
-        m_ui.m_deviceLineEdit, SIGNAL(textEdited(const QString&)),
-        this, SLOT(nameChanged(const QString&)));
+    refreshDeviceConfig();
 
     connect(
-        m_ui.m_baudSpinBox, SIGNAL(valueChanged(int)),
-        this, SLOT(baudChanged(int)));
+        m_ui.m_deviceLineEdit, &QLineEdit::textEdited,
+        this, &SerialSocketConfigWidget::nameChanged);
 
     connect(
-        m_ui.m_dataBitsSpinBox, SIGNAL(valueChanged(int)),
-        this, SLOT(dataBitsChanged(int)));
+        m_ui.m_deviceComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &SerialSocketConfigWidget::deviceChanged);         
 
     connect(
-        m_ui.m_parityComboBox, SIGNAL(currentIndexChanged(int)),
-        this, SLOT(parityChanged(int)));
+        m_ui.m_deviceRefreshToolButton, &QToolButton::clicked,
+        this, &SerialSocketConfigWidget::deviceRefreshClicked);     
+        
+    connect(
+        m_ui.m_deviceEditToolButton, &QToolButton::toggled,
+        this, &SerialSocketConfigWidget::deviceEditClicked);          
 
     connect(
-        m_ui.m_stopBitsComboBox, SIGNAL(currentIndexChanged(int)),
-        this, SLOT(stopBitsChanged(int)));
+        m_ui.m_parityComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &SerialSocketConfigWidget::parityChanged);        
 
     connect(
-        m_ui.m_flowComboBox, SIGNAL(currentIndexChanged(int)),
-        this, SLOT(flowControlChanged(int)));
+        m_ui.m_baudSpinBox, qOverload<int>(&QSpinBox::valueChanged),
+        this, &SerialSocketConfigWidget::baudChanged);
+
+    connect(
+        m_ui.m_dataBitsSpinBox, qOverload<int>(&QSpinBox::valueChanged),
+        this, &SerialSocketConfigWidget::dataBitsChanged);
+
+    connect(
+        m_ui.m_parityComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &SerialSocketConfigWidget::parityChanged);
+
+    connect(
+        m_ui.m_stopBitsComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &SerialSocketConfigWidget::stopBitsChanged);
+
+    connect(
+        m_ui.m_flowComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &SerialSocketConfigWidget::flowControlChanged);
 }
 
 SerialSocketConfigWidget::~SerialSocketConfigWidget() noexcept = default;
 
 void SerialSocketConfigWidget::nameChanged(const QString& value)
 {
+    if (m_editMode) {
+        m_socket.name() = value;
+        refreshDeviceConfig();
+    }
+}
+
+void SerialSocketConfigWidget::deviceChanged(int idx)
+{
+    if (m_editMode) {
+        return;
+    }
+
+    auto value = m_ui.m_deviceComboBox->itemText(idx);
     m_socket.name() = value;
+    m_ui.m_deviceLineEdit->setText(value);
+}
+
+void SerialSocketConfigWidget::deviceRefreshClicked([[maybe_unused]] bool checked)
+{
+    m_ui.m_deviceComboBox->blockSignals(true);
+    populateAvailableSerialPorts(*m_ui.m_deviceComboBox);
+    refreshDeviceConfigComboSignalsBlocked();
+    m_ui.m_deviceComboBox->blockSignals(false);
+}
+
+void SerialSocketConfigWidget::deviceEditClicked(bool checked)
+{
+    m_deviceEditForced = checked;
+    refreshDeviceConfig();
 }
 
 void SerialSocketConfigWidget::baudChanged(int value)
@@ -181,6 +246,38 @@ void SerialSocketConfigWidget::stopBitsChanged(int value)
 void SerialSocketConfigWidget::flowControlChanged(int value)
 {
     m_socket.flowControl() = mapFlowControlFromIdx(value);
+}
+
+void SerialSocketConfigWidget::refreshDeviceConfig()
+{
+    m_ui.m_deviceComboBox->blockSignals(true);
+    refreshDeviceConfigComboSignalsBlocked();
+    m_ui.m_deviceComboBox->blockSignals(false);
+}
+
+void SerialSocketConfigWidget::refreshDeviceConfigComboSignalsBlocked()
+{
+    bool found = false;
+    for (auto idx = 0; idx < m_ui.m_deviceComboBox->count(); ++idx) {
+        if (m_socket.name() == m_ui.m_deviceComboBox->itemText(idx)) {
+            found = true;
+            m_ui.m_deviceComboBox->setCurrentIndex(idx);
+            break;
+        }
+    }
+
+    if (!found) {
+        m_ui.m_deviceComboBox->setCurrentIndex(-1);
+        m_ui.m_deviceEditToolButton->setChecked(true);        
+        m_deviceEditForced = true;
+    }    
+
+    m_ui.m_deviceEditToolButton->setEnabled(found);
+    m_editMode = m_deviceEditForced || (!found);
+
+    m_ui.m_deviceLineEdit->setVisible(m_editMode);
+    m_ui.m_deviceComboBox->setHidden(m_editMode);
+    m_ui.m_deviceRefreshToolButton->setHidden(m_editMode);
 }
 
 }  // namespace serial_socket
