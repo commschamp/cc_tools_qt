@@ -25,24 +25,27 @@ in parallel to dumping/recording the incoming messages.
 The **CommsChampion Tools** contain the following
 plugins that can be used with any application:
 
-- **null_socket** - NULL socket, that doesn't produce any incoming data and
-discards any outgoing data.
-- **echo_socket** - Echo socket, all the data being sent is immediately reported
-as an incoming data.
-- **serial_socket** - Low level socket that sends and receives data over serial
-(RS-232) I/O link.
-- **tcp_client_socket** - Client TCP/IP socket, that connects to remote 
-server, sends and receives data over TCP/IP network link.
-- **tcp_server_socket** - Server TCP/IP socket, waits for and accepts all
-connections from TCP/IP clients, sends and receives data to/from them.
-- **tcp_proxy_socket** - Proxy server TCP/IP socket, combines Server and Client
-side of TCP/IP connection, can be used to monitor traffic of the messages between
-remote a client and a server.
-- **udp_socket** - Generic (client/server) UDP/IP socket.
-- **ssl_client_socket** - Client secure (SSL/TLS) connection socket.
-- **raw_data_protocol** - Protocol definition that defines only a single message
-type with one field of unlimited length data. It can be used to review the
-raw data being received from I/O socket.
+- **CC Echo Socket** - Echo socket, all the data being sent is immediately reported
+  as an incoming data.
+- **CC NULL Socket** - NULL socket, that doesn't produce any incoming data and
+  discards any outgoing data.
+- **CC Serial Socket** - Low level socket that sends and receives data over serial
+  (RS-232) I/O link.
+- **CC SSL Client Socket** - Client secure (SSL/TLS) connection socket.
+- **CC TCP/IP Client Socket** - Client TCP/IP socket, that connects to remote 
+  server, sends and receives data over TCP/IP network link.
+- **CC TCP/IP Proxy Socket** - Proxy server TCP/IP socket, combines Server and Client
+  side of TCP/IP connection, can be used to monitor traffic of the messages between
+  remote a client and a server.
+- **CC TCP/IP Server Socket** - Server TCP/IP socket, waits for and accepts all
+  connections from TCP/IP clients, sends and receives data to/from them.
+- **CC UDP/IP Socket** - Generic (client/server) UDP/IP socket.
+- **CC UDP/IP Proxy Socket** - Proxy server UDP/IP socket, combines Server and Client
+  side of UDP/IP connection, can be used to monitor traffic of the messages between
+  remote a client and a server.
+- **CC Raw Data Protocol** - Protocol definition that defines only a single message
+  type with one field of unlimited length data. It can be used to review the
+  raw data being received from I/O socket.
 
 # How to Build
 In addition to the [Qt](http://www.qt.io/) framework, this project depends on the 

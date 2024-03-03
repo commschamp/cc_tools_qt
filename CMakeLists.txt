@@ -18,6 +18,7 @@ option (CC_TOOLS_QT_BUILD_PLUGIN_TCP_CLIENT_SOCKET "Build TCP client socket plug
 option (CC_TOOLS_QT_BUILD_PLUGIN_TCP_PROXY_SOCKET "Build TCP proxy socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
 option (CC_TOOLS_QT_BUILD_PLUGIN_TCP_SERVER_SOCKET "Build TCP server socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
 option (CC_TOOLS_QT_BUILD_PLUGIN_UDP_SOCKET "Build UDP socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
+option (CC_TOOLS_QT_BUILD_PLUGIN_UDP_PROXY_SOCKET "Build UDP proxy socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
 option (CC_TOOLS_QT_BUILD_PLUGIN_RAW_DATA_PROTOCOL "Build raw data protocol plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
 option (CC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL "Build demo protocol plugin." OFF)
 
@@ -34,6 +35,10 @@ set (CMAKE_SCRIPTS_DIR "${PROJECT_SOURCE_DIR}/cmake")
 if ("${CMAKE_CXX_STANDARD}" STREQUAL "")
     set (CMAKE_CXX_STANDARD 17)
 endif ()
+
+if ("${CMAKE_CXX_STANDARD}" VERSION_LESS "17")
+    message (FATAL_ERROR "Use C++17 or later to compile this project.")
+endif()
 
 if ("${CC_TOOLS_QT_MAJOR_QT_VERSION}" STREQUAL "")
     set (CC_TOOLS_QT_MAJOR_QT_VERSION 5)

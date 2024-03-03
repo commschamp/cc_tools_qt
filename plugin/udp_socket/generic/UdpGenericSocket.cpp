@@ -21,7 +21,7 @@
 #include <QtCore/QtGlobal>
 #include <QtNetwork/QHostAddress>
 
-#include "UdpSocket.h"
+#include "UdpGenericSocket.h"
 
 namespace cc_tools_qt
 {
@@ -41,27 +41,27 @@ const QString ToPropName("udp.to");
 }  // namespace
 
 
-UdpSocket::UdpSocket()
+UdpGenericSocket::UdpGenericSocket()
   : m_host(DefaultHost)
 {
     connect(
         &m_socket, &QUdpSocket::disconnected,
-        this, &UdpSocket::socketDisconnected);
+        this, &UdpGenericSocket::socketDisconnected);
     connect(
         &m_socket, &QUdpSocket::readyRead,
-        this, &UdpSocket::readFromSocket);
+        this, &UdpGenericSocket::readFromSocket);
     connect(
         &m_broadcastSocket, &QUdpSocket::readyRead,
-        this, &UdpSocket::readFromBroadcastSocket);
+        this, &UdpGenericSocket::readFromBroadcastSocket);
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
     connect(
         &m_socket, &QUdpSocket::errorOccurred,
-        this, &UdpSocket::socketErrorOccurred);  
+        this, &UdpGenericSocket::socketErrorOccurred);  
 
     connect(
         &m_broadcastSocket, &QUdpSocket::errorOccurred,
-        this, &UdpSocket::socketErrorOccurred);
+        this, &UdpGenericSocket::socketErrorOccurred);
 #else // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
     connect(
         &m_socket, SIGNAL(error(QAbstractSocket::SocketError)),
@@ -72,12 +72,13 @@ UdpSocket::UdpSocket()
 #endif // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)                
 }
 
-UdpSocket::~UdpSocket() noexcept
+UdpGenericSocket::~UdpGenericSocket() noexcept
 {
     m_socket.blockSignals(true);
+    m_broadcastSocket.blockSignals(true);
 }
 
-bool UdpSocket::socketConnectImpl()
+bool UdpGenericSocket::socketConnectImpl()
 {
     if ((!m_host.isEmpty()) && (m_port == 0)) {
         static const QString Error =
@@ -125,7 +126,7 @@ bool UdpSocket::socketConnectImpl()
     return true;
 }
 
-void UdpSocket::socketDisconnectImpl()
+void UdpGenericSocket::socketDisconnectImpl()
 {
     m_socket.blockSignals(true);
     m_socket.close();
@@ -134,7 +135,7 @@ void UdpSocket::socketDisconnectImpl()
     m_socket.blockSignals(false);
 }
 
-void UdpSocket::sendDataImpl(DataInfoPtr dataPtr)
+void UdpGenericSocket::sendDataImpl(DataInfoPtr dataPtr)
 {
     assert(dataPtr);
     QString from =
@@ -205,27 +206,27 @@ void UdpSocket::sendDataImpl(DataInfoPtr dataPtr)
 
 }
 
-void UdpSocket::socketDisconnected()
+void UdpGenericSocket::socketDisconnected()
 {
     reportDisconnected();
 }
 
-void UdpSocket::readFromSocket()
+void UdpGenericSocket::readFromSocket()
 {
     readData(m_socket);
 }
 
-void UdpSocket::readFromBroadcastSocket()
+void UdpGenericSocket::readFromBroadcastSocket()
 {
     readData(m_broadcastSocket);
 }
 
-void UdpSocket::socketErrorOccurred([[maybe_unused]] QAbstractSocket::SocketError err)
+void UdpGenericSocket::socketErrorOccurred([[maybe_unused]] QAbstractSocket::SocketError err)
 {
     std::cout << "ERROR: UDP Socket: " << m_socket.errorString().toStdString() << std::endl;
 }
 
-void UdpSocket::readData(QUdpSocket& socket)
+void UdpGenericSocket::readData(QUdpSocket& socket)
 {
     while (socket.hasPendingDatagrams()) {
         QHostAddress senderAddress;
@@ -260,7 +261,7 @@ void UdpSocket::readData(QUdpSocket& socket)
     }
 }
 
-bool UdpSocket::bindSocket(QUdpSocket& socket)
+bool UdpGenericSocket::bindSocket(QUdpSocket& socket)
 {
     if (!socket.bind(QHostAddress::AnyIPv4, m_localPort, QUdpSocket::ShareAddress)) {
         return false;

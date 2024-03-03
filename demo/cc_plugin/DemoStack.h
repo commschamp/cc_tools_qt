@@ -1,5 +1,5 @@
 //
-// Copyright 2016 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2016 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,9 +18,9 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
-#include "cc_plugin/Stack.h"
-#include "cc_plugin/TransportMessage.h"
+#include "demo/Stack.h"
+#include "DemoMessage.h"
+#include "AllMessages.h"
 
 namespace demo
 {
@@ -28,19 +28,10 @@ namespace demo
 namespace cc_plugin
 {
 
-class Protocol : public
-    cc_tools_qt::ProtocolBase<
-        cc_plugin::Stack,
-        TransportMessage
-    >
-{
-public:
-    Protocol() = default;
-    virtual ~Protocol() noexcept;
-
-protected:
-    virtual const QString& nameImpl() const override;
-};
+using DemoStack = demo::Stack<
+    cc_plugin::DemoMessage,
+    cc_plugin::AllMessages
+>;
 
 }  // namespace cc_plugin
 

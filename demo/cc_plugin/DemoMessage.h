@@ -1,5 +1,5 @@
 //
-// Copyright 2016 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2017 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "Protocol.h"
 
-#include "comms/comms.h"
+#pragma once
 
-namespace cc = cc_tools_qt;
+#include "cc_tools_qt/cc_tools_qt.h"
+#include "demo/DemoMessage.h"
 
 namespace demo
 {
@@ -27,13 +27,18 @@ namespace demo
 namespace cc_plugin
 {
 
-Protocol::~Protocol() noexcept = default;
-
-const QString& Protocol::nameImpl() const
+class DemoMessage : public cc_tools_qt::MessageBase<demo::DemoMessage>
 {
-    static const QString& Str("Demo");
-    return Str;
-}
+    using Base = cc_tools_qt::MessageBase<demo::DemoMessage>;
+public:
+    DemoMessage();
+    virtual ~DemoMessage() noexcept;
+
+protected:
+
+    virtual const QVariantList& extraTransportFieldsPropertiesImpl() const override;
+    virtual QString idAsStringImpl() const override;
+};
 
 }  // namespace cc_plugin
 

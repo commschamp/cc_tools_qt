@@ -33,6 +33,7 @@ function (plugin_serial_socket)
         SerialSocketPlugin.h
         SerialSocketPlugin.cpp
         SerialSocketConfigWidget.cpp
+        ui.qrc
     )
     
     add_library (${name} MODULE ${ui} ${src})

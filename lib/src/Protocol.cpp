@@ -171,13 +171,45 @@ void Protocol::socketConnectionReport(bool connected)
     socketConnectionReportImpl(connected);
 }
 
+void Protocol::messageReceivedReport(MessagePtr msg)
+{
+    messageReceivedReportImpl(std::move(msg));
+}
+
+void Protocol::messageSentReport(MessagePtr msg)
+{
+    messageSentReportImpl(std::move(msg));
+}
+
 void Protocol::socketConnectionReportImpl([[maybe_unused]] bool connected)
+{
+}
+
+void Protocol::messageReceivedReportImpl([[maybe_unused]] MessagePtr msg)
+{
+}
+
+void Protocol::messageSentReportImpl([[maybe_unused]] MessagePtr msg)
 {
 }
 
 void Protocol::setNameToMessageProperties(Message& msg)
 {
     property::message::ProtocolName().setTo(name(), msg);
+}
+
+void Protocol::reportError(const QString& str)
+{
+    if (m_errorReportCallback) {
+        m_errorReportCallback(str);
+    }
+}
+
+void Protocol::sendMessageRequest(MessagePtr msg)
+{
+    if (m_sendMessageRequestCallback) {
+        m_sendMessageRequestCallback(std::move(msg));
+    }
 }
 
 void Protocol::setTransportToMessageProperties(MessagePtr transportMsg, Message& msg)

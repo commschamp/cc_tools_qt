@@ -19,7 +19,7 @@
 #pragma once
 
 #include <tuple>
-#include "cc_plugin/Message.h"
+#include "cc_plugin/DemoMessage.h"
 
 #include "cc_plugin/message/IntValues.h"
 #include "cc_plugin/message/EnumValues.h"

@@ -1,5 +1,5 @@
 //
-// Copyright 2017 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -15,18 +15,34 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-/// @file
-/// @brief Defines common base class for all the fields
 
 #pragma once
 
-#include "comms/Field.h"
-
-#include "DemoMessage.h"
+#include "cc_tools_qt/cc_tools_qt.h"
+#include "cc_plugin/DemoStack.h"
+#include "cc_plugin/DemoTransportMessage.h"
 
 namespace demo
 {
 
-using FieldBase = comms::Field<ProtocolEndian>;
+namespace cc_plugin
+{
 
-} // namespace demo
+class DemoProtocol : public
+    cc_tools_qt::ProtocolBase<
+        cc_plugin::DemoStack,
+        DemoTransportMessage
+    >
+{
+public:
+    DemoProtocol() = default;
+    virtual ~DemoProtocol() noexcept;
+
+protected:
+    virtual const QString& nameImpl() const override;
+};
+
+}  // namespace cc_plugin
+
+}  // namespace demo
+

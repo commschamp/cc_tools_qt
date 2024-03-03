@@ -19,8 +19,8 @@
 #pragma once
 
 #include "cc_tools_qt/cc_tools_qt.h"
-#include "cc_plugin/Message.h"
-#include "cc_plugin/Stack.h"
+#include "cc_plugin/DemoMessage.h"
+#include "cc_plugin/DemoStack.h"
 
 namespace demo
 {
@@ -28,7 +28,7 @@ namespace demo
 namespace cc_plugin
 {
 
-using TransportMessageFields =
+using DemoTransportMessageFields =
     std::tuple<
         demo::SyncField,
         demo::LengthField,
@@ -39,10 +39,10 @@ using TransportMessageFields =
     >;
 
 
-class TransportMessage : public
+class DemoTransportMessage : public
     cc_tools_qt::TransportMessageBase<
-        cc_plugin::Message,
-        TransportMessageFields
+        cc_plugin::DemoMessage,
+        DemoTransportMessageFields
     >
 {
 public:
@@ -57,7 +57,7 @@ public:
         FieldIdx_NumOfValues
     };
 
-    static_assert(FieldIdx_NumOfValues == std::tuple_size<TransportMessageFields>::value,
+    static_assert(FieldIdx_NumOfValues == std::tuple_size<DemoTransportMessageFields>::value,
             "Wrong indices");
 
 protected:

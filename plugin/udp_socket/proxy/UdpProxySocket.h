@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include <list>
+#include <memory>
 
 #include <QtNetwork/QUdpSocket>
 
@@ -30,7 +30,7 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-class UdpSocket : public QObject, public cc_tools_qt::Socket
+class UdpProxySocket : public QObject, public cc_tools_qt::Socket
 {
     Q_OBJECT
     using Base = cc_tools_qt::Socket;
@@ -38,8 +38,8 @@ class UdpSocket : public QObject, public cc_tools_qt::Socket
 public:
     typedef unsigned short PortType;
 
-    UdpSocket();
-    ~UdpSocket() noexcept;
+    UdpProxySocket();
+    ~UdpProxySocket() noexcept;
 
     void setHost(const QString& value)
     {
@@ -71,39 +71,34 @@ public:
         return m_localPort;
     }
 
-    void setBroadcastMask(const QString& value)
-    {
-        m_broadcastMask = value;
-    }
-
-    const QString& getBroadcastMask() const
-    {
-        return m_broadcastMask;
-    }
-
 protected:
     virtual bool socketConnectImpl() override;
     virtual void socketDisconnectImpl() override;
     virtual void sendDataImpl(DataInfoPtr dataPtr) override;
 
 private slots:
-    void socketDisconnected();
-    void readFromSocket();
-    void readFromBroadcastSocket();
-    void socketErrorOccurred(QAbstractSocket::SocketError err);
+    void listenSocketDisconnected();
+    void readFromListenSocket();
+    void listenSocketErrorOccurred(QAbstractSocket::SocketError err);
+    void remoteSocketDisconnected();
+    void readFromRemoteSocket();
+    void remoteSocketErrorOccurred(QAbstractSocket::SocketError err);
+
 
 private:
+    using SocketPtr = std::unique_ptr<QUdpSocket>;
+
     void readData(QUdpSocket& socket);
-    bool bindSocket(QUdpSocket& socket);
+    bool createListenSocket();
+    void createRemoteSocketIfNeeded();
 
     static const PortType DefaultPort = 20000;
 
     QString m_host;
     PortType m_port = DefaultPort;
-    PortType m_localPort = 0;
-    QString m_broadcastMask = "255.255.255.255";
-    QUdpSocket m_socket;
-    QUdpSocket m_broadcastSocket;
+    PortType m_localPort = DefaultPort + 1;
+    SocketPtr m_listenSocket;
+    SocketPtr m_remoteSocket;
     bool m_running = false;
 };
 

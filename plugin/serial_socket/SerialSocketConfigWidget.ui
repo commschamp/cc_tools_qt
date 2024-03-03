@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>268</width>
-    <height>222</height>
+    <width>414</width>
+    <height>246</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,6 +25,40 @@
      </item>
      <item>
       <widget class="QLineEdit" name="m_deviceLineEdit"/>
+     </item>
+     <item>
+      <widget class="QComboBox" name="m_deviceComboBox"/>
+     </item>
+     <item>
+      <widget class="QToolButton" name="m_deviceRefreshToolButton">
+       <property name="toolTip">
+        <string>Refresh</string>
+       </property>
+       <property name="text">
+        <string>Refresh</string>
+       </property>
+       <property name="icon">
+        <iconset resource="ui.qrc">
+         <normaloff>:/image/arrow_refresh.png</normaloff>:/image/arrow_refresh.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="m_deviceEditToolButton">
+       <property name="toolTip">
+        <string>Edit</string>
+       </property>
+       <property name="text">
+        <string>Edit</string>
+       </property>
+       <property name="icon">
+        <iconset resource="ui.qrc">
+         <normaloff>:/image/edit_button.png</normaloff>:/image/edit_button.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer">
@@ -253,6 +287,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="ui.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -1,0 +1,7 @@
+{
+    "name" : "CC UDP/IP Proxy Socket",
+    "desc" : [
+        "I/O socket that serves as proxy UDP/IP server"
+    ],
+    "type" : "socket"
+}

@@ -1,5 +1,5 @@
 //
-// Copyright 2016 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,28 +18,42 @@
 
 #pragma once
 
-#include <QtCore/QObject>
-#include <QtCore/QtPlugin>
-#include "cc_tools_qt/cc_tools_qt.h"
+#include <memory>
 
-namespace demo
+#include "cc_tools_qt/Plugin.h"
+
+#include "UdpProxySocket.h"
+
+namespace cc_tools_qt
 {
 
-namespace cc_plugin
+namespace plugin
 {
 
-class Plugin : public cc_tools_qt::Plugin
+class UdpProxySocketPlugin : public cc_tools_qt::Plugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "cc.DemoProtocol" FILE "demo.json")
+    Q_PLUGIN_METADATA(IID "cc.UdpSocketPlugin" FILE "udp_proxy_socket.json")
     Q_INTERFACES(cc_tools_qt::Plugin)
 
 public:
-    Plugin();
-    ~Plugin() noexcept;
+    UdpProxySocketPlugin();
+    ~UdpProxySocketPlugin() noexcept;
+
+    virtual void getCurrentConfigImpl(QVariantMap& config) override;
+    virtual void reconfigureImpl(const QVariantMap& config) override;
+
+private:
+
+    void createSocketIfNeeded();
+
+    std::shared_ptr<UdpProxySocket> m_socket;
 };
 
-}  // namespace cc_plugin
+}  // namespace plugin
 
-}  // namespace demo
+}  // namespace cc_tools_qt
+
+
+
 

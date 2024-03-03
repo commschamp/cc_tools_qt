@@ -20,7 +20,7 @@
 
 #include "cc_tools_qt/cc_tools_qt.h"
 #include "demo/message/BitmaskValues.h"
-#include "cc_plugin/Message.h"
+#include "cc_plugin/DemoMessage.h"
 
 namespace demo
 {
@@ -33,7 +33,7 @@ namespace message
 
 class BitmaskValues : public
     cc_tools_qt::ProtocolMessageBase<
-        demo::message::BitmaskValues<demo::cc_plugin::Message>,
+        demo::message::BitmaskValues<demo::cc_plugin::DemoMessage>,
         BitmaskValues>
 {
 public:

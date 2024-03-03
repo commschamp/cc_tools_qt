@@ -62,51 +62,84 @@ public:
     virtual ~Protocol() noexcept;
 
     /// @brief Retrieve name of the protocol.
-    /// @details Invokes virtual nameImpl().
+    /// @details Invokes @ref nameImpl().
     const QString& name() const;
 
     /// @brief Read the received data input.
-    /// @details Invokes virtual readImpl().
+    /// @details Invokes @ref readImpl().
     /// @param[in] dataInfo Received data information
     /// @param[in] final Final input indication, if @b true no more data is expected
     /// @return List of created messages
     MessagesList read(const DataInfo& dataInfo, bool final = false);
 
     /// @brief Serialse message.
-    /// @details Invokes writeImpl().
+    /// @details Invokes @ref writeImpl().
     /// @param[in] msg Reference to message object, passed by non-const reference
     ///     to allow update of the message properties.
     /// @return Serialised data.
     DataInfoPtr write(Message& msg);
 
     /// @brief Create all messages supported by the protocol.
-    /// @details Invokes createAllMessagesImpl().
+    /// @details Invokes @ref createAllMessagesImpl().
     MessagesList createAllMessages();
 
     /// @brief Create message object given string representation of the message ID.
-    /// @details Invokes createMessageImpl().
+    /// @details Invokes @ref createMessageImpl().
     /// @param[in] idAsString String representation of the message ID.
     /// @param[in] idx Index of the message type within the range of message types
     ///     with the same ID.
     MessagePtr createMessage(const QString& idAsString, unsigned idx = 0);
 
     /// @brief Update (or refresh) message contents
-    /// @details Invokes updateMessageImpl().
+    /// @details Invokes @ref updateMessageImpl().
     /// @return Status of the update.
     UpdateStatus updateMessage(Message& msg);
 
     /// @brief Clone the message object
-    /// @details Invokes cloneMessageImpl().
+    /// @details Invokes @ref cloneMessageImpl().
     /// @return Pointer to newly created message with the same contents
     MessagePtr cloneMessage(const Message& msg);
 
     /// @brief Create dummy message containing invalid input
-    /// @brief Invokes createInvalidMessageImpl().
+    /// @details Invokes @ref createInvalidMessageImpl().
     MessagePtr createInvalidMessage(const MsgDataSeq& data);
 
     /// @brief Make the protocol aware about socket connection status
+    /// @details Invokes @ref socketConnectionReportImpl().
     /// @param[in] connected Socket connection status.
-    void socketConnectionReport(bool connected);    
+    void socketConnectionReport(bool connected);   
+
+    /// @brief Make the protocol aware that the message has been received from remote end
+    /// @details Invokes @ref messageReceivedReportImpl().
+    /// @param[in] msg Pointer to the message object
+    void messageReceivedReport(MessagePtr msg);
+
+    /// @brief Make the protocol aware that the message has been sent out to the remote end
+    /// @details Invokes @ref messageSentReportImpl().
+    /// @param[in] msg Pointer to the message object
+    void messageSentReport(MessagePtr msg);
+
+    /// @brief Type of callback to report errors
+    using ErrorReportCallback = std::function<void (const QString& msg)>;
+
+    /// @brief Set callback to report errors
+    /// @details The callback must have the same signature as @ref ErrorReportCallback
+    template <typename TFunc>
+    void setErrorReportCallback(TFunc&& func)
+    {
+        m_errorReportCallback = std::forward<TFunc>(func);
+    }     
+
+    /// @brief Type of callback to request message being sent initiated by the plugin itself
+    using SendMessageRequestCallback = std::function<void (MessagePtr)>;
+
+    /// @brief Set the callback to allow request of extra messages to be sent out
+    /// @details The callback must have the same signature as @ref SendMessageRequestCallback
+    template <typename TFunc>
+    void setSendMessageRequestCallback(TFunc&& func)
+    {
+        m_sendMessageRequestCallback = std::forward<TFunc>(func);
+    }
 
 protected:
     /// @brief Polymorphic protocol name retrieval.
@@ -148,12 +181,37 @@ protected:
     virtual MessagePtr createExtraInfoMessageImpl() = 0;
 
     /// @brief Polymorphic processing of the socket connection report
+    /// @details Empty function, does nothing
     /// @param[in] connected Socket connection status
     virtual void socketConnectionReportImpl(bool connected);    
+
+    /// @brief Polymorphic processing of the message reception report
+    /// @details Empty function, does nothing.
+    /// @param[in] msg Pointer to the message object
+    void messageReceivedReportImpl(MessagePtr msg);
+
+    /// @brief Make the protocol aware that the message has been sent out to the remote end
+    /// @details Empty function, does nothing
+    /// @param[in] msg Pointer to the message object
+    void messageSentReportImpl(MessagePtr msg);    
 
     /// @brief Helper function to assign protocol name to message properties.
     /// @details Expected to be used by the derived class.
     void setNameToMessageProperties(Message& msg);
+
+    /// @brief Report operation error.
+    /// @details This function is expected to be invoked by the derived class,
+    ///     when some error is detected. This function will invoke
+    ///     callback set by @ref setErrorReportCallback().
+    /// @param[in] str Error string.
+    void reportError(const QString& str);  
+
+    /// @brief Request a protocol message to be sent out.
+    /// @details This function is expected to be invoked by the derived class,
+    ///     when an extra message needs to be sent out. This function will invoke
+    ///     callback set by @ref setSendMessageRequestCallback().
+    /// @param[in] msg Pointer to the message object.
+    void sendMessageRequest(MessagePtr msg);  
 
     /// @brief Helper function to assign "tranport message" object as a property
     ///     of application message object.
@@ -186,6 +244,9 @@ protected:
     /// @brief Helper function to check whether "extra info" existence is force.
     static bool getForceExtraInfoExistenceFromMessageProperties(const Message& msg);
 
+private:
+    ErrorReportCallback m_errorReportCallback;
+    SendMessageRequestCallback m_sendMessageRequestCallback;
 };
 
 /// @brief Pointer to @ref Protocol object.

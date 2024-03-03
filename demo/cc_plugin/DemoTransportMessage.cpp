@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "TransportMessage.h"
+#include "DemoTransportMessage.h"
 
 #include <cassert>
 
@@ -74,19 +74,19 @@ QVariantList createFieldsProperties()
     props.append(cc::property::field::ForField<demo::VersionField>().name("VERSION").asMap());
     props.append(cc::property::field::ForField<demo::DataField<> >().name("PAYLOAD").asMap());
     props.append(cc::property::field::ForField<demo::ChecksumField>().name("CHECKSUM").asMap());
-    assert(props.size() == TransportMessage::FieldIdx_NumOfValues);
+    assert(props.size() == DemoTransportMessage::FieldIdx_NumOfValues);
     return props;
 }
 
 }  // namespace
 
-const QVariantList& TransportMessage::fieldsPropertiesImpl() const
+const QVariantList& DemoTransportMessage::fieldsPropertiesImpl() const
 {
     static const auto Props = createFieldsProperties();
     return Props;
 }
 
-comms::ErrorStatus TransportMessage::readImpl(ReadIterator& iter, std::size_t size)
+comms::ErrorStatus DemoTransportMessage::readImpl(ReadIterator& iter, std::size_t size)
 {
     static const auto ChecksumLen =
         sizeof(demo::ChecksumField::ValueType);
