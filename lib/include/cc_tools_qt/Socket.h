@@ -134,6 +134,24 @@ public:
     ///     explicty user request.
     /// @return OR-ed values of @ref ConnectionProperty values.
     unsigned connectionProperties() const;
+
+    /// @brief Collect inter-plugin configuration.
+    /// @details Allows one plugin to influence the configuration of another.
+    ///     This function will be called for all applied plugins to collect 
+    ///     the configuration. Then @ref applyInterPluginConfig() will be
+    ///     called for all the applied plugins. Invokes 
+    ///     polymorphic @ref collectInterPluginConfigImpl().
+    /// @param[in, out] props Properties map.
+    void collectInterPluginConfig(QVariantMap& props);
+
+    /// @brief Apply inter-plugin configuration.
+    /// @details Allows one plugin to influence the configuration of another.
+    ///     This function will be called for all applied plugins to appl
+    ///     configuration collected by the @ref collectInterPluginConfig(). I
+    ///     Invokes polymorphic @ref applyInterPluginConfigImpl().
+    /// @param[in] props Properties map.
+    void applyInterPluginConfig(const QVariantMap& props);   
+
 protected:
     /// @brief Polymorphic start functionality implementation.
     /// @details Invoked by start() and default implementation does nothing.
@@ -167,6 +185,16 @@ protected:
     ///     derived class.
     /// @return 0.
     virtual unsigned connectionPropertiesImpl() const;
+
+    /// @brief Polymorphic inter-plugin configuration collection.
+    /// @details Invoked by the collectInterPluginConfig().
+    /// @param[in, out] props Properties map.
+    virtual void collectInterPluginConfigImpl(QVariantMap& props);
+
+    /// @brief Polymorphic inter-plugin configuration application.
+    /// @details Invoked by the applyInterPluginConfigImpl().
+    /// @param[in] props Properties map.
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props);     
 
     /// @brief Report new data has been received.
     /// @details This function needs to be invoked by the derived class when

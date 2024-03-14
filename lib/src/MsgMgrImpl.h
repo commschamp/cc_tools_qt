@@ -94,6 +94,8 @@ private:
     void reportMsgAdded(MessagePtr msg);
     void reportError(const QString& error);
     void reportSocketConnectionStatus(bool connected);
+    void collectInterPluginConfig(QVariantMap& props);
+    void applyInterPluginConfig(const QVariantMap& props);
 
     AllMessages m_allMsgs;
     bool m_recvEnabled = false;

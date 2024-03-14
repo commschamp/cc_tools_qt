@@ -119,6 +119,23 @@ public:
     /// @param[in] msg Pointer to the message object
     void messageSentReport(MessagePtr msg);
 
+    /// @brief Collect inter-plugin configuration.
+    /// @details Allows one plugin to influence the configuration of another.
+    ///     This function will be called for all applied plugins to collect 
+    ///     the configuration. Then @ref applyInterPluginConfig() will be
+    ///     called for all the applied plugins. Invokes 
+    ///     polymorphic @ref collectInterPluginConfigImpl().
+    /// @param[in, out] props Properties map.
+    void collectInterPluginConfig(QVariantMap& props);
+
+    /// @brief Apply inter-plugin configuration.
+    /// @details Allows one plugin to influence the configuration of another.
+    ///     This function will be called for all applied plugins to appl
+    ///     configuration collected by the @ref collectInterPluginConfig(). I
+    ///     Invokes polymorphic @ref applyInterPluginConfigImpl().
+    /// @param[in] props Properties map.
+    void applyInterPluginConfig(const QVariantMap& props);      
+
     /// @brief Type of callback to report errors
     using ErrorReportCallback = std::function<void (const QString& msg)>;
 
@@ -188,12 +205,22 @@ protected:
     /// @brief Polymorphic processing of the message reception report
     /// @details Empty function, does nothing.
     /// @param[in] msg Pointer to the message object
-    void messageReceivedReportImpl(MessagePtr msg);
+    virtual void messageReceivedReportImpl(MessagePtr msg);
 
     /// @brief Make the protocol aware that the message has been sent out to the remote end
     /// @details Empty function, does nothing
     /// @param[in] msg Pointer to the message object
-    void messageSentReportImpl(MessagePtr msg);    
+    virtual void messageSentReportImpl(MessagePtr msg);    
+
+    /// @brief Polymorphic inter-plugin configuration collection.
+    /// @details Invoked by the collectInterPluginConfig().
+    /// @param[in, out] props Properties map.
+    virtual void collectInterPluginConfigImpl(QVariantMap& props);
+
+    /// @brief Polymorphic inter-plugin configuration application.
+    /// @details Invoked by the applyInterPluginConfigImpl().
+    /// @param[in] props Properties map.
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props);      
 
     /// @brief Helper function to assign protocol name to message properties.
     /// @details Expected to be used by the derived class.

@@ -85,6 +85,16 @@ unsigned Socket::connectionProperties() const
     return connectionPropertiesImpl();
 }
 
+void Socket::collectInterPluginConfig(QVariantMap& props)
+{
+    collectInterPluginConfigImpl(props);
+}
+
+void Socket::applyInterPluginConfig(const QVariantMap& props)
+{
+    applyInterPluginConfigImpl(props);
+}
+
 bool Socket::startImpl()
 {
     return true;
@@ -106,6 +116,14 @@ void Socket::socketDisconnectImpl()
 unsigned Socket::connectionPropertiesImpl() const
 {
     return 0U;
+}
+
+void Socket::collectInterPluginConfigImpl([[maybe_unused]] QVariantMap& props)
+{
+}
+
+void Socket::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& props)
+{
 }
 
 void Socket::reportDataReceived(DataInfoPtr dataPtr)

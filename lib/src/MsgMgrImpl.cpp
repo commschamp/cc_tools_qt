@@ -72,6 +72,10 @@ void MsgMgrImpl::start()
         return;
     }
 
+    QVariantMap configProps;
+    collectInterPluginConfig(configProps);
+    applyInterPluginConfig(configProps);
+
     if (m_socket) {
         m_socket->start();
     }
@@ -459,6 +463,36 @@ void MsgMgrImpl::reportSocketConnectionStatus(bool connected)
         m_socketConnectionStatusReportCallback(connected);
     }
 }
+
+void MsgMgrImpl::collectInterPluginConfig(QVariantMap& props)
+{
+    if (m_socket) {
+        m_socket->collectInterPluginConfig(props);
+    }
+
+    for (auto& filter : m_filters) {
+        filter->collectInterPluginConfig(props);
+    }
+
+    if (m_protocol) {
+        m_protocol->collectInterPluginConfig(props);
+    }
+}
+void MsgMgrImpl::applyInterPluginConfig(const QVariantMap& props)
+{
+    if (m_socket) {
+        m_socket->applyInterPluginConfig(props);
+    }
+
+    for (auto& filter : m_filters) {
+        filter->applyInterPluginConfig(props);
+    }
+
+    if (m_protocol) {
+        m_protocol->applyInterPluginConfig(props);
+    }    
+}
+
 
 }  // namespace cc_tools_qt
 

@@ -66,6 +66,7 @@ protected:
     virtual bool socketConnectImpl() override;
     virtual void socketDisconnectImpl() override;
     virtual void sendDataImpl(DataInfoPtr dataPtr) override;
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;     
 
 private slots:
     void socketDisconnected();
@@ -73,10 +74,14 @@ private slots:
     void socketErrorOccurred(QAbstractSocket::SocketError err);
 
 private:
+    QString getHostValue() const;
+    PortType getPortValue() const;
+
     static const PortType DefaultPort = 20000;
     QString m_host;
     PortType m_port = DefaultPort;
     QTcpSocket m_socket;
+    QVariantMap m_overrideConfig;
 };
 
 } // namespace plugin
