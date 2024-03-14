@@ -84,7 +84,8 @@ Since **v5.0** this project uses and requires minimum **C++17** support from the
 # Developing Custom Socket/Filter/Protocol Plugin
 The full tutorial as well as API documentation can be downloaded as
 **doc_cc_tools_qt_vX.zip** archive from
-from [release artefacts](https://github.com/commschamp/cc_tools_qt/releases).
+from [release artefacts](https://github.com/commschamp/cc_tools_qt/releases) or
+the latest version can be browsed [online](https://commschamp.github.io/cc_tools_qt_doc).
 
 # Branching Model
 This repository will follow the 
