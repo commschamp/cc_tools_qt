@@ -23,6 +23,11 @@
 
 #include "cc_tools_qt/Socket.h"
 
+#ifdef CC_TOOLS_QT_DEFAULT_NETWORK_PORT
+#define UDP_PROXY_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT    
+#else
+#define UDP_PROXY_DEFAULT_PORT 20000
+#endif
 
 namespace cc_tools_qt
 {
@@ -96,7 +101,7 @@ private:
     bool createListenSocket();
     void createRemoteSocketIfNeeded();
 
-    static const PortType DefaultPort = 20000;
+    static const PortType DefaultPort = UDP_PROXY_DEFAULT_PORT;
 
     QString m_host;
     PortType m_port = DefaultPort;

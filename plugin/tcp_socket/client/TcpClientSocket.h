@@ -23,6 +23,11 @@
 
 #include "cc_tools_qt/Socket.h"
 
+#ifdef CC_TOOLS_QT_DEFAULT_NETWORK_PORT
+#define TCP_CLIENT_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT    
+#else
+#define TCP_CLIENT_DEFAULT_PORT 20000
+#endif
 
 namespace cc_tools_qt
 {
@@ -79,7 +84,7 @@ private:
     QString getHostValue() const;
     PortType getPortValue() const;
 
-    static const PortType DefaultPort = 20000;
+    static const PortType DefaultPort = TCP_CLIENT_DEFAULT_PORT;
     QString m_host;
     PortType m_port = DefaultPort;
     QTcpSocket m_socket;
