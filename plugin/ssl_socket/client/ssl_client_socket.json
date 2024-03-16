@@ -1,7 +1,12 @@
 {
     "name" : "CC SSL Client Socket",
     "desc" : [
-        "Network socket that allows encrypted connection and/or remote host verification."
+        "Network socket that allows encrypted connection and/or remote host verification.\n\n",
+        "Accepts inter-plugin configuration values:\n",
+        "    { \"ssl.host\": \"example.com\"} - Override the host configuration\n",
+        "    { \"ssl.port\": 1234} - Override the port configuration.\n",
+        "    { \"network.host\": \"example.com\"} - Alias to \"ssl.host\".\n",
+        "    { \"network.port\": 1234} - Alias to \"ssl.port\".\n"           
     ],
     "type" : "socket"
 }

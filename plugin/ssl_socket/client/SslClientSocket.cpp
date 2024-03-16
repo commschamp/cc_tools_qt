@@ -31,8 +31,41 @@ namespace plugin
 namespace
 {
 
-const QString FromPropName("ssl.from");
-const QString ToPropName("ssl.to");
+const QString& sslFromProp()
+{
+    static const QString Str("ssl.from");
+    return Str;
+}
+
+const QString& sslToProp()
+{
+    static const QString Str("ssl.to");
+    return Str;
+}
+
+const QString& sslHostProp()
+{
+    static const QString Str("ssl.host");
+    return Str;
+}
+
+const QString& sslPortProp()
+{
+    static const QString Str("ssl.port");
+    return Str;
+}
+
+const QString& networkHostProp()
+{
+    static const QString Str("network.host");
+    return Str;
+}
+
+const QString& networkPortProp()
+{
+    static const QString Str("network.port");
+    return Str;
+}
 
 }  // namespace
 
@@ -142,9 +175,43 @@ void SslClientSocket::sendDataImpl(DataInfoPtr dataPtr)
                     QString("%1").arg(m_socket.peerPort());
 
 
-    dataPtr->m_extraProperties.insert(FromPropName, from);
-    dataPtr->m_extraProperties.insert(ToPropName, to);
+    dataPtr->m_extraProperties.insert(sslFromProp(), from);
+    dataPtr->m_extraProperties.insert(sslToProp(), to);
 
+}
+
+void SslClientSocket::applyInterPluginConfigImpl(const QVariantMap& props)
+{
+    bool updated = false;
+    static const QString* HostProps[] = {
+        &networkHostProp(),
+        &sslHostProp(),
+    };
+
+    for (auto* p : HostProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<QString>())) {
+            setHost(var.value<QString>());
+            updated = true;
+        }
+    }
+
+    static const QString* PortProps[] = {
+        &networkPortProp(),
+        &sslPortProp(),
+    };    
+
+    for (auto* p : PortProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<int>())) {
+            setPort(static_cast<PortType>(var.value<int>()));
+            updated = true;
+        }
+    }
+
+    if (updated) {
+        emit sigConfigChanged();
+    }
 }
 
 void SslClientSocket::socketDisconnected()
@@ -175,8 +242,8 @@ void SslClientSocket::readFromSocket()
         m_socket.localAddress().toString() + ':' +
                     QString("%1").arg(m_socket.localPort());
 
-    dataPtr->m_extraProperties.insert(FromPropName, from);
-    dataPtr->m_extraProperties.insert(ToPropName, to);
+    dataPtr->m_extraProperties.insert(sslFromProp(), from);
+    dataPtr->m_extraProperties.insert(sslToProp(), to);
     reportDataReceived(std::move(dataPtr));
 }
 

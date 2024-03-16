@@ -43,6 +43,7 @@ public:
     ~SslClientSocketConfigWidget() noexcept;
 
 private slots:
+    void refresh();
     void hostValueChanged(const QString& value);
     void portValueChanged(int value);
     void caDirValueChanged(const QString& value);
