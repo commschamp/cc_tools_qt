@@ -41,8 +41,14 @@ public:
     void addPluginConfig(PluginInfoPtr pluginInfo);
     void removePluginConfig(PluginInfoPtr pluginInfo);
     void removeAll();
+    void moveTop(PluginInfoPtr pluginInfo);
+    void moveBottom(PluginInfoPtr pluginInfo);
+    void moveUp(PluginInfoPtr pluginInfo);
+    void moveDown(PluginInfoPtr pluginInfo);
 
 private:
+    int findWidgetIdx(PluginInfoPtr pluginInfo) const;
+    void relocateWidget(int from, int to);
     using PluginConfigWrapWidgetPtr = std::unique_ptr<PluginConfigWrapWidget>;
     using WrapWidgetsList = std::vector<PluginConfigWrapWidgetPtr>;
     WrapWidgetsList m_widgets;

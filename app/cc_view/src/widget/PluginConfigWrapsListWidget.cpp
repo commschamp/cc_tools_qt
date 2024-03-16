@@ -88,6 +88,77 @@ void PluginConfigWrapsListWidget::removePluginConfig(PluginInfoPtr pluginInfo)
         m_loadedPlugins.erase(pluginIter);
     }
 
+    auto idx = findWidgetIdx(pluginInfo);
+    if (idx < 0) {
+        return;
+    }
+
+    m_widgets.erase(m_widgets.begin() + idx); // Will remove widget as well
+}
+
+void PluginConfigWrapsListWidget::removeAll()
+{
+    m_widgets.clear();
+}
+
+void PluginConfigWrapsListWidget::moveTop(PluginInfoPtr pluginInfo)
+{
+    if (pluginInfo->getType() != PluginMgr::PluginInfo::Type::Filter) {
+        return;
+    }
+
+    auto idx = findWidgetIdx(pluginInfo);
+    if (idx <= 0) {
+        return;
+    }
+
+    relocateWidget(idx, 0);    
+}
+
+void PluginConfigWrapsListWidget::moveBottom(PluginInfoPtr pluginInfo)
+{
+    if (pluginInfo->getType() != PluginMgr::PluginInfo::Type::Filter) {
+        return;
+    }
+
+    auto idx = findWidgetIdx(pluginInfo);
+    if ((idx < 0) || (static_cast<int>(m_widgets.size()) <= (idx + 1))) {
+        return;
+    }
+
+    relocateWidget(idx, static_cast<int>(m_widgets.size()) - 1);
+}
+
+void PluginConfigWrapsListWidget::moveUp(PluginInfoPtr pluginInfo)
+{
+    if (pluginInfo->getType() != PluginMgr::PluginInfo::Type::Filter) {
+        return;
+    }
+
+    auto idx = findWidgetIdx(pluginInfo);
+    if (idx <= 0) {
+        return;
+    }
+
+    relocateWidget(idx, idx - 1);
+}
+
+void PluginConfigWrapsListWidget::moveDown(PluginInfoPtr pluginInfo)
+{
+    if (pluginInfo->getType() != PluginMgr::PluginInfo::Type::Filter) {
+        return;
+    }
+
+    auto idx = findWidgetIdx(pluginInfo);
+    if ((idx < 0) || (static_cast<int>(m_widgets.size()) <= (idx + 1))) {
+        return;
+    }
+
+    relocateWidget(idx, idx + 1);
+}
+
+int PluginConfigWrapsListWidget::findWidgetIdx(PluginInfoPtr pluginInfo) const
+{
     auto iid = pluginInfo->getIid();
     auto iter = 
         std::find_if(
@@ -98,15 +169,30 @@ void PluginConfigWrapsListWidget::removePluginConfig(PluginInfoPtr pluginInfo)
             });
 
     if (iter == m_widgets.end()) {
-        return;
+        return -1;
     }
 
-    m_widgets.erase(iter); // Will remove widget as well
+    return static_cast<int>(std::distance(m_widgets.begin(), m_widgets.end()));
 }
 
-void PluginConfigWrapsListWidget::removeAll()
+void PluginConfigWrapsListWidget::relocateWidget(int from, int to)
 {
-    m_widgets.clear();
+    assert(from != to);
+
+    auto* l = qobject_cast<QVBoxLayout*>(layout());
+    auto* item = l->takeAt(from);
+    delete item; // expected to keep the widget
+
+    auto iter = m_widgets.begin() + from;
+
+    auto wrap = std::move(*iter);
+    m_widgets.erase(iter);
+    assert(l->count() == static_cast<int>(m_widgets.size()));
+
+    to = std::min(to, l->count());
+
+    l->insertWidget(to, wrap.get());
+    m_widgets.insert(m_widgets.begin() + to, std::move(wrap));
 }
 
 } // namespace cc_tools_qt
