@@ -37,15 +37,24 @@ TcpServerSocketConfigWidget::TcpServerSocketConfigWidget(
         1,
         static_cast<int>(std::numeric_limits<PortType>::max()));
 
-    m_ui.m_portSpinBox->setValue(
-        static_cast<int>(m_socket.getPort()));
+    refresh();
 
     connect(
-        m_ui.m_portSpinBox, SIGNAL(valueChanged(int)),
-        this, SLOT(portValueChanged(int)));
+        &socket, &TcpServerSocket::sigConfigChanged,
+        this, &TcpServerSocketConfigWidget::refresh);      
+
+    connect(
+        m_ui.m_portSpinBox, qOverload<int>(&QSpinBox::valueChanged),
+        this, &TcpServerSocketConfigWidget::portValueChanged);
 }
 
 TcpServerSocketConfigWidget::~TcpServerSocketConfigWidget() noexcept = default;
+
+void TcpServerSocketConfigWidget::refresh()
+{
+    m_ui.m_portSpinBox->setValue(
+        static_cast<int>(m_socket.getPort()));
+}
 
 void TcpServerSocketConfigWidget::portValueChanged(int value)
 {

@@ -3,7 +3,7 @@
     "desc" : [
         "I/O socket that connects a remote tcp port and allows\n",
         "communication via TCP/IP connection.\n\n",
-        "Accepts inter-plugin configuration properties:\n",
+        "Accepts inter-plugin configuration values:\n",
         "    { \"tcp.host\": \"example.com\"} - Override the host configuration\n",
         "    { \"tcp.port\": 1234} - Override the port configuration.\n",
         "    { \"network.host\": \"example.com\"} - Alias to \"tcp.host\".\n",

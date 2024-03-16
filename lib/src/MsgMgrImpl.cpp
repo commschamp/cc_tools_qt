@@ -72,10 +72,6 @@ void MsgMgrImpl::start()
         return;
     }
 
-    QVariantMap configProps;
-    collectInterPluginConfig(configProps);
-    applyInterPluginConfig(configProps);
-
     if (m_socket) {
         m_socket->start();
     }
@@ -257,6 +253,12 @@ void MsgMgrImpl::addMsgs(const MessagesList& msgs, bool reportAdded)
 
 void MsgMgrImpl::setSocket(SocketPtr socket)
 {
+    if (m_socket) {
+        m_socket->setDataReceivedCallback(nullptr);
+        m_socket->setErrorReportCallback(nullptr);
+        m_socket->setConnectionStatusReportCallback(nullptr);
+    }
+
     if (!socket) {
         m_socket.reset();
         return;
@@ -288,17 +290,17 @@ void MsgMgrImpl::setSocket(SocketPtr socket)
             reportSocketConnectionStatus(connected);
         });
 
-    if (m_socket) {
-        m_socket->setDataReceivedCallback(nullptr);
-        m_socket->setErrorReportCallback(nullptr);
-        m_socket->setConnectionStatusReportCallback(nullptr);
-    }        
-
     m_socket = std::move(socket);
 }
 
 void MsgMgrImpl::setProtocol(ProtocolPtr protocol)
 {
+    if (m_protocol) {
+        m_protocol->setErrorReportCallback(nullptr);
+        m_protocol->setSendMessageRequestCallback(nullptr);
+    }
+
+    assert(protocol);
     protocol->setErrorReportCallback(
         [this](const QString& str)
         {
@@ -312,11 +314,6 @@ void MsgMgrImpl::setProtocol(ProtocolPtr protocol)
             msgsList.push_back(std::move(msg));
             sendMsgs(std::move(msgsList));
         });
-
-    if (m_protocol) {
-        m_protocol->setErrorReportCallback(nullptr);
-        m_protocol->setSendMessageRequestCallback(nullptr);
-    }
 
     m_protocol = std::move(protocol);
 }
@@ -463,36 +460,6 @@ void MsgMgrImpl::reportSocketConnectionStatus(bool connected)
         m_socketConnectionStatusReportCallback(connected);
     }
 }
-
-void MsgMgrImpl::collectInterPluginConfig(QVariantMap& props)
-{
-    if (m_socket) {
-        m_socket->collectInterPluginConfig(props);
-    }
-
-    for (auto& filter : m_filters) {
-        filter->collectInterPluginConfig(props);
-    }
-
-    if (m_protocol) {
-        m_protocol->collectInterPluginConfig(props);
-    }
-}
-void MsgMgrImpl::applyInterPluginConfig(const QVariantMap& props)
-{
-    if (m_socket) {
-        m_socket->applyInterPluginConfig(props);
-    }
-
-    for (auto& filter : m_filters) {
-        filter->applyInterPluginConfig(props);
-    }
-
-    if (m_protocol) {
-        m_protocol->applyInterPluginConfig(props);
-    }    
-}
-
 
 }  // namespace cc_tools_qt
 

@@ -31,8 +31,30 @@ namespace plugin
 namespace
 {
 
-const QString FromPropName("tcp.from");
-const QString ToPropName("tcp.to");
+
+const QString& tcpFromProp()
+{
+    static const QString Str("tcp.from");
+    return Str;
+}
+
+const QString& tcpToProp()
+{
+    static const QString Str("tcp.to");
+    return Str;
+}
+
+const QString& tcpPortProp()
+{
+    static const QString Str("tcp.port");
+    return Str;
+}
+
+const QString& networkPortProp()
+{
+    static const QString Str("network.port");
+    return Str;
+}
 
 }  // namespace
 
@@ -104,13 +126,35 @@ void TcpServerSocket::sendDataImpl(DataInfoPtr dataPtr)
         m_server.serverAddress().toString() + ':' +
                     QString("%1").arg(m_server.serverPort());
 
-    dataPtr->m_extraProperties.insert(FromPropName, from);
-    dataPtr->m_extraProperties.insert(ToPropName, toList);
+    dataPtr->m_extraProperties.insert(tcpFromProp(), from);
+    dataPtr->m_extraProperties.insert(tcpToProp(), toList);
 }
 
 unsigned TcpServerSocket::connectionPropertiesImpl() const
 {
     return ConnectionProperty_Autoconnect;
+}
+
+void TcpServerSocket::applyInterPluginConfigImpl(const QVariantMap& props)
+{
+    bool updated = false;
+
+    static const QString* PortProps[] = {
+        &networkPortProp(),
+        &tcpPortProp(),
+    };    
+
+    for (auto* p : PortProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<int>())) {
+            setPort(static_cast<PortType>(var.value<int>()));
+            updated = true;
+        }
+    }
+
+    if (updated) {
+        emit sigConfigChanged();
+    }
 }
 
 void TcpServerSocket::newConnection()
@@ -170,12 +214,12 @@ void TcpServerSocket::readFromSocket()
     QString from =
         socket->peerAddress().toString() + ':' +
                     QString("%1").arg(socket->peerPort());
-    dataPtr->m_extraProperties.insert(FromPropName, from);
+    dataPtr->m_extraProperties.insert(tcpFromProp(), from);
 
     QString to =
         m_server.serverAddress().toString() + ':' +
                     QString("%1").arg(m_server.serverPort());
-    dataPtr->m_extraProperties.insert(ToPropName, to);
+    dataPtr->m_extraProperties.insert(tcpToProp(), to);
 
     reportDataReceived(std::move(dataPtr));
 }

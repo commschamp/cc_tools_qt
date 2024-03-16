@@ -37,32 +37,41 @@ TcpProxySocketConfigWidget::TcpProxySocketConfigWidget(
         1,
         static_cast<int>(std::numeric_limits<PortType>::max()));
 
+    m_ui.m_remotePortSpinBox->setRange(
+        1,
+        static_cast<int>(std::numeric_limits<PortType>::max()));
+
+    refresh();        
+
+    connect(
+        &socket, &TcpProxySocket::sigConfigChanged,
+        this, &TcpProxySocketConfigWidget::refresh);  
+
+    connect(
+        m_ui.m_localPortSpinBox, qOverload<int>(&QSpinBox::valueChanged),
+        this, &TcpProxySocketConfigWidget::localPortValueChanged);
+
+    connect(
+        m_ui.m_remoteHostLineEdit, &QLineEdit::textChanged,
+        this, &TcpProxySocketConfigWidget::remoteHostValueChanged);
+
+    connect(
+        m_ui.m_remotePortSpinBox, qOverload<int>(&QSpinBox::valueChanged),
+        this, &TcpProxySocketConfigWidget::remotePortValueChanged);
+}
+
+TcpProxySocketConfigWidget::~TcpProxySocketConfigWidget() noexcept = default;
+
+void TcpProxySocketConfigWidget::refresh()
+{
     m_ui.m_localPortSpinBox->setValue(
         static_cast<int>(m_socket.getPort()));
 
     m_ui.m_remoteHostLineEdit->setText(m_socket.getRemoteHost());
 
-    m_ui.m_remotePortSpinBox->setRange(
-        1,
-        static_cast<int>(std::numeric_limits<PortType>::max()));
-
     m_ui.m_remotePortSpinBox->setValue(
-        static_cast<int>(m_socket.getRemotePort()));
-
-    connect(
-        m_ui.m_localPortSpinBox, SIGNAL(valueChanged(int)),
-        this, SLOT(localPortValueChanged(int)));
-
-    connect(
-        m_ui.m_remoteHostLineEdit, SIGNAL(textChanged(const QString&)),
-        this, SLOT(remoteHostValueChanged(const QString&)));
-
-    connect(
-        m_ui.m_remotePortSpinBox, SIGNAL(valueChanged(int)),
-        this, SLOT(remotePortValueChanged(int)));
+        static_cast<int>(m_socket.getRemotePort()));    
 }
-
-TcpProxySocketConfigWidget::~TcpProxySocketConfigWidget() noexcept = default;
 
 void TcpProxySocketConfigWidget::localPortValueChanged(int value)
 {

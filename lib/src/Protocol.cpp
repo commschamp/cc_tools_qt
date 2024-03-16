@@ -181,11 +181,6 @@ void Protocol::messageSentReport(MessagePtr msg)
     messageSentReportImpl(std::move(msg));
 }
 
-void Protocol::collectInterPluginConfig(QVariantMap& props)
-{
-    collectInterPluginConfigImpl(props);
-}
-
 void Protocol::applyInterPluginConfig(const QVariantMap& props)
 {
     applyInterPluginConfigImpl(props);
@@ -200,10 +195,6 @@ void Protocol::messageReceivedReportImpl([[maybe_unused]] MessagePtr msg)
 }
 
 void Protocol::messageSentReportImpl([[maybe_unused]] MessagePtr msg)
-{
-}
-
-void Protocol::collectInterPluginConfigImpl([[maybe_unused]] QVariantMap& props)
 {
 }
 
@@ -227,6 +218,13 @@ void Protocol::sendMessageRequest(MessagePtr msg)
 {
     if (m_sendMessageRequestCallback) {
         m_sendMessageRequestCallback(std::move(msg));
+    }
+}
+
+void Protocol::reportInterPluginConfig(const QVariantMap& props)
+{
+    if (m_interPluginConfigReportCallback) {
+        m_interPluginConfigReportCallback(props);
     }
 }
 

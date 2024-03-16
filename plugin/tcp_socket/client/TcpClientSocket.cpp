@@ -31,13 +31,13 @@ namespace plugin
 namespace
 {
 
-const QString& fromProp()
+const QString& tcpFromProp()
 {
     static const QString Str("tcp.from");
     return Str;
 }
 
-const QString& toProp()
+const QString& tcpToProp()
 {
     static const QString Str("tcp.to");
     return Str;
@@ -107,24 +107,21 @@ bool TcpClientSocket::socketConnectImpl()
         return false;
     }
 
-    auto port = getPortValue();
-    if (port == 0) {
+    if (m_port == 0) {
         static const QString PortError(
             tr("TCP/IP Client port is not configured."));
         reportError(PortError);
         return false;
     }
 
-    auto host = getHostValue();
-    if (host.isEmpty()) {
-        host = QHostAddress(QHostAddress::LocalHost).toString();
+    if (m_host.isEmpty()) {
+        m_host = QHostAddress(QHostAddress::LocalHost).toString();
     }
 
-    m_socket.connectToHost(host, port);
+    m_socket.connectToHost(m_host, m_port);
     if (!m_socket.waitForConnected(1000)) {
         return false;
     }
-
 
     return true;
 }
@@ -153,25 +150,42 @@ void TcpClientSocket::sendDataImpl(DataInfoPtr dataPtr)
                     QString("%1").arg(m_socket.peerPort());
 
 
-    dataPtr->m_extraProperties.insert(fromProp(), from);
-    dataPtr->m_extraProperties.insert(toProp(), to);
+    dataPtr->m_extraProperties.insert(tcpFromProp(), from);
+    dataPtr->m_extraProperties.insert(tcpToProp(), to);
 
 }
 
 void TcpClientSocket::applyInterPluginConfigImpl(const QVariantMap& props)
 {
-    static const QString* Props[] = {
-        &tcpHostProp(),
-        &tcpPortProp(),
+    bool updated = false;
+    static const QString* HostProps[] = {
         &networkHostProp(),
-        &networkPortProp()
+        &tcpHostProp(),
     };
 
-    m_overrideConfig.clear();
-    for (auto* p : Props) {
-        if (props.contains(*p)) {
-            m_overrideConfig[*p] = props[*p];
+    for (auto* p : HostProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<QString>())) {
+            setHost(var.value<QString>());
+            updated = true;
         }
+    }
+
+    static const QString* PortProps[] = {
+        &networkPortProp(),
+        &tcpPortProp(),
+    };    
+
+    for (auto* p : PortProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<int>())) {
+            setPort(static_cast<PortType>(var.value<int>()));
+            updated = true;
+        }
+    }
+
+    if (updated) {
+        emit sigConfigChanged();
     }
 }
 
@@ -207,8 +221,8 @@ void TcpClientSocket::readFromSocket()
         m_socket.localAddress().toString() + ':' +
                     QString("%1").arg(m_socket.localPort());
 
-    dataPtr->m_extraProperties.insert(fromProp(), from);
-    dataPtr->m_extraProperties.insert(toProp(), to);
+    dataPtr->m_extraProperties.insert(tcpFromProp(), from);
+    dataPtr->m_extraProperties.insert(tcpToProp(), to);
     reportDataReceived(std::move(dataPtr));
 }
 
@@ -222,42 +236,6 @@ void TcpClientSocket::socketErrorOccurred([[maybe_unused]] QAbstractSocket::Sock
     if (socket->state() != QTcpSocket::ConnectedState) {
         reportDisconnected();
     }
-}
-
-QString TcpClientSocket::getHostValue() const
-{
-    auto hostVar = m_overrideConfig.value(tcpHostProp());
-    if (hostVar.isValid()) {
-        return hostVar.toString();
-    }
-
-    hostVar = m_overrideConfig.value(networkHostProp());
-    if (hostVar.isValid()) {
-        return hostVar.toString();
-    }
-
-    return m_host;    
-}
-
-TcpClientSocket::PortType TcpClientSocket::getPortValue() const
-{
-    auto portVar = m_overrideConfig.value(tcpPortProp());
-    if (portVar.isValid()) {
-        auto val = portVar.value<PortType>();
-        if (val != 0) {
-            return val;
-        }
-    }   
-
-    portVar = m_overrideConfig.value(networkPortProp());
-    if (portVar.isValid()) {
-        auto val = portVar.value<PortType>();
-        if (val != 0) {
-            return val;
-        }
-    }   
-
-    return m_port;     
 }
 
 

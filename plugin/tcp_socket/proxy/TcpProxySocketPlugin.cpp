@@ -104,6 +104,12 @@ void TcpProxySocketPlugin::reconfigureImpl(const QVariantMap& config)
     m_socket->setRemotePort(remotePort);
 }
 
+void TcpProxySocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props)
+{
+    createSocketIfNeeded();
+    m_socket->applyInterPluginConfig(props);
+}
+
 void TcpProxySocketPlugin::createSocketIfNeeded()
 {
     if (!m_socket) {

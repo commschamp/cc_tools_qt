@@ -43,6 +43,7 @@ public:
     ~TcpClientSocketConfigWidget() noexcept;
 
 private slots:
+    void refresh();
     void hostValueChanged(const QString& value);
     void portValueChanged(int value);
 

@@ -48,11 +48,6 @@ void Filter::socketConnectionReport(bool connected)
     return socketConnectionReportImpl(connected);
 }
 
-void Filter::collectInterPluginConfig(QVariantMap& props)
-{
-    collectInterPluginConfigImpl(props);
-}
-
 void Filter::applyInterPluginConfig(const QVariantMap& props)
 {
     applyInterPluginConfigImpl(props);
@@ -85,10 +80,6 @@ void Filter::socketConnectionReportImpl([[maybe_unused]] bool connected)
 {
 }
 
-void Filter::collectInterPluginConfigImpl([[maybe_unused]] QVariantMap& props)
-{
-}
-
 void Filter::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& props)
 {
 }
@@ -104,6 +95,13 @@ void Filter::reportError(const QString& msg)
 {
     if (m_errorReportCallback) {
         m_errorReportCallback(msg);
+    }
+}
+
+void Filter::reportInterPluginConfig(const QVariantMap& props)
+{
+    if (m_interPluginConfigReportCallback) {
+        m_interPluginConfigReportCallback(props);
     }
 }
 

@@ -61,6 +61,8 @@ public:
         return m_port;
     }
 
+signals:
+    void sigConfigChanged();
 
 protected:
     virtual bool socketConnectImpl() override;
@@ -81,7 +83,6 @@ private:
     QString m_host;
     PortType m_port = DefaultPort;
     QTcpSocket m_socket;
-    QVariantMap m_overrideConfig;
 };
 
 } // namespace plugin

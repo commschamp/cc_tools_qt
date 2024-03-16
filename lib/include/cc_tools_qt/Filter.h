@@ -81,20 +81,10 @@ public:
     /// @param[in] connected Socket connection status.
     void socketConnectionReport(bool connected);
 
-    /// @brief Collect inter-plugin configuration.
-    /// @details Allows one plugin to influence the configuration of another.
-    ///     This function will be called for all applied plugins to collect 
-    ///     the configuration. Then @ref applyInterPluginConfig() will be
-    ///     called for all the applied plugins. Invokes 
-    ///     polymorphic @ref collectInterPluginConfigImpl().
-    /// @param[in, out] props Properties map.
-    void collectInterPluginConfig(QVariantMap& props);
-
     /// @brief Apply inter-plugin configuration.
     /// @details Allows one plugin to influence the configuration of another.
-    ///     This function will be called for all applied plugins to appl
-    ///     configuration collected by the @ref collectInterPluginConfig(). I
-    ///     Invokes polymorphic @ref applyInterPluginConfigImpl().
+    ///     This function will be called for all currently chosen plugins to override
+    ///     current configuration. Invokes polymorphic @ref applyInterPluginConfigImpl().
     /// @param[in] props Properties map.
     void applyInterPluginConfig(const QVariantMap& props);     
 
@@ -122,6 +112,17 @@ public:
         m_errorReportCallback = std::forward<TFunc>(func);
     }
 
+    /// @brief Callback to report inter-plugin configuration updates
+    using InterPluginConfigReportCallback = std::function <void (const QVariantMap&)>;
+
+    /// @brief Set callback to report inter-plugin configuration.
+    /// @details The callback must have the same signature as @ref InterPluginConfigReportCallback.
+    template <typename TFunc>
+    void setInterPluginConfigReportCallback(TFunc&& func)
+    {
+        m_interPluginConfigReportCallback = std::forward<TFunc>(func);
+    }     
+
 protected:
     /// @brief Polymorphic start functionality implementation.
     /// @details Invoked by start() and default implementation does nothing.
@@ -148,13 +149,8 @@ protected:
     /// @param[in] connected Socket connection status
     virtual void socketConnectionReportImpl(bool connected);
 
-    /// @brief Polymorphic inter-plugin configuration collection.
-    /// @details Invoked by the collectInterPluginConfig().
-    /// @param[in, out] props Properties map.
-    virtual void collectInterPluginConfigImpl(QVariantMap& props);
-
     /// @brief Polymorphic inter-plugin configuration application.
-    /// @details Invoked by the applyInterPluginConfigImpl().
+    /// @details Invoked by the applyInterPluginConfig().
     /// @param[in] props Properties map.
     virtual void applyInterPluginConfigImpl(const QVariantMap& props);      
 
@@ -172,9 +168,18 @@ protected:
     /// @param[in] msg Error message.
     void reportError(const QString& msg);
 
+    /// @brief Report inter-plugin configuration.
+    /// @details Sometimes configuration of one plugin may influence configuration of another.
+    ///     Use this function to report inter-plugin configuration properties.
+    ///     When invoked all other plugins are expected to get their respecitve 
+    ///     @ref applyInterPluginConfig() functions invoked.
+    /// @param[in] props Reported properties.
+    void reportInterPluginConfig(const QVariantMap& props);    
+
 private:
     DataToSendCallback m_dataToSendCallback;
     ErrorReportCallback m_errorReportCallback;
+    InterPluginConfigReportCallback m_interPluginConfigReportCallback;
 };
 
 /// @brief Pointer to @ref Filter object.

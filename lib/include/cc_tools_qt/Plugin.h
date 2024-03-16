@@ -121,6 +121,19 @@ public:
     ///     proper type by the caller.
     QVariant getCustomProperty(const QString& name);
 
+    /// @brief Apply inter-plugin configuration.
+    /// @details Allows one plugin to influence the configuration of another.
+    ///     This function will be called for all currently chosen plugins to override
+    ///     current configuration. Invokes polymorphic @ref applyInterPluginConfigImpl().
+    /// @param[in] props Properties map.
+    void applyInterPluginConfig(const QVariantMap& props);  
+        
+    /// @brief Callback to report inter-plugin configuration updates
+    using InterPluginConfigReportCallback = std::function <void (const QVariantMap&)>;
+
+    /// @brief Set callback to report inter-plugin configuration.
+    void setInterPluginConfigReportCallback(InterPluginConfigReportCallback&& func);
+
 protected:
     /// @brief Polymorphic call to retrieve current configuration
     /// @details Default implementation does nothing. The derived class
@@ -136,6 +149,11 @@ protected:
     /// @param[in] config Configuration map
     virtual void reconfigureImpl(const QVariantMap& config);
 
+    /// @brief Polymorphic inter-plugin configuration application.
+    /// @details Invoked by the applyInterPluginConfig().
+    /// @param[in] props Properties map.
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props);       
+
     /// @brief Get access to plugin properties
     /// @details Expected to be called by the derived class to get an access
     ///     to the properties accumulation objects and provide appropriate
@@ -143,8 +161,17 @@ protected:
     /// @return Reference to plugin properties object
     PluginProperties& pluginProperties();
 
+    /// @brief Report inter-plugin configuration.
+    /// @details Sometimes configuration of one plugin may influence configuration of another.
+    ///     Use this function to report inter-plugin configuration properties.
+    ///     When invoked all other plugins are expected to get their respecitve 
+    ///     @ref applyInterPluginConfig() functions invoked.
+    /// @param[in] props Reported properties.
+    void reportInterPluginConfig(const QVariantMap& props);       
+
 private:
     PluginProperties m_props;
+    InterPluginConfigReportCallback m_interPluginConfigReportCallback;
 };
 
 }  // namespace cc_tools_qt

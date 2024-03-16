@@ -40,8 +40,11 @@ public:
     TcpClientSocketPlugin();
     ~TcpClientSocketPlugin() noexcept;
 
+protected:        
+
     virtual void getCurrentConfigImpl(QVariantMap& config) override;
     virtual void reconfigureImpl(const QVariantMap& config) override;
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;     
 
 private:
 

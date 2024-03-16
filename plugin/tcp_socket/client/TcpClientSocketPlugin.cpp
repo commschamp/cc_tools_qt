@@ -91,6 +91,13 @@ void TcpClientSocketPlugin::reconfigureImpl(const QVariantMap& config)
     }
 }
 
+void TcpClientSocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props)
+{
+    createSocketIfNeeded();
+    m_socket->applyInterPluginConfig(props);
+}
+
+
 void TcpClientSocketPlugin::createSocketIfNeeded()
 {
     if (!m_socket) {

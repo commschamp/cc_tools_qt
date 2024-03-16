@@ -43,6 +43,7 @@ public:
     ~TcpProxySocketConfigWidget() noexcept;
 
 private slots:
+    void refresh();
     void localPortValueChanged(int value);
     void remoteHostValueChanged(const QString& value);
     void remotePortValueChanged(int value);

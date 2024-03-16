@@ -181,8 +181,8 @@ void PluginConfigDialog::addClicked()
     auto pluginInfoPtr = getPluginInfo(m_currentAvailableList->currentItem());
     assert(pluginInfoPtr);
 
-    auto loadResult = PluginMgrG::instanceRef().loadPlugin(*pluginInfoPtr);
-    if (!loadResult) {
+    auto* loadResult = PluginMgrG::instanceRef().loadPlugin(*pluginInfoPtr);
+    if (loadResult == nullptr) {
         QMessageBox::critical(
             this,
             tr("Plugin Load Error."),

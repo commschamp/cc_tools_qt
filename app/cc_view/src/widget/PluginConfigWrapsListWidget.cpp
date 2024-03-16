@@ -43,6 +43,21 @@ void PluginConfigWrapsListWidget::addPluginConfig(PluginInfoPtr pluginInfo)
         return;
     }
 
+    assert(std::find(m_loadedPlugins.begin(), m_loadedPlugins.end(), plugin) == m_loadedPlugins.end());
+    plugin->setInterPluginConfigReportCallback(
+        [this, plugin](const QVariantMap& props)
+        {
+            for (auto* p : m_loadedPlugins) {
+                if (p == plugin) {
+                    continue;
+                }
+
+                p->applyInterPluginConfig(props);
+            }
+        });
+
+    m_loadedPlugins.push_back(plugin);
+
     auto* configWidget = plugin->createConfiguarionWidget();
     if (configWidget == nullptr) {
         return;
@@ -67,6 +82,12 @@ void PluginConfigWrapsListWidget::addPluginConfig(PluginInfoPtr pluginInfo)
 
 void PluginConfigWrapsListWidget::removePluginConfig(PluginInfoPtr pluginInfo)
 {
+    auto* plugin = PluginMgrG::instanceRef().loadPlugin(*pluginInfo);
+    auto pluginIter = std::find(m_loadedPlugins.begin(), m_loadedPlugins.end(), plugin);
+    if (pluginIter != m_loadedPlugins.end()) {
+        m_loadedPlugins.erase(pluginIter);
+    }
+
     auto iid = pluginInfo->getIid();
     auto iter = 
         std::find_if(

@@ -46,6 +46,7 @@ private:
     using PluginConfigWrapWidgetPtr = std::unique_ptr<PluginConfigWrapWidget>;
     using WrapWidgetsList = std::vector<PluginConfigWrapWidgetPtr>;
     WrapWidgetsList m_widgets;
+    std::vector<Plugin*> m_loadedPlugins;
 };
 
 } // namespace cc_tools_qt

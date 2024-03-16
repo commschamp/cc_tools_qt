@@ -85,11 +85,6 @@ unsigned Socket::connectionProperties() const
     return connectionPropertiesImpl();
 }
 
-void Socket::collectInterPluginConfig(QVariantMap& props)
-{
-    collectInterPluginConfigImpl(props);
-}
-
 void Socket::applyInterPluginConfig(const QVariantMap& props)
 {
     applyInterPluginConfigImpl(props);
@@ -116,10 +111,6 @@ void Socket::socketDisconnectImpl()
 unsigned Socket::connectionPropertiesImpl() const
 {
     return 0U;
-}
-
-void Socket::collectInterPluginConfigImpl([[maybe_unused]] QVariantMap& props)
-{
 }
 
 void Socket::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& props)
@@ -151,6 +142,13 @@ void Socket::reportDisconnected()
     m_connected = false;
     if (m_running && m_connectionStatusReportCallback) {
         m_connectionStatusReportCallback(false);
+    }
+}
+
+void Socket::reportInterPluginConfig(const QVariantMap& props)
+{
+    if (m_interPluginConfigReportCallback) {
+        m_interPluginConfigReportCallback(props);
     }
 }
 

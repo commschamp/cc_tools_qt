@@ -92,6 +92,16 @@ QVariant Plugin::getCustomProperty(const QString& name)
     return m_props.getCustomProperty(name);
 }
 
+void Plugin::applyInterPluginConfig(const QVariantMap& props)
+{
+    applyInterPluginConfigImpl(props);
+}
+
+void Plugin::setInterPluginConfigReportCallback(InterPluginConfigReportCallback&& func)
+{
+    m_interPluginConfigReportCallback = std::move(func);
+}    
+
 void Plugin::getCurrentConfigImpl([[maybe_unused]] QVariantMap& config)
 {
 }
@@ -100,9 +110,20 @@ void Plugin::reconfigureImpl([[maybe_unused]] const QVariantMap& config)
 {
 }
 
+void Plugin::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& props)
+{
+}
+
 PluginProperties& Plugin::pluginProperties()
 {
     return m_props;
+}
+
+void Plugin::reportInterPluginConfig(const QVariantMap& props)
+{
+    if (m_interPluginConfigReportCallback) {
+        m_interPluginConfigReportCallback(props);
+    }
 }
 
 }  // namespace cc_tools_qt
