@@ -32,15 +32,58 @@ namespace plugin
 namespace
 {
 
-const QString DefaultHost("127.0.0.1");
-const QString FromPropName("udp.from");
-const QString ToPropName("udp.to");
+const QString& udpFromProp()
+{
+    static const QString Str("udp.from");
+    return Str;
+}
+
+const QString& udpToProp()
+{
+    static const QString Str("udp.to");
+    return Str;
+}
+
+const QString& udpHostProp()
+{
+    static const QString Str("udp.host");
+    return Str;
+}
+
+const QString& udpPortProp()
+{
+    static const QString Str("udp.port");
+    return Str;
+}
+
+const QString& udpLocalPortProp()
+{
+    static const QString Str("udp.local_port");
+    return Str;
+}
+
+const QString& networkHostProp()
+{
+    static const QString Str("network.host");
+    return Str;
+}
+
+const QString& networkPortProp()
+{
+    static const QString Str("network.port");
+    return Str;
+}
+
+const QString& networkLocalPortProp()
+{
+    static const QString Str("network.local_port");
+    return Str;
+}
 
 }  // namespace
 
 
 UdpProxySocket::UdpProxySocket()
-  : m_host(DefaultHost)
 {
 }
 
@@ -109,7 +152,7 @@ void UdpProxySocket::sendDataImpl(DataInfoPtr dataPtr)
     QString from =
         m_listenSocket->localAddress().toString() + ':' +
                     QString("%1").arg(m_listenSocket->localPort());
-    dataPtr->m_extraProperties.insert(FromPropName, from);
+    dataPtr->m_extraProperties.insert(udpFromProp(), from);
 
 
     assert(m_listenSocket);
@@ -136,7 +179,54 @@ void UdpProxySocket::sendDataImpl(DataInfoPtr dataPtr)
         m_listenSocket->peerAddress().toString() + ':' +
                     QString("%1").arg(m_listenSocket->peerPort());
 
-    dataPtr->m_extraProperties.insert(ToPropName, to);
+    dataPtr->m_extraProperties.insert(udpToProp(), to);
+}
+
+void UdpProxySocket::applyInterPluginConfigImpl(const QVariantMap& props)
+{
+    bool updated = false;
+    static const QString* HostProps[] = {
+        &networkHostProp(),
+        &udpHostProp(),
+    };
+
+    for (auto* p : HostProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<QString>())) {
+            setHost(var.value<QString>());
+            updated = true;
+        }
+    }
+
+    static const QString* PortProps[] = {
+        &networkPortProp(),
+        &udpPortProp(),
+    };    
+
+    for (auto* p : PortProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<int>())) {
+            setPort(static_cast<PortType>(var.value<int>()));
+            updated = true;
+        }
+    }
+
+    static const QString* ProxyPortProps[] = {
+        &networkLocalPortProp(),
+        &udpLocalPortProp(),
+    };    
+
+    for (auto* p : ProxyPortProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<int>())) {
+            setLocalPort(static_cast<PortType>(var.value<int>()));
+            updated = true;
+        }
+    }    
+
+    if (updated) {
+        emit sigConfigChanged();
+    }
 }
 
 void UdpProxySocket::listenSocketDisconnected()
@@ -189,8 +279,8 @@ void UdpProxySocket::readFromListenSocket()
         }                          
 
 
-        dataPtr->m_extraProperties.insert(FromPropName, from);
-        dataPtr->m_extraProperties.insert(ToPropName, to);
+        dataPtr->m_extraProperties.insert(udpFromProp(), from);
+        dataPtr->m_extraProperties.insert(udpToProp(), to);
         reportDataReceived(std::move(dataPtr));
     }    
 }
@@ -249,8 +339,8 @@ void UdpProxySocket::readFromRemoteSocket()
                         QString("%1").arg(m_listenSocket->peerPort());
         }            
 
-        dataPtr->m_extraProperties.insert(FromPropName, from);
-        dataPtr->m_extraProperties.insert(ToPropName, to);
+        dataPtr->m_extraProperties.insert(udpFromProp(), from);
+        dataPtr->m_extraProperties.insert(udpToProp(), to);
         reportDataReceived(std::move(dataPtr));
     }    
 }

@@ -71,10 +71,14 @@ public:
         return m_localPort;
     }
 
+signals:
+    void sigConfigChanged();    
+
 protected:
     virtual bool socketConnectImpl() override;
     virtual void socketDisconnectImpl() override;
     virtual void sendDataImpl(DataInfoPtr dataPtr) override;
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;     
 
 private slots:
     void listenSocketDisconnected();

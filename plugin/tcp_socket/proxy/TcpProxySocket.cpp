@@ -56,6 +56,12 @@ const QString& tcpPortProp()
     return Str;
 }
 
+const QString& tcpLocalPortProp()
+{
+    static const QString Str("tcp.local_port");
+    return Str;
+}
+
 const QString& networkHostProp()
 {
     static const QString Str("network.host");
@@ -68,12 +74,11 @@ const QString& networkPortProp()
     return Str;
 }
 
-const QString& proxyPortProp()
+const QString& networkLocalPortProp()
 {
-    static const QString Str("proxy.port");
+    static const QString Str("network.local_port");
     return Str;
 }
-
 
 }  // namespace
 
@@ -203,7 +208,8 @@ void TcpProxySocket::applyInterPluginConfigImpl(const QVariantMap& props)
     }
 
     static const QString* ProxyPortProps[] = {
-        &proxyPortProp(),
+        &networkLocalPortProp(),
+        &tcpLocalPortProp(),
     };    
 
     for (auto* p : ProxyPortProps) {

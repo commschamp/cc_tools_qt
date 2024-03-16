@@ -1,7 +1,14 @@
 {
     "name" : "CC UDP/IP Proxy Socket",
     "desc" : [
-        "I/O socket that serves as proxy UDP/IP server"
+        "I/O socket that serves as proxy UDP/IP server.\n\n",
+        "Accepts inter-plugin configuration values:\n",
+        "    { \"udp.host\": \"example.com\"} - Override the remote host configuration\n",
+        "    { \"udp.port\": 1234} - Override the remote port configuration.\n",
+        "    { \"udp.local_port\": 1234} - Override the local port configuration.\n",
+        "    { \"network.host\": \"example.com\"} - Alias to \"udp.host\".\n",
+        "    { \"network.port\": 1234} - Alias to \"udp.port\".\n",           
+        "    { \"network.local_port\": 1234} - Alias to \"udp.local_port\".\n"        
     ],
     "type" : "socket"
 }
