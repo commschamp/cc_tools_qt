@@ -220,6 +220,10 @@ SslClientSocketConfigWidget::SslClientSocketConfigWidget(
     connect(
         m_ui.m_privKeyPassLineEdit,  &QLineEdit::textChanged,
         this, &SslClientSocketConfigWidget::privKeyPassValueChanged);
+
+    connect(
+        m_ui.m_privKeyShowHidePushButton,  &QPushButton::clicked,
+        this, &SslClientSocketConfigWidget::privKeyShowHideClicked);        
 }
 
 SslClientSocketConfigWidget::~SslClientSocketConfigWidget() noexcept = default;
@@ -369,6 +373,19 @@ void SslClientSocketConfigWidget::privKeyFormatIndexChanged([[maybe_unused]] int
 void SslClientSocketConfigWidget::privKeyPassValueChanged(const QString& value)
 {
     m_socket.setPrivKeyPass(value);
+}
+
+void SslClientSocketConfigWidget::privKeyShowHideClicked(bool checked)
+{
+    auto mode = QLineEdit::Password;
+    auto buttonText = tr("Show");
+    if (checked) {
+        mode = QLineEdit::Normal;
+        buttonText = tr("Hide");
+    }
+    
+    m_ui.m_privKeyPassLineEdit->setEchoMode(mode);
+    m_ui.m_privKeyShowHidePushButton->setText(buttonText);
 }
 
 }  // namespace plugin

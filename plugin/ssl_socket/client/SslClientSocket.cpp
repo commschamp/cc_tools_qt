@@ -15,12 +15,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "SslClientSocket.h"
+
 #include <cassert>
+#include <iostream>
 
 #include <QtNetwork/QHostAddress>
 #include <QtNetwork/QSslConfiguration>
 
-#include "SslClientSocket.h"
 
 namespace cc_tools_qt
 {
@@ -52,6 +54,12 @@ const QString& sslHostProp()
 const QString& sslPortProp()
 {
     static const QString Str("ssl.port");
+    return Str;
+}
+
+const QString& sslVerifyNameProp()
+{
+    static const QString Str("ssl.verify_name");
     return Str;
 }
 
@@ -209,6 +217,18 @@ void SslClientSocket::applyInterPluginConfigImpl(const QVariantMap& props)
         }
     }
 
+    static const QString* VerifyNameProps[] = {
+        &sslVerifyNameProp(),
+    };    
+
+    for (auto* p : VerifyNameProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<QString>())) {
+            setVerifyName(var.value<QString>());
+            updated = true;
+        }
+    }    
+
     if (updated) {
         emit sigConfigChanged();
     }
@@ -262,6 +282,7 @@ void SslClientSocket::socketErrorOccurred([[maybe_unused]] QAbstractSocket::Sock
 void SslClientSocket::sslErrorsOccurred(const QList<QSslError>& errs)
 {
     for (auto& e : errs) {
+        std::cerr << "SSL Error: " << e.error() << std::endl;
         reportError(e.errorString());
     }
 }

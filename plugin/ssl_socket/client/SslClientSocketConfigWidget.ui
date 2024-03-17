@@ -18,6 +18,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="m_hostLabel">
+       <property name="toolTip">
+        <string>Updated by &quot;ssl.host&quot; or &quot;network.host&quot;</string>
+       </property>
        <property name="text">
         <string>Remote host:</string>
        </property>
@@ -45,6 +48,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="m_portLabel">
+       <property name="toolTip">
+        <string>Updated by &quot;ssl.port&quot; or &quot;network.port&quot;</string>
+       </property>
        <property name="text">
         <string>Remotel Port:</string>
        </property>
@@ -179,6 +185,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_9">
      <item>
       <widget class="QLabel" name="m_verifyNameLabel">
+       <property name="toolTip">
+        <string>Updated by &quot;ssl.verify_name&quot;</string>
+       </property>
        <property name="text">
         <string>Verify Name:</string>
        </property>
@@ -322,6 +331,16 @@
       <widget class="QLineEdit" name="m_privKeyPassLineEdit">
        <property name="echoMode">
         <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="m_privKeyShowHidePushButton">
+       <property name="text">
+        <string>Show</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
