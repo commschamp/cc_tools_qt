@@ -1,0 +1,125 @@
+/// @page page_inter_plugin_config Supporting Inter-Plugin Configuration
+/// @tableofcontents
+/// The @b cc_tools_qt allows one plugin to influence the configuration of another.
+/// The configuration exchange is done via @b QVariantMap data type and it's
+/// up to the plugins to interpret the values stored in the map.
+///
+/// @section page_inter_plugin_config_recv Receiving Inter-Plugin Configuration Request
+/// The plugin class is expected to extend the @ref cc_tools_qt::Plugin and override
+/// the @ref cc_tools_qt::Plugin::applyInterPluginConfigImpl() "applyInterPluginConfigImpl()"
+/// member function.
+/// @code
+/// class MyFilterPlugin : public cc_tools_qt::Plugin
+/// {
+///     ...
+/// protected:
+///     void applyInterPluginConfigImpl(const QVariantMap& props) override
+///     {
+///         auto somePropVar = props.value("some_prop");
+///         if (somePropVar.isValid()) {
+///             // The inter-plugin configuration contains a value this plugin
+///             // can use:
+///             auto someProp = somePropVar.value<QString>();
+///             ... // Do something with the extracted value.
+///         }
+///     }
+///
+///     ...
+/// };
+/// @endcode
+///
+/// In case the plugin configuration is handled inside the class extending the
+/// @ref cc_tools_qt::Socket "socket", @ref cc_tools_qt::Filter "filter", or @ref cc_tools_qt::Protocol "protocol",
+/// then such class can override its @ref cc_tools_qt::Socket::applyInterPluginConfigImpl() "applyInterPluginConfigImpl()"
+/// member function while the plugin's @ref cc_tools_qt::Plugin::applyInterPluginConfigImpl() "applyInterPluginConfigImpl()"
+/// one can redirect the request.
+/// @code
+/// class MySocket : public cc_tools_qt::Socket
+/// {
+///     ...
+/// protected:
+///     void applyInterPluginConfigImpl(const QVariantMap& props) override
+///     {
+///         auto somePropVar = props.value("some_prop");
+///         if (somePropVar.isValid()) {
+///             // The inter-plugin configuration contains a value this plugin
+///             // can use:
+///             auto someProp = somePropVar.value<QString>();
+///             ... // Do something with the extracted value.
+///         }
+///     }
+///
+///     ...
+/// };
+///
+/// class MyFilterPlugin : public cc_tools_qt::Plugin
+/// {
+///
+/// public:
+///     MyFilterPlugin() : m_socket(new MySocket) {...}
+///
+/// protected:
+///     void applyInterPluginConfigImpl(const QVariantMap& props) override
+///     {
+///         m_socket->applyInterPluginConfig(props);
+///     }
+///
+///     ...
+/// };
+/// @endcode
+///
+/// @section page_inter_plugin_config_send Sending Inter-Plugin Configuration Request
+/// The @ref cc_tools_qt::Plugin "plugin" class can invoke inheirted
+/// @ref cc_tools_qt::Plugin::reportInterPluginConfig() "reportInterPluginConfig()"
+/// member function to report populated inter-plugin configuration.
+/// @code
+/// class MyFilterPlugin : public cc_tools_qt::Plugin
+/// {
+///     ...
+/// private:
+///     void someEvent()
+///     {
+///         QVariantMap props;
+///         prop["some_prop"] = QVariant::fromValue(QString("some_value"));
+///         prop["some_other_prop"] = QVariant::fromValue(123);
+///         reportInterPluginConfig(props);
+///     }
+/// };
+/// @endcode
+///
+/// In case the inter-plugin configuration event is initiated inside the class extending the
+/// @ref cc_tools_qt::Socket "socket", @ref cc_tools_qt::Filter "filter", or @ref cc_tools_qt::Protocol "protocol",
+/// then such class can use inherited @ref cc_tools_qt::Socket::reportInterPluginConfig() member function
+/// while the plugin class can set appropriate callback and use the inherited
+/// @ref cc_tools_qt::Plugin::reportInterPluginConfig() "reportInterPluginConfig()" to propagate
+/// the inter-plugin configuration request.
+/// @code
+/// class MySocket : public cc_tools_qt::Socket
+/// {
+///     ...
+/// private:
+///     void someEvent()
+///     {
+///         QVariantMap props;
+///         prop["some_prop"] = QVariant::fromValue(QString("some_value"));
+///         prop["some_other_prop"] = QVariant::fromValue(123);
+///         reportInterPluginConfig(props);
+///     }
+/// };
+///
+/// class MyFilterPlugin : public cc_tools_qt::Plugin
+/// {
+///
+/// public:
+///     MyFilterPlugin() : m_socket(new MySocket)
+///     {
+///         m_socket->setInterPluginConfigReportCallback(
+///             [this](const QVariantMap& props)
+///             {
+///                 reportInterPluginConfig(props);
+///             });
+///     }
+///
+/// };
+/// @endcode
+///
