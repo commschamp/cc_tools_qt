@@ -290,7 +290,7 @@ void SslClientSocket::sslErrorsOccurred(const QList<QSslError>& errs)
         }
 
         if (m_verifyMode == QSslSocket::VerifyNone) {
-            static const QSslError IgnoreErrors[] = {
+            static const QSslError::SslError IgnoreErrors[] = {
                 QSslError::SelfSignedCertificate,
                 QSslError::SelfSignedCertificateInChain
             };
