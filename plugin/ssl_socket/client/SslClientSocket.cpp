@@ -17,8 +17,9 @@
 
 #include "SslClientSocket.h"
 
+#include <algorithm>
 #include <cassert>
-#include <iostream>
+#include <iterator>
 
 #include <QtNetwork/QHostAddress>
 #include <QtNetwork/QSslConfiguration>
@@ -282,8 +283,25 @@ void SslClientSocket::socketErrorOccurred([[maybe_unused]] QAbstractSocket::Sock
 void SslClientSocket::sslErrorsOccurred(const QList<QSslError>& errs)
 {
     for (auto& e : errs) {
-        std::cerr << "SSL Error: " << e.error() << std::endl;
-        reportError(e.errorString());
+        if ((m_verifyMode == QSslSocket::VerifyNone) && 
+            (e.error() == QSslError::HostNameMismatch) &&
+            (m_verifyName.isEmpty())) {
+            continue;
+        }
+
+        if (m_verifyMode == QSslSocket::VerifyNone) {
+            static const QSslError IgnoreErrors[] = {
+                QSslError::SelfSignedCertificate,
+                QSslError::SelfSignedCertificateInChain
+            };
+
+            auto iter = std::find(std::begin(IgnoreErrors), std::end(IgnoreErrors), e.error());
+            if (iter != std::end(IgnoreErrors)) {
+                continue;
+            }
+        }
+        
+        reportError(QString("SSL Error (%1): %2").arg(e.error()).arg(e.errorString()));
     }
 }
 
