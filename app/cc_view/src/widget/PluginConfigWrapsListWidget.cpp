@@ -99,6 +99,7 @@ void PluginConfigWrapsListWidget::removePluginConfig(PluginInfoPtr pluginInfo)
 void PluginConfigWrapsListWidget::removeAll()
 {
     m_widgets.clear();
+    m_loadedPlugins.clear();
 }
 
 void PluginConfigWrapsListWidget::moveTop(PluginInfoPtr pluginInfo)
