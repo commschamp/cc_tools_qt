@@ -108,11 +108,13 @@ void PluginConfigWrapsListWidget::moveTop(PluginInfoPtr pluginInfo)
     }
 
     auto idx = findWidgetIdx(pluginInfo);
-    if (idx <= 0) {
+    auto topIdx = getTopFilterIdx();
+
+    if ((idx < 0) || (idx <= topIdx)) {
         return;
     }
 
-    relocateWidget(idx, 0);    
+    relocateWidget(idx, topIdx);    
 }
 
 void PluginConfigWrapsListWidget::moveBottom(PluginInfoPtr pluginInfo)
@@ -122,11 +124,12 @@ void PluginConfigWrapsListWidget::moveBottom(PluginInfoPtr pluginInfo)
     }
 
     auto idx = findWidgetIdx(pluginInfo);
-    if ((idx < 0) || (static_cast<int>(m_widgets.size()) <= (idx + 1))) {
+    auto bottomIdx = getBottomFilterIdx();
+    if ((idx < 0) || (bottomIdx <= idx)) {
         return;
     }
 
-    relocateWidget(idx, static_cast<int>(m_widgets.size()) - 1);
+    relocateWidget(idx, bottomIdx);
 }
 
 void PluginConfigWrapsListWidget::moveUp(PluginInfoPtr pluginInfo)
@@ -136,7 +139,8 @@ void PluginConfigWrapsListWidget::moveUp(PluginInfoPtr pluginInfo)
     }
 
     auto idx = findWidgetIdx(pluginInfo);
-    if (idx <= 0) {
+    auto topIdx = getTopFilterIdx();
+    if ((idx <= 0) || (idx <= topIdx)) {
         return;
     }
 
@@ -150,7 +154,8 @@ void PluginConfigWrapsListWidget::moveDown(PluginInfoPtr pluginInfo)
     }
 
     auto idx = findWidgetIdx(pluginInfo);
-    if ((idx < 0) || (static_cast<int>(m_widgets.size()) <= (idx + 1))) {
+    auto bottomIdx = getBottomFilterIdx();
+    if ((idx < 0) || (bottomIdx <= idx)) {
         return;
     }
 
@@ -172,7 +177,31 @@ int PluginConfigWrapsListWidget::findWidgetIdx(PluginInfoPtr pluginInfo) const
         return -1;
     }
 
-    return static_cast<int>(std::distance(m_widgets.begin(), m_widgets.end()));
+    return static_cast<int>(std::distance(m_widgets.begin(), iter));
+}
+
+int PluginConfigWrapsListWidget::getTopFilterIdx() const
+{
+    auto iter = std::lower_bound(
+        m_widgets.begin(), m_widgets.end(), PluginMgr::PluginInfo::Type::Filter,
+        [](auto& w, auto t)
+        {
+            return w->getType() < t;
+        });    
+
+    return static_cast<int>(std::distance(m_widgets.begin(), iter)); 
+}
+
+int PluginConfigWrapsListWidget::getBottomFilterIdx() const
+{
+    auto iter = std::upper_bound(
+        m_widgets.begin(), m_widgets.end(), PluginMgr::PluginInfo::Type::Filter,
+        [](auto t, auto& w)
+        {
+            return t < w->getType();
+        });    
+
+    return static_cast<int>(std::distance(m_widgets.begin(), iter)); 
 }
 
 void PluginConfigWrapsListWidget::relocateWidget(int from, int to)
@@ -180,18 +209,16 @@ void PluginConfigWrapsListWidget::relocateWidget(int from, int to)
     assert(from != to);
 
     auto* l = qobject_cast<QVBoxLayout*>(layout());
-    auto* item = l->takeAt(from);
-    delete item; // expected to keep the widget
 
+    auto* item = l->takeAt(from);
     auto iter = m_widgets.begin() + from;
 
     auto wrap = std::move(*iter);
     m_widgets.erase(iter);
-    assert(l->count() == static_cast<int>(m_widgets.size()));
 
-    to = std::min(to, l->count());
+    to = std::min(to, static_cast<int>(m_widgets.size()));
 
-    l->insertWidget(to, wrap.get());
+    l->insertItem(to, item);
     m_widgets.insert(m_widgets.begin() + to, std::move(wrap));
 }
 

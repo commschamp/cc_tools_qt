@@ -48,6 +48,8 @@ public:
 
 private:
     int findWidgetIdx(PluginInfoPtr pluginInfo) const;
+    int getTopFilterIdx() const;
+    int getBottomFilterIdx() const;
     void relocateWidget(int from, int to);
     using PluginConfigWrapWidgetPtr = std::unique_ptr<PluginConfigWrapWidget>;
     using WrapWidgetsList = std::vector<PluginConfigWrapWidgetPtr>;
