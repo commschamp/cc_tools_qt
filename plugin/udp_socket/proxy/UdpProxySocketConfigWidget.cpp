@@ -41,13 +41,11 @@ UdpProxySocketConfigWidget::UdpProxySocketConfigWidget(
         0,
         static_cast<int>(std::numeric_limits<PortType>::max()));
 
-    m_ui.m_hostLineEdit->setText(m_socket.getHost());
+    refresh();
 
-    m_ui.m_portSpinBox->setValue(
-        static_cast<int>(m_socket.getPort()));
-
-    m_ui.m_localPortSpinBox->setValue(
-        static_cast<int>(m_socket.getLocalPort()));
+    connect(
+        &socket, &UdpProxySocket::sigConfigChanged,
+        this, &UdpProxySocketConfigWidget::refresh);     
 
     connect(
         m_ui.m_hostLineEdit, &QLineEdit::textChanged,
@@ -67,6 +65,17 @@ UdpProxySocketConfigWidget::~UdpProxySocketConfigWidget() noexcept = default;
 void UdpProxySocketConfigWidget::hostValueChanged(const QString& value)
 {
     m_socket.setHost(value);
+}
+
+void UdpProxySocketConfigWidget::refresh()
+{
+    m_ui.m_hostLineEdit->setText(m_socket.getHost());
+
+    m_ui.m_portSpinBox->setValue(
+        static_cast<int>(m_socket.getPort()));
+
+    m_ui.m_localPortSpinBox->setValue(
+        static_cast<int>(m_socket.getLocalPort()));
 }
 
 void UdpProxySocketConfigWidget::portValueChanged(int value)

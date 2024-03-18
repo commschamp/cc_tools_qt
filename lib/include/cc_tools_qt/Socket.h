@@ -93,6 +93,22 @@ public:
     /// @param[in] dataPtr Information about outging data
     void sendData(DataInfoPtr dataPtr);
 
+    /// @brief Get properties describing socket connection right after plugins
+    ///     have been loaded and applied.
+    /// @details The returned value is used by the driving application to
+    ///     properly present user interface. For example, whether the socket
+    ///     needs to be auto-connected or the application should wait for
+    ///     explicty user request.
+    /// @return OR-ed values of @ref ConnectionProperty values.
+    unsigned connectionProperties() const;
+
+    /// @brief Apply inter-plugin configuration.
+    /// @details Allows one plugin to influence the configuration of another.
+    ///     This function will be called for all currently chosen plugins to override
+    ///     current configuration. Invokes polymorphic @ref applyInterPluginConfigImpl().
+    /// @param[in] props Properties map.
+    void applyInterPluginConfig(const QVariantMap& props);       
+
     /// @brief Callback to report incoming data.
     using DataReceivedCallback = std::function<void (DataInfoPtr)>;
 
@@ -124,16 +140,19 @@ public:
     void setConnectionStatusReportCallback(TFunc&& func)
     {
         m_connectionStatusReportCallback = std::forward<TFunc>(func);
-    }    
+    }  
 
-    /// @brief Get properties describing socket connection right after plugins
-    ///     have been loaded and applied.
-    /// @details The returned value is used by the driving application to
-    ///     properly present user interface. For example, whether the socket
-    ///     needs to be auto-connected or the application should wait for
-    ///     explicty user request.
-    /// @return OR-ed values of @ref ConnectionProperty values.
-    unsigned connectionProperties() const;
+    /// @brief Callback to report inter-plugin configuration updates
+    using InterPluginConfigReportCallback = std::function <void (const QVariantMap&)>;
+
+    /// @brief Set callback to report inter-plugin configuration.
+    /// @details The callback must have the same signature as @ref InterPluginConfigReportCallback.
+    template <typename TFunc>
+    void setInterPluginConfigReportCallback(TFunc&& func)
+    {
+        m_interPluginConfigReportCallback = std::forward<TFunc>(func);
+    }  
+
 protected:
     /// @brief Polymorphic start functionality implementation.
     /// @details Invoked by start() and default implementation does nothing.
@@ -168,6 +187,11 @@ protected:
     /// @return 0.
     virtual unsigned connectionPropertiesImpl() const;
 
+    /// @brief Polymorphic inter-plugin configuration application.
+    /// @details Invoked by the applyInterPluginConfig().
+    /// @param[in] props Properties map.
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props);     
+
     /// @brief Report new data has been received.
     /// @details This function needs to be invoked by the derived class when
     ///     new data has been received from the I/O link. This function
@@ -189,10 +213,19 @@ protected:
     ///     derived class and it will invoke callback set by setDisconnectedReportCallback().
     void reportDisconnected();
 
+    /// @brief Report inter-plugin configuration.
+    /// @details Sometimes configuration of one plugin may influence configuration of another.
+    ///     Use this function to report inter-plugin configuration properties.
+    ///     When invoked all other plugins are expected to get their respecitve 
+    ///     @ref applyInterPluginConfig() functions invoked.
+    /// @param[in] props Reported properties.
+    void reportInterPluginConfig(const QVariantMap& props);
+
 private:
     DataReceivedCallback m_dataReceivedCallback;
     ErrorReportCallback m_errorReportCallback;
     ConnectionStatusReportCallback m_connectionStatusReportCallback;
+    InterPluginConfigReportCallback m_interPluginConfigReportCallback;
 
     bool m_running = false;
     bool m_connected = false;

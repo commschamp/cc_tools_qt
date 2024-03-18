@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.11)
+cmake_minimum_required (VERSION 3.12)
 project ("cc_tools_qt")
 
 # Available options
@@ -24,6 +24,7 @@ option (CC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL "Build demo protocol plugin." OFF
 
 # Extra configuration variables
 # CC_TOOLS_QT_MAJOR_QT_VERSION - Major Qt version, defaults to 5.
+# CC_TOOLS_QT_DEFAULT_NETWORK_PORT - Set default network port for the network plugins.
 
 # Used standard CMake variables
 # CMAKE_CXX_STANDARD - Defaults to 17.
@@ -42,6 +43,10 @@ endif()
 
 if ("${CC_TOOLS_QT_MAJOR_QT_VERSION}" STREQUAL "")
     set (CC_TOOLS_QT_MAJOR_QT_VERSION 5)
+endif ()
+
+if (NOT "${CC_TOOLS_QT_DEFAULT_NETWORK_PORT}" STREQUAL "")
+    add_compile_definitions(CC_TOOLS_QT_DEFAULT_NETWORK_PORT=${CC_TOOLS_QT_DEFAULT_NETWORK_PORT})
 endif ()
 
 include(GNUInstallDirs)

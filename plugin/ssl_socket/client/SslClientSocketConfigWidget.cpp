@@ -135,38 +135,15 @@ SslClientSocketConfigWidget::SslClientSocketConfigWidget(
         1,
         static_cast<int>(std::numeric_limits<PortType>::max()));
 
-    m_ui.m_hostLineEdit->setText(m_socket.getHost());
-
-    m_ui.m_portSpinBox->setValue(
-        static_cast<int>(m_socket.getPort()));
-
-    m_ui.m_caDirLineEdit->setText(m_socket.getCaDir());
     fillComboBox(encodingFormatMap(), *m_ui.m_caDirFormatComboBox);
-    selectComboBoxText(encodingFormatMap(), m_socket.getCaDirFormat(), *m_ui.m_caDirFormatComboBox);     
-
-    m_ui.m_caFileLineEdit->setText(m_socket.getCaFile());
     fillComboBox(encodingFormatMap(), *m_ui.m_caFileFormatComboBox);
-    selectComboBoxText(encodingFormatMap(), m_socket.getCaFileFormat(), *m_ui.m_caFileFormatComboBox);     
-
     fillComboBox(peerVerifyModeMap(), *m_ui.m_verifyHostComboBox);
-    selectComboBoxText(peerVerifyModeMap(), m_socket.getVerifyMode(), *m_ui.m_verifyHostComboBox);
-
-    m_ui.m_verifyNameLineEdit->setText(m_socket.getVerifyName());
-
     fillComboBox(sslProtocolMap(), *m_ui.m_protocolComboBox);    
-    selectComboBoxText(sslProtocolMap(), m_socket.getSslProtocol(), *m_ui.m_protocolComboBox);
-
-    m_ui.m_certLineEdit->setText(m_socket.getCertFile());
     fillComboBox(encodingFormatMap(), *m_ui.m_certFormatComboBox);
-    selectComboBoxText(encodingFormatMap(), m_socket.getCertFormat(), *m_ui.m_certFormatComboBox);     
-
-    m_ui.m_privKeyLineEdit->setText(m_socket.getPrivKeyFile());
     fillComboBox(keyAlgorithmMap(), *m_ui.m_privKeyAlgComboBox);
-    selectComboBoxText(keyAlgorithmMap(), m_socket.getPrivKeyAlg(), *m_ui.m_privKeyAlgComboBox);     
     fillComboBox(encodingFormatMap(), *m_ui.m_privKeyFormatComboBox);
-    selectComboBoxText(encodingFormatMap(), m_socket.getPrivKeyFormat(), *m_ui.m_privKeyFormatComboBox);     
 
-    m_ui.m_privKeyPassLineEdit->setText(m_socket.getPrivKeyPass());
+    refresh();
 
     connect(
         m_ui.m_hostLineEdit,  &QLineEdit::textChanged,
@@ -243,9 +220,32 @@ SslClientSocketConfigWidget::SslClientSocketConfigWidget(
     connect(
         m_ui.m_privKeyPassLineEdit,  &QLineEdit::textChanged,
         this, &SslClientSocketConfigWidget::privKeyPassValueChanged);
+
+    connect(
+        m_ui.m_privKeyShowHidePushButton,  &QPushButton::clicked,
+        this, &SslClientSocketConfigWidget::privKeyShowHideClicked);        
 }
 
 SslClientSocketConfigWidget::~SslClientSocketConfigWidget() noexcept = default;
+
+void SslClientSocketConfigWidget::refresh()
+{
+    m_ui.m_hostLineEdit->setText(m_socket.getHost());
+    m_ui.m_portSpinBox->setValue(static_cast<int>(m_socket.getPort()));
+    m_ui.m_caDirLineEdit->setText(m_socket.getCaDir());
+    selectComboBoxText(encodingFormatMap(), m_socket.getCaDirFormat(), *m_ui.m_caDirFormatComboBox);     
+    m_ui.m_caFileLineEdit->setText(m_socket.getCaFile());
+    selectComboBoxText(encodingFormatMap(), m_socket.getCaFileFormat(), *m_ui.m_caFileFormatComboBox);     
+    selectComboBoxText(peerVerifyModeMap(), m_socket.getVerifyMode(), *m_ui.m_verifyHostComboBox);
+    m_ui.m_verifyNameLineEdit->setText(m_socket.getVerifyName());
+    selectComboBoxText(sslProtocolMap(), m_socket.getSslProtocol(), *m_ui.m_protocolComboBox);
+    m_ui.m_certLineEdit->setText(m_socket.getCertFile());
+    selectComboBoxText(encodingFormatMap(), m_socket.getCertFormat(), *m_ui.m_certFormatComboBox);     
+    m_ui.m_privKeyLineEdit->setText(m_socket.getPrivKeyFile());
+    selectComboBoxText(keyAlgorithmMap(), m_socket.getPrivKeyAlg(), *m_ui.m_privKeyAlgComboBox);     
+    selectComboBoxText(encodingFormatMap(), m_socket.getPrivKeyFormat(), *m_ui.m_privKeyFormatComboBox);     
+    m_ui.m_privKeyPassLineEdit->setText(m_socket.getPrivKeyPass());
+}
 
 void SslClientSocketConfigWidget::hostValueChanged(const QString& value)
 {
@@ -373,6 +373,19 @@ void SslClientSocketConfigWidget::privKeyFormatIndexChanged([[maybe_unused]] int
 void SslClientSocketConfigWidget::privKeyPassValueChanged(const QString& value)
 {
     m_socket.setPrivKeyPass(value);
+}
+
+void SslClientSocketConfigWidget::privKeyShowHideClicked(bool checked)
+{
+    auto mode = QLineEdit::Password;
+    auto buttonText = tr("Show");
+    if (checked) {
+        mode = QLineEdit::Normal;
+        buttonText = tr("Hide");
+    }
+    
+    m_ui.m_privKeyPassLineEdit->setEchoMode(mode);
+    m_ui.m_privKeyShowHidePushButton->setText(buttonText);
 }
 
 }  // namespace plugin

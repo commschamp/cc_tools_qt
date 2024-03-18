@@ -41,15 +41,11 @@ UdpGenericSocketConfigWidget::UdpGenericSocketConfigWidget(
         0,
         static_cast<int>(std::numeric_limits<PortType>::max()));
 
-    m_ui.m_hostLineEdit->setText(m_socket.getHost());
+    refresh();
 
-    m_ui.m_portSpinBox->setValue(
-        static_cast<int>(m_socket.getPort()));
-
-    m_ui.m_localPortSpinBox->setValue(
-        static_cast<int>(m_socket.getLocalPort()));
-
-    m_ui.m_broadcastMaskLineEdit->setText(m_socket.getBroadcastMask());
+    connect(
+        &socket, &UdpGenericSocket::sigConfigChanged,
+        this, &UdpGenericSocketConfigWidget::refresh);     
 
     connect(
         m_ui.m_hostLineEdit, &QLineEdit::textChanged,
@@ -70,6 +66,19 @@ UdpGenericSocketConfigWidget::UdpGenericSocketConfigWidget(
 }
 
 UdpGenericSocketConfigWidget::~UdpGenericSocketConfigWidget() noexcept = default;
+
+void UdpGenericSocketConfigWidget::refresh()
+{
+    m_ui.m_hostLineEdit->setText(m_socket.getHost());
+
+    m_ui.m_portSpinBox->setValue(
+        static_cast<int>(m_socket.getPort()));
+
+    m_ui.m_localPortSpinBox->setValue(
+        static_cast<int>(m_socket.getLocalPort()));
+
+    m_ui.m_broadcastMaskLineEdit->setText(m_socket.getBroadcastMask());
+}
 
 void UdpGenericSocketConfigWidget::hostValueChanged(const QString& value)
 {

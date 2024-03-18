@@ -57,5 +57,6 @@
 /// @li @ref page_socket_plugin
 /// @li @ref page_filter_plugin
 /// @li @ref page_protocol_plugin
+/// @li @ref page_inter_plugin_config
 /// @li @ref page_custom_app
 ///

@@ -37,21 +37,30 @@ TcpClientSocketConfigWidget::TcpClientSocketConfigWidget(
         1,
         static_cast<int>(std::numeric_limits<PortType>::max()));
 
+    refresh();
+
+    connect(
+        &socket, &TcpClientSocket::sigConfigChanged,
+        this, &TcpClientSocketConfigWidget::refresh);    
+
+    connect(
+        m_ui.m_hostLineEdit, &QLineEdit::textChanged,
+        this, &TcpClientSocketConfigWidget::hostValueChanged);
+
+    connect(
+        m_ui.m_portSpinBox, qOverload<int>(&QSpinBox::valueChanged),
+        this, &TcpClientSocketConfigWidget::portValueChanged);
+}
+
+TcpClientSocketConfigWidget::~TcpClientSocketConfigWidget() noexcept = default;
+
+void TcpClientSocketConfigWidget::refresh()
+{
     m_ui.m_hostLineEdit->setText(m_socket.getHost());
 
     m_ui.m_portSpinBox->setValue(
         static_cast<int>(m_socket.getPort()));
-
-    connect(
-        m_ui.m_hostLineEdit, SIGNAL(textChanged(const QString&)),
-        this, SLOT(hostValueChanged(const QString&)));
-
-    connect(
-        m_ui.m_portSpinBox, SIGNAL(valueChanged(int)),
-        this, SLOT(portValueChanged(int)));
 }
-
-TcpClientSocketConfigWidget::~TcpClientSocketConfigWidget() noexcept = default;
 
 void TcpClientSocketConfigWidget::hostValueChanged(const QString& value)
 {

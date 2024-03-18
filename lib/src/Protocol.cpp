@@ -181,6 +181,11 @@ void Protocol::messageSentReport(MessagePtr msg)
     messageSentReportImpl(std::move(msg));
 }
 
+void Protocol::applyInterPluginConfig(const QVariantMap& props)
+{
+    applyInterPluginConfigImpl(props);
+}
+
 void Protocol::socketConnectionReportImpl([[maybe_unused]] bool connected)
 {
 }
@@ -190,6 +195,10 @@ void Protocol::messageReceivedReportImpl([[maybe_unused]] MessagePtr msg)
 }
 
 void Protocol::messageSentReportImpl([[maybe_unused]] MessagePtr msg)
+{
+}
+
+void Protocol::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& props)
 {
 }
 
@@ -209,6 +218,13 @@ void Protocol::sendMessageRequest(MessagePtr msg)
 {
     if (m_sendMessageRequestCallback) {
         m_sendMessageRequestCallback(std::move(msg));
+    }
+}
+
+void Protocol::reportInterPluginConfig(const QVariantMap& props)
+{
+    if (m_interPluginConfigReportCallback) {
+        m_interPluginConfigReportCallback(props);
     }
 }
 

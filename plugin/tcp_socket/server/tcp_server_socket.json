@@ -2,7 +2,10 @@
     "name" : "CC TCP/IP Server Socket",
     "desc" : [
         "I/O socket that is bound to a local port and allows\n",
-        "communication via TCP/IP connection."
+        "communication via TCP/IP connection.\n\n",
+        "Accepts inter-plugin configuration values:\n",
+        "    { \"tcp.port\": 1234} - Override the port configuration.\n",
+        "    { \"network.port\": 1234} - Alias to \"tcp.port\".\n"               
     ],
     "type" : "socket"
 }

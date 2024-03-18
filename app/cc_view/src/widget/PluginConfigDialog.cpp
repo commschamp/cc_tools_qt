@@ -181,8 +181,8 @@ void PluginConfigDialog::addClicked()
     auto pluginInfoPtr = getPluginInfo(m_currentAvailableList->currentItem());
     assert(pluginInfoPtr);
 
-    auto loadResult = PluginMgrG::instanceRef().loadPlugin(*pluginInfoPtr);
-    if (!loadResult) {
+    auto* loadResult = PluginMgrG::instanceRef().loadPlugin(*pluginInfoPtr);
+    if (loadResult == nullptr) {
         QMessageBox::critical(
             this,
             tr("Plugin Load Error."),
@@ -318,6 +318,13 @@ void PluginConfigDialog::clearClicked()
 void PluginConfigDialog::topClicked()
 {
     assert(m_currentSelectedList != nullptr);
+    auto* item = m_currentSelectedList->currentItem();
+    assert(item != nullptr);
+
+    auto pluginInfoPtr = getPluginInfo(item);
+    assert(pluginInfoPtr);
+    m_allConfigWidget->moveTop(pluginInfoPtr);
+
     auto curRow = m_currentSelectedList->currentRow();
     if (curRow <= 0) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
@@ -331,6 +338,13 @@ void PluginConfigDialog::topClicked()
 void PluginConfigDialog::upClicked()
 {
     assert(m_currentSelectedList != nullptr);
+    auto* item = m_currentSelectedList->currentItem();
+    assert(item != nullptr);
+
+    auto pluginInfoPtr = getPluginInfo(item);
+    assert(pluginInfoPtr);
+    m_allConfigWidget->moveUp(pluginInfoPtr);
+
     auto curRow = m_currentSelectedList->currentRow();
     if (curRow <= 0) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
@@ -344,6 +358,13 @@ void PluginConfigDialog::upClicked()
 void PluginConfigDialog::downClicked()
 {
     assert(m_currentSelectedList != nullptr);
+    auto* item = m_currentSelectedList->currentItem();
+    assert(item != nullptr);
+
+    auto pluginInfoPtr = getPluginInfo(item);
+    assert(pluginInfoPtr);
+    m_allConfigWidget->moveDown(pluginInfoPtr);
+
     auto curRow = m_currentSelectedList->currentRow();
     if ((m_currentSelectedList->count() - 1) <= curRow) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
@@ -357,6 +378,13 @@ void PluginConfigDialog::downClicked()
 void PluginConfigDialog::bottomClicked()
 {
     assert(m_currentSelectedList != nullptr);
+    auto* item = m_currentSelectedList->currentItem();
+    assert(item != nullptr);
+
+    auto pluginInfoPtr = getPluginInfo(item);
+    assert(pluginInfoPtr);
+    m_allConfigWidget->moveBottom(pluginInfoPtr);
+        
     auto curRow = m_currentSelectedList->currentRow();
     if ((m_currentSelectedList->count() - 1) <= curRow) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;

@@ -24,6 +24,12 @@
 
 #include "cc_tools_qt/Socket.h"
 
+#ifdef CC_TOOLS_QT_DEFAULT_NETWORK_PORT
+#define TCP_PROXY_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT    
+#else
+#define TCP_PROXY_DEFAULT_PORT 20000    
+#endif
+
 
 namespace cc_tools_qt
 {
@@ -72,11 +78,15 @@ public:
         return m_remotePort;
     }
 
+signals:
+    void sigConfigChanged();      
+
 protected:
     virtual bool socketConnectImpl() override;
     virtual void socketDisconnectImpl() override;
     virtual void sendDataImpl(DataInfoPtr dataPtr) override;
     virtual unsigned connectionPropertiesImpl() const override;
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;     
 
 private slots:
     void newConnection();
@@ -99,7 +109,7 @@ private:
     void removeConnection(SocketsList::iterator iter);
     void performReadWrite(QTcpSocket& readFromSocket, QTcpSocket& writeToSocket);
 
-    static const PortType DefaultPort = 20000;
+    static const PortType DefaultPort = TCP_PROXY_DEFAULT_PORT;
     PortType m_port = DefaultPort;
     QString m_remoteHost;
     PortType m_remotePort = DefaultPort;

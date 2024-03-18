@@ -188,6 +188,12 @@ void SslClientSocketPlugin::reconfigureImpl(const QVariantMap& config)
     } 
 }
 
+void SslClientSocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props)
+{
+    createSocketIfNeeded();
+    m_socket->applyInterPluginConfig(props);
+}
+
 void SslClientSocketPlugin::createSocketIfNeeded()
 {
     if (!m_socket) {

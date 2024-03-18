@@ -24,6 +24,12 @@
 
 #include "cc_tools_qt/Socket.h"
 
+#ifdef CC_TOOLS_QT_DEFAULT_NETWORK_PORT
+#define TCP_SERVER_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT    
+#else
+#define TCP_SERVER_DEFAULT_PORT 20000
+#endif
+
 
 namespace cc_tools_qt
 {
@@ -52,11 +58,15 @@ public:
         return m_port;
     }
 
+signals:
+    void sigConfigChanged();    
+
 protected:
     virtual bool socketConnectImpl() override;
     virtual void socketDisconnectImpl() override;
     virtual void sendDataImpl(DataInfoPtr dataPtr) override;
     virtual unsigned connectionPropertiesImpl() const override;
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;     
 
 private slots:
     void newConnection();
@@ -66,7 +76,7 @@ private slots:
     void acceptErrorOccurred(QAbstractSocket::SocketError err);
 
 private:
-    static const PortType DefaultPort = 20000;
+    static const PortType DefaultPort = TCP_SERVER_DEFAULT_PORT;
     PortType m_port = DefaultPort;
     std::list<QTcpSocket*> m_sockets;
     QTcpServer m_server;

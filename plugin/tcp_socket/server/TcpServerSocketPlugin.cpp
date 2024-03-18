@@ -86,6 +86,12 @@ void TcpServerSocketPlugin::reconfigureImpl(const QVariantMap& config)
     m_socket->setPort(port);
 }
 
+void TcpServerSocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props)
+{
+    createSocketIfNeeded();
+    m_socket->applyInterPluginConfig(props);
+}
+
 void TcpServerSocketPlugin::createSocketIfNeeded()
 {
     if (!m_socket) {

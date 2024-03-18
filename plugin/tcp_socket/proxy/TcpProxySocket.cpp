@@ -31,8 +31,54 @@ namespace plugin
 namespace
 {
 
-const QString FromPropName("tcp.from");
-const QString ToPropName("tcp.to");
+
+const QString& tcpFromProp()
+{
+    static const QString Str("tcp.from");
+    return Str;
+}
+
+const QString& tcpToProp()
+{
+    static const QString Str("tcp.to");
+    return Str;
+}
+
+const QString& tcpHostProp()
+{
+    static const QString Str("tcp.host");
+    return Str;
+}
+
+const QString& tcpPortProp()
+{
+    static const QString Str("tcp.port");
+    return Str;
+}
+
+const QString& tcpLocalPortProp()
+{
+    static const QString Str("tcp.local_port");
+    return Str;
+}
+
+const QString& networkHostProp()
+{
+    static const QString Str("network.host");
+    return Str;
+}
+
+const QString& networkPortProp()
+{
+    static const QString Str("network.port");
+    return Str;
+}
+
+const QString& networkLocalPortProp()
+{
+    static const QString Str("network.local_port");
+    return Str;
+}
 
 }  // namespace
 
@@ -123,13 +169,60 @@ void TcpProxySocket::sendDataImpl(DataInfoPtr dataPtr)
         m_server.serverAddress().toString() + ':' +
                     QString("%1").arg(m_server.serverPort());
 
-    dataPtr->m_extraProperties.insert(FromPropName, from);
-    dataPtr->m_extraProperties.insert(ToPropName, toList);
+    dataPtr->m_extraProperties.insert(tcpFromProp(), from);
+    dataPtr->m_extraProperties.insert(tcpToProp(), toList);
 }
 
 unsigned TcpProxySocket::connectionPropertiesImpl() const
 {
     return ConnectionProperty_Autoconnect;
+}
+
+void TcpProxySocket::applyInterPluginConfigImpl(const QVariantMap& props)
+{
+    bool updated = false;
+    static const QString* HostProps[] = {
+        &networkHostProp(),
+        &tcpHostProp(),
+    };
+
+    for (auto* p : HostProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<QString>())) {
+            setRemoteHost(var.value<QString>());
+            updated = true;
+        }
+    }
+
+    static const QString* PortProps[] = {
+        &networkPortProp(),
+        &tcpPortProp(),
+    };    
+
+    for (auto* p : PortProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<int>())) {
+            setRemotePort(static_cast<PortType>(var.value<int>()));
+            updated = true;
+        }
+    }
+
+    static const QString* ProxyPortProps[] = {
+        &networkLocalPortProp(),
+        &tcpLocalPortProp(),
+    };    
+
+    for (auto* p : ProxyPortProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<int>())) {
+            setPort(static_cast<PortType>(var.value<int>()));
+            updated = true;
+        }
+    }    
+
+    if (updated) {
+        emit sigConfigChanged();
+    }
 }
 
 void TcpProxySocket::newConnection()
@@ -371,8 +464,8 @@ void TcpProxySocket::performReadWrite(QTcpSocket& readFromSocket, QTcpSocket& wr
                     QString("%1").arg(writeToSocket.peerPort());
 
 
-    dataPtr->m_extraProperties.insert(FromPropName, from);
-    dataPtr->m_extraProperties.insert(ToPropName, to);
+    dataPtr->m_extraProperties.insert(tcpFromProp(), from);
+    dataPtr->m_extraProperties.insert(tcpToProp(), to);
 
     reportDataReceived(std::move(dataPtr));
 }

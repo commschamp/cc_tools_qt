@@ -33,16 +33,77 @@ namespace
 {
 
 const QString DefaultHost("127.0.0.1");
-const QString BroadcastPropName("udp.broadcast");
-const QString BroadcastMaskPropName("udp.broadcast_mask");
-const QString FromPropName("udp.from");
-const QString ToPropName("udp.to");
+
+const QString& udpFromProp()
+{
+    static const QString Str("udp.from");
+    return Str;
+}
+
+const QString& udpToProp()
+{
+    static const QString Str("udp.to");
+    return Str;
+}
+
+const QString& udpBroadcastProp()
+{
+    static const QString Str("udp.broadcast");
+    return Str;
+}
+
+const QString& udpBroadcastMaskProp()
+{
+    static const QString Str("udp.broadcast_mask");
+    return Str;
+}
+
+const QString& udpHostProp()
+{
+    static const QString Str("udp.host");
+    return Str;
+}
+
+const QString& udpPortProp()
+{
+    static const QString Str("udp.port");
+    return Str;
+}
+
+const QString& udpLocalPortProp()
+{
+    static const QString Str("udp.local_port");
+    return Str;
+}
+
+const QString& networkHostProp()
+{
+    static const QString Str("network.host");
+    return Str;
+}
+
+const QString& networkPortProp()
+{
+    static const QString Str("network.port");
+    return Str;
+}
+
+const QString& networkLocalPortProp()
+{
+    static const QString Str("network.local_port");
+    return Str;
+}
+
+const QString& networkBroadcastMaskProp()
+{
+    static const QString Str("network.broadcast_mask");
+    return Str;
+}
 
 }  // namespace
 
 
 UdpGenericSocket::UdpGenericSocket()
-  : m_host(DefaultHost)
 {
     connect(
         &m_socket, &QUdpSocket::disconnected,
@@ -141,18 +202,25 @@ void UdpGenericSocket::sendDataImpl(DataInfoPtr dataPtr)
     QString from =
         m_socket.localAddress().toString() + ':' +
                     QString("%1").arg(m_socket.localPort());
-    dataPtr->m_extraProperties.insert(FromPropName, from);
+    dataPtr->m_extraProperties.insert(udpFromProp(), from);
 
     do {
-        if ((!dataPtr->m_extraProperties.contains(BroadcastPropName)) ||
+        bool broadcastRequested = false;
+        auto broadcastVar = dataPtr->m_extraProperties.value(udpBroadcastProp());
+        if (broadcastVar.isValid() && broadcastVar.canConvert<bool>()) {
+            broadcastRequested = broadcastVar.value<bool>();
+        }
+
+        if ((!broadcastRequested) ||
             (!m_broadcastSocket.isOpen()) ||
             (m_port == 0)) {
             break;
         }
 
-        auto broadcastMask = dataPtr->m_extraProperties.value(BroadcastMaskPropName).toString();
-        if (broadcastMask.isEmpty()) {
-            broadcastMask = m_broadcastMask;
+        auto broadcastMask = m_broadcastMask;
+        auto broadcastMaskVar = dataPtr->m_extraProperties.value(udpBroadcastMaskProp());
+        if (broadcastMaskVar.isValid() && broadcastMaskVar.canConvert<QString>()) {
+            broadcastMask = broadcastMaskVar.toString();
         }
 
         std::size_t writtenCount = 0;
@@ -176,7 +244,7 @@ void UdpGenericSocket::sendDataImpl(DataInfoPtr dataPtr)
             QHostAddress(QHostAddress::Broadcast).toString() + ':' +
                         QString("%1").arg(m_port);
 
-        dataPtr->m_extraProperties.insert(ToPropName, to);
+        dataPtr->m_extraProperties.insert(udpToProp(), to);
         return;
     } while (false);
 
@@ -202,8 +270,67 @@ void UdpGenericSocket::sendDataImpl(DataInfoPtr dataPtr)
         m_socket.peerAddress().toString() + ':' +
                     QString("%1").arg(m_socket.peerPort());
 
-    dataPtr->m_extraProperties.insert(ToPropName, to);
+    dataPtr->m_extraProperties.insert(udpToProp(), to);
+}
 
+void UdpGenericSocket::applyInterPluginConfigImpl(const QVariantMap& props)
+{
+    bool updated = false;
+    static const QString* HostProps[] = {
+        &networkHostProp(),
+        &udpHostProp(),
+    };
+
+    for (auto* p : HostProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<QString>())) {
+            setHost(var.value<QString>());
+            updated = true;
+        }
+    }
+
+    static const QString* PortProps[] = {
+        &networkPortProp(),
+        &udpPortProp(),
+    };    
+
+    for (auto* p : PortProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<int>())) {
+            setPort(static_cast<PortType>(var.value<int>()));
+            updated = true;
+        }
+    }
+
+    static const QString* ProxyPortProps[] = {
+        &networkLocalPortProp(),
+        &udpLocalPortProp(),
+    };    
+
+    for (auto* p : ProxyPortProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<int>())) {
+            setPort(static_cast<PortType>(var.value<int>()));
+            updated = true;
+        }
+    }   
+
+    static const QString* BroadcastMasksProps[] = {
+        &networkBroadcastMaskProp(),
+        &udpBroadcastMaskProp(),
+    };    
+
+    for (auto* p : BroadcastMasksProps) {
+        auto var = props.value(*p);
+        if ((var.isValid()) && (var.canConvert<QString>())) {
+            setBroadcastMask(var.value<QString>());
+            updated = true;
+        }
+    }      
+
+    if (updated) {
+        emit sigConfigChanged();
+    }
 }
 
 void UdpGenericSocket::socketDisconnected()
@@ -248,8 +375,8 @@ void UdpGenericSocket::readData(QUdpSocket& socket)
             m_socket.localAddress().toString() + ':' +
                         QString("%1").arg(m_socket.localPort());
 
-        dataPtr->m_extraProperties.insert(FromPropName, from);
-        dataPtr->m_extraProperties.insert(ToPropName, to);
+        dataPtr->m_extraProperties.insert(udpFromProp(), from);
+        dataPtr->m_extraProperties.insert(udpToProp(), to);
         reportDataReceived(std::move(dataPtr));
 
         if (m_socket.state() != QUdpSocket::ConnectedState) {

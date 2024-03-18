@@ -43,6 +43,7 @@ public:
     ~UdpGenericSocketConfigWidget() noexcept;
 
 private slots:
+    void refresh();
     void hostValueChanged(const QString& value);
     void portValueChanged(int value);
     void localPortValueChanged(int value);

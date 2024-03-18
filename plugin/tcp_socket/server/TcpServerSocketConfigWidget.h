@@ -43,6 +43,7 @@ public:
     ~TcpServerSocketConfigWidget() noexcept;
 
 private slots:
+    void refresh();
     void portValueChanged(int value);
 
 private:

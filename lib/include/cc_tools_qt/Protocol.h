@@ -119,6 +119,13 @@ public:
     /// @param[in] msg Pointer to the message object
     void messageSentReport(MessagePtr msg);
 
+    /// @brief Apply inter-plugin configuration.
+    /// @details Allows one plugin to influence the configuration of another.
+    ///     This function will be called for all currently chosen plugins to override
+    ///     current configuration. Invokes polymorphic @ref applyInterPluginConfigImpl().
+    /// @param[in] props Properties map.
+    void applyInterPluginConfig(const QVariantMap& props);      
+
     /// @brief Type of callback to report errors
     using ErrorReportCallback = std::function<void (const QString& msg)>;
 
@@ -140,6 +147,17 @@ public:
     {
         m_sendMessageRequestCallback = std::forward<TFunc>(func);
     }
+
+    /// @brief Callback to report inter-plugin configuration updates
+    using InterPluginConfigReportCallback = std::function <void (const QVariantMap&)>;
+
+    /// @brief Set callback to report inter-plugin configuration.
+    /// @details The callback must have the same signature as @ref InterPluginConfigReportCallback.
+    template <typename TFunc>
+    void setInterPluginConfigReportCallback(TFunc&& func)
+    {
+        m_interPluginConfigReportCallback = std::forward<TFunc>(func);
+    }    
 
 protected:
     /// @brief Polymorphic protocol name retrieval.
@@ -188,12 +206,17 @@ protected:
     /// @brief Polymorphic processing of the message reception report
     /// @details Empty function, does nothing.
     /// @param[in] msg Pointer to the message object
-    void messageReceivedReportImpl(MessagePtr msg);
+    virtual void messageReceivedReportImpl(MessagePtr msg);
 
     /// @brief Make the protocol aware that the message has been sent out to the remote end
     /// @details Empty function, does nothing
     /// @param[in] msg Pointer to the message object
-    void messageSentReportImpl(MessagePtr msg);    
+    virtual void messageSentReportImpl(MessagePtr msg);    
+
+    /// @brief Polymorphic inter-plugin configuration application.
+    /// @details Invoked by the applyInterPluginConfig().
+    /// @param[in] props Properties map.
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props);      
 
     /// @brief Helper function to assign protocol name to message properties.
     /// @details Expected to be used by the derived class.
@@ -212,6 +235,14 @@ protected:
     ///     callback set by @ref setSendMessageRequestCallback().
     /// @param[in] msg Pointer to the message object.
     void sendMessageRequest(MessagePtr msg);  
+
+    /// @brief Report inter-plugin configuration.
+    /// @details Sometimes configuration of one plugin may influence configuration of another.
+    ///     Use this function to report inter-plugin configuration properties.
+    ///     When invoked all other plugins are expected to get their respecitve 
+    ///     @ref applyInterPluginConfig() functions invoked.
+    /// @param[in] props Reported properties.
+    void reportInterPluginConfig(const QVariantMap& props);      
 
     /// @brief Helper function to assign "tranport message" object as a property
     ///     of application message object.
@@ -247,6 +278,7 @@ protected:
 private:
     ErrorReportCallback m_errorReportCallback;
     SendMessageRequestCallback m_sendMessageRequestCallback;
+    InterPluginConfigReportCallback m_interPluginConfigReportCallback;
 };
 
 /// @brief Pointer to @ref Protocol object.
