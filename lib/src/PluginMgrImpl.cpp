@@ -146,6 +146,12 @@ const PluginMgrImpl::ListOfPluginInfos& PluginMgrImpl::getAvailablePlugins()
         }
     } while (false);
 
+    m_plugins.sort(
+        [](auto& info1, auto& info2)
+        {
+            return info1->getName().compare(info2->getName(), Qt::CaseInsensitive) < 0;
+        });
+
     return m_plugins;
 }
 
