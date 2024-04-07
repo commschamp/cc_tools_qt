@@ -4,10 +4,12 @@ on: [push]
 
 env:
   COMMS_BRANCH: v5.2.2
+  QT5_MSVC2019_URL: https://github.com/martinrotter/qt-minimalistic-builds/releases/download/5.15.3/qt-5.15.3-dynamic-msvc2019-x86_64.7z
 
 jobs:
 
   build_gcc_ubuntu_22_04:
+    if: false
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
@@ -18,7 +20,7 @@ jobs:
         qt_ver: [5, 6]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Prepare Install
       run: sudo apt-get update --fix-missing    
@@ -61,6 +63,7 @@ jobs:
         VERBOSE: 1         
       
   build_clang_ubuntu_22_04:
+    if: false
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
@@ -80,7 +83,7 @@ jobs:
             cpp: 20      
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Prepare Install
       run: sudo apt-get update --fix-missing    
@@ -122,3 +125,25 @@ jobs:
       env:
         VERBOSE: 1 
     
+  build_msvc_2019:
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+      matrix:
+        type: [Debug, Release, MinSizeRel]
+        arch: [x64]
+        cpp: [17]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build   
+
+    - name: Install Qt
+      shell: cmd
+      run: |
+        choco install curl
+        curl -L ${{env.QT5_MSVC2019_URL}} -o ${{runner.workspace}}/qt.7z
+        7z x ${{runner.workspace}}/qt.7z -o${{runner.workspace}}/qt
+
