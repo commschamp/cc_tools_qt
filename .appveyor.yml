@@ -18,7 +18,7 @@ configuration:
     - Release
 
 environment:
-    COMMS_BRANCH: v5.2.2
+    COMMS_BRANCH: develop
     matrix:
         - CPP_STD: 17
           QT_MAJOR: 5
