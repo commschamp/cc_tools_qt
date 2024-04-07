@@ -151,7 +151,7 @@ jobs:
     - name: Prepare externals
       shell: cmd
       run: |
-        %GITHUB_WORKSPACE%\script\prepare_externals.sh
+        %GITHUB_WORKSPACE%\script\prepare_externals.bat
       env:
         BUILD_DIR: ${{runner.workspace}}/build
         PLATFORM: ${{matrix.arch}}
