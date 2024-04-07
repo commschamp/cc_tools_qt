@@ -14,7 +14,7 @@ rem -----------------------------------------------------
 
 if [%BUILD_DIR%] == [] echo "BUILD_DIR hasn't been specified" & exit /b 1
 
-if [%GENERATOR%] == [] set GENERATOR="NMake Makefiles"
+if NOT [%GENERATOR%] == [] set GENERATOR_PARAM=-G %GENERATOR%
 
 if NOT [%PLATFORM%] == [] set PLATFORM_PARAM=-A %PLATFORM%
 
@@ -51,7 +51,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 echo "Building COMMS library..."
 mkdir "%COMMS_BUILD_DIR%"
 cd %COMMS_BUILD_DIR%
-cmake -G %GENERATOR% %PLATFORM_PARAM% -S %COMMS_SRC_DIR% -B %COMMS_BUILD_DIR% ^
+cmake %GENERATOR_PARAM% %PLATFORM_PARAM% -S %COMMS_SRC_DIR% -B %COMMS_BUILD_DIR% ^
     -DCMAKE_INSTALL_PREFIX=%COMMS_INSTALL_DIR% -DCMAKE_BUILD_TYPE=%COMMON_BUILD_TYPE% -DCMAKE_CXX_STANDARD=%COMMON_CXX_STANDARD%
 if %errorlevel% neq 0 exit /b %errorlevel%
 cmake --build %COMMS_BUILD_DIR% --config %COMMON_BUILD_TYPE% --target install

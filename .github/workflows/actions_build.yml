@@ -133,6 +133,7 @@ jobs:
         type: [Debug, Release, MinSizeRel]
         arch: [x64]
         cpp: [17]
+        qt_ver: [5]
 
     steps:
     - uses: actions/checkout@v4
@@ -147,3 +148,29 @@ jobs:
         curl -L ${{env.QT5_MSVC2019_URL}} -o ${{runner.workspace}}/qt.7z
         7z x ${{runner.workspace}}/qt.7z -o${{runner.workspace}}/qt
 
+    - name: Prepare externals
+      shell: cmd
+      run: %GITHUB_WORKSPACE%\script\prepare_externals.sh
+      env:
+        BUILD_DIR: ${{runner.workspace}}/build
+        PLATFORM: ${{matrix.arch}}
+        EXTERNALS_DIR: ${{runner.workspace}}/externals
+        COMMON_INSTALL_DIR: ${{runner.workspace}}/build/install
+        COMMON_BUILD_TYPE: ${{matrix.type}}
+        COMMON_CXX_STANDARD: ${{matrix.cpp}}
+        COMMS_TAG: ${{env.COMMS_BRANCH}}
+
+    - name: Configure CMake
+      shell: cmd
+      working-directory: ${{runner.workspace}}/build
+      run: |
+        cmake %GITHUB_WORKSPACE% -A ${{matrix.arch}} -DCMAKE_BUILD_TYPE=${{matrix.type}} -DCMAKE_INSTALL_PREFIX=install \
+          -DCMAKE_PREFIX_PATH="${{runner.workspace}}/build/install;${{runner.workspace}}/qt" -DCMAKE_CXX_STANDARD=${{matrix.cpp}} \
+          -DCC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=${{matrix.qt_ver}}
+
+    - name: Build Target 
+      working-directory: ${{runner.workspace}}/build
+      shell: cmd
+      run: cmake --build . --config ${{matrix.type}} --target install
+      env:
+        VERBOSE: 1 
