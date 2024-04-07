@@ -4,7 +4,6 @@ on: [push]
 
 env:
   COMMS_BRANCH: v5.2.2
-  QT5_MSVC2019_URL: https://github.com/martinrotter/qt-minimalistic-builds/releases/download/5.15.3/qt-5.15.3-dynamic-msvc2019-x86_64.7z
 
 jobs:
 
@@ -147,6 +146,8 @@ jobs:
         choco install curl
         curl -L ${{env.QT5_MSVC2019_URL}} -o ${{runner.workspace}}/qt.7z
         7z x ${{runner.workspace}}/qt.7z -o${{runner.workspace}}/qt
+      env:
+        QT5_MSVC2019_URL: https://github.com/martinrotter/qt-minimalistic-builds/releases/download/5.15.3/qt-5.15.3-dynamic-msvc2019-x86_64.7z
 
     - name: Prepare externals
       shell: cmd
@@ -166,7 +167,7 @@ jobs:
       working-directory: ${{runner.workspace}}/build
       run: |
         cmake %GITHUB_WORKSPACE% -A ${{matrix.arch}} -DCMAKE_BUILD_TYPE=${{matrix.type}} -DCMAKE_INSTALL_PREFIX=install ^
-          -DCMAKE_PREFIX_PATH="${{runner.workspace}}/build/install;${{runner.workspace}}/qt" -DCMAKE_CXX_STANDARD=${{matrix.cpp}} ^
+          -DCMAKE_PREFIX_PATH="${{runner.workspace}}/build/install;${{runner.workspace}}/qt/qt-5.15.3-dynamic-msvc2019-x86_64" -DCMAKE_CXX_STANDARD=${{matrix.cpp}} ^
           -DCC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=${{matrix.qt_ver}}
 
     - name: Build Target 
