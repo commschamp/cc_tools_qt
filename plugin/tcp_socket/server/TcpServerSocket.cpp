@@ -50,9 +50,21 @@ const QString& tcpPortProp()
     return Str;
 }
 
+const QString& tcpLocalPortProp()
+{
+    static const QString Str("tcp.local_port");
+    return Str;
+}
+
 const QString& networkPortProp()
 {
     static const QString Str("network.port");
+    return Str;
+}
+
+const QString& networkLocalPortProp()
+{
+    static const QString Str("network.local_port");
     return Str;
 }
 
@@ -140,7 +152,9 @@ void TcpServerSocket::applyInterPluginConfigImpl(const QVariantMap& props)
     bool updated = false;
 
     static const QString* PortProps[] = {
+        &networkLocalPortProp(),
         &networkPortProp(),
+        &tcpLocalPortProp(),
         &tcpPortProp(),
     };    
 
