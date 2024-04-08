@@ -8,6 +8,7 @@ env:
 jobs:
 
   build_gcc_ubuntu_22_04:
+    if: false
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
@@ -61,6 +62,7 @@ jobs:
         VERBOSE: 1         
       
   build_clang_ubuntu_22_04:
+    if: false
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
@@ -130,7 +132,7 @@ jobs:
         type: [Debug, Release, MinSizeRel]
         arch: [x64]
         cpp: [17]
-        qt_ver: [5]
+        qt_ver: [5, 6]
 
     steps:
     - uses: actions/checkout@v4
@@ -138,14 +140,20 @@ jobs:
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build   
 
-    - name: Install Qt
+    - name: Install Curl
       shell: cmd
       run: |
         choco install curl
-        curl -L ${{env.QT5_MSVC2019_URL}} -o ${{runner.workspace}}/qt.7z
+
+    - name: Install Qt
+      shell: cmd
+      run: |
+        curl -L ${{env.QT_MSVC2019_URL}} -o ${{runner.workspace}}/qt.7z
         7z x ${{runner.workspace}}/qt.7z -o${{runner.workspace}}/qt
       env:
         QT5_MSVC2019_URL: https://github.com/martinrotter/qt-minimalistic-builds/releases/download/5.15.3/qt-5.15.3-dynamic-msvc2019-x86_64.7z
+        QT6_MSVC2019_URL: https://github.com/martinrotter/qt-minimalistic-builds/releases/download/6.2.2/qt-6.2.2-dynamic-msvc2019-x86_64.7z
+        QT_MSVC2019_URL: ${{matrix.qt_ver == '5' && env.QT5_MSVC2019_URL || env.QT6_MSVC2019_URL}}
 
     - name: Prepare externals
       shell: cmd
@@ -165,8 +173,12 @@ jobs:
       working-directory: ${{runner.workspace}}/build
       run: |
         cmake %GITHUB_WORKSPACE% -A ${{matrix.arch}} -DCMAKE_BUILD_TYPE=${{matrix.type}} -DCMAKE_INSTALL_PREFIX=install ^
-          -DCMAKE_PREFIX_PATH="${{runner.workspace}}/build/install;${{runner.workspace}}/qt/qt-5.15.3-dynamic-msvc2019-x86_64" -DCMAKE_CXX_STANDARD=${{matrix.cpp}} ^
+          -DCMAKE_PREFIX_PATH="${{runner.workspace}}/build/install;${{runner.workspace}}/qt/${{env.QT_NAME}}" -DCMAKE_CXX_STANDARD=${{matrix.cpp}} ^
           -DCC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=${{matrix.qt_ver}}
+      env:
+        QT5_NAME: qt-5.15.3-dynamic-msvc2019-x86_64
+        QT6_NAME: qt-6.2.2-dynamic-msvc2019-x86_64
+        QT_NAME: ${{matrix.qt_ver == '5' && env.QT5_NAME || env.QT6_NAME}}
 
     - name: Build Target 
       working-directory: ${{runner.workspace}}/build
