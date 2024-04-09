@@ -5,7 +5,9 @@
         "communication via TCP/IP connection.\n\n",
         "Accepts inter-plugin configuration values:\n",
         "    { \"tcp.port\": 1234} - Override the port configuration.\n",
-        "    { \"network.port\": 1234} - Alias to \"tcp.port\".\n"               
+        "    { \"tcp.local_port\": 1234} - Alias to \"tcp.port\".\n",
+        "    { \"network.port\": 1234} - Alias to \"tcp.port\".\n",
+        "    { \"network.local_port\": 1234} - Alias to \"tcp.port\".\n"               
     ],
     "type" : "socket"
 }
