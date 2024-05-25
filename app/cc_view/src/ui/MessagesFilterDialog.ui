@@ -19,7 +19,10 @@
      <item>
       <widget class="QLabel" name="m_searchLabel">
        <property name="text">
-        <string>Search:</string>
+        <string>&amp;Search:</string>
+       </property>
+       <property name="buddy">
+        <cstring>m_searchLineEdit</cstring>
        </property>
       </widget>
      </item>
@@ -79,7 +82,11 @@
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
-             <widget class="QListWidget" name="m_visibleListWidget"/>
+             <widget class="QListWidget" name="m_visibleListWidget">
+              <property name="selectionMode">
+               <enum>QAbstractItemView::ExtendedSelection</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -106,20 +113,26 @@
        <item>
         <widget class="QPushButton" name="m_hideAllPushButton">
          <property name="toolTip">
-          <string>Hide All</string>
+          <string>Hide All [Ctrl+Shifth+Right]</string>
          </property>
          <property name="text">
           <string>&gt;&gt;</string>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+Shift+Right</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="m_hideSelectedPushButton">
          <property name="toolTip">
-          <string>Hide Selected</string>
+          <string>Hide Selected [Alt+Right]</string>
          </property>
          <property name="text">
           <string>&gt;</string>
+         </property>
+         <property name="shortcut">
+          <string>Alt+Right</string>
          </property>
         </widget>
        </item>
@@ -133,20 +146,26 @@
        <item>
         <widget class="QPushButton" name="m_showSelectedPushButton">
          <property name="toolTip">
-          <string>Show Selected</string>
+          <string>Show Selected [Alt+Left]</string>
          </property>
          <property name="text">
           <string>&lt;</string>
+         </property>
+         <property name="shortcut">
+          <string>Alt+Left</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="m_showAllPushButton">
          <property name="toolTip">
-          <string>Show All</string>
+          <string>Show All [Ctrl+Shift+Left]</string>
          </property>
          <property name="text">
           <string>&lt;&lt;</string>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+Shift+Left</string>
          </property>
         </widget>
        </item>
@@ -187,7 +206,11 @@
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <widget class="QListWidget" name="m_hiddenListWidget"/>
+             <widget class="QListWidget" name="m_hiddenListWidget">
+              <property name="selectionMode">
+               <enum>QAbstractItemView::ExtendedSelection</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
