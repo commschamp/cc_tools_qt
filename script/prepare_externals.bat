@@ -34,25 +34,26 @@ if NOT [%COMMON_INSTALL_DIR%] == [] set COMMS_INSTALL_DIR=%COMMON_INSTALL_DIR%
 rem ----------------------------------------------------
 
 mkdir "%EXTERNALS_DIR%"
-if exist %COMMS_SRC_DIR%/.git goto comms_update
-echo "Cloning COMMS library..."
-git clone -b %COMMS_TAG% %COMMS_REPO% %COMMS_SRC_DIR%
-if %errorlevel% neq 0 exit /b %errorlevel%
-goto comms_build
+if exist %COMMS_SRC_DIR%/.git (
+    echo "Updating COMMS library..."
+    cd "%COMMS_SRC_DIR%"
+    git fetch --all
+    git checkout .
+    git checkout %COMMS_TAG%
+    git pull --all
+    if %errorlevel% neq 0 exit /b %errorlevel%
+) else (
+    echo "Cloning COMMS library..."
+    git clone -b %COMMS_TAG% %COMMS_REPO% %COMMS_SRC_DIR%
+    if %errorlevel% neq 0 exit /b %errorlevel%
+)
 
-:comms_update
-echo "Updating COMMS library..."
-cd "%COMMS_SRC_DIR%"
-git pull
-git checkout %COMMS_TAG%
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-:comms_build
 echo "Building COMMS library..."
 mkdir "%COMMS_BUILD_DIR%"
 cd %COMMS_BUILD_DIR%
 cmake %GENERATOR_PARAM% %PLATFORM_PARAM% -S %COMMS_SRC_DIR% -B %COMMS_BUILD_DIR% ^
-    -DCMAKE_INSTALL_PREFIX=%COMMS_INSTALL_DIR% -DCMAKE_BUILD_TYPE=%COMMON_BUILD_TYPE% -DCMAKE_CXX_STANDARD=%COMMON_CXX_STANDARD%
+    -DCMAKE_INSTALL_PREFIX=%COMMS_INSTALL_DIR% -DCMAKE_BUILD_TYPE=%COMMON_BUILD_TYPE% ^
+    -DCMAKE_CXX_STANDARD=%COMMON_CXX_STANDARD%
 if %errorlevel% neq 0 exit /b %errorlevel%
 cmake --build %COMMS_BUILD_DIR% --config %COMMON_BUILD_TYPE% --target install
 if %errorlevel% neq 0 exit /b %errorlevel%

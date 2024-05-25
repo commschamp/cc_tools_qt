@@ -6,7 +6,7 @@ option (CC_TOOLS_QT_INSTALL_LIBRARY_HEADERS "Install tools library headers." ON)
 option (CC_TOOLS_QT_BUILD_APPS "Build tool applications." ON)
 option (CC_TOOLS_QT_BUILD_PLUGINS "Build plugins." ${CC_TOOLS_QT_BUILD_APPS})
 option (CC_TOOLS_QT_WARN_AS_ERR "Treat warning as error" ON)
-option (CC_TOOLS_QT_USE_CCACHE "Use ccache on UNIX systems if it's available" ON)
+option (CC_TOOLS_QT_USE_CCACHE "Use ccache on UNIX systems if it's available" OFF)
 option (CC_TOOLS_QT_STATIC_RUNTIME "Enable/Disable static runtime" OFF)
 
 # More fine-grained options
