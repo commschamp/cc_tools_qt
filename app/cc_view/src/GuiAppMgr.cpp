@@ -531,12 +531,12 @@ void GuiAppMgr::sendUpdateList(const MessagesList& msgs)
 void GuiAppMgr::deleteMessages(MessagesList&& msgs)
 {
     auto& msgMgr = MsgMgrG::instanceRef();
-    for (auto& m : msgs) {
-        assert(m);
-        assert(m != m_clickedMsg);
-
-        msgMgr.deleteMsg(std::move(m));
+    if (msgMgr.getAllMsgs().size() == msgs.size()) {
+        msgMgr.deleteAllMsgs();
+        return;
     }
+
+    msgMgr.deleteMsgs(msgs);
 }
 
 void GuiAppMgr::sendMessages(MessagesList&& msgs)
