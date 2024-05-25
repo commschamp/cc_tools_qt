@@ -263,6 +263,12 @@ void UdpProxySocket::readFromListenSocket()
             continue;
         }
 
+        if (m_listenSocket->state() != QUdpSocket::ConnectedState) {
+            m_listenSocket->connectToHost(senderAddress, senderPort);
+            if (!m_listenSocket->waitForConnected(100)) {
+                std::cerr << "WARNING: cannot connect to the initiating UDP socket." << std::endl;
+            }
+        }
 
         QString from =
             senderAddress.toString() + ':' +
@@ -277,7 +283,6 @@ void UdpProxySocket::readFromListenSocket()
             to = m_remoteSocket->peerAddress().toString() + ':' +
                         QString("%1").arg(m_remoteSocket->peerPort());
         }                          
-
 
         dataPtr->m_extraProperties.insert(udpFromProp(), from);
         dataPtr->m_extraProperties.insert(udpToProp(), to);
