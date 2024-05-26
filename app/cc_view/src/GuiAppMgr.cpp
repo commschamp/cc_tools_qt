@@ -753,7 +753,7 @@ void GuiAppMgr::msgAdded(MessagePtr msg)
         prefix = SentPrefix;
     }
 
-    std::cout << prefix << msg->name() << std::endl;
+    std::cout << '[' << property::message::Timestamp().getFrom(*msg) << "] " << prefix << msg->name() << std::endl;
 #endif
 
     if (!canAddToRecvList(*msg, type)) {

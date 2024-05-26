@@ -18,8 +18,10 @@
 
 #include "MsgMgrImpl.h"
 
-#include <cassert>
 #include <algorithm>
+#include <cassert>
+#include <chrono>
+#include <iostream>
 #include <iterator>
 
 #include <QtCore/QVariant>
@@ -466,6 +468,12 @@ void MsgMgrImpl::reportMsgAdded(MessagePtr msg)
 
 void MsgMgrImpl::reportError(const QString& error)
 {
+    auto timestamp = std::chrono::high_resolution_clock::now();
+    auto sinceEpoch = timestamp.time_since_epoch();
+    auto milliseconds =
+        std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+    std::cerr << '[' << milliseconds << "] ERROR: " << error.toStdString() << std::endl;
+    
     if (m_errorReportCallback) {
         m_errorReportCallback(error);
     }
