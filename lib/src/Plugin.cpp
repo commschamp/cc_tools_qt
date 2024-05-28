@@ -59,17 +59,31 @@ void Plugin::reconfigure(const QVariantMap& config)
 
 SocketPtr Plugin::createSocket() const
 {
-    return invokeCreationFunc(m_props.getSocketCreateFunc());
+    auto socketPtr = invokeCreationFunc(m_props.getSocketCreateFunc());
+    if (socketPtr) {
+        socketPtr->setDebugOutputLevel(m_debugOutputLevel);
+    }
+    return socketPtr;
 }
 
 Plugin::ListOfFilters Plugin::createFilters() const
 {
-    return invokeCreationFunc(m_props.getFiltersCreateFunc());
+    auto filters = invokeCreationFunc(m_props.getFiltersCreateFunc());
+    for (auto& f : filters) {
+        if (f) {
+            f->setDebugOutputLevel(m_debugOutputLevel);
+        }
+    }
+    return filters;
 }
 
 ProtocolPtr Plugin::createProtocol() const
 {
-    return invokeCreationFunc(m_props.getProtocolCreateFunc());
+    auto protocolPtr = invokeCreationFunc(m_props.getProtocolCreateFunc());
+    if (protocolPtr) {
+        protocolPtr->setDebugOutputLevel(m_debugOutputLevel);
+    }
+    return protocolPtr;
 }
 
 Plugin::ListOfGuiActions Plugin::createGuiActions() const
@@ -101,6 +115,11 @@ void Plugin::setInterPluginConfigReportCallback(InterPluginConfigReportCallback&
 {
     m_interPluginConfigReportCallback = std::move(func);
 }    
+
+void Plugin::setDebugOutputLevel(unsigned level)
+{
+    m_debugOutputLevel = level;
+}
 
 void Plugin::getCurrentConfigImpl([[maybe_unused]] QVariantMap& config)
 {

@@ -138,6 +138,11 @@ QString GuiAppMgr::messageDesc(const Message& msg)
     return QString("(%1) %2").arg(msg.idAsString()).arg(msg.name());
 }
 
+void GuiAppMgr::setDebugOutputLevel(unsigned level)
+{
+    m_debugOutputLevel = level;
+}
+
 void GuiAppMgr::pluginsEditClicked()
 {
     emit sigPluginsEditDialog();
@@ -625,6 +630,8 @@ bool GuiAppMgr::applyNewPlugins(const ListOfPluginInfos& plugins)
             assert(Failed_to_load_plugin);
             continue;
         }
+
+        plugin->setDebugOutputLevel(m_debugOutputLevel);
 
         if (!applyInfo.m_socket) {
             applyInfo.m_socket = plugin->createSocket();

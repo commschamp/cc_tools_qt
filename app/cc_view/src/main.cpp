@@ -39,6 +39,7 @@ namespace
 const QString CleanOptStr("clean");
 const QString ConfigOptStr("config");
 const QString PluginsOptStr("plugins");
+const QString DebugOptStr("debug");
 
 void metaTypesRegisterAll()
 {
@@ -80,6 +81,14 @@ void prepareCommandLineOptions(QCommandLineParser& parser)
         QCoreApplication::translate("main", "filename")
     );
     parser.addOption(pluginsOpt);
+
+    QCommandLineOption debugOpt(
+        QStringList() << "d" << DebugOptStr,
+        QCoreApplication::translate("main", "Debug output level. When 0 means no output"),
+        QCoreApplication::translate("main", "value") + " (=0)",
+        "0"
+    );
+    parser.addOption(debugOpt);    
 }
 
 }  // namespace
@@ -110,6 +119,7 @@ int main(int argc, char *argv[])
     pluginMgr.setPluginsDir(pluginsDir);
 
     auto& guiAppMgr = cc::GuiAppMgr::instanceRef();
+    guiAppMgr.setDebugOutputLevel(parser.value(DebugOptStr).toUInt());
     do {
         if (parser.isSet(CleanOptStr) && guiAppMgr.startClean()) {
             break;
