@@ -61,7 +61,7 @@ QList<DataInfoPtr> Filter::recvData(DataInfoPtr dataPtr)
 {
     unsigned long long milliseconds = 0U;
 
-    if (0U < m_debugLevel) {
+    if (1U <= m_debugLevel) {
         auto timestamp = dataPtr->m_timestamp;
         if (timestamp == DataInfo::Timestamp()) {
             timestamp = DataInfo::TimestampClock::now();
@@ -70,18 +70,18 @@ QList<DataInfoPtr> Filter::recvData(DataInfoPtr dataPtr)
         auto sinceEpoch = timestamp.time_since_epoch();
         milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
         std::cout << '[' << milliseconds << "] (" << debugNameImpl() << ") <-- " << dataPtr->m_data.size() << " bytes"; 
-        if (1U < m_debugLevel) {
+        if (2U <= m_debugLevel) {
             std::cout << " | " << dataToStr(dataPtr->m_data);
         }
         std::cout << std::endl;
     }
 
     auto result = recvDataImpl(std::move(dataPtr));
-    if (0U < m_debugLevel) {
+    if (1U <= m_debugLevel) {
         for (auto& resultDataPtr : result) {
             std::cout << '[' << milliseconds << "] " << resultDataPtr->m_data.size() << " bytes <-- (" << debugNameImpl() << ")"; 
-            if (1U < m_debugLevel) {
-                std::cout << " | " << dataToStr(dataPtr->m_data);
+            if (2U <= m_debugLevel) {
+                std::cout << " | " << dataToStr(resultDataPtr->m_data);
             }
             std::cout << std::endl;
         }
@@ -113,7 +113,7 @@ QList<DataInfoPtr> Filter::sendData(DataInfoPtr dataPtr)
         for (auto& resultDataPtr : result) {
             std::cout << '[' << milliseconds << "] (" << debugNameImpl() << ") --> " << resultDataPtr->m_data.size() << " bytes"; 
             if (1U < m_debugLevel) {
-                std::cout << " | " << dataToStr(dataPtr->m_data);
+                std::cout << " | " << dataToStr(resultDataPtr->m_data);
             }
             std::cout << std::endl;
         }

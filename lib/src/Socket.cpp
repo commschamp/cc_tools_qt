@@ -107,11 +107,11 @@ void Socket::sendData(DataInfoPtr dataPtr)
         dataPtr->m_timestamp = DataInfo::TimestampClock::now();
     }
 
-    if (0U < m_debugLevel) {
+    if (1U < m_debugLevel) {
         auto sinceEpoch = dataPtr->m_timestamp.time_since_epoch();
         auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
         std::cout << '[' << milliseconds << "] " << debugPrefix() << " --> " << dataPtr->m_data.size() << " bytes"; 
-        if (1U < m_debugLevel) {
+        if (2U < m_debugLevel) {
             std::cout << " | " << dataToStr(dataPtr->m_data);
         }
         std::cout << std::endl;
@@ -172,11 +172,11 @@ void Socket::reportDataReceived(DataInfoPtr dataPtr)
         dataPtr->m_timestamp = DataInfo::TimestampClock::now();
     }
 
-    if (0U < m_debugLevel) {
+    if (1U <= m_debugLevel) {
         auto sinceEpoch = dataPtr->m_timestamp.time_since_epoch();
         auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
         std::cout << '[' << milliseconds << "] " << debugPrefix() << " <-- " << dataPtr->m_data.size() << " bytes"; 
-        if (1U < m_debugLevel) {
+        if (2U <= m_debugLevel) {
             std::cout << " | " << dataToStr(dataPtr->m_data);
         }
         std::cout << std::endl;
