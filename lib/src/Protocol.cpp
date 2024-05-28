@@ -86,7 +86,7 @@ Protocol::MessagesList Protocol::read(
     auto messages = readImpl(dataInfo, final);
     if (0U < m_debugLevel) {
         for (auto& msgPtr : messages) {
-            std::cout << '[' << milliseconds << "] " << debugPrefix() << " <-- " << msgPtr->name() << std::endl;
+            std::cout << '[' << milliseconds << "] " << msgPtr->name() << " <-- " << debugPrefix() << std::endl;
         }
     }
 
@@ -103,7 +103,7 @@ DataInfoPtr Protocol::write(Message& msg)
             milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
         }
 
-        std::cout << '[' << milliseconds << "] " << debugPrefix() << " --> " << msg.name() << std::endl;
+        std::cout << '[' << milliseconds << "] " << msg.name() << " --> " << debugPrefix() << std::endl;
     }
 
     if (msg.idAsString().isEmpty()) {
