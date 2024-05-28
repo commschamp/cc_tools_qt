@@ -153,6 +153,10 @@ public:
         m_interPluginConfigReportCallback = std::forward<TFunc>(func);
     }  
 
+    /// @brief Set debug output level
+    /// @param[in] level Debug level. If @b 0, debug output is disabled
+    void setDebugOutputLevel(unsigned level = 0U);
+
 protected:
     /// @brief Polymorphic start functionality implementation.
     /// @details Invoked by start() and default implementation does nothing.
@@ -221,12 +225,19 @@ protected:
     /// @param[in] props Reported properties.
     void reportInterPluginConfig(const QVariantMap& props);
 
+    /// @brief Get current timestamp
+    static unsigned long long currTimestamp();
+
+    /// @brief Get current debug output level
+    unsigned getDebugOutputLevel() const;
+
 private:
     DataReceivedCallback m_dataReceivedCallback;
     ErrorReportCallback m_errorReportCallback;
     ConnectionStatusReportCallback m_connectionStatusReportCallback;
     InterPluginConfigReportCallback m_interPluginConfigReportCallback;
 
+    unsigned m_debugLevel = 0U;
     bool m_running = false;
     bool m_connected = false;
 };

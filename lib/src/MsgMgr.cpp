@@ -65,6 +65,11 @@ void MsgMgr::deleteMsg(MessagePtr msg)
     m_impl->deleteMsg(std::move(msg));
 }
 
+void MsgMgr::deleteMsgs(const MessagesList& msgs)
+{
+    m_impl->deleteMsgs(msgs);
+}
+
 void MsgMgr::deleteAllMsgs()
 {
     m_impl->deleteAllMsgs();

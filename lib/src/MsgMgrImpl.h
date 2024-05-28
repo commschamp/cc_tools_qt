@@ -45,6 +45,7 @@ public:
     void setRecvEnabled(bool enabled);
 
     void deleteMsg(MessagePtr msg);
+    void deleteMsgs(const MessagesList& msgs);
     void deleteAllMsgs()
     {
         m_allMsgs.clear();

@@ -19,6 +19,7 @@
 #pragma once
 
 #include <memory>
+#include <list>
 #include <vector>
 
 #include "Api.h"
@@ -35,7 +36,7 @@ class MsgMgrImpl;
 class CC_API MsgMgr
 {
 public:
-    typedef std::vector<MessagePtr> AllMessages;
+    typedef std::list<MessagePtr> AllMessages;
     typedef Protocol::MessagesList MessagesList;
 
     typedef Message::Type MsgType;
@@ -52,6 +53,7 @@ public:
     void setRecvEnabled(bool enabled);
 
     void deleteMsg(MessagePtr msg);
+    void deleteMsgs(const MessagesList& msgs);
     void deleteAllMsgs();
 
     void sendMsgs(MessagesList&& msgs);

@@ -114,6 +114,8 @@ public:
 
     static QString messageDesc(const Message& msg);
 
+    void setDebugOutputLevel(unsigned level);
+
 public slots:
     void pluginsEditClicked();
 
@@ -260,6 +262,8 @@ private /*data*/:
     MsgSendMgr m_sendMgr;
 
     FilteredMessages m_filteredMessages;
+
+    unsigned m_debugOutputLevel = 0U;
 };
 
 }  // namespace cc_tools_qt

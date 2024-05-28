@@ -134,6 +134,10 @@ public:
     /// @brief Set callback to report inter-plugin configuration.
     void setInterPluginConfigReportCallback(InterPluginConfigReportCallback&& func);
 
+    /// @brief Set debug output level
+    /// @param[in] level Debug level. If @b 0, debug output is disabled
+    void setDebugOutputLevel(unsigned level = 0U);
+
 protected:
     /// @brief Polymorphic call to retrieve current configuration
     /// @details Default implementation does nothing. The derived class
@@ -172,6 +176,7 @@ protected:
 private:
     PluginProperties m_props;
     InterPluginConfigReportCallback m_interPluginConfigReportCallback;
+    unsigned m_debugOutputLevel = 0U;
 };
 
 }  // namespace cc_tools_qt

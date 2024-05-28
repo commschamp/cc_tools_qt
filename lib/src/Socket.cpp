@@ -17,8 +17,38 @@
 
 #include "cc_tools_qt/Socket.h"
 
+#include <chrono>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <string>
+
 namespace cc_tools_qt
 {
+
+
+namespace 
+{
+
+const std::string& debugPrefix()
+{
+    static const std::string Str("(socket)");
+    return Str;
+}    
+
+std::string dataToStr(const DataInfo::DataSeq& data)
+{
+    std::stringstream stream;
+    stream << std::hex;
+
+    for (auto byte : data) {
+        stream << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned>(byte) << ' ';
+    }
+
+    return stream.str();
+}
+
+} // namespace 
 
 Socket::Socket() = default;
 Socket::~Socket() noexcept = default;
@@ -77,6 +107,16 @@ void Socket::sendData(DataInfoPtr dataPtr)
         dataPtr->m_timestamp = DataInfo::TimestampClock::now();
     }
 
+    if (0U < m_debugLevel) {
+        auto sinceEpoch = dataPtr->m_timestamp.time_since_epoch();
+        auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+        std::cout << '[' << milliseconds << "] " << debugPrefix() << " --> " << dataPtr->m_data.size() << " bytes"; 
+        if (1U < m_debugLevel) {
+            std::cout << " | " << dataToStr(dataPtr->m_data);
+        }
+        std::cout << std::endl;
+    }
+
     sendDataImpl(std::move(dataPtr));
 }
 
@@ -88,6 +128,11 @@ unsigned Socket::connectionProperties() const
 void Socket::applyInterPluginConfig(const QVariantMap& props)
 {
     applyInterPluginConfigImpl(props);
+}
+
+void Socket::setDebugOutputLevel(unsigned level)
+{
+    m_debugLevel = level;
 }
 
 bool Socket::startImpl()
@@ -127,6 +172,16 @@ void Socket::reportDataReceived(DataInfoPtr dataPtr)
         dataPtr->m_timestamp = DataInfo::TimestampClock::now();
     }
 
+    if (0U < m_debugLevel) {
+        auto sinceEpoch = dataPtr->m_timestamp.time_since_epoch();
+        auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+        std::cout << '[' << milliseconds << "] " << debugPrefix() << " <-- " << dataPtr->m_data.size() << " bytes"; 
+        if (1U < m_debugLevel) {
+            std::cout << " | " << dataToStr(dataPtr->m_data);
+        }
+        std::cout << std::endl;
+    }
+
     m_dataReceivedCallback(std::move(dataPtr));
 }
 
@@ -150,6 +205,20 @@ void Socket::reportInterPluginConfig(const QVariantMap& props)
     if (m_interPluginConfigReportCallback) {
         m_interPluginConfigReportCallback(props);
     }
+}
+
+unsigned long long Socket::currTimestamp()
+{
+    auto timestamp = std::chrono::high_resolution_clock::now();
+    auto sinceEpoch = timestamp.time_since_epoch();
+    auto milliseconds =
+        std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+    return milliseconds;
+}
+
+unsigned Socket::getDebugOutputLevel() const
+{
+    return m_debugLevel;
 }
 
 }  // namespace cc_tools_qt

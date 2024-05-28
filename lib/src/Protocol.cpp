@@ -23,8 +23,37 @@
 
 #include "cc_tools_qt/property/message.h"
 
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <string>
+
 namespace cc_tools_qt
 {
+
+namespace 
+{
+
+const std::string& debugPrefix()
+{
+    static const std::string Str("(protocol)");
+    return Str;
+} 
+
+std::string dataToStr(const DataInfo::DataSeq& data)
+{
+    std::stringstream stream;
+    stream << std::hex;
+
+    for (auto byte : data) {
+        stream << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned>(byte) << ' ';
+    }
+
+    return stream.str();
+}
+
+} // namespace 
+    
 
 Protocol::~Protocol() noexcept = default;
 
@@ -37,11 +66,45 @@ Protocol::MessagesList Protocol::read(
     const DataInfo& dataInfo,
     bool final)
 {
-    return readImpl(dataInfo, final);
+    unsigned long long milliseconds = 0U;
+
+    if (0U < m_debugLevel) {
+        auto timestamp = dataInfo.m_timestamp;
+        if (timestamp == DataInfo::Timestamp()) {
+            timestamp = DataInfo::TimestampClock::now();
+        }
+
+        auto sinceEpoch = timestamp.time_since_epoch();
+        milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+        std::cout << '[' << milliseconds << "] " << debugPrefix() << " <-- " << dataInfo.m_data.size() << " bytes";
+        if (1U < m_debugLevel) {
+            std::cout << " | " << dataToStr(dataInfo.m_data);
+        }
+        std::cout << std::endl;
+    }
+
+    auto messages = readImpl(dataInfo, final);
+    if (0U < m_debugLevel) {
+        for (auto& msgPtr : messages) {
+            std::cout << '[' << milliseconds << "] " << debugPrefix() << " <-- " << msgPtr->name() << std::endl;
+        }
+    }
+
+    return messages;
 }
 
 DataInfoPtr Protocol::write(Message& msg)
 {
+    unsigned long long milliseconds = property::message::Timestamp().getFrom(msg);;
+    if (0U < m_debugLevel) {
+        if (milliseconds == 0) {
+            auto timestamp = DataInfo::TimestampClock::now();
+            auto sinceEpoch = timestamp.time_since_epoch();
+            milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+        }
+
+        std::cout << '[' << milliseconds << "] " << debugPrefix() << " --> " << msg.name() << std::endl;
+    }
 
     if (msg.idAsString().isEmpty()) {
 
@@ -59,7 +122,15 @@ DataInfoPtr Protocol::write(Message& msg)
         return dataInfoPtr;
     }
 
-    return writeImpl(msg);
+    auto dataPtr = writeImpl(msg);
+    if (0U < m_debugLevel) {
+        std::cout << '[' << milliseconds << "] " << debugPrefix() << " --> " << dataPtr->m_data.size() << " bytes";
+        if (1U < m_debugLevel) {
+            std::cout << " | " << dataToStr(dataPtr->m_data);
+        }
+        std::cout << std::endl;
+    }    
+    return dataPtr;
 }
 
 Protocol::MessagesList Protocol::createAllMessages()
@@ -186,6 +257,11 @@ void Protocol::applyInterPluginConfig(const QVariantMap& props)
     applyInterPluginConfigImpl(props);
 }
 
+void Protocol::setDebugOutputLevel(unsigned level)
+{
+    m_debugLevel = level;
+}
+
 void Protocol::socketConnectionReportImpl([[maybe_unused]] bool connected)
 {
 }
@@ -226,6 +302,11 @@ void Protocol::reportInterPluginConfig(const QVariantMap& props)
     if (m_interPluginConfigReportCallback) {
         m_interPluginConfigReportCallback(props);
     }
+}
+
+unsigned Protocol::getDebugOutputLevel() const
+{
+    return m_debugLevel;
 }
 
 void Protocol::setTransportToMessageProperties(MessagePtr transportMsg, Message& msg)

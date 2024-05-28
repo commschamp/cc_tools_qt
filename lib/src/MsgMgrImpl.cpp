@@ -18,8 +18,10 @@
 
 #include "MsgMgrImpl.h"
 
-#include <cassert>
 #include <algorithm>
+#include <cassert>
+#include <chrono>
+#include <iostream>
 #include <iterator>
 
 #include <QtCore/QVariant>
@@ -59,7 +61,6 @@ void updateMsgTimestamp(Message& msg, const DataInfo::Timestamp& timestamp)
 
 MsgMgrImpl::MsgMgrImpl()
 {
-    m_allMsgs.reserve(1024);
 }
 
 MsgMgrImpl::~MsgMgrImpl() noexcept = default;
@@ -130,6 +131,29 @@ void MsgMgrImpl::setRecvEnabled(bool enabled)
     m_recvEnabled = enabled;
 }
 
+void MsgMgrImpl::deleteMsgs(const MessagesList& msgs)
+{
+    auto listIter = msgs.begin();
+    auto storedIter = m_allMsgs.begin();
+    auto prevStoredIter = storedIter;
+    while ((listIter != msgs.end()) && (storedIter != m_allMsgs.end())) {
+        auto listMsgNum = SeqNumber().getFrom(**listIter);
+        auto storedMsgNum = SeqNumber().getFrom(**storedIter);
+
+        if (storedMsgNum == listMsgNum) {
+            ++listIter;
+            ++storedIter;
+            continue;
+        }
+
+        m_allMsgs.erase(prevStoredIter, storedIter);
+        ++storedIter;
+        prevStoredIter = storedIter;
+    }
+
+    m_allMsgs.erase(prevStoredIter, storedIter);
+}
+
 void MsgMgrImpl::deleteMsg(MessagePtr msg)
 {
     assert(!m_allMsgs.empty());
@@ -137,13 +161,12 @@ void MsgMgrImpl::deleteMsg(MessagePtr msg)
 
     auto msgNum = SeqNumber().getFrom(*msg);
 
-    auto iter = std::lower_bound(
+    auto iter = std::find_if(
         m_allMsgs.begin(),
         m_allMsgs.end(),
-        msgNum,
-        [](const MessagePtr& msgTmp, MsgNumberType val) -> bool
+        [msgNum](const MessagePtr& msgTmp) -> bool
         {
-            return SeqNumber().getFrom(*msgTmp) < val;
+            return SeqNumber().getFrom(*msgTmp) == msgNum;
         });
 
     if (iter == m_allMsgs.end()) {
@@ -152,7 +175,6 @@ void MsgMgrImpl::deleteMsg(MessagePtr msg)
         return;
     }
 
-    assert(msg.get() == iter->get()); // Make sure that the right message is found
     m_allMsgs.erase(iter);
 }
 
@@ -223,8 +245,6 @@ void MsgMgrImpl::sendMsgs(MessagesList&& msgs)
 
 void MsgMgrImpl::addMsgs(const MessagesList& msgs, bool reportAdded)
 {
-    m_allMsgs.reserve(m_allMsgs.size() + msgs.size());
-
     for (auto& m : msgs) {
         if (!m) {
             [[maybe_unused]] static constexpr bool Invalid_message_in_the_list = false;
@@ -429,8 +449,7 @@ void MsgMgrImpl::socketDataReceived(DataInfoPtr dataInfoPtr)
         reportMsgAdded(m);
     }
 
-    m_allMsgs.reserve(m_allMsgs.size() + msgsList.size());
-    std::move(msgsList.begin(), msgsList.end(), std::back_inserter(m_allMsgs));
+    m_allMsgs.splice(m_allMsgs.end(), std::move(msgsList));
 }
 
 void MsgMgrImpl::updateInternalId(Message& msg)
@@ -449,6 +468,12 @@ void MsgMgrImpl::reportMsgAdded(MessagePtr msg)
 
 void MsgMgrImpl::reportError(const QString& error)
 {
+    auto timestamp = std::chrono::high_resolution_clock::now();
+    auto sinceEpoch = timestamp.time_since_epoch();
+    auto milliseconds =
+        std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+    std::cerr << '[' << milliseconds << "] ERROR: " << error.toStdString() << std::endl;
+    
     if (m_errorReportCallback) {
         m_errorReportCallback(error);
     }

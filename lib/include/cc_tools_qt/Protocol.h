@@ -126,6 +126,10 @@ public:
     /// @param[in] props Properties map.
     void applyInterPluginConfig(const QVariantMap& props);      
 
+    /// @brief Set debug output level
+    /// @param[in] level Debug level. If @b 0, debug output is disabled
+    void setDebugOutputLevel(unsigned level = 0U);     
+
     /// @brief Type of callback to report errors
     using ErrorReportCallback = std::function<void (const QString& msg)>;
 
@@ -244,6 +248,9 @@ protected:
     /// @param[in] props Reported properties.
     void reportInterPluginConfig(const QVariantMap& props);      
 
+    /// @brief Get current debug output level
+    unsigned getDebugOutputLevel() const;    
+
     /// @brief Helper function to assign "tranport message" object as a property
     ///     of application message object.
     static void setTransportToMessageProperties(MessagePtr transportMsg, Message& msg);
@@ -279,6 +286,7 @@ private:
     ErrorReportCallback m_errorReportCallback;
     SendMessageRequestCallback m_sendMessageRequestCallback;
     InterPluginConfigReportCallback m_interPluginConfigReportCallback;
+    unsigned m_debugLevel = 0U;
 };
 
 /// @brief Pointer to @ref Protocol object.

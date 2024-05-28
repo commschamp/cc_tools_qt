@@ -138,6 +138,11 @@ QString GuiAppMgr::messageDesc(const Message& msg)
     return QString("(%1) %2").arg(msg.idAsString()).arg(msg.name());
 }
 
+void GuiAppMgr::setDebugOutputLevel(unsigned level)
+{
+    m_debugOutputLevel = level;
+}
+
 void GuiAppMgr::pluginsEditClicked()
 {
     emit sigPluginsEditDialog();
@@ -531,12 +536,12 @@ void GuiAppMgr::sendUpdateList(const MessagesList& msgs)
 void GuiAppMgr::deleteMessages(MessagesList&& msgs)
 {
     auto& msgMgr = MsgMgrG::instanceRef();
-    for (auto& m : msgs) {
-        assert(m);
-        assert(m != m_clickedMsg);
-
-        msgMgr.deleteMsg(std::move(m));
+    if (msgMgr.getAllMsgs().size() == msgs.size()) {
+        msgMgr.deleteAllMsgs();
+        return;
     }
+
+    msgMgr.deleteMsgs(msgs);
 }
 
 void GuiAppMgr::sendMessages(MessagesList&& msgs)
@@ -625,6 +630,8 @@ bool GuiAppMgr::applyNewPlugins(const ListOfPluginInfos& plugins)
             assert(Failed_to_load_plugin);
             continue;
         }
+
+        plugin->setDebugOutputLevel(m_debugOutputLevel);
 
         if (!applyInfo.m_socket) {
             applyInfo.m_socket = plugin->createSocket();
@@ -753,7 +760,7 @@ void GuiAppMgr::msgAdded(MessagePtr msg)
         prefix = SentPrefix;
     }
 
-    std::cout << prefix << msg->name() << std::endl;
+    std::cout << '[' << property::message::Timestamp().getFrom(*msg) << "] " << prefix << msg->name() << std::endl;
 #endif
 
     if (!canAddToRecvList(*msg, type)) {

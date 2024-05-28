@@ -17,8 +17,32 @@
 
 #include "cc_tools_qt/Filter.h"
 
+#include <chrono>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <string>
+
 namespace cc_tools_qt
 {
+
+namespace 
+{
+
+std::string dataToStr(const DataInfo::DataSeq& data)
+{
+    std::stringstream stream;
+    stream << std::hex;
+
+    for (auto byte : data) {
+        stream << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned>(byte) << ' ';
+    }
+
+    return stream.str();
+}
+
+} // namespace 
+    
 
 Filter::Filter() = default;
 Filter::~Filter() noexcept = default;
@@ -35,12 +59,66 @@ void Filter::stop()
 
 QList<DataInfoPtr> Filter::recvData(DataInfoPtr dataPtr)
 {
-    return recvDataImpl(std::move(dataPtr));
+    unsigned long long milliseconds = 0U;
+
+    if (0U < m_debugLevel) {
+        auto timestamp = dataPtr->m_timestamp;
+        if (timestamp == DataInfo::Timestamp()) {
+            timestamp = DataInfo::TimestampClock::now();
+        }
+
+        auto sinceEpoch = timestamp.time_since_epoch();
+        milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+        std::cout << '[' << milliseconds << "] (" << debugNameImpl() << ") <-- " << dataPtr->m_data.size() << " bytes"; 
+        if (1U < m_debugLevel) {
+            std::cout << " | " << dataToStr(dataPtr->m_data);
+        }
+        std::cout << std::endl;
+    }
+
+    auto result = recvDataImpl(std::move(dataPtr));
+    if (0U < m_debugLevel) {
+        for (auto& resultDataPtr : result) {
+            std::cout << '[' << milliseconds << "] " << resultDataPtr->m_data.size() << " bytes <-- (" << debugNameImpl() << ")"; 
+            if (1U < m_debugLevel) {
+                std::cout << " | " << dataToStr(dataPtr->m_data);
+            }
+            std::cout << std::endl;
+        }
+    }    
+    return result;
 }
 
 QList<DataInfoPtr> Filter::sendData(DataInfoPtr dataPtr)
 {
-    return sendDataImpl(std::move(dataPtr));
+    unsigned long long milliseconds = 0U;
+
+    if (0U < m_debugLevel) {
+        auto timestamp = dataPtr->m_timestamp;
+        if (timestamp == DataInfo::Timestamp()) {
+            timestamp = DataInfo::TimestampClock::now();
+        }
+
+        auto sinceEpoch = timestamp.time_since_epoch();
+        milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+        std::cout << '[' << milliseconds << "] " << dataPtr->m_data.size() << " bytes --> (" << debugNameImpl() << ")"; 
+        if (1U < m_debugLevel) {
+            std::cout << " | " << dataToStr(dataPtr->m_data);
+        }
+        std::cout << std::endl;
+    }
+
+    auto result = sendDataImpl(std::move(dataPtr));
+    if (0U < m_debugLevel) {
+        for (auto& resultDataPtr : result) {
+            std::cout << '[' << milliseconds << "] (" << debugNameImpl() << ") --> " << resultDataPtr->m_data.size() << " bytes"; 
+            if (1U < m_debugLevel) {
+                std::cout << " | " << dataToStr(dataPtr->m_data);
+            }
+            std::cout << std::endl;
+        }
+    }
+    return result;
 }
 
 void Filter::socketConnectionReport(bool connected)
@@ -51,6 +129,11 @@ void Filter::socketConnectionReport(bool connected)
 void Filter::applyInterPluginConfig(const QVariantMap& props)
 {
     applyInterPluginConfigImpl(props);
+}
+
+void Filter::setDebugOutputLevel(unsigned level)
+{
+    m_debugLevel = level;
 }
 
 bool Filter::startImpl()
@@ -84,8 +167,28 @@ void Filter::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& prop
 {
 }
 
+const char* Filter::debugNameImpl() const
+{
+    return "filter";
+}
+
 void Filter::reportDataToSend(DataInfoPtr dataPtr)
 {
+    if (0U < m_debugLevel) {
+        auto timestamp = dataPtr->m_timestamp;
+        if (timestamp == DataInfo::Timestamp()) {
+            timestamp = DataInfo::TimestampClock::now();
+        }
+
+        auto sinceEpoch = timestamp.time_since_epoch();
+        auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+        std::cout << '[' << milliseconds << "] (" << debugNameImpl() << ") --> " << dataPtr->m_data.size() << " bytes"; 
+        if (1U < m_debugLevel) {
+            std::cout << " | " << dataToStr(dataPtr->m_data);
+        }
+        std::cout << std::endl;
+    }
+
     if (m_dataToSendCallback) {
         m_dataToSendCallback(std::move(dataPtr));
     }
@@ -103,6 +206,20 @@ void Filter::reportInterPluginConfig(const QVariantMap& props)
     if (m_interPluginConfigReportCallback) {
         m_interPluginConfigReportCallback(props);
     }
+}
+
+unsigned long long Filter::currTimestamp()
+{
+    auto timestamp = std::chrono::high_resolution_clock::now();
+    auto sinceEpoch = timestamp.time_since_epoch();
+    auto milliseconds =
+        std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+    return milliseconds;
+}
+
+unsigned Filter::getDebugOutputLevel() const
+{
+    return m_debugLevel;
 }
 
 }  // namespace cc_tools_qt

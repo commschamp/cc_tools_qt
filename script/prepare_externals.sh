@@ -54,8 +54,10 @@ function build_comms() {
     if [ -e ${COMMS_SRC_DIR}/.git ]; then
         echo "Updating COMMS library..."
         cd ${COMMS_SRC_DIR}
-        git pull
+        git fetch --all
+        git checkout .
         git checkout ${COMMS_TAG}
+        git pull --all
     else
         echo "Cloning COMMS library..."
         mkdir -p ${EXTERNALS_DIR}
