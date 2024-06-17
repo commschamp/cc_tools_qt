@@ -33,7 +33,7 @@ namespace plugin
 class UdpProxySocketPlugin : public cc_tools_qt::Plugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "cc.UdpSocketPlugin" FILE "udp_proxy_socket.json")
+    Q_PLUGIN_METADATA(IID "cc.UdpProxySocketPlugin" FILE "udp_proxy_socket.json")
     Q_INTERFACES(cc_tools_qt::Plugin)
 
 public:
