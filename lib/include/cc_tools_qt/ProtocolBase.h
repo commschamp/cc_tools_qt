@@ -560,9 +560,9 @@ private:
         MessagePtr result;
         do {
             bool ok = false;
-            int numId = idAsString.toInt(&ok, 10);
+            std::intmax_t numId = static_cast<std::intmax_t>(idAsString.toLongLong(&ok, 10));
             if (!ok) {
-                numId = idAsString.toInt(&ok, 16);
+                numId = static_cast<decltype(numId)>(idAsString.toLongLong(&ok, 16));
                 if (!ok) {
                     break;
                 }
