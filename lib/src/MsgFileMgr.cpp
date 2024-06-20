@@ -48,6 +48,19 @@ private:
 const QString IdProp::Name("id");
 const QByteArray IdProp::PropName = IdProp::Name.toUtf8();
 
+class MsgIdxProp : public property::message::PropBase<unsigned>
+{
+    typedef property::message::PropBase<unsigned> Base;
+public:
+    MsgIdxProp() : Base(Name, PropName) {}
+private:
+    static const QString Name;
+    static const QByteArray PropName;
+};
+
+const QString MsgIdxProp::Name("msg_idx");
+const QByteArray MsgIdxProp::PropName = MsgIdxProp::Name.toUtf8();
+
 class DataProp : public property::message::PropBase<QString>
 {
     typedef property::message::PropBase<QString> Base;
@@ -220,6 +233,7 @@ MessagePtr createMsgObjectFrom(
 
     auto msgMap = msgMapVar.value<QVariantMap>();
     auto msgId = IdProp().getFrom(msgMap);
+    auto msgIdx = MsgIdxProp().getFrom(msgMap);
     auto dataStr = DataProp().getFrom(msgMap);
 
     if (msgId.isEmpty() && dataStr.isEmpty()) {
@@ -275,6 +289,23 @@ MessagePtr createMsgObjectFrom(
         return msg;
     }
 
+    do {
+        if (msgIdx == 0U) {
+            break;
+        }
+
+        msg = protocol.createMessage(msgId, msgIdx);
+        if (!msg) {
+            break;
+        }
+
+        if (!msg->decodeData(data)) {
+            msg.reset();
+            break;
+        }        
+
+    } while (false);
+
     unsigned idx = 0;
     while (!msg) {
         msg = protocol.createMessage(msgId, idx);
@@ -312,7 +343,9 @@ QVariantMap convertRecvMsg(const Message& msg)
 
     if (!idStr.isEmpty()) {
         IdProp().setTo(std::move(idStr), msgInfoMap);
+        MsgIdxProp().setTo(property::message::MsgIdx().getFrom(msg), msgInfoMap);
     }
+
     DataProp().setTo(std::move(dataStr), msgInfoMap);
     TimestampProp().setTo(property::message::Timestamp().getFrom(msg), msgInfoMap);
     TypeProp().setTo(static_cast<unsigned>(property::message::Type().getFrom(msg)), msgInfoMap);
@@ -397,6 +430,7 @@ QVariantList convertSendMsgList(
 
         QVariantMap msgInfoMap;
         IdProp().setTo(msg->idAsString(), msgInfoMap);
+        MsgIdxProp().setTo(property::message::MsgIdx().getFrom(*msg), msgInfoMap);
         DataProp().setTo(encodeMsgData(*msg), msgInfoMap);
         DelayProp().setTo(property::message::Delay().getFrom(*msg), msgInfoMap);
         DelayUnitsProp().setTo(property::message::DelayUnits().getFrom(*msg), msgInfoMap);

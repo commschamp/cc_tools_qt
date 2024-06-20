@@ -480,14 +480,7 @@ protected:
                 HasMsgFactoryTag
             >::type;
 
-        auto allMsgs = createAllMessagesInTupleInternal<TMsgsTuple>(Tag());
-        for (auto& msgPtr : allMsgs) {
-            setNameToMessageProperties(*msgPtr);
-            setForceExtraInfoExistenceToMessageProperties(*msgPtr);
-            updateMessage(*msgPtr);
-        }    
-
-        return allMsgs;    
+        return createAllMessagesInTupleInternal<TMsgsTuple>(Tag());
     }
 
 private:

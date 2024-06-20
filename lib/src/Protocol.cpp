@@ -135,12 +135,32 @@ DataInfoPtr Protocol::write(Message& msg)
 
 Protocol::MessagesList Protocol::createAllMessages()
 {
-    return createAllMessagesImpl();
+    auto allMsgs = createAllMessagesImpl();
+    QString prevId;
+    unsigned prevIdx = 0U;
+    for (auto& msgPtr : allMsgs) {
+        unsigned idx = 0U;
+        if (prevId == msgPtr->idAsString()) {
+            idx = prevIdx + 1U;
+        }
+
+        prevId = msgPtr->idAsString();
+        prevIdx = idx;
+        property::message::MsgIdx().setTo(idx, *msgPtr);
+
+        setNameToMessageProperties(*msgPtr);
+        setForceExtraInfoExistenceToMessageProperties(*msgPtr);
+        updateMessage(*msgPtr);
+    }    
+
+    return allMsgs;    
 }
 
 MessagePtr Protocol::createMessage(const QString& idAsString, unsigned idx)
 {
-    return createMessageImpl(idAsString, idx);
+    auto msgPtr = createMessageImpl(idAsString, idx);
+    property::message::MsgIdx().setTo(idx, *msgPtr);
+    return msgPtr;
 }
 
 Protocol::UpdateStatus Protocol::updateMessage(Message& msg)

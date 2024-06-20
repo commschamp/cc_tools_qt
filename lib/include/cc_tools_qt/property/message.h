@@ -120,6 +120,18 @@ private:
     static const QByteArray PropName;
 };
 
+class CC_API MsgIdx : public PropBase<unsigned>
+{
+    typedef PropBase<unsigned> Base;
+public:
+    MsgIdx() : Base(Name, PropName) {}
+
+private:
+    static const QString Name;
+    static const QByteArray PropName;
+};
+
+
 class CC_API Timestamp : public PropBase<unsigned long long>
 {
     typedef PropBase<unsigned long long> Base;

@@ -29,6 +29,9 @@ namespace message
 const QString Type::Name("cc.msg_type");
 const QByteArray Type::PropName = Type::Name.toUtf8();
 
+const QString MsgIdx::Name("cc.msg_idx");
+const QByteArray MsgIdx::PropName = MsgIdx::Name.toUtf8();
+
 const QString Timestamp::Name("cc.msg_timestamp");
 const QByteArray Timestamp::PropName = Timestamp::Name.toUtf8();
 
