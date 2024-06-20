@@ -159,7 +159,9 @@ Protocol::MessagesList Protocol::createAllMessages()
 MessagePtr Protocol::createMessage(const QString& idAsString, unsigned idx)
 {
     auto msgPtr = createMessageImpl(idAsString, idx);
-    property::message::MsgIdx().setTo(idx, *msgPtr);
+    if (msgPtr) {
+        property::message::MsgIdx().setTo(idx, *msgPtr);
+    }
     return msgPtr;
 }
 
