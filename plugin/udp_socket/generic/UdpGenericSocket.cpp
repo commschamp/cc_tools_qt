@@ -111,32 +111,22 @@ UdpGenericSocket::UdpGenericSocket()
     connect(
         &m_socket, &QUdpSocket::readyRead,
         this, &UdpGenericSocket::readFromSocket);
-    connect(
-        &m_broadcastSocket, &QUdpSocket::readyRead,
-        this, &UdpGenericSocket::readFromBroadcastSocket);
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
     connect(
         &m_socket, &QUdpSocket::errorOccurred,
         this, &UdpGenericSocket::socketErrorOccurred);  
 
-    connect(
-        &m_broadcastSocket, &QUdpSocket::errorOccurred,
-        this, &UdpGenericSocket::socketErrorOccurred);
 #else // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
     connect(
         &m_socket, SIGNAL(error(QAbstractSocket::SocketError)),
         this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));        
-    connect(
-        &m_broadcastSocket, SIGNAL(error(QAbstractSocket::SocketError)),
-        this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));
 #endif // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)                
 }
 
 UdpGenericSocket::~UdpGenericSocket() noexcept
 {
     m_socket.blockSignals(true);
-    m_broadcastSocket.blockSignals(true);
 }
 
 bool UdpGenericSocket::socketConnectImpl()
@@ -156,7 +146,6 @@ bool UdpGenericSocket::socketConnectImpl()
     }
 
     assert(!m_socket.isOpen());
-    assert(!m_broadcastSocket.isOpen());
     m_running = true;
 
     do {
@@ -166,10 +155,6 @@ bool UdpGenericSocket::socketConnectImpl()
 
         if (!bindSocket(m_socket)) {
             reportError("Failed to bind UDP socket to port " + QString("%1").arg(m_localPort));
-        }
-
-        if (!bindSocket(m_broadcastSocket)) {
-            reportError("Failed to bind broadcast UDP socket to port " + QString("%1").arg(m_localPort));
         }
 
     } while (false);
@@ -191,7 +176,6 @@ void UdpGenericSocket::socketDisconnectImpl()
 {
     m_socket.blockSignals(true);
     m_socket.close();
-    m_broadcastSocket.close();
     m_running = false;
     m_socket.blockSignals(false);
 }
@@ -212,7 +196,7 @@ void UdpGenericSocket::sendDataImpl(DataInfoPtr dataPtr)
         }
 
         if ((!broadcastRequested) ||
-            (!m_broadcastSocket.isOpen()) ||
+            (!m_socket.isOpen()) ||
             (m_port == 0)) {
             break;
         }
@@ -227,7 +211,7 @@ void UdpGenericSocket::sendDataImpl(DataInfoPtr dataPtr)
         while (writtenCount < dataPtr->m_data.size()) {
             auto remSize = static_cast<qint64>(dataPtr->m_data.size() - writtenCount);
             auto count =
-                m_broadcastSocket.writeDatagram(
+                m_socket.writeDatagram(
                     reinterpret_cast<const char*>(&dataPtr->m_data[writtenCount]),
                     remSize,
                     QHostAddress(broadcastMask),
@@ -340,29 +324,14 @@ void UdpGenericSocket::socketDisconnected()
 
 void UdpGenericSocket::readFromSocket()
 {
-    readData(m_socket);
-}
-
-void UdpGenericSocket::readFromBroadcastSocket()
-{
-    readData(m_broadcastSocket);
-}
-
-void UdpGenericSocket::socketErrorOccurred([[maybe_unused]] QAbstractSocket::SocketError err)
-{
-    std::cout << "ERROR: UDP Socket: " << m_socket.errorString().toStdString() << std::endl;
-}
-
-void UdpGenericSocket::readData(QUdpSocket& socket)
-{
-    while (socket.hasPendingDatagrams()) {
+    while (m_socket.hasPendingDatagrams()) {
         QHostAddress senderAddress;
         quint16 senderPort;
 
         auto dataPtr = makeDataInfo();
         dataPtr->m_timestamp = DataInfo::TimestampClock::now();
-        dataPtr->m_data.resize(static_cast<std::size_t>(socket.pendingDatagramSize()));
-        socket.readDatagram(
+        dataPtr->m_data.resize(static_cast<std::size_t>(m_socket.pendingDatagramSize()));
+        m_socket.readDatagram(
             reinterpret_cast<char*>(&dataPtr->m_data[0]),
             static_cast<qint64>(dataPtr->m_data.size()),
             &senderAddress,
@@ -386,6 +355,11 @@ void UdpGenericSocket::readData(QUdpSocket& socket)
             assert(m_socket.state() == QUdpSocket::ConnectedState);
         }
     }
+}
+
+void UdpGenericSocket::socketErrorOccurred([[maybe_unused]] QAbstractSocket::SocketError err)
+{
+    std::cout << "ERROR: UDP Socket: " << m_socket.errorString().toStdString() << std::endl;
 }
 
 bool UdpGenericSocket::bindSocket(QUdpSocket& socket)

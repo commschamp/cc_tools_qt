@@ -99,11 +99,9 @@ protected:
 private slots:
     void socketDisconnected();
     void readFromSocket();
-    void readFromBroadcastSocket();
     void socketErrorOccurred(QAbstractSocket::SocketError err);
 
 private:
-    void readData(QUdpSocket& socket);
     bool bindSocket(QUdpSocket& socket);
 
     static const PortType DefaultPort = UDP_GENERIC_DEFAULT_PORT;
@@ -113,7 +111,6 @@ private:
     PortType m_localPort = 0;
     QString m_broadcastMask = "255.255.255.255";
     QUdpSocket m_socket;
-    QUdpSocket m_broadcastSocket;
     bool m_running = false;
 };
 
