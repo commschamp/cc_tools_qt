@@ -25,6 +25,7 @@ option (CC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL "Build demo protocol plugin." OFF
 # Extra configuration variables
 # CC_TOOLS_QT_MAJOR_QT_VERSION - Major Qt version, defaults to 5.
 # CC_TOOLS_QT_DEFAULT_NETWORK_PORT - Set default network port for the network plugins.
+# CC_TOOLS_QT_CCACHE_EXECUTABLE - Path to ccache executable
 
 # Used standard CMake variables
 # CMAKE_CXX_STANDARD - Defaults to 17.
@@ -85,23 +86,24 @@ find_package(LibComms REQUIRED NO_MODULE)
 #######################################################################
 
 # Compiler options
-set (warn_opt)
+set (extra_opts)
 if (CC_TOOLS_QT_WARN_AS_ERR)
-    set (warn_opt WARN_AS_ERR)
+    list (APPEND extra_opts WARN_AS_ERR)
 endif ()
 
-set (static_runtime_opt)
 if (CC_TOOLS_QT_STATIC_RUNTIME)
-    set (static_runtime_opt STATIC_RUNTIME)
+    list (APPEND extra_opts STATIC_RUNTIME)
 endif ()
 
-set (ccache_opt)
-if ((UNIX) AND (CC_TOOLS_QT_USE_CCACHE))
-    set (ccache_opt USE_CCACHE)
+if (CC_TOOLS_QT_USE_CCACHE)
+    list (APPEND extra_opts USE_CCACHE)
+    if (NOT "${CC_TOOLS_QT_CCACHE_EXECUTABLE}" STREQUAL "")
+        list (APPEND extra_opts CCACHE_EXECUTABLE "${CC_TOOLS_QT_CCACHE_EXECUTABLE}")
+    endif ()    
 endif ()
 
 include (${LibComms_DIR}/CC_Compile.cmake)
-cc_compile(${warn_opt} ${static_runtime_opt} ${ccache_opt})
+cc_compile(${extra_opts})
 cc_msvc_force_warn_opt("/W4")
 
 #######################################################################

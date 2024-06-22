@@ -206,6 +206,28 @@ struct DefaultOptions
             using field2 = comms::option::EmptyOption;            
         };
 
+        /// @brief Extra options for fields in @ref demo::message::BundlesFields struct
+        struct BundlesFields
+        {
+            /// @brief Extra options for @ref demo::message::BundlesFields::field1_mem1
+            using field1_mem1 = comms::option::EmptyOption;
+
+            /// @brief Extra options for @ref demo::message::BundlesFields::field1_mem2
+            using field1_mem2 = comms::option::EmptyOption;
+
+            /// @brief Extra options for @ref demo::message::BundlesFields::field1
+            using field1 = comms::option::EmptyOption;
+
+            /// @brief Extra options for @ref demo::message::BundlesFields::field2_mem1
+            using field2_mem1 = comms::option::EmptyOption;
+
+            /// @brief Extra options for @ref demo::message::BundlesFields::field2_mem2
+            using field2_mem2 = comms::option::EmptyOption;
+
+            /// @brief Extra options for @ref demo::message::BundlesFields::field2
+            using field2 = comms::option::EmptyOption;            
+        };        
+
         /// @brief Extra options for @ref demo::message::Bitfields message
         using Bitfields = comms::option::EmptyOption;
 
@@ -232,6 +254,9 @@ struct DefaultOptions
 
         /// @brief Extra options for @ref demo::message::Variants message
         using Variants = comms::option::EmptyOption;
+
+        /// @brief Extra options for @ref demo::message::Bundles message
+        using Bundles = comms::option::EmptyOption;        
     };
 };
 

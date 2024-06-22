@@ -1,5 +1,5 @@
 //
-// Copyright 2016 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -37,6 +37,7 @@ enum MsgId : std::uint8_t
     MsgId_Optionals, ///< Message containing optional fields
     MsgId_FloatValues, ///< Floating point values accumulating message
     MsgId_Variants, ///< Variant values accumulating message
+    MsgId_Bundles, ///< Bundles accumulating message
     MsgId_NumOfValues ///< Limit to valid message IDs, must be last
 };
 

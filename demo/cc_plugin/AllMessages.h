@@ -30,6 +30,7 @@
 #include "cc_plugin/message/Optionals.h"
 #include "cc_plugin/message/FloatValues.h"
 #include "cc_plugin/message/Variants.h"
+#include "cc_plugin/message/Bundles.h"
 
 namespace demo
 {
@@ -46,7 +47,8 @@ using AllMessages = std::tuple<
     cc_plugin::message::Lists,
     cc_plugin::message::Optionals,
     cc_plugin::message::FloatValues,
-    cc_plugin::message::Variants
+    cc_plugin::message::Variants,
+    cc_plugin::message::Bundles
 >;
 
 static_assert(std::tuple_size<AllMessages>::value == MsgId_NumOfValues,

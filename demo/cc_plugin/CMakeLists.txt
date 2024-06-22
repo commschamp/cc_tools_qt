@@ -28,6 +28,7 @@ function (cc_plugin_demo)
         message/Optionals.cpp
         message/FloatValues.cpp
         message/Variants.cpp
+        message/Bundles.cpp
     )
     
     add_library (${name} MODULE ${src})

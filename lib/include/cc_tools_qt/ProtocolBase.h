@@ -476,7 +476,7 @@ protected:
         using Tag = 
             typename std::conditional<
                 std::is_void<MsgFactory>::value,
-                NoMsgFactoryTag,
+                CreateWithTupleIterationTag,
                 HasMsgFactoryTag
             >::type;
 
@@ -487,7 +487,9 @@ private:
     struct NumericIdTag {};
     struct OtherIdTag {};
     struct HasMsgFactoryTag{};
-    struct NoMsgFactoryTag{};
+    struct HasStaticIdsTag{};
+    struct CreateWithLoopIterationTag{};
+    struct CreateWithTupleIterationTag{};
 
     typedef typename std::conditional<
         (std::is_enum<MsgIdType>::value || std::is_integral<MsgIdType>::value),
@@ -558,9 +560,9 @@ private:
         MessagePtr result;
         do {
             bool ok = false;
-            int numId = idAsString.toInt(&ok, 10);
+            std::intmax_t numId = static_cast<std::intmax_t>(idAsString.toLongLong(&ok, 10));
             if (!ok) {
-                numId = idAsString.toInt(&ok, 16);
+                numId = static_cast<decltype(numId)>(idAsString.toLongLong(&ok, 16));
                 if (!ok) {
                     break;
                 }
@@ -582,20 +584,32 @@ private:
     }
 
     template <typename TMsgsTuple>
-    MessagesList createAllMessagesInTupleInternal(NoMsgFactoryTag)
+    MessagesList createAllMessagesInTupleInternal(CreateWithTupleIterationTag)
     {
         MessagesList allMsgs;
         comms::util::tupleForEachType<TMsgsTuple>(AllMsgsCreateHelper(allMsgs));
-        for (auto& msgPtr : allMsgs) {
-            setNameToMessageProperties(*msgPtr);
-            setForceExtraInfoExistenceToMessageProperties(*msgPtr);
-            updateMessage(*msgPtr);
-        }
         return allMsgs;
     }    
 
     template <typename TMsgsTuple>
     MessagesList createAllMessagesInTupleInternal(HasMsgFactoryTag)
+    {
+        static_assert(std::tuple_size<TMsgsTuple>::value > 0U, "At least one message is expected to be defined");
+        using FirstType = typename std::tuple_element<0, TMsgsTuple>::type;
+        using LastType = typename std::tuple_element<std::tuple_size<TMsgsTuple>::value - 1U, TMsgsTuple>::type;
+
+        using Tag = 
+            std::conditional_t<
+                FirstType::hasStaticMsgId() && LastType::hasStaticMsgId(),
+                HasStaticIdsTag,
+                CreateWithLoopIterationTag
+            >;
+
+        return createAllMessagesInTupleInternal<TMsgsTuple>(Tag());
+    }
+
+    template <typename TMsgsTuple>
+    MessagesList createAllMessagesInTupleInternal(CreateWithLoopIterationTag)
     {
         static_assert(std::tuple_size<TMsgsTuple>::value > 0U, "At least one message is expected to be defined");
         using FirstType = typename std::tuple_element<0, TMsgsTuple>::type;
@@ -615,13 +629,31 @@ private:
             }
         }
 
-        for (auto& msgPtr : allMsgs) {
-            setNameToMessageProperties(*msgPtr);
-            setForceExtraInfoExistenceToMessageProperties(*msgPtr);
-            updateMessage(*msgPtr);
-        }
         return allMsgs;
     }    
+
+    template <typename TMsgsTuple>
+    MessagesList createAllMessagesInTupleInternal(HasStaticIdsTag)
+    {
+        static_assert(std::tuple_size<TMsgsTuple>::value > 0U, "At least one message is expected to be defined");
+        using FirstType = typename std::tuple_element<0, TMsgsTuple>::type;
+        using LastType = typename std::tuple_element<std::tuple_size<TMsgsTuple>::value - 1U, TMsgsTuple>::type;
+        static_assert(FirstType::hasStaticMsgId(), "Invalid displatch");
+        static_assert(LastType::hasStaticMsgId(), "Invalid displatch");
+        
+        static const auto FirstId = FirstType::staticMsgId();
+        static const auto LastId = LastType::staticMsgId();
+
+        // When to sparse, use tuple iteration
+        using Tag = 
+            std::conditional_t<
+                static_cast<std::size_t>(FirstId - LastId) <= (std::tuple_size<TMsgsTuple>::value * 5),
+                CreateWithLoopIterationTag,
+                CreateWithTupleIterationTag
+            >;
+
+        return createAllMessagesInTupleInternal<TMsgsTuple>(Tag());
+    }
 
     ProtocolStack m_protStack;
     std::vector<std::uint8_t> m_data;
