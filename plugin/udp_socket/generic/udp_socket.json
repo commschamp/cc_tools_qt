@@ -13,7 +13,9 @@
         "    { \"network.broadcast_mask\": 1234} - Alias to \"udp.broadcast_mask\".\n\n",
         "Supported message properties:\n",
         "    { \"udp.broadcast\": true } - Broadcast the packet.\n",
-        "    { \"udp.broadcast_mask\": \"255.255.255.255\" } - Override the configured broadcast mask.\n"
+        "    { \"udp.broadcast_mask\": \"255.255.255.255\" } - Override the configured broadcast mask.\n",
+        "    { \"network.broadcast\": true } - Alias to \"udp.broadcast\".\n",
+        "    { \"network.broadcast_mask\": true } - Alias to \"udp.broadcast_mask\".\n"
     ],
     "type" : "socket"
 }

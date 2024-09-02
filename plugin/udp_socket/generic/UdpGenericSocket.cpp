@@ -94,6 +94,12 @@ const QString& networkLocalPortProp()
     return Str;
 }
 
+const QString& networkBroadcastProp()
+{
+    static const QString Str("network.broadcast");
+    return Str;
+}
+
 const QString& networkBroadcastMaskProp()
 {
     static const QString Str("network.broadcast_mask");
@@ -190,9 +196,17 @@ void UdpGenericSocket::sendDataImpl(DataInfoPtr dataPtr)
 
     do {
         bool broadcastRequested = false;
-        auto broadcastVar = dataPtr->m_extraProperties.value(udpBroadcastProp());
-        if (broadcastVar.isValid() && broadcastVar.canConvert<bool>()) {
-            broadcastRequested = broadcastVar.value<bool>();
+        static const QString* BroadcastProps[] = {
+            &networkBroadcastProp(),
+            &udpBroadcastProp(),
+        };
+
+        for (auto* s : BroadcastProps) {
+            assert(s != nullptr);
+            auto broadcastVar = dataPtr->m_extraProperties.value(*s);
+            if (broadcastVar.isValid() && broadcastVar.canConvert<bool>()) {
+                broadcastRequested = broadcastVar.value<bool>();
+            }            
         }
 
         if ((!broadcastRequested) ||
@@ -202,9 +216,17 @@ void UdpGenericSocket::sendDataImpl(DataInfoPtr dataPtr)
         }
 
         auto broadcastMask = m_broadcastMask;
-        auto broadcastMaskVar = dataPtr->m_extraProperties.value(udpBroadcastMaskProp());
-        if (broadcastMaskVar.isValid() && broadcastMaskVar.canConvert<QString>()) {
-            broadcastMask = broadcastMaskVar.toString();
+        static const QString* BroadcastMaskProps[] = {
+            &networkBroadcastMaskProp(),
+            &udpBroadcastMaskProp(),
+        };
+
+        for (auto* s : BroadcastMaskProps) {
+            assert(s != nullptr);
+            auto broadcastMaskVar = dataPtr->m_extraProperties.value(*s);
+            if (broadcastMaskVar.isValid() && broadcastMaskVar.canConvert<QString>()) {
+                broadcastMask = broadcastMaskVar.toString();
+            }            
         }
 
         std::size_t writtenCount = 0;
