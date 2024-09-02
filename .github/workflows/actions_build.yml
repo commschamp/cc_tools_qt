@@ -58,7 +58,60 @@ jobs:
       shell: bash
       run: cmake --build . --config ${{matrix.type}} --target install
       env:
-        VERBOSE: 1         
+        VERBOSE: 1    
+
+  build_gcc_ubuntu_24_04:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        type: [Debug, Release, MinSizeRel]
+        cc_ver: [13, 14]
+        cpp: [17, 20]
+        qt_ver: [5, 6]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Prepare Install
+      run: sudo apt-get update --fix-missing    
+      
+    - name: Install Packages
+      run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}}
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build      
+
+    - name: Prepare externals
+      shell: bash
+      run: $GITHUB_WORKSPACE/script/prepare_externals.sh
+      env:
+        BUILD_DIR: ${{runner.workspace}}/build
+        CC: gcc-${{matrix.cc_ver}}
+        CXX: g++-${{matrix.cc_ver}}
+        EXTERNALS_DIR: ${{runner.workspace}}/externals
+        COMMON_INSTALL_DIR: ${{runner.workspace}}/build/install
+        COMMON_BUILD_TYPE: ${{matrix.type}}
+        COMMON_CXX_STANDARD: ${{matrix.cpp}}
+        COMMS_TAG: ${{env.COMMS_TAG}}
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: |
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.type}} -DCMAKE_INSTALL_PREFIX=install \
+          -DCMAKE_PREFIX_PATH=${{runner.workspace}}/build/install -DCMAKE_CXX_STANDARD=${{matrix.cpp}} \
+          -DCC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=${{matrix.qt_ver}}
+      env:
+        CC: gcc-${{matrix.cc_ver}}
+        CXX: g++-${{matrix.cc_ver}}
+
+    - name: Build Target 
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config ${{matrix.type}} --target install
+      env:
+        VERBOSE: 1                
       
   build_clang_ubuntu_22_04:
     runs-on: ubuntu-22.04
@@ -121,6 +174,59 @@ jobs:
       run: cmake --build . --config ${{matrix.type}} --target install
       env:
         VERBOSE: 1 
+
+  build_clang_ubuntu_24_04:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        type: [Debug, Release, MinSizeRel]
+        cc_ver: [16, 17, 18]
+        cpp: [17, 20]
+        qt_ver: [5, 6]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Prepare Install
+      run: sudo apt-get update --fix-missing    
+      
+    - name: Install Packages
+      run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev clang-${{matrix.cc_ver}}
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build      
+
+    - name: Prepare externals
+      shell: bash
+      run: $GITHUB_WORKSPACE/script/prepare_externals.sh
+      env:
+        BUILD_DIR: ${{runner.workspace}}/build
+        CC: clang-${{matrix.cc_ver}}
+        CXX: clang++-${{matrix.cc_ver}}
+        EXTERNALS_DIR: ${{runner.workspace}}/externals
+        COMMON_INSTALL_DIR: ${{runner.workspace}}/build/install
+        COMMON_BUILD_TYPE: ${{matrix.type}}
+        COMMON_CXX_STANDARD: ${{matrix.cpp}}
+        COMMS_TAG: ${{env.COMMS_TAG}}
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: |
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.type}} -DCMAKE_INSTALL_PREFIX=install \
+          -DCMAKE_PREFIX_PATH=${{runner.workspace}}/build/install -DCMAKE_CXX_STANDARD=${{matrix.cpp}} \
+          -DCC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=${{matrix.qt_ver}}
+      env:
+        CC: clang-${{matrix.cc_ver}}
+        CXX: clang++-${{matrix.cc_ver}}
+
+    - name: Build Target 
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config ${{matrix.type}} --target install
+      env:
+        VERBOSE: 1         
     
   build_msvc_2019:
     runs-on: windows-2019
