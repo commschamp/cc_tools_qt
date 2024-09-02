@@ -90,9 +90,11 @@ const SslProtocolMap& sslProtocolMap()
         {"TLSv1.3", QSsl::TlsV1_3},
         {"TLSv1.3+", QSsl::TlsV1_3OrLater},
 #endif // #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+#if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)        
         {"DTLSv1.0", QSsl::DtlsV1_0},
         {"DTLSv1.0+", QSsl::DtlsV1_0OrLater},
         {"DTLSv1.2", QSsl::DtlsV1_2},
+#endif // #if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)                 
         {"DTLSv1.2+", QSsl::DtlsV1_2OrLater},
     };
 
