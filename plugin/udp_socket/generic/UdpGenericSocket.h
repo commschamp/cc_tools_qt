@@ -111,6 +111,7 @@ private:
     PortType m_localPort = 0;
     QString m_broadcastMask = "255.255.255.255";
     QUdpSocket m_socket;
+    int m_defaultTtl = 0;
     bool m_running = false;
 };
 

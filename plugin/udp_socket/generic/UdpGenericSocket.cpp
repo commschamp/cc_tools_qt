@@ -58,6 +58,18 @@ const QString& udpBroadcastMaskProp()
     return Str;
 }
 
+const QString& udpBroadcastTtlProp()
+{
+    static const QString Str("udp.broadcast_ttl");
+    return Str;
+}
+
+const QString& udpBroadcastRadiusProp()
+{
+    static const QString Str("udp.broadcast_radius");
+    return Str;
+}
+
 const QString& udpHostProp()
 {
     static const QString Str("udp.host");
@@ -103,6 +115,18 @@ const QString& networkBroadcastProp()
 const QString& networkBroadcastMaskProp()
 {
     static const QString Str("network.broadcast_mask");
+    return Str;
+}
+
+const QString& networkBroadcastTtlProp()
+{
+    static const QString Str("network.broadcast_ttl");
+    return Str;
+}
+
+const QString& networkBroadcastRadiusProp()
+{
+    static const QString Str("network.broadcast_radius");
     return Str;
 }
 
@@ -175,6 +199,23 @@ bool UdpGenericSocket::socketConnectImpl()
             reportError("Failed to connect UDP socket to " + QString("%1:%2").arg(m_host).arg(m_port));
         }
     } while (false);
+
+    do {
+        if (m_defaultTtl != 0) {
+            break;
+        }
+
+        auto ttlVal = m_socket.socketOption(QUdpSocket::MulticastTtlOption);
+        if (ttlVal.isValid() && ttlVal.canConvert<int>()) {
+            m_defaultTtl = ttlVal.value<int>();
+            break;
+        }
+
+        static const int DefaultTtl = 64;
+        std::cerr << "WARNING: Failed to retrieve default TTL value, assuming " << DefaultTtl << std::endl;
+        m_defaultTtl = DefaultTtl;
+    } while (false);
+
     return true;
 }
 
@@ -229,6 +270,26 @@ void UdpGenericSocket::sendDataImpl(DataInfoPtr dataPtr)
             }            
         }
 
+        auto broadcastTtl = m_defaultTtl;
+        static const QString* BroadcastTtlProps[] = {
+            &networkBroadcastRadiusProp(),
+            &networkBroadcastTtlProp(),
+            &udpBroadcastRadiusProp(),
+            &udpBroadcastTtlProp(),
+        };  
+
+        for (auto* s : BroadcastTtlProps) {
+            assert(s != nullptr);
+            auto broadcastTtlVar = dataPtr->m_extraProperties.value(*s);
+            if (broadcastTtlVar.isValid() && broadcastTtlVar.canConvert<int>()) {
+                broadcastTtl = broadcastTtlVar.value<int>();
+            }            
+        }       
+
+        if (broadcastTtl != 0) {
+            m_socket.setSocketOption(QUdpSocket::MulticastTtlOption, broadcastTtl);
+        } 
+
         std::size_t writtenCount = 0;
         while (writtenCount < dataPtr->m_data.size()) {
             auto remSize = static_cast<qint64>(dataPtr->m_data.size() - writtenCount);
@@ -256,6 +317,10 @@ void UdpGenericSocket::sendDataImpl(DataInfoPtr dataPtr)
 
     if (!m_socket.isOpen()) {
         return;
+    }
+
+    if (m_defaultTtl != 0) {
+        m_socket.setSocketOption(QUdpSocket::MulticastTtlOption, m_defaultTtl);
     }
 
     std::size_t writtenCount = 0;
