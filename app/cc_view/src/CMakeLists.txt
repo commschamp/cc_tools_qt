@@ -91,7 +91,9 @@ function (bin_cc_view)
     )
     
     set (gui_exe)
-    if (WIN32 AND ("${CMAKE_BUILD_TYPE}" STREQUAL "Release"))
+    if ((WIN32) AND 
+        (NOT CC_TOOLS_QT_WIN32_FORCE_CONSOLE_APPS) AND
+        (("${CMAKE_BUILD_TYPE}" STREQUAL "Release") OR ("${CMAKE_BUILD_TYPE}" STREQUAL "MinSizeRel")))
         set (gui_exe WIN32)
     endif ()
 

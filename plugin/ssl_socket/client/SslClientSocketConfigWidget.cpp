@@ -78,19 +78,23 @@ const SslProtocolMap& sslProtocolMap()
     static const SslProtocolMap Map = {
         {"Any Secure", QSsl::SecureProtocols},
         {"Any Supported", QSsl::AnyProtocol},
+#if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)        
         {"TLSv1.0", QSsl::TlsV1_0},
         {"TLSv1.0+", QSsl::TlsV1_0OrLater},
         {"TLSv1.1", QSsl::TlsV1_1},
         {"TLSv1.1+", QSsl::TlsV1_1OrLater},
         {"TLSv1.2", QSsl::TlsV1_2},
+#endif // #if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)         
         {"TLSv1.2+", QSsl::TlsV1_2OrLater},
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
         {"TLSv1.3", QSsl::TlsV1_3},
         {"TLSv1.3+", QSsl::TlsV1_3OrLater},
-#endif        
+#endif // #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+#if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)        
         {"DTLSv1.0", QSsl::DtlsV1_0},
         {"DTLSv1.0+", QSsl::DtlsV1_0OrLater},
         {"DTLSv1.2", QSsl::DtlsV1_2},
+#endif // #if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)                 
         {"DTLSv1.2+", QSsl::DtlsV1_2OrLater},
     };
 

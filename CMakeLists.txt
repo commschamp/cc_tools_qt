@@ -8,6 +8,7 @@ option (CC_TOOLS_QT_BUILD_PLUGINS "Build plugins." ${CC_TOOLS_QT_BUILD_APPS})
 option (CC_TOOLS_QT_WARN_AS_ERR "Treat warning as error" ON)
 option (CC_TOOLS_QT_USE_CCACHE "Use ccache on UNIX systems if it's available" OFF)
 option (CC_TOOLS_QT_STATIC_RUNTIME "Enable/Disable static runtime" OFF)
+option (CC_TOOLS_QT_WIN32_FORCE_CONSOLE_APPS "Force treating GUI apps as console ones even on Release" OFF)
 
 # More fine-grained options
 option (CC_TOOLS_QT_BUILD_PLUGIN_ECHO_SOCKET "Build echo socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
