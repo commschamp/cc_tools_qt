@@ -9,6 +9,7 @@ option (CC_TOOLS_QT_WARN_AS_ERR "Treat warning as error" ON)
 option (CC_TOOLS_QT_USE_CCACHE "Use ccache on UNIX systems if it's available" OFF)
 option (CC_TOOLS_QT_STATIC_RUNTIME "Enable/Disable static runtime" OFF)
 option (CC_TOOLS_QT_WIN32_FORCE_CONSOLE_APPS "Force treating GUI apps as console ones even on Release" OFF)
+option (CC_TOOLS_QT_WITH_DEFAULT_SANITIZERS "Build with sanitizers" OFF)
 
 # More fine-grained options
 option (CC_TOOLS_QT_BUILD_PLUGIN_ECHO_SOCKET "Build echo socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
@@ -96,6 +97,10 @@ if (CC_TOOLS_QT_STATIC_RUNTIME)
     list (APPEND extra_opts STATIC_RUNTIME)
 endif ()
 
+if (CC_TOOLS_QT_WITH_DEFAULT_SANITIZERS)
+    list (APPEND extra_opts DEFAULT_SANITIZERS)
+endif ()
+
 if (CC_TOOLS_QT_USE_CCACHE)
     list (APPEND extra_opts USE_CCACHE)
     if (NOT "${CC_TOOLS_QT_CCACHE_EXECUTABLE}" STREQUAL "")
@@ -113,7 +118,7 @@ find_package (Doxygen)
 if (DOXYGEN_FOUND)
     set (doc_output_dir "${DOC_INSTALL_DIR}/cc_tools_qt")
     set (output_file "${CMAKE_CURRENT_BINARY_DIR}/doxygen.conf")    
-    
+
     set (out_dir_match_str "OUTPUT_DIRECTORY[^\n]*")
     set (out_dir_replacement_str "OUTPUT_DIRECTORY = ${doc_output_dir}")
 
