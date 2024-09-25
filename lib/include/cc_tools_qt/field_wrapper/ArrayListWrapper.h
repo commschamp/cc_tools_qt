@@ -328,7 +328,13 @@ private:
 
     void adjustFixedSizeInternal(HasFixedSizeTag)
     {
+        COMMS_GNU_WARNING_PUSH
+#if defined(NDEBUG) && COMMS_IS_GCC_13 && (COMMS_IS_CPP20)
+        COMMS_GNU_WARNING_DISABLE("-Wstringop-overflow")
+#endif        
+
         Base::field().value().resize(Field::fixedSize());
+        COMMS_GNU_WARNING_POP        
     }
 
 
