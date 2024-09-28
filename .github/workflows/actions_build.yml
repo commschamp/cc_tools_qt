@@ -3,7 +3,7 @@ name: Github Actions Build
 on: [push]
 
 env:
-  COMMS_TAG: develop
+  COMMS_TAG: v5.2.7
 
 jobs:
 
