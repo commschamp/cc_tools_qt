@@ -9,6 +9,7 @@ option (CC_TOOLS_QT_WARN_AS_ERR "Treat warning as error" ON)
 option (CC_TOOLS_QT_USE_CCACHE "Use ccache on UNIX systems if it's available" OFF)
 option (CC_TOOLS_QT_STATIC_RUNTIME "Enable/Disable static runtime" OFF)
 option (CC_TOOLS_QT_WIN32_FORCE_CONSOLE_APPS "Force treating GUI apps as console ones even on Release" OFF)
+option (CC_TOOLS_QT_WITH_DEFAULT_SANITIZERS "Build with sanitizers" OFF)
 
 # More fine-grained options
 option (CC_TOOLS_QT_BUILD_PLUGIN_ECHO_SOCKET "Build echo socket plugin." ${CC_TOOLS_QT_BUILD_PLUGINS})
@@ -96,6 +97,10 @@ if (CC_TOOLS_QT_STATIC_RUNTIME)
     list (APPEND extra_opts STATIC_RUNTIME)
 endif ()
 
+if (CC_TOOLS_QT_WITH_DEFAULT_SANITIZERS)
+    list (APPEND extra_opts DEFAULT_SANITIZERS)
+endif ()
+
 if (CC_TOOLS_QT_USE_CCACHE)
     list (APPEND extra_opts USE_CCACHE)
     if (NOT "${CC_TOOLS_QT_CCACHE_EXECUTABLE}" STREQUAL "")
@@ -112,13 +117,21 @@ cc_msvc_force_warn_opt("/W4")
 find_package (Doxygen)
 if (DOXYGEN_FOUND)
     set (doc_output_dir "${DOC_INSTALL_DIR}/cc_tools_qt")
-    set (match_str "OUTPUT_DIRECTORY[^\n]*")
-    set (replacement_str "OUTPUT_DIRECTORY = ${doc_output_dir}")
-    set (output_file "${CMAKE_CURRENT_BINARY_DIR}/doxygen.conf")
+    set (output_file "${CMAKE_CURRENT_BINARY_DIR}/doxygen.conf")    
+
+    set (out_dir_match_str "OUTPUT_DIRECTORY[^\n]*")
+    set (out_dir_replacement_str "OUTPUT_DIRECTORY = ${doc_output_dir}")
 
     set (config_file "${CMAKE_CURRENT_SOURCE_DIR}/doxygen/doxygen.conf")
     file (READ ${config_file} config_text)
-    string (REGEX REPLACE "${match_str}" "${replacement_str}" modified_config_text "${config_text}")
+    string (REGEX REPLACE "${out_dir_match_str}" "${out_dir_replacement_str}" modified_config_text "${config_text}")
+
+    if (UNIX)
+        set (dia_path_match_str "DIA_PATH[^\n]*")
+        set (dia_path_replacement_str "DIA_PATH = ${PROJECT_SOURCE_DIR}/script")
+        string (REGEX REPLACE "${dia_path_match_str}" "${dia_path_replacement_str}" modified_config_text "${modified_config_text}")
+    endif ()
+
     file (WRITE "${output_file}" "${modified_config_text}")
 
     add_custom_target ("doc_cc_tools_qt"

@@ -3,7 +3,7 @@ name: Github Actions Build
 on: [push]
 
 env:
-  COMMS_TAG: v5.2.6
+  COMMS_TAG: v5.2.7
 
 jobs:
 
@@ -58,7 +58,7 @@ jobs:
       shell: bash
       run: cmake --build . --config ${{matrix.type}} --target install
       env:
-        VERBOSE: 1    
+        VERBOSE: 1  
 
   build_gcc_ubuntu_24_04:
     runs-on: ubuntu-24.04
@@ -67,8 +67,11 @@ jobs:
       matrix:
         type: [Debug, Release, MinSizeRel]
         cc_ver: [13, 14]
-        cpp: [17, 20]
+        cpp: [17, 20, 23]
         qt_ver: [5, 6]
+        exclude:
+          - cc_ver: 13
+            cpp: 23 
 
     steps:
     - uses: actions/checkout@v4
@@ -77,7 +80,7 @@ jobs:
       run: sudo apt-get update --fix-missing    
       
     - name: Install Packages
-      run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}}
+      run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}} doxygen dia
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build      
@@ -111,7 +114,12 @@ jobs:
       shell: bash
       run: cmake --build . --config ${{matrix.type}} --target install
       env:
-        VERBOSE: 1                
+        VERBOSE: 1 
+
+    - name: Documentation
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: make doc_cc_tools_qt                   
       
   build_clang_ubuntu_22_04:
     runs-on: ubuntu-22.04
@@ -182,8 +190,13 @@ jobs:
       matrix:
         type: [Debug, Release, MinSizeRel]
         cc_ver: [16, 17, 18]
-        cpp: [17, 20]
+        cpp: [17, 20, 23]
         qt_ver: [5, 6]
+        exclude:
+          - cc_ver: 16
+            cpp: 23
+          - cc_ver: 17
+            cpp: 23
 
     steps:
     - uses: actions/checkout@v4
@@ -192,7 +205,7 @@ jobs:
       run: sudo apt-get update --fix-missing    
       
     - name: Install Packages
-      run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev clang-${{matrix.cc_ver}}
+      run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev clang-${{matrix.cc_ver}} doxygen dia
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build      
@@ -226,7 +239,12 @@ jobs:
       shell: bash
       run: cmake --build . --config ${{matrix.type}} --target install
       env:
-        VERBOSE: 1         
+        VERBOSE: 1   
+
+    - name: Documentation
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: make doc_cc_tools_qt          
     
   build_msvc_2019:
     runs-on: windows-2019
