@@ -20,7 +20,7 @@
 
 #include "cc_tools_qt/cc_tools_qt.h"
 #include "demo/message/Variants.h"
-#include "cc_plugin/DemoMessage.h"
+#include "DemoMessage.h"
 
 namespace demo
 {

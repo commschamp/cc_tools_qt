@@ -19,8 +19,8 @@
 #pragma once
 
 #include "cc_tools_qt/cc_tools_qt.h"
-#include "cc_plugin/DemoStack.h"
-#include "cc_plugin/DemoTransportMessage.h"
+#include "DemoStack.h"
+#include "DemoTransportMessage.h"
 
 namespace demo
 {

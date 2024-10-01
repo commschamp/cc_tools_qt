@@ -19,18 +19,18 @@
 #pragma once
 
 #include <tuple>
-#include "cc_plugin/DemoMessage.h"
+#include "DemoMessage.h"
 
-#include "cc_plugin/message/IntValues.h"
-#include "cc_plugin/message/EnumValues.h"
-#include "cc_plugin/message/BitmaskValues.h"
-#include "cc_plugin/message/Bitfields.h"
-#include "cc_plugin/message/Strings.h"
-#include "cc_plugin/message/Lists.h"
-#include "cc_plugin/message/Optionals.h"
-#include "cc_plugin/message/FloatValues.h"
-#include "cc_plugin/message/Variants.h"
-#include "cc_plugin/message/Bundles.h"
+#include "message/IntValues.h"
+#include "message/EnumValues.h"
+#include "message/BitmaskValues.h"
+#include "message/Bitfields.h"
+#include "message/Strings.h"
+#include "message/Lists.h"
+#include "message/Optionals.h"
+#include "message/FloatValues.h"
+#include "message/Variants.h"
+#include "message/Bundles.h"
 
 namespace demo
 {

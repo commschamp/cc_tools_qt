@@ -32,12 +32,17 @@ function (cc_plugin_demo)
     )
     
     add_library (${name} MODULE ${src})
-    target_link_libraries(${name} PRIVATE cc::cc_tools_qt)
+    target_link_libraries(${name} PRIVATE cc::demo cc::cc_tools_qt)
 
     target_compile_options(${name} PRIVATE
         $<$<CXX_COMPILER_ID:GNU>:-Wno-old-style-cast>
         $<$<CXX_COMPILER_ID:Clang>:-Wno-old-style-cast>
     )      
+
+    target_include_directories(${name} 
+        PRIVATE
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    )    
     
     install (
         TARGETS ${name}

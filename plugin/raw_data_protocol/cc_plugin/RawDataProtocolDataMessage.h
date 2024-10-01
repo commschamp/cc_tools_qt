@@ -20,7 +20,7 @@
 
 #include "cc_tools_qt/cc_tools_qt.h"
 #include "raw_data_protocol/DataMessage.h"
-#include "cc_plugin/RawDataProtocolMessage.h"
+#include "RawDataProtocolMessage.h"
 
 namespace cc_tools_qt
 {
