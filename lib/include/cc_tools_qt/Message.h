@@ -128,9 +128,13 @@ protected:
     /// @details Invoked by refresh().
     virtual bool refreshMsgImpl() = 0;
 
+    /// @brief Polymophic functionality to get numeric message ID.
+    /// @details Invoked by idAsString().
+    virtual qlonglong numericIdImpl() const = 0;    
+
     /// @brief Polymophic functionality to get string representation of message ID.
     /// @details Invoked by idAsString().
-    virtual QString idAsStringImpl() const = 0;
+    virtual QString idAsStringImpl() const;
 
     /// @brief Polymorphic reset functionality.
     /// @details Invoked by reset().

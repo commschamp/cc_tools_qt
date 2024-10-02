@@ -95,5 +95,10 @@ const QVariantList& Message::fieldsPropertiesImpl() const
     return Props;
 }
 
+QString Message::idAsStringImpl() const
+{
+    return QString("%1").arg(numericIdImpl());
+}
+
 }  // namespace cc_tools_qt
 

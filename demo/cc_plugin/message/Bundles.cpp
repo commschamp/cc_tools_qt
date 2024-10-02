@@ -15,9 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-
 #include "Bundles.h"
+
+#include "cc_tools_qt/property/field.h"
+
+#include <cassert>
 
 namespace cc = cc_tools_qt;
 
@@ -33,11 +35,11 @@ namespace message
 namespace
 {
 
-using BundlesFields = demo::message::BundlesFields<>;
+using ProtMsg = demo::cc_plugin::message::Bundles::ProtMsg;
 
 QVariantMap createProps_field1_mem1()
 {
-    using Field = BundlesFields::field1_mem1;
+    using Field = ProtMsg::Field_field1::Field_length;
     auto props =
         cc::property::field::ForField<Field>()
             .name("length");
@@ -46,7 +48,7 @@ QVariantMap createProps_field1_mem1()
 
 QVariantMap createProps_field1_mem2()
 {
-    using Field = BundlesFields::field1_mem2;
+    using Field = ProtMsg::Field_field1::Field_str;
     auto props =
         cc::property::field::ForField<Field>()
             .name("str");
@@ -55,7 +57,7 @@ QVariantMap createProps_field1_mem2()
 
 QVariantMap createProps_field1()
 {
-    using Field = BundlesFields::field1;
+    using Field = ProtMsg::Field_field1;
     auto props =
         cc::property::field::ForField<Field>()
             .name("field1")
@@ -68,7 +70,7 @@ QVariantMap createProps_field1()
 
 QVariantMap createProps_field2_mem1()
 {
-    using Field = BundlesFields::field2_mem1;
+    using Field = ProtMsg::Field_field2::Field_length;
     auto props =
         cc::property::field::ForField<Field>()
             .name("length");
@@ -77,7 +79,7 @@ QVariantMap createProps_field2_mem1()
 
 QVariantMap createProps_field2_mem2()
 {
-    using Field = BundlesFields::field2_mem2;
+    using Field = ProtMsg::Field_field2::Field_data;
     auto props =
         cc::property::field::ForField<Field>()
             .name("data");
@@ -86,7 +88,7 @@ QVariantMap createProps_field2_mem2()
 
 QVariantMap createProps_field2()
 {
-    using Field = BundlesFields::field2;
+    using Field = ProtMsg::Field_field2;
     auto props =
         cc::property::field::ForField<Field>()
             .name("field2")
@@ -103,7 +105,7 @@ QVariantList createFieldsProperties()
     props.append(createProps_field1());
     props.append(createProps_field2());
 
-    assert(props.size() == Bundles::FieldIdx_numOfValues);
+    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;
 }
 

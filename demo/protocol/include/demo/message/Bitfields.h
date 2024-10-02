@@ -72,7 +72,7 @@ struct BitfieldsFields
             demo::FieldBase,
             Field1Enum,
             typename TOpt::message::BitfieldsFields::field1_enum,
-            comms::option::ValidNumValueRange<(int)0, (int)Field1Enum::NumOfValues - 1>,
+            comms::option::ValidNumValueRange<static_cast<int>(0), static_cast<int>(Field1Enum::NumOfValues) - 1>,
             comms::option::FixedBitLength<2>
     >;
 

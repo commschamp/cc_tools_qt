@@ -18,8 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
-#include "demo/DemoMessage.h"
+#include "cc_tools_qt/Message.h"
 
 namespace demo
 {
@@ -27,9 +26,9 @@ namespace demo
 namespace cc_plugin
 {
 
-class DemoMessage : public cc_tools_qt::MessageBase<demo::DemoMessage>
+class DemoMessage : public cc_tools_qt::Message
 {
-    using Base = cc_tools_qt::MessageBase<demo::DemoMessage>;
+    using Base = cc_tools_qt::Message;
 public:
     DemoMessage();
     virtual ~DemoMessage() noexcept;

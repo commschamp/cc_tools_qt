@@ -15,9 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-
 #include "Strings.h"
+
+#include "cc_tools_qt/property/field.h"
+
+#include <cassert>
 
 namespace cc = cc_tools_qt;
 
@@ -33,16 +35,16 @@ namespace message
 namespace
 {
 
-using StringsFields = demo::message::StringsFields<>;
+using ProtMsg = demo::cc_plugin::message::Strings::ProtMsg;
 
 QVariantList createFieldsProperties()
 {
     QVariantList props;
-    props.append(cc::property::field::ForField<StringsFields::field1>().name("field1").asMap());
-    props.append(cc::property::field::ForField<StringsFields::field2>().name("field2").asMap());
-    props.append(cc::property::field::ForField<StringsFields::field3>().name("field3").asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field1>().name("field1").asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field2>().name("field2").asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field3>().name("field3").asMap());
 
-    assert(props.size() == Strings::FieldIdx_numOfValues);
+    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;
 }
 

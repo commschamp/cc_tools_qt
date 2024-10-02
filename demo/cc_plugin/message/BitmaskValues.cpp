@@ -15,9 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-
 #include "BitmaskValues.h"
+
+#include "cc_tools_qt/property/field.h"
+
+#include <cassert>
 
 namespace cc = cc_tools_qt;
 
@@ -33,11 +35,11 @@ namespace message
 namespace
 {
 
-using BitmaskValuesFields = demo::message::BitmaskValuesFields<>;
+using ProtMsg = demo::cc_plugin::message::BitmaskValues::ProtMsg;
 
 QVariantList createFieldsProperties()
 {
-    using Field1 = BitmaskValuesFields::field1;
+    using Field1 = ProtMsg::Field_field1;
     QVariantList props;
     props.append(
         cc::property::field::ForField<Field1>()
@@ -53,7 +55,7 @@ QVariantList createFieldsProperties()
         cc::property::field::BitmaskValue(props.back())
             .bits().size() == Field1::BitIdx_numOfValues);
 
-    using Field2 = BitmaskValuesFields::field2;
+    using Field2 = ProtMsg::Field_field2;
     props.append(
         cc::property::field::ForField<Field2>()
             .name("field2")
@@ -64,9 +66,9 @@ QVariantList createFieldsProperties()
             .asMap());
     assert(
         cc::property::field::BitmaskValue(props.back())
-            .bits().size() == (int)Field2::BitIdx_numOfValues);
+            .bits().size() == static_cast<int>(Field2::BitIdx_numOfValues));
 
-    assert(props.size() == BitmaskValues::FieldIdx_numOfValues);
+    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;
 }
 

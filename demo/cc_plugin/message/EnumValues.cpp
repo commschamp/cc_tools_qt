@@ -15,9 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-
 #include "EnumValues.h"
+
+#include "cc_tools_qt/property/field.h"
+
+#include <cassert>
 
 namespace cc = cc_tools_qt;
 
@@ -33,13 +35,13 @@ namespace message
 namespace
 {
 
-using EnumValuesFields = demo::message::EnumValuesFields<>;
+using ProtMsg = demo::cc_plugin::message::EnumValues::ProtMsg;
 
 QVariantList createFieldsProperties()
 {
     QVariantList props;
     props.append(
-        cc::property::field::ForField<EnumValuesFields::field1>()
+        cc::property::field::ForField<ProtMsg::Field_field1>()
             .name("field1")
             .add("Value1")
             .add("Value2")
@@ -47,36 +49,36 @@ QVariantList createFieldsProperties()
             .asMap());
     assert(
         cc::property::field::EnumValue(props.back())
-            .values().size() == (int)EnumValuesFields::ValuesField1::NumOfValues);
+            .values().size() == static_cast<int>(ProtMsg::Field_field1::ValueType::NumOfValues));
 
     props.append(
-        cc::property::field::ForField<EnumValuesFields::field2>()
+        cc::property::field::ForField<ProtMsg::Field_field2>()
             .name("field2")
-            .add("Value1", (int)EnumValuesFields::ValuesField2::Value1)
-            .add("Value2", (int)EnumValuesFields::ValuesField2::Value2)
-            .add("Value3", (int)EnumValuesFields::ValuesField2::Value3)
-            .add("Value4", (int)EnumValuesFields::ValuesField2::Value4)
+            .add("Value1", static_cast<int>(ProtMsg::Field_field2::ValueType::Value1))
+            .add("Value2", static_cast<int>(ProtMsg::Field_field2::ValueType::Value2))
+            .add("Value3", static_cast<int>(ProtMsg::Field_field2::ValueType::Value3))
+            .add("Value4", static_cast<int>(ProtMsg::Field_field2::ValueType::Value4))
             .asMap());
 
     props.append(
-        cc::property::field::ForField<EnumValuesFields::field3>()
+        cc::property::field::ForField<ProtMsg::Field_field3>()
             .name("field3")
-            .add("Value1", (int)EnumValuesFields::ValuesField3::Value1)
-            .add("Value2", (int)EnumValuesFields::ValuesField3::Value2)
-            .add("Value3", (int)EnumValuesFields::ValuesField3::Value3)
-            .add("Value4", (int)EnumValuesFields::ValuesField3::Value4)
-            .add("Value5", (int)EnumValuesFields::ValuesField3::Value5)
+            .add("Value1", static_cast<int>(ProtMsg::Field_field3::ValueType::Value1))
+            .add("Value2", static_cast<int>(ProtMsg::Field_field3::ValueType::Value2))
+            .add("Value3", static_cast<int>(ProtMsg::Field_field3::ValueType::Value3))
+            .add("Value4", static_cast<int>(ProtMsg::Field_field3::ValueType::Value4))
+            .add("Value5", static_cast<int>(ProtMsg::Field_field3::ValueType::Value5))
             .asMap());
 
     props.append(
-        cc::property::field::ForField<EnumValuesFields::field4>()
+        cc::property::field::ForField<ProtMsg::Field_field4>()
             .name("field3")
-            .add("Value1", (long long)EnumValuesFields::ValuesField4::Value1)
-            .add("Value2", (long long)EnumValuesFields::ValuesField4::Value2)
-            .add("Value3", (long long)EnumValuesFields::ValuesField4::Value3)
+            .add("Value1", static_cast<long long>(ProtMsg::Field_field4::ValueType::Value1))
+            .add("Value2", static_cast<long long>(ProtMsg::Field_field4::ValueType::Value2))
+            .add("Value3", static_cast<long long>(ProtMsg::Field_field4::ValueType::Value3))
             .asMap());
 
-    assert(props.size() == EnumValues::FieldIdx_numOfValues);
+    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;
 }
 

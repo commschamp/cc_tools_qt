@@ -18,8 +18,10 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
+#include "cc_tools_qt/ToolsMessageBase.h"
+#include "cc_tools_qt/ToolsMessageInterface.h"
 #include "demo/message/BitmaskValues.h"
+#include "demo/DemoMessage.h"
 #include "DemoMessage.h"
 
 namespace demo
@@ -32,9 +34,10 @@ namespace message
 {
 
 class BitmaskValues : public
-    cc_tools_qt::ProtocolMessageBase<
-        demo::message::BitmaskValues<demo::cc_plugin::DemoMessage>,
-        BitmaskValues>
+    cc_tools_qt::ToolsMessageBase<
+        demo::message::BitmaskValues<cc_tools_qt::ToolsMessageInterface<demo::DemoMessage>>,
+        demo::cc_plugin::message::BitmaskValues,
+        demo::cc_plugin::DemoMessage>
 {
 public:
     BitmaskValues();

@@ -15,9 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-
 #include "Lists.h"
+
+#include "cc_tools_qt/property/field.h"
+
+#include <cassert>
 
 namespace cc = cc_tools_qt;
 
@@ -33,11 +35,11 @@ namespace message
 namespace
 {
 
-using ListsFields = demo::message::ListsFields<>;
+using ProtMsg = demo::cc_plugin::message::Lists::ProtMsg;
 
 QVariantMap createField3Properties()
 {
-    using Field3 = ListsFields::field3;
+    using Field3 = ProtMsg::Field_field3;
     cc::property::field::ForField<Field3> props;
     props.name("field3").appendIndexToElementName();
     props.add(
@@ -51,7 +53,7 @@ QVariantMap createField3Properties()
 QVariantMap createField4Properties()
 {
     return
-        cc::property::field::ForField<ListsFields::field4>()
+        cc::property::field::ForField<ProtMsg::Field_field4>()
             .name("field4")
             .appendIndexToElementName()
             .add(cc::property::field::IntValue().name("element").serialisedHidden().asMap())
@@ -61,11 +63,11 @@ QVariantMap createField4Properties()
 QVariantMap createField5Properties()
 {
     return
-        cc::property::field::ForField<ListsFields::field5>()
+        cc::property::field::ForField<ProtMsg::Field_field5>()
             .name("field5")
             .appendIndexToElementName()
             .add(
-                cc::property::field::ForField<ListsFields::field5::ValueType::value_type>()
+                cc::property::field::ForField<ProtMsg::Field_field5::ValueType::value_type>()
                     .name("element")
                     .add(cc::property::field::IntValue().name("member1").serialisedHidden().asMap())
                     .add(cc::property::field::IntValue().name("member2").serialisedHidden().asMap())
@@ -82,13 +84,13 @@ QVariantMap createField5Properties()
 QVariantList createFieldsProperties()
 {
     QVariantList props;
-    props.append(cc::property::field::ForField<ListsFields::field1>().name("field1").asMap());
-    props.append(cc::property::field::ForField<ListsFields::field2>().name("field2").asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field1>().name("field1").asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field2>().name("field2").asMap());
     props.append(createField3Properties());
     props.append(createField4Properties());
     props.append(createField5Properties());
 
-    assert(props.size() == Lists::FieldIdx_numOfValues);
+    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;
 }
 

@@ -54,7 +54,7 @@ struct EnumValuesFields
             demo::FieldBase,
             ValuesField1,
             typename TOpt::message::EnumValuesFields::field1,
-            comms::option::ValidNumValueRange<(int)0, (int)ValuesField1::NumOfValues - 1>
+            comms::option::ValidNumValueRange<static_cast<int>(0), static_cast<int>(ValuesField1::NumOfValues) - 1>
     >;
 
     /// @brief Enumeration type for the @ref field2
@@ -75,7 +75,7 @@ struct EnumValuesFields
             demo::FieldBase,
             ValuesField2,
             typename TOpt::message::EnumValuesFields::field2,
-            comms::option::DefaultNumValue<(int)ValuesField2::Value1>
+            comms::option::DefaultNumValue<static_cast<int>(ValuesField2::Value1)>
         >
     {
         using Base = 
@@ -83,7 +83,7 @@ struct EnumValuesFields
                 demo::FieldBase,
                 ValuesField2,
                 typename TOpt::message::EnumValuesFields::field2,
-                comms::option::DefaultNumValue<(int)ValuesField2::Value1>
+                comms::option::DefaultNumValue<static_cast<int>(ValuesField2::Value1)>
             >;
 
     public:
@@ -118,7 +118,7 @@ struct EnumValuesFields
             ValuesField3,
             typename TOpt::message::EnumValuesFields::field3,
             comms::option::VarLength<1, 2>,
-            comms::option::DefaultNumValue<(int)ValuesField3::Value1>
+            comms::option::DefaultNumValue<static_cast<int>(ValuesField3::Value1)>
         >
     {
         using Base = 
@@ -127,7 +127,7 @@ struct EnumValuesFields
                 ValuesField3,
                 typename TOpt::message::EnumValuesFields::field3,
                 comms::option::VarLength<1, 2>,
-                comms::option::DefaultNumValue<(int)ValuesField3::Value1>
+                comms::option::DefaultNumValue<static_cast<int>(ValuesField3::Value1)>
             >;
 
     public:
@@ -157,9 +157,9 @@ struct EnumValuesFields
             demo::FieldBase,
             ValuesField4,
             typename TOpt::message::EnumValuesFields::field4,
-            comms::option::ValidBigUnsignedNumValue<(std::uintmax_t)ValuesField4::Value1>,
-            comms::option::ValidBigUnsignedNumValue<(std::uintmax_t)ValuesField4::Value2>,
-            comms::option::ValidBigUnsignedNumValue<(std::uintmax_t)ValuesField4::Value3>
+            comms::option::ValidBigUnsignedNumValue<static_cast<std::uintmax_t>(ValuesField4::Value1)>,
+            comms::option::ValidBigUnsignedNumValue<static_cast<std::uintmax_t>(ValuesField4::Value2)>,
+            comms::option::ValidBigUnsignedNumValue<static_cast<std::uintmax_t>(ValuesField4::Value3)>
     >;
 
 

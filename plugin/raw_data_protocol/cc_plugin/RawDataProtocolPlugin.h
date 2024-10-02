@@ -18,9 +18,10 @@
 
 #pragma once
 
+#include "cc_tools_qt/Plugin.h"
+
 #include <QtCore/QObject>
 #include <QtCore/QtPlugin>
-#include "cc_tools_qt/cc_tools_qt.h"
 
 namespace cc_tools_qt
 {

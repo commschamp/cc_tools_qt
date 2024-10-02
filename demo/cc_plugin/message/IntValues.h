@@ -18,8 +18,10 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
+#include "cc_tools_qt/ToolsMessageBase.h"
+#include "cc_tools_qt/ToolsMessageInterface.h"
 #include "demo/message/IntValues.h"
+#include "demo/DemoMessage.h"
 #include "DemoMessage.h"
 
 namespace demo
@@ -31,10 +33,11 @@ namespace cc_plugin
 namespace message
 {
 
-class IntValues : public
-    cc_tools_qt::ProtocolMessageBase<
-        demo::message::IntValues<demo::cc_plugin::DemoMessage>,
-        IntValues>
+class IntValues : public 
+    cc_tools_qt::ToolsMessageBase<
+        demo::message::IntValues<cc_tools_qt::ToolsMessageInterface<demo::DemoMessage>>,
+        demo::cc_plugin::message::IntValues,
+        demo::cc_plugin::DemoMessage>
 {
 public:
     IntValues();

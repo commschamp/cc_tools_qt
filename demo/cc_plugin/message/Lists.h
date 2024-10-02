@@ -18,8 +18,10 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
+#include "cc_tools_qt/ToolsMessageBase.h"
+#include "cc_tools_qt/ToolsMessageInterface.h"
 #include "demo/message/Lists.h"
+#include "demo/DemoMessage.h"
 #include "DemoMessage.h"
 
 namespace demo
@@ -32,9 +34,10 @@ namespace message
 {
 
 class Lists : public
-    cc_tools_qt::ProtocolMessageBase<
-        demo::message::Lists<demo::cc_plugin::DemoMessage>,
-        Lists>
+    cc_tools_qt::ToolsMessageBase<
+        demo::message::Lists<cc_tools_qt::ToolsMessageInterface<demo::DemoMessage>>,
+        demo::cc_plugin::message::Lists,
+        demo::cc_plugin::DemoMessage>
 {
 public:
     Lists();

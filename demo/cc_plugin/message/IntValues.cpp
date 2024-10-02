@@ -15,9 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-
 #include "IntValues.h"
+
+#include "cc_tools_qt/property/field.h"
+
+#include <cassert>
 
 namespace cc = cc_tools_qt;
 
@@ -33,38 +35,39 @@ namespace message
 namespace
 {
 
-using IntValuesFields = demo::message::IntValuesFields<>;
+using ProtMsg = demo::cc_plugin::message::IntValues::ProtMsg;
 
 QVariantList createFieldsProperties()
 {
     QVariantList props;
     props.append(
-        cc::property::field::ForField<IntValuesFields::field1>()
+        cc::property::field::ForField<ProtMsg::Field_field1>()
             .name("field1")
             .addSpecial("S1", 1)
             .addSpecial("S2", 5)
             .asMap());
-    props.append(cc::property::field::ForField<IntValuesFields::field2>().name("field2").asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field2>().name("field2").asMap());
     props.append(
-        cc::property::field::ForField<IntValuesFields::field3>()
+        cc::property::field::ForField<ProtMsg::Field_field3>()
             .name("field3")
             .addSpecial("S1", 100)
             .addSpecial("S2", 500)
             .asMap());
-    props.append(cc::property::field::ForField<IntValuesFields::field4>().name("field4").asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field4>().name("field4").asMap());
     props.append(
-        cc::property::field::ForField<IntValuesFields::field5>()
+        cc::property::field::ForField<ProtMsg::Field_field5>()
             .name("field5")
             .addSpecial("S1", 0xffffff)
-            .addSpecial("S2", (long long)0xffffffffffff)
+            .addSpecial("S2", static_cast<long long>(0xffffffffffff))
             .asMap());
-    props.append(cc::property::field::ForField<IntValuesFields::field6>().name("field6").asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field6>().name("field6").asMap());
 
-    assert(props.size() == IntValues::FieldIdx_numOfValues);
+    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;
 }
 
 }  // namespace
+
 
 IntValues::IntValues() = default;
 IntValues::~IntValues() noexcept = default;

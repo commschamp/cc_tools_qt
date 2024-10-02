@@ -17,6 +17,10 @@
 
 #include "DemoMessage.h"
 
+#include "cc_tools_qt/property/field.h"
+
+#include "demo/DemoMessage.h"
+
 #include <cassert>
 
 namespace cc = cc_tools_qt;
@@ -46,17 +50,13 @@ DemoMessage::~DemoMessage() noexcept = default;
 
 const QVariantList& DemoMessage::extraTransportFieldsPropertiesImpl() const
 {
-    if (getId() != demo::MsgId_Optionals) {
-        return Base::extraTransportFieldsPropertiesImpl();
-    }
-
     static const QVariantList Props = createFieldsProperties();
     return Props;
 }
 
 QString DemoMessage::idAsStringImpl() const
 {
-    return QString("0x%1").arg(getId(), 2, 16, QChar('0'));
+    return QString("0x%1").arg(numericIdImpl(), 2, 16, QChar('0'));
 }
 
 } // namespace cc_plugin

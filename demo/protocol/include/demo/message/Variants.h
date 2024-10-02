@@ -53,8 +53,8 @@ struct VariantsFields
         comms::field::EnumValue<
             demo::FieldBase,
             VarId,
-            comms::option::DefaultNumValue<(int)TId>,
-            comms::option::ValidNumValueRange<(int)TId, (int)TId>,
+            comms::option::DefaultNumValue<static_cast<int>(TId)>,
+            comms::option::ValidNumValueRange<static_cast<int>(TId), static_cast<int>(TId)>,
             comms::option::FailOnInvalid<>
         >;
 

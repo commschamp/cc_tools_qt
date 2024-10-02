@@ -15,9 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-
 #include "Variants.h"
+
+#include "cc_tools_qt/property/field.h"
+
+#include <cassert>
 
 namespace cc = cc_tools_qt;
 
@@ -34,6 +36,7 @@ namespace
 {
 
 using VariantsFields = demo::message::VariantsFields<>;
+using ProtMsg = demo::cc_plugin::message::Variants::ProtMsg;
 
 QVariantMap createProps_id()
 {
@@ -44,7 +47,7 @@ QVariantMap createProps_id()
             .add("elem1")
             .add("elem2")
             .add("elem3");
-    assert(props.values().size() == (int)VariantsFields::VarId::NumOfValues);
+    assert(props.values().size() == static_cast<int>(VariantsFields::VarId::NumOfValues));
     return props.asMap();
 }
 
@@ -59,10 +62,10 @@ QVariantMap createProps_length()
 
 QVariantMap createProps_field1_var1()
 {
-    using Field = VariantsFields::field1_var1;
+    using Field = ProtMsg::Field_field1::Field_val1;
     auto props =
         cc::property::field::ForField<Field>()
-            .name("var1")
+            .name("val1")
             .add(createProps_id())
             .add(cc::property::field::IntValue().name("value").asMap());
     assert(props.members().size() == Field::FieldIdx_numOfValues);
@@ -71,10 +74,10 @@ QVariantMap createProps_field1_var1()
 
 QVariantMap createProps_field1_var2()
 {
-    using Field = VariantsFields::field1_var2;
+    using Field = ProtMsg::Field_field1::Field_val2;
     auto props =
         cc::property::field::ForField<Field>()
-            .name("var2")
+            .name("val2")
             .add(createProps_id())
             .add(cc::property::field::IntValue().name("value").asMap());
     assert(props.members().size() == Field::FieldIdx_numOfValues);
@@ -83,10 +86,10 @@ QVariantMap createProps_field1_var2()
 
 QVariantMap createProps_field1_var3()
 {
-    using Field = VariantsFields::field1_var3;
+    using Field = ProtMsg::Field_field1::Field_val3;
     auto props =
         cc::property::field::ForField<Field>()
-            .name("var3")
+            .name("val3")
             .add(createProps_id())
             .add(cc::property::field::String().name("value").asMap());
     assert(props.members().size() == Field::FieldIdx_numOfValues);
@@ -95,7 +98,7 @@ QVariantMap createProps_field1_var3()
 
 QVariantMap createProps_field1()
 {
-    using Field = VariantsFields::field1;
+    using Field = ProtMsg::Field_field1;
     auto props =
         cc::property::field::ForField<Field>()
             .name("field1")
@@ -110,10 +113,10 @@ QVariantMap createProps_field1()
 
 QVariantMap createProps_field2_var1()
 {
-    using Field = VariantsFields::field2_var1;
+    using Field = ProtMsg::Field_field2::Field_val1;
     auto props =
         cc::property::field::ForField<Field>()
-            .name("var1")
+            .name("val1")
             .add(createProps_id())
             .add(createProps_length())
             .add(cc::property::field::IntValue().name("value").asMap());
@@ -123,10 +126,10 @@ QVariantMap createProps_field2_var1()
 
 QVariantMap createProps_field2_var2()
 {
-    using Field = VariantsFields::field2_var2;
+    using Field = ProtMsg::Field_field2::Field_val2;
     auto props =
         cc::property::field::ForField<Field>()
-            .name("var2")
+            .name("val2")
             .add(createProps_id())
             .add(createProps_length())
             .add(cc::property::field::IntValue().name("value").asMap());
@@ -136,10 +139,10 @@ QVariantMap createProps_field2_var2()
 
 QVariantMap createProps_field2_var3()
 {
-    using Field = VariantsFields::field2_var3;
+    using Field = ProtMsg::Field_field2::Field_val3;
     auto props =
         cc::property::field::ForField<Field>()
-            .name("var3")
+            .name("val3")
             .add(createProps_id())
             .add(createProps_length())
             .add(cc::property::field::String().name("value").asMap());
@@ -149,7 +152,7 @@ QVariantMap createProps_field2_var3()
 
 QVariantMap createProps_field2()
 {
-    using Field = VariantsFields::field2;
+    using Field = ProtMsg::Field_field2;
     auto props =
         cc::property::field::ForField<Field>()
             .name("field2")
@@ -167,7 +170,7 @@ QVariantList createFieldsProperties()
     props.append(createProps_field1());
     props.append(createProps_field2());
 
-    assert(props.size() == Variants::FieldIdx_numOfValues);
+    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;
 }
 

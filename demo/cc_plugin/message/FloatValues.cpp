@@ -15,9 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-
 #include "FloatValues.h"
+
+#include "cc_tools_qt/property/field.h"
+
+#include <cassert>
 
 namespace cc = cc_tools_qt;
 
@@ -33,13 +35,13 @@ namespace message
 namespace
 {
 
-using FloatValuesFields = demo::message::FloatValuesFields<>;
+using ProtMsg = demo::cc_plugin::message::FloatValues::ProtMsg;
 
 QVariantList createFieldsProperties()
 {
     QVariantList props;
     props.append(
-        cc::property::field::ForField<FloatValuesFields::field1>()
+        cc::property::field::ForField<ProtMsg::Field_field1>()
             .name("field1")
             .addSpecial("S1", 0.1)
             .addSpecial("S2", double(std::numeric_limits<float>::quiet_NaN()))
@@ -47,7 +49,7 @@ QVariantList createFieldsProperties()
             .addSpecial("S4", double(-std::numeric_limits<float>::infinity()))
             .asMap());
     props.append(
-        cc::property::field::ForField<FloatValuesFields::field2>()
+        cc::property::field::ForField<ProtMsg::Field_field2>()
             .name("field2")
             .addSpecial("S1", 0.5)
             .addSpecial("S2", std::numeric_limits<double>::quiet_NaN())
@@ -55,19 +57,19 @@ QVariantList createFieldsProperties()
             .addSpecial("S4", -std::numeric_limits<double>::infinity())
             .asMap());
     props.append(
-        cc::property::field::ForField<FloatValuesFields::field3>()
+        cc::property::field::ForField<ProtMsg::Field_field3>()
             .name("field3")
             .scaledDecimals(2)
             .addSpecial("S1", 123)
             .addSpecial("S2", 22)
             .asMap());
     props.append(
-        cc::property::field::ForField<FloatValuesFields::field4>()
+        cc::property::field::ForField<ProtMsg::Field_field4>()
             .name("field4")
             .scaledDecimals(11)
             .asMap());
 
-    assert(props.size() == FloatValues::FieldIdx_numOfValues);
+    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;
 }
 

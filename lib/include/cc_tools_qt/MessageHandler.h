@@ -54,14 +54,15 @@ public:
     {
         beginMsgHandlingImpl(msg);
         addExtraTransportFieldsInternal(msg);
-        auto& fields = msg.fields();
-        comms::util::tupleForEach(
-            fields,
-            FieldsWrapperCreateHelper(
-                [this](FieldWrapperPtr wrapper)
-                {
-                    addFieldImpl(std::move(wrapper));
-                }));
+        // TODO:
+        // auto& fields = msg.fields();
+        // comms::util::tupleForEach(
+        //     fields,
+        //     FieldsWrapperCreateHelper(
+        //         [this](FieldWrapperPtr wrapper)
+        //         {
+        //             addFieldImpl(std::move(wrapper));
+        //         }));
         endMsgHandlingImpl();
     }
 
@@ -110,15 +111,18 @@ private:
     template <typename TMessage>
     void addExtraTransportFieldsInternal(TMessage& msg)
     {
-        using MessageType = typename std::decay<decltype(msg)>::type;
-        using Tag =
-            typename std::conditional<
-                MessageType::hasTransportFields(),
-                HasExtraTransportFieldsTag,
-                NoExtraTransportFieldsTag
-            >::type;
+        static_cast<void>(msg);
+        // TODO:
 
-        addExtraTransportFieldsInternal(msg, Tag());
+        // using MessageType = typename std::decay<decltype(msg)>::type;
+        // using Tag =
+        //     typename std::conditional<
+        //         MessageType::hasTransportFields(),
+        //         HasExtraTransportFieldsTag,
+        //         NoExtraTransportFieldsTag
+        //     >::type;
+
+        // addExtraTransportFieldsInternal(msg, Tag());
     }
 
     template <typename TMessage>

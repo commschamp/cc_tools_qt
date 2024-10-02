@@ -18,9 +18,10 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
 #include "RawDataProtocolStack.h"
 #include "RawDataProtocolTransportMessage.h"
+
+#include "cc_tools_qt/ProtocolBase.h"
 
 namespace cc_tools_qt
 {

@@ -15,9 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-
 #include "Bitfields.h"
+
+#include "cc_tools_qt/property/field.h"
+
+#include <cassert>
 
 namespace cc = cc_tools_qt;
 
@@ -34,61 +36,71 @@ namespace
 {
 
 using BitfieldsFields = demo::message::BitfieldsFields<>;
+using ProtMsg = demo::cc_plugin::message::Bitfields::ProtMsg;
 
 QVariantMap createField1BitmaskProperties()
 {
-    cc::property::field::BitmaskValue props;
-    props.name("field1_bitmask")
-         .serialisedHidden()
-         .add("bit0")
-         .add("bit1")
-         .add("bit2");
-
-    assert(props.bits().size() == BitfieldsFields::field1_bitmask::BitIdx_numOfValues);
+    using Field = ProtMsg::Field_field1::Field_member1;
+    auto props = 
+        cc::property::field::ForField<Field>()
+            .name("field1_bitmask")
+            .add("bit0")
+            .add("bit1")
+            .add("bit2");
+            
+    assert(props.bits().size() == Field::BitIdx_numOfValues);
     return props.asMap();
 }
 
 QVariantMap createField1EnumProperties()
 {
-    cc::property::field::EnumValue props;
-    props.name("field1_enum")
-         .serialisedHidden()
-         .add("Value1")
-         .add("Value2")
-         .add("Value3");
+    using Field = ProtMsg::Field_field1::Field_member2;
+    auto props = 
+        cc::property::field::ForField<Field>()
+            .name("field1_enum")
+            .serialisedHidden()
+            .add("Value1")
+            .add("Value2")
+            .add("Value3");
 
-    assert(props.values().size() == (int)BitfieldsFields::Field1Enum::NumOfValues);
+    assert(props.values().size() == static_cast<int>(Field::ValueType::NumOfValues));
     return props.asMap();
 }
 
 QVariantMap createField1Int1Properties()
 {
-    return
-        cc::property::field::IntValue()
+    using Field = ProtMsg::Field_field1::Field_member3;
+    auto props = 
+        cc::property::field::ForField<Field>()
             .name("field1_int1")
-            .serialisedHidden()
-            .asMap();
+            .serialisedHidden();
+
+    return props.asMap();
 }
 
 QVariantMap createField1Int2Properties()
 {
-    return
-        cc::property::field::IntValue()
+    using Field = ProtMsg::Field_field1::Field_member4;
+    auto props = 
+        cc::property::field::ForField<Field>()
             .name("field1_int2")
-            .serialisedHidden()
-            .asMap();
+            .serialisedHidden();
+
+    return props.asMap();
 }
 
 QVariantMap createField1Properties()
 {
-    cc::property::field::Bitfield props;
-    props.name("field1")
-         .add(createField1BitmaskProperties())
-         .add(createField1EnumProperties())
-         .add(createField1Int1Properties())
-         .add(createField1Int2Properties());
+    using Field = ProtMsg::Field_field1;
+    auto props = 
+        cc::property::field::ForField<Field>()
+            .name("field1")
+            .add(createField1BitmaskProperties())
+            .add(createField1EnumProperties())
+            .add(createField1Int1Properties())
+            .add(createField1Int2Properties());
 
-    assert(props.members().size() == BitfieldsFields::field1::FieldIdx_numOfValues);
+    assert(props.members().size() == Field::FieldIdx_numOfValues);
     return props.asMap();
 }
 
@@ -97,7 +109,7 @@ QVariantList createFieldsProperties()
     QVariantList props;
     props.append(createField1Properties());
 
-    assert(props.size() == Bitfields::FieldIdx_numOfValues);
+    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;
 }
 

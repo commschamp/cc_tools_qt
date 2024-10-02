@@ -87,7 +87,7 @@ struct IntValuesFields
             std::int64_t,
             typename TOpt::message::IntValuesFields::field5,
             comms::option::FixedLength<6>,
-            comms::option::ValidNumValueRange<(std::int64_t)0xffff800000000000, 0x7fffffffffff>
+            comms::option::ValidNumValueRange<static_cast<std::int64_t>(0xffff800000000000), 0x7fffffffffff>
         >;
 
     /// @brief Unsigned integer serialised using 8 bytes
