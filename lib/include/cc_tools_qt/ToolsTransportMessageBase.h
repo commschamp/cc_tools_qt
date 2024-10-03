@@ -18,49 +18,34 @@
 
 #pragma once
 
-#include <cassert>
+#include "cc_tools_qt/ToolsMessageBase.h"
+#include "cc_tools_qt/ToolsMessageInterface.h"
 
 #include <QtCore/QString>
 
-#include "comms/comms.h"
-#include "ProtocolMessageBase.h"
-#include "cc_tools_qt.h"
+#include <cassert>
+
 
 namespace cc_tools_qt
 {
 
-namespace details
-{
-
-template <typename TMsgBase, typename TFields>
-class TransportMessageImpl : public
-    comms::MessageBase<
-        TMsgBase,
-        comms::option::NoIdImpl,
-        comms::option::FieldsImpl<TFields>,
-        comms::option::MsgType<TransportMessageImpl<TMsgBase, TFields> >
-    >
-{
-
-};
-
-}  // namespace details
-
 /// @brief Base class for @b TransportMessage definition in @b protocol
 ///     plugin.
-/// @tparam TMessage Common interface class for @b protocol plugin.
-/// @tparam TAllFields All transport fields difined by <b>protocol stack</b>.
-/// @headerfile cc_tools_qt/TransportMessageBase.h
-template <typename TMessage, typename TAllFields>
-class TransportMessageBase : public
-    ProtocolMessageBase<
-        details::TransportMessageImpl<TMessage, TAllFields>,
-        TransportMessageBase<TMessage, TAllFields>
+/// @tparam TProtMsg TODO
+/// @tparam TActualMsg Type of the actual message class inheriting from this one
+/// @tparam TBase Base class that this class is expected to inherit. Expected to be cc_tools_qt::Message or derivative.
+/// @headerfile cc_tools_qt/ToolTransportMessageBase.h
+template <typename TProtMsg, typename TActualMsg, typename TBase = cc_tools_qt::Message>
+class ToolsTransportMessageBase : public
+    cc_tools_qt::ToolsMessageBase<
+        TProtMsg,
+        TActualMsg,
+        TBase
     >
 {
 public:
     /// @brief Destructor
-    virtual ~TransportMessageBase() noexcept = default;
+    virtual ~ToolsTransportMessageBase() noexcept = default;
 
 protected:
     /// @brief Overriding virtual cc_tools_qt::Message::nameImpl()

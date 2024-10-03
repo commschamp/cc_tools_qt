@@ -17,7 +17,7 @@ function (cc_plugin_demo)
 #        DemoPlugin.h
 #        DemoPlugin.cpp
 #        DemoProtocol.cpp
-#        DemoTransportMessage.cpp
+        DemoTransportMessage.cpp
         DemoMessage.cpp
         message/IntValues.cpp
         message/EnumValues.cpp

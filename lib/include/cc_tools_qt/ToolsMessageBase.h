@@ -33,9 +33,9 @@ namespace cc_tools_qt
 /// @brief Helper class used to define protocol message class
 ///     in <b>CommsChampion Tools</b> plugin environment.
 /// @tparam TProtMsg Type of the message class used for the plugin.
-/// @tparam TActualMessage Type of the actual message class inheriting from
-///     this one
-/// @headerfile cc_tools_qt/MessageBase.h
+/// @tparam TActualMsg Type of the actual message class inheriting from this one
+/// @tparam TBase Base class that this class is expected to inherit. Expected to be cc_tools_qt::Message or derivative.
+/// @headerfile cc_tools_qt/ToolMessageBase.h
 template <typename TProtMsg, typename TActualMsg, typename TBase = cc_tools_qt::Message>
 class ToolsMessageBase : public TBase
 {
@@ -82,10 +82,14 @@ protected:
     /// @brief Overriding polymorphic name retrieval functionality
     virtual const char* nameImpl() const override
     {
-        static_assert(comms::isMessageBase<TProtMsg>(), "TProtMsg is expected to be proper message");
-        static_assert(TProtMsg::hasCustomName(), "TProtMsg is expected to define message name");
+        using Tag = 
+            std::conditional_t<
+                TProtMsg::hasCustomName(),
+                HasNameTag,
+                NoNameTag
+            >;
 
-        return m_msg.doName();
+        return nameInternal(Tag());
     }
 
     /// @brief Overriding polymorphic dispatch functionality.
@@ -105,12 +109,14 @@ protected:
     /// @brief Overriding polymorphic retrieval of the numeric id
     virtual qlonglong numericIdImpl() const override
     {
-        static const bool IsNumeric =
-            std::is_enum<typename TProtMsg::MsgIdType>::value ||
-            std::is_integral<typename TProtMsg::MsgIdType>::value;
+        using Tag = 
+            std::conditional_t<
+                TProtMsg::hasGetId(),
+                HasIdTag,
+                NoIdTag
+            >;
 
-        static_assert(IsNumeric, "Only numeric message IDs are supported");
-        return static_cast<qlonglong>(m_msg.doGetId());
+        return numericIdInternal(Tag());
     }
 
     /// @brief Overriding implementation to cc_tools_qt::Message::resetImpl()
@@ -166,6 +172,42 @@ protected:
     }
 
 private:
+    struct HasIdTag {};
+    struct NoIdTag {};
+    struct HasNameTag {};
+    struct NoNameTag {};    
+
+    qlonglong numericIdInternal(HasIdTag) const
+    {
+        static const bool IsNumeric =
+            std::is_enum<typename TProtMsg::MsgIdType>::value ||
+            std::is_integral<typename TProtMsg::MsgIdType>::value;
+
+        static_assert(IsNumeric, "Only numeric message IDs are supported");
+        return static_cast<qlonglong>(m_msg.doGetId());
+    }   
+
+    qlonglong numericIdInternal(NoIdTag) const
+    {
+        assert(false); // Should not be called
+        return static_cast<qlonglong>(0);
+    }     
+
+    const char* nameInternal(HasNameTag) const
+    {
+        static_assert(comms::isMessageBase<TProtMsg>(), "TProtMsg is expected to be proper message");
+        static_assert(TProtMsg::hasCustomName(), "TProtMsg is expected to define message name");
+
+        return m_msg.doName();
+    }   
+
+    const char* nameInternal(NoNameTag) const
+    {
+        assert(false); // Should not be called
+        static const char* NoName = "NO-NAME";
+        return NoName;
+    }       
+
     TProtMsg m_msg;
 };
 

@@ -17,9 +17,11 @@
 
 #include "DemoTransportMessage.h"
 
-#include <cassert>
+#include "cc_tools_qt/property/field.h"
 
 #include <QtCore/QVariantMap>
+
+#include <cassert>
 
 namespace cc = cc_tools_qt;
 
@@ -75,7 +77,7 @@ QVariantList createFieldsProperties()
     props.append(cc::property::field::ForField<demo::VersionField>().name("VERSION").asMap());
     props.append(cc::property::field::ForField<demo::DataField<> >().name("PAYLOAD").asMap());
     props.append(cc::property::field::ForField<demo::ChecksumField>().name("CHECKSUM").asMap());
-    assert(props.size() == DemoTransportMessage::FieldIdx_NumOfValues);
+    assert(props.size() == DemoTransportProtMessage::FieldIdx_numOfValues);
     return props;
 }
 
@@ -86,22 +88,6 @@ const QVariantList& DemoTransportMessage::fieldsPropertiesImpl() const
     static const auto Props = createFieldsProperties();
     return Props;
 }
-
-comms::ErrorStatus DemoTransportMessage::readImpl(ReadIterator& iter, std::size_t size)
-{
-    static const auto ChecksumLen =
-        sizeof(demo::ChecksumField::ValueType);
-
-    size -= ChecksumLen;
-    auto es = doReadUntilAndUpdateLen<FieldIdx_Checksum>(iter, size);
-    if (es == comms::ErrorStatus::Success) {
-        size += ChecksumLen;
-        es = doReadFrom<FieldIdx_Checksum>(iter, size);
-    }
-
-    return es;
-}
-
 
 }  // namespace cc_plugin
 

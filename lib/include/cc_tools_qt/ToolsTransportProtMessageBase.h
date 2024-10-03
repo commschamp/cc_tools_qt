@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2017 (C). Alex Robenko. All rights reserved.
+// Copyright 2024 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,27 +18,25 @@
 
 #pragma once
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessageInterface.h"
 
-namespace demo
+#include "comms/MessageBase.h"
+
+
+namespace cc_tools_qt
 {
 
-namespace cc_plugin
+template <template<typename...> class TMsgBase, typename TFields, typename TActualMsg>
+class ToolsTransportProtMessageBase : public
+    comms::MessageBase<
+        ToolsMessageInterface<TMsgBase>,
+        comms::option::NoIdImpl,
+        comms::option::FieldsImpl<TFields>,
+        comms::option::MsgType<TActualMsg>
+    >
 {
-
-class DemoMessage : public cc_tools_qt::Message
-{
-public:
-    DemoMessage();
-    virtual ~DemoMessage() noexcept;
-
-protected:
-
-    virtual const QVariantList& extraTransportFieldsPropertiesImpl() const override;
-    virtual QString idAsStringImpl() const override;
 };
 
-}  // namespace cc_plugin
+}  // namespace cc_tools_qt
 
-}  // namespace demo
 
