@@ -54,11 +54,27 @@ public:
     /// @brief Default constructor
     ToolsMessageBase() = default;
 
+    ToolsMessageBase(const ProtMsg& msg) : 
+        m_msg(msg) 
+    {
+    }
+
+    ToolsMessageBase(ProtMsg&& msg) : 
+        m_msg(std::move(msg))
+    {
+    }
+
     /// @brief Copy Constructor
-    ToolsMessageBase(const ToolsMessageBase&) = default;
+    ToolsMessageBase(const ToolsMessageBase& other) :
+        m_msg(other.m_msg)
+    {
+    }
 
     /// @brief Move Constructor
-    ToolsMessageBase(ToolsMessageBase&&) = default;
+    ToolsMessageBase(ToolsMessageBase&& other) : 
+        m_msg(std::move(other.m_msg))
+    {
+    }
 
     /// @brief Destructor
     ~ToolsMessageBase() noexcept = default;
@@ -75,6 +91,16 @@ public:
     {
         m_msg = std::move(other.m_msg);
         return *this;
+    }
+
+    ProtMsg& msg()
+    {
+        return m_msg;
+    }
+
+    const ProtMsg& msg() const
+    {
+        return m_msg;
     }
 
 protected:
@@ -156,7 +182,7 @@ protected:
         DataSeq data;
         data.reserve(m_msg.doLength());
         auto iter = std::back_inserter(data);
-        [[maybe_unused]] auto es = m_msg.doWrite(iter, data.max_size());
+        auto es = m_msg.doWrite(iter, data.max_size());
         assert(es == comms::ErrorStatus::Success);
         return data;
     }
@@ -169,6 +195,11 @@ protected:
         auto iter = data.data();
         auto es = m_msg.doRead(iter, data.size());
         return es == comms::ErrorStatus::Success;
+    }
+
+    virtual typename Base::Ptr cloneImpl() const override
+    {
+        return typename Base::Ptr(new TActualMsg(static_cast<const TActualMsg&>(*this)));
     }
 
 private:
@@ -189,7 +220,8 @@ private:
 
     qlonglong numericIdInternal(NoIdTag) const
     {
-        assert(false); // Should not be called
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
+        assert(Must_not_be_called); 
         return static_cast<qlonglong>(0);
     }     
 

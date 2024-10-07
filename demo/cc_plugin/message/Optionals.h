@@ -41,8 +41,8 @@ class Optionals : public
 {
 public:
     Optionals();
-    Optionals(const Optionals&) = delete;
-    Optionals(Optionals&&) = delete;
+    Optionals(const Optionals&) = default;
+    Optionals(Optionals&&) = default;
     virtual ~Optionals() noexcept;
 
     Optionals& operator=(const Optionals&);

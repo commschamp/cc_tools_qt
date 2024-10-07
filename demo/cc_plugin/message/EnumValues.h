@@ -41,8 +41,8 @@ class EnumValues : public
 {
 public:
     EnumValues();
-    EnumValues(const EnumValues&) = delete;
-    EnumValues(EnumValues&&) = delete;
+    EnumValues(const EnumValues&) = default;
+    EnumValues(EnumValues&&) = default;
     virtual ~EnumValues() noexcept;
 
     EnumValues& operator=(const EnumValues&);

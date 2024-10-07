@@ -41,8 +41,8 @@ class Bitfields : public
 {
 public:
     Bitfields();
-    Bitfields(const Bitfields&) = delete;
-    Bitfields(Bitfields&&) = delete;
+    Bitfields(const Bitfields&) = default;
+    Bitfields(Bitfields&&) = default;
     virtual ~Bitfields() noexcept;
 
     Bitfields& operator=(const Bitfields&);

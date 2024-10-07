@@ -41,8 +41,8 @@ class FloatValues : public
 {
 public:
     FloatValues();
-    FloatValues(const FloatValues&) = delete;
-    FloatValues(FloatValues&&) = delete;
+    FloatValues(const FloatValues&) = default;
+    FloatValues(FloatValues&&) = default;
     virtual ~FloatValues() noexcept;
 
     FloatValues& operator=(const FloatValues&);

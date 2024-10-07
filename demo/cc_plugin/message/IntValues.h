@@ -41,8 +41,8 @@ class IntValues : public
 {
 public:
     IntValues();
-    IntValues(const IntValues&) = delete;
-    IntValues(IntValues&&) = delete;
+    IntValues(const IntValues&) = default;
+    IntValues(IntValues&&) = default;
     virtual ~IntValues() noexcept;
 
     IntValues& operator=(const IntValues&);

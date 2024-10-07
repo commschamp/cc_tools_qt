@@ -18,19 +18,20 @@
 
 #pragma once
 
+#include "cc_tools_qt/ToolsMessageBase.h"
+#include "cc_tools_qt/ToolsMessageInterface.h"
+#include "cc_tools_qt/property/field.h"
 
-#include <cassert>
-#include <tuple>
+#include "comms/field/String.h"
 
 #include <QtCore/QString>
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QByteArray>
 
-#include "comms/comms.h"
-#include "property/field.h"
-#include "ProtocolMessageBase.h"
-#include "cc_tools_qt.h"
+#include <cassert>
+#include <tuple>
+
 
 namespace cc_tools_qt
 {
@@ -39,7 +40,7 @@ namespace details
 {
 
 template <typename TFieldBase>
-struct ExtraInfoMessageData : public comms::field::String<TFieldBase>
+struct ToolsExtraInfoMessageData : public comms::field::String<TFieldBase>
 {
     bool valid() const
     {
@@ -56,12 +57,12 @@ struct ExtraInfoMessageData : public comms::field::String<TFieldBase>
 };
 
 template <typename TMsgBase>
-class ExtraInfoMessageImpl : public
+class ToolsExtraInfoMessageImpl : public
     comms::MessageBase<
         TMsgBase,
         comms::option::NoIdImpl,
-        comms::option::FieldsImpl<std::tuple<ExtraInfoMessageData<typename TMsgBase::Field> > >,
-        comms::option::MsgType<ExtraInfoMessageImpl<TMsgBase> >
+        comms::option::FieldsImpl<std::tuple<ToolsExtraInfoMessageData<typename TMsgBase::Field>>>,
+        comms::option::MsgType<ToolsExtraInfoMessageImpl<TMsgBase>>
     >
 {
 
@@ -69,15 +70,16 @@ class ExtraInfoMessageImpl : public
 
 }  // namespace details
 
-template <typename TMsgBase>
-class ExtraInfoMessage : public
-    ProtocolMessageBase<
-        details::ExtraInfoMessageImpl<TMsgBase>,
-        ExtraInfoMessage<TMsgBase>
+template<typename TBase>
+class ToolsExtraInfoMessage : public
+    cc_tools_qt::ToolsMessageBase<
+        details::ToolsExtraInfoMessageImpl<ToolsMessageInterface<TBase::template ProtMsg>>,
+        ToolsExtraInfoMessage<TBase>,
+        TBase
     >
 {
 public:
-    virtual ~ExtraInfoMessage() noexcept = default;
+    virtual ~ToolsExtraInfoMessage() noexcept = default;
 
 protected:
     virtual const char*
@@ -98,13 +100,6 @@ protected:
     {
         static const QVariantList Props = createFieldsProperties();
         return Props;
-    }
-
-    virtual QString idAsStringImpl() const override
-    {
-        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called);         
-        return QString();
     }
 
     virtual void resetImpl() override

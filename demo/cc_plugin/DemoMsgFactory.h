@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2017 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2016 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,9 +18,9 @@
 
 #pragma once
 
-#include "demo/DemoMessage.h"
+#include "AllMessages.h"
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMsgFactoryBase.h"
 
 namespace demo
 {
@@ -28,20 +28,7 @@ namespace demo
 namespace cc_plugin
 {
 
-class DemoMessage : public cc_tools_qt::Message
-{
-public:
-    template <typename... TOptions>
-    using ProtMsg = demo::DemoMessage<TOptions...>;
-
-    DemoMessage();
-    virtual ~DemoMessage() noexcept;
-
-protected:
-
-    virtual const QVariantList& extraTransportFieldsPropertiesImpl() const override;
-    virtual QString idAsStringImpl() const override;
-};
+using DemoMsgFactory = cc_tools_qt::ToolsMsgFactoryBase<AllMessages>;
 
 }  // namespace cc_plugin
 

@@ -18,15 +18,14 @@
 
 #pragma once
 
-#include <cassert>
-#include <tuple>
+#include "cc_tools_qt/ToolsMessageBase.h"
+#include "cc_tools_qt/ToolsMessageInterface.h"
+#include "cc_tools_qt/property/message.h"
 
 #include <QtCore/QString>
 
-#include "comms/comms.h"
-#include "property/message.h"
-#include "ProtocolMessageBase.h"
-#include "cc_tools_qt.h"
+#include <cassert>
+#include <tuple>
 
 namespace cc_tools_qt
 {
@@ -35,12 +34,12 @@ namespace details
 {
 
 template <typename TMsgBase>
-class InvalidMessageImpl : public
+class ToolInvalidMessageImpl : public
     comms::MessageBase<
         TMsgBase,
         comms::option::NoIdImpl,
         comms::option::FieldsImpl<std::tuple<> >,
-        comms::option::MsgType<InvalidMessageImpl<TMsgBase> >
+        comms::option::MsgType<ToolInvalidMessageImpl<TMsgBase> >
     >
 {
 
@@ -48,19 +47,19 @@ class InvalidMessageImpl : public
 
 }  // namespace details
 
-template <typename TMessage>
-class InvalidMessage : public
-    ProtocolMessageBase<
-        details::InvalidMessageImpl<TMessage>,
-        InvalidMessage<TMessage>
+template<typename TBase>
+class ToolsInvalidMessage : public
+    cc_tools_qt::ToolsMessageBase<
+        details::ToolInvalidMessageImpl<ToolsMessageInterface<TBase::template ProtMsg>>,
+        ToolsInvalidMessage<TBase>,
+        TBase
     >
 {
 public:
-    virtual ~InvalidMessage() noexcept = default;
+    virtual ~ToolsInvalidMessage() noexcept = default;
 
 protected:
-    virtual const char*
-    nameImpl() const override
+    virtual const char* nameImpl() const override
     {
         if (property::message::TransportMsg().getFrom(*this)) {
             static const char* InvalidMsgStr = "???";
@@ -75,11 +74,6 @@ protected:
     {
         static const QVariantList Props;
         return Props;
-    }
-
-    virtual QString idAsStringImpl() const override
-    {
-        return QString();
     }
 
     virtual bool isValidImpl() const override

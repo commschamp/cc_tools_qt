@@ -16,7 +16,7 @@ function (cc_plugin_demo)
     set (src
 #        DemoPlugin.h
 #        DemoPlugin.cpp
-#        DemoProtocol.cpp
+        DemoProtocol.cpp
         DemoTransportMessage.cpp
         DemoMessage.cpp
         message/IntValues.cpp

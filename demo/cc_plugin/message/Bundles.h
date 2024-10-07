@@ -41,8 +41,8 @@ class Bundles : public
 {
 public:
     Bundles();
-    Bundles(const Bundles&) = delete;
-    Bundles(Bundles&&) = delete;
+    Bundles(const Bundles&) = default;
+    Bundles(Bundles&&) = default;
     virtual ~Bundles() noexcept;
 
     Bundles& operator=(const Bundles&);

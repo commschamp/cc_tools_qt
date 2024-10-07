@@ -41,8 +41,8 @@ class BitmaskValues : public
 {
 public:
     BitmaskValues();
-    BitmaskValues(const BitmaskValues&) = delete;
-    BitmaskValues(BitmaskValues&&) = delete;
+    BitmaskValues(const BitmaskValues&) = default;
+    BitmaskValues(BitmaskValues&&) = default;
     virtual ~BitmaskValues() noexcept;
 
     BitmaskValues& operator=(const BitmaskValues&);

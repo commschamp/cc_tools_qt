@@ -89,6 +89,11 @@ const QVariantList& DemoTransportMessage::fieldsPropertiesImpl() const
     return Props;
 }
 
+qlonglong DemoTransportMessage::numericIdImpl() const 
+{
+    return static_cast<qlonglong>(msg().field_id().value());
+}
+
 }  // namespace cc_plugin
 
 }  // namespace demo

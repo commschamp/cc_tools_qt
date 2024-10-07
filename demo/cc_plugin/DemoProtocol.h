@@ -18,9 +18,12 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
-#include "DemoStack.h"
+// #include "DemoStack.h"
+#include "DemoMessage.h"
+#include "DemoMsgFactory.h"
 #include "DemoTransportMessage.h"
+
+#include "cc_tools_qt/ToolsProtocolBase.h"
 
 namespace demo
 {
@@ -29,9 +32,10 @@ namespace cc_plugin
 {
 
 class DemoProtocol : public
-    cc_tools_qt::ProtocolBase<
-        cc_plugin::DemoStack,
-        DemoTransportMessage
+    cc_tools_qt::ToolsProtocolBase<
+        DemoMessage,
+        DemoTransportMessage,
+        DemoMsgFactory
     >
 {
 public:

@@ -19,6 +19,7 @@ function (lib_tools)
         MsgSendMgrImpl.cpp
         MsgMgr.cpp
         MsgMgrImpl.cpp
+        ToolsMsgFactory.cpp
         field_wrapper/FieldWrapper.cpp
         field_wrapper/IntValueWrapper.cpp
         field_wrapper/UnsignedLongValueWrapper.cpp

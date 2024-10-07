@@ -58,6 +58,11 @@ QString Message::idAsString() const
     return idAsStringImpl();
 }
 
+qlonglong Message::numericId() const
+{
+    return numericIdImpl();
+}
+
 void Message::reset()
 {
     resetImpl();
@@ -81,6 +86,11 @@ Message::DataSeq Message::encodeData() const
 bool Message::decodeData(const DataSeq& data)
 {
     return decodeDataImpl(data);
+}
+
+Message::Ptr Message::clone() const
+{
+    return cloneImpl();
 }
 
 const QVariantList& Message::extraTransportFieldsPropertiesImpl() const

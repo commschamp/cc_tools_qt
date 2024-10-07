@@ -28,7 +28,6 @@
 
 #include "Api.h"
 #include "Message.h"
-#include "ErrorStatus.h"
 #include "DataInfo.h"
 
 namespace cc_tools_qt
@@ -187,10 +186,6 @@ protected:
     /// @brief Polymorphic message update (refresh) functionality.
     /// @details Invoked by updateMessage().
     virtual UpdateStatus updateMessageImpl(Message& msg) = 0;
-
-    /// @brief Polymorphic message cloning functionality.
-    /// @details Invoked by cloneMessage().
-    virtual MessagePtr cloneMessageImpl(const Message& msg) = 0;
 
     /// @brief Polymorphic creation of invalid message representation.
     /// @details Invoked by createInvalidMessage().

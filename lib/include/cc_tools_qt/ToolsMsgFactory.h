@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2017 (C). Alex Robenko. All rights reserved.
+// Copyright 2024 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,32 +18,34 @@
 
 #pragma once
 
-#include "demo/DemoMessage.h"
-
 #include "cc_tools_qt/Message.h"
 
-namespace demo
+#include <vector>
+
+namespace cc_tools_qt
 {
 
-namespace cc_plugin
-{
-
-class DemoMessage : public cc_tools_qt::Message
+class ToolsMsgFactory
 {
 public:
-    template <typename... TOptions>
-    using ProtMsg = demo::DemoMessage<TOptions...>;
+    using MessageList = std::vector<MessagePtr>;
 
-    DemoMessage();
-    virtual ~DemoMessage() noexcept;
+    virtual ~ToolsMsgFactory();
+
+    MessagePtr createMessage(const QString& idAsString, unsigned idx = 0);
+    MessagePtr createMessage(const qlonglong id, unsigned idx = 0);
+    MessageList createAllMessages();
 
 protected:
+    ToolsMsgFactory();
+    virtual MessageList createAllMessagesImpl() = 0;
 
-    virtual const QVariantList& extraTransportFieldsPropertiesImpl() const override;
-    virtual QString idAsStringImpl() const override;
+private:
+    void createDefaultMessagesIfNeeded();
+
+    mutable MessageList m_defaultMsgs;  
 };
 
-}  // namespace cc_plugin
+}  // namespace cc_tools_qt
 
-}  // namespace demo
 

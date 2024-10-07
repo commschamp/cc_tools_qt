@@ -41,8 +41,8 @@ class Variants : public
 {
 public:
     Variants();
-    Variants(const Variants&) = delete;
-    Variants(Variants&&) = delete;
+    Variants(const Variants&) = default;
+    Variants(Variants&&) = default;
     virtual ~Variants() noexcept;
 
     Variants& operator=(const Variants&);

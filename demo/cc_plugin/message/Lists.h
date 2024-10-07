@@ -41,8 +41,8 @@ class Lists : public
 {
 public:
     Lists();
-    Lists(const Lists&) = delete;
-    Lists(Lists&&) = delete;
+    Lists(const Lists&) = default;
+    Lists(Lists&&) = default;
     virtual ~Lists() noexcept;
 
     Lists& operator=(const Lists&);

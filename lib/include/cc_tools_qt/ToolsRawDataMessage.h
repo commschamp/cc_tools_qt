@@ -18,15 +18,18 @@
 
 #pragma once
 
-#include <cassert>
-#include <tuple>
+#include "cc_tools_qt/ToolsMessageBase.h"
+#include "cc_tools_qt/ToolsMessageInterface.h"
+#include "cc_tools_qt/property/field.h"
+
+#include "comms/Field.h"
+#include "comms/field/ArrayList.h"
 
 #include <QtCore/QString>
 
-#include "comms/comms.h"
-#include "property/field.h"
-#include "ProtocolMessageBase.h"
-#include "cc_tools_qt.h"
+#include <cassert>
+#include <tuple>
+
 
 namespace cc_tools_qt
 {
@@ -34,32 +37,37 @@ namespace cc_tools_qt
 namespace details
 {
 
-template <typename TMsgBase, typename TField>
-class RawDataMessageImpl : public
+template <typename TFieldBase>
+using ToolsRawDataMessageField = 
+    comms::field::ArrayList<
+        TFieldBase,
+        std::uint8_t
+    >;    
+
+template <typename TMsgBase>
+class ToolsRawDataMessageImpl : public
     comms::MessageBase<
         TMsgBase,
         comms::option::NoIdImpl,
-        comms::option::FieldsImpl<std::tuple<TField> >,
-        comms::option::MsgType<RawDataMessageImpl<TMsgBase, TField> >
+        comms::option::FieldsImpl<std::tuple<ToolsRawDataMessageField<typename TMsgBase::Field>>>,
+        comms::option::MsgType<ToolsRawDataMessageImpl<TMsgBase>>
     >
 {
-
 };
 
 }  // namespace details
 
 /// @brief Raw data message.
-template <typename TProtStack>
-class RawDataMessage : public
-    ProtocolMessageBase<
-        details::RawDataMessageImpl<
-            typename TProtStack::MsgPtr::element_type,
-            typename std::tuple_element<std::tuple_size<typename TProtStack::AllFields>::value - 1, typename TProtStack::AllFields>::type>,
-        RawDataMessage<TProtStack>
+template<typename TBase>
+class ToolsRawDataMessage : public 
+    cc_tools_qt::ToolsMessageBase<
+        details::ToolsRawDataMessageImpl<ToolsMessageInterface<TBase::template ProtMsg>>,
+        ToolsRawDataMessage<TBase>,
+        TBase
     >
 {
 public:
-    virtual ~RawDataMessage() noexcept = default;
+    virtual ~ToolsRawDataMessage() noexcept = default;
 
 protected:
     virtual const char*
@@ -79,13 +87,6 @@ protected:
     {
         static const QVariantList Props = createFieldsProperties();
         return Props;
-    }
-
-    virtual QString idAsStringImpl() const override
-    {
-        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
-        return QString();
     }
 
     virtual void resetImpl() override

@@ -230,7 +230,7 @@ MessagePtr Protocol::cloneMessage(const Message& msg)
         return clonedMsg;
     }
 
-    auto clonedMsg = cloneMessageImpl(msg);
+    auto clonedMsg = msg.clone();
     if (clonedMsg) {
         setNameToMessageProperties(*clonedMsg);
         updateMessage(*clonedMsg);

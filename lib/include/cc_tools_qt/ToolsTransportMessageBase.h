@@ -62,12 +62,11 @@ protected:
         return List;
     }
 
-    /// @brief Overriding virtual cc_tools_qt::Message::idAsStringImpl()
-    virtual QString idAsStringImpl() const override
+    virtual qlonglong numericIdImpl() const override
     {
-        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
-        return QString();
+        [[maybe_unused]] static constexpr bool Must_be_overriden = false;
+        assert(Must_be_overriden); 
+        return 0;
     }
 
     /// @brief Overriding virtual cc_tools_qt::Message::resetImpl()

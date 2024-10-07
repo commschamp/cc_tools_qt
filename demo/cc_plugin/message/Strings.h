@@ -41,8 +41,8 @@ class Strings : public
 {
 public:
     Strings();
-    Strings(const Strings&) = delete;
-    Strings(Strings&&) = delete;
+    Strings(const Strings&) = default;
+    Strings(Strings&&) = default;
     virtual ~Strings() noexcept;
 
     Strings& operator=(const Strings&);

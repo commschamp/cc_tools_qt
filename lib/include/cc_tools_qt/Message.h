@@ -18,15 +18,17 @@
 
 #pragma once
 
-#include <vector>
-#include <cstdint>
-#include <memory>
+#include "Api.h"
+
+#include "comms/ErrorStatus.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QVariantList>
 #include <QtCore/QVariantMap>
 
-#include "Api.h"
+#include <cstdint>
+#include <memory>
+#include <vector>
 
 namespace cc_tools_qt
 {
@@ -41,8 +43,13 @@ class CC_API Message : public QObject
 {
     using Base = QObject;
 public:
+    /// @brief Pointer to message object
+    using Ptr = std::shared_ptr<Message>;
+
     /// @brief Type for sequence of raw bytes
     using DataSeq = std::vector<std::uint8_t>;
+
+    using ReadIter = const std::uint8_t*;
 
     /// @brief Type of the message
     enum class Type {
@@ -82,6 +89,8 @@ public:
     /// @details Invokes idAsStringImpl().
     QString idAsString() const;
 
+    qlonglong numericId() const;
+
     /// @brief Reset message contents to default constructed values
     void reset();
 
@@ -101,6 +110,10 @@ public:
     /// @brief Decode (or deserialise) message contents
     /// @details Invokes decodeDataImpl().
     bool decodeData(const DataSeq& data);
+
+    //comms::ErrorStatus read(ReadIter& iter, std::size_t len);
+
+    Ptr clone() const;
 
 protected:
 
@@ -155,10 +168,12 @@ protected:
     /// @brief Polymorphic deserialisation functionality.
     /// @details Invoked by decodeData().
     virtual bool decodeDataImpl(const DataSeq& data) = 0;
+
+    virtual Ptr cloneImpl() const = 0;
 };
 
 /// @brief Smart pointer to @ref Message
-using MessagePtr = std::shared_ptr<Message>;
+using MessagePtr = Message::Ptr;
 
 }  // namespace cc_tools_qt
 
