@@ -19,7 +19,7 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsMessageBase.h"
-#include "cc_tools_qt/ToolsMessageInterface.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "demo/message/Optionals.h"
 #include "demo/DemoMessage.h"
 #include "DemoMessage.h"
@@ -35,7 +35,7 @@ namespace message
 
 class Optionals : public
     cc_tools_qt::ToolsMessageBase<
-        demo::message::Optionals<cc_tools_qt::ToolsMessageInterface<demo::DemoMessage>>,
+        demo::message::Optionals<cc_tools_qt::ToolsProtMsgInterface<demo::DemoMessage>>,
         demo::cc_plugin::message::Optionals,
         demo::cc_plugin::DemoMessage>
 {

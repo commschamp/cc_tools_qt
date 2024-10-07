@@ -1,5 +1,5 @@
 //
-// Copyright 2016 (C). Alex Robenko. All rights reserved.
+// Copyright 2024 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,37 +18,29 @@
 
 #pragma once
 
-// #include "DemoStack.h"
-#include "DemoFrame.h"
-#include "DemoMessage.h"
-#include "DemoMsgFactory.h"
-#include "DemoTransportMessage.h"
+#include "cc_tools_qt/DataInfo.h"
+#include "cc_tools_qt/Message.h"
 
-#include "cc_tools_qt/ToolsProtocolBase.h"
+#include <list>
 
-namespace demo
+namespace cc_tools_qt
 {
 
-namespace cc_plugin
-{
-
-class DemoProtocol : public
-    cc_tools_qt::ToolsProtocolBase<
-        DemoMessage,
-        DemoTransportMessage,
-        DemoMsgFactory,
-        DemoFrame
-    >
+class ToolsFrame
 {
 public:
-    DemoProtocol() = default;
-    virtual ~DemoProtocol() noexcept;
+    using MessageList = std::list<MessagePtr>;
+
+    virtual ~ToolsFrame();
+
+    MessageList readData(const DataInfo& dataInfo, bool final);
 
 protected:
-    virtual const QString& nameImpl() const override;
+    ToolsFrame() = default;
+
+    virtual MessageList readDataImpl(const DataInfo& dataInfo, bool final) = 0;
 };
 
-}  // namespace cc_plugin
+}  // namespace cc_tools_qt
 
-}  // namespace demo
 

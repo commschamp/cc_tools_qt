@@ -137,7 +137,7 @@ protected:
     {
         using Tag = 
             std::conditional_t<
-                TProtMsg::hasGetId(),
+                TProtMsg::hasStaticMsgId(),
                 HasIdTag,
                 NoIdTag
             >;

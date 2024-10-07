@@ -1,5 +1,5 @@
 //
-// Copyright 2016 (C). Alex Robenko. All rights reserved.
+// Copyright 2024 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,37 +18,23 @@
 
 #pragma once
 
-// #include "DemoStack.h"
-#include "DemoFrame.h"
-#include "DemoMessage.h"
-#include "DemoMsgFactory.h"
-#include "DemoTransportMessage.h"
+#include "cc_tools_qt/ToolsFrame.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 
-#include "cc_tools_qt/ToolsProtocolBase.h"
-
-namespace demo
+namespace cc_tools_qt
 {
 
-namespace cc_plugin
-{
-
-class DemoProtocol : public
-    cc_tools_qt::ToolsProtocolBase<
-        DemoMessage,
-        DemoTransportMessage,
-        DemoMsgFactory,
-        DemoFrame
-    >
+template <typename TMsgBase>
+class ToolsFrameCommon : public ToolsFrame
 {
 public:
-    DemoProtocol() = default;
-    virtual ~DemoProtocol() noexcept;
+    using ProtMsgBase = ToolsProtMsgInterface<TMsgBase::template ProtMsg>;
+        
 
 protected:
-    virtual const QString& nameImpl() const override;
+    ToolsFrameCommon() = default;
 };
 
-}  // namespace cc_plugin
+}  // namespace cc_tools_qt
 
-}  // namespace demo
 

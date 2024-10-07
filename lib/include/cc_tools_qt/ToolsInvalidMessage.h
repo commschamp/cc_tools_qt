@@ -19,7 +19,7 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsMessageBase.h"
-#include "cc_tools_qt/ToolsMessageInterface.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "cc_tools_qt/property/message.h"
 
 #include <QtCore/QString>
@@ -50,7 +50,7 @@ class ToolInvalidMessageImpl : public
 template<typename TBase>
 class ToolsInvalidMessage : public
     cc_tools_qt::ToolsMessageBase<
-        details::ToolInvalidMessageImpl<ToolsMessageInterface<TBase::template ProtMsg>>,
+        details::ToolInvalidMessageImpl<ToolsProtMsgInterface<TBase::template ProtMsg>>,
         ToolsInvalidMessage<TBase>,
         TBase
     >

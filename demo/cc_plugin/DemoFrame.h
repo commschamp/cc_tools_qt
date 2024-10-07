@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2018 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2016 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,11 +18,13 @@
 
 #pragma once
 
-#include "cc_tools_qt/ToolsMessageBase.h"
-#include "cc_tools_qt/ToolsProtMsgInterface.h"
-#include "demo/message/Strings.h"
-#include "demo/DemoMessage.h"
 #include "DemoMessage.h"
+#include "DemoMsgFactory.h"
+
+#include "demo/Stack.h"
+
+#include "cc_tools_qt/ToolsFrameBase.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 
 namespace demo
 {
@@ -30,29 +32,16 @@ namespace demo
 namespace cc_plugin
 {
 
-namespace message
+namespace details
 {
 
-class Strings : public
-    cc_tools_qt::ToolsMessageBase<
-        demo::message::Strings<cc_tools_qt::ToolsProtMsgInterface<demo::DemoMessage>>,
-        demo::cc_plugin::message::Strings,
-        demo::cc_plugin::DemoMessage>
-{
-public:
-    Strings();
-    Strings(const Strings&) = default;
-    Strings(Strings&&) = default;
-    virtual ~Strings() noexcept;
+using DemoProtMsg = cc_tools_qt::ToolsProtMsgInterface<DemoMessage::ProtMsg>;
+using DemoProtFrame = demo::Stack<DemoProtMsg>;
 
-    Strings& operator=(const Strings&);
-    Strings& operator=(Strings&&);
+} // namespace details
+    
 
-protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
-};
-
-}  // namespace message
+using DemoFrame = cc_tools_qt::ToolsFrameBase<DemoMessage, details::DemoProtFrame, DemoMsgFactory>;
 
 }  // namespace cc_plugin
 

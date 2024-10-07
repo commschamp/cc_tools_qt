@@ -19,7 +19,7 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsMessageBase.h"
-#include "cc_tools_qt/ToolsMessageInterface.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "demo/message/FloatValues.h"
 #include "demo/DemoMessage.h"
 #include "DemoMessage.h"
@@ -35,7 +35,7 @@ namespace message
 
 class FloatValues : public
     cc_tools_qt::ToolsMessageBase<
-        demo::message::FloatValues<cc_tools_qt::ToolsMessageInterface<demo::DemoMessage>>,
+        demo::message::FloatValues<cc_tools_qt::ToolsProtMsgInterface<demo::DemoMessage>>,
         demo::cc_plugin::message::FloatValues,
         demo::cc_plugin::DemoMessage>
 {

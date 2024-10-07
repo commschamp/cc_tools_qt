@@ -36,18 +36,14 @@ namespace cc_tools_qt
 ///     template <typename... TOptions>
 ///     class MyInterfaceClass : public comms::Message<...> {...};
 ///     @endcode
-/// @headerfile cc_tools_qt/ToolsMessageInterface.h
+/// @headerfile cc_tools_qt/ToolsProtMsgInterface.h
 template <template<typename...> class TMessageBase>
-using ToolsMessageInterface = 
+using ToolsProtMsgInterface = 
     TMessageBase<
-//        comms::option::IdInfoInterface,
-//        comms::option::ReadIterator<const std::uint8_t*>,
-//        comms::option::WriteIterator<std::back_insert_iterator<std::vector<std::uint8_t>>>,
-//        comms::option::Handler<MessageHandler>,
-//        comms::option::ValidCheckInterface,
-//        comms::option::LengthInfoInterface,
-//        comms::option::RefreshInterface,
-//        comms::option::NameInterface,        
+        comms::option::app::IdInfoInterface,
+        comms::option::app::ReadIterator<const std::uint8_t*>,
+        comms::option::app::WriteIterator<std::back_insert_iterator<std::vector<std::uint8_t>>>,
+        comms::option::app::LengthInfoInterface
     >;
 
 } // namespace cc_tools_qt

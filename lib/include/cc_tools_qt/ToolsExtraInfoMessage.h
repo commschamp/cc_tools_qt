@@ -19,7 +19,7 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsMessageBase.h"
-#include "cc_tools_qt/ToolsMessageInterface.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "cc_tools_qt/property/field.h"
 
 #include "comms/field/String.h"
@@ -73,7 +73,7 @@ class ToolsExtraInfoMessageImpl : public
 template<typename TBase>
 class ToolsExtraInfoMessage : public
     cc_tools_qt::ToolsMessageBase<
-        details::ToolsExtraInfoMessageImpl<ToolsMessageInterface<TBase::template ProtMsg>>,
+        details::ToolsExtraInfoMessageImpl<ToolsProtMsgInterface<TBase::template ProtMsg>>,
         ToolsExtraInfoMessage<TBase>,
         TBase
     >

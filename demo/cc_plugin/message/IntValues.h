@@ -19,7 +19,7 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsMessageBase.h"
-#include "cc_tools_qt/ToolsMessageInterface.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "demo/message/IntValues.h"
 #include "demo/DemoMessage.h"
 #include "DemoMessage.h"
@@ -35,7 +35,7 @@ namespace message
 
 class IntValues : public 
     cc_tools_qt::ToolsMessageBase<
-        demo::message::IntValues<cc_tools_qt::ToolsMessageInterface<demo::DemoMessage>>,
+        demo::message::IntValues<cc_tools_qt::ToolsProtMsgInterface<demo::DemoMessage>>,
         demo::cc_plugin::message::IntValues,
         demo::cc_plugin::DemoMessage>
 {

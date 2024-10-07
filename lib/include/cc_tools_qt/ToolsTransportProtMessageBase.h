@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/ToolsMessageInterface.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 
 #include "comms/MessageBase.h"
 
@@ -29,7 +29,7 @@ namespace cc_tools_qt
 template <template<typename...> class TMsgBase, typename TFields, typename TActualMsg>
 class ToolsTransportProtMessageBase : public
     comms::MessageBase<
-        ToolsMessageInterface<TMsgBase>,
+        ToolsProtMsgInterface<TMsgBase>,
         comms::option::NoIdImpl,
         comms::option::FieldsImpl<TFields>,
         comms::option::MsgType<TActualMsg>

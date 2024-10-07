@@ -47,7 +47,7 @@ namespace cc_tools_qt
 /// @details Provides the default implementation to most of the virtual
 ///     functions defined by @ref Protocol class.
 /// @headerfile cc_tools_qt/ProtocolBase.h
-template <typename TMsgBase, typename TTransportMsg, typename TMsgFactory>
+template <typename TMsgBase, typename TTransportMsg, typename TMsgFactory, typename TFrame>
 class ToolsProtocolBase : public Protocol
 {
 protected:
@@ -633,6 +633,7 @@ private:
 //     
 //     
 
+    TFrame m_frame;
     MsgFactory m_msgFactory;
     std::vector<std::uint8_t> m_data;
     std::vector<std::uint8_t> m_garbage;

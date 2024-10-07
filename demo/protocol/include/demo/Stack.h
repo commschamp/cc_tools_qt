@@ -23,9 +23,10 @@
 
 #include "comms/comms.h"
 
-#include "MsgId.h"
-#include "DemoMessage.h"
-#include "FieldBase.h"
+#include "demo/MsgId.h"
+#include "demo/DemoMessage.h"
+#include "demo/FieldBase.h"
+#include "demo/AllMessages.h"
 
 namespace demo
 {
@@ -129,7 +130,7 @@ using StackBase =
 ///     type of the payload field for "caching" read/write operations.
 template <
     typename TMsgBase,
-    typename TMessages,
+    typename TMessages = demo::AllMessages<TMsgBase>,
     typename TMsgAllocOptions = comms::option::EmptyOption,
     typename TDataFieldStorageOptions = comms::option::EmptyOption >
 class Stack : public StackBase<TMsgBase, TMessages, TMsgAllocOptions, TDataFieldStorageOptions>
