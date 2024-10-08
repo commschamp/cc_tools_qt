@@ -111,9 +111,9 @@ public:
     /// @details Invokes decodeDataImpl().
     bool decodeData(const DataSeq& data);
 
-    //comms::ErrorStatus read(ReadIter& iter, std::size_t len);
-
     Ptr clone() const;
+
+    void assignProtMessage(void* protMsg);
 
 protected:
 
@@ -170,6 +170,8 @@ protected:
     virtual bool decodeDataImpl(const DataSeq& data) = 0;
 
     virtual Ptr cloneImpl() const = 0;
+
+    virtual void assignProtMessageImpl(void* protMsg) = 0;
 };
 
 /// @brief Smart pointer to @ref Message

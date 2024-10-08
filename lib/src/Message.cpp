@@ -93,6 +93,11 @@ Message::Ptr Message::clone() const
     return cloneImpl();
 }
 
+void Message::assignProtMessage(void* protMsg)
+{
+    assignProtMessageImpl(protMsg);
+}
+
 const QVariantList& Message::extraTransportFieldsPropertiesImpl() const
 {
     static const QVariantList Props;

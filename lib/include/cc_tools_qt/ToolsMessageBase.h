@@ -20,6 +20,7 @@
 
 #include "Message.h"
 #include "MessageHandler.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 
 #include <algorithm>
 #include <cassert>
@@ -44,6 +45,8 @@ class ToolsMessageBase : public TBase
 public:
     /// @brief Data sequence type
     using DataSeq = typename TBase::DataSeq;
+
+    using ProtMsgBase = ToolsProtMsgInterface<TBase::template ProtMsg>;
 
     /// @brief Protocol definition message type
     using ProtMsg = TProtMsg;
@@ -200,6 +203,13 @@ protected:
     virtual typename Base::Ptr cloneImpl() const override
     {
         return typename Base::Ptr(new TActualMsg(static_cast<const TActualMsg&>(*this)));
+    }
+
+    virtual void assignProtMessageImpl(void* protMsg) override
+    {
+        auto* protMsgBase = reinterpret_cast<ProtMsgBase*>(protMsg);
+        auto* actProtMsg = static_cast<ProtMsg*>(protMsgBase);
+        m_msg = std::move(*actProtMsg);
     }
 
 private:

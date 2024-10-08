@@ -20,6 +20,7 @@
 
 #include "DemoMessage.h"
 #include "DemoMsgFactory.h"
+#include "DemoTransportMessage.h"
 
 #include "demo/Stack.h"
 
@@ -41,7 +42,7 @@ using DemoProtFrame = demo::Stack<DemoProtMsg>;
 } // namespace details
     
 
-using DemoFrame = cc_tools_qt::ToolsFrameBase<DemoMessage, details::DemoProtFrame, DemoMsgFactory>;
+using DemoFrame = cc_tools_qt::ToolsFrameBase<DemoMessage, details::DemoProtFrame, DemoMsgFactory, DemoTransportMessage>;
 
 }  // namespace cc_plugin
 
