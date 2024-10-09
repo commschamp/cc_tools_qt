@@ -32,13 +32,7 @@ namespace demo
 namespace cc_plugin
 {
 
-class DemoProtocol : public
-    cc_tools_qt::ToolsProtocolBase<
-        DemoMessage,
-        DemoTransportMessage,
-        DemoMsgFactory,
-        DemoFrame
-    >
+class DemoProtocol : public cc_tools_qt::ToolsProtocolBase<DemoFrame>
 {
 public:
     DemoProtocol() = default;

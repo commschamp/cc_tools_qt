@@ -27,9 +27,34 @@ namespace cc_tools_qt
 
 ToolsFrame::~ToolsFrame() = default;
 
-ToolsFrame::MessageList ToolsFrame::readData(const DataInfo& dataInfo, bool final)
+ToolsFrame::MessagesList ToolsFrame::readData(const DataInfo& dataInfo, bool final)
 {
     return readDataImpl(dataInfo, final);
+}
+
+MessagePtr ToolsFrame::createInvalidMessage()
+{
+    return createInvalidMessageImpl();
+}
+
+MessagePtr ToolsFrame::createRawDataMessage()
+{
+    return createRawDataMessageImpl();
+}
+
+MessagePtr ToolsFrame::createExtraInfoMessage()
+{
+    return createExtraInfoMessageImpl();
+}
+
+ToolsFrame::MessagesList ToolsFrame::createAllMessages()
+{
+    return createAllMessagesImpl();
+}
+
+MessagePtr ToolsFrame::createMessage(const QString& idAsString, unsigned idx)
+{
+    return createMessageImpl(idAsString, idx);
 }
 
 }  // namespace cc_tools_qt

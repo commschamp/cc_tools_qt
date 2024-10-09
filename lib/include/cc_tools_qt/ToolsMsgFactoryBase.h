@@ -33,8 +33,8 @@ namespace details
 class TupleMsgFactoryHelper
 {
 public:    
-    using MessageList = cc_tools_qt::ToolsMsgFactory::MessageList;
-    TupleMsgFactoryHelper(MessageList& msgs) : m_msgs(msgs) {}
+    using MessagesList = std::vector<MessagePtr>;
+    TupleMsgFactoryHelper(MessagesList& msgs) : m_msgs(msgs) {}
 
     template <typename TMsg>
     void operator()()
@@ -42,13 +42,13 @@ public:
         m_msgs.push_back(cc_tools_qt::MessagePtr(new TMsg));
     }
 
-    MessageList& msgs()
+    MessagesList& msgs()
     {
         return m_msgs;
     }
 
 private:
-    MessageList& m_msgs;
+    MessagesList& m_msgs;
 };
 
 }  // namespace details
@@ -57,9 +57,9 @@ template <typename TAllMessages>
 class ToolsMsgFactoryBase : public ToolsMsgFactory
 {
 protected:
-    virtual MessageList createAllMessagesImpl() override
+    virtual MessagesListInternal createAllMessagesImpl() override
     {
-        MessageList result;
+        MessagesListInternal result;
         static_assert(comms::util::IsTuple<TAllMessages>::Value, "TAllMessages must be std::tuple");
         result.reserve(std::tuple_size<TAllMessages>::value);
         comms::util::tupleForEachType<TAllMessages>(details::TupleMsgFactoryHelper(result));

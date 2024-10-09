@@ -98,6 +98,11 @@ void Message::assignProtMessage(void* protMsg)
     assignProtMessageImpl(protMsg);
 }
 
+Message::DataSeq Message::encodeFramed(ToolsFrame& frame) const
+{
+    return encodeFramedImpl(frame);
+}
+
 const QVariantList& Message::extraTransportFieldsPropertiesImpl() const
 {
     static const QVariantList Props;

@@ -40,8 +40,9 @@ class ToolsFrameBase : public ToolsFrameCommon<TMsgBase>
 {
     using Base = ToolsFrameCommon<TMsgBase>;
 public:
-    using MessageList = typename Base::MessageList;
+    using MessagesList = typename Base::MessagesList;
     using ProtMsgBase = typename Base::ProtMsgBase;
+    using DataSeq = typename Base::DataSeq;
 
     using TransportMsg = TTransportMsg;
 
@@ -56,12 +57,12 @@ public:
     ToolsFrameBase() = default;
 
 protected:
-    virtual MessageList readDataImpl(const DataInfo& dataInfo, bool final) override
+    virtual MessagesList readDataImpl(const DataInfo& dataInfo, bool final) override
     {
         m_inData.reserve(m_inData.size() + dataInfo.m_data.size());
         m_inData.insert(m_inData.end(), dataInfo.m_data.begin(), dataInfo.m_data.end());
 
-        MessageList allMsgs;
+        MessagesList allMsgs;
         std::size_t consumed = 0U;
 
         auto checkGarbageFunc =
@@ -71,14 +72,8 @@ protected:
                     return;
                 }
 
-                MessagePtr rawDataMsg(new RawDataMsg);
-                if (!rawDataMsg->decodeData(m_garbage)) {
-                    [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
-                    assert(Must_not_be_happen); 
-                }
-                    
                 MessagePtr invalidMsgPtr(new InvalidMsg);
-                property::message::RawDataMsg().setTo(std::move(rawDataMsg), *invalidMsgPtr);
+                updateRawDataInternal(m_garbage, *invalidMsgPtr);
                 allMsgs.push_back(std::move(invalidMsgPtr));
                 m_garbage.clear();
             };
@@ -144,21 +139,8 @@ protected:
             toolsMsg->assignProtMessage(msgPtr.get());
 
             DataSeq data(readIterBeg, readIter);
-
-            MessagePtr transportMsg(new TransportMsg);
-            if (!transportMsg->decodeData(data)) {
-                [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
-                assert(Must_not_be_happen);                
-            }
-
-            MessagePtr rawDataMsg(new RawDataMsg);
-            if (!rawDataMsg->decodeData(data)) {
-                [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
-                assert(Must_not_be_happen); 
-            }    
-            
-            property::message::TransportMsg().setTo(std::move(transportMsg), *toolsMsg);        
-            property::message::RawDataMsg().setTo(std::move(rawDataMsg), *toolsMsg);        
+            updateTransportInternal(data, *toolsMsg);
+            updateRawDataInternal(data, *toolsMsg);
             allMsgs.push_back(std::move(toolsMsg));
         }
 
@@ -182,23 +164,120 @@ protected:
 
             for (auto& m : allMsgs) {
                 property::message::ExtraInfo().setTo(dataInfo.m_extraProperties, *m);
-
-                MessagePtr extraInfoMsg(new ExtraInfoMsg);
-                if (!extraInfoMsg->decodeData(jsonRawBytes)) {
-                    [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
-                    assert(Must_not_be_happen); 
-                    continue;                    
-                }
-
-                property::message::ExtraInfoMsg().setTo(std::move(extraInfoMsg), *m);        
+                updateExtraInfoInternal(jsonRawBytes, *m);
             }
         }
 
         return allMsgs;
     }
 
+    virtual void updateMessageImpl(Message& msg) override
+    {
+        auto data = msg.encodeFramed(*this);
+        updateTransportInternal(data, msg);
+        updateRawDataInternal(data, msg);
+
+        auto extraProps = property::message::ExtraInfo().getFrom(msg);
+        bool extraInfoMsgIsForced = property::message::ForceExtraInfoExistence().getFrom(msg);
+        if (extraProps.isEmpty() && (!extraInfoMsgIsForced)) {
+            property::message::ExtraInfoMsg().setTo(MessagePtr(), msg);
+            return;
+        }
+
+        auto extraInfoMsgPtr = std::make_unique<ExtraInfoMsg>();
+        if (extraProps.isEmpty()) {
+            property::message::ExtraInfoMsg().setTo(MessagePtr(extraInfoMsgPtr.release()), msg);
+            return;
+        }        
+
+        auto jsonObj = QJsonObject::fromVariantMap(extraProps);
+        QJsonDocument doc(jsonObj);
+        auto jsonData = doc.toJson();
+        DataSeq jsonRawBytes(jsonData.begin(), jsonData.end());
+        updateExtraInfoInternal(jsonRawBytes, msg);
+    }
+
+    virtual MessagePtr createInvalidMessageImpl() override
+    {
+        return MessagePtr(new InvalidMsg());
+    }
+
+    virtual MessagePtr createRawDataMessageImpl() override
+    {
+        return MessagePtr(new RawDataMsg());
+    }    
+
+    virtual MessagePtr createExtraInfoMessageImpl() override
+    {
+        return MessagePtr(new ExtraInfoMsg());
+    }
+
+    virtual MessagesList createAllMessagesImpl() override
+    {
+        return m_factory.createAllMessages();
+    }
+
+    virtual MessagePtr createMessageImpl(const QString& idAsString, unsigned idx) override
+    {
+        return m_factory.createMessage(idAsString, idx);
+    }
+
+    virtual DataSeq writeProtMsgImpl(const ProtMsgBase& msg) override
+    {
+        DataSeq data;
+        data.reserve(m_frame.length(msg));
+
+        auto writeIter = std::back_inserter(data);
+        auto es = m_frame.write(msg, writeIter, data.max_size());
+        if (es == comms::ErrorStatus::UpdateRequired) {
+            auto updateIter = data.data();
+            es = m_frame.update(msg, updateIter, data.size());
+        }
+
+        if (es != comms::ErrorStatus::Success) {
+            [[maybe_unused]] static constexpr bool Unexpected_write_update_failure = false;
+            assert(Unexpected_write_update_failure); 
+            data.clear();
+        }
+
+        return data;
+    }
+
 private:
-    using DataSeq = DataInfo::DataSeq;
+    void updateTransportInternal(const DataSeq& data, Message& msg)
+    {
+        MessagePtr transportMsg(new TransportMsg);
+        if (!transportMsg->decodeData(data)) {
+            [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
+            assert(Must_not_be_happen);                
+        }
+
+        property::message::TransportMsg().setTo(std::move(transportMsg), msg);
+    }
+
+    void updateRawDataInternal(const DataSeq& data, Message& msg)
+    {
+        MessagePtr rawDataMsg(new RawDataMsg);
+        if (!rawDataMsg->decodeData(data)) {
+            [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
+            assert(Must_not_be_happen); 
+        }    
+        
+        property::message::RawDataMsg().setTo(std::move(rawDataMsg), msg);   
+    }    
+
+    void updateExtraInfoInternal(const DataSeq& jsonRawBytes, Message& msg)
+    {
+        MessagePtr extraInfoMsg(new ExtraInfoMsg);
+        if (!extraInfoMsg->decodeData(jsonRawBytes)) {
+            [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
+            assert(Must_not_be_happen); 
+        }
+
+        property::message::ExtraInfoMsg().setTo(std::move(extraInfoMsg), msg);        
+  
+    }     
+
     TProtFrame m_frame;
     TMsgFactory m_factory;
     DataSeq m_inData;

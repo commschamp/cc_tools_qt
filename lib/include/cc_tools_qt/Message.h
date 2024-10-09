@@ -34,7 +34,7 @@ namespace cc_tools_qt
 {
 
 class MessageHandler;
-class MessageWidget;
+class ToolsFrame;
 
 /// @brief Main interface class used by <b>CommsChampion Tools</b>
 ///     to display and manipulate messages.
@@ -115,6 +115,8 @@ public:
 
     void assignProtMessage(void* protMsg);
 
+    DataSeq encodeFramed(ToolsFrame& frame) const;
+
 protected:
 
     /// @brief Polymorphic name retrieval functionality.
@@ -172,6 +174,8 @@ protected:
     virtual Ptr cloneImpl() const = 0;
 
     virtual void assignProtMessageImpl(void* protMsg) = 0;
+
+    virtual DataSeq encodeFramedImpl(ToolsFrame& frame) const = 0;
 };
 
 /// @brief Smart pointer to @ref Message

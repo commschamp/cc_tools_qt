@@ -20,6 +20,7 @@
 
 #include "cc_tools_qt/Message.h"
 
+#include <list>
 #include <vector>
 
 namespace cc_tools_qt
@@ -28,22 +29,24 @@ namespace cc_tools_qt
 class ToolsMsgFactory
 {
 public:
-    using MessageList = std::vector<MessagePtr>;
+    using MessagesList = std::list<MessagePtr>;
 
     virtual ~ToolsMsgFactory();
 
     MessagePtr createMessage(const QString& idAsString, unsigned idx = 0);
     MessagePtr createMessage(const qlonglong id, unsigned idx = 0);
-    MessageList createAllMessages();
+    MessagesList createAllMessages();
 
 protected:
+    using MessagesListInternal = std::vector<MessagePtr>;
+
     ToolsMsgFactory();
-    virtual MessageList createAllMessagesImpl() = 0;
+    virtual MessagesListInternal createAllMessagesImpl() = 0;
 
 private:
     void createDefaultMessagesIfNeeded();
 
-    MessageList m_defaultMsgs;  
+    MessagesListInternal m_defaultMsgs;  
 };
 
 }  // namespace cc_tools_qt

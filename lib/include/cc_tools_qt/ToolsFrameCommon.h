@@ -29,10 +29,17 @@ class ToolsFrameCommon : public ToolsFrame
 {
 public:
     using ProtMsgBase = ToolsProtMsgInterface<TMsgBase::template ProtMsg>;
-        
+    using DataSeq = typename TMsgBase::DataSeq;
+
+    DataSeq writeProtMsg(const ProtMsgBase& msg)
+    {
+        return writeProtMsgImpl(msg);
+    } 
 
 protected:
     ToolsFrameCommon() = default;
+
+    virtual DataSeq writeProtMsgImpl(const ProtMsgBase& msg) = 0;
 };
 
 }  // namespace cc_tools_qt

@@ -47,40 +47,12 @@ namespace cc_tools_qt
 /// @details Provides the default implementation to most of the virtual
 ///     functions defined by @ref Protocol class.
 /// @headerfile cc_tools_qt/ProtocolBase.h
-template <typename TMsgBase, typename TTransportMsg, typename TMsgFactory, typename TFrame>
+template <typename TFrame>
 class ToolsProtocolBase : public Protocol
 {
 protected:
     /// @brief Default constructor
     ToolsProtocolBase() = default;
-
-    /// @brief Definition of "Transport Message" type.
-    using TransportMsg = TTransportMsg;
-
-    /// @brief Type of message factory
-    using MsgFactory = TMsgFactory;    
-
-    /// @brief Definition of "Raw Data Message" type
-    using RawDataMsg = ToolsRawDataMessage<TMsgBase>;
-
-    // /// @brief All messages bundle (@b std::tuple)
-    // /// @details Taken from "protocol stack" definition.
-    // using AllMessages = typename ProtocolStack::AllMessages;
-
-    /// @brief Type of "Invalid Message".
-    using InvalidMsg = ToolsInvalidMessage<TMsgBase>;
-
-    /// @brief Type of "Extra Info Message"
-    using ExtraInfoMsg = ToolsExtraInfoMessage<TMsgBase>;
-
-
-    // static_assert(
-    //     !std::is_void<AllMessages>::value,
-    //     "AllMessages must be a normal type");
-
-    // static_assert(
-    //     comms::util::IsTuple<AllMessages>::Value,
-    //     "AllMessages is expected to be a tuple.");
 
     /// @brief Overriding implementation to Protocol::readImpl().
     virtual MessagesList readImpl(const DataInfo& dataInfo, bool final) override
@@ -95,143 +67,31 @@ protected:
     /// @brief Overriding implementation to Protocol::writeImpl().
     virtual DataInfoPtr writeImpl(Message& msg) override
     {
-        // auto msgData = msg.encode();
+        auto dataInfo = makeDataInfo();
+        assert(dataInfo);
 
-        // TODO
-        static_cast<void>(msg);
-        return DataInfoPtr();
-
-        // DataInfo::DataSeq data;
-        // auto writeIter = std::back_inserter(data);
-        // auto es =
-        //     m_protStack.write(
-        //         static_cast<const ProtocolMessage&>(msg),
-        //         writeIter,
-        //         data.max_size());
-        // if (es == comms::ErrorStatus::UpdateRequired) {
-        //     auto updateIter = &data[0];
-        //     es = m_protStack.update(
-        //         static_cast<const ProtocolMessage&>(msg), 
-        //         updateIter, 
-        //         data.size());
-        // }
-
-        // if (es != comms::ErrorStatus::Success) {
-        //     [[maybe_unused]] static constexpr bool Unexpected_write_update_failure = false;
-        //     assert(Unexpected_write_update_failure); 
-        //     return DataInfoPtr();
-        // }
-
-        // auto dataInfo = makeDataInfo();
-        // assert(dataInfo);
-
-        // dataInfo->m_timestamp = DataInfo::TimestampClock::now();
-        // dataInfo->m_data = std::move(data);
-        // dataInfo->m_extraProperties = getExtraInfoFromMessageProperties(msg);
-        // return dataInfo;
+        dataInfo->m_timestamp = DataInfo::TimestampClock::now();
+        dataInfo->m_data = msg.encodeFramed(m_frame);
+        dataInfo->m_extraProperties = getExtraInfoFromMessageProperties(msg);
+        return dataInfo;
     }
 
     /// @brief Overriding implementation to Protocol::updateMessageImpl().
     virtual UpdateStatus updateMessageImpl(Message& msg) override
     {
-        // TODO
-        static_cast<void>(msg);
-        return UpdateStatus();
+        bool refreshed = msg.refreshMsg();
+        m_frame.updateMessage(msg);
+        if (refreshed) {
+            return UpdateStatus::Changed;
+        }
 
-        // bool refreshed = msg.refreshMsg();
-
-        // assert(!msg.idAsString().isEmpty());
-        // do {
-        //     std::vector<std::uint8_t> data;
-
-        //     auto writeIter = std::back_inserter(data);
-        //     auto es =
-        //         m_protStack.write(
-        //             static_cast<const ProtocolMessage&>(msg),
-        //             writeIter,
-        //             data.max_size());
-        //     if (es == comms::ErrorStatus::UpdateRequired) {
-        //         auto updateIter = &data[0];
-        //         es = m_protStack.update(
-        //             static_cast<const ProtocolMessage&>(msg),
-        //             updateIter, 
-        //             data.size());
-        //     }
-
-        //     if (es != comms::ErrorStatus::Success) {
-        //         [[maybe_unused]] static constexpr bool Unexpected_write_update_failure = false;
-        //         assert(Unexpected_write_update_failure); 
-        //         break;
-        //     }
-
-        //     auto readMessageFunc =
-        //         [&data](ProtocolMessage& msgToRead) -> bool
-        //         {
-        //             typename ProtocolMessage::ReadIterator iter = nullptr;
-        //             if (!data.empty()) {
-        //                 iter = &data[0];
-        //             }
-
-        //             auto esTmp = msgToRead.read(iter, data.size());
-        //             if (esTmp != comms::ErrorStatus::Success) {
-        //                 return false;
-        //             }
-
-        //             return true;
-        //         };
-
-        //     std::unique_ptr<TransportMsg> transportMsgPtr(new TransportMsg());
-        //     if (!readMessageFunc(*transportMsgPtr)) {
-        //         [[maybe_unused]] static constexpr bool Unexpected_failure_to_read_transport_message = false;
-        //         assert(Unexpected_failure_to_read_transport_message);        
-        //         break;
-        //     }
-
-        //     std::unique_ptr<RawDataMsg> rawDataMsgPtr(new RawDataMsg());
-        //     if (!readMessageFunc(*rawDataMsgPtr)) {
-        //         [[maybe_unused]] static constexpr bool Unexpected_failure_to_read_raw_data = false;
-        //         assert(Unexpected_failure_to_read_raw_data);                   
-        //         break;
-        //     }
-
-        //     setTransportToMessageProperties(MessagePtr(transportMsgPtr.release()), msg);
-        //     setRawDataToMessageProperties(MessagePtr(rawDataMsgPtr.release()), msg);
-
-        //     auto extraProps = getExtraInfoFromMessageProperties(msg);
-        //     bool extraInfoMsgIsForced = getForceExtraInfoExistenceFromMessageProperties(msg);
-        //     if (extraProps.isEmpty() && (!extraInfoMsgIsForced)) {
-        //         setExtraInfoMsgToMessageProperties(MessagePtr(), msg);
-        //         break;
-        //     }
-
-        //     std::unique_ptr<ExtraInfoMsg> extraInfoMsgPtr(new ExtraInfoMsg());
-        //     if (extraProps.isEmpty()) {
-        //         setExtraInfoMsgToMessageProperties(MessagePtr(extraInfoMsgPtr.release()), msg);
-        //         break;
-        //     }
-
-        //     auto jsonObj = QJsonObject::fromVariantMap(extraProps);
-        //     QJsonDocument doc(jsonObj);
-
-        //     auto& str = std::get<0>(extraInfoMsgPtr->fields());
-        //     str.value() = doc.toJson().constData();
-        //     setExtraInfoMsgToMessageProperties(
-        //         MessagePtr(extraInfoMsgPtr.release()),
-        //         msg);
-
-        // } while (false);
-
-        // if (refreshed) {
-        //     return UpdateStatus::Changed;
-        // }
-
-        // return UpdateStatus::NoChange;
+        return UpdateStatus::NoChange;        
     }
 
     /// @brief Overriding implementation to Protocol::createInvalidMessageImpl().
     virtual MessagePtr createInvalidMessageImpl() override
     {
-        MessagePtr msg(new InvalidMsg());
+        auto msg = m_frame.createInvalidMessage();
         setNameToMessageProperties(*msg);
         return msg;
     }
@@ -239,248 +99,29 @@ protected:
     /// @brief Overriding implementation to Protocol::createRawDataMessageImpl().
     virtual MessagePtr createRawDataMessageImpl() override
     {
-        return MessagePtr(new RawDataMsg());
+        return m_frame.createRawDataMessage();
     }
 
     /// @brief Overriding implementation to Protocol::createExtraInfoMessageImpl().
     virtual MessagePtr createExtraInfoMessageImpl() override
     {
-        return MessagePtr(new ExtraInfoMsg());
+        return m_frame.createExtraInfoMessage();
     }
 
     /// @brief Overriding implementation to Protocol::createAllMessagesImpl().
     virtual MessagesList createAllMessagesImpl() override
     {
-        auto msgs = m_msgFactory.createAllMessages();
-        MessagesList result;
-        std::move(msgs.begin(), msgs.end(), std::back_inserter(result));
-        return result;
+        return m_frame.createAllMessages();
     }
 
     /// @brief Overriding implementation to Protocol::createMessageImpl().
     virtual MessagePtr createMessageImpl(const QString& idAsString, unsigned idx) override
     {
-        return m_msgFactory.createMessage(idAsString, idx);
+        return m_frame.createMessage(idAsString, idx);
     }
 
-    // /// @brief Get access to embedded "protocol stack" object.
-    // ProtocolStack& protocolStack()
-    // {
-    //     return m_protStack;
-    // }
-
-    // /// @brief Get access to embedded "protocol stack" object.
-    // const ProtocolStack& protocolStack() const
-    // {
-    //     return m_protStack;
-    // }
-
-    // /// @brief Helper function to create message
-    // MessagePtr createMessage(MsgIdParamType id, unsigned idx = 0)
-    // {
-    //     auto msgPtr = m_protStack.createMsg(id, idx);
-    //     if (msgPtr) {
-    //         setNameToMessageProperties(*msgPtr);
-    //         updateMessage(*msgPtr);
-    //     }
-    //     return MessagePtr(std::move(msgPtr));
-    // }
-
-    // /// @brief Helper function allowing creation of all messages, types of which
-    // ///     provided in the template parameter.
-    // template <typename TMsgsTuple>
-    // MessagesList createAllMessagesInTuple()
-    // {
-    //     using Tag = 
-    //         typename std::conditional<
-    //             std::is_void<MsgFactory>::value,
-    //             CreateWithTupleIterationTag,
-    //             HasMsgFactoryTag
-    //         >::type;
-
-    //     return createAllMessagesInTupleInternal<TMsgsTuple>(Tag());
-    // }
-
 private:
-//     struct NumericIdTag {};
-//     struct OtherIdTag {};
-//     struct HasMsgFactoryTag{};
-//     struct HasStaticIdsTag{};
-//     struct CreateWithLoopIterationTag{};
-//     struct CreateWithTupleIterationTag{};
-
-//     typedef typename std::conditional<
-//         (std::is_enum<MsgIdType>::value || std::is_integral<MsgIdType>::value),
-//         NumericIdTag,
-//         OtherIdTag
-//     >::type MsgIdTypeTag;
-
-//     static_assert(std::is_same<MsgIdTypeTag, NumericIdTag>::value,
-//         "Non-numeric IDs are not supported properly yet.");
-
-//     class AllMsgsCreateHelper
-//     {
-//     public:
-//         AllMsgsCreateHelper(MessagesList& allMsgs)
-//           : m_allMsgs(allMsgs)
-//         {
-//         }
-
-//         template <typename TMsg>
-//         void operator()()
-//         {
-//             m_allMsgs.push_back(MessagePtr(new TMsg()));
-//         }
-
-//     private:
-//         MessagesList& m_allMsgs;
-//     };
-
-//     class MsgCreateHelper
-//     {
-//     public:
-//         MsgCreateHelper(const QString& id, unsigned idx, MessagePtr& msg)
-//           : m_id(id),
-//             m_reqIdx(idx),
-//             m_msg(msg)
-//         {
-//         }
-
-//         template <typename TMsg>
-//         void operator()()
-//         {
-//             if (m_msg) {
-//                 return;
-//             }
-
-//             MessagePtr msgPtr(new TMsg());
-//             if (m_id != msgPtr->idAsString()) {
-//                 return;
-//             }
-
-//             if (m_currIdx == m_reqIdx) {
-//                 m_msg = std::move(msgPtr);
-//                 return;
-//             }
-
-//             ++m_currIdx;
-//         }
-
-//     private:
-//         const QString& m_id;
-//         unsigned m_reqIdx;
-//         MessagePtr& m_msg;
-//         unsigned m_currIdx = 0;
-//     };
-
-//     MessagePtr createMessageInternal(const QString& idAsString, unsigned idx, NumericIdTag)
-//     {
-//         MessagePtr result;
-//         do {
-//             bool ok = false;
-//             std::intmax_t numId = static_cast<std::intmax_t>(idAsString.toLongLong(&ok, 10));
-//             if (!ok) {
-//                 numId = static_cast<decltype(numId)>(idAsString.toLongLong(&ok, 16));
-//                 if (!ok) {
-//                     break;
-//                 }
-//             }
-
-//             result = createMessage(static_cast<MsgIdType>(numId), idx);
-//         } while (false);
-//         return result;
-//     }
-
-//     MessagePtr createMessageInternal(const QString& idAsString, unsigned idx, OtherIdTag)
-//     {
-//         MessagePtr result;
-//         comms::util::tupleForEachType<AllMessages>(MsgCreateHelper(name(), idAsString, idx, result));
-//         if (result) {
-//             updateMessage(*result);
-//         }
-//         return result;
-//     }
-
-//     template <typename TMsgsTuple>
-//     MessagesList createAllMessagesInTupleInternal(CreateWithTupleIterationTag)
-//     {
-//         MessagesList allMsgs;
-//         comms::util::tupleForEachType<TMsgsTuple>(AllMsgsCreateHelper(allMsgs));
-//         return allMsgs;
-//     }    
-
-//     template <typename TMsgsTuple>
-//     MessagesList createAllMessagesInTupleInternal(HasMsgFactoryTag)
-//     {
-//         static_assert(std::tuple_size<TMsgsTuple>::value > 0U, "At least one message is expected to be defined");
-//         using FirstType = typename std::tuple_element<0, TMsgsTuple>::type;
-//         using LastType = typename std::tuple_element<std::tuple_size<TMsgsTuple>::value - 1U, TMsgsTuple>::type;
-
-//         using Tag = 
-//             std::conditional_t<
-//                 FirstType::hasStaticMsgId() && LastType::hasStaticMsgId(),
-//                 HasStaticIdsTag,
-//                 CreateWithLoopIterationTag
-//             >;
-
-//         return createAllMessagesInTupleInternal<TMsgsTuple>(Tag());
-//     }
-
-//     template <typename TMsgsTuple>
-//     MessagesList createAllMessagesInTupleInternal(CreateWithLoopIterationTag)
-//     {
-//         static_assert(std::tuple_size<TMsgsTuple>::value > 0U, "At least one message is expected to be defined");
-//         using FirstType = typename std::tuple_element<0, TMsgsTuple>::type;
-//         using LastType = typename std::tuple_element<std::tuple_size<TMsgsTuple>::value - 1U, TMsgsTuple>::type;
-//         auto firstId = static_cast<std::uintmax_t>(FirstType::doGetId());
-//         auto lastId = static_cast<std::uintmax_t>(LastType::doGetId());
-
-//         MessagesList allMsgs;
-//         MsgFactory factory;
-//         for (std::uintmax_t id = firstId; id <= lastId; ++id) {
-//             auto count = factory.msgCount(static_cast<MsgIdType>(id));
-//             for (auto idx = 0U; idx < count; ++idx) {
-//                 auto msgPtr = factory.createMsg(static_cast<MsgIdType>(id), idx);
-//                 if (msgPtr) {
-//                     allMsgs.push_back(std::move(msgPtr));
-//                 }
-//             }
-//         }
-
-//         return allMsgs;
-//     }    
-
-//     template <typename TMsgsTuple>
-//     MessagesList createAllMessagesInTupleInternal(HasStaticIdsTag)
-//     {
-//         static_assert(std::tuple_size<TMsgsTuple>::value > 0U, "At least one message is expected to be defined");
-//         using FirstType = typename std::tuple_element<0, TMsgsTuple>::type;
-//         using LastType = typename std::tuple_element<std::tuple_size<TMsgsTuple>::value - 1U, TMsgsTuple>::type;
-//         static_assert(FirstType::hasStaticMsgId(), "Invalid displatch");
-//         static_assert(LastType::hasStaticMsgId(), "Invalid displatch");
-        
-//         static const auto FirstId = FirstType::staticMsgId();
-//         static const auto LastId = LastType::staticMsgId();
-
-//         // When to sparse, use tuple iteration
-//         using Tag = 
-//             std::conditional_t<
-//                 static_cast<std::size_t>(FirstId - LastId) <= (std::tuple_size<TMsgsTuple>::value * 5),
-//                 CreateWithLoopIterationTag,
-//                 CreateWithTupleIterationTag
-//             >;
-
-//         return createAllMessagesInTupleInternal<TMsgsTuple>(Tag());
-//     }
-
-//     ProtocolStack m_protStack;
-//     
-//     
-
     TFrame m_frame;
-    MsgFactory m_msgFactory;
-    std::vector<std::uint8_t> m_data;
-    std::vector<std::uint8_t> m_garbage;
 };
 
 }  // namespace cc_tools_qt

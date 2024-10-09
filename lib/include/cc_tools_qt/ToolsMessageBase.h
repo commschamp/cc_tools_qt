@@ -21,6 +21,7 @@
 #include "Message.h"
 #include "MessageHandler.h"
 #include "cc_tools_qt/ToolsProtMsgInterface.h"
+#include "cc_tools_qt/ToolsFrameCommon.h"
 
 #include <algorithm>
 #include <cassert>
@@ -210,6 +211,12 @@ protected:
         auto* protMsgBase = reinterpret_cast<ProtMsgBase*>(protMsg);
         auto* actProtMsg = static_cast<ProtMsg*>(protMsgBase);
         m_msg = std::move(*actProtMsg);
+    }
+
+    virtual DataSeq encodeFramedImpl(ToolsFrame& frame) const override
+    {
+        auto& castedFrame = static_cast<ToolsFrameCommon<TBase>&>(frame);
+        return castedFrame.writeProtMsg(m_msg);
     }
 
 private:
