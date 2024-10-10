@@ -35,9 +35,9 @@ namespace message
 
 class Lists : public
     cc_tools_qt::ToolsMessageBase<
-        demo::message::Lists<cc_tools_qt::ToolsProtMsgInterface<demo::DemoMessage>>,
-        demo::cc_plugin::message::Lists,
-        demo::cc_plugin::DemoMessage>
+        demo::cc_plugin::DemoMessage,
+        demo::message::Lists,
+        demo::cc_plugin::message::Lists>
 {
 public:
     Lists();

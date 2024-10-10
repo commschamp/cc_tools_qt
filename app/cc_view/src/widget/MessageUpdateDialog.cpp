@@ -170,7 +170,7 @@ int msToDurationUnits(long long unsigned value, Duration dur)
 
 MessageUpdateDialog::MessageUpdateDialog(
     MessagePtr& msg,
-    ProtocolPtr protocol,
+    ToolsProtocolPtr protocol,
     QWidget* parentObj)
   : Base(parentObj),
     m_msg(msg),

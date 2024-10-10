@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/Protocol.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonDocument>
@@ -55,14 +55,14 @@ std::string dataToStr(const DataInfo::DataSeq& data)
 } // namespace 
     
 
-Protocol::~Protocol() noexcept = default;
+ToolsProtocol::~ToolsProtocol() noexcept = default;
 
-const QString& Protocol::name() const
+const QString& ToolsProtocol::name() const
 {
     return nameImpl();
 }
 
-Protocol::MessagesList Protocol::read(
+ToolsProtocol::MessagesList ToolsProtocol::read(
     const DataInfo& dataInfo,
     bool final)
 {
@@ -83,7 +83,12 @@ Protocol::MessagesList Protocol::read(
         std::cout << std::endl;
     }
 
-    auto messages = readImpl(dataInfo, final);
+    assert(m_frame);
+    auto messages = m_frame->readData(dataInfo, final);
+    for (auto& m : messages) {
+        setNameToMessageProperties(*m);
+    }
+
     if (1U <= m_debugLevel) {
         for (auto& msgPtr : messages) {
             std::cout << '[' << milliseconds << "] " << msgPtr->name() << " <-- " << debugPrefix() << std::endl;
@@ -93,7 +98,7 @@ Protocol::MessagesList Protocol::read(
     return messages;
 }
 
-DataInfoPtr Protocol::write(Message& msg)
+DataInfoPtr ToolsProtocol::write(Message& msg)
 {
     unsigned long long milliseconds = property::message::Timestamp().getFrom(msg);;
     if (1U <= m_debugLevel) {
@@ -122,20 +127,27 @@ DataInfoPtr Protocol::write(Message& msg)
         return dataInfoPtr;
     }
 
-    auto dataPtr = writeImpl(msg);
+    auto dataInfo = makeDataInfo();
+    assert(dataInfo);
+
+    dataInfo->m_timestamp = DataInfo::TimestampClock::now();
+    dataInfo->m_data = msg.encodeFramed(*m_frame);
+    dataInfo->m_extraProperties = getExtraInfoFromMessageProperties(msg);
     if (1U <= m_debugLevel) {
-        std::cout << '[' << milliseconds << "] " << debugPrefix() << " --> " << dataPtr->m_data.size() << " bytes";
+        std::cout << '[' << milliseconds << "] " << debugPrefix() << " --> " << dataInfo->m_data.size() << " bytes";
         if (2U <= m_debugLevel) {
-            std::cout << " | " << dataToStr(dataPtr->m_data);
+            std::cout << " | " << dataToStr(dataInfo->m_data);
         }
         std::cout << std::endl;
-    }    
-    return dataPtr;
+    } 
+
+    return dataInfo;    
 }
 
-Protocol::MessagesList Protocol::createAllMessages()
+ToolsProtocol::MessagesList ToolsProtocol::createAllMessages()
 {
-    auto allMsgs = createAllMessagesImpl();
+    assert(m_frame);
+    auto allMsgs = m_frame->createAllMessages();
     QString prevId;
     unsigned prevIdx = 0U;
     for (auto& msgPtr : allMsgs) {
@@ -156,19 +168,27 @@ Protocol::MessagesList Protocol::createAllMessages()
     return allMsgs;    
 }
 
-MessagePtr Protocol::createMessage(const QString& idAsString, unsigned idx)
+MessagePtr ToolsProtocol::createMessage(const QString& idAsString, unsigned idx)
 {
-    auto msgPtr = createMessageImpl(idAsString, idx);
+    assert(m_frame);
+    auto msgPtr = m_frame->createMessage(idAsString, idx);
     if (msgPtr) {
         property::message::MsgIdx().setTo(idx, *msgPtr);
     }
     return msgPtr;
 }
 
-Protocol::UpdateStatus Protocol::updateMessage(Message& msg)
+ToolsProtocol::UpdateStatus ToolsProtocol::updateMessage(Message& msg)
 {
     if (!msg.idAsString().isEmpty()) {
-        return updateMessageImpl(msg);
+        bool refreshed = msg.refreshMsg();
+        assert(m_frame);
+        m_frame->updateMessage(msg);
+        if (refreshed) {
+            return UpdateStatus::Changed;
+        }
+
+        return UpdateStatus::NoChange;          
     }
 
     auto extraInfo = getExtraInfoFromMessageProperties(msg);
@@ -181,7 +201,8 @@ Protocol::UpdateStatus Protocol::updateMessage(Message& msg)
         return UpdateStatus::NoChange;
     }
 
-    auto infoMsg = createExtraInfoMessageImpl();
+    assert(m_frame);
+    auto infoMsg = m_frame->createExtraInfoMessage();
     if (!infoMsg) {
         [[maybe_unused]] static constexpr bool Info_must_be_created = false;
         assert(Info_must_be_created);        
@@ -203,7 +224,7 @@ Protocol::UpdateStatus Protocol::updateMessage(Message& msg)
     return UpdateStatus::NoChange;
 }
 
-MessagePtr Protocol::cloneMessage(const Message& msg)
+MessagePtr ToolsProtocol::cloneMessage(const Message& msg)
 {
     if (msg.idAsString().isEmpty()) {
         MessagePtr clonedMsg;
@@ -214,7 +235,9 @@ MessagePtr Protocol::cloneMessage(const Message& msg)
             clonedMsg = createInvalidMessage(data);
         }
         else {
-            clonedMsg = createInvalidMessageImpl();
+            assert(m_frame);
+            clonedMsg = m_frame->createInvalidMessage();
+            setNameToMessageProperties(*clonedMsg);
         }
 
         if (!clonedMsg) {
@@ -239,9 +262,10 @@ MessagePtr Protocol::cloneMessage(const Message& msg)
     return clonedMsg;
 }
 
-MessagePtr Protocol::createInvalidMessage(const MsgDataSeq& data)
+MessagePtr ToolsProtocol::createInvalidMessage(const MsgDataSeq& data)
 {
-    auto rawDataMsg = createRawDataMessageImpl();
+    assert(m_frame);
+    auto rawDataMsg = m_frame->createRawDataMessage();
     if (!rawDataMsg) {
         return MessagePtr();
     }
@@ -250,120 +274,127 @@ MessagePtr Protocol::createInvalidMessage(const MsgDataSeq& data)
         return MessagePtr();
     }
 
-    auto invalidMsg = createInvalidMessageImpl();
+    auto invalidMsg = m_frame->createInvalidMessage();
     if (!invalidMsg) {
         return invalidMsg;
     }
 
+    setNameToMessageProperties(*invalidMsg);
     setRawDataToMessageProperties(std::move(rawDataMsg), *invalidMsg);
     return invalidMsg;
 }
 
-void Protocol::socketConnectionReport(bool connected)
+void ToolsProtocol::socketConnectionReport(bool connected)
 {
     socketConnectionReportImpl(connected);
 }
 
-void Protocol::messageReceivedReport(MessagePtr msg)
+void ToolsProtocol::messageReceivedReport(MessagePtr msg)
 {
     messageReceivedReportImpl(std::move(msg));
 }
 
-void Protocol::messageSentReport(MessagePtr msg)
+void ToolsProtocol::messageSentReport(MessagePtr msg)
 {
     messageSentReportImpl(std::move(msg));
 }
 
-void Protocol::applyInterPluginConfig(const QVariantMap& props)
+void ToolsProtocol::applyInterPluginConfig(const QVariantMap& props)
 {
     applyInterPluginConfigImpl(props);
 }
 
-void Protocol::setDebugOutputLevel(unsigned level)
+void ToolsProtocol::setDebugOutputLevel(unsigned level)
 {
     m_debugLevel = level;
 }
 
-void Protocol::socketConnectionReportImpl([[maybe_unused]] bool connected)
+ToolsProtocol::ToolsProtocol(ToolsFramePtr frame) :
+    m_frame(std::move(frame))
 {
 }
 
-void Protocol::messageReceivedReportImpl([[maybe_unused]] MessagePtr msg)
+
+void ToolsProtocol::socketConnectionReportImpl([[maybe_unused]] bool connected)
 {
 }
 
-void Protocol::messageSentReportImpl([[maybe_unused]] MessagePtr msg)
+void ToolsProtocol::messageReceivedReportImpl([[maybe_unused]] MessagePtr msg)
 {
 }
 
-void Protocol::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& props)
+void ToolsProtocol::messageSentReportImpl([[maybe_unused]] MessagePtr msg)
 {
 }
 
-void Protocol::setNameToMessageProperties(Message& msg)
+void ToolsProtocol::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& props)
+{
+}
+
+void ToolsProtocol::setNameToMessageProperties(Message& msg)
 {
     property::message::ProtocolName().setTo(name(), msg);
 }
 
-void Protocol::reportError(const QString& str)
+void ToolsProtocol::reportError(const QString& str)
 {
     if (m_errorReportCallback) {
         m_errorReportCallback(str);
     }
 }
 
-void Protocol::sendMessageRequest(MessagePtr msg)
+void ToolsProtocol::sendMessageRequest(MessagePtr msg)
 {
     if (m_sendMessageRequestCallback) {
         m_sendMessageRequestCallback(std::move(msg));
     }
 }
 
-void Protocol::reportInterPluginConfig(const QVariantMap& props)
+void ToolsProtocol::reportInterPluginConfig(const QVariantMap& props)
 {
     if (m_interPluginConfigReportCallback) {
         m_interPluginConfigReportCallback(props);
     }
 }
 
-unsigned Protocol::getDebugOutputLevel() const
+unsigned ToolsProtocol::getDebugOutputLevel() const
 {
     return m_debugLevel;
 }
 
-void Protocol::setTransportToMessageProperties(MessagePtr transportMsg, Message& msg)
+void ToolsProtocol::setTransportToMessageProperties(MessagePtr transportMsg, Message& msg)
 {
     property::message::TransportMsg().setTo(std::move(transportMsg), msg);
 }
 
-void Protocol::setRawDataToMessageProperties(MessagePtr rawDataMsg, Message& msg)
+void ToolsProtocol::setRawDataToMessageProperties(MessagePtr rawDataMsg, Message& msg)
 {
     property::message::RawDataMsg().setTo(std::move(rawDataMsg), msg);
 }
 
-void Protocol::setExtraInfoMsgToMessageProperties(MessagePtr extraInfoMsg, Message& msg)
+void ToolsProtocol::setExtraInfoMsgToMessageProperties(MessagePtr extraInfoMsg, Message& msg)
 {
     property::message::ExtraInfoMsg().setTo(std::move(extraInfoMsg), msg);
 }
 
-MessagePtr Protocol::getExtraInfoMsgToMessageProperties(const Message& msg)
+MessagePtr ToolsProtocol::getExtraInfoMsgToMessageProperties(const Message& msg)
 {
     return property::message::ExtraInfoMsg().getFrom(msg);
 }
 
-QVariantMap Protocol::getExtraInfoFromMessageProperties(const Message& msg)
+QVariantMap ToolsProtocol::getExtraInfoFromMessageProperties(const Message& msg)
 {
     return property::message::ExtraInfo().getFrom(msg);
 }
 
-void Protocol::setExtraInfoToMessageProperties(
+void ToolsProtocol::setExtraInfoToMessageProperties(
     const QVariantMap& extraInfo,
     Message& msg)
 {
     property::message::ExtraInfo().setTo(extraInfo, msg);
 }
 
-void Protocol::mergeExtraInfoToMessageProperties(
+void ToolsProtocol::mergeExtraInfoToMessageProperties(
     const QVariantMap& extraInfo,
     Message& msg)
 {
@@ -374,12 +405,12 @@ void Protocol::mergeExtraInfoToMessageProperties(
     setExtraInfoToMessageProperties(map, msg);
 }
 
-void Protocol::setForceExtraInfoExistenceToMessageProperties(Message& msg)
+void ToolsProtocol::setForceExtraInfoExistenceToMessageProperties(Message& msg)
 {
     property::message::ForceExtraInfoExistence().setTo(true, msg);
 }
 
-bool Protocol::getForceExtraInfoExistenceFromMessageProperties(const Message& msg)
+bool ToolsProtocol::getForceExtraInfoExistenceFromMessageProperties(const Message& msg)
 {
     return property::message::ForceExtraInfoExistence().getFrom(msg);
 }

@@ -35,9 +35,9 @@ namespace message
 
 class Bitfields : public
     cc_tools_qt::ToolsMessageBase<
-        demo::message::Bitfields<cc_tools_qt::ToolsProtMsgInterface<demo::DemoMessage>>,
-        demo::cc_plugin::message::Bitfields,
-        demo::cc_plugin::DemoMessage>
+        demo::cc_plugin::DemoMessage,
+        demo::message::Bitfields,
+        demo::cc_plugin::message::Bitfields>
 {
 public:
     Bitfields();

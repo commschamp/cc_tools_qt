@@ -22,7 +22,7 @@
 
 #include "ui_RawHexDataDialog.h"
 
-#include "cc_tools_qt/Protocol.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 
 namespace cc_tools_qt
@@ -36,7 +36,7 @@ public:
     typedef Protocol::MessagesList MessagesList;
     RawHexDataDialog(
         MessagesList& msgs,
-        ProtocolPtr protocol,
+        ToolsProtocolPtr protocol,
         QWidget* parentObj = nullptr);
     ~RawHexDataDialog() noexcept;
 
@@ -47,7 +47,7 @@ private slots:
 
 private:
     MessagesList& m_msgs;
-    ProtocolPtr m_protocol;
+    ToolsProtocolPtr m_protocol;
     Ui::RawHexDataDialog m_ui;
 };
 

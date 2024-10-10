@@ -251,7 +251,7 @@ void MsgListWidget::titleNeedsUpdate()
 void MsgListWidget::loadMessages(
     bool clearExisting,
     const QString& filename,
-    ProtocolPtr protocol)
+    ToolsProtocolPtr protocol)
 {
     if (clearExisting) {
         clearList();

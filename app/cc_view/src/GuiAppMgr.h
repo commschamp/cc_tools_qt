@@ -186,9 +186,9 @@ signals:
     void sigSendMoveSelectedDown();
     void sigSendMoveSelectedBottom();
     void sigRecvListTitleNeedsUpdate();
-    void sigNewSendMsgDialog(ProtocolPtr protocol);
-    void sigSendRawMsgDialog(ProtocolPtr protocol);
-    void sigUpdateSendMsgDialog(MessagePtr msg, ProtocolPtr protocol);
+    void sigNewSendMsgDialog(ToolsProtocolPtr protocol);
+    void sigSendRawMsgDialog(ToolsProtocolPtr protocol);
+    void sigUpdateSendMsgDialog(MessagePtr msg, ToolsProtocolPtr protocol);
     void sigLoadRecvMsgsDialog();
     void sigSaveRecvMsgsDialog();
     void sigLoadSendMsgsDialog(bool askForClear);
@@ -199,13 +199,13 @@ signals:
     void sigAddMainToolbarAction(ActionPtr action);
     void sigClearAllMainToolbarActions();
     void sigRecvSaveMsgs(const QString& filename);
-    void sigSendLoadMsgs(bool clear, const QString& filename, ProtocolPtr protocol);
+    void sigSendLoadMsgs(bool clear, const QString& filename, ToolsProtocolPtr protocol);
     void sigSendSaveMsgs(const QString& filename);
     void sigSocketConnected(bool connected);
     void sigSocketConnectEnabled(bool enabled);
     void sigMsgCommentDialog(MessagePtr msg);
     void sigMsgCommentUpdated(MessagePtr msg);
-    void sigRecvFilterDialog(ProtocolPtr protocol);
+    void sigRecvFilterDialog(ToolsProtocolPtr protocol);
 
 private:
     enum class SelectionType

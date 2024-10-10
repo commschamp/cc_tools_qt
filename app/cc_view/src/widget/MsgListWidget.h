@@ -25,7 +25,7 @@
 #include "ui_MsgListWidget.h"
 
 #include "cc_tools_qt/Message.h"
-#include "cc_tools_qt/Protocol.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 #include "GuiAppMgr.h"
 
@@ -61,7 +61,7 @@ protected slots:
     void moveSelectedDown();
     void moveSelectedBottom();
     void titleNeedsUpdate();
-    void loadMessages(bool clearExisting, const QString& filename, ProtocolPtr protocol);
+    void loadMessages(bool clearExisting, const QString& filename, ToolsProtocolPtr protocol);
     void saveMessages(const QString& filename);
     void selectMsg(int idx);
 

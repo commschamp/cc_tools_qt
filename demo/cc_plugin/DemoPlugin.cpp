@@ -33,7 +33,7 @@ DemoPlugin::DemoPlugin()
         .setProtocolCreateFunc(
             []()
             {
-                return cc::ProtocolPtr(new DemoProtocol());
+                return cc::ToolsProtocolPtr(new DemoProtocol());
             });
 }
 

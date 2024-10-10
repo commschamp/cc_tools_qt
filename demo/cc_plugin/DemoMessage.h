@@ -32,7 +32,7 @@ class DemoMessage : public cc_tools_qt::Message
 {
 public:
     template <typename... TOptions>
-    using ProtMsg = demo::DemoMessage<TOptions...>;
+    using ProtMsgBase = demo::DemoMessage<TOptions...>;
 
     DemoMessage();
     virtual ~DemoMessage() noexcept;

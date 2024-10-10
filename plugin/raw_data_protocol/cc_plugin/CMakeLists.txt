@@ -14,11 +14,11 @@ function (cc_plugin_raw_data_protocol)
     
     
     set (src
-        RawDataProtocolPlugin.cpp
-        RawDataProtocol.cpp
-        RawDataProtocolTransportMessage.cpp
+#        RawDataProtocolPlugin.cpp
+#        RawDataProtocol.cpp
+#        RawDataProtocolTransportMessage.cpp
         RawDataProtocolDataMessage.cpp
-        RawDataProtocolPlugin.h
+#        RawDataProtocolPlugin.h
     )
     
     add_library (${name} MODULE ${src})

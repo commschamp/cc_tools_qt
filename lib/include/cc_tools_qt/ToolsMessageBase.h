@@ -38,7 +38,7 @@ namespace cc_tools_qt
 /// @tparam TActualMsg Type of the actual message class inheriting from this one
 /// @tparam TBase Base class that this class is expected to inherit. Expected to be cc_tools_qt::Message or derivative.
 /// @headerfile cc_tools_qt/ToolMessageBase.h
-template <typename TProtMsg, typename TActualMsg, typename TBase = cc_tools_qt::Message>
+template <typename TBase, template<typename...> class TProtMsg, typename TActualMsg>
 class ToolsMessageBase : public TBase
 {
     using Base = TBase;
@@ -47,10 +47,10 @@ public:
     /// @brief Data sequence type
     using DataSeq = typename TBase::DataSeq;
 
-    using ProtMsgBase = ToolsProtMsgInterface<TBase::template ProtMsg>;
+    using ProtMsgBase = ToolsProtMsgInterface<TBase::template ProtMsgBase>;
 
     /// @brief Protocol definition message type
-    using ProtMsg = TProtMsg;
+    using ProtMsg = TProtMsg<ProtMsgBase>;
 
     /// @brief Handler class
     // using Handler = typename CommsBase::Handler;
@@ -114,7 +114,7 @@ protected:
     {
         using Tag = 
             std::conditional_t<
-                TProtMsg::hasCustomName(),
+                ProtMsg::hasCustomName(),
                 HasNameTag,
                 NoNameTag
             >;
@@ -141,7 +141,7 @@ protected:
     {
         using Tag = 
             std::conditional_t<
-                TProtMsg::hasStaticMsgId(),
+                ProtMsg::hasStaticMsgId(),
                 HasIdTag,
                 NoIdTag
             >;
@@ -228,8 +228,8 @@ private:
     qlonglong numericIdInternal(HasIdTag) const
     {
         static const bool IsNumeric =
-            std::is_enum<typename TProtMsg::MsgIdType>::value ||
-            std::is_integral<typename TProtMsg::MsgIdType>::value;
+            std::is_enum<typename ProtMsg::MsgIdType>::value ||
+            std::is_integral<typename ProtMsg::MsgIdType>::value;
 
         static_assert(IsNumeric, "Only numeric message IDs are supported");
         return static_cast<qlonglong>(m_msg.doGetId());
@@ -244,8 +244,8 @@ private:
 
     const char* nameInternal(HasNameTag) const
     {
-        static_assert(comms::isMessageBase<TProtMsg>(), "TProtMsg is expected to be proper message");
-        static_assert(TProtMsg::hasCustomName(), "TProtMsg is expected to define message name");
+        static_assert(comms::isMessageBase<ProtMsg>(), "ProtMsg is expected to be proper message");
+        static_assert(ProtMsg::hasCustomName(), "ProtMsg is expected to define message name");
 
         return m_msg.doName();
     }   
@@ -257,7 +257,7 @@ private:
         return NoName;
     }       
 
-    TProtMsg m_msg;
+    ProtMsg m_msg;
 };
 
 }  // namespace cc_tools_qt

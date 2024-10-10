@@ -56,7 +56,7 @@ struct ToolsExtraInfoMessageData : public comms::field::String<TFieldBase>
     }
 };
 
-template <typename TMsgBase>
+template <typename TMsgBase, typename...>
 class ToolsExtraInfoMessageImpl : public
     comms::MessageBase<
         TMsgBase,
@@ -73,17 +73,16 @@ class ToolsExtraInfoMessageImpl : public
 template<typename TBase>
 class ToolsExtraInfoMessage : public
     cc_tools_qt::ToolsMessageBase<
-        details::ToolsExtraInfoMessageImpl<ToolsProtMsgInterface<TBase::template ProtMsg>>,
-        ToolsExtraInfoMessage<TBase>,
-        TBase
+        TBase,
+        details::ToolsExtraInfoMessageImpl,
+        ToolsExtraInfoMessage<TBase>
     >
 {
 public:
     virtual ~ToolsExtraInfoMessage() noexcept = default;
 
 protected:
-    virtual const char*
-    nameImpl() const override
+    virtual const char* nameImpl() const override
     {
         static const char* Str = "Generic Extra Info Message";
         return Str;

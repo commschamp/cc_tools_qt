@@ -35,9 +35,9 @@ namespace message
 
 class Optionals : public
     cc_tools_qt::ToolsMessageBase<
-        demo::message::Optionals<cc_tools_qt::ToolsProtMsgInterface<demo::DemoMessage>>,
-        demo::cc_plugin::message::Optionals,
-        demo::cc_plugin::DemoMessage>
+        demo::cc_plugin::DemoMessage,
+        demo::message::Optionals,
+        demo::cc_plugin::message::Optionals>
 {
 public:
     Optionals();

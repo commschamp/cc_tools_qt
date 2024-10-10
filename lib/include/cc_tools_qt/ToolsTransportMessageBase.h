@@ -19,15 +19,17 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsMessageBase.h"
-#include "cc_tools_qt/ToolsProtMsgInterface.h"
+
+#include "comms/MessageBase.h"
+#include "comms/options.h"
 
 #include <QtCore/QString>
 
 #include <cassert>
 
-
 namespace cc_tools_qt
 {
+
 
 /// @brief Base class for @b TransportMessage definition in @b protocol
 ///     plugin.
@@ -35,13 +37,12 @@ namespace cc_tools_qt
 /// @tparam TActualMsg Type of the actual message class inheriting from this one
 /// @tparam TBase Base class that this class is expected to inherit. Expected to be cc_tools_qt::Message or derivative.
 /// @headerfile cc_tools_qt/ToolTransportMessageBase.h
-template <typename TProtMsg, typename TActualMsg, typename TBase = cc_tools_qt::Message>
+template <typename TBase, template<typename...> class TProtMsg, typename TActualMsg>
 class ToolsTransportMessageBase : public
     cc_tools_qt::ToolsMessageBase<
+        TBase,
         TProtMsg,
-        TActualMsg,
-        TBase
-    >
+        TActualMsg>
 {
 public:
     /// @brief Destructor
@@ -53,13 +54,6 @@ protected:
     {
         static const char* Str = "Generic Transport Message";
         return Str;
-    }
-
-    /// @brief Overriding virtual cc_tools_qt::Message::extraTransportFieldsPropertiesImpl()
-    virtual const QVariantList&  extraTransportFieldsPropertiesImpl() const override
-    {
-        static const QVariantList List;
-        return List;
     }
 
     virtual qlonglong numericIdImpl() const override

@@ -22,7 +22,7 @@
 
 #include "ui_MessageUpdateDialog.h"
 
-#include "cc_tools_qt/Protocol.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 #include "MessageDisplayWidget.h"
 
 namespace cc_tools_qt
@@ -35,7 +35,7 @@ class MessageUpdateDialog : public QDialog
 public:
     MessageUpdateDialog(
         MessagePtr& msg,
-        ProtocolPtr protocol,
+        ToolsProtocolPtr protocol,
         QWidget* parentObj = nullptr);
 
 private slots:
@@ -57,7 +57,7 @@ private:
     void refreshButtons();
 
     MessagePtr& m_msg;
-    ProtocolPtr m_protocol;
+    ToolsProtocolPtr m_protocol;
     Protocol::MessagesList m_allMsgs;
     MessageDisplayWidget* m_msgDisplayWidget = nullptr;
     Ui::MessageUpdateDialog m_ui;

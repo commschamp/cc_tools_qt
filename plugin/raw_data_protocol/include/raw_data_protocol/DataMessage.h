@@ -50,25 +50,18 @@ class DataMessage : public
         TMsgBase,
         comms::option::StaticNumIdImpl<0>,
         comms::option::FieldsImpl<typename DataMessageFields<typename TMsgBase::Field>::All>,
-        comms::option::MsgType<DataMessage<TMsgBase> >
+        comms::option::MsgType<DataMessage<TMsgBase>>,
+        comms::option::HasName
     >
 {
     typedef comms::MessageBase<
         TMsgBase,
         comms::option::StaticNumIdImpl<0>,
         comms::option::FieldsImpl<typename DataMessageFields<typename TMsgBase::Field>::All>,
-        comms::option::MsgType<DataMessage<TMsgBase> >
+        comms::option::MsgType<DataMessage<TMsgBase>>,
+        comms::option::HasName
     > Base;
 public:
-
-    enum FieldIdx
-    {
-        FieldIdx_data,
-        FieldIdx_numOfValues
-    };
-
-    static_assert(std::tuple_size<typename Base::AllFields>::value == FieldIdx_numOfValues,
-        "Number of fields is incorrect");
 
     DataMessage() = default;
     DataMessage(const DataMessage&) = default;
@@ -76,6 +69,13 @@ public:
     ~DataMessage() {}
     DataMessage& operator=(const DataMessage&) = default;
     DataMessage& operator=(DataMessage&&) = default;
+
+    COMMS_MSG_FIELDS_NAMES(data);
+
+    static const char* doName()
+    {
+        return "Raw Data";
+    }    
 };
 
 }  // namespace raw_data_protocol

@@ -35,7 +35,6 @@ namespace message
 namespace
 {
 
-using BitfieldsFields = demo::message::BitfieldsFields<>;
 using ProtMsg = demo::cc_plugin::message::Bitfields::ProtMsg;
 
 QVariantMap createField1BitmaskProperties()

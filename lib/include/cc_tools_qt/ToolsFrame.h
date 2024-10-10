@@ -21,6 +21,7 @@
 #include "cc_tools_qt/DataInfo.h"
 #include "cc_tools_qt/Message.h"
 
+#include <memory>
 #include <list>
 
 namespace cc_tools_qt
@@ -52,6 +53,8 @@ protected:
     virtual MessagesList createAllMessagesImpl() = 0;
     virtual MessagePtr createMessageImpl(const QString& idAsString, unsigned idx) = 0;
 };
+
+using ToolsFramePtr = std::unique_ptr<ToolsFrame>;
 
 }  // namespace cc_tools_qt
 

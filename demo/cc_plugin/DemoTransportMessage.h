@@ -31,9 +31,9 @@ namespace cc_plugin
 
 class DemoTransportMessage : public
     cc_tools_qt::ToolsTransportMessageBase<
+        demo::cc_plugin::DemoMessage,
         DemoTransportProtMessage,
-        DemoTransportMessage,
-        demo::cc_plugin::DemoMessage
+        DemoTransportMessage
     >
 {
 protected:

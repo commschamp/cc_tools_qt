@@ -34,7 +34,7 @@ MsgSendMgrImpl::MsgSendMgrImpl()
 
 MsgSendMgrImpl::~MsgSendMgrImpl() noexcept = default;
 
-void MsgSendMgrImpl::start(ProtocolPtr protocol, const MessagesList& msgs)
+void MsgSendMgrImpl::start(ToolsProtocolPtr protocol, const MessagesList& msgs)
 {
     [[maybe_unused]] static constexpr bool The_previous_sending_must_be_stopped_first = false;
     assert(m_msgsToSend.empty() || The_previous_sending_must_be_stopped_first);

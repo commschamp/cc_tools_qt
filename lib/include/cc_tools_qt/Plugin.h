@@ -92,7 +92,7 @@ public:
     ///     will invoke protocol creation callback function assigned by the
     ///     derived class to pluginProperties().
     /// @return Allocated protocol object
-    ProtocolPtr createProtocol() const;
+    ToolsProtocolPtr createProtocol() const;
 
     /// @brief Create GUI actions relevant to the plugin.
     /// @details This function will invoke the relevant callback function

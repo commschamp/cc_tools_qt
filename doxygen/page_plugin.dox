@@ -236,7 +236,7 @@
 ///     {
 ///         pluginProperties()
 ///             .setProtocolCreateFunc(
-///                 [this]() -> cc_tools_qt::ProtocolPtr
+///                 [this]() -> cc_tools_qt::ToolsProtocolPtr
 ///                 {
 ///                     ...
 ///                 });

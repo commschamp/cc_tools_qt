@@ -35,9 +35,9 @@ namespace message
 
 class BitmaskValues : public
     cc_tools_qt::ToolsMessageBase<
-        demo::message::BitmaskValues<cc_tools_qt::ToolsProtMsgInterface<demo::DemoMessage>>,
-        demo::cc_plugin::message::BitmaskValues,
-        demo::cc_plugin::DemoMessage>
+        demo::cc_plugin::DemoMessage,
+        demo::message::BitmaskValues,
+        demo::cc_plugin::message::BitmaskValues>
 {
 public:
     BitmaskValues();

@@ -15,9 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-
 #include "RawDataProtocolDataMessage.h"
+
+#include "cc_tools_qt/property/field.h"
+
+#include <cassert>
 
 namespace cc = cc_tools_qt;
 
@@ -36,30 +38,18 @@ namespace cc_plugin
 namespace
 {
 
-typedef raw_data_protocol::DataMessageFields<RawDataProtocolDataMessage::Field> DataMessageFields;
+using ProtMsg = cc_tools_qt::plugin::raw_data_protocol::cc_plugin::RawDataProtocolDataMessage::ProtMsg;
 
 QVariantList createFieldsProperties()
 {
     QVariantList props;
-    props.append(cc::property::field::ForField<DataMessageFields::data>().name("data").asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_data>().name("data").asMap());
 
-    assert(props.size() == RawDataProtocolDataMessage::FieldIdx_numOfValues);
+    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;
 }
 
 }  // namespace
-
-RawDataProtocolDataMessage::RawDataProtocolDataMessage() = default;
-RawDataProtocolDataMessage::~RawDataProtocolDataMessage() noexcept = default;
-
-RawDataProtocolDataMessage& RawDataProtocolDataMessage::operator=(const RawDataProtocolDataMessage&) = default;
-RawDataProtocolDataMessage& RawDataProtocolDataMessage::operator=(RawDataProtocolDataMessage&&) = default;
-
-const char* RawDataProtocolDataMessage::nameImpl() const
-{
-    static const char* Str = "Raw Data";
-    return Str;
-}
 
 const QVariantList& RawDataProtocolDataMessage::fieldsPropertiesImpl() const
 {

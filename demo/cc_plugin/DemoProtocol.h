@@ -24,7 +24,7 @@
 #include "DemoMsgFactory.h"
 #include "DemoTransportMessage.h"
 
-#include "cc_tools_qt/ToolsProtocolBase.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 namespace demo
 {
@@ -32,10 +32,11 @@ namespace demo
 namespace cc_plugin
 {
 
-class DemoProtocol : public cc_tools_qt::ToolsProtocolBase<DemoFrame>
+class DemoProtocol : public cc_tools_qt::ToolsProtocol
 {
+    using Base = cc_tools_qt::ToolsProtocol;
 public:
-    DemoProtocol() = default;
+    DemoProtocol() : Base(std::make_unique<DemoFrame>()) {};
     virtual ~DemoProtocol() noexcept;
 
 protected:

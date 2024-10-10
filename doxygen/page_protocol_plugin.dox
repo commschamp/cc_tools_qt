@@ -600,7 +600,7 @@
 ///                 [this]()
 ///                 {
 ///                     // allocates previously defined demo::cc_plugin::Protocol
-///                     return cc_tools_qt::ProtocolPtr(new Protocol());
+///                     return cc_tools_qt::ToolsProtocolPtr(new Protocol());
 ///                 });
 ///     }
 /// };

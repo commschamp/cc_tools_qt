@@ -35,9 +35,9 @@ namespace message
 
 class Strings : public
     cc_tools_qt::ToolsMessageBase<
-        demo::message::Strings<cc_tools_qt::ToolsProtMsgInterface<demo::DemoMessage>>,
-        demo::cc_plugin::message::Strings,
-        demo::cc_plugin::DemoMessage>
+        demo::cc_plugin::DemoMessage,
+        demo::message::Strings,
+        demo::cc_plugin::message::Strings>
 {
 public:
     Strings();

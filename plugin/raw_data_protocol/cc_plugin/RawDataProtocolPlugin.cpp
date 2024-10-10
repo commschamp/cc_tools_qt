@@ -39,7 +39,7 @@ RawDataProtocolPlugin::RawDataProtocolPlugin()
         .setProtocolCreateFunc(
             []()
             {
-                return cc::ProtocolPtr(new RawDataProtocol());
+                return cc::ToolsProtocolPtr(new RawDataProtocol());
             });
 }
 

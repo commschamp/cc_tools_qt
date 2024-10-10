@@ -50,7 +50,7 @@ SocketPtr MsgMgr::getSocket() const
     return m_impl->getSocket();
 }
 
-ProtocolPtr MsgMgr::getProtocol() const
+ToolsProtocolPtr MsgMgr::getProtocol() const
 {
     return m_impl->getProtocol();
 }
@@ -95,7 +95,7 @@ void MsgMgr::setSocket(SocketPtr socket)
     m_impl->setSocket(std::move(socket));
 }
 
-void MsgMgr::setProtocol(ProtocolPtr protocol)
+void MsgMgr::setProtocol(ToolsProtocolPtr protocol)
 {
     m_impl->setProtocol(std::move(protocol));
 }

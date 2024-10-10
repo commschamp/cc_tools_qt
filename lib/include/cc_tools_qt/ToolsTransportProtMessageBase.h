@@ -26,13 +26,14 @@
 namespace cc_tools_qt
 {
 
-template <template<typename...> class TMsgBase, typename TFields, typename TActualMsg>
+template <typename TMsgBase, typename TFields, typename TActualMsg, typename... TOptions>
 class ToolsTransportProtMessageBase : public
     comms::MessageBase<
-        ToolsProtMsgInterface<TMsgBase>,
+        TMsgBase,
         comms::option::NoIdImpl,
         comms::option::FieldsImpl<TFields>,
-        comms::option::MsgType<TActualMsg>
+        comms::option::MsgType<TActualMsg>,
+        TOptions...
     >
 {
 };

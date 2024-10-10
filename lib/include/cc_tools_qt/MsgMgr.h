@@ -24,7 +24,7 @@
 
 #include "Api.h"
 #include "Message.h"
-#include "Protocol.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 #include "Message.h"
 #include "Socket.h"
 #include "Filter.h"
@@ -37,7 +37,7 @@ class CC_API MsgMgr
 {
 public:
     typedef std::list<MessagePtr> AllMessages;
-    typedef Protocol::MessagesList MessagesList;
+    typedef ToolsProtocol::MessagesList MessagesList;
 
     typedef Message::Type MsgType;
 
@@ -49,7 +49,7 @@ public:
     void clear();
 
     SocketPtr getSocket() const;
-    ProtocolPtr getProtocol() const;
+    ToolsProtocolPtr getProtocol() const;
     void setRecvEnabled(bool enabled);
 
     void deleteMsg(MessagePtr msg);
@@ -62,7 +62,7 @@ public:
     void addMsgs(const MessagesList& msgs, bool reportAdded = true);
 
     void setSocket(SocketPtr socket);
-    void setProtocol(ProtocolPtr protocol);
+    void setProtocol(ToolsProtocolPtr protocol);
     void addFilter(FilterPtr filter);
 
     typedef std::function<void (MessagePtr msg)> MsgAddedCallbackFunc;

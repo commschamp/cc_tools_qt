@@ -35,9 +35,9 @@ namespace message
 
 class Bundles : public
     cc_tools_qt::ToolsMessageBase<
-        demo::message::Bundles<cc_tools_qt::ToolsProtMsgInterface<demo::DemoMessage>>,
-        demo::cc_plugin::message::Bundles,
-        demo::cc_plugin::DemoMessage>
+        demo::cc_plugin::DemoMessage,
+        demo::message::Bundles,
+        demo::cc_plugin::message::Bundles>
 {
 public:
     Bundles();

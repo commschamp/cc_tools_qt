@@ -4,7 +4,6 @@ function (lib_tools)
     set (src
         ErrorStatus.cpp
         Message.cpp
-        Protocol.cpp
         Filter.cpp
         Socket.cpp
         MessageHandler.cpp
@@ -21,6 +20,7 @@ function (lib_tools)
         MsgMgrImpl.cpp
         ToolsFrame.cpp
         ToolsMsgFactory.cpp
+        ToolsProtocol.cpp
         field_wrapper/FieldWrapper.cpp
         field_wrapper/IntValueWrapper.cpp
         field_wrapper/UnsignedLongValueWrapper.cpp

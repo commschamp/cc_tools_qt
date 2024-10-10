@@ -44,7 +44,7 @@ using ToolsRawDataMessageField =
         std::uint8_t
     >;    
 
-template <typename TMsgBase>
+template <typename TMsgBase, typename...>
 class ToolsRawDataMessageImpl : public
     comms::MessageBase<
         TMsgBase,
@@ -61,9 +61,9 @@ class ToolsRawDataMessageImpl : public
 template<typename TBase>
 class ToolsRawDataMessage : public 
     cc_tools_qt::ToolsMessageBase<
-        details::ToolsRawDataMessageImpl<ToolsProtMsgInterface<TBase::template ProtMsg>>,
-        ToolsRawDataMessage<TBase>,
-        TBase
+        TBase,
+        details::ToolsRawDataMessageImpl,
+        ToolsRawDataMessage<TBase>
     >
 {
 public:

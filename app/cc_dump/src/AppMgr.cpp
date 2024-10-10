@@ -174,7 +174,7 @@ bool AppMgr::applyPlugins(const ListOfPluginInfos& plugins)
     {
         cc::SocketPtr m_socket;
         ListOfFilters m_filters;
-        cc::ProtocolPtr m_protocol;
+        cc::ToolsProtocolPtr m_protocol;
     };
 
     auto applyInfo = ApplyInfo();

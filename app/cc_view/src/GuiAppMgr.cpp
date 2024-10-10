@@ -618,7 +618,7 @@ bool GuiAppMgr::applyNewPlugins(const ListOfPluginInfos& plugins)
     {
         SocketPtr m_socket;
         ListOfFilters m_filters;
-        ProtocolPtr m_protocol;
+        ToolsProtocolPtr m_protocol;
         ListOfGuiActions m_actions;
     };
 

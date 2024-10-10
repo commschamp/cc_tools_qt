@@ -26,7 +26,7 @@
 
 #include "ui_MainWindowWidget.h"
 
-#include "cc_tools_qt/Protocol.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 #include "GuiAppMgr.h"
 
@@ -45,9 +45,9 @@ public:
     ~MainWindowWidget() noexcept;
 
 private slots:
-    void newSendMsgDialog(ProtocolPtr protocol);
-    void sendRawMsgDialog(ProtocolPtr protocol);
-    void updateSendMsgDialog(MessagePtr msg, ProtocolPtr protocol);
+    void newSendMsgDialog(ToolsProtocolPtr protocol);
+    void sendRawMsgDialog(ToolsProtocolPtr protocol);
+    void updateSendMsgDialog(MessagePtr msg, ToolsProtocolPtr protocol);
     void pluginsEditDialog();
     void displayErrorMsg(const QString& msg);
     void addMainToolbarAction(ActionPtr action);
@@ -59,7 +59,7 @@ private slots:
     void saveSendMsgsDialog();
     void msgCommentDialog(MessagePtr msg);
     void aboutInfo();
-    void recvFilterDialog(ProtocolPtr protocol);
+    void recvFilterDialog(ToolsProtocolPtr protocol);
 
 private:
     void clearCustomToolbarActions();

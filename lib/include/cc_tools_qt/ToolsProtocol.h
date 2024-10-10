@@ -18,17 +18,18 @@
 
 #pragma once
 
-#include <memory>
-#include <cstdint>
-#include <cstddef>
-#include <list>
+#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/DataInfo.h"
+#include "cc_tools_qt/ToolsFrame.h"
+#include "cc_tools_qt/Message.h"
 
 #include <QtCore/QMetaType>
 #include <QtCore/QString>
 
-#include "Api.h"
-#include "Message.h"
-#include "DataInfo.h"
+#include <cstdint>
+#include <cstddef>
+#include <list>
+#include <memory>
 
 namespace cc_tools_qt
 {
@@ -38,11 +39,11 @@ namespace cc_tools_qt
 ///     protocol messages.
 /// @headerfile cc_tools_qt/Protocol.h
 
-class CC_API Protocol
+class CC_API ToolsProtocol
 {
 public:
     /// @brief List of messages
-    using MessagesList = std::list<MessagePtr>;
+    using MessagesList = ToolsFrame::MessagesList;
 
     /// @brief List of raw data buffers
     using DataInfosList = std::list<DataInfoPtr>;
@@ -58,7 +59,7 @@ public:
     };
 
     /// @brief Destructor
-    virtual ~Protocol() noexcept;
+    virtual ~ToolsProtocol() noexcept;
 
     /// @brief Retrieve name of the protocol.
     /// @details Invokes @ref nameImpl().
@@ -100,7 +101,6 @@ public:
     MessagePtr cloneMessage(const Message& msg);
 
     /// @brief Create dummy message containing invalid input
-    /// @details Invokes @ref createInvalidMessageImpl().
     MessagePtr createInvalidMessage(const MsgDataSeq& data);
 
     /// @brief Make the protocol aware about socket connection status
@@ -163,39 +163,11 @@ public:
     }    
 
 protected:
+    explicit ToolsProtocol(ToolsFramePtr frame);
+
     /// @brief Polymorphic protocol name retrieval.
     /// @details Invoked by name().
     virtual const QString& nameImpl() const = 0;
-
-    /// @brief Polymorphic read functionality.
-    /// @details Invoked by read().
-    virtual MessagesList readImpl(const DataInfo& dataInfo, bool final) = 0;
-
-    /// @brief Polymorphic write functionality.
-    /// @details invoked by write().
-    virtual DataInfoPtr writeImpl(Message& msg) = 0;
-
-    /// @brief Polymorphic creation of all messages protocol supports.
-    /// @details Invoked by createAllMessages().
-    virtual MessagesList createAllMessagesImpl() = 0;
-
-    /// @brief Polymorphic message creation functionality.
-    /// @details Invoked by createMessage().
-    virtual MessagePtr createMessageImpl(const QString& idAsString, unsigned idx) = 0;
-
-    /// @brief Polymorphic message update (refresh) functionality.
-    /// @details Invoked by updateMessage().
-    virtual UpdateStatus updateMessageImpl(Message& msg) = 0;
-
-    /// @brief Polymorphic creation of invalid message representation.
-    /// @details Invoked by createInvalidMessage().
-    virtual MessagePtr createInvalidMessageImpl() = 0;
-
-    /// @brief Polymorphic creation of message object representing raw data
-    virtual MessagePtr createRawDataMessageImpl() = 0;
-
-    /// @brief Polymorphic creation of message object representing extra info.
-    virtual MessagePtr createExtraInfoMessageImpl() = 0;
 
     /// @brief Polymorphic processing of the socket connection report
     /// @details Empty function, does nothing
@@ -278,6 +250,7 @@ protected:
     static bool getForceExtraInfoExistenceFromMessageProperties(const Message& msg);
 
 private:
+    ToolsFramePtr m_frame;
     ErrorReportCallback m_errorReportCallback;
     SendMessageRequestCallback m_sendMessageRequestCallback;
     InterPluginConfigReportCallback m_interPluginConfigReportCallback;
@@ -285,8 +258,8 @@ private:
 };
 
 /// @brief Pointer to @ref Protocol object.
-using ProtocolPtr = std::shared_ptr<Protocol>;
+using ToolsProtocolPtr = std::shared_ptr<ToolsProtocol>;
 
 }  // namespace cc_tools_qt
 
-Q_DECLARE_METATYPE(cc_tools_qt::ProtocolPtr);
+Q_DECLARE_METATYPE(cc_tools_qt::ToolsProtocolPtr);

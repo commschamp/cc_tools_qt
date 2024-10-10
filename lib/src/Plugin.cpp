@@ -77,7 +77,7 @@ Plugin::ListOfFilters Plugin::createFilters() const
     return filters;
 }
 
-ProtocolPtr Plugin::createProtocol() const
+ToolsProtocolPtr Plugin::createProtocol() const
 {
     auto protocolPtr = invokeCreationFunc(m_props.getProtocolCreateFunc());
     if (protocolPtr) {

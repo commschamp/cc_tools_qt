@@ -34,6 +34,8 @@ namespace cc_plugin
 namespace
 {
 
+using ProtMsg = DemoTransportMessage::ProtMsg;    
+
 QVariantMap createMsgIdProperties()
 {
     static const char* Names[] = {
@@ -77,7 +79,7 @@ QVariantList createFieldsProperties()
     props.append(cc::property::field::ForField<demo::VersionField>().name("VERSION").asMap());
     props.append(cc::property::field::ForField<demo::DataField<> >().name("PAYLOAD").asMap());
     props.append(cc::property::field::ForField<demo::ChecksumField>().name("CHECKSUM").asMap());
-    assert(props.size() == DemoTransportProtMessage::FieldIdx_numOfValues);
+    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;
 }
 

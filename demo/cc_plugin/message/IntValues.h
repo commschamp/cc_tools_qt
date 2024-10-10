@@ -35,9 +35,9 @@ namespace message
 
 class IntValues : public 
     cc_tools_qt::ToolsMessageBase<
-        demo::message::IntValues<cc_tools_qt::ToolsProtMsgInterface<demo::DemoMessage>>,
-        demo::cc_plugin::message::IntValues,
-        demo::cc_plugin::DemoMessage>
+        demo::cc_plugin::DemoMessage,
+        demo::message::IntValues,
+        demo::cc_plugin::message::IntValues>
 {
 public:
     IntValues();

@@ -18,8 +18,9 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
 #include "raw_data_protocol/Message.h"
+
+#include "cc_tools_qt/Message.h"
 
 namespace cc_tools_qt
 {
@@ -33,13 +34,11 @@ namespace raw_data_protocol
 namespace cc_plugin
 {
 
-template <typename... TOptions>
-class RawDataProtocolMessageT :
-    public cc_tools_qt::MessageBase<raw_data_protocol::MessageT, TOptions...>
+class RawDataProtocolMessage : public cc_tools_qt::Message
 {
-    typedef cc_tools_qt::MessageBase<raw_data_protocol::MessageT, TOptions...> Base;
 public:
-    virtual ~RawDataProtocolMessageT() {}
+    template <typename... TOptions>
+    using ProtMsgBase = raw_data_protocol::Message<TOptions...>;
 
 protected:
 
@@ -47,15 +46,7 @@ protected:
     {
         return "-";
     }
-
-    virtual const QVariantList& fieldsPropertiesImpl() const override
-    {
-        static const QVariantList Props;
-        return Props;
-    }
 };
-
-typedef RawDataProtocolMessageT<> RawDataProtocolMessage;
 
 }  // namespace cc_plugin
 

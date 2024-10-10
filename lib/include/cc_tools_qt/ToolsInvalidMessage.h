@@ -33,7 +33,7 @@ namespace cc_tools_qt
 namespace details
 {
 
-template <typename TMsgBase>
+template <typename TMsgBase, typename...>
 class ToolInvalidMessageImpl : public
     comms::MessageBase<
         TMsgBase,
@@ -50,9 +50,9 @@ class ToolInvalidMessageImpl : public
 template<typename TBase>
 class ToolsInvalidMessage : public
     cc_tools_qt::ToolsMessageBase<
-        details::ToolInvalidMessageImpl<ToolsProtMsgInterface<TBase::template ProtMsg>>,
-        ToolsInvalidMessage<TBase>,
-        TBase
+        TBase,
+        details::ToolInvalidMessageImpl,
+        ToolsInvalidMessage<TBase>
     >
 {
 public:

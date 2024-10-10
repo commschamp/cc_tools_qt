@@ -64,14 +64,14 @@ MainWindowWidget::MainWindowWidget(QWidget* parentObj)
 
     auto* guiAppMgr = GuiAppMgr::instance();
     connect(
-        guiAppMgr, SIGNAL(sigNewSendMsgDialog(ProtocolPtr)),
-        this, SLOT(newSendMsgDialog(ProtocolPtr)));
+        guiAppMgr, SIGNAL(sigNewSendMsgDialog(ToolsProtocolPtr)),
+        this, SLOT(newSendMsgDialog(ToolsProtocolPtr)));
     connect(
-        guiAppMgr, SIGNAL(sigSendRawMsgDialog(ProtocolPtr)),
-        this, SLOT(sendRawMsgDialog(ProtocolPtr)));
+        guiAppMgr, SIGNAL(sigSendRawMsgDialog(ToolsProtocolPtr)),
+        this, SLOT(sendRawMsgDialog(ToolsProtocolPtr)));
     connect(
-        guiAppMgr, SIGNAL(sigUpdateSendMsgDialog(MessagePtr, ProtocolPtr)),
-        this, SLOT(updateSendMsgDialog(MessagePtr, ProtocolPtr)));
+        guiAppMgr, SIGNAL(sigUpdateSendMsgDialog(MessagePtr, ToolsProtocolPtr)),
+        this, SLOT(updateSendMsgDialog(MessagePtr, ToolsProtocolPtr)));
     connect(
         guiAppMgr, SIGNAL(sigPluginsEditDialog()),
         this, SLOT(pluginsEditDialog()));
@@ -109,8 +109,8 @@ MainWindowWidget::MainWindowWidget(QWidget* parentObj)
         m_ui.m_actionAbout, SIGNAL(triggered()),
         this, SLOT(aboutInfo()));
     connect(
-        guiAppMgr, SIGNAL(sigRecvFilterDialog(ProtocolPtr)),
-        this, SLOT(recvFilterDialog(ProtocolPtr)));        
+        guiAppMgr, SIGNAL(sigRecvFilterDialog(ToolsProtocolPtr)),
+        this, SLOT(recvFilterDialog(ToolsProtocolPtr)));        
 }
 
 MainWindowWidget::~MainWindowWidget() noexcept
@@ -118,7 +118,7 @@ MainWindowWidget::~MainWindowWidget() noexcept
     clearCustomToolbarActions();
 }
 
-void MainWindowWidget::newSendMsgDialog(ProtocolPtr protocol)
+void MainWindowWidget::newSendMsgDialog(ToolsProtocolPtr protocol)
 {
     MessagePtr msg;
     MessageUpdateDialog dialog(msg, std::move(protocol), this);
@@ -128,7 +128,7 @@ void MainWindowWidget::newSendMsgDialog(ProtocolPtr protocol)
     }
 }
 
-void MainWindowWidget::sendRawMsgDialog(ProtocolPtr protocol)
+void MainWindowWidget::sendRawMsgDialog(ToolsProtocolPtr protocol)
 {
     RawHexDataDialog::MessagesList msgs;
     RawHexDataDialog dialog(msgs, std::move(protocol), this);
@@ -141,7 +141,7 @@ void MainWindowWidget::sendRawMsgDialog(ProtocolPtr protocol)
 
 void MainWindowWidget::updateSendMsgDialog(
     MessagePtr msg,
-    ProtocolPtr protocol)
+    ToolsProtocolPtr protocol)
 {
     assert(msg);
     MessageUpdateDialog dialog(msg, std::move(protocol), this);
@@ -281,7 +281,7 @@ void MainWindowWidget::aboutInfo()
     QMessageBox::information(this, tr("About"), AboutTxt);
 }
 
-void MainWindowWidget::recvFilterDialog(ProtocolPtr protocol)
+void MainWindowWidget::recvFilterDialog(ToolsProtocolPtr protocol)
 {
     auto* guiAppMgr = GuiAppMgr::instance();
     GuiAppMgr::FilteredMessages hiddenMessages = guiAppMgr->getFilteredMessages();

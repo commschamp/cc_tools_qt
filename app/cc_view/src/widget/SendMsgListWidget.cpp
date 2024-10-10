@@ -68,8 +68,8 @@ SendMsgListWidget::SendMsgListWidget(QWidget* parentObj)
         guiMgr, SIGNAL(sigSendMoveSelectedBottom()),
         this, SLOT(moveSelectedBottom()));
     connect(
-        guiMgr, SIGNAL(sigSendLoadMsgs(bool, const QString&, ProtocolPtr)),
-        this, SLOT(loadMessages(bool, const QString&, ProtocolPtr)));
+        guiMgr, SIGNAL(sigSendLoadMsgs(bool, const QString&, ToolsProtocolPtr)),
+        this, SLOT(loadMessages(bool, const QString&, ToolsProtocolPtr)));
     connect(
         guiMgr, SIGNAL(sigSendSaveMsgs(const QString&)),
         this, SLOT(saveMessages(const QString&)));

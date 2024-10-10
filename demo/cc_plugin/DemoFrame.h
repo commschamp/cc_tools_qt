@@ -36,7 +36,7 @@ namespace cc_plugin
 namespace details
 {
 
-using DemoProtMsg = cc_tools_qt::ToolsProtMsgInterface<DemoMessage::ProtMsg>;
+using DemoProtMsg = cc_tools_qt::ToolsProtMsgInterface<DemoMessage::ProtMsgBase>;
 using DemoProtFrame = demo::Stack<DemoProtMsg>;
 
 } // namespace details

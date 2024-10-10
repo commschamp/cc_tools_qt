@@ -32,7 +32,7 @@ namespace
 
 MessagesFilterDialog::MessagesFilterDialog(
     FilteredMessages& filteredMessages,
-    ProtocolPtr protocol,
+    ToolsProtocolPtr protocol,
     QWidget* parentObj)
   : Base(parentObj),
     m_filteredMessages(filteredMessages),

@@ -35,9 +35,9 @@ namespace message
 
 class EnumValues : public
     cc_tools_qt::ToolsMessageBase<
-        demo::message::EnumValues<cc_tools_qt::ToolsProtMsgInterface<demo::DemoMessage>>,
-        demo::cc_plugin::message::EnumValues,
-        demo::cc_plugin::DemoMessage>
+        demo::cc_plugin::DemoMessage,
+        demo::message::EnumValues,
+        demo::cc_plugin::message::EnumValues>
 {
 public:
     EnumValues();

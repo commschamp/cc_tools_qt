@@ -22,6 +22,8 @@
 #include "demo/DemoMessage.h"
 #include "demo/Stack.h"
 
+#include "comms/options.h"
+
 namespace demo
 {
 
@@ -38,18 +40,19 @@ using DemoTransportMessageFields =
         demo::ChecksumField
     >;
 
+template <typename TMsgBase, typename... TOptions>
 class DemoTransportProtMessage : public
     cc_tools_qt::ToolsTransportProtMessageBase<
-        demo::DemoMessage,
+        TMsgBase,
         DemoTransportMessageFields,
-        DemoTransportProtMessage
+        DemoTransportProtMessage<TMsgBase, TOptions...>
     >
 {
     using Base = 
         cc_tools_qt::ToolsTransportProtMessageBase<
-            demo::DemoMessage,
+            TMsgBase,
             DemoTransportMessageFields,
-            DemoTransportProtMessage
+            DemoTransportProtMessage<TMsgBase, TOptions...>
         >;    
 public:
     COMMS_MSG_FIELDS_NAMES(sync, len, id, version, data, checksum);
@@ -61,10 +64,10 @@ public:
             sizeof(demo::ChecksumField::ValueType);
                     
         size -= ChecksumLen;
-        auto es = doReadUntilAndUpdateLen<FieldIdx_checksum>(iter, size);
+        auto es = Base::template doReadUntilAndUpdateLen<FieldIdx_checksum>(iter, size);
         if (es == comms::ErrorStatus::Success) {
             size += ChecksumLen;
-            es = doReadFrom<FieldIdx_checksum>(iter, size);
+            es = Base::template doReadFrom<FieldIdx_checksum>(iter, size);
         }
 
         return es;

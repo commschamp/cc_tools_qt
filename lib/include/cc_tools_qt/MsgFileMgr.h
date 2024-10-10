@@ -28,7 +28,7 @@
 
 #include "Api.h"
 #include "Message.h"
-#include "Protocol.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 namespace cc_tools_qt
 {
@@ -37,7 +37,7 @@ class CC_API MsgFileMgr
 {
 public:
 
-    typedef Protocol::MessagesList MessagesList;
+    typedef ToolsProtocol::MessagesList MessagesList;
 
     enum class Type
     {
@@ -57,7 +57,7 @@ public:
     const QString& getLastFile() const;
     static const QString& getFilesFilter();
 
-    MessagesList load(Type type, const QString& filename, Protocol& protocol);
+    MessagesList load(Type type, const QString& filename, ToolsProtocol& protocol);
     bool save(Type type, const QString& filename, const MessagesList& msgs);
 
     typedef std::shared_ptr<QFile> FileSaveHandler;

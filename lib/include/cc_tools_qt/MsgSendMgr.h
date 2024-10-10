@@ -22,7 +22,7 @@
 
 #include "Api.h"
 #include "Message.h"
-#include "Protocol.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 namespace cc_tools_qt
 {
@@ -31,7 +31,7 @@ class MsgSendMgrImpl;
 class CC_API MsgSendMgr
 {
 public:
-    typedef Protocol::MessagesList MessagesList;
+    typedef ToolsProtocol::MessagesList MessagesList;
     typedef std::function<void (MessagesList&&)> SendMsgsCallbackFunc;
     typedef std::function<void ()> SendCompleteCallbackFunc;
 
@@ -41,7 +41,7 @@ public:
     void setSendMsgsCallbackFunc(SendMsgsCallbackFunc&& func);
     void setSendCompeteCallbackFunc(SendCompleteCallbackFunc&& func);
 
-    void start(ProtocolPtr protocol, const MessagesList& msgs);
+    void start(ToolsProtocolPtr protocol, const MessagesList& msgs);
 
     void stop();
 

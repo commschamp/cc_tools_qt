@@ -23,7 +23,7 @@
 #include <QtCore/QTimer>
 
 #include "cc_tools_qt/MsgSendMgr.h"
-#include "cc_tools_qt/Protocol.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 namespace cc_tools_qt
 {
@@ -51,7 +51,7 @@ public:
         m_sendCompleteCallback = std::forward<TFunc>(func);
     }
 
-    void start(ProtocolPtr protocol, const MessagesList& msgs);
+    void start(ToolsProtocolPtr protocol, const MessagesList& msgs);
 
     void stop();
 
@@ -61,7 +61,7 @@ private slots:
 private:
     SendMsgsCallbackFunc m_sendCallback;
     SendCompleteCallbackFunc m_sendCompleteCallback;
-    ProtocolPtr m_protocol;
+    ToolsProtocolPtr m_protocol;
     MessagesList m_msgsToSend;
     QTimer m_timer;
 };

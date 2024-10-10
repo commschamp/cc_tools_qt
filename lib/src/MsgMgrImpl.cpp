@@ -121,7 +121,7 @@ SocketPtr MsgMgrImpl::getSocket() const
     return m_socket;
 }
 
-ProtocolPtr MsgMgrImpl::getProtocol() const
+ToolsProtocolPtr MsgMgrImpl::getProtocol() const
 {
     return m_protocol;
 }
@@ -313,7 +313,7 @@ void MsgMgrImpl::setSocket(SocketPtr socket)
     m_socket = std::move(socket);
 }
 
-void MsgMgrImpl::setProtocol(ProtocolPtr protocol)
+void MsgMgrImpl::setProtocol(ToolsProtocolPtr protocol)
 {
     if (m_protocol) {
         m_protocol->setErrorReportCallback(nullptr);

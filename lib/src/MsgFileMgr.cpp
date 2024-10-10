@@ -225,7 +225,7 @@ QString encodeMsgData(const Message& msg)
 
 MessagePtr createMsgObjectFrom(
     const QVariant& msgMapVar,
-    Protocol& protocol)
+    ToolsProtocol& protocol)
 {
     if ((!msgMapVar.isValid()) || (!msgMapVar.canConvert<QVariantMap>())) {
         return MessagePtr();
@@ -386,7 +386,7 @@ QVariantList convertRecvMsgList(
 
 MsgFileMgr::MessagesList convertRecvMsgList(
     const QVariantList& msgs,
-    Protocol& protocol)
+    ToolsProtocol& protocol)
 {
     MsgFileMgr::MessagesList convertedList;
 
@@ -456,7 +456,7 @@ QVariantList convertSendMsgList(
 
 MsgFileMgr::MessagesList convertSendMsgList(
     const QVariantList& msgs,
-    Protocol& protocol)
+    ToolsProtocol& protocol)
 {
     MsgFileMgr::MessagesList convertedList;
     unsigned long long prevTimestamp = 0;
@@ -531,7 +531,7 @@ QVariantList convertMsgList(
 MsgFileMgr::MessagesList convertMsgList(
     MsgFileMgr::Type type,
     const QVariantList& msgs,
-    Protocol& protocol)
+    ToolsProtocol& protocol)
 {
     if (type == MsgFileMgr::Type::Recv) {
         return convertRecvMsgList(msgs, protocol);
@@ -557,7 +557,7 @@ const QString& MsgFileMgr::getLastFile() const
 MsgFileMgr::MessagesList MsgFileMgr::load(
     Type type,
     const QString& filename,
-    Protocol& protocol)
+    ToolsProtocol& protocol)
 {
     MessagesList allMsgs;
     do {

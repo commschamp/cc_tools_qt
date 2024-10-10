@@ -28,7 +28,7 @@ template <typename TMsgBase>
 class ToolsFrameCommon : public ToolsFrame
 {
 public:
-    using ProtMsgBase = ToolsProtMsgInterface<TMsgBase::template ProtMsg>;
+    using ProtMsgBase = ToolsProtMsgInterface<TMsgBase::template ProtMsgBase>;
     using DataSeq = typename TMsgBase::DataSeq;
 
     DataSeq writeProtMsg(const ProtMsgBase& msg)

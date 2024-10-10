@@ -41,7 +41,7 @@ public:
     void clear();
 
     SocketPtr getSocket() const;
-    ProtocolPtr getProtocol() const;
+    ToolsProtocolPtr getProtocol() const;
     void setRecvEnabled(bool enabled);
 
     void deleteMsg(MessagePtr msg);
@@ -61,7 +61,7 @@ public:
     void addMsgs(const MessagesList& msgs, bool reportAdded);
 
     void setSocket(SocketPtr socket);
-    void setProtocol(ProtocolPtr protocol);
+    void setProtocol(ToolsProtocolPtr protocol);
     void addFilter(FilterPtr filter);
 
     typedef MsgMgr::MsgAddedCallbackFunc MsgAddedCallbackFunc;
@@ -100,7 +100,7 @@ private:
     bool m_recvEnabled = false;
 
     SocketPtr m_socket;
-    ProtocolPtr m_protocol;
+    ToolsProtocolPtr m_protocol;
     FiltersList m_filters;
     MsgNumberType m_nextMsgNum = 1;
     bool m_running = false;

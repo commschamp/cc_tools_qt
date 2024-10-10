@@ -35,9 +35,9 @@ namespace message
 
 class FloatValues : public
     cc_tools_qt::ToolsMessageBase<
-        demo::message::FloatValues<cc_tools_qt::ToolsProtMsgInterface<demo::DemoMessage>>,
-        demo::cc_plugin::message::FloatValues,
-        demo::cc_plugin::DemoMessage>
+        demo::cc_plugin::DemoMessage,
+        demo::message::FloatValues,
+        demo::cc_plugin::message::FloatValues>
 {
 public:
     FloatValues();

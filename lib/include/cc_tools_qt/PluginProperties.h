@@ -27,7 +27,7 @@
 #include <QtCore/QList>
 
 #include "Socket.h"
-#include "Protocol.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 #include "Filter.h"
 #include "Api.h"
 
@@ -58,7 +58,7 @@ public:
     using SocketCreateFunc = std::function<SocketPtr ()>;
 
     /// @brief Type of callback to be used to allocate a @ref Protocol object
-    using ProtocolCreateFunc = std::function<ProtocolPtr ()>;
+    using ProtocolCreateFunc = std::function<ToolsProtocolPtr ()>;
 
     /// @brief Type of callback to be used to allocate a @ref Filter objects
     using FiltersCreateFunc = std::function<ListOfFilters ()>;

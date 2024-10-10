@@ -18,9 +18,13 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
-#include "raw_data_protocol/DataMessage.h"
 #include "RawDataProtocolMessage.h"
+
+#include "raw_data_protocol/DataMessage.h"
+
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
+#include "cc_tools_qt/ToolsMessageBase.h"
+
 
 namespace cc_tools_qt
 {
@@ -35,21 +39,12 @@ namespace cc_plugin
 {
 
 class RawDataProtocolDataMessage : public
-    cc_tools_qt::ProtocolMessageBase<
-        raw_data_protocol::DataMessage<raw_data_protocol::cc_plugin::RawDataProtocolMessage>,
+    cc_tools_qt::ToolsMessageBase<
+        RawDataProtocolMessage,
+        raw_data_protocol::DataMessage<cc_tools_qt::ToolsProtMsgInterface<raw_data_protocol::Message>>,
         RawDataProtocolDataMessage>
 {
-public:
-    RawDataProtocolDataMessage();
-    RawDataProtocolDataMessage(const RawDataProtocolDataMessage&) = delete;
-    RawDataProtocolDataMessage(RawDataProtocolDataMessage&&) = delete;
-    virtual ~RawDataProtocolDataMessage() noexcept;
-
-    RawDataProtocolDataMessage& operator=(const RawDataProtocolDataMessage&);
-    RawDataProtocolDataMessage& operator=(RawDataProtocolDataMessage&&);
-
 protected:
-    virtual const char* nameImpl() const override;
     virtual const QVariantList& fieldsPropertiesImpl() const override;
 };
 
