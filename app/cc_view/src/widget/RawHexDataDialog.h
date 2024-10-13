@@ -33,7 +33,7 @@ class RawHexDataDialog : public QDialog
     Q_OBJECT
     using Base = QDialog;
 public:
-    typedef Protocol::MessagesList MessagesList;
+    typedef ToolsProtocol::MessagesList MessagesList;
     RawHexDataDialog(
         MessagesList& msgs,
         ToolsProtocolPtr protocol,

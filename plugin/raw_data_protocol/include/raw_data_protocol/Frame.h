@@ -45,7 +45,7 @@ template <
     typename TDataMessage,
     typename TMsgAllocOptions = comms::option::EmptyOption,
     typename TDataFieldStorageOptions = comms::option::EmptyOption>
-using Stack =
+using Frame =
         comms::protocol::MsgIdLayer<
             IdField<typename TMsgBase::Field>,
             TMsgBase,

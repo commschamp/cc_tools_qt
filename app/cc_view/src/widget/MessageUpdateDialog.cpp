@@ -321,7 +321,7 @@ void MessageUpdateDialog::msgUpdated()
     assert(m_protocol);
     assert(msg);
     auto status = m_protocol->updateMessage(*msg);
-    bool forceUpdate = (status == Protocol::UpdateStatus::Changed);
+    bool forceUpdate = (status == ToolsProtocol::UpdateStatus::Changed);
     assert(m_msgDisplayWidget);
 
     // Direct invocation of m_msgDisplayWidget->displayMessage(std::move(msg))

@@ -28,6 +28,7 @@
 #include "cc_tools_qt/Message.h"
 #include "cc_tools_qt/PluginMgr.h"
 #include "cc_tools_qt/MsgSendMgr.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 #include "ActionWrap.h"
 #include "MsgMgrG.h"
@@ -64,7 +65,7 @@ public:
     using MsgType = MsgMgr::MsgType ;
     using ActionPtr = std::shared_ptr<QAction>;
     using ListOfPluginInfos = PluginMgr::ListOfPluginInfos;
-    using MessagesList = Protocol::MessagesList;
+    using MessagesList = ToolsProtocol::MessagesList;
     using FilteredMessages = std::vector<QString>;
 
     enum class ActivityState

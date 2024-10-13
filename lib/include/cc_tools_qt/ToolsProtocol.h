@@ -37,7 +37,7 @@ namespace cc_tools_qt
 /// @brief Main polymorphic interface class for protocols.
 /// @details It is used by @b CommsChampion @b Tools to create and manipulate
 ///     protocol messages.
-/// @headerfile cc_tools_qt/Protocol.h
+/// @headerfile cc_tools_qt/ToolsProtocol.h
 
 class CC_API ToolsProtocol
 {

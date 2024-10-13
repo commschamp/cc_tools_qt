@@ -143,7 +143,7 @@ void SendMsgListWidget::msgMovedImpl(int idx)
     GuiAppMgr::instanceRef().sendSelectedMsgMoved(idx);
 }
 
-void SendMsgListWidget::loadMessagesImpl(const QString& filename, Protocol& protocol)
+void SendMsgListWidget::loadMessagesImpl(const QString& filename, ToolsProtocol& protocol)
 {
     auto msgs = MsgFileMgrG::instanceRef().load(MsgFileMgr::Type::Send, filename, protocol);
     for (auto& m : msgs) {

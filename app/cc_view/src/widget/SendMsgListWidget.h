@@ -35,7 +35,7 @@ protected:
     virtual const QString& msgTooltipImpl() const override;
     virtual void stateChangedImpl(int state) override;
     virtual void msgMovedImpl(int idx) override;
-    virtual void loadMessagesImpl(const QString& filename, Protocol& protocol) override;
+    virtual void loadMessagesImpl(const QString& filename, ToolsProtocol& protocol) override;
     virtual void saveMessagesImpl(const QString& filename) override;
 
 private:

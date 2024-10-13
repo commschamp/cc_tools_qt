@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2024 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,9 +18,15 @@
 
 #pragma once
 
-#include "raw_data_protocol/Stack.h"
 #include "RawDataProtocolMessage.h"
-#include "RawDataProtocolDataMessage.h"
+#include "RawDataProtocolMsgFactory.h"
+#include "RawDataProtocolTransportMessage.h"
+
+#include "raw_data_protocol/DataMessage.h"
+#include "raw_data_protocol/Frame.h"
+
+#include "cc_tools_qt/ToolsFrameBase.h"
+
 
 namespace cc_tools_qt
 {
@@ -34,11 +40,23 @@ namespace raw_data_protocol
 namespace cc_plugin
 {
 
-using RawDataProtocolStack = 
-    raw_data_protocol::Stack<
-        cc_plugin::RawDataProtocolMessage,
-        cc_plugin::RawDataProtocolDataMessage
-    >;
+namespace details
+{
+
+using ProtMsgBase = cc_tools_qt::ToolsProtMsgInterface<RawDataProtocolMessage::ProtMsgBase>;
+
+} // namespace details
+    
+
+class RawDataProtocolFrame : public
+    cc_tools_qt::ToolsFrameBase<
+        RawDataProtocolMessage,
+        raw_data_protocol::Frame<details::ProtMsgBase, raw_data_protocol::DataMessage<details::ProtMsgBase>>,
+        RawDataProtocolMsgFactory,
+        RawDataProtocolTransportMessage
+    >
+{
+};
 
 }  // namespace cc_plugin
 
@@ -47,4 +65,3 @@ using RawDataProtocolStack =
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-

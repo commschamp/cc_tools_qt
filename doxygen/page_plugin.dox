@@ -222,9 +222,9 @@
 ///
 /// @subsection page_plugin_properties_protocol Protocol Allocation Callback
 /// The @b Protocol plugin (see @ref page_protocol_plugin) is expected to be able
-/// to create and return cc_tools_qt::Protocol object when requested. However, it is up to
+/// to create and return cc_tools_qt::ToolsProtocol object when requested. However, it is up to
 /// the application to decide when. As the result, the actual plugin class 
-/// needs to provide a callback to be called when new cc_tools_qt::Protocol
+/// needs to provide a callback to be called when new cc_tools_qt::ToolsProtocol
 /// object is required. It is done using call to 
 /// cc_tools_qt::PluginProperties::setProtocolCreateFunc().
 /// @code

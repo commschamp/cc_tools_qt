@@ -58,7 +58,7 @@ private:
 
     MessagePtr& m_msg;
     ToolsProtocolPtr m_protocol;
-    Protocol::MessagesList m_allMsgs;
+    ToolsProtocol::MessagesList m_allMsgs;
     MessageDisplayWidget* m_msgDisplayWidget = nullptr;
     Ui::MessageUpdateDialog m_ui;
     int m_prevDelay = DisabledDelayValue + 1;

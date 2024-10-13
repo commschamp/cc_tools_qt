@@ -41,7 +41,7 @@ namespace cc_plugin
 class RawDataProtocolDataMessage : public
     cc_tools_qt::ToolsMessageBase<
         RawDataProtocolMessage,
-        raw_data_protocol::DataMessage<cc_tools_qt::ToolsProtMsgInterface<raw_data_protocol::Message>>,
+        raw_data_protocol::DataMessage,
         RawDataProtocolDataMessage>
 {
 protected:

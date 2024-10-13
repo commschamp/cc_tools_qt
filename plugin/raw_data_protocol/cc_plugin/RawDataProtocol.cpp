@@ -17,7 +17,7 @@
 
 #include "RawDataProtocol.h"
 
-#include "comms/comms.h"
+#include "RawDataProtocolFrame.h"
 
 namespace cc = cc_tools_qt;
 
@@ -32,6 +32,8 @@ namespace raw_data_protocol
 
 namespace cc_plugin
 {
+
+RawDataProtocol::RawDataProtocol() : Base(std::make_unique<RawDataProtocolFrame>()) {}
 
 RawDataProtocol::~RawDataProtocol() noexcept = default;
 

@@ -23,7 +23,6 @@
 #include <QtCore/QCommandLineParser>
 #include <QtCore/QStringList>
 
-#include "cc_tools_qt/cc_tools_qt.h"
 #include "PluginMgrG.h"
 #include "GuiAppMgr.h"
 

@@ -32,6 +32,11 @@ ToolsFrame::MessagesList ToolsFrame::readData(const DataInfo& dataInfo, bool fin
     return readDataImpl(dataInfo, final);
 }
 
+void ToolsFrame::updateMessage(Message& msg)
+{
+    updateMessageImpl(msg);
+}
+
 MessagePtr ToolsFrame::createInvalidMessage()
 {
     return createInvalidMessageImpl();

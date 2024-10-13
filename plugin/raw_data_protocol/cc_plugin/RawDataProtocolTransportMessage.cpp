@@ -17,9 +17,12 @@
 
 #include "RawDataProtocolTransportMessage.h"
 
-#include <cassert>
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
+#include "cc_tools_qt/property/field.h"
 
 #include <QtCore/QVariantMap>
+
+#include <cassert>
 
 namespace cc = cc_tools_qt;
 
@@ -38,16 +41,16 @@ namespace cc_plugin
 namespace
 {
 
-typedef RawDataProtocolTransportMessage::Field FieldBase;
-typedef raw_data_protocol::IdField<FieldBase> IdField;
-typedef raw_data_protocol::DataField<> DataField;
+using ProtMsgBase = cc_tools_qt::ToolsProtMsgInterface<RawDataProtocolMessage::ProtMsgBase>;
+using FieldBase = ProtMsgBase::Field;
+using IdField = raw_data_protocol::IdField<FieldBase>;
+using DataField = raw_data_protocol::DataField<>;
 
 QVariantList createFieldsProperties()
 {
     QVariantList props;
     props.append(cc::property::field::ForField<IdField>().hidden().asMap());
     props.append(cc::property::field::ForField<DataField>().name("Data").asMap());
-    assert(props.size() == RawDataProtocolTransportMessage::FieldIdx_NumOfValues);
     return props;
 }
 

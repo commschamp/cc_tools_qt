@@ -513,13 +513,13 @@
 /// the @b TransportMessage class.
 ///
 /// @section page_protocol_plugin_protocol Protocol Class
-/// The <b>CommsChampion Tools</b> use cc_tools_qt::Protocol polymorphic
+/// The <b>CommsChampion Tools</b> use cc_tools_qt::ToolsProtocol polymorphic
 /// interface class to create and update messages. It means that our @b protocol
-/// definition class needs to be a descendent of cc_tools_qt::Protocol. The
+/// definition class needs to be a descendent of cc_tools_qt::ToolsProtocol. The
 /// latter defines multiple pure virtual functions, which the derived class
 /// must implement. The @b cc_tools_qt library also provides 
 /// cc_tools_qt::ProtocolBase template class, which inherits from 
-/// cc_tools_qt::Protocol and implements most of the
+/// cc_tools_qt::ToolsProtocol and implements most of the
 /// required virtual functions using info from provided template parameters. 
 /// Hence, the custom protocol definition class
 /// needs to inherit from cc_tools_qt::ProtocolBase and provide necessary
@@ -562,11 +562,11 @@
 /// @li The first template parameter to cc_tools_qt::ProtocolBase class is a definition
 /// of the "protocol stack" (see @ref page_protocol_plugin_stack), which handles
 /// all the transport data.
-/// @li The second template parameter to cc_tools_qt::Protocol class is a definition
+/// @li The second template parameter to cc_tools_qt::ToolsProtocol class is a definition
 /// of the "transport message", i.e the one difined in @ref page_protocol_plugin_transport_message
 /// section.
-/// @li The only pure virtual function defined by cc_tools_qt::Protocol and 
-/// not implemented in cc_tools_qt::ProtocolBase is cc_tools_qt::Protocol::nameImpl(), 
+/// @li The only pure virtual function defined by cc_tools_qt::ToolsProtocol and 
+/// not implemented in cc_tools_qt::ProtocolBase is cc_tools_qt::ToolsProtocol::nameImpl(), 
 /// i.e. the one that provides name of the protocol. The defined protocol class must override
 /// and implement it.
 ///

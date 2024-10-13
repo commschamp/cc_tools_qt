@@ -315,7 +315,7 @@ QString MsgListWidget::getTitleImpl() const
     return QString();
 }
 
-void MsgListWidget::loadMessagesImpl([[maybe_unused]] const QString& filename, [[maybe_unused]] Protocol& protocol)
+void MsgListWidget::loadMessagesImpl([[maybe_unused]] const QString& filename, [[maybe_unused]] ToolsProtocol& protocol)
 {
 }
 

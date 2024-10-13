@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2024 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,25 +18,31 @@
 
 #pragma once
 
+#include "RawDataProtocolDataMessage.h"
+
+#include <tuple>
+
 namespace cc_tools_qt
 {
 
-template <typename T>
-class StaticSingleton
+namespace plugin
 {
-public:
-    static T* instance()
-    {
-        return &(instanceRef());
-    }
 
-    static T& instanceRef()
-    {
-        static T obj;
-        return obj;
-    }
-};
+namespace raw_data_protocol
+{
+
+namespace cc_plugin
+{
+
+using RawDataProtocolAllMessages = 
+    std::tuple<
+        RawDataProtocolDataMessage
+    >;
+
+}  // namespace cc_plugin
+
+}  // namespace raw_data_protocol
+
+}  // namespace plugin
 
 }  // namespace cc_tools_qt
-
-

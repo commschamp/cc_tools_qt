@@ -75,7 +75,7 @@ protected:
     virtual Qt::GlobalColor getItemColourImpl(MsgType type, bool valid) const;
     virtual void msgMovedImpl(int idx);
     virtual QString getTitleImpl() const;
-    virtual void loadMessagesImpl(const QString& filename, Protocol& protocol);
+    virtual void loadMessagesImpl(const QString& filename, ToolsProtocol& protocol);
     virtual void saveMessagesImpl(const QString& filename);
 
     MessagePtr currentMsg() const;
