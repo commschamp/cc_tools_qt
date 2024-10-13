@@ -43,11 +43,6 @@ const QVariantList& Message::fieldsProperties() const
     return fieldsPropertiesImpl();
 }
 
-void Message::dispatch(MessageHandler& handler)
-{
-    dispatchImpl(handler);
-}
-
 bool Message::refreshMsg()
 {
     return refreshMsgImpl();
@@ -101,6 +96,16 @@ void Message::assignProtMessage(void* protMsg)
 Message::DataSeq Message::encodeFramed(ToolsFrame& frame) const
 {
     return encodeFramedImpl(frame);
+}
+
+Message::FieldWrappersList Message::transportFields()
+{
+    return transportFieldsImpl();
+}
+
+Message::FieldWrappersList Message::payloadFields()
+{
+    return payloadFieldsImpl();
 }
 
 const QVariantList& Message::extraTransportFieldsPropertiesImpl() const

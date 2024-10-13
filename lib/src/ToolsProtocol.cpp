@@ -314,7 +314,6 @@ ToolsProtocol::ToolsProtocol(ToolsFramePtr frame) :
 {
 }
 
-
 void ToolsProtocol::socketConnectionReportImpl([[maybe_unused]] bool connected)
 {
 }

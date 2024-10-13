@@ -12,7 +12,7 @@ add_definitions(
 )
 
 add_subdirectory (cc_view)
-add_subdirectory (cc_dump)
+#add_subdirectory (cc_dump)
 
 if (WIN32)
     add_custom_target ("deploy_qt"

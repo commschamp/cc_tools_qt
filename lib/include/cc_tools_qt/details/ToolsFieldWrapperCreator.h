@@ -35,7 +35,8 @@
 #include "cc_tools_qt/field_wrapper/FloatValueWrapper.h"
 #include "cc_tools_qt/field_wrapper/VariantWrapper.h"
 #include "cc_tools_qt/field_wrapper/UnknownValueWrapper.h"
-#include "ret_unique_ptr.h"
+
+#include <vector>
 
 namespace cc_tools_qt
 {
@@ -43,17 +44,26 @@ namespace cc_tools_qt
 namespace details
 {
 
-class FieldWrapperCreator
+class ToolsFieldWrapperCreator
 {
 public:
-    typedef cc_tools_qt::field_wrapper::FieldWrapperPtr FieldWrapperPtr;
+    using FieldWrapperPtr = cc_tools_qt::field_wrapper::FieldWrapperPtr;
+    using FieldWrappersList = std::vector<FieldWrapperPtr>;
+
+    explicit ToolsFieldWrapperCreator(FieldWrappersList& fields) : m_fields(fields) {}
 
     template <typename TField>
     static FieldWrapperPtr createWrapper(TField& field)
     {
-        typedef typename std::decay<decltype(field)>::type DecayedField;
-        typedef typename DecayedField::CommsTag Tag;
+        using DecayedField = typename std::decay<decltype(field)>::type;
+        using Tag = typename DecayedField::CommsTag;        
         return createWrapperInternal(field, Tag());
+    }
+
+    template <typename TField>
+    void operator()(TField& field)
+    {
+        m_fields.push_back(createWrapper(field));
     }
 private:
     typedef comms::field::tag::Int IntValueTag;
@@ -84,7 +94,7 @@ private:
         void operator()(TField&& field)
         {
             auto fieldWidget =
-                FieldWrapperCreator::createWrapper(std::forward<TField>(field));
+                ToolsFieldWrapperCreator::createWrapper(std::forward<TField>(field));
             m_dispatchOp(std::move(fieldWidget));
         }
 
@@ -167,7 +177,7 @@ private:
                 }));
 
         wrapper->setMembers(std::move(subWrappers));
-        return CC_RET_UNIQUE_PTR(wrapper);
+        return wrapper;
     }
 
     template <typename TField>
@@ -177,7 +187,7 @@ private:
         auto& wrappedField = field.field();
         auto fieldWrapper = createWrapper(wrappedField);
         wrapper->setFieldWrapper(std::move(fieldWrapper));
-        return CC_RET_UNIQUE_PTR(wrapper);
+        return wrapper;
     }
 
     template <typename TField>
@@ -200,7 +210,7 @@ private:
                 }));
 
         wrapper->setMembers(std::move(subWrappers));
-        return CC_RET_UNIQUE_PTR(wrapper);
+        return wrapper;
     }
 
     template <typename TField>
@@ -224,11 +234,11 @@ private:
         wrapper->setWrapFieldCallback(
             [](ElementType& memField) -> FieldWrapperPtr
             {
-                return FieldWrapperCreator::createWrapper(memField);
+                return ToolsFieldWrapperCreator::createWrapper(memField);
             });
 
         wrapper->refreshMembers();
-        return CC_RET_UNIQUE_PTR(wrapper);
+        return wrapper;
     }
 
     template <typename TField>
@@ -269,7 +279,7 @@ private:
             wrapper->setCurrent(FieldWrapperPtr());
         }
 
-        return CC_RET_UNIQUE_PTR(wrapper);
+        return wrapper;
     }
 
     template <typename TField, typename TTag>
@@ -277,6 +287,9 @@ private:
     {
         return field_wrapper::makeUnknownValueWrapper(field);
     }
+
+private:
+    FieldWrappersList& m_fields;    
 };
 
 }  // namespace details

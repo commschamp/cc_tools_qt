@@ -18,7 +18,8 @@
 
 #pragma once
 
-#include "Api.h"
+#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/field_wrapper/FieldWrapper.h"
 
 #include "comms/ErrorStatus.h"
 
@@ -33,7 +34,6 @@
 namespace cc_tools_qt
 {
 
-class MessageHandler;
 class ToolsFrame;
 
 /// @brief Main interface class used by <b>CommsChampion Tools</b>
@@ -49,7 +49,8 @@ public:
     /// @brief Type for sequence of raw bytes
     using DataSeq = std::vector<std::uint8_t>;
 
-    using ReadIter = const std::uint8_t*;
+    using FieldWrapperPtr = cc_tools_qt::field_wrapper::FieldWrapperPtr;
+    using FieldWrappersList = std::vector<FieldWrapperPtr>;
 
     /// @brief Type of the message
     enum class Type {
@@ -74,10 +75,6 @@ public:
     /// @brief Get properties describing message fields
     /// @details Invokes fieldsPropertiesImpl()
     const QVariantList& fieldsProperties() const;
-
-    /// @brief Dispatch message to message handler used by <b>CommsChampion Tools</b>
-    /// @details Invokes dispatchImpl()
-    void dispatch(MessageHandler& handler);
 
     /// @brief Refresh message contents
     /// @details Needs to be invoked by the <b>CommsChampion Tools</b> when
@@ -117,6 +114,9 @@ public:
 
     DataSeq encodeFramed(ToolsFrame& frame) const;
 
+    FieldWrappersList transportFields();
+    FieldWrappersList payloadFields();
+
 protected:
 
     /// @brief Polymorphic name retrieval functionality.
@@ -134,10 +134,6 @@ protected:
     ///     overriden by the derived classes if message contains at least
     ///     one field. Invoked by fieldsProperties().
     virtual const QVariantList& fieldsPropertiesImpl() const;
-
-    /// @brief Polymorphic dispatch functionality.
-    /// @details Invoked by dispatch().
-    virtual void dispatchImpl(MessageHandler& handler) = 0;
 
     /// @brief Polymorphic refresh functionality.
     /// @details Invoked by refresh().
@@ -176,6 +172,9 @@ protected:
     virtual void assignProtMessageImpl(void* protMsg) = 0;
 
     virtual DataSeq encodeFramedImpl(ToolsFrame& frame) const = 0;
+
+    virtual FieldWrappersList transportFieldsImpl() = 0;
+    virtual FieldWrappersList payloadFieldsImpl() = 0;
 };
 
 /// @brief Smart pointer to @ref Message

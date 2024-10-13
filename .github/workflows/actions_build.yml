@@ -235,11 +235,7 @@ jobs:
       run: cmake --build . --config ${{matrix.type}} --target install
       env:
         VERBOSE: 1   
-
-    - name: Documentation
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: make doc_cc_tools_qt          
+   
     
   build_msvc_2019:
     runs-on: windows-2019

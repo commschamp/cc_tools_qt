@@ -19,9 +19,12 @@
 #pragma once
 
 #include "Message.h"
-#include "MessageHandler.h"
+#include "cc_tools_qt/field_wrapper/FieldWrapper.h"
 #include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "cc_tools_qt/ToolsFrameCommon.h"
+#include "cc_tools_qt/details/ToolsFieldWrapperCreator.h"
+
+#include "comms/util/Tuple.h"
 
 #include <algorithm>
 #include <cassert>
@@ -51,6 +54,8 @@ public:
 
     /// @brief Protocol definition message type
     using ProtMsg = TProtMsg<ProtMsgBase>;
+
+    using FieldWrappersList = typename Base::FieldWrappersList;
 
     /// @brief Handler class
     // using Handler = typename CommsBase::Handler;
@@ -120,12 +125,6 @@ protected:
             >;
 
         return nameInternal(Tag());
-    }
-
-    /// @brief Overriding polymorphic dispatch functionality.
-    virtual void dispatchImpl(MessageHandler& handler) override
-    {
-        handler.handle(static_cast<TActualMsg&>(*this));
     }
 
     /// @brief Overriding polymorphic refresh functionality.
@@ -219,11 +218,35 @@ protected:
         return castedFrame.writeProtMsg(m_msg);
     }
 
+    virtual FieldWrappersList transportFieldsImpl() override
+    {
+        FieldWrappersList fields;
+        using Tag = 
+            std::conditional_t<
+                ProtMsg::hasTransportFields(),
+                HasTransportFields,
+                NoTransportFields
+            >;
+
+        updateTransportFieldsInternal(fields, Tag());
+        return fields;
+    }    
+
+    virtual FieldWrappersList payloadFieldsImpl() override
+    {
+        FieldWrappersList fields;
+        fields.reserve(std::tuple_size<typename ProtMsg::AllFields>::value);
+        comms::util::tupleForEach(m_msg.fields(), details::ToolsFieldWrapperCreator(fields));
+        return fields;
+    }
+
 private:
     struct HasIdTag {};
     struct NoIdTag {};
     struct HasNameTag {};
-    struct NoNameTag {};    
+    struct NoNameTag {};  
+    struct HasTransportFields {};  
+    struct NoTransportFields {};
 
     qlonglong numericIdInternal(HasIdTag) const
     {
@@ -255,7 +278,17 @@ private:
         assert(false); // Should not be called
         static const char* NoName = "NO-NAME";
         return NoName;
-    }       
+    }     
+
+    void updateTransportFieldsInternal(FieldWrappersList& fields, HasTransportFields)
+    {
+        fields.reserve(std::tuple_size<typename ProtMsg::TransportFields>::value);
+        comms::util::tupleForEach(m_msg.transportFields(), details::ToolsFieldWrapperCreator(fields));
+    }
+    
+    void updateTransportFieldsInternal([[maybe_unused]] FieldWrappersList& fields, NoTransportFields)
+    {
+    }    
 
     ProtMsg m_msg;
 };

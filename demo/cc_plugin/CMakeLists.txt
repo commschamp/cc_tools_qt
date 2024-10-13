@@ -39,9 +39,9 @@ function (cc_plugin_demo)
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     )    
     
-#    install (
-#        TARGETS ${name}
-#        DESTINATION ${PLUGIN_INSTALL_DIR})
+    install (
+        TARGETS ${name}
+        DESTINATION ${PLUGIN_INSTALL_DIR})
         
 endfunction()
 

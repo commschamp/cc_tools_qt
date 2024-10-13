@@ -75,8 +75,7 @@ void MsgDetailsWidget::setEditEnabled(bool enabled)
 void MsgDetailsWidget::displayMessage(MessagePtr msg)
 {
     assert(msg);
-    msg->dispatch(m_msgDisplayHandler);
-    auto msgWidget = m_msgDisplayHandler.getMsgWidget();
+    auto msgWidget = m_msgDisplayHandler.getMsgWidget(*msg);
     assert(msgWidget);
     msgWidget->setEditEnabled(m_editEnabled);
 

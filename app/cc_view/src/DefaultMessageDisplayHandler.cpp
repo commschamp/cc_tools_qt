@@ -217,35 +217,29 @@ private:
 
 DefaultMessageDisplayHandler::~DefaultMessageDisplayHandler() noexcept = default;
 
-DefaultMessageDisplayHandler::MsgWidgetPtr DefaultMessageDisplayHandler::getMsgWidget()
+DefaultMessageDisplayHandler::MsgWidgetPtr DefaultMessageDisplayHandler::getMsgWidget(Message& msg)
 {
-    return std::move(m_widget);
-}
+    auto widget = std::make_unique<DefaultMessageWidget>(msg);
 
-void DefaultMessageDisplayHandler::beginMsgHandlingImpl(
-    Message& msg)
-{
-    m_widget.reset(new DefaultMessageWidget(msg));
-}
+    auto transportFields = msg.transportFields();
+    for (auto& f : transportFields) {
+        WidgetCreator creator;
+        f->dispatch(creator);
+        auto fieldWidget = creator.getWidget();
+        fieldWidget->hide();
+        widget->addExtraTransportFieldWidget(fieldWidget.release());        
+    }
 
-void DefaultMessageDisplayHandler::addExtraTransportFieldImpl(FieldWrapperPtr wrapper)
-{
-    assert(m_widget);
-    WidgetCreator creator;
-    wrapper->dispatch(creator);
-    auto fieldWidget = creator.getWidget();
-    fieldWidget->hide();
-    m_widget->addExtraTransportFieldWidget(fieldWidget.release());
-}
+    auto fields = msg.payloadFields();
+    for (auto& f : fields) {
+        WidgetCreator creator;
+        f->dispatch(creator);
+        auto fieldWidget = creator.getWidget();
+        fieldWidget->hide();
+        widget->addFieldWidget(fieldWidget.release());        
+    }
 
-void DefaultMessageDisplayHandler::addFieldImpl(FieldWrapperPtr wrapper)
-{
-    assert(m_widget);
-    WidgetCreator creator;
-    wrapper->dispatch(creator);
-    auto fieldWidget = creator.getWidget();
-    fieldWidget->hide();
-    m_widget->addFieldWidget(fieldWidget.release());
+    return widget;
 }
 
 }  // namespace cc_tools_qt

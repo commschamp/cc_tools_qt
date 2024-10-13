@@ -39,18 +39,7 @@ public:
 
     ~DefaultMessageDisplayHandler() noexcept;
 
-    MsgWidgetPtr getMsgWidget();
-
-protected:
-
-    virtual void beginMsgHandlingImpl(Message& msg) override;
-    virtual void addExtraTransportFieldImpl(FieldWrapperPtr wrapper) override;
-    virtual void addFieldImpl(FieldWrapperPtr wrapper) override;
-
-private:
-
-    using DefaultMsgWidgetPtr = std::unique_ptr<DefaultMessageWidget>;
-    DefaultMsgWidgetPtr m_widget;
+    static MsgWidgetPtr getMsgWidget(Message& msg);
 };
 
 }  // namespace cc_tools_qt

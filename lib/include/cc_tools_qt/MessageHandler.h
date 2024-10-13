@@ -23,7 +23,6 @@
 #include "Api.h"
 #include "Message.h"
 #include "field_wrapper/FieldWrapper.h"
-#include "details/FieldWrapperCreator.h"
 
 namespace cc_tools_qt
 {
@@ -83,27 +82,28 @@ protected:
     virtual void endMsgHandlingImpl();
 
 private:
-    class FieldsWrapperCreateHelper
-    {
-    public:
-        typedef std::function <void (FieldWrapperPtr)> WrapperDispatchFunc;
-        FieldsWrapperCreateHelper(WrapperDispatchFunc&& dispatchOp)
-          : m_dispatchOp(std::move(dispatchOp))
-        {
-        }
+    // TODO
+    // class FieldsWrapperCreateHelper
+    // {
+    // public:
+    //     typedef std::function <void (FieldWrapperPtr)> WrapperDispatchFunc;
+    //     FieldsWrapperCreateHelper(WrapperDispatchFunc&& dispatchOp)
+    //       : m_dispatchOp(std::move(dispatchOp))
+    //     {
+    //     }
 
-        template <typename TField>
-        void operator()(TField&& field)
-        {
-            auto wraper =
-                details::FieldWrapperCreator::createWrapper(
-                    std::forward<TField>(field));
-            m_dispatchOp(std::move(wraper));
-        }
+    //     template <typename TField>
+    //     void operator()(TField&& field)
+    //     {
+    //         auto wraper =
+    //             details::FieldWrapperCreator::createWrapper(
+    //                 std::forward<TField>(field));
+    //         m_dispatchOp(std::move(wraper));
+    //     }
 
-    private:
-        WrapperDispatchFunc m_dispatchOp;
-    };
+    // private:
+    //     WrapperDispatchFunc m_dispatchOp;
+    // };
 
     struct HasExtraTransportFieldsTag {};
     struct NoExtraTransportFieldsTag {};
@@ -132,16 +132,17 @@ private:
     }
 
     template <typename TMessage>
-    void addExtraTransportFieldsInternal(TMessage& msg, HasExtraTransportFieldsTag)
+    void addExtraTransportFieldsInternal([[maybe_unused]] TMessage& msg, HasExtraTransportFieldsTag)
     {
-        auto& fields = msg.transportFields();
-        comms::util::tupleForEach(
-            fields,
-            FieldsWrapperCreateHelper(
-                [this](FieldWrapperPtr wrapper)
-                {
-                    addExtraTransportFieldImpl(std::move(wrapper));
-                }));
+        // TODO
+        // auto& fields = msg.transportFields();
+        // comms::util::tupleForEach(
+        //     fields,
+        //     FieldsWrapperCreateHelper(
+        //         [this](FieldWrapperPtr wrapper)
+        //         {
+        //             addExtraTransportFieldImpl(std::move(wrapper));
+        //         }));
     }
 
 };
