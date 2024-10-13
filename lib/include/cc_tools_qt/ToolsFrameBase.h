@@ -35,7 +35,7 @@
 namespace cc_tools_qt
 {
 
-template <typename TMsgBase, typename TProtFrame, typename TMsgFactory, typename TTransportMsg>
+template <typename TMsgBase, template<typename...> class TProtFrame, typename TMsgFactory, typename TTransportMsg>
 class ToolsFrameBase : public ToolsFrameCommon<TMsgBase>
 {
     using Base = ToolsFrameCommon<TMsgBase>;
@@ -52,7 +52,9 @@ public:
     using RawDataMsg = ToolsRawDataMessage<TMsgBase>;
 
     /// @brief Type of "Extra Info Message"
-    using ExtraInfoMsg = ToolsExtraInfoMessage<TMsgBase>;    
+    using ExtraInfoMsg = ToolsExtraInfoMessage<TMsgBase>;
+
+    using ProtFrame = TProtFrame<ProtMsgBase>;
 
     ToolsFrameBase() = default;
 
@@ -79,7 +81,7 @@ protected:
             };
 
 
-        using ProtMsgPtr = typename TProtFrame::MsgPtr;
+        using ProtMsgPtr = typename ProtFrame::MsgPtr;
         using ReadIter = typename ProtMsgBase::ReadIterator;
         while (consumed < m_inData.size()) {
             ProtMsgPtr msgPtr;
@@ -278,7 +280,7 @@ private:
   
     }     
 
-    TProtFrame m_frame;
+    ProtFrame m_frame;
     TMsgFactory m_factory;
     DataSeq m_inData;
     DataSeq m_garbage;

@@ -21,9 +21,13 @@
 
 #pragma once
 
-#include "comms/comms.h"
+#include "raw_data_protocol/AllMessages.h"
+#include "raw_data_protocol/Message.h"
 
-#include "Message.h"
+#include "comms/field/IntValue.h"
+#include "comms/protocol/MsgDataLayer.h"
+#include "comms/protocol/MsgIdLayer.h"
+#include "comms/options.h"
 
 namespace cc_tools_qt
 {
@@ -42,14 +46,14 @@ using DataField = typename comms::protocol::MsgDataLayer<TOptions...>::Field;
 
 template <
     typename TMsgBase,
-    typename TDataMessage,
+    typename TAllMessages = raw_data_protocol::AllMessages<TMsgBase>,
     typename TMsgAllocOptions = comms::option::EmptyOption,
     typename TDataFieldStorageOptions = comms::option::EmptyOption>
 using Frame =
         comms::protocol::MsgIdLayer<
             IdField<typename TMsgBase::Field>,
             TMsgBase,
-            std::tuple<TDataMessage>,
+            TAllMessages,
             comms::protocol::MsgDataLayer<
                 TDataFieldStorageOptions
             >,

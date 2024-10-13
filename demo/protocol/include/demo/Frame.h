@@ -1,5 +1,5 @@
 //
-// Copyright 2016 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -133,7 +133,7 @@ template <
     typename TMessages = demo::AllMessages<TMsgBase>,
     typename TMsgAllocOptions = comms::option::EmptyOption,
     typename TDataFieldStorageOptions = comms::option::EmptyOption >
-class Stack : public StackBase<TMsgBase, TMessages, TMsgAllocOptions, TDataFieldStorageOptions>
+class Frame : public StackBase<TMsgBase, TMessages, TMsgAllocOptions, TDataFieldStorageOptions>
 {
     using Base = StackBase<TMsgBase, TMessages, TMsgAllocOptions, TDataFieldStorageOptions>;
 public:

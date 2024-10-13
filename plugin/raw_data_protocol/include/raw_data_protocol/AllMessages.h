@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2016 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -15,26 +15,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+/// @file
+/// @brief Contains definition of transport layers protocol stack of raw_data_protocol
+///     binary protocol.
 
 #pragma once
 
-#include "DemoMessage.h"
-#include "DemoMsgFactory.h"
-#include "DemoTransportMessage.h"
+#include "DataMessage.h"
 
-#include "demo/Frame.h"
+#include <tuple>
 
-#include "cc_tools_qt/ToolsFrameBase.h"
-
-namespace demo
+namespace cc_tools_qt
 {
 
-namespace cc_plugin
+namespace plugin
 {
 
-using DemoFrame = cc_tools_qt::ToolsFrameBase<DemoMessage, demo::Frame, DemoMsgFactory, DemoTransportMessage>;
+namespace raw_data_protocol
+{
 
-}  // namespace cc_plugin
+template <typename TMsgBase>
+using AllMessages = 
+    std::tuple<
+        DataMessage<TMsgBase>
+    >;
 
-}  // namespace demo
+}  // namespace raw_data_protocol
+
+}  // namespace plugin
+
+}  // namespace cc_tools_qt
+
+
 

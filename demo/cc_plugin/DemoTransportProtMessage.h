@@ -20,7 +20,7 @@
 
 #include "cc_tools_qt/ToolsTransportProtMessageBase.h"
 #include "demo/DemoMessage.h"
-#include "demo/Stack.h"
+#include "demo/Frame.h"
 
 #include "comms/options.h"
 

@@ -186,7 +186,7 @@ protected:
         DataSeq data;
         data.reserve(m_msg.doLength());
         auto iter = std::back_inserter(data);
-        auto es = m_msg.doWrite(iter, data.max_size());
+        [[maybe_unused]] auto es = m_msg.doWrite(iter, data.max_size());
         assert(es == comms::ErrorStatus::Success);
         return data;
     }

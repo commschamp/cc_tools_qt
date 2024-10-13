@@ -40,18 +40,10 @@ namespace raw_data_protocol
 namespace cc_plugin
 {
 
-namespace details
-{
-
-using ProtMsgBase = cc_tools_qt::ToolsProtMsgInterface<RawDataProtocolMessage::ProtMsgBase>;
-
-} // namespace details
-    
-
 class RawDataProtocolFrame : public
     cc_tools_qt::ToolsFrameBase<
         RawDataProtocolMessage,
-        raw_data_protocol::Frame<details::ProtMsgBase, raw_data_protocol::DataMessage<details::ProtMsgBase>>,
+        raw_data_protocol::Frame,
         RawDataProtocolMsgFactory,
         RawDataProtocolTransportMessage
     >
