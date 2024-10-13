@@ -28,7 +28,7 @@
 
 #include "comms/comms.h"
 
-#include "FieldWrapper.h"
+#include "cc_tools_qt/ToolsField.h"
 
 namespace cc_tools_qt
 {
@@ -36,7 +36,7 @@ namespace cc_tools_qt
 namespace field_wrapper
 {
 
-class CC_API ArrayListRawDataWrapper : public FieldWrapper
+class CC_API ArrayListRawDataWrapper : public ToolsField
 {
 public:
 
@@ -75,9 +75,9 @@ private:
 };
 
 template <typename TField>
-class ArrayListRawDataWrapperT : public FieldWrapperT<ArrayListRawDataWrapper, TField>
+class ArrayListRawDataWrapperT : public ToolsFieldT<ArrayListRawDataWrapper, TField>
 {
-    using Base = FieldWrapperT<ArrayListRawDataWrapper, TField>;
+    using Base = ToolsFieldT<ArrayListRawDataWrapper, TField>;
     using Field = TField;
 
 public:

@@ -19,7 +19,7 @@
 #pragma once
 
 #include "cc_tools_qt/Api.h"
-#include "cc_tools_qt/field_wrapper/FieldWrapper.h"
+#include "cc_tools_qt/ToolsField.h"
 
 #include "comms/ErrorStatus.h"
 
@@ -49,8 +49,7 @@ public:
     /// @brief Type for sequence of raw bytes
     using DataSeq = std::vector<std::uint8_t>;
 
-    using FieldWrapperPtr = cc_tools_qt::field_wrapper::FieldWrapperPtr;
-    using FieldWrappersList = std::vector<FieldWrapperPtr>;
+    using FieldsList = std::vector<ToolsFieldPtr>;
 
     /// @brief Type of the message
     enum class Type {
@@ -114,8 +113,8 @@ public:
 
     DataSeq encodeFramed(ToolsFrame& frame) const;
 
-    FieldWrappersList transportFields();
-    FieldWrappersList payloadFields();
+    FieldsList transportFields();
+    FieldsList payloadFields();
 
 protected:
 
@@ -173,8 +172,8 @@ protected:
 
     virtual DataSeq encodeFramedImpl(ToolsFrame& frame) const = 0;
 
-    virtual FieldWrappersList transportFieldsImpl() = 0;
-    virtual FieldWrappersList payloadFieldsImpl() = 0;
+    virtual FieldsList transportFieldsImpl() = 0;
+    virtual FieldsList payloadFieldsImpl() = 0;
 };
 
 /// @brief Smart pointer to @ref Message

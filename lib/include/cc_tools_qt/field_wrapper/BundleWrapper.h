@@ -24,7 +24,7 @@
 #include <vector>
 
 #include "comms/field/Bundle.h"
-#include "FieldWrapper.h"
+#include "cc_tools_qt/ToolsField.h"
 
 namespace cc_tools_qt
 {
@@ -32,11 +32,11 @@ namespace cc_tools_qt
 namespace field_wrapper
 {
 
-class CC_API BundleWrapper : public FieldWrapper
+class CC_API BundleWrapper : public ToolsField
 {
-    using Base = FieldWrapper;
+    using Base = ToolsField;
 public:
-    typedef std::vector<FieldWrapperPtr> Members;
+    typedef std::vector<ToolsFieldPtr> Members;
 
     typedef std::unique_ptr<BundleWrapper> Ptr;
 
@@ -64,9 +64,9 @@ private:
 };
 
 template <typename TField>
-class BundleWrapperT : public FieldWrapperT<BundleWrapper, TField>
+class BundleWrapperT : public ToolsFieldT<BundleWrapper, TField>
 {
-    using Base = FieldWrapperT<BundleWrapper, TField>;
+    using Base = ToolsFieldT<BundleWrapper, TField>;
     using Field = TField;
     static_assert(comms::field::isBundle<Field>(), "Must be of Bundle field type");
 

@@ -42,19 +42,19 @@ bool OptionalWrapper::hasFieldWrapper() const
     return static_cast<bool>(m_fieldWrapper);
 }
 
-FieldWrapper& OptionalWrapper::getFieldWrapper()
+ToolsField& OptionalWrapper::getFieldWrapper()
 {
     assert(hasFieldWrapper());
     return *m_fieldWrapper;
 }
 
-const FieldWrapper& OptionalWrapper::getFieldWrapper() const
+const ToolsField& OptionalWrapper::getFieldWrapper() const
 {
     assert(hasFieldWrapper());
     return *m_fieldWrapper;
 }
 
-void OptionalWrapper::setFieldWrapper(FieldWrapperPtr fieldWrapper)
+void OptionalWrapper::setFieldWrapper(ToolsFieldPtr fieldWrapper)
 {
     m_fieldWrapper = std::move(fieldWrapper);
 }

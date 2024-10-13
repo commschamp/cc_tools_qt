@@ -35,7 +35,7 @@ class VariantFieldWidget : public FieldWidget
 public:
     using WrapperPtr = field_wrapper::VariantWrapperPtr;
     using CreateMemberFieldWidgetFunc =
-        std::function<FieldWidgetPtr (field_wrapper::FieldWrapper&)>;
+        std::function<FieldWidgetPtr (ToolsField&)>;
 
     explicit VariantFieldWidget(
         WrapperPtr&& wrapper,

@@ -22,7 +22,7 @@
 #include <cassert>
 
 #include "comms/field/Optional.h"
-#include "FieldWrapper.h"
+#include "cc_tools_qt/ToolsField.h"
 
 namespace cc_tools_qt
 {
@@ -30,7 +30,7 @@ namespace cc_tools_qt
 namespace field_wrapper
 {
 
-class CC_API OptionalWrapper : public FieldWrapper
+class CC_API OptionalWrapper : public ToolsField
 {
 public:
     typedef std::unique_ptr<OptionalWrapper> Ptr;
@@ -45,11 +45,11 @@ public:
 
     bool hasFieldWrapper() const;
 
-    FieldWrapper& getFieldWrapper();
+    ToolsField& getFieldWrapper();
 
-    const FieldWrapper& getFieldWrapper() const;
+    const ToolsField& getFieldWrapper() const;
 
-    void setFieldWrapper(FieldWrapperPtr fieldWrapper);
+    void setFieldWrapper(ToolsFieldPtr fieldWrapper);
 
     Ptr clone();
 
@@ -61,13 +61,13 @@ protected:
     void dispatchImpl(FieldWrapperHandler& handler);
 
 private:
-    FieldWrapperPtr m_fieldWrapper;
+    ToolsFieldPtr m_fieldWrapper;
 };
 
 template <typename TField>
-class OptionalWrapperT : public FieldWrapperT<OptionalWrapper, TField>
+class OptionalWrapperT : public ToolsFieldT<OptionalWrapper, TField>
 {
-    typedef FieldWrapperT<OptionalWrapper, TField> Base;
+    typedef ToolsFieldT<OptionalWrapper, TField> Base;
 public:
 
     typedef typename Base::Mode Mode;

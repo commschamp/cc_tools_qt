@@ -26,7 +26,7 @@
 #include <QtWidgets/QWidget>
 
 #include "cc_tools_qt/property/field.h"
-#include "cc_tools_qt/field_wrapper/FieldWrapper.h"
+#include "cc_tools_qt/ToolsField.h"
 
 class QLineEdit;
 class QLabel;
@@ -72,7 +72,7 @@ protected:
     static void setSerialisedInputMask(QLineEdit& line, int minWidth, int maxWidth);
     static void setSerialisedInputMask(QLineEdit& line, int width);
     static void updateValue(QLineEdit& line, const QString& value);
-    static void updateSerValue(QPlainTextEdit& text, const field_wrapper::FieldWrapper& wrapper);
+    static void updateSerValue(QPlainTextEdit& text, const ToolsField& wrapper);
 
     using PostRefreshFunc = std::function<void ()>;
     template <typename TWrapper>

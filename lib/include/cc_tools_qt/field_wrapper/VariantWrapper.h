@@ -24,7 +24,7 @@
 #include <functional>
 
 #include "comms/field/Variant.h"
-#include "FieldWrapper.h"
+#include "cc_tools_qt/ToolsField.h"
 
 namespace cc_tools_qt
 {
@@ -32,13 +32,13 @@ namespace cc_tools_qt
 namespace field_wrapper
 {
 
-class CC_API VariantWrapper : public FieldWrapper
+class CC_API VariantWrapper : public ToolsField
 {
-    using Base = FieldWrapper;
+    using Base = ToolsField;
 public:
     typedef std::unique_ptr<VariantWrapper> Ptr;
 
-    using MemberCreateCallbackFunc = std::function<FieldWrapperPtr ()>;
+    using MemberCreateCallbackFunc = std::function<ToolsFieldPtr ()>;
 
     VariantWrapper();
     VariantWrapper(const VariantWrapper&) =delete;
@@ -46,11 +46,11 @@ public:
 
     virtual ~VariantWrapper() noexcept;
 
-    FieldWrapperPtr& getCurrent();
+    ToolsFieldPtr& getCurrent();
 
-    const FieldWrapperPtr& getCurrent() const;
+    const ToolsFieldPtr& getCurrent() const;
 
-    void setCurrent(FieldWrapperPtr current);
+    void setCurrent(ToolsFieldPtr current);
 
     void updateCurrent();
 
@@ -77,14 +77,14 @@ protected:
     virtual int getMembersCountImpl() const = 0;
 
 private:
-    FieldWrapperPtr m_current;
+    ToolsFieldPtr m_current;
     MemberCreateCallbackFunc m_createMemberCb;
 };
 
 template <typename TField>
-class VariantWrapperT : public FieldWrapperT<VariantWrapper, TField>
+class VariantWrapperT : public ToolsFieldT<VariantWrapper, TField>
 {
-    using Base = FieldWrapperT<VariantWrapper, TField>;
+    using Base = ToolsFieldT<VariantWrapper, TField>;
     using Field = TField;
     static_assert(comms::field::isVariant<Field>(), "Must be of Variant field type");
 

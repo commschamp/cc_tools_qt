@@ -18,10 +18,10 @@ function (lib_tools)
         MsgSendMgrImpl.cpp
         MsgMgr.cpp
         MsgMgrImpl.cpp
+        ToolsField.cpp
         ToolsFrame.cpp
         ToolsMsgFactory.cpp
         ToolsProtocol.cpp
-        field_wrapper/FieldWrapper.cpp
         field_wrapper/IntValueWrapper.cpp
         field_wrapper/UnsignedLongValueWrapper.cpp
         field_wrapper/BitmaskValueWrapper.cpp

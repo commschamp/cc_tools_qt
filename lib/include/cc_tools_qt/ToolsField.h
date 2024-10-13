@@ -18,16 +18,17 @@
 
 #pragma once
 
-#include <cstdint>
-#include <cstddef>
-#include <cassert>
-#include <memory>
-#include <vector>
+#include "cc_tools_qt/Api.h"
+
+#include "comms/comms.h"
 
 #include <QtCore/QString>
 
-#include "comms/comms.h"
-#include "cc_tools_qt/Api.h"
+#include <cassert>
+#include <cstddef>
+#include <cstdint>
+#include <memory>
+#include <vector>
 
 COMMS_MSVC_WARNING_PUSH
 COMMS_MSVC_WARNING_DISABLE(4127) // Disable warning about constant conditional expressions
@@ -40,16 +41,18 @@ namespace field_wrapper
 
 class FieldWrapperHandler;
 
-/// @brief Field wrapping class.
-class CC_API FieldWrapper
+}  // namespace field_wrapper
+
+/// @brief Field class.
+class CC_API ToolsField
 {
 public:
     typedef std::vector<std::uint8_t> SerialisedSeq;
 
-    typedef std::unique_ptr<FieldWrapper> BasePtr;
+    typedef std::unique_ptr<ToolsField> BasePtr;
 
-    FieldWrapper();
-    virtual ~FieldWrapper() noexcept;
+    ToolsField();
+    virtual ~ToolsField() noexcept;
 
     std::size_t length() const;
 
@@ -65,7 +68,7 @@ public:
 
     bool setSerialisedString(const QString& str);
 
-    void dispatch(FieldWrapperHandler& handler);
+    void dispatch(field_wrapper::FieldWrapperHandler& handler);
 
     BasePtr upClone();
 
@@ -78,14 +81,14 @@ protected:
     virtual bool validImpl() const = 0;
     virtual SerialisedSeq getSerialisedValueImpl() const = 0;
     virtual bool setSerialisedValueImpl(const SerialisedSeq& value) = 0;
-    virtual void dispatchImpl(FieldWrapperHandler& handler) = 0;
+    virtual void dispatchImpl(field_wrapper::FieldWrapperHandler& handler) = 0;
     virtual BasePtr upCloneImpl() = 0;
     virtual bool canWriteImpl() const = 0;
     virtual void resetImpl() = 0;
 };
 
 template <typename TBase, typename TField>
-class FieldWrapperT : public TBase
+class ToolsFieldT : public TBase
 {
     using Base = TBase;
 
@@ -96,13 +99,13 @@ public:
     typedef typename Base::SerialisedSeq SerialisedSeq;
     typedef typename Base::BasePtr BasePtr;
 
-    virtual ~FieldWrapperT() noexcept = default;
+    virtual ~ToolsFieldT() noexcept = default;
 
 protected:
 
     using Field = TField;
 
-    explicit FieldWrapperT(Field& fieldRef)
+    explicit ToolsFieldT(Field& fieldRef)
       : m_field(fieldRef)
     {
     }
@@ -302,9 +305,7 @@ private:
     Field& m_field;
 };
 
-typedef FieldWrapper::BasePtr FieldWrapperPtr;
-
-}  // namespace field_wrapper
+typedef ToolsField::BasePtr ToolsFieldPtr;
 
 }  // namespace cc_tools_qt
 

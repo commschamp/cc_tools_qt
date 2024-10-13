@@ -19,7 +19,7 @@
 #pragma once
 
 #include "Message.h"
-#include "cc_tools_qt/field_wrapper/FieldWrapper.h"
+#include "cc_tools_qt/ToolsField.h"
 #include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "cc_tools_qt/ToolsFrameCommon.h"
 #include "cc_tools_qt/details/ToolsFieldWrapperCreator.h"
@@ -55,7 +55,7 @@ public:
     /// @brief Protocol definition message type
     using ProtMsg = TProtMsg<ProtMsgBase>;
 
-    using FieldWrappersList = typename Base::FieldWrappersList;
+    using FieldsList = typename Base::FieldsList;
 
     /// @brief Handler class
     // using Handler = typename CommsBase::Handler;
@@ -218,9 +218,9 @@ protected:
         return castedFrame.writeProtMsg(m_msg);
     }
 
-    virtual FieldWrappersList transportFieldsImpl() override
+    virtual FieldsList transportFieldsImpl() override
     {
-        FieldWrappersList fields;
+        FieldsList fields;
         using Tag = 
             std::conditional_t<
                 ProtMsg::hasTransportFields(),
@@ -232,9 +232,9 @@ protected:
         return fields;
     }    
 
-    virtual FieldWrappersList payloadFieldsImpl() override
+    virtual FieldsList payloadFieldsImpl() override
     {
-        FieldWrappersList fields;
+        FieldsList fields;
         fields.reserve(std::tuple_size<typename ProtMsg::AllFields>::value);
         comms::util::tupleForEach(m_msg.fields(), details::ToolsFieldWrapperCreator(fields));
         return fields;
@@ -280,13 +280,13 @@ private:
         return NoName;
     }     
 
-    void updateTransportFieldsInternal(FieldWrappersList& fields, HasTransportFields)
+    void updateTransportFieldsInternal(FieldsList& fields, HasTransportFields)
     {
         fields.reserve(std::tuple_size<typename ProtMsg::TransportFields>::value);
         comms::util::tupleForEach(m_msg.transportFields(), details::ToolsFieldWrapperCreator(fields));
     }
     
-    void updateTransportFieldsInternal([[maybe_unused]] FieldWrappersList& fields, NoTransportFields)
+    void updateTransportFieldsInternal([[maybe_unused]] FieldsList& fields, NoTransportFields)
     {
     }    
 

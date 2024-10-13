@@ -98,12 +98,12 @@ Message::DataSeq Message::encodeFramed(ToolsFrame& frame) const
     return encodeFramedImpl(frame);
 }
 
-Message::FieldWrappersList Message::transportFields()
+Message::FieldsList Message::transportFields()
 {
     return transportFieldsImpl();
 }
 
-Message::FieldWrappersList Message::payloadFields()
+Message::FieldsList Message::payloadFields()
 {
     return payloadFieldsImpl();
 }

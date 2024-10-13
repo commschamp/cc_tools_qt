@@ -285,7 +285,7 @@ void VariantFieldWidget::destroyMemberWidget()
 {
     delete m_member;
     m_member = nullptr;
-    m_wrapper->setCurrent(field_wrapper::FieldWrapperPtr());
+    m_wrapper->setCurrent(ToolsFieldPtr());
     m_wrapper->setCurrentIndex(-1);
 }
 

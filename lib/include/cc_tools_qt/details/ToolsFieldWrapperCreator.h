@@ -47,13 +47,13 @@ namespace details
 class ToolsFieldWrapperCreator
 {
 public:
-    using FieldWrapperPtr = cc_tools_qt::field_wrapper::FieldWrapperPtr;
-    using FieldWrappersList = std::vector<FieldWrapperPtr>;
+    using ToolsFieldPtr = cc_tools_qt::ToolsFieldPtr;
+    using FieldsList = std::vector<ToolsFieldPtr>;
 
-    explicit ToolsFieldWrapperCreator(FieldWrappersList& fields) : m_fields(fields) {}
+    explicit ToolsFieldWrapperCreator(FieldsList& fields) : m_fields(fields) {}
 
     template <typename TField>
-    static FieldWrapperPtr createWrapper(TField& field)
+    static ToolsFieldPtr createWrapper(TField& field)
     {
         using DecayedField = typename std::decay<decltype(field)>::type;
         using Tag = typename DecayedField::CommsTag;        
@@ -84,7 +84,7 @@ private:
     class SubfieldsCreateHelper
     {
     public:
-        typedef std::function <void (FieldWrapperPtr)> WrapperDispatchFunc;
+        typedef std::function <void (ToolsFieldPtr)> WrapperDispatchFunc;
         SubfieldsCreateHelper(WrapperDispatchFunc&& dispatchOp)
           : m_dispatchOp(std::move(dispatchOp))
         {
@@ -110,7 +110,7 @@ private:
 
 
     template <typename TField>
-    static FieldWrapperPtr createWrapperInternal(TField& field, IntValueTag)
+    static ToolsFieldPtr createWrapperInternal(TField& field, IntValueTag)
     {
         typedef typename std::decay<decltype(field)>::type FieldType;
         typedef typename FieldType::ValueType ValueType;
@@ -128,37 +128,37 @@ private:
     }
 
     template <typename TField>
-    static FieldWrapperPtr createWrapperInternal(TField& field, RegularIntTag)
+    static ToolsFieldPtr createWrapperInternal(TField& field, RegularIntTag)
     {
         return field_wrapper::makeIntValueWrapper(field);
     }
 
     template <typename TField>
-    static FieldWrapperPtr createWrapperInternal(TField& field, BigUnsignedTag)
+    static ToolsFieldPtr createWrapperInternal(TField& field, BigUnsignedTag)
     {
         return field_wrapper::makeUnsignedLongValueWrapper(field);
     }
 
     template <typename TField>
-    static FieldWrapperPtr createWrapperInternal(TField& field, BitmaskValueTag)
+    static ToolsFieldPtr createWrapperInternal(TField& field, BitmaskValueTag)
     {
         return field_wrapper::makeBitmaskValueWrapper(field);
     }
 
     template <typename TField>
-    static FieldWrapperPtr createWrapperInternal(TField& field, EnumValueTag)
+    static ToolsFieldPtr createWrapperInternal(TField& field, EnumValueTag)
     {
         return field_wrapper::makeEnumValueWrapper(field);
     }
 
     template <typename TField>
-    static FieldWrapperPtr createWrapperInternal(TField& field, StringTag)
+    static ToolsFieldPtr createWrapperInternal(TField& field, StringTag)
     {
         return field_wrapper::makeStringWrapper(field);
     }
 
     template <typename TField>
-    static FieldWrapperPtr createWrapperInternal(TField& field, BitfieldTag)
+    static ToolsFieldPtr createWrapperInternal(TField& field, BitfieldTag)
     {
         auto wrapper = field_wrapper::makeBitfieldWrapper(field);
 
@@ -171,7 +171,7 @@ private:
         comms::util::tupleForEach(
             memberFields,
             SubfieldsCreateHelper(
-                [&subWrappers](FieldWrapperPtr fieldWrapper)
+                [&subWrappers](ToolsFieldPtr fieldWrapper)
                 {
                     subWrappers.push_back(std::move(fieldWrapper));
                 }));
@@ -181,7 +181,7 @@ private:
     }
 
     template <typename TField>
-    static FieldWrapperPtr createWrapperInternal(TField& field, OptionalTag)
+    static ToolsFieldPtr createWrapperInternal(TField& field, OptionalTag)
     {
         auto wrapper = field_wrapper::makeOptionalWrapper(field);
         auto& wrappedField = field.field();
@@ -191,7 +191,7 @@ private:
     }
 
     template <typename TField>
-    static FieldWrapperPtr createWrapperInternal(TField& field, BundleTag)
+    static ToolsFieldPtr createWrapperInternal(TField& field, BundleTag)
     {
         auto wrapper = field_wrapper::makeBundleWrapper(field);
 
@@ -204,7 +204,7 @@ private:
         comms::util::tupleForEach(
             memberFields,
             SubfieldsCreateHelper(
-                [&subWrappers](FieldWrapperPtr fieldWrapper)
+                [&subWrappers](ToolsFieldPtr fieldWrapper)
                 {
                     subWrappers.push_back(std::move(fieldWrapper));
                 }));
@@ -214,13 +214,13 @@ private:
     }
 
     template <typename TField>
-    static FieldWrapperPtr createWrapperInternal(TField& field, RawDataArrayListTag)
+    static ToolsFieldPtr createWrapperInternal(TField& field, RawDataArrayListTag)
     {
         return field_wrapper::makeArrayListRawDataWrapper(field);
     }
 
     template <typename TField>
-    static FieldWrapperPtr createWrapperInternal(TField& field, FieldsArrayListTag)
+    static ToolsFieldPtr createWrapperInternal(TField& field, FieldsArrayListTag)
     {
         typedef typename std::decay<decltype(field)>::type DecayedField;
         typedef typename DecayedField::ValueType CollectionType;
@@ -232,7 +232,7 @@ private:
         }
 
         wrapper->setWrapFieldCallback(
-            [](ElementType& memField) -> FieldWrapperPtr
+            [](ElementType& memField) -> ToolsFieldPtr
             {
                 return ToolsFieldWrapperCreator::createWrapper(memField);
             });
@@ -242,24 +242,24 @@ private:
     }
 
     template <typename TField>
-    static FieldWrapperPtr createWrapperInternal(TField& field, FloatValueTag)
+    static ToolsFieldPtr createWrapperInternal(TField& field, FloatValueTag)
     {
         return field_wrapper::makeFloatValueWrapper(field);
     }
 
     template <typename TField>
-    static FieldWrapperPtr createWrapperInternal(TField& field, VariantTag)
+    static ToolsFieldPtr createWrapperInternal(TField& field, VariantTag)
     {
         auto wrapper = field_wrapper::makeVariantWrapper(field);
 
         wrapper->setMemberCreateCallback(
-            [&field]() -> FieldWrapperPtr
+            [&field]() -> ToolsFieldPtr
             {
-                FieldWrapperPtr ptr;
+                ToolsFieldPtr ptr;
                 if (field.currentFieldValid()) {
                     field.currentFieldExec(
                         SubfieldsCreateHelper(
-                            [&ptr](FieldWrapperPtr fieldWrapper) noexcept
+                            [&ptr](ToolsFieldPtr fieldWrapper) noexcept
                             {
                                 ptr = std::move(fieldWrapper);
                             }));
@@ -270,26 +270,26 @@ private:
         if (field.currentFieldValid()) {
             field.currentFieldExec(
                 SubfieldsCreateHelper(
-                    [&wrapper](FieldWrapperPtr fieldWrapper)
+                    [&wrapper](ToolsFieldPtr fieldWrapper)
                     {
                         wrapper->setCurrent(std::move(fieldWrapper));
                     }));
         }
         else {
-            wrapper->setCurrent(FieldWrapperPtr());
+            wrapper->setCurrent(ToolsFieldPtr());
         }
 
         return wrapper;
     }
 
     template <typename TField, typename TTag>
-    static FieldWrapperPtr createWrapperInternal(TField& field, TTag)
+    static ToolsFieldPtr createWrapperInternal(TField& field, TTag)
     {
         return field_wrapper::makeUnknownValueWrapper(field);
     }
 
 private:
-    FieldWrappersList& m_fields;    
+    FieldsList& m_fields;    
 };
 
 }  // namespace details

@@ -24,7 +24,7 @@
 
 #include "comms/comms.h"
 
-#include "FieldWrapper.h"
+#include "cc_tools_qt/ToolsField.h"
 
 namespace cc_tools_qt
 {
@@ -32,7 +32,7 @@ namespace cc_tools_qt
 namespace field_wrapper
 {
 
-class CC_API UnknownValueWrapper : public FieldWrapper
+class CC_API UnknownValueWrapper : public ToolsField
 {
 public:
     typedef std::unique_ptr<UnknownValueWrapper> Ptr;
@@ -49,9 +49,9 @@ protected:
 };
 
 template <typename TField>
-class UnknownValueWrapperT : public FieldWrapperT<UnknownValueWrapper, TField>
+class UnknownValueWrapperT : public ToolsFieldT<UnknownValueWrapper, TField>
 {
-    using Base = FieldWrapperT<UnknownValueWrapper, TField>;
+    using Base = ToolsFieldT<UnknownValueWrapper, TField>;
     using Field = TField;
     using SerialisedSeq = typename Base::SerialisedSeq;
 

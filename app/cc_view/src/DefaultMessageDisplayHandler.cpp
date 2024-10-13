@@ -21,6 +21,7 @@
 
 #include <QtWidgets/QApplication>
 
+#include "cc_tools_qt/ToolsField.h"
 #include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
 #include "widget/field/IntValueFieldWidget.h"
 #include "widget/field/UnsignedLongLongIntValueFieldWidget.h"
@@ -45,7 +46,6 @@ namespace
 class WidgetCreator : public field_wrapper::FieldWrapperHandler
 {
 public:
-    typedef field_wrapper::FieldWrapperPtr FieldWrapperPtr;
 
     WidgetCreator()
     {
@@ -163,7 +163,7 @@ public:
     virtual void handle(field_wrapper::VariantWrapper& wrapper) override
     {
         auto createMemberWidgetsFunc =
-            [](field_wrapper::FieldWrapper& wrap) -> FieldWidgetPtr
+            [](ToolsField& wrap) -> FieldWidgetPtr
             {
                 WidgetCreator otherCreator;
                 wrap.dispatch(otherCreator);
@@ -194,7 +194,7 @@ public:
         m_widget.reset(new UnknownValueFieldWidget(wrapper.clone(), m_parent));
     }
 
-    virtual void handle([[maybe_unused]] field_wrapper::FieldWrapper& wrapper) override
+    virtual void handle([[maybe_unused]] ToolsField& wrapper) override
     {
         [[maybe_unused]] static constexpr bool Unexpected_wrapper = false;
         assert(Unexpected_wrapper);

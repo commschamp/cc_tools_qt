@@ -26,11 +26,11 @@ void MessageHandler::beginMsgHandlingImpl([[maybe_unused]] Message& msg)
 {
 }
 
-void MessageHandler::addExtraTransportFieldImpl([[maybe_unused]] FieldWrapperPtr wrapper)
+void MessageHandler::addExtraTransportFieldImpl([[maybe_unused]] ToolsFieldPtr wrapper)
 {
 }
 
-void MessageHandler::addFieldImpl([[maybe_unused]] FieldWrapperPtr wrapper)
+void MessageHandler::addFieldImpl([[maybe_unused]] ToolsFieldPtr wrapper)
 {
 }
 

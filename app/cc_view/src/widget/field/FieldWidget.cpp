@@ -142,7 +142,7 @@ void FieldWidget::updateValue(QLineEdit& line, const QString& value)
 
 void FieldWidget::updateSerValue(
     QPlainTextEdit& text,
-    const field_wrapper::FieldWrapper& wrapper)
+    const ToolsField& wrapper)
 {
     QString serValueStr;
     auto serValue = wrapper.getSerialisedValue();

@@ -26,7 +26,7 @@
 #include <algorithm>
 #include <iterator>
 
-#include "FieldWrapper.h"
+#include "cc_tools_qt/ToolsField.h"
 
 namespace cc_tools_qt
 {
@@ -35,11 +35,11 @@ namespace field_wrapper
 {
 
 template <typename TUnderlyingType>
-class NumericValueWrapper : public FieldWrapper
+class NumericValueWrapper : public ToolsField
 {
     static_assert(std::is_integral<TUnderlyingType>::value || std::is_floating_point<TUnderlyingType>::value,
         "Underlying type is expected to be integral or floating point.");
-    typedef FieldWrapper Base;
+    using Base = ToolsField;
 public:
     typedef TUnderlyingType UnderlyingType;
     typedef Base::SerialisedSeq SerialisedSeq;
@@ -86,9 +86,9 @@ private:
 };
 
 template <typename TBase, typename TField>
-class NumericValueWrapperT : public FieldWrapperT<TBase, TField>
+class NumericValueWrapperT : public ToolsFieldT<TBase, TField>
 {
-    using Base = FieldWrapperT<TBase, TField>;
+    using Base = ToolsFieldT<TBase, TField>;
 
 public:
     using UnderlyingType = typename Base::UnderlyingType;

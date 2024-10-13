@@ -22,7 +22,7 @@
 
 #include "Api.h"
 #include "Message.h"
-#include "field_wrapper/FieldWrapper.h"
+#include "ToolsField.h"
 
 namespace cc_tools_qt
 {
@@ -35,7 +35,7 @@ class CC_API MessageHandler
 {
 public:
     /// @brief Pinter to @ref field_wrapper::FieldWrapper object
-    using FieldWrapperPtr = field_wrapper::FieldWrapperPtr;
+    using ToolsFieldPtr = ToolsFieldPtr;
 
     /// @brief Destructor
     virtual ~MessageHandler() noexcept;
@@ -58,7 +58,7 @@ public:
         // comms::util::tupleForEach(
         //     fields,
         //     FieldsWrapperCreateHelper(
-        //         [this](FieldWrapperPtr wrapper)
+        //         [this](ToolsFieldPtr wrapper)
         //         {
         //             addFieldImpl(std::move(wrapper));
         //         }));
@@ -72,11 +72,11 @@ protected:
 
     /// @brief Polymorphic request to add handling of the extra transport field.
     /// @param [in] wrapper Pointer to field wrapper.
-    virtual void addExtraTransportFieldImpl(FieldWrapperPtr wrapper);
+    virtual void addExtraTransportFieldImpl(ToolsFieldPtr wrapper);
 
     /// @brief Polymorphic request to add handling of the message field.
     /// @param [in] wrapper Pointer to field wrapper.
-    virtual void addFieldImpl(FieldWrapperPtr wrapper);
+    virtual void addFieldImpl(ToolsFieldPtr wrapper);
 
     /// @brief Polymorphic report about ending message handling.
     virtual void endMsgHandlingImpl();
@@ -86,7 +86,7 @@ private:
     // class FieldsWrapperCreateHelper
     // {
     // public:
-    //     typedef std::function <void (FieldWrapperPtr)> WrapperDispatchFunc;
+    //     typedef std::function <void (ToolsFieldPtr)> WrapperDispatchFunc;
     //     FieldsWrapperCreateHelper(WrapperDispatchFunc&& dispatchOp)
     //       : m_dispatchOp(std::move(dispatchOp))
     //     {
@@ -139,7 +139,7 @@ private:
         // comms::util::tupleForEach(
         //     fields,
         //     FieldsWrapperCreateHelper(
-        //         [this](FieldWrapperPtr wrapper)
+        //         [this](ToolsFieldPtr wrapper)
         //         {
         //             addExtraTransportFieldImpl(std::move(wrapper));
         //         }));

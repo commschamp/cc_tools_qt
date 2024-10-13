@@ -131,7 +131,7 @@ public:
         m_out << m_sep << '\"' << wrapper.getSerialisedString().toStdString() << '\"';
     }
 
-    virtual void handle([[maybe_unused]] cc::field_wrapper::FieldWrapper& wrapper) override
+    virtual void handle([[maybe_unused]] cc::ToolsField& wrapper) override
     {
         [[maybe_unused]] static constexpr bool Unexpected_wrapper = false;
         assert(Unexpected_wrapper);
@@ -188,7 +188,7 @@ void CsvDumpMessageHandler::beginMsgHandlingImpl(cc::Message& msg)
     m_out << msg.idAsString().toStdString();
 }
 
-void CsvDumpMessageHandler::addFieldImpl(FieldWrapperPtr wrapper)
+void CsvDumpMessageHandler::addFieldImpl(ToolsFieldPtr wrapper)
 {
     wrapper->dispatch(*m_fieldsDump);
 }

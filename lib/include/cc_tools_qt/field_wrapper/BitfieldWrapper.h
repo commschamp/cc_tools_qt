@@ -24,7 +24,7 @@
 #include <vector>
 
 #include "comms/field/Bitfield.h"
-#include "FieldWrapper.h"
+#include "cc_tools_qt/ToolsField.h"
 
 namespace cc_tools_qt
 {
@@ -32,11 +32,11 @@ namespace cc_tools_qt
 namespace field_wrapper
 {
 
-class CC_API BitfieldWrapper : public FieldWrapper
+class CC_API BitfieldWrapper : public ToolsField
 {
-    using Base = FieldWrapper;
+    using Base = ToolsField;
 public:
-    typedef std::vector<FieldWrapperPtr> Members;
+    typedef std::vector<ToolsFieldPtr> Members;
 
     typedef unsigned long long UnderlyingType;
     typedef std::unique_ptr<BitfieldWrapper> Ptr;
@@ -65,9 +65,9 @@ private:
 };
 
 template <typename TField>
-class BitfieldWrapperT : public FieldWrapperT<BitfieldWrapper, TField>
+class BitfieldWrapperT : public ToolsFieldT<BitfieldWrapper, TField>
 {
-    using Base = FieldWrapperT<BitfieldWrapper, TField>;
+    using Base = ToolsFieldT<BitfieldWrapper, TField>;
     using Field = TField;
     static_assert(comms::field::isBitfield<Field>(), "Must be of Bitfield field type");
 

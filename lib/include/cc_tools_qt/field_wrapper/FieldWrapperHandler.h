@@ -19,7 +19,7 @@
 #pragma once
 
 #include "comms/comms.h"
-#include "FieldWrapper.h"
+#include "cc_tools_qt/ToolsField.h"
 #include "AllWrappers.h"
 
 namespace cc_tools_qt
@@ -28,7 +28,7 @@ namespace cc_tools_qt
 namespace field_wrapper
 {
 
-class FieldWrapperHandler : public comms::GenericHandler<FieldWrapper, AllWrappers>
+class FieldWrapperHandler : public comms::GenericHandler<ToolsField, AllWrappers>
 {
 public:
     virtual ~FieldWrapperHandler() noexcept = default;

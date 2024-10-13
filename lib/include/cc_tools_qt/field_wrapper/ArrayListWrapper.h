@@ -30,7 +30,7 @@
 
 #include "comms/comms.h"
 
-#include "FieldWrapper.h"
+#include "cc_tools_qt/ToolsField.h"
 
 namespace cc_tools_qt
 {
@@ -38,11 +38,11 @@ namespace cc_tools_qt
 namespace field_wrapper
 {
 
-class CC_API ArrayListWrapper : public FieldWrapper
+class CC_API ArrayListWrapper : public ToolsField
 {
 public:
 
-    typedef std::vector<FieldWrapperPtr> Members;
+    typedef std::vector<ToolsFieldPtr> Members;
     typedef std::unique_ptr<ArrayListWrapper> Ptr;
 
     ArrayListWrapper();
@@ -92,9 +92,9 @@ private:
 };
 
 template <typename TField>
-class ArrayListWrapperT : public FieldWrapperT<ArrayListWrapper, TField>
+class ArrayListWrapperT : public ToolsFieldT<ArrayListWrapper, TField>
 {
-    using Base = FieldWrapperT<ArrayListWrapper, TField>;
+    using Base = ToolsFieldT<ArrayListWrapper, TField>;
     using Field = TField;
     using ValueType = typename Field::ValueType;
     using ElementType = typename ValueType::value_type;
@@ -104,7 +104,7 @@ public:
     using Ptr = typename Base::Ptr;
     using PrefixFieldInfo = typename Base::PrefixFieldInfo;
 
-    typedef std::function<FieldWrapperPtr (ElementType&)> WrapFieldCallbackFunc;
+    typedef std::function<ToolsFieldPtr (ElementType&)> WrapFieldCallbackFunc;
 
     explicit ArrayListWrapperT(Field& fieldRef)
       : Base(fieldRef)

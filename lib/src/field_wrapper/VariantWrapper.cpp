@@ -31,17 +31,17 @@ VariantWrapper::VariantWrapper() {}
 
 VariantWrapper::~VariantWrapper() noexcept = default;
 
-FieldWrapperPtr& VariantWrapper::getCurrent()
+ToolsFieldPtr& VariantWrapper::getCurrent()
 {
     return m_current;
 }
 
-const FieldWrapperPtr& VariantWrapper::getCurrent() const
+const ToolsFieldPtr& VariantWrapper::getCurrent() const
 {
     return m_current;
 }
 
-void VariantWrapper::setCurrent(FieldWrapperPtr current)
+void VariantWrapper::setCurrent(ToolsFieldPtr current)
 {
     m_current = std::move(current);
 }

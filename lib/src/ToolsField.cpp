@@ -16,46 +16,43 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include "cc_tools_qt/field_wrapper/FieldWrapper.h"
+#include "cc_tools_qt/ToolsField.h"
 
 #include <cassert>
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
-{
+ToolsField::ToolsField() = default;
 
-FieldWrapper::FieldWrapper() = default;
+ToolsField::~ToolsField() noexcept = default;
 
-FieldWrapper::~FieldWrapper() noexcept = default;
-
-std::size_t FieldWrapper::length() const
+std::size_t ToolsField::length() const
 {
     return lengthImpl();
 }
 
-int FieldWrapper::width() const
+int ToolsField::width() const
 {
     return static_cast<int>(length()) * 2;
 }
 
-bool FieldWrapper::valid() const
+bool ToolsField::valid() const
 {
     return validImpl();
 }
 
-FieldWrapper::SerialisedSeq FieldWrapper::getSerialisedValue() const
+ToolsField::SerialisedSeq ToolsField::getSerialisedValue() const
 {
     return getSerialisedValueImpl();
 }
 
-bool FieldWrapper::setSerialisedValue(const SerialisedSeq& value)
+bool ToolsField::setSerialisedValue(const SerialisedSeq& value)
 {
     return setSerialisedValueImpl(value);
 }
 
-QString FieldWrapper::getSerialisedString() const
+QString ToolsField::getSerialisedString() const
 {
     auto seq = getSerialisedValue();
     QString str;
@@ -65,7 +62,7 @@ QString FieldWrapper::getSerialisedString() const
     return str;
 }
 
-bool FieldWrapper::setSerialisedString(const QString& str)
+bool ToolsField::setSerialisedString(const QString& str)
 {
     assert((str.size() & 0x1) == 0U);
     SerialisedSeq seq;
@@ -88,27 +85,25 @@ bool FieldWrapper::setSerialisedString(const QString& str)
     return setSerialisedValue(seq);
 }
 
-void FieldWrapper::dispatch(FieldWrapperHandler& handler)
+void ToolsField::dispatch(field_wrapper::FieldWrapperHandler& handler)
 {
     dispatchImpl(handler);
 }
 
-FieldWrapper::BasePtr FieldWrapper::upClone()
+ToolsField::BasePtr ToolsField::upClone()
 {
     return upCloneImpl();
 }
 
-bool FieldWrapper::canWrite() const
+bool ToolsField::canWrite() const
 {
     return canWriteImpl();
 }
 
-void FieldWrapper::reset()
+void ToolsField::reset()
 {
     return resetImpl();
 }
-
-}  // namespace field_wrapper
 
 }  // namespace cc_tools_qt
 
