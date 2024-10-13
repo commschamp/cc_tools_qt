@@ -41,7 +41,7 @@ struct BitmaskValuesFields
     /// @brief Simple 1 byte bitmask value.
     /// @details Has 5 least significant bits in use, others are reserved and must
     ///     be 0.
-    struct field1 : public
+    class field1 : public
         comms::field::BitmaskValue<
             demo::FieldBase,
             typename TOpt::message::BitmaskValuesFields::field1,
@@ -49,17 +49,23 @@ struct BitmaskValuesFields
             comms::option::BitmaskReservedBits<0xe0, 0>
         >
     {
+    public:        
         /// @brief Provide names generates access functions for internal bits.
         /// @details See definition of @b COMMS_BITMASK_BITS_SEQ_NOTEMPLATE macro
         ///     related to @b comms::field::BitmaskValue class from COMMS library
         ///     for details.
         COMMS_BITMASK_BITS_SEQ_NOTEMPLATE(bit0, bit1, bit2, bit3, bit4);
+
+        static const char* name()
+        {
+            return "field1";
+        }          
     };
 
     /// @brief Bitmask with 2 bytes length
     /// @details The used bits are not sequential, multiple reserved bits
     ///     in the middle. The value of the reserved bit must be 0
-    struct field2 : public
+    class field2 : public
         comms::field::BitmaskValue<
             demo::FieldBase,
             typename TOpt::message::BitmaskValuesFields::field2,
@@ -67,6 +73,7 @@ struct BitmaskValuesFields
             comms::option::BitmaskReservedBits<0xfcf6, 0>
         >
     {
+    public:        
         /// @brief Provide names for internal bits.
         /// @details See definition of @b COMMS_BITMASK_BITS macro
         ///     related to @b comms::field::BitmaskValue class from COMMS library
@@ -78,6 +85,11 @@ struct BitmaskValuesFields
         ///     related to @b comms::field::BitmaskValue class from COMMS library
         ///     for details.
         COMMS_BITMASK_BITS_ACCESS_NOTEMPLATE(bit0, bit3, bit8, bit9);
+
+        static const char* name()
+        {
+            return "field2";
+        }         
     };
 
     /// @brief All the fields bundled in std::tuple.

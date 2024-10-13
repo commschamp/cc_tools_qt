@@ -35,13 +35,20 @@ namespace demo
 using ProtocolEndian = comms::option::def::BigEndian;
 
 /// @brief Field containing version information
-using VersionField =
+class VersionField : public
     comms::field::IntValue<
         comms::Field<ProtocolEndian>,
         std::uint8_t,
         comms::option::DefaultNumValue<1>,
         comms::option::ValidNumValueRange<0, 1>
-    >;
+    >
+{
+public:
+    static const char* name()
+    {
+        return "VERSION";
+    }
+};  
 
 /// @brief Extra transport fields that every message object will contain
 using ExtraTransportFields =

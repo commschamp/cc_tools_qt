@@ -27,6 +27,11 @@ ToolsField::ToolsField() = default;
 
 ToolsField::~ToolsField() noexcept = default;
 
+const char* ToolsField::name() const
+{
+    return nameImpl();
+}
+
 std::size_t ToolsField::length() const
 {
     return lengthImpl();

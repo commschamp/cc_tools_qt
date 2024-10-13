@@ -39,7 +39,7 @@ template <typename TOpt = demo::DefaultOptions>
 struct OptionalsFields
 {
     /// @brief Bitmask that is used to enable/disable other fields
-    struct field1 : public
+    class field1 : public
         comms::field::BitmaskValue<
             demo::FieldBase,
             typename TOpt::message::OptionalsFields::field1,
@@ -47,56 +47,122 @@ struct OptionalsFields
             comms::option::BitmaskReservedBits<0xfc, 0>
         >
     {
+    public:        
         /// @brief Provide names for internal bits.
         /// @details See definition of @b COMMS_BITMASK_BITS macro
         ///     related to @b comms::field::BitmaskValue class from COMMS library
         ///     for details.
         COMMS_BITMASK_BITS(enableField2, enableField3);
+
+        static const char* name()
+        {
+            return "field1";
+        }          
+    };
+
+    struct field2Members
+    {
+        class field2Field : public
+            comms::field::IntValue<
+                demo::FieldBase,
+                std::uint16_t
+            >
+        {
+        public:            
+            static const char* name()
+            {
+                return "field2";
+            }  
+        };
     };
 
     /// @brief Optional 2 bytes unsigned integer value
     /// @details Existence of this field is controlled by bit 0 in @ref field1
-    using field2 =
+    class field2 : public
         comms::field::Optional<
-            comms::field::IntValue<
-                demo::FieldBase,
-                std::uint16_t,
-                typename TOpt::message::OptionalsFields::field2
-            >,
+            typename field2Members::field2Field,
+            typename TOpt::message::OptionalsFields::field2,
             comms::option::OptionalMissingByDefault
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field2";
+        }                 
+    }; 
 
-    /// @brief Optional string with 1 byte size information prefix.
-    /// @details Existence of this field is controlled by bit 1 in @ref field1
-    using field3 =
-        comms::field::Optional<
+    struct field3Members
+    {
+        class field3Field : public
             comms::field::String<
                 demo::FieldBase,
-                typename TOpt::message::OptionalsFields::field3,
                 comms::option::SequenceSizeFieldPrefix<
                     comms::field::IntValue<
                         demo::FieldBase,
                         std::uint8_t
                     >
                 >
-            >,
+            >
+        {
+        public:            
+            static const char* name()
+            {
+                return "field3";
+            }  
+        };
+    };    
+
+    /// @brief Optional string with 1 byte size information prefix.
+    /// @details Existence of this field is controlled by bit 1 in @ref field1
+    class field3 : public
+        comms::field::Optional<
+            typename field3Members::field3Field,
+            typename TOpt::message::OptionalsFields::field3,
             comms::option::OptionalMissingByDefault
-        >;
+        >
+    {
+    public:            
+        static const char* name()
+        {
+            return "field3";
+        }  
+    };
+
+    struct field4Members
+    {
+        class field4Field : public
+            comms::field::IntValue<
+                demo::FieldBase,
+                std::int16_t
+            >
+        {
+        public:            
+            static const char* name()
+            {
+                return "field4";
+            }  
+        };
+    };          
 
     /// @brief Optional 2 bytes signed integer value
     /// @details Existence of this field is controlled by the version
     ///     information in transport framing. If version is 0, this field
     ///     does NOT exist. If the version is 1 or greater, this field does
     ///     exist.
-    using field4 =
+    class field4 : public
         comms::field::Optional<
-            comms::field::IntValue<
-                demo::FieldBase,
-                std::int16_t
-            >,
+            typename field4Members::field4Field,
             comms::option::ExistsByDefault,
             comms::option::ExistsSinceVersion<1>
-        >;
+        >
+    {
+    public:            
+        static const char* name()
+        {
+            return "field4";
+        }  
+    };
 
     /// @brief All the fields bundled in std::tuple.
     using All = std::tuple<

@@ -40,36 +40,57 @@ struct IntValuesFields
 {
     /// @brief Simple 2 byte unsigned value.
     /// @details The valid values are in range [0, 10]
-    using field1 =
+    class field1 : public
         comms::field::IntValue<
             demo::FieldBase,
             std::uint16_t,
             typename TOpt::message::IntValuesFields::field1,
             comms::option::ValidNumValueRange<0, 10>
-    >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field1";
+        }                 
+    };
 
     /// @brief Signed integer serialised using only 3 bytes
-    using field2 =
+    class field2 : public
         comms::field::IntValue<
             demo::FieldBase,
             std::int32_t,
             typename TOpt::message::IntValuesFields::field2,
             comms::option::FixedLength<3>
-    >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field2";
+        }                 
+    };
 
     /// @brief Variable length (base-128) encoded unsigned integer value
-    using field3 =
+    class field3 : public
         comms::field::IntValue<
             demo::FieldBase,
             std::uint32_t,
             typename TOpt::message::IntValuesFields::field3,
             comms::option::VarLength<1, 4>
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field3";
+        }                 
+    };
 
     /// @brief Example of serialising year information as a single byte.
     /// @details Serialised as offset from year 2000 using 1 byte.
     ///     Default constructed value is 2016
-    using field4 =
+    class field4 : public
         comms::field::IntValue<
             demo::FieldBase,
             std::int16_t,
@@ -78,25 +99,46 @@ struct IntValuesFields
             comms::option::NumValueSerOffset<-2000>,
             comms::option::DefaultNumValue<2016>,
             comms::option::ValidNumValueRange<2000, 2255>
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field4";
+        }                 
+    };
 
     /// @brief Signed integer serialised using 6 bytes
-    using field5 =
+    class field5 : public
         comms::field::IntValue<
             demo::FieldBase,
             std::int64_t,
             typename TOpt::message::IntValuesFields::field5,
             comms::option::FixedLength<6>,
             comms::option::ValidNumValueRange<static_cast<std::int64_t>(0xffff800000000000), 0x7fffffffffff>
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field5";
+        }                 
+    };
 
     /// @brief Unsigned integer serialised using 8 bytes
-    using field6 =
+    class field6 : public
         comms::field::IntValue<
             demo::FieldBase,
             std::uint64_t,
             typename TOpt::message::IntValuesFields::field6
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field6";
+        }                 
+    };
 
 
     /// @brief All the fields bundled in std::tuple.

@@ -34,40 +34,75 @@ namespace demo
 /// @brief Field representing synchronisation information in
 ///     message wrapping.
 /// @details Expects <b>0xab 0xbc</b>sequence.
-using SyncField =
+class SyncField : public
     comms::field::IntValue<
         FieldBase,
         std::uint16_t,
         comms::option::DefaultNumValue<0xabcd>,
         comms::option::ValidNumValueRange<0xabcd, 0xabcd>
-    >;
+    >
+{
+public:
+    static const char* name()
+    {
+        return "SYNC";
+    }
+};    
 
 /// @brief Field representing last two checksum bytes in message wrapping.
-using ChecksumField =
+class ChecksumField : public
     comms::field::IntValue<
         FieldBase,
         std::uint16_t
-    >;
+    >
+{
+public:
+    static const char* name()
+    {
+        return "CHECKSUM";
+    }
+};  
 
 /// @brief Field representing remaining length in message wrapping.
-using LengthField =
+class LengthField : public
     comms::field::IntValue<
         FieldBase,
         std::uint16_t,
         comms::option::NumValueSerOffset<sizeof(std::uint16_t)>
-    >;
+    >
+{
+public:
+    static const char* name()
+    {
+        return "LENGTH";
+    }
+};  
 
 /// @brief Field representing message ID in message wrapping.
-using MsgIdField =
+class MsgIdField : public
     comms::field::EnumValue<
         FieldBase,
         MsgId,
         comms::option::ValidNumValueRange<0, MsgId_NumOfValues - 1>
-    >;
+    >
+{
+public:
+    static const char* name()
+    {
+        return "ID";
+    }
+};  
 
 /// @brief Field representing full message payload.
 template <typename... TOptions>
-using DataField = typename comms::protocol::MsgDataLayer<TOptions...>::Field;
+class DataField : public comms::protocol::MsgDataLayer<TOptions...>::Field
+{
+public:
+    static const char* name()
+    {
+        return "PAYLOAD";
+    }
+};  
 
 /// @brief Assembled protocol stack layers.
 /// @details Extended by @ref Stack

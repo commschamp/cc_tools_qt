@@ -49,13 +49,20 @@ struct EnumValuesFields
     };
 
     /// @brief Simple 1 byte enumeration value.
-    using field1 =
+    class field1 : public
         comms::field::EnumValue<
             demo::FieldBase,
             ValuesField1,
             typename TOpt::message::EnumValuesFields::field1,
             comms::option::ValidNumValueRange<static_cast<int>(0), static_cast<int>(ValuesField1::NumOfValues) - 1>
-    >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field1";
+        }                 
+    };
 
     /// @brief Enumeration type for the @ref field2
     /// @details The values are sparse and signed. They are serialised
@@ -70,7 +77,7 @@ struct EnumValuesFields
 
     /// @brief Enumeration, that has sparse and signed values, as well as
     ///     serialised using 2 bytes.
-    struct field2 : public
+    class field2 : public
         comms::field::EnumValue<
             demo::FieldBase,
             ValuesField2,
@@ -87,6 +94,11 @@ struct EnumValuesFields
             >;
 
     public:
+        static const char* name()
+        {
+            return "field2";
+        }   
+
         // @brief Custom validity check
         bool valid() const
         {
@@ -112,7 +124,7 @@ struct EnumValuesFields
 
     /// @brief Enumeration, that has sparse and unsigned values, as well as
     ///     serialised using base-128 encoding.
-    struct field3 : public
+    class field3 : public
         comms::field::EnumValue<
             demo::FieldBase,
             ValuesField3,
@@ -131,6 +143,11 @@ struct EnumValuesFields
             >;
 
     public:
+        static const char* name()
+        {
+            return "field3";
+        }   
+
         bool valid() const
         {
             return
@@ -152,7 +169,7 @@ struct EnumValuesFields
     };
 
     /// @brief 8 byte enumeration value.
-    using field4 =
+    class field4 : public
         comms::field::EnumValue<
             demo::FieldBase,
             ValuesField4,
@@ -160,7 +177,14 @@ struct EnumValuesFields
             comms::option::ValidBigUnsignedNumValue<static_cast<std::uintmax_t>(ValuesField4::Value1)>,
             comms::option::ValidBigUnsignedNumValue<static_cast<std::uintmax_t>(ValuesField4::Value2)>,
             comms::option::ValidBigUnsignedNumValue<static_cast<std::uintmax_t>(ValuesField4::Value3)>
-    >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field4";
+        }                 
+    };
 
 
     /// @brief All the fields bundled in std::tuple.

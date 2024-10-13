@@ -39,39 +39,67 @@ template <typename TOpt = demo::DefaultOptions>
 struct FloatValuesFields
 {
     /// @brief Simple 4 byte IEEE 754 floating point value.
-    using field1 =
+    class field1 : public
         comms::field::FloatValue<
             demo::FieldBase,
             float,
             typename TOpt::message::FloatValuesFields::field1
-    >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field1";
+        }                 
+    };
 
     /// @brief Simple 8 byte IEEE 754 floating point value.
-    using field2 =
+    class field2 : public
         comms::field::FloatValue<
             demo::FieldBase,
             double,
             typename TOpt::message::FloatValuesFields::field2
-    >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field2";
+        }                 
+    };
 
     /// @brief Floating point value serialised as integer with (1e-2) scaling ratio.
-    using field3 =
+    class field3 : public
         comms::field::IntValue<
             demo::FieldBase,
             std::uint8_t,
             typename TOpt::message::FloatValuesFields::field3,
             comms::option::ScalingRatio<1, 100>
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field3";
+        }                 
+    };
 
     /// @brief Floating point value serialised as 5 byte integer with (1e-11) scaling ratio.
-    using field4 =
+    class field4 : public
         comms::field::IntValue<
             demo::FieldBase,
             std::int64_t,
             typename TOpt::message::FloatValuesFields::field4,
             comms::option::ScalingRatio<1, 100000000000>,
             comms::option::FixedLength<5>
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field1";
+        }                 
+    };
 
     /// @brief All the fields bundled in std::tuple.
     using All = std::tuple<

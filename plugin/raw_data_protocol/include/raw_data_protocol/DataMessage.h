@@ -31,11 +31,18 @@ namespace raw_data_protocol
 template <typename TFieldBase>
 struct DataMessageFields
 {
-    using data =
+    class data : public
         comms::field::ArrayList<
             TFieldBase,
             std::uint8_t
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "data";
+        }        
+    };
 
 
     /// @brief All the fields bundled in std::tuple.

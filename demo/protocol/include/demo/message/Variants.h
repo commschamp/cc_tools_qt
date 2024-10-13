@@ -49,20 +49,50 @@ struct VariantsFields
 
     /// @brief field used to identify the value of the variant field @ref field1.
     template <VarId TId>
-    using varIdField =
+    class varIdField : public
         comms::field::EnumValue<
             demo::FieldBase,
             VarId,
             comms::option::DefaultNumValue<static_cast<int>(TId)>,
             comms::option::ValidNumValueRange<static_cast<int>(TId), static_cast<int>(TId)>,
             comms::option::FailOnInvalid<>
-        >;
+        >
+    {
+    public:        
+        static const char* name()
+        {
+            return "id";
+        }        
+    };
 
     /// @brief field used to identify the remaining length.
-    using lengthField = 
+    class lengthField : public
         comms::field::IntValue<
             demo::FieldBase,
-            std::uint8_t>;
+            std::uint8_t>
+    {
+    public:
+        static const char* name()
+        {
+            return "length";
+        }                 
+    }; 
+
+    struct field1_var1Members
+    {
+        class Value : public 
+            comms::field::IntValue<
+                demo::FieldBase,
+                std::uint8_t
+            >
+        {
+        public:
+            static const char* name()
+            {
+                return "value";
+            }
+        };                    
+    };
 
     /// @brief First type that can be stored in @ref field1 variant field.
     /// @details Identified by @ref VarId::Elem1 (0) value which is followed by
@@ -72,12 +102,9 @@ struct VariantsFields
             demo::FieldBase,
             std::tuple<
                 varIdField<VarId::Elem1>,
-                comms::field::IntValue<
-                    demo::FieldBase,
-                    std::uint8_t,
-                    typename TOpt::message::VariantsFields::field1_var1
-                >
-            >
+                typename field1_var1Members::Value
+            >,
+            typename TOpt::message::VariantsFields::field1_var1
         >
     {
         using Base =
@@ -85,12 +112,9 @@ struct VariantsFields
                 demo::FieldBase,
                 std::tuple<
                     varIdField<VarId::Elem1>,
-                    comms::field::IntValue<
-                        demo::FieldBase,
-                        std::uint8_t,
-                        typename TOpt::message::VariantsFields::field1_var1
-                    >
-                >
+                    typename field1_var1Members::Value
+                >,
+                typename TOpt::message::VariantsFields::field1_var1
             >;
     public:
         /// @brief Allow access to internal fields.
@@ -101,7 +125,28 @@ struct VariantsFields
         ///     @b id for @ref varIdField<VarId::Elem1>
         ///     @b value for 1 byte unsigned integer field.
         COMMS_FIELD_MEMBERS_NAMES(id, value);
+
+        static const char* name()
+        {
+            return "field1_var1";
+        }                 
     };
+
+    struct field1_var2Members
+    {
+        class Value : public 
+            comms::field::IntValue<
+                demo::FieldBase,
+                std::uint32_t
+            >
+        {
+        public:
+            static const char* name()
+            {
+                return "value";
+            }
+        };                    
+    };    
 
     /// @brief Second type that can be stored in @ref field1 variant field.
     /// @details Identified by @ref VarId::Elem2 (1) value which is followed by
@@ -111,12 +156,9 @@ struct VariantsFields
             demo::FieldBase,
             std::tuple<
                 varIdField<VarId::Elem2>,
-                comms::field::IntValue<
-                    demo::FieldBase,
-                    std::uint32_t,
-                    typename TOpt::message::VariantsFields::field1_var2
-                >
-            >
+                typename field1_var2Members::Value
+            >,
+            typename TOpt::message::VariantsFields::field1_var2
         >
     {
         using Base =
@@ -124,12 +166,9 @@ struct VariantsFields
                 demo::FieldBase,
                 std::tuple<
                     varIdField<VarId::Elem2>,
-                    comms::field::IntValue<
-                        demo::FieldBase,
-                        std::uint32_t,
-                        typename TOpt::message::VariantsFields::field1_var2
-                    >
-                >
+                    typename field1_var2Members::Value
+                >,
+                typename TOpt::message::VariantsFields::field1_var2
             >;
     public:
         /// @brief Allow access to internal fields.
@@ -140,7 +179,33 @@ struct VariantsFields
         ///     @b id for @ref varIdField<VarId::Elem1>
         ///     @b value for 4 bytes unsigned integer field.
         COMMS_FIELD_MEMBERS_NAMES(id, value);
+
+        static const char* name()
+        {
+            return "field1_var2";
+        }           
     };
+
+    struct field1_var3Members
+    {
+        class Value : public 
+            comms::field::String<
+                demo::FieldBase,
+                comms::option::SequenceSizeFieldPrefix<
+                    comms::field::IntValue<
+                        demo::FieldBase,
+                        std::uint8_t
+                    >
+                >
+            >
+        {
+        public:
+            static const char* name()
+            {
+                return "value";
+            }
+        };                    
+    };      
 
     /// @brief Third type that can be stored in @ref field1 variant field.
     /// @details Identified by @ref VarId::Elem3 (2) value which is followed by
@@ -150,17 +215,9 @@ struct VariantsFields
             demo::FieldBase,
             std::tuple<
                 varIdField<VarId::Elem3>,
-                comms::field::String<
-                    demo::FieldBase,
-                    comms::option::SequenceSizeFieldPrefix<
-                        comms::field::IntValue<
-                            demo::FieldBase,
-                            std::uint8_t,
-                            typename TOpt::message::VariantsFields::field1_var3
-                        >
-                    >
-                >
-            >
+                typename field1_var3Members::Value
+            >,
+            typename TOpt::message::VariantsFields::field1_var3
         >
     {
         using Base =
@@ -168,17 +225,9 @@ struct VariantsFields
                 demo::FieldBase,
                 std::tuple<
                     varIdField<VarId::Elem3>,
-                    comms::field::String<
-                        demo::FieldBase,
-                        comms::option::SequenceSizeFieldPrefix<
-                            comms::field::IntValue<
-                                demo::FieldBase,
-                                std::uint8_t,
-                                typename TOpt::message::VariantsFields::field1_var3
-                            >
-                        >
-                    >
-                >
+                    typename field1_var3Members::Value
+                >,
+                typename TOpt::message::VariantsFields::field1_var3
             >;
     public:
         /// @brief Allow access to internal fields.
@@ -189,6 +238,11 @@ struct VariantsFields
         ///     @b id for @ref varIdField<VarId::Elem1>
         ///     @b value for string field prefixed with its size.
         COMMS_FIELD_MEMBERS_NAMES(id, value);
+
+        static const char* name()
+        {
+            return "field1_var3";
+        }        
     };
 
     /// @brief Variant field.
@@ -227,7 +281,28 @@ struct VariantsFields
         ///     @b val2 for @ref field1_var2
         ///     @b val3 for @ref field1_var3
         COMMS_VARIANT_MEMBERS_NAMES(val1, val2, val3);
+
+        static const char* name()
+        {
+            return "field1";
+        }        
     };
+
+    struct field2_var1Members
+    {
+        class Value : public 
+            comms::field::IntValue<
+                demo::FieldBase,
+                std::uint8_t
+            >
+        {
+        public:
+            static const char* name()
+            {
+                return "value";
+            }
+        };                    
+    };      
 
     /// @brief First type that can be stored in @ref field2 variant field.
     /// @details Identified by @ref VarId::Elem1 (0) value which is followed by
@@ -238,12 +313,9 @@ struct VariantsFields
             std::tuple<
                 varIdField<VarId::Elem1>,
                 lengthField,
-                comms::field::IntValue<
-                    demo::FieldBase,
-                    std::uint8_t,
-                    typename TOpt::message::VariantsFields::field1_var1
-                >
+                typename field2_var1Members::Value
             >,
+            typename TOpt::message::VariantsFields::field2_var1,
             comms::option::def::RemLengthMemberField<1>
         >
     {
@@ -253,12 +325,9 @@ struct VariantsFields
                 std::tuple<
                     varIdField<VarId::Elem1>,
                     lengthField,
-                    comms::field::IntValue<
-                        demo::FieldBase,
-                        std::uint8_t,
-                        typename TOpt::message::VariantsFields::field1_var1
-                    >
+                    typename field2_var1Members::Value
                 >,
+                typename TOpt::message::VariantsFields::field2_var1,
                 comms::option::def::RemLengthMemberField<1>
             >;
     public:
@@ -271,7 +340,28 @@ struct VariantsFields
         ///     @b length for @ref lengthField.
         ///     @b value for 1 byte unsigned integer field.
         COMMS_FIELD_MEMBERS_NAMES(id, length, value);
+
+        static const char* name()
+        {
+            return "field2_var1";
+        }        
     };
+
+    struct field2_var2Members
+    {
+        class Value : public 
+            comms::field::IntValue<
+                demo::FieldBase,
+                std::uint32_t
+            >
+        {
+        public:
+            static const char* name()
+            {
+                return "value";
+            }
+        };                    
+    };    
 
     /// @brief Second type that can be stored in @ref field2 variant field.
     /// @details Identified by @ref VarId::Elem2 (1) value which is followed by
@@ -282,12 +372,9 @@ struct VariantsFields
             std::tuple<
                 varIdField<VarId::Elem2>,
                 lengthField,
-                comms::field::IntValue<
-                    demo::FieldBase,
-                    std::uint32_t,
-                    typename TOpt::message::VariantsFields::field1_var2
-                >
+                typename field2_var2Members::Value
             >,
+            typename TOpt::message::VariantsFields::field2_var2,
             comms::option::def::RemLengthMemberField<1>
         >
     {
@@ -297,12 +384,9 @@ struct VariantsFields
                 std::tuple<
                     varIdField<VarId::Elem2>,
                     lengthField,
-                    comms::field::IntValue<
-                        demo::FieldBase,
-                        std::uint32_t,
-                        typename TOpt::message::VariantsFields::field1_var2
-                    >
+                    typename field2_var2Members::Value
                 >,
+                typename TOpt::message::VariantsFields::field2_var2,
                 comms::option::def::RemLengthMemberField<1>
             >;
     public:
@@ -315,7 +399,25 @@ struct VariantsFields
         ///     @b length for @ref lengthField.
         ///     @b value for 4 bytes unsigned integer field.
         COMMS_FIELD_MEMBERS_NAMES(id, length, value);
+
+        static const char* name()
+        {
+            return "field2_var2";
+        }        
     };
+
+    struct field2_var3Members
+    {
+        class Value : public 
+            comms::field::String<demo::FieldBase>
+        {
+        public:
+            static const char* name()
+            {
+                return "value";
+            }
+        };                    
+    };     
 
     /// @brief Third type that can be stored in @ref field2 variant field.
     /// @details Identified by @ref VarId::Elem3 (2) value which is followed by
@@ -326,7 +428,7 @@ struct VariantsFields
             std::tuple<
                 varIdField<VarId::Elem3>,
                 lengthField,
-                comms::field::String<demo::FieldBase>
+                typename field2_var3Members::Value
             >,
             comms::option::def::RemLengthMemberField<1>
         >
@@ -337,7 +439,7 @@ struct VariantsFields
                 std::tuple<
                     varIdField<VarId::Elem3>,
                     lengthField,
-                    comms::field::String<demo::FieldBase>
+                    typename field2_var3Members::Value
                 >,
                 comms::option::def::RemLengthMemberField<1>
             >;
@@ -351,6 +453,11 @@ struct VariantsFields
         ///     @b length for @ref lengthField.
         ///     @b value for string field.
         COMMS_FIELD_MEMBERS_NAMES(id, length, value);
+
+        static const char* name()
+        {
+            return "field2_var3";
+        }        
     };    
 
     /// @brief Variant field.
@@ -389,6 +496,11 @@ struct VariantsFields
         ///     @b val2 for @ref field2_var2
         ///     @b val3 for @ref field2_var3
         COMMS_VARIANT_MEMBERS_NAMES(val1, val2, val3);
+
+        static const char* name()
+        {
+            return "field2";
+        }        
     };    
 
     /// @brief All the fields bundled in std::tuple.

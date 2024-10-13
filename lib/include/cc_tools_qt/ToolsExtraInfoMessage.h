@@ -40,8 +40,14 @@ namespace details
 {
 
 template <typename TFieldBase>
-struct ToolsExtraInfoMessageData : public comms::field::String<TFieldBase>
+class ToolsExtraInfoMessageData : public comms::field::String<TFieldBase>
 {
+public:    
+    static const char* name()
+    {
+        return "";
+    }
+
     bool valid() const
     {
         using Base = comms::field::String<TFieldBase>;

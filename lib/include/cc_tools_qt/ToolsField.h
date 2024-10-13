@@ -54,6 +54,8 @@ public:
     ToolsField();
     virtual ~ToolsField() noexcept;
 
+    const char* name() const;
+
     std::size_t length() const;
 
     int width() const;
@@ -77,6 +79,7 @@ public:
     void reset();
 
 protected:
+    virtual const char* nameImpl() const = 0;
     virtual std::size_t lengthImpl() const = 0;
     virtual bool validImpl() const = 0;
     virtual SerialisedSeq getSerialisedValueImpl() const = 0;
@@ -108,6 +111,11 @@ protected:
     explicit ToolsFieldT(Field& fieldRef)
       : m_field(fieldRef)
     {
+    }
+
+    virtual const char* nameImpl() const override
+    {
+        return m_field.name();
     }
 
     virtual std::size_t lengthImpl() const override

@@ -55,6 +55,11 @@ struct BitfieldsFields
         ///     related to @b comms::field::BitmaskValue class from COMMS library
         ///     for details.
         COMMS_BITMASK_BITS_SEQ_NOTEMPLATE(bit0, bit1, bit2);
+
+        static const char* name()
+        {
+            return "field1_bitmask";
+        }
     };
 
     /// @brief Enumeration type for the @ref field1_enum
@@ -67,34 +72,56 @@ struct BitfieldsFields
     };
 
     /// @brief Enumeration field, that consumes 2 bits in @ref field1 bitfield.
-    using field1_enum =
+    class field1_enum : public
         comms::field::EnumValue<
             demo::FieldBase,
             Field1Enum,
             typename TOpt::message::BitfieldsFields::field1_enum,
             comms::option::ValidNumValueRange<static_cast<int>(0), static_cast<int>(Field1Enum::NumOfValues) - 1>,
             comms::option::FixedBitLength<2>
-    >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field1_enum";
+        }
+    };
+
 
     /// @brief Integer field, that consumes 6 bits in @ref field1 bitfield.
-    using field1_int1 =
+    class field1_int1 : public
         comms::field::IntValue<
             demo::FieldBase,
             std::uint8_t,
             typename TOpt::message::BitfieldsFields::field1_int1,
             comms::option::FixedBitLength<6>,
             comms::option::ValidNumValueRange<0, 0x3f>
-        >;
+        >
+    {
+    public:        
+        static const char* name()
+        {
+            return "field1_int1";
+        }        
+    };
 
     /// @brief Integer field, that consumes 4 bits in @ref field1 bitfield.
-    using field1_int2 =
+    class field1_int2 : public
         comms::field::IntValue<
             demo::FieldBase,
             std::uint8_t,
             typename TOpt::message::BitfieldsFields::field1_int2,
             comms::option::FixedBitLength<4>,
             comms::option::ValidNumValueRange<0, 0xf>
-        >;
+        >
+    {
+    public:        
+        static const char* name()
+        {
+            return "field1_int2";
+        }        
+    };
 
     /// @brief Bitfield containing @ref field1_bitmask, @ref field1_enum,
     ///     @ref field1_int1, and @ref field1_int2 as its internal members
@@ -131,6 +158,11 @@ struct BitfieldsFields
         ///     @b member4 for @ref field1_int2
         ///
         COMMS_FIELD_MEMBERS_NAMES(member1, member2, member3, member4);
+
+        static const char* name()
+        {
+            return "field1";
+        }          
     };
 
     /// @brief All the fields bundled in std::tuple.

@@ -41,7 +41,7 @@ template <typename TOpt = demo::DefaultOptions>
 struct ListsFields
 {
     /// @brief Raw data list that uses 2 bytes size prefix
-    using field1 =
+    class field1 : public
         comms::field::ArrayList<
             demo::FieldBase,
             std::uint8_t,
@@ -52,10 +52,17 @@ struct ListsFields
                     std::uint16_t
                 >
             >
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field1";
+        }                 
+    };
 
     /// @brief Raw data list that uses 1 bytes serialisation length prefix
-    using field2 =
+    class field2 : public
         comms::field::ArrayList<
             demo::FieldBase,
             std::uint8_t,
@@ -66,36 +73,64 @@ struct ListsFields
                     std::uint8_t
                 >
             >
-        >;        
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field2";
+        }                 
+    };       
 
     /// @brief Element of @ref field3 list
-    using field3Element =
+    class field3Element : public
         comms::field::IntValue<
             demo::FieldBase,
             std::int16_t,
             typename TOpt::message::ListsFields::field3Element
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "element";
+        }                 
+    };        
 
     /// @brief List of 2 bytes integer value fields, with fixed size of 3 elements
-    using field3 =
+    class field3 : public
         comms::field::ArrayList<
             demo::FieldBase,
             field3Element,
             typename TOpt::message::ListsFields::field3,
             comms::option::SequenceFixedSize<3>
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field3";
+        }                 
+    }; 
 
     /// @brief Element of @ref field4 list
-    using field4Element =
+    class field4Element : public
         comms::field::IntValue<
             demo::FieldBase,
             std::uint16_t,
             typename TOpt::message::ListsFields::field4Element
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "element";
+        }                 
+    }; 
 
     /// @brief List of 2 bytes integer value fields, prefixed with
     ///     2 bytes serialisation length
-    using field4 =
+    class field4 : public
         comms::field::ArrayList<
             demo::FieldBase,
             field4Element,
@@ -106,30 +141,51 @@ struct ListsFields
                     std::uint16_t
                 >
             >
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field4";
+        }                 
+    }; 
 
     /// Scope for members of @ref field5Element
     struct field5Members
     {
         /// @brief 2 byte unsigned integer field
-        using mem1 =
+        class mem1 : public
             comms::field::IntValue<
                 demo::FieldBase,
                 std::uint16_t,
                 typename TOpt::message::ListsFields::field5Members::mem1
-            >;
+            >
+        {
+        public:
+            static const char* name()
+            {
+                return "member1";
+            }                 
+        }; 
 
         /// @brief 1 byte unsigned integer field
-        using mem2 =
+        class mem2 : public
             comms::field::IntValue<
                 demo::FieldBase,
                 std::int8_t,
                 typename TOpt::message::ListsFields::field5Members::mem2
-            >;
+            >
+        {
+        public:
+            static const char* name()
+            {
+                return "member2";
+            }                 
+        }; 
 
         /// @brief string with serialisation length prefix. The prefix is of variable
         ///         length, i.e. uses base-128 encoding.
-        using mem3 =
+        class mem3 : public
             comms::field::String<
                 demo::FieldBase,
                 typename TOpt::message::ListsFields::field5Members::mem3,
@@ -140,11 +196,18 @@ struct ListsFields
                         comms::option::VarLength<1, 4>
                     >
                 >
-            >;
+            >
+        {
+        public:
+            static const char* name()
+            {
+                return "member3";
+            }                 
+        }; 
     };
 
     /// @brief Element of @ref field5 list
-    using field5Element =
+    class field5Element : public
         comms::field::Bundle<
             demo::FieldBase,
             std::tuple<
@@ -153,7 +216,14 @@ struct ListsFields
                 typename field5Members::mem3
             >,
             typename TOpt::message::ListsFields::field5Element
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "element";
+        }                 
+    }; 
 
     /// @brief List of bundles
     /// @details Every bundle contains:
@@ -167,7 +237,7 @@ struct ListsFields
     ///
     ///     The list itself is prefixed with total serialisation length. The length
     ///     info is written using base-128 encoding.
-    using field5 =
+    class field5 : public
         comms::field::ArrayList<
             demo::FieldBase,
             field5Element,
@@ -186,7 +256,14 @@ struct ListsFields
                     comms::option::VarLength<1, 4>
                 >
             >
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field5";
+        }                 
+    }; 
 
     /// @brief All the fields bundled in std::tuple.
     using All = std::tuple<

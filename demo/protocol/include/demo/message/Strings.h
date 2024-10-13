@@ -40,7 +40,7 @@ template <typename TOpt = demo::DefaultOptions>
 struct StringsFields
 {
     /// @brief String that uses 1 byte size prefix
-    using field1 =
+    class field1 : public
         comms::field::String<
             demo::FieldBase,
             typename TOpt::message::StringsFields::field1,
@@ -50,10 +50,17 @@ struct StringsFields
                     std::uint8_t
                 >
             >
-    >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field1";
+        }                 
+    }; 
 
     /// @brief String that is zero terminated
-    using field2 =
+    class field2 : public
         comms::field::String<
             demo::FieldBase,
             typename TOpt::message::StringsFields::field2,
@@ -63,15 +70,29 @@ struct StringsFields
                     std::uint8_t
                 >
             >
-    >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field2";
+        }                 
+    }; 
 
     /// @brief Fixed size of 6 characters string
-    using field3 =
+    class field3 : public
         comms::field::String<
             demo::FieldBase,
             typename TOpt::message::StringsFields::field3,
             comms::option::SequenceFixedSize<6>
-    >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field3";
+        }                 
+    }; 
 
 
     /// @brief All the fields bundled in std::tuple.

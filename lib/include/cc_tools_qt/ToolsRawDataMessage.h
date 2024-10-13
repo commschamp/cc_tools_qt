@@ -38,11 +38,14 @@ namespace details
 {
 
 template <typename TFieldBase>
-using ToolsRawDataMessageField = 
-    comms::field::ArrayList<
-        TFieldBase,
-        std::uint8_t
-    >;    
+class ToolsRawDataMessageField : public comms::field::ArrayList<TFieldBase, std::uint8_t>
+{
+public:    
+    static const char* name()
+    {
+        return "Data";
+    }
+};
 
 template <typename TMsgBase, typename...>
 class ToolsRawDataMessageImpl : public

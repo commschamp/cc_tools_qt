@@ -40,20 +40,34 @@ template <typename TOpt = demo::DefaultOptions>
 struct BundlesFields
 {
     /// @brief First member that can be stored in @ref field1 bundle field.
-    using field1_mem1 = 
+    class field1_mem1 : public
             comms::field::IntValue<
                 demo::FieldBase,
                 std::uint8_t,
                 typename TOpt::message::BundlesFields::field1_mem1
-            >;  
+            >
+    {
+    public:
+        static const char* name()
+        {
+            return "field1_mem1";
+        }                 
+    };
 
     /// @brief Second member that can be stored in @ref field1 bundle field.
-    using field1_mem2 = 
+    class field1_mem2 : public
         comms::field::String<
             demo::FieldBase,
             typename TOpt::message::BundlesFields::field1_mem2,
             comms::option::def::SequenceFixedSize<8>
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field1_mem2";
+        }                 
+    };
 
     /// @brief Bundle field containing length and fixed size string.
     class field1 : public
@@ -81,24 +95,43 @@ struct BundlesFields
     public:
         /// @brief Allow access to internal fields.
         COMMS_FIELD_MEMBERS_NAMES(length, str)
+
+        static const char* name()
+        {
+            return "field1";
+        }        
     };
 
     /// @brief First member that can be stored in @ref field2 bundle field.
-    using field2_mem1 = 
+    class field2_mem1 : public
             comms::field::IntValue<
                 demo::FieldBase,
                 std::uint8_t,
                 typename TOpt::message::BundlesFields::field2_mem1
-            >;  
+            >
+    {
+    public:
+        static const char* name()
+        {
+            return "field2_mem1";
+        }                 
+    };
 
     /// @brief Second member that can be stored in @ref field2 bundle field.
-    using field2_mem2 = 
+    class field2_mem2 : public
         comms::field::ArrayList<
             demo::FieldBase,
             std::uint8_t,
             typename TOpt::message::BundlesFields::field2_mem2,
             comms::option::def::SequenceFixedSize<8>
-        >;
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "field2_mem2";
+        }                 
+    };
 
     /// @brief Bundle field containing length and fixed size data.
     class field2 : public
@@ -126,6 +159,11 @@ struct BundlesFields
     public:
         /// @brief Allow access to internal fields.
         COMMS_FIELD_MEMBERS_NAMES(length, data)
+
+        static const char* name()
+        {
+            return "field2";
+        }         
     };
         
     /// @brief All the fields bundled in std::tuple.
