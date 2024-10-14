@@ -34,9 +34,6 @@ namespace cc_tools_qt
 class CC_API MessageHandler
 {
 public:
-    /// @brief Pinter to @ref field_wrapper::FieldWrapper object
-    using ToolsFieldPtr = ToolsFieldPtr;
-
     /// @brief Destructor
     virtual ~MessageHandler() noexcept;
 

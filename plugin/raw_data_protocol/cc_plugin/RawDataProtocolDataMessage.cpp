@@ -43,7 +43,7 @@ using ProtMsg = cc_tools_qt::plugin::raw_data_protocol::cc_plugin::RawDataProtoc
 QVariantList createFieldsProperties()
 {
     QVariantList props;
-    props.append(cc::property::field::ForField<ProtMsg::Field_data>().name("data").asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_data>().asMap());
 
     assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;

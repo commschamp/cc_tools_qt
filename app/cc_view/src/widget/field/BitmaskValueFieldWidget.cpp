@@ -50,6 +50,12 @@ BitmaskValueFieldWidget::BitmaskValueFieldWidget(
 
 BitmaskValueFieldWidget::~BitmaskValueFieldWidget() noexcept = default;
 
+ToolsField& BitmaskValueFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void BitmaskValueFieldWidget::refreshImpl()
 {
     assert(m_wrapper->canWrite());

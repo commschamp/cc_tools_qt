@@ -79,6 +79,12 @@ void VariantFieldWidget::setMemberField(FieldWidget* memberFieldWidget)
         this, SLOT(memberFieldUpdated()));
 }
 
+ToolsField& VariantFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void VariantFieldWidget::refreshImpl()
 {
     refreshInternal();
@@ -104,12 +110,12 @@ void VariantFieldWidget::updatePropertiesImpl(const QVariantMap& props)
 
     m_indexHidden = variantProps.isIndexHidden();
 
+    auto membersNames = m_wrapper->membersNames();
     using MemberInfosList = std::vector<std::pair<QString, int> >;
     MemberInfosList membersInfo;
-    membersInfo.reserve(static_cast<unsigned>(m_membersProps.size()));
-    for (int idx = 0; idx < m_membersProps.size(); ++idx) {
-        property::field::Common commonProps(m_membersProps[idx]);
-        auto& memName = commonProps.name();
+    membersInfo.reserve(static_cast<unsigned>(membersNames.size()));
+    for (auto idx = 0; idx < membersNames.size(); ++idx) {
+        auto& memName = membersNames[idx];
         if (memName.isEmpty()) {
             continue;
         }

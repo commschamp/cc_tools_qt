@@ -55,7 +55,6 @@ QVariantMap createMsgIdProperties()
     static_assert(NamesCount == demo::MsgId_NumOfValues, "Not all messages are added");
 
     cc::property::field::ForField<MsgIdField> props;
-    props.name("ID");
 
     QVariantList enumValues;
     for (auto name : Names) {
@@ -69,16 +68,15 @@ QVariantMap createMsgIdProperties()
 QVariantList createFieldsProperties()
 {
     QVariantList props;
-    props.append(cc::property::field::ForField<demo::SyncField>().name("SYNC").asMap());
+    props.append(cc::property::field::ForField<demo::SyncField>().asMap());
     props.append(
         cc::property::field::ForField<demo::LengthField>()
-            .name("LENGTH")
             .displayOffset(2)
             .asMap());
     props.append(createMsgIdProperties());
-    props.append(cc::property::field::ForField<demo::VersionField>().name("VERSION").asMap());
-    props.append(cc::property::field::ForField<demo::DataField<> >().name("PAYLOAD").asMap());
-    props.append(cc::property::field::ForField<demo::ChecksumField>().name("CHECKSUM").asMap());
+    props.append(cc::property::field::ForField<demo::VersionField>().asMap());
+    props.append(cc::property::field::ForField<demo::DataField<> >().asMap());
+    props.append(cc::property::field::ForField<demo::ChecksumField>().asMap());
     assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;
 }

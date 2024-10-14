@@ -41,6 +41,7 @@ public:
     ~ScaledIntValueFieldWidget() noexcept;
 
 protected:
+    virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
     virtual void updatePropertiesImpl(const QVariantMap& props) override;

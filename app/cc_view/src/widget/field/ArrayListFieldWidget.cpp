@@ -109,6 +109,12 @@ ArrayListFieldWidget::ArrayListFieldWidget(
 
 ArrayListFieldWidget::~ArrayListFieldWidget() noexcept = default;
 
+ToolsField& ArrayListFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void ArrayListFieldWidget::refreshImpl()
 {
     while (!m_elements.empty()) {

@@ -76,6 +76,12 @@ FloatValueFieldWidget::FloatValueFieldWidget(
 
 FloatValueFieldWidget::~FloatValueFieldWidget() noexcept = default;
 
+ToolsField& FloatValueFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void FloatValueFieldWidget::refreshImpl()
 {
     assert(m_wrapper->canWrite());

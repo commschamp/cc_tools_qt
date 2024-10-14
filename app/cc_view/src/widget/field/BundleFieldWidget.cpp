@@ -65,6 +65,12 @@ void BundleFieldWidget::addMemberField(FieldWidget* memberFieldWidget)
         this, SLOT(memberFieldUpdated()));
 }
 
+ToolsField& BundleFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void BundleFieldWidget::refreshImpl()
 {
     for (auto* memberFieldWidget : m_members) {

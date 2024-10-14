@@ -18,13 +18,19 @@
 
 #pragma once
 
-#include <cstdint>
-#include <cassert>
-#include <memory>
-#include <functional>
+#include "cc_tools_qt/ToolsField.h"
 
 #include "comms/field/Variant.h"
-#include "cc_tools_qt/ToolsField.h"
+
+#include <QtCore/QString>
+#include <QtCore/QList>
+
+#include <cassert>
+#include <cstdint>
+#include <functional>
+#include <memory>
+#include <vector>
+#include <string>
 
 namespace cc_tools_qt
 {
@@ -36,7 +42,7 @@ class CC_API VariantWrapper : public ToolsField
 {
     using Base = ToolsField;
 public:
-    typedef std::unique_ptr<VariantWrapper> Ptr;
+    using Ptr = std::unique_ptr<VariantWrapper>;
 
     using MemberCreateCallbackFunc = std::function<ToolsFieldPtr ()>;
 
@@ -56,6 +62,8 @@ public:
 
     Ptr clone();
 
+    QStringList membersNames() const;
+
     int getCurrentIndex() const;
 
     void setCurrentIndex(int index);
@@ -70,7 +78,7 @@ public:
 
 protected:
     virtual Ptr cloneImpl() = 0;
-
+    virtual QStringList membersNamesImpl() const = 0;
     virtual void dispatchImpl(FieldWrapperHandler& handler);
     virtual int getCurrentIndexImpl() const = 0;
     virtual void setCurrentIndexImpl(int index) = 0;
@@ -89,7 +97,7 @@ class VariantWrapperT : public ToolsFieldT<VariantWrapper, TField>
     static_assert(comms::field::isVariant<Field>(), "Must be of Variant field type");
 
 public:
-    typedef typename Base::Ptr Ptr;
+    using Ptr = typename Base::Ptr;
 
     explicit VariantWrapperT(Field& fieldRef)
       : Base(fieldRef)
@@ -133,6 +141,29 @@ protected:
             static_cast<int>(
                 std::tuple_size<typename Base::Field::Members>::value);
     }
+
+    virtual QStringList membersNamesImpl() const override
+    {
+        QStringList names;
+        comms::util::tupleForEachType<typename Field::Members>(MembersNameHelper(names));
+        return names;
+    }  
+
+private:
+    class MembersNameHelper
+    {
+    public:
+        explicit MembersNameHelper(QStringList& names) : m_names(names) {}
+
+        template <typename TFieldType>
+        void operator()()
+        {
+            m_names.append(TFieldType::name());
+        }
+
+    private:
+        QStringList& m_names;        
+    };
 
 };
 

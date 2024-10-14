@@ -66,15 +66,6 @@ public:
     /// @brief Move assignment operator
     Common& operator=(Common&&);
 
-    /// @brief Get name of the field
-    const QString& name() const;
-
-    /// @brief Update the name value
-    void setName(const QString& value);
-
-    /// @brief Update the name value
-    void setName(const char* value);
-
     /// @brief Check the field is hidden
     bool isHidden() const;
 
@@ -175,24 +166,6 @@ public:
 
     /// @brief Move assignment
     CommonBase& operator=(CommonBase&&) = default;
-
-    using Base::name;
-
-    /// @brief Set name value
-    /// @return reference to derived class
-    TDerived& name(const QString& value)
-    {
-        Base::setName(value);
-        return static_cast<TDerived&>(*this);
-    }
-
-    /// @brief Set name value
-    /// @return reference to derived class
-    TDerived& name(const char* value)
-    {
-        Base::setName(value);
-        return static_cast<TDerived&>(*this);
-    }
 
     /// @brief Set whether the field is hidden
     /// @return reference to derived class

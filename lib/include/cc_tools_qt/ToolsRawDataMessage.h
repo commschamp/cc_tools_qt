@@ -111,7 +111,7 @@ private:
     {
         QVariantList props;
         props.append(
-            property::field::ArrayList().name("Data").asMap());
+            property::field::ArrayList().asMap());
         return props;
     }
 };

@@ -42,7 +42,6 @@ QVariantMap createField1BitmaskProperties()
     using Field = ProtMsg::Field_field1::Field_member1;
     auto props = 
         cc::property::field::ForField<Field>()
-            .name("field1_bitmask")
             .add("bit0")
             .add("bit1")
             .add("bit2");
@@ -56,7 +55,6 @@ QVariantMap createField1EnumProperties()
     using Field = ProtMsg::Field_field1::Field_member2;
     auto props = 
         cc::property::field::ForField<Field>()
-            .name("field1_enum")
             .serialisedHidden()
             .add("Value1")
             .add("Value2")
@@ -71,7 +69,6 @@ QVariantMap createField1Int1Properties()
     using Field = ProtMsg::Field_field1::Field_member3;
     auto props = 
         cc::property::field::ForField<Field>()
-            .name("field1_int1")
             .serialisedHidden();
 
     return props.asMap();
@@ -82,7 +79,6 @@ QVariantMap createField1Int2Properties()
     using Field = ProtMsg::Field_field1::Field_member4;
     auto props = 
         cc::property::field::ForField<Field>()
-            .name("field1_int2")
             .serialisedHidden();
 
     return props.asMap();
@@ -93,7 +89,6 @@ QVariantMap createField1Properties()
     using Field = ProtMsg::Field_field1;
     auto props = 
         cc::property::field::ForField<Field>()
-            .name("field1")
             .add(createField1BitmaskProperties())
             .add(createField1EnumProperties())
             .add(createField1Int1Properties())

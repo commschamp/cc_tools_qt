@@ -40,6 +40,12 @@ UnknownValueFieldWidget::UnknownValueFieldWidget(
 
 UnknownValueFieldWidget::~UnknownValueFieldWidget() noexcept = default;
 
+ToolsField& UnknownValueFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void UnknownValueFieldWidget::refreshImpl()
 {
     assert(m_wrapper->canWrite());

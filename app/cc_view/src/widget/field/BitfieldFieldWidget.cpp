@@ -72,6 +72,12 @@ void BitfieldFieldWidget::addMemberField(FieldWidget* memberFieldWidget)
         this, SLOT(memberFieldUpdated()));
 }
 
+ToolsField& BitfieldFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void BitfieldFieldWidget::refreshImpl()
 {
     refreshInternal();

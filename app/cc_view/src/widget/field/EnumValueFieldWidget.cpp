@@ -52,6 +52,12 @@ EnumValueFieldWidget::EnumValueFieldWidget(
 
 EnumValueFieldWidget::~EnumValueFieldWidget() noexcept = default;
 
+ToolsField& EnumValueFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void EnumValueFieldWidget::refreshImpl()
 {
     assert(m_wrapper->canWrite());

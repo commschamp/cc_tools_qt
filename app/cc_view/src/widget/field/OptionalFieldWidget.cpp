@@ -62,6 +62,12 @@ void OptionalFieldWidget::setField(FieldWidget* fieldWidget)
         this, SLOT(fieldUpdated()));
 }
 
+ToolsField& OptionalFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void OptionalFieldWidget::refreshImpl()
 {
     refreshInternal();

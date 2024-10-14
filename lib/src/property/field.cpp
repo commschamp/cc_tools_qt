@@ -29,12 +29,6 @@ namespace field
 namespace
 {
 
-const QString& nameKey()
-{
-    static const QString Str("cc.name");
-    return Str;
-}
-
 const QString& dataKey()
 {
     static const QString Str("cc.data");
@@ -137,21 +131,6 @@ Common::~Common() noexcept = default;
 Common& Common::operator=(const Common&) = default;
 Common& Common::operator=(Common&&) = default;
 
-const QString& Common::name() const
-{
-    return m_name;
-}
-
-void Common::setName(const QString& value)
-{
-    m_name = value;
-}
-
-void Common::setName(const char* value)
-{
-    m_name = value;
-}
-
 bool Common::isHidden() const
 {
     return m_hidden;
@@ -198,7 +177,6 @@ Common& Common::hiddenWhenReadOnly(bool value)
 
 void Common::setTo(QVariantMap& props) const
 {
-    setElemTo(m_name, nameKey(), props);
     setElemTo(m_hidden, fieldHiddenKey(), props);
     setElemTo(m_serialisedHidden, serialisedHiddenKey(), props);
     setElemTo(m_readOnly, readOnlyKey(), props);
@@ -207,7 +185,6 @@ void Common::setTo(QVariantMap& props) const
 
 void Common::getFrom(const QVariantMap& props)
 {
-    m_name = getElemFrom<decltype(m_name)>(props, nameKey());
     m_hidden = getElemFrom<decltype(m_hidden)>(props, fieldHiddenKey());
     m_serialisedHidden = getElemFrom<decltype(m_serialisedHidden)>(props, serialisedHiddenKey());
     m_readOnly = getElemFrom<decltype(m_readOnly)>(props, readOnlyKey());

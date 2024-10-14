@@ -55,6 +55,12 @@ LongLongIntValueFieldWidget::LongLongIntValueFieldWidget(
 
 LongLongIntValueFieldWidget::~LongLongIntValueFieldWidget() noexcept = default;
 
+ToolsField& LongLongIntValueFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void LongLongIntValueFieldWidget::refreshImpl()
 {
     assert(m_wrapper->canWrite());

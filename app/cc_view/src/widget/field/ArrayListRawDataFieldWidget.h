@@ -40,6 +40,7 @@ public:
     ~ArrayListRawDataFieldWidget() noexcept;
 
 protected:
+    virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
 

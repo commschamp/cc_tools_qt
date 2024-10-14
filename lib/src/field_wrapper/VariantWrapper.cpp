@@ -63,6 +63,11 @@ VariantWrapper::Ptr VariantWrapper::clone()
     return ptr;
 }
 
+QStringList VariantWrapper::membersNames() const
+{
+    return membersNamesImpl();
+}
+
 int VariantWrapper::getCurrentIndex() const
 {
     return getCurrentIndexImpl();

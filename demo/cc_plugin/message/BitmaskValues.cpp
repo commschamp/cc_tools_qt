@@ -43,7 +43,6 @@ QVariantList createFieldsProperties()
     QVariantList props;
     props.append(
         cc::property::field::ForField<Field1>()
-            .name("field1")
             .add("bit0")
             .add("bit1")
             .add("bit2")
@@ -58,7 +57,6 @@ QVariantList createFieldsProperties()
     using Field2 = ProtMsg::Field_field2;
     props.append(
         cc::property::field::ForField<Field2>()
-            .name("field2")
             .add("bit0")
             .add(Field2::BitIdx_bit3, "bit3")
             .add(Field2::BitIdx_bit8, "bit8")

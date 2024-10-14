@@ -55,6 +55,12 @@ UnsignedLongLongIntValueFieldWidget::UnsignedLongLongIntValueFieldWidget(
 
 UnsignedLongLongIntValueFieldWidget::~UnsignedLongLongIntValueFieldWidget() noexcept = default;
 
+ToolsField& UnsignedLongLongIntValueFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void UnsignedLongLongIntValueFieldWidget::refreshImpl()
 {
     assert(m_wrapper->canWrite());

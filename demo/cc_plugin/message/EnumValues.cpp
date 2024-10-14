@@ -42,7 +42,6 @@ QVariantList createFieldsProperties()
     QVariantList props;
     props.append(
         cc::property::field::ForField<ProtMsg::Field_field1>()
-            .name("field1")
             .add("Value1")
             .add("Value2")
             .add("Value3")
@@ -53,7 +52,6 @@ QVariantList createFieldsProperties()
 
     props.append(
         cc::property::field::ForField<ProtMsg::Field_field2>()
-            .name("field2")
             .add("Value1", static_cast<int>(ProtMsg::Field_field2::ValueType::Value1))
             .add("Value2", static_cast<int>(ProtMsg::Field_field2::ValueType::Value2))
             .add("Value3", static_cast<int>(ProtMsg::Field_field2::ValueType::Value3))
@@ -62,7 +60,6 @@ QVariantList createFieldsProperties()
 
     props.append(
         cc::property::field::ForField<ProtMsg::Field_field3>()
-            .name("field3")
             .add("Value1", static_cast<int>(ProtMsg::Field_field3::ValueType::Value1))
             .add("Value2", static_cast<int>(ProtMsg::Field_field3::ValueType::Value2))
             .add("Value3", static_cast<int>(ProtMsg::Field_field3::ValueType::Value3))
@@ -72,7 +69,6 @@ QVariantList createFieldsProperties()
 
     props.append(
         cc::property::field::ForField<ProtMsg::Field_field4>()
-            .name("field3")
             .add("Value1", static_cast<long long>(ProtMsg::Field_field4::ValueType::Value1))
             .add("Value2", static_cast<long long>(ProtMsg::Field_field4::ValueType::Value2))
             .add("Value3", static_cast<long long>(ProtMsg::Field_field4::ValueType::Value3))

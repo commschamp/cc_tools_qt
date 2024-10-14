@@ -43,6 +43,12 @@ IntValueFieldWidget::~IntValueFieldWidget() noexcept
     m_childWidget.release();
 }
 
+ToolsField& IntValueFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void IntValueFieldWidget::refreshImpl()
 {
     assert((!m_wrapper) || (m_wrapper->canWrite()));

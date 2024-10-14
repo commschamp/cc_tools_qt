@@ -57,6 +57,12 @@ ShortIntValueFieldWidget::ShortIntValueFieldWidget(
 
 ShortIntValueFieldWidget::~ShortIntValueFieldWidget() noexcept = default;
 
+ToolsField& ShortIntValueFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void ShortIntValueFieldWidget::refreshImpl()
 {
     assert(m_wrapper->canWrite());

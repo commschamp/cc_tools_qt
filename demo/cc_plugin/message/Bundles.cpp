@@ -41,8 +41,7 @@ QVariantMap createProps_field1_mem1()
 {
     using Field = ProtMsg::Field_field1::Field_length;
     auto props =
-        cc::property::field::ForField<Field>()
-            .name("length");
+        cc::property::field::ForField<Field>();
     return props.asMap();
 }
 
@@ -50,8 +49,7 @@ QVariantMap createProps_field1_mem2()
 {
     using Field = ProtMsg::Field_field1::Field_str;
     auto props =
-        cc::property::field::ForField<Field>()
-            .name("str");
+        cc::property::field::ForField<Field>();
     return props.asMap();
 }
 
@@ -60,7 +58,6 @@ QVariantMap createProps_field1()
     using Field = ProtMsg::Field_field1;
     auto props =
         cc::property::field::ForField<Field>()
-            .name("field1")
             .serialisedHidden()
             .add(createProps_field1_mem1())
             .add(createProps_field1_mem2());
@@ -72,8 +69,7 @@ QVariantMap createProps_field2_mem1()
 {
     using Field = ProtMsg::Field_field2::Field_length;
     auto props =
-        cc::property::field::ForField<Field>()
-            .name("length");
+        cc::property::field::ForField<Field>();
     return props.asMap();
 }
 
@@ -81,8 +77,7 @@ QVariantMap createProps_field2_mem2()
 {
     using Field = ProtMsg::Field_field2::Field_data;
     auto props =
-        cc::property::field::ForField<Field>()
-            .name("data");
+        cc::property::field::ForField<Field>();
     return props.asMap();
 }
 
@@ -91,7 +86,6 @@ QVariantMap createProps_field2()
     using Field = ProtMsg::Field_field2;
     auto props =
         cc::property::field::ForField<Field>()
-            .name("field2")
             .serialisedHidden()
             .add(createProps_field2_mem1())
             .add(createProps_field2_mem2());

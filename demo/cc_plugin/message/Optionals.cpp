@@ -41,8 +41,7 @@ QVariantMap createField1Properties()
 {
     using Field = ProtMsg::Field_field1;
     cc::property::field::ForField<Field> props;
-    props.name("field1")
-         .add("enable_field2")
+    props.add("enable_field2")
          .add("enable_field3");
 
     assert(props.bits().size() == Field::BitIdx_numOfValues);
@@ -51,13 +50,10 @@ QVariantMap createField1Properties()
 
 QVariantMap createField2Properties()
 {
-    static const char* Name = "field2";
     return
         cc::property::field::ForField<ProtMsg::Field_field2>()
-            .name(Name)
             .field(
                 cc::property::field::ForField<ProtMsg::Field_field2::Field>()
-                    .name(Name)
                     .asMap())
             .uncheckable()
             .asMap();
@@ -65,13 +61,10 @@ QVariantMap createField2Properties()
 
 QVariantMap createField3Properties()
 {
-    static const char* Name = "field3";
     return
         cc::property::field::ForField<ProtMsg::Field_field3>()
-            .name(Name)
             .field(
                 cc::property::field::ForField<ProtMsg::Field_field3::Field>()
-                    .name(Name)
                     .asMap())
             .uncheckable()
             .asMap();
@@ -79,13 +72,10 @@ QVariantMap createField3Properties()
 
 QVariantMap createField4Properties()
 {
-    static const char* Name = "field4";
     return
         cc::property::field::ForField<ProtMsg::Field_field4>()
-            .name(Name)
             .field(
                 cc::property::field::ForField<ProtMsg::Field_field4::Field>()
-                    .name(Name)
                     .asMap())
             .uncheckable()
             .asMap();

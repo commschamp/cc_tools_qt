@@ -45,6 +45,12 @@ StringFieldWidget::StringFieldWidget(
 
 StringFieldWidget::~StringFieldWidget() noexcept = default;
 
+ToolsField& StringFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void StringFieldWidget::refreshImpl()
 {
     assert(m_ui.m_serValuePlainTextEdit != nullptr);

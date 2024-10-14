@@ -73,7 +73,7 @@ void FieldWidget::updateProperties(const QVariantMap& props)
 {
     property::field::Common commonProps(props);
     m_hiddenWhenReadOnly = commonProps.isHiddenWhenReadOnly();
-    performNameLabelUpdate(commonProps);
+    performNameLabelUpdate();
     updatePropertiesImpl(props);
     performUiElementsVisibilityCheck(commonProps);
     performUiReadOnlyCheck(commonProps);
@@ -203,13 +203,14 @@ void FieldWidget::performUiReadOnlyCheck(const property::field::Common& props)
     }
 }
 
-void FieldWidget::performNameLabelUpdate(const property::field::Common& props)
+void FieldWidget::performNameLabelUpdate()
 {
     if (m_nameLabel == nullptr) {
         return;
     }
 
-    auto str = props.name();
+    auto& f = fieldImpl();
+    QString str = f.name();
     if (str.isEmpty()) {
         m_nameLabel->hide();
         return;

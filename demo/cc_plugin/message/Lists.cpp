@@ -41,10 +41,9 @@ QVariantMap createField3Properties()
 {
     using Field3 = ProtMsg::Field_field3;
     cc::property::field::ForField<Field3> props;
-    props.name("field3").appendIndexToElementName();
+    props.appendIndexToElementName();
     props.add(
         cc::property::field::IntValue()
-            .name("element")
             .serialisedHidden()
             .asMap());
     return props.asMap();
@@ -54,9 +53,8 @@ QVariantMap createField4Properties()
 {
     return
         cc::property::field::ForField<ProtMsg::Field_field4>()
-            .name("field4")
             .appendIndexToElementName()
-            .add(cc::property::field::IntValue().name("element").serialisedHidden().asMap())
+            .add(cc::property::field::IntValue().serialisedHidden().asMap())
             .asMap();
 }
 
@@ -64,14 +62,12 @@ QVariantMap createField5Properties()
 {
     return
         cc::property::field::ForField<ProtMsg::Field_field5>()
-            .name("field5")
             .appendIndexToElementName()
             .add(
                 cc::property::field::ForField<ProtMsg::Field_field5::ValueType::value_type>()
-                    .name("element")
-                    .add(cc::property::field::IntValue().name("member1").serialisedHidden().asMap())
-                    .add(cc::property::field::IntValue().name("member2").serialisedHidden().asMap())
-                    .add(cc::property::field::String().name("memeber3").serialisedHidden().asMap())
+                    .add(cc::property::field::IntValue().serialisedHidden().asMap())
+                    .add(cc::property::field::IntValue().serialisedHidden().asMap())
+                    .add(cc::property::field::String().serialisedHidden().asMap())
                     .serialisedHidden()
                     .asMap())
 //            .serialisedHidden()
@@ -84,8 +80,8 @@ QVariantMap createField5Properties()
 QVariantList createFieldsProperties()
 {
     QVariantList props;
-    props.append(cc::property::field::ForField<ProtMsg::Field_field1>().name("field1").asMap());
-    props.append(cc::property::field::ForField<ProtMsg::Field_field2>().name("field2").asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field1>().asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field2>().asMap());
     props.append(createField3Properties());
     props.append(createField4Properties());
     props.append(createField5Properties());

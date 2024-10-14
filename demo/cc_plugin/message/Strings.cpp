@@ -40,9 +40,9 @@ using ProtMsg = demo::cc_plugin::message::Strings::ProtMsg;
 QVariantList createFieldsProperties()
 {
     QVariantList props;
-    props.append(cc::property::field::ForField<ProtMsg::Field_field1>().name("field1").asMap());
-    props.append(cc::property::field::ForField<ProtMsg::Field_field2>().name("field2").asMap());
-    props.append(cc::property::field::ForField<ProtMsg::Field_field3>().name("field3").asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field1>().asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field2>().asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field3>().asMap());
 
     assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;

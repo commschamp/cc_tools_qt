@@ -37,7 +37,7 @@ namespace
 static QVariantList createFieldsProperties()
 {
     QVariantList props;
-    props.append(cc::property::field::IntValue().name("Version").serialisedHidden().hiddenWhenReadOnly().asMap());
+    props.append(cc::property::field::IntValue().serialisedHidden().hiddenWhenReadOnly().asMap());
 
     assert(props.size() == demo::DemoMessage<>::TransportFieldIdx_numOfValues);
     return props;

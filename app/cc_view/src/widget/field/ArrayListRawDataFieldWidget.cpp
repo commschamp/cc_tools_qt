@@ -49,6 +49,12 @@ ArrayListRawDataFieldWidget::ArrayListRawDataFieldWidget(
 
 ArrayListRawDataFieldWidget::~ArrayListRawDataFieldWidget() noexcept = default;
 
+ToolsField& ArrayListRawDataFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void ArrayListRawDataFieldWidget::refreshImpl()
 {
     assert(m_wrapper->canWrite());

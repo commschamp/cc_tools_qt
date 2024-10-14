@@ -66,6 +66,12 @@ ScaledIntValueFieldWidget::ScaledIntValueFieldWidget(
 
 ScaledIntValueFieldWidget::~ScaledIntValueFieldWidget() noexcept = default;
 
+ToolsField& ScaledIntValueFieldWidget::fieldImpl()
+{
+    assert(m_wrapper);
+    return *m_wrapper;
+}
+
 void ScaledIntValueFieldWidget::refreshImpl()
 {
     assert(m_wrapper->canWrite());
