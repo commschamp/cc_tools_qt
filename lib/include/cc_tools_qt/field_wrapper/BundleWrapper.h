@@ -38,7 +38,7 @@ class CC_API BundleWrapper : public ToolsField
 public:
     typedef std::vector<ToolsFieldPtr> Members;
 
-    typedef std::unique_ptr<BundleWrapper> Ptr;
+    typedef std::unique_ptr<BundleWrapper> ActPtr;
 
     BundleWrapper();
     BundleWrapper(const BundleWrapper&) =delete;
@@ -52,10 +52,10 @@ public:
 
     void setMembers(Members&& members);
 
-    Ptr clone();
+    ActPtr clone();
 
 protected:
-    virtual Ptr cloneImpl() = 0;
+    virtual ActPtr cloneImpl() = 0;
 
     void dispatchImpl(FieldWrapperHandler& handler);
 
@@ -71,7 +71,7 @@ class BundleWrapperT : public ToolsFieldT<BundleWrapper, TField>
     static_assert(comms::field::isBundle<Field>(), "Must be of Bundle field type");
 
 public:
-    typedef typename Base::Ptr Ptr;
+    typedef typename Base::ActPtr ActPtr;
 
     explicit BundleWrapperT(Field& fieldRef)
       : Base(fieldRef)
@@ -85,13 +85,13 @@ public:
     BundleWrapperT& operator=(const BundleWrapperT&) = delete;
 
 protected:
-    virtual Ptr cloneImpl() override
+    virtual ActPtr cloneImpl() override
     {
-        return Ptr(new BundleWrapperT(Base::field()));
+        return ActPtr(new BundleWrapperT(Base::field()));
     }
 };
 
-using BundleWrapperPtr = BundleWrapper::Ptr;
+using BundleWrapperPtr = BundleWrapper::ActPtr;
 
 template <typename TField>
 BundleWrapperPtr

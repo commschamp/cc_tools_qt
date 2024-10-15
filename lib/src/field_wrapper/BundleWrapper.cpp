@@ -44,7 +44,7 @@ void BundleWrapper::setMembers(Members&& members)
     m_members = std::move(members);
 } 
 
-BundleWrapper::Ptr BundleWrapper::clone()
+BundleWrapper::ActPtr BundleWrapper::clone()
 {
     Members clonedMembers;
     clonedMembers.reserve(m_members.size());

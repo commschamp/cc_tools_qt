@@ -44,7 +44,7 @@ int StringWrapper::maxSize() const
     return maxSizeImpl();
 }
 
-StringWrapper::Ptr StringWrapper::clone()
+StringWrapper::ActPtr StringWrapper::clone()
 {
     return cloneImpl();
 }

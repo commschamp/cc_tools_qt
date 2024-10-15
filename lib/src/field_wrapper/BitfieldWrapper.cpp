@@ -44,7 +44,7 @@ void BitfieldWrapper::setMembers(Members&& members)
     m_members = std::move(members);
 }
 
-BitfieldWrapper::Ptr BitfieldWrapper::clone()
+BitfieldWrapper::ActPtr BitfieldWrapper::clone()
 {
     Members clonedMembers;
     clonedMembers.reserve(m_members.size());

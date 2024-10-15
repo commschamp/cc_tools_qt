@@ -37,7 +37,7 @@ class CC_API UnsignedLongValueWrapper : public NumericValueWrapper<long long uns
 public:
 
     typedef Base::UnderlyingType UnderlyingType;
-    typedef std::unique_ptr<UnsignedLongValueWrapper> Ptr;
+    typedef std::unique_ptr<UnsignedLongValueWrapper> ActPtr;
 
     UnsignedLongValueWrapper();
     virtual ~UnsignedLongValueWrapper() noexcept;
@@ -56,7 +56,7 @@ public:
 
     std::size_t valueTypeSize() const;
 
-    Ptr clone();
+    ActPtr clone();
 
 protected:
     virtual UnderlyingType minValueImpl() const = 0;
@@ -66,7 +66,7 @@ protected:
     virtual double scaleValueImpl(UnderlyingType value) const = 0;
     virtual bool isSignedImpl() const = 0;
     virtual std::size_t valueTypeSizeImpl() const = 0;
-    virtual Ptr cloneImpl() = 0;
+    virtual ActPtr cloneImpl() = 0;
 
     void dispatchImpl(FieldWrapperHandler& handler);
 };
@@ -81,7 +81,7 @@ class UnsignedLongValueWrapperT : public NumericValueWrapperT<UnsignedLongValueW
 public:
 
     typedef typename Base::UnderlyingType UnderlyingType;
-    typedef typename Base::Ptr Ptr;
+    typedef typename Base::ActPtr ActPtr;
 
     explicit UnsignedLongValueWrapperT(Field& fieldRef)
       : Base(fieldRef)
@@ -132,13 +132,13 @@ protected:
         return sizeof(typename Field::ValueType);
     }
 
-    virtual Ptr cloneImpl() override
+    virtual ActPtr cloneImpl() override
     {
-        return Ptr(new UnsignedLongValueWrapperT<TField>(Base::field()));
+        return ActPtr(new UnsignedLongValueWrapperT<TField>(Base::field()));
     }
 };
 
-using UnsignedLongValueWrapperPtr = UnsignedLongValueWrapper::Ptr;
+using UnsignedLongValueWrapperPtr = UnsignedLongValueWrapper::ActPtr;
 
 template <typename TField>
 UnsignedLongValueWrapperPtr

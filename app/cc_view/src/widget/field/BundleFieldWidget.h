@@ -36,7 +36,7 @@ class BundleFieldWidget : public FieldWidget
 public:
 
     using Wrapper = field_wrapper::BundleWrapper;
-    using WrapperPtr = Wrapper::Ptr;
+    using WrapperPtr = field_wrapper::BundleWrapperPtr;
 
     explicit BundleFieldWidget(
         WrapperPtr wrapper,

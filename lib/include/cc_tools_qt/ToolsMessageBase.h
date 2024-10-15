@@ -22,7 +22,7 @@
 #include "cc_tools_qt/ToolsField.h"
 #include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "cc_tools_qt/ToolsFrameCommon.h"
-#include "cc_tools_qt/details/ToolsFieldWrapperCreator.h"
+#include "cc_tools_qt/details/ToolsFieldCreator.h"
 
 #include "comms/util/Tuple.h"
 
@@ -236,7 +236,7 @@ protected:
     {
         FieldsList fields;
         fields.reserve(std::tuple_size<typename ProtMsg::AllFields>::value);
-        comms::util::tupleForEach(m_msg.fields(), details::ToolsFieldWrapperCreator(fields));
+        comms::util::tupleForEach(m_msg.fields(), details::ToolsFieldCreator(fields));
         return fields;
     }
 
@@ -283,7 +283,7 @@ private:
     void updateTransportFieldsInternal(FieldsList& fields, HasTransportFields)
     {
         fields.reserve(std::tuple_size<typename ProtMsg::TransportFields>::value);
-        comms::util::tupleForEach(m_msg.transportFields(), details::ToolsFieldWrapperCreator(fields));
+        comms::util::tupleForEach(m_msg.transportFields(), details::ToolsFieldCreator(fields));
     }
     
     void updateTransportFieldsInternal([[maybe_unused]] FieldsList& fields, NoTransportFields)

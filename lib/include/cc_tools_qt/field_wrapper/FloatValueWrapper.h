@@ -39,12 +39,12 @@ class CC_API FloatValueWrapper : public NumericValueWrapper<double>
 public:
 
     typedef Base::UnderlyingType UnderlyingType;
-    typedef std::unique_ptr<FloatValueWrapper> Ptr;
+    typedef std::unique_ptr<FloatValueWrapper> ActPtr;
 
     FloatValueWrapper();
     virtual ~FloatValueWrapper() noexcept;
 
-    Ptr clone();
+    ActPtr clone();
     bool isNan() const;
     void setNan();
     bool isInf() const;
@@ -54,7 +54,7 @@ public:
     double getEpsilon() const;
 
 protected:
-    virtual Ptr cloneImpl() = 0;
+    virtual ActPtr cloneImpl() = 0;
     virtual bool isNanImpl() const = 0;
     virtual void setNanImpl() = 0;
     virtual bool isInfImpl() const = 0;
@@ -76,7 +76,7 @@ class FloatValueWrapperT : public NumericValueWrapperT<FloatValueWrapper, TField
 public:
 
     typedef typename Base::UnderlyingType UnderlyingType;
-    typedef typename Base::Ptr Ptr;
+    typedef typename Base::ActPtr ActPtr;
 
     explicit FloatValueWrapperT(Field& fieldRef)
       : Base(fieldRef)
@@ -90,9 +90,9 @@ public:
     FloatValueWrapperT& operator=(const FloatValueWrapperT&) = delete;
 
 protected:
-    virtual Ptr cloneImpl() override
+    virtual ActPtr cloneImpl() override
     {
-        return Ptr(new FloatValueWrapperT<TField>(Base::field()));
+        return ActPtr(new FloatValueWrapperT<TField>(Base::field()));
     }
 
     virtual bool isNanImpl() const override
@@ -131,7 +131,7 @@ protected:
     }
 };
 
-using FloatValueWrapperPtr = FloatValueWrapper::Ptr;
+using FloatValueWrapperPtr = FloatValueWrapper::ActPtr;
 
 template <typename TField>
 FloatValueWrapperPtr

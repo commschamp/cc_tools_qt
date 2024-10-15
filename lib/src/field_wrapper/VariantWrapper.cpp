@@ -52,7 +52,7 @@ void VariantWrapper::updateCurrent()
     setCurrent(m_createMemberCb());
 }
 
-VariantWrapper::Ptr VariantWrapper::clone()
+VariantWrapper::ActPtr VariantWrapper::clone()
 {
     auto ptr = cloneImpl();
     ptr->m_createMemberCb = m_createMemberCb;

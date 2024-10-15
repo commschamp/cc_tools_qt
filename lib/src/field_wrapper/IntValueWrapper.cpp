@@ -64,7 +64,7 @@ std::size_t IntValueWrapper::valueTypeSize() const
     return valueTypeSizeImpl();
 }
 
-IntValueWrapper::Ptr IntValueWrapper::clone()
+IntValueWrapper::ActPtr IntValueWrapper::clone()
 {
     return cloneImpl();
 }

@@ -95,7 +95,7 @@ void ToolsField::dispatch(field_wrapper::FieldWrapperHandler& handler)
     dispatchImpl(handler);
 }
 
-ToolsField::BasePtr ToolsField::upClone()
+ToolsField::Ptr ToolsField::upClone()
 {
     return upCloneImpl();
 }

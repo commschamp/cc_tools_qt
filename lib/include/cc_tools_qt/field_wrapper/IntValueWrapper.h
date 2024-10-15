@@ -37,7 +37,7 @@ class CC_API IntValueWrapper : public NumericValueWrapper<long long int>
 public:
 
     typedef Base::UnderlyingType UnderlyingType;
-    typedef std::unique_ptr<IntValueWrapper> Ptr;
+    typedef std::unique_ptr<IntValueWrapper> ActPtr;
 
     IntValueWrapper();
     virtual ~IntValueWrapper() noexcept;
@@ -56,7 +56,7 @@ public:
 
     std::size_t valueTypeSize() const;
 
-    Ptr clone();
+    ActPtr clone();
 
 protected:
     virtual UnderlyingType minValueImpl() const = 0;
@@ -66,7 +66,7 @@ protected:
     virtual double scaleValueImpl(UnderlyingType value) const = 0;
     virtual bool isSignedImpl() const = 0;
     virtual std::size_t valueTypeSizeImpl() const = 0;
-    virtual Ptr cloneImpl() = 0;
+    virtual ActPtr cloneImpl() = 0;
 
     void dispatchImpl(FieldWrapperHandler& handler);
 };
@@ -81,7 +81,7 @@ class IntValueWrapperT : public NumericValueWrapperT<IntValueWrapper, TField>
 public:
 
     typedef typename Base::UnderlyingType UnderlyingType;
-    typedef typename Base::Ptr Ptr;
+    typedef typename Base::ActPtr ActPtr;
 
     explicit IntValueWrapperT(Field& fieldRef)
       : Base(fieldRef)
@@ -132,13 +132,13 @@ protected:
         return sizeof(typename Field::ValueType);
     }
 
-    virtual Ptr cloneImpl() override
+    virtual ActPtr cloneImpl() override
     {
-        return Ptr(new IntValueWrapperT<TField>(Base::field()));
+        return ActPtr(new IntValueWrapperT<TField>(Base::field()));
     }
 };
 
-using IntValueWrapperPtr = IntValueWrapper::Ptr;
+using IntValueWrapperPtr = IntValueWrapper::ActPtr;
 
 template <typename TField>
 IntValueWrapperPtr

@@ -36,15 +36,15 @@ class CC_API EnumValueWrapper : public NumericValueWrapper<long long int>
     using Base = NumericValueWrapper<long long int>;
 public:
     using UnderlyingType = Base::UnderlyingType;
-    typedef std::unique_ptr<EnumValueWrapper> Ptr;
+    typedef std::unique_ptr<EnumValueWrapper> ActPtr;
 
     EnumValueWrapper();
     virtual ~EnumValueWrapper() noexcept;
 
-    Ptr clone();
+    ActPtr clone();
 
 protected:
-    virtual Ptr cloneImpl() = 0;
+    virtual ActPtr cloneImpl() = 0;
 
     void dispatchImpl(FieldWrapperHandler& handler);
 };
@@ -63,7 +63,7 @@ class EnumValueWrapperT : public NumericValueWrapperT<EnumValueWrapper, TField>
 //        "This wrapper cannot handle provided field.");
 
 public:
-    typedef typename Base::Ptr Ptr;
+    typedef typename Base::ActPtr ActPtr;
 
     explicit EnumValueWrapperT(Field& fieldRef)
       : Base(fieldRef)
@@ -77,9 +77,9 @@ public:
     EnumValueWrapperT& operator=(const EnumValueWrapperT&) = delete;
 
 protected:
-    virtual Ptr cloneImpl() override
+    virtual ActPtr cloneImpl() override
     {
-        return Ptr(new EnumValueWrapperT<TField>(Base::field()));
+        return ActPtr(new EnumValueWrapperT<TField>(Base::field()));
     }
 
 };

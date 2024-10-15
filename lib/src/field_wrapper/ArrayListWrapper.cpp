@@ -69,7 +69,7 @@ void ArrayListWrapper::setMembers(Members&& members)
     m_members = std::move(members);
 }
 
-ArrayListWrapper::Ptr ArrayListWrapper::clone()
+ArrayListWrapper::ActPtr ArrayListWrapper::clone()
 {
     Members clonedMembers;
     clonedMembers.reserve(m_members.size());

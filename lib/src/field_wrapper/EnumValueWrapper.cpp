@@ -29,7 +29,7 @@ EnumValueWrapper::EnumValueWrapper() {}
 
 EnumValueWrapper::~EnumValueWrapper() noexcept = default;
 
-EnumValueWrapper::Ptr EnumValueWrapper::clone()
+EnumValueWrapper::ActPtr EnumValueWrapper::clone()
 {
     return cloneImpl();
 }

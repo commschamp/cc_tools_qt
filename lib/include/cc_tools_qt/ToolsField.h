@@ -47,9 +47,9 @@ class FieldWrapperHandler;
 class CC_API ToolsField
 {
 public:
-    typedef std::vector<std::uint8_t> SerialisedSeq;
+    using SerialisedSeq = std::vector<std::uint8_t>;
 
-    typedef std::unique_ptr<ToolsField> BasePtr;
+    using Ptr = std::unique_ptr<ToolsField>;
 
     ToolsField();
     virtual ~ToolsField() noexcept;
@@ -72,7 +72,7 @@ public:
 
     void dispatch(field_wrapper::FieldWrapperHandler& handler);
 
-    BasePtr upClone();
+    Ptr upClone();
 
     bool canWrite() const;
 
@@ -85,10 +85,12 @@ protected:
     virtual SerialisedSeq getSerialisedValueImpl() const = 0;
     virtual bool setSerialisedValueImpl(const SerialisedSeq& value) = 0;
     virtual void dispatchImpl(field_wrapper::FieldWrapperHandler& handler) = 0;
-    virtual BasePtr upCloneImpl() = 0;
+    virtual Ptr upCloneImpl() = 0;
     virtual bool canWriteImpl() const = 0;
     virtual void resetImpl() = 0;
 };
+
+using ToolsFieldPtr = ToolsField::Ptr;
 
 template <typename TBase, typename TField>
 class ToolsFieldT : public TBase
@@ -100,7 +102,7 @@ class ToolsFieldT : public TBase
 
 public:
     typedef typename Base::SerialisedSeq SerialisedSeq;
-    typedef typename Base::BasePtr BasePtr;
+    typedef typename Base::Ptr Ptr;
 
     virtual ~ToolsFieldT() noexcept = default;
 
@@ -189,7 +191,7 @@ protected:
         return es == comms::ErrorStatus::Success;
     }
 
-    virtual BasePtr upCloneImpl() override
+    virtual Ptr upCloneImpl() override
     {
         return static_cast<Base*>(this)->clone();
     }
@@ -312,8 +314,6 @@ private:
 
     Field& m_field;
 };
-
-typedef ToolsField::BasePtr ToolsFieldPtr;
 
 }  // namespace cc_tools_qt
 

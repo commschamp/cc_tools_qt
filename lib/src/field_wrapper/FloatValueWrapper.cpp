@@ -29,7 +29,7 @@ FloatValueWrapper::FloatValueWrapper() {}
 
 FloatValueWrapper::~FloatValueWrapper() noexcept = default;
 
-FloatValueWrapper::Ptr FloatValueWrapper::clone()
+FloatValueWrapper::ActPtr FloatValueWrapper::clone()
 {
     return cloneImpl();
 }

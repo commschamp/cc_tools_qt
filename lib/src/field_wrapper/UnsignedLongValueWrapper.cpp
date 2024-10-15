@@ -64,7 +64,7 @@ std::size_t UnsignedLongValueWrapper::valueTypeSize() const
     return valueTypeSizeImpl();
 }
 
-UnsignedLongValueWrapper::Ptr UnsignedLongValueWrapper::clone()
+UnsignedLongValueWrapper::ActPtr UnsignedLongValueWrapper::clone()
 {
     return cloneImpl();
 }

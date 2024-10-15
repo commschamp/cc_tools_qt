@@ -59,7 +59,7 @@ void OptionalWrapper::setFieldWrapper(ToolsFieldPtr fieldWrapper)
     m_fieldWrapper = std::move(fieldWrapper);
 }
 
-OptionalWrapper::Ptr OptionalWrapper::clone()
+OptionalWrapper::ActPtr OptionalWrapper::clone()
 {
     auto ptr = cloneImpl();
     ptr->setFieldWrapper(m_fieldWrapper->upClone());

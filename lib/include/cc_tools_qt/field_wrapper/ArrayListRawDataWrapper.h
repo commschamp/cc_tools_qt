@@ -40,7 +40,7 @@ class CC_API ArrayListRawDataWrapper : public ToolsField
 {
 public:
 
-    typedef std::unique_ptr<ArrayListRawDataWrapper> Ptr;
+    typedef std::unique_ptr<ArrayListRawDataWrapper> ActPtr;
 
     ArrayListRawDataWrapper();
     virtual ~ArrayListRawDataWrapper() noexcept;
@@ -53,7 +53,7 @@ public:
 
     int minSize() const;
 
-    Ptr clone();
+    ActPtr clone();
 
     bool getForcedShowAll() const;
     void setForcedShowAll(bool val = true);
@@ -64,7 +64,7 @@ protected:
     virtual void setValueImpl(const QString& val) = 0;
     virtual int maxSizeImpl() const = 0;
     virtual int minSizeImpl() const = 0;
-    virtual Ptr cloneImpl() = 0;
+    virtual ActPtr cloneImpl() = 0;
 
     void dispatchImpl(FieldWrapperHandler& handler);
 
@@ -82,7 +82,7 @@ class ArrayListRawDataWrapperT : public ToolsFieldT<ArrayListRawDataWrapper, TFi
 
 public:
     using SerialisedSeq = typename Base::SerialisedSeq;
-    typedef typename Base::Ptr Ptr;
+    typedef typename Base::ActPtr ActPtr;
 
     explicit ArrayListRawDataWrapperT(Field& fieldRef)
       : Base(fieldRef)
@@ -184,9 +184,9 @@ protected:
         return minSizeInternal(SizeExistanceTag());
     }
 
-    virtual Ptr cloneImpl() override
+    virtual ActPtr cloneImpl() override
     {
-        return Ptr(new ArrayListRawDataWrapperT<TField>(Base::field()));
+        return ActPtr(new ArrayListRawDataWrapperT<TField>(Base::field()));
     }
 
 private:
@@ -269,7 +269,7 @@ private:
     }
 };
 
-using ArrayListRawDataWrapperPtr = ArrayListRawDataWrapper::Ptr;
+using ArrayListRawDataWrapperPtr = ArrayListRawDataWrapper::ActPtr;
 
 template <typename TField>
 ArrayListRawDataWrapperPtr

@@ -43,7 +43,7 @@ class CC_API ArrayListWrapper : public ToolsField
 public:
 
     typedef std::vector<ToolsFieldPtr> Members;
-    typedef std::unique_ptr<ArrayListWrapper> Ptr;
+    typedef std::unique_ptr<ArrayListWrapper> ActPtr;
 
     ArrayListWrapper();
     ArrayListWrapper(const ArrayListWrapper&) = delete;
@@ -67,7 +67,7 @@ public:
 
     void setMembers(Members&& members);
 
-    Ptr clone();
+    ActPtr clone();
 
     void refreshMembers();
 
@@ -81,7 +81,7 @@ protected:
     virtual unsigned sizeImpl() const = 0;
     virtual bool hasFixedSizeImpl() const = 0;
     virtual void adjustFixedSizeImpl() = 0;
-    virtual Ptr cloneImpl() = 0;
+    virtual ActPtr cloneImpl() = 0;
     virtual void refreshMembersImpl() = 0;
     virtual PrefixFieldInfo getPrefixFieldInfoImpl() const = 0;
 
@@ -101,7 +101,7 @@ class ArrayListWrapperT : public ToolsFieldT<ArrayListWrapper, TField>
 
 public:
     using SerialisedSeq = typename Base::SerialisedSeq;
-    using Ptr = typename Base::Ptr;
+    using ActPtr = typename Base::ActPtr;
     using PrefixFieldInfo = typename Base::PrefixFieldInfo;
 
     typedef std::function<ToolsFieldPtr (ElementType&)> WrapFieldCallbackFunc;
@@ -203,9 +203,9 @@ protected:
         adjustFixedSizeInternal(Tag());
     }
 
-    virtual Ptr cloneImpl() override
+    virtual ActPtr cloneImpl() override
     {
-        Ptr ptr(new ArrayListWrapperT(Base::field()));
+        ActPtr ptr(new ArrayListWrapperT(Base::field()));
         static_cast<ArrayListWrapperT<TField>*>(ptr.get())->m_wrapFieldFunc = m_wrapFieldFunc;
         return ptr;
     }
@@ -341,7 +341,7 @@ private:
     WrapFieldCallbackFunc m_wrapFieldFunc;
 };
 
-using ArrayListWrapperPtr = ArrayListWrapper::Ptr;
+using ArrayListWrapperPtr = ArrayListWrapper::ActPtr;
 
 template <typename TField>
 ArrayListWrapperPtr

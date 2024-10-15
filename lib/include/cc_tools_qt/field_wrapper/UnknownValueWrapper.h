@@ -35,15 +35,15 @@ namespace field_wrapper
 class CC_API UnknownValueWrapper : public ToolsField
 {
 public:
-    typedef std::unique_ptr<UnknownValueWrapper> Ptr;
+    typedef std::unique_ptr<UnknownValueWrapper> ActPtr;
 
     UnknownValueWrapper();
     virtual ~UnknownValueWrapper() noexcept;
 
-    Ptr clone();
+    ActPtr clone();
 
 protected:
-    virtual Ptr cloneImpl() = 0;
+    virtual ActPtr cloneImpl() = 0;
 
     void dispatchImpl(FieldWrapperHandler& handler);
 };
@@ -56,7 +56,7 @@ class UnknownValueWrapperT : public ToolsFieldT<UnknownValueWrapper, TField>
     using SerialisedSeq = typename Base::SerialisedSeq;
 
 public:
-    typedef typename Base::Ptr Ptr;
+    typedef typename Base::ActPtr ActPtr;
 
     explicit UnknownValueWrapperT(Field& fieldRef)
       : Base(fieldRef)
@@ -70,13 +70,13 @@ public:
     UnknownValueWrapperT& operator=(const UnknownValueWrapperT&) = delete;
 
 protected:
-    virtual Ptr cloneImpl() override
+    virtual ActPtr cloneImpl() override
     {
-        return Ptr(new UnknownValueWrapperT<TField>(Base::field()));
+        return ActPtr(new UnknownValueWrapperT<TField>(Base::field()));
     }
 };
 
-using UnknownValueWrapperPtr = UnknownValueWrapper::Ptr;
+using UnknownValueWrapperPtr = UnknownValueWrapper::ActPtr;
 
 template <typename TField>
 UnknownValueWrapperPtr

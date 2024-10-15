@@ -67,7 +67,7 @@ class ArrayListFieldWidget : public FieldWidget
     typedef FieldWidget Base;
 public:
     using Wrapper = field_wrapper::ArrayListWrapper;
-    using WrapperPtr = Wrapper::Ptr;
+    using WrapperPtr = field_wrapper::ArrayListWrapperPtr;
     typedef std::function<std::vector<FieldWidgetPtr> (Wrapper&)> CreateMissingDataFieldsFunc;
 
     explicit ArrayListFieldWidget(

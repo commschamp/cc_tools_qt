@@ -49,7 +49,7 @@ int ArrayListRawDataWrapper::minSize() const
     return minSizeImpl();
 }
 
-ArrayListRawDataWrapper::Ptr ArrayListRawDataWrapper::clone()
+ArrayListRawDataWrapper::ActPtr ArrayListRawDataWrapper::clone()
 {
     return cloneImpl();
 }

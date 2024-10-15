@@ -40,7 +40,7 @@ class CC_API StringWrapper : public ToolsField
 {
 public:
 
-    typedef std::unique_ptr<StringWrapper> Ptr;
+    typedef std::unique_ptr<StringWrapper> ActPtr;
 
     StringWrapper();
     virtual ~StringWrapper() noexcept;
@@ -51,13 +51,13 @@ public:
 
     int maxSize() const;
 
-    Ptr clone();
+    ActPtr clone();
 
 protected:
     virtual QString getValueImpl() const = 0;
     virtual void setValueImpl(const QString& val) = 0;
     virtual int maxSizeImpl() const = 0;
-    virtual Ptr cloneImpl() = 0;
+    virtual ActPtr cloneImpl() = 0;
 
     void dispatchImpl(FieldWrapperHandler& handler);
 };
@@ -70,7 +70,7 @@ class StringWrapperT : public ToolsFieldT<StringWrapper, TField>
 
 public:
     using SerialisedSeq = typename Base::SerialisedSeq;
-    using Ptr = typename Base::Ptr;
+    using ActPtr = typename Base::ActPtr;
 
     explicit StringWrapperT(Field& fieldRef)
       : Base(fieldRef)
@@ -108,9 +108,9 @@ protected:
         return maxSizeInternal(SizeExistanceTag());
     }
 
-    virtual Ptr cloneImpl() override
+    virtual ActPtr cloneImpl() override
     {
-        return Ptr(new StringWrapperT<TField>(Base::field()));
+        return ActPtr(new StringWrapperT<TField>(Base::field()));
     }
 
 private:
@@ -163,7 +163,7 @@ private:
     }
 };
 
-using StringWrapperPtr = StringWrapper::Ptr;
+using StringWrapperPtr = StringWrapper::ActPtr;
 
 template <typename TField>
 StringWrapperPtr

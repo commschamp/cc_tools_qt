@@ -33,7 +33,7 @@ namespace field_wrapper
 class CC_API OptionalWrapper : public ToolsField
 {
 public:
-    typedef std::unique_ptr<OptionalWrapper> Ptr;
+    typedef std::unique_ptr<OptionalWrapper> ActPtr;
     typedef comms::field::OptionalMode Mode;
 
     OptionalWrapper();
@@ -51,12 +51,12 @@ public:
 
     void setFieldWrapper(ToolsFieldPtr fieldWrapper);
 
-    Ptr clone();
+    ActPtr clone();
 
 protected:
     virtual Mode getModeImpl() const = 0;
     virtual void setModeImpl(Mode mode) = 0;
-    virtual Ptr cloneImpl() = 0;
+    virtual ActPtr cloneImpl() = 0;
 
     void dispatchImpl(FieldWrapperHandler& handler);
 
@@ -71,7 +71,7 @@ class OptionalWrapperT : public ToolsFieldT<OptionalWrapper, TField>
 public:
 
     typedef typename Base::Mode Mode;
-    typedef typename Base::Ptr Ptr;
+    typedef typename Base::ActPtr ActPtr;
 
     typedef TField Field;
     explicit OptionalWrapperT(Field& fieldRef)
@@ -90,13 +90,13 @@ protected:
         Base::field().setMode(mode);
     }
 
-    virtual Ptr cloneImpl() override
+    virtual ActPtr cloneImpl() override
     {
-        return Ptr(new OptionalWrapperT<TField>(Base::field()));
+        return ActPtr(new OptionalWrapperT<TField>(Base::field()));
     }
 };
 
-using OptionalWrapperPtr = OptionalWrapper::Ptr;
+using OptionalWrapperPtr = OptionalWrapper::ActPtr;
 
 template <typename TField>
 OptionalWrapperPtr

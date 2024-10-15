@@ -42,7 +42,7 @@ class CC_API VariantWrapper : public ToolsField
 {
     using Base = ToolsField;
 public:
-    using Ptr = std::unique_ptr<VariantWrapper>;
+    using ActPtr = std::unique_ptr<VariantWrapper>;
 
     using MemberCreateCallbackFunc = std::function<ToolsFieldPtr ()>;
 
@@ -60,7 +60,7 @@ public:
 
     void updateCurrent();
 
-    Ptr clone();
+    ActPtr clone();
 
     QStringList membersNames() const;
 
@@ -77,7 +77,7 @@ public:
     }
 
 protected:
-    virtual Ptr cloneImpl() = 0;
+    virtual ActPtr cloneImpl() = 0;
     virtual QStringList membersNamesImpl() const = 0;
     virtual void dispatchImpl(FieldWrapperHandler& handler);
     virtual int getCurrentIndexImpl() const = 0;
@@ -97,7 +97,7 @@ class VariantWrapperT : public ToolsFieldT<VariantWrapper, TField>
     static_assert(comms::field::isVariant<Field>(), "Must be of Variant field type");
 
 public:
-    using Ptr = typename Base::Ptr;
+    using ActPtr = typename Base::ActPtr;
 
     explicit VariantWrapperT(Field& fieldRef)
       : Base(fieldRef)
@@ -111,9 +111,9 @@ public:
     VariantWrapperT& operator=(const VariantWrapperT&) = delete;
 
 protected:
-    virtual Ptr cloneImpl() override
+    virtual ActPtr cloneImpl() override
     {
-        return Ptr(new VariantWrapperT(Base::field()));
+        return ActPtr(new VariantWrapperT(Base::field()));
     }
 
     virtual int getCurrentIndexImpl() const override
@@ -167,7 +167,7 @@ private:
 
 };
 
-using VariantWrapperPtr = VariantWrapper::Ptr;
+using VariantWrapperPtr = VariantWrapper::ActPtr;
 
 template <typename TField>
 VariantWrapperPtr

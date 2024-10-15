@@ -42,7 +42,7 @@ unsigned BitmaskValueWrapper::bitIdxLimit() const
     return bitIdxLimitImpl();
 }
 
-BitmaskValueWrapper::Ptr BitmaskValueWrapper::clone()
+BitmaskValueWrapper::ActPtr BitmaskValueWrapper::clone()
 {
     return cloneImpl();
 }

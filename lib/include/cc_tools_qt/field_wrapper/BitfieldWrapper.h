@@ -39,7 +39,7 @@ public:
     typedef std::vector<ToolsFieldPtr> Members;
 
     typedef unsigned long long UnderlyingType;
-    typedef std::unique_ptr<BitfieldWrapper> Ptr;
+    typedef std::unique_ptr<BitfieldWrapper> ActPtr;
 
     BitfieldWrapper();
     BitfieldWrapper(const BitfieldWrapper&) = delete;
@@ -53,10 +53,10 @@ public:
 
     void setMembers(Members&& members);
 
-    Ptr clone();
+    ActPtr clone();
 
 protected:
-    virtual Ptr cloneImpl() = 0;
+    virtual ActPtr cloneImpl() = 0;
 
     void dispatchImpl(FieldWrapperHandler& handler);
 
@@ -73,7 +73,7 @@ class BitfieldWrapperT : public ToolsFieldT<BitfieldWrapper, TField>
 
     using UnderlyingType = typename Base::UnderlyingType;
 public:
-    typedef typename Base::Ptr Ptr;
+    typedef typename Base::ActPtr ActPtr;
 
     explicit BitfieldWrapperT(Field& fieldRef)
       : Base(fieldRef)
@@ -87,14 +87,14 @@ public:
     BitfieldWrapperT& operator=(const BitfieldWrapperT&) = delete;
 
 protected:
-    virtual Ptr cloneImpl() override
+    virtual ActPtr cloneImpl() override
     {
-        return Ptr(new BitfieldWrapperT<TField>(Base::field()));
+        return ActPtr(new BitfieldWrapperT<TField>(Base::field()));
     }
 
 };
 
-using BitfieldWrapperPtr = BitfieldWrapper::Ptr;
+using BitfieldWrapperPtr = BitfieldWrapper::ActPtr;
 
 template <typename TField>
 BitfieldWrapperPtr

@@ -29,7 +29,7 @@ UnknownValueWrapper::UnknownValueWrapper() {}
 
 UnknownValueWrapper::~UnknownValueWrapper() noexcept = default;
 
-UnknownValueWrapper::Ptr UnknownValueWrapper::clone()
+UnknownValueWrapper::ActPtr UnknownValueWrapper::clone()
 {
     return cloneImpl();
 }

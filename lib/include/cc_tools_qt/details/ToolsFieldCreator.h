@@ -44,13 +44,13 @@ namespace cc_tools_qt
 namespace details
 {
 
-class ToolsFieldWrapperCreator
+class ToolsFieldCreator
 {
 public:
     using ToolsFieldPtr = cc_tools_qt::ToolsFieldPtr;
     using FieldsList = std::vector<ToolsFieldPtr>;
 
-    explicit ToolsFieldWrapperCreator(FieldsList& fields) : m_fields(fields) {}
+    explicit ToolsFieldCreator(FieldsList& fields) : m_fields(fields) {}
 
     template <typename TField>
     static ToolsFieldPtr createWrapper(TField& field)
@@ -94,7 +94,7 @@ private:
         void operator()(TField&& field)
         {
             auto fieldWidget =
-                ToolsFieldWrapperCreator::createWrapper(std::forward<TField>(field));
+                ToolsFieldCreator::createWrapper(std::forward<TField>(field));
             m_dispatchOp(std::move(fieldWidget));
         }
 
@@ -234,7 +234,7 @@ private:
         wrapper->setWrapFieldCallback(
             [](ElementType& memField) -> ToolsFieldPtr
             {
-                return ToolsFieldWrapperCreator::createWrapper(memField);
+                return ToolsFieldCreator::createWrapper(memField);
             });
 
         wrapper->refreshMembers();
