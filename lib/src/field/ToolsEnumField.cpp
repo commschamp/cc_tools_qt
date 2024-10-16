@@ -15,31 +15,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/field_wrapper/EnumValueWrapper.h"
+#include "cc_tools_qt/field/ToolsEnumField.h"
 
 #include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace field
 {
 
-EnumValueWrapper::EnumValueWrapper() {}
+ToolsEnumField::ToolsEnumField() {}
 
-EnumValueWrapper::~EnumValueWrapper() noexcept = default;
+ToolsEnumField::~ToolsEnumField() noexcept = default;
 
-EnumValueWrapper::ActPtr EnumValueWrapper::clone()
+ToolsEnumField::ActPtr ToolsEnumField::clone()
 {
     return cloneImpl();
 }
 
-void EnumValueWrapper::dispatchImpl(FieldWrapperHandler& handler)
+void ToolsEnumField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
 {
     handler.handle(*this);
 }
 
-}  // namespace field_wrapper
+}  // namespace field
 
 }  // namespace cc_tools_qt
 

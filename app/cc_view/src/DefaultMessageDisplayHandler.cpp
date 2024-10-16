@@ -70,9 +70,9 @@ public:
         m_widget.reset(new BitmaskValueFieldWidget(wrapper.clone(), m_parent));
     }
 
-    virtual void handle(field_wrapper::EnumValueWrapper& wrapper) override
+    virtual void handle(field::ToolsEnumField& field) override
     {
-        m_widget.reset(new EnumValueFieldWidget(wrapper.clone(), m_parent));
+        m_widget.reset(new EnumValueFieldWidget(field.clone(), m_parent));
     }
 
     virtual void handle(field_wrapper::StringWrapper& wrapper) override

@@ -2,6 +2,7 @@ function (lib_tools)
     set (name "${PROJECT_NAME}")
     
     set (src
+        field/ToolsEnumField.cpp
         field/ToolsIntField.cpp
         field/ToolsUnsignedLongField.cpp
         ErrorStatus.cpp
@@ -25,7 +26,6 @@ function (lib_tools)
         ToolsMsgFactory.cpp
         ToolsProtocol.cpp
         field_wrapper/BitmaskValueWrapper.cpp
-        field_wrapper/EnumValueWrapper.cpp
         field_wrapper/StringWrapper.cpp
         field_wrapper/BitfieldWrapper.cpp
         field_wrapper/OptionalWrapper.cpp
@@ -43,7 +43,7 @@ function (lib_tools)
     add_library (cc::${PROJECT_NAME} ALIAS ${name})
 
     target_link_libraries(${name} PUBLIC cc::comms Qt::Widgets Qt::Core ${CC_PLATFORM_SPECIFIC})
-    target_include_directories(${name} 
+    target_include_directories(${name} BEFORE
         PRIVATE
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         PUBLIC

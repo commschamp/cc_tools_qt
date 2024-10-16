@@ -18,42 +18,27 @@
 
 #pragma once
 
+#include "cc_tools_qt/details/ToolsNumericFieldImpl.h"
+#include "cc_tools_qt/field/ToolsEnumField.h"
+
+#include "comms/field/EnumValue.h"
+
 #include <cstdint>
 #include <cassert>
 #include <memory>
 
-#include "comms/field/EnumValue.h"
-#include "NumericValueWrapper.h"
-
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace details
 {
-
-class CC_API EnumValueWrapper : public NumericValueWrapper<long long int>
-{
-    using Base = NumericValueWrapper<long long int>;
-public:
-    using UnderlyingType = Base::UnderlyingType;
-    typedef std::unique_ptr<EnumValueWrapper> ActPtr;
-
-    EnumValueWrapper();
-    virtual ~EnumValueWrapper() noexcept;
-
-    ActPtr clone();
-
-protected:
-    virtual ActPtr cloneImpl() = 0;
-
-    void dispatchImpl(FieldWrapperHandler& handler);
-};
 
 template <typename TField>
-class EnumValueWrapperT : public NumericValueWrapperT<EnumValueWrapper, TField>
+class ToolsEnumFieldImpl : public ToolsNumericFieldImpl<cc_tools_qt::field::ToolsEnumField, TField>
 {
-    using Base = NumericValueWrapperT<EnumValueWrapper, TField>;
+    using Base = ToolsNumericFieldImpl<cc_tools_qt::field::ToolsEnumField, TField>;
     using Field = TField;
+
     static_assert(comms::field::isEnumValue<Field>(), "Must be of EnumValueField type");
 
     using ValueType = typename Field::ValueType;
@@ -63,38 +48,33 @@ class EnumValueWrapperT : public NumericValueWrapperT<EnumValueWrapper, TField>
 //        "This wrapper cannot handle provided field.");
 
 public:
-    typedef typename Base::ActPtr ActPtr;
+    using ActPtr = typename Base::ActPtr;
 
-    explicit EnumValueWrapperT(Field& fieldRef)
+    explicit ToolsEnumFieldImpl(Field& fieldRef)
       : Base(fieldRef)
     {
     }
 
-    EnumValueWrapperT(const EnumValueWrapperT&) = default;
-    EnumValueWrapperT(EnumValueWrapperT&&) = default;
-    virtual ~EnumValueWrapperT() noexcept = default;
+    ToolsEnumFieldImpl(const ToolsEnumFieldImpl&) = default;
+    ToolsEnumFieldImpl(ToolsEnumFieldImpl&&) = default;
+    virtual ~ToolsEnumFieldImpl() noexcept = default;
 
-    EnumValueWrapperT& operator=(const EnumValueWrapperT&) = delete;
+    ToolsEnumFieldImpl& operator=(const ToolsEnumFieldImpl&) = delete;
 
 protected:
     virtual ActPtr cloneImpl() override
     {
-        return ActPtr(new EnumValueWrapperT<TField>(Base::field()));
+        return ActPtr(new ToolsEnumFieldImpl<TField>(Base::field()));
     }
 
 };
 
-using EnumValueWrapperPtr = std::unique_ptr<EnumValueWrapper>;
-
 template <typename TField>
-EnumValueWrapperPtr
-makeEnumValueWrapper(TField& field)
+cc_tools_qt::field::ToolsEnumFieldPtr makeEnumField(TField& field)
 {
-    return
-        EnumValueWrapperPtr(
-            new EnumValueWrapperT<TField>(field));
+    return std::make_unique<ToolsEnumFieldImpl<TField>>(field);
 }
 
-}  // namespace field_wrapper
+}  // namespace details
 
 }  // namespace cc_tools_qt

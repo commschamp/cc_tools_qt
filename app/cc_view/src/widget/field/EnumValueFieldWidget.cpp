@@ -35,10 +35,10 @@ const int EnumValuesStartIndex = 2;
 }  // namespace
 
 EnumValueFieldWidget::EnumValueFieldWidget(
-    WrapperPtr&& wrapper,
+    FieldPtr&& fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
@@ -47,24 +47,24 @@ EnumValueFieldWidget::EnumValueFieldWidget(
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
     assert(m_ui.m_serValueLineEdit != nullptr);
-    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_wrapper->minWidth(), m_wrapper->maxWidth());
+    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
 }
 
 EnumValueFieldWidget::~EnumValueFieldWidget() noexcept = default;
 
 ToolsField& EnumValueFieldWidget::fieldImpl()
 {
-    assert(m_wrapper);
-    return *m_wrapper;
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
 }
 
 void EnumValueFieldWidget::refreshImpl()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_ui.m_serValueLineEdit != nullptr);
-    updateValue(*m_ui.m_serValueLineEdit, m_wrapper->getSerialisedString());
+    updateValue(*m_ui.m_serValueLineEdit, m_fieldPtr->getSerialisedString());
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     auto comboIdx = m_ui.m_valueComboBox->currentIndex();
 
     auto comboRetrieveValueFunc =
@@ -81,7 +81,7 @@ void EnumValueFieldWidget::refreshImpl()
             break;
         }
 
-        auto value = m_wrapper->getValue();
+        auto value = m_fieldPtr->getValue();
         auto comboValue = comboRetrieveValueFunc(m_ui.m_valueComboBox->currentIndex());
         if (value == comboValue) {
             break;
@@ -139,7 +139,7 @@ void EnumValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
     }
 
     auto invValue = maxValue + 1;
-    auto len = m_wrapper->length();
+    auto len = m_fieldPtr->length();
     auto shift = len * std::numeric_limits<std::uint8_t>::digits;
     auto maxAllowedValue =
         static_cast<UnderlyingType>((static_cast<long long unsigned>(1) << shift) - 1);
@@ -196,12 +196,12 @@ void EnumValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
 
 void EnumValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
-    handleNumericSerialisedValueUpdate(value, *m_wrapper);
+    handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
 }
 
 void EnumValueFieldWidget::valueUpdated(int idx)
 {
-    if ((!m_wrapper->valid()) && (idx < m_idxOffset)) {
+    if ((!m_fieldPtr->valid()) && (idx < m_idxOffset)) {
         return;
     }
 
@@ -210,15 +210,15 @@ void EnumValueFieldWidget::valueUpdated(int idx)
         assert(valueVar.isValid());
         assert(valueVar.canConvert<UnderlyingType>());
         auto value = valueVar.value<UnderlyingType>();
-        if (value == m_wrapper->getValue()) {
+        if (value == m_fieldPtr->getValue()) {
             return;
         }
 
         assert(isEditEnabled());
-        m_wrapper->setValue(value);
-        if (!m_wrapper->canWrite()) {
-            m_wrapper->reset();
-            assert(m_wrapper->canWrite());
+        m_fieldPtr->setValue(value);
+        if (!m_fieldPtr->canWrite()) {
+            m_fieldPtr->reset();
+            assert(m_fieldPtr->canWrite());
         }
         emitFieldUpdated();
     }

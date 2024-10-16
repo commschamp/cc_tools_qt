@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/field_wrapper/EnumValueWrapper.h"
+#include "cc_tools_qt/field/ToolsEnumField.h"
 #include "FieldWidget.h"
 
 #include "ui_EnumValueFieldWidget.h"
@@ -31,10 +31,10 @@ class EnumValueFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::EnumValueWrapperPtr;
+    using FieldPtr = field::ToolsEnumFieldPtr;
 
     explicit EnumValueFieldWidget(
-        WrapperPtr&& wrapper,
+        FieldPtr&& fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~EnumValueFieldWidget() noexcept;
@@ -50,11 +50,11 @@ private slots:
     void valueUpdated(int idx);
 
 private:
-    using WrapperType = WrapperPtr::element_type;
+    using WrapperType = FieldPtr::element_type;
     using UnderlyingType = WrapperType::UnderlyingType;
 
     Ui::EnumValueFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     bool m_signalsConnected = false;
     int m_idxOffset = 0;
 };

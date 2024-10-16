@@ -22,11 +22,11 @@
 
 #include "comms/comms.h"
 
+#include "cc_tools_qt/details/ToolsEnumFieldImpl.h"
 #include "cc_tools_qt/details/ToolsIntFieldImpl.h"
 #include "cc_tools_qt/details/ToolsUnsignedLongFieldImpl.h"
 
 #include "cc_tools_qt/field_wrapper/BitmaskValueWrapper.h"
-#include "cc_tools_qt/field_wrapper/EnumValueWrapper.h"
 #include "cc_tools_qt/field_wrapper/StringWrapper.h"
 #include "cc_tools_qt/field_wrapper/BitfieldWrapper.h"
 #include "cc_tools_qt/field_wrapper/OptionalWrapper.h"
@@ -150,7 +150,7 @@ private:
     template <typename TField>
     static ToolsFieldPtr createFieldInternal(TField& field, EnumValueTag)
     {
-        return field_wrapper::makeEnumValueWrapper(field);
+        return makeEnumField(field);
     }
 
     template <typename TField>
