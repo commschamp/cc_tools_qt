@@ -22,7 +22,8 @@
 
 #include "comms/comms.h"
 
-#include "cc_tools_qt/field_wrapper/IntValueWrapper.h"
+#include "cc_tools_qt/details/ToolsIntFieldImpl.h"
+
 #include "cc_tools_qt/field_wrapper/UnsignedLongValueWrapper.h"
 #include "cc_tools_qt/field_wrapper/BitmaskValueWrapper.h"
 #include "cc_tools_qt/field_wrapper/EnumValueWrapper.h"
@@ -66,17 +67,17 @@ public:
         m_fields.push_back(createWrapper(field));
     }
 private:
-    typedef comms::field::tag::Int IntValueTag;
-    typedef comms::field::tag::Bitmask BitmaskValueTag;
-    typedef comms::field::tag::Enum EnumValueTag;
-    typedef comms::field::tag::String StringTag;
-    typedef comms::field::tag::Bitfield BitfieldTag;
-    typedef comms::field::tag::Optional OptionalTag;
-    typedef comms::field::tag::Bundle BundleTag;
-    typedef comms::field::tag::RawArrayList RawDataArrayListTag;
-    typedef comms::field::tag::ArrayList FieldsArrayListTag;
-    typedef comms::field::tag::Float FloatValueTag;
-    typedef comms::field::tag::Variant VariantTag;
+    using IntValueTag = comms::field::tag::Int;
+    using BitmaskValueTag = comms::field::tag::Bitmask;
+    using EnumValueTag = comms::field::tag::Enum;
+    using StringTag = comms::field::tag::String;
+    using BitfieldTag = comms::field::tag::Bitfield;
+    using OptionalTag = comms::field::tag::Optional;
+    using BundleTag = comms::field::tag::Bundle;
+    using RawDataArrayListTag = comms::field::tag::RawArrayList;
+    using FieldsArrayListTag = comms::field::tag::ArrayList;
+    using FloatValueTag = comms::field::tag::Float;
+    using VariantTag = comms::field::tag::Variant;
 
     struct RegularIntTag {};
     struct BigUnsignedTag {};
@@ -112,17 +113,18 @@ private:
     template <typename TField>
     static ToolsFieldPtr createWrapperInternal(TField& field, IntValueTag)
     {
-        typedef typename std::decay<decltype(field)>::type FieldType;
-        typedef typename FieldType::ValueType ValueType;
+        using FieldType = std::decay_t<decltype(field)>;
+        using ValueType = typename FieldType::ValueType;
 
         static_assert(std::is_integral<ValueType>::value,
             "ValueType is expected to be integral");
 
-        using Tag = typename std::conditional<
-            std::is_signed<ValueType>::value || (sizeof(ValueType) < sizeof(std::uint64_t)),
-            RegularIntTag,
-            BigUnsignedTag
-        >::type;
+        using Tag = 
+            std::conditional_t<
+                std::is_signed_v<ValueType> || (sizeof(ValueType) < sizeof(std::uint64_t)),
+                RegularIntTag,
+                BigUnsignedTag
+            >;
 
         return createWrapperInternal(field, Tag());
     }
@@ -130,7 +132,7 @@ private:
     template <typename TField>
     static ToolsFieldPtr createWrapperInternal(TField& field, RegularIntTag)
     {
-        return field_wrapper::makeIntValueWrapper(field);
+        return cc_tools_qt::details::makeIntField(field);
     }
 
     template <typename TField>

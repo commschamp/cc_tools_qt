@@ -2,6 +2,7 @@ function (lib_tools)
     set (name "${PROJECT_NAME}")
     
     set (src
+        field/ToolsIntField.cpp
         ErrorStatus.cpp
         Message.cpp
         Filter.cpp
@@ -22,7 +23,6 @@ function (lib_tools)
         ToolsFrame.cpp
         ToolsMsgFactory.cpp
         ToolsProtocol.cpp
-        field_wrapper/IntValueWrapper.cpp
         field_wrapper/UnsignedLongValueWrapper.cpp
         field_wrapper/BitmaskValueWrapper.cpp
         field_wrapper/EnumValueWrapper.cpp

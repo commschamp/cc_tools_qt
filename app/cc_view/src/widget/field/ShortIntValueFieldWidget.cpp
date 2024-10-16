@@ -28,10 +28,10 @@ namespace cc_tools_qt
 {
 
 ShortIntValueFieldWidget::ShortIntValueFieldWidget(
-    WrapperPtr wrapper,
+    FieldPtr fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
@@ -40,11 +40,11 @@ ShortIntValueFieldWidget::ShortIntValueFieldWidget(
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
     assert(m_ui.m_serValueLineEdit != nullptr);
-    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_wrapper->minWidth(), m_wrapper->maxWidth());
+    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
 
     m_ui.m_valueSpinBox->setRange(
-        static_cast<int>(m_wrapper->minValue()), 
-        static_cast<int>(m_wrapper->maxValue()));
+        static_cast<int>(m_fieldPtr->minValue()), 
+        static_cast<int>(m_fieldPtr->maxValue()));
 
     connect(m_ui.m_valueSpinBox, SIGNAL(valueChanged(int)),
             this, SLOT(valueUpdated(int)));
@@ -59,30 +59,30 @@ ShortIntValueFieldWidget::~ShortIntValueFieldWidget() noexcept = default;
 
 ToolsField& ShortIntValueFieldWidget::fieldImpl()
 {
-    assert(m_wrapper);
-    return *m_wrapper;
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
 }
 
 void ShortIntValueFieldWidget::refreshImpl()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_ui.m_serValueLineEdit != nullptr);
-    updateValue(*m_ui.m_serValueLineEdit, m_wrapper->getSerialisedString());
+    updateValue(*m_ui.m_serValueLineEdit, m_fieldPtr->getSerialisedString());
 
-    auto value = adjustRealToDisplayed(static_cast<int>(m_wrapper->getValue()));
+    auto value = adjustRealToDisplayed(static_cast<int>(m_fieldPtr->getValue()));
     assert(m_ui.m_valueSpinBox);
     if (m_ui.m_valueSpinBox->value() != value) {
         m_ui.m_valueSpinBox->setValue(value);
     }
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     setValidityStyleSheet(*m_ui.m_nameLabel, valid);
     setValidityStyleSheet(*m_ui.m_serFrontLabel, valid);
     setValidityStyleSheet(*m_ui.m_serValueLineEdit, valid);
     setValidityStyleSheet(*m_ui.m_serBackLabel, valid);
 
     if (m_specialsWidget != nullptr) {
-        m_specialsWidget->setIntValue(m_wrapper->getValue());
+        m_specialsWidget->setIntValue(m_fieldPtr->getValue());
     }
 }
 
@@ -116,20 +116,20 @@ void ShortIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
 
 void ShortIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
-    handleNumericSerialisedValueUpdate(value, *m_wrapper);
+    handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
 }
 
 void ShortIntValueFieldWidget::valueUpdated(int value)
 {
-    if (value == adjustRealToDisplayed(static_cast<int>(m_wrapper->getValue()))) {
+    if (value == adjustRealToDisplayed(static_cast<int>(m_fieldPtr->getValue()))) {
         return;
     }
 
     assert(isEditEnabled());
-    m_wrapper->setValue(adjustDisplayedToReal(value));
-    if (!m_wrapper->canWrite()) {
-        m_wrapper->reset();
-        assert(m_wrapper->canWrite());
+    m_fieldPtr->setValue(adjustDisplayedToReal(value));
+    if (!m_fieldPtr->canWrite()) {
+        m_fieldPtr->reset();
+        assert(m_fieldPtr->canWrite());
     }
     refresh();
     emitFieldUpdated();

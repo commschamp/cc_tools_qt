@@ -15,66 +15,66 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/field_wrapper/IntValueWrapper.h"
+#include "cc_tools_qt/field/ToolsIntField.h"
 
 #include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace field
 {
 
-IntValueWrapper::IntValueWrapper() {}
+ToolsIntField::ToolsIntField() {}
 
-IntValueWrapper::~IntValueWrapper() noexcept = default;
+ToolsIntField::~ToolsIntField() noexcept = default;
 
-IntValueWrapper::UnderlyingType IntValueWrapper::minValue() const
+ToolsIntField::UnderlyingType ToolsIntField::minValue() const
 {
     return minValueImpl();
 }
 
-IntValueWrapper::UnderlyingType IntValueWrapper::maxValue() const
+ToolsIntField::UnderlyingType ToolsIntField::maxValue() const
 {
     return maxValueImpl();
 }
 
-double IntValueWrapper::getScaled() const
+double ToolsIntField::getScaled() const
 {
     return getScaledImpl();
 }
 
-void IntValueWrapper::setScaled(double value)
+void ToolsIntField::setScaled(double value)
 {
     setScaledImpl(value);
 }
 
-double IntValueWrapper::scaleValue(UnderlyingType value) const
+double ToolsIntField::scaleValue(UnderlyingType value) const
 {
     return scaleValueImpl(value);
 }
 
-bool IntValueWrapper::isSigned() const
+bool ToolsIntField::isSigned() const
 {
     return isSignedImpl();
 }
 
-std::size_t IntValueWrapper::valueTypeSize() const
+std::size_t ToolsIntField::valueTypeSize() const
 {
     return valueTypeSizeImpl();
 }
 
-IntValueWrapper::ActPtr IntValueWrapper::clone()
+ToolsIntField::ActPtr ToolsIntField::clone()
 {
     return cloneImpl();
 }
 
-void IntValueWrapper::dispatchImpl(FieldWrapperHandler& handler)
+void ToolsIntField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
 {
     handler.handle(*this);
 }
 
-}  // namespace field_wrapper
+}  // namespace field
 
 }  // namespace cc_tools_qt
 

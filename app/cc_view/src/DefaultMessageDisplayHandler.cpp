@@ -55,9 +55,9 @@ public:
         }
     }
 
-    virtual void handle(field_wrapper::IntValueWrapper& wrapper) override
+    virtual void handle(field::ToolsIntField& field) override
     {
-        m_widget.reset(new IntValueFieldWidget(wrapper.clone(), m_parent));
+        m_widget.reset(new IntValueFieldWidget(field.clone(), m_parent));
     }
 
     virtual void handle(field_wrapper::UnsignedLongValueWrapper& wrapper) override

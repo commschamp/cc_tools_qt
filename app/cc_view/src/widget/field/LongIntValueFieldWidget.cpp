@@ -29,10 +29,10 @@ namespace cc_tools_qt
 {
 
 LongIntValueFieldWidget::LongIntValueFieldWidget(
-    WrapperPtr wrapper,
+    FieldPtr fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
@@ -41,11 +41,11 @@ LongIntValueFieldWidget::LongIntValueFieldWidget(
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
     assert(m_ui.m_serValueLineEdit != nullptr);
-    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_wrapper->minWidth(), m_wrapper->maxWidth());
+    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
 
     m_ui.m_valueSpinBox->setRange(
-        static_cast<double>(m_wrapper->minValue()),
-        static_cast<double>(m_wrapper->maxValue()));
+        static_cast<double>(m_fieldPtr->minValue()),
+        static_cast<double>(m_fieldPtr->maxValue()));
     m_ui.m_valueSpinBox->setDecimals(0);
 
     connect(m_ui.m_valueSpinBox, SIGNAL(valueChanged(double)),
@@ -61,30 +61,30 @@ LongIntValueFieldWidget::~LongIntValueFieldWidget() noexcept = default;
 
 ToolsField& LongIntValueFieldWidget::fieldImpl()
 {
-    assert(m_wrapper);
-    return *m_wrapper;
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
 }
 
 void LongIntValueFieldWidget::refreshImpl()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_ui.m_serValueLineEdit != nullptr);
-    updateValue(*m_ui.m_serValueLineEdit, m_wrapper->getSerialisedString());
+    updateValue(*m_ui.m_serValueLineEdit, m_fieldPtr->getSerialisedString());
 
-    auto value = m_wrapper->getValue();
+    auto value = m_fieldPtr->getValue();
     assert(m_ui.m_valueSpinBox);
     if (adjustDisplayedToReal(m_ui.m_valueSpinBox->value()) != value) {
         m_ui.m_valueSpinBox->setValue(adjustRealToDisplayed(value));
     }
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     setValidityStyleSheet(*m_ui.m_nameLabel, valid);
     setValidityStyleSheet(*m_ui.m_serFrontLabel, valid);
     setValidityStyleSheet(*m_ui.m_serValueLineEdit, valid);
     setValidityStyleSheet(*m_ui.m_serBackLabel, valid);
 
     if (m_specialsWidget != nullptr) {
-        m_specialsWidget->setIntValue(m_wrapper->getValue());
+        m_specialsWidget->setIntValue(m_fieldPtr->getValue());
     }
 }
 
@@ -118,21 +118,21 @@ void LongIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
 
 void LongIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
-    handleNumericSerialisedValueUpdate(value, *m_wrapper);
+    handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
 }
 
 void LongIntValueFieldWidget::valueUpdated(double value)
 {
     auto adjustedValue = adjustDisplayedToReal(value);
-    if (adjustedValue == m_wrapper->getValue()) {
+    if (adjustedValue == m_fieldPtr->getValue()) {
         return;
     }
 
     assert(isEditEnabled());
-    m_wrapper->setValue(adjustedValue);
-    if (!m_wrapper->canWrite()) {
-        m_wrapper->reset();
-        assert(m_wrapper->canWrite());
+    m_fieldPtr->setValue(adjustedValue);
+    if (!m_fieldPtr->canWrite()) {
+        m_fieldPtr->reset();
+        assert(m_fieldPtr->canWrite());
     }
     refresh();
     emitFieldUpdated();

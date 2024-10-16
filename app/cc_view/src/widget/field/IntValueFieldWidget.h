@@ -20,7 +20,7 @@
 
 #include <memory>
 
-#include "cc_tools_qt/field_wrapper/IntValueWrapper.h"
+#include "cc_tools_qt/field/ToolsIntField.h"
 #include "FieldWidget.h"
 
 namespace cc_tools_qt
@@ -30,10 +30,10 @@ class IntValueFieldWidget : public FieldWidget
 {
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::IntValueWrapperPtr;
+    using FieldPtr = field::ToolsIntFieldPtr;
 
     explicit IntValueFieldWidget(
-        WrapperPtr wrapper,
+        FieldPtr fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~IntValueFieldWidget() noexcept;
@@ -45,10 +45,10 @@ protected:
     virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private:
-    using WrapperType = WrapperPtr::element_type;
+    using WrapperType = FieldPtr::element_type;
     using UnderlyingType = WrapperType::UnderlyingType;
 
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     std::unique_ptr<FieldWidget> m_childWidget;
 };
 

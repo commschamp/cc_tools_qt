@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/field_wrapper/IntValueWrapper.h"
+#include "cc_tools_qt/field/ToolsIntField.h"
 #include "FieldWidget.h"
 
 #include "ui_ShortIntValueFieldWidget.h"
@@ -33,10 +33,10 @@ class ShortIntValueFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::IntValueWrapperPtr;
+    using FieldPtr = field::ToolsIntFieldPtr;
 
     explicit ShortIntValueFieldWidget(
-        WrapperPtr wrapper,
+        FieldPtr fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~ShortIntValueFieldWidget() noexcept;
@@ -56,14 +56,14 @@ private:
     using SpecialInfo = QPair<QString, long long>;
     using SpecialsList = QList<SpecialInfo>;
 
-    using WrapperType = WrapperPtr::element_type;
+    using WrapperType = FieldPtr::element_type;
     using UnderlyingType = WrapperType::UnderlyingType;
     int adjustDisplayedToReal(int val);
     int adjustRealToDisplayed(int val);
     bool createSpecialsWidget(const SpecialsList& specials);
 
     Ui::ShortIntValueFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     int m_offset = 0;
     SpecialValueWidget* m_specialsWidget = nullptr;
 };

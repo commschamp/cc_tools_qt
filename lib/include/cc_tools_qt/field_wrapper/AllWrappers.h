@@ -20,7 +20,8 @@
 
 #include <tuple>
 
-#include "IntValueWrapper.h"
+#include "cc_tools_qt/field/ToolsIntField.h"
+
 #include "UnsignedLongValueWrapper.h"
 #include "BitmaskValueWrapper.h"
 #include "EnumValueWrapper.h"
@@ -41,7 +42,7 @@ namespace field_wrapper
 {
 
 typedef std::tuple<
-    IntValueWrapper,
+    cc_tools_qt::field::ToolsIntField,
     UnsignedLongValueWrapper,
     BitmaskValueWrapper,
     EnumValueWrapper,

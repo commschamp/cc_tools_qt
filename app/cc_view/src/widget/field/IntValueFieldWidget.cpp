@@ -32,9 +32,9 @@
 namespace cc_tools_qt
 {
 
-IntValueFieldWidget::IntValueFieldWidget(WrapperPtr wrapper, QWidget* parentObj)
+IntValueFieldWidget::IntValueFieldWidget(FieldPtr fieldPtr, QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
 }
 
@@ -45,13 +45,13 @@ IntValueFieldWidget::~IntValueFieldWidget() noexcept
 
 ToolsField& IntValueFieldWidget::fieldImpl()
 {
-    assert(m_wrapper);
-    return *m_wrapper;
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
 }
 
 void IntValueFieldWidget::refreshImpl()
 {
-    assert((!m_wrapper) || (m_wrapper->canWrite()));
+    assert((!m_fieldPtr) || (m_fieldPtr->canWrite()));
     if (m_childWidget) {
         m_childWidget->refresh();
     }
@@ -66,30 +66,30 @@ void IntValueFieldWidget::editEnabledUpdatedImpl()
 
 void IntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
 {
-    assert(m_wrapper);
+    assert(m_fieldPtr);
     assert(!m_childWidget);
     do {
         if (property::field::IntValue(props).hasScaledDecimals()) {
-            m_childWidget.reset(new ScaledIntValueFieldWidget(std::move(m_wrapper)));
+            m_childWidget.reset(new ScaledIntValueFieldWidget(std::move(m_fieldPtr)));
             break;
         }
 
-        std::size_t valTypeSize = m_wrapper->valueTypeSize();
-        bool isSigned = m_wrapper->isSigned();
+        std::size_t valTypeSize = m_fieldPtr->valueTypeSize();
+        bool isSigned = m_fieldPtr->isSigned();
         if ((valTypeSize < sizeof(int)) ||
              ((valTypeSize == sizeof(int) && isSigned))) {
-            m_childWidget.reset(new ShortIntValueFieldWidget(std::move(m_wrapper)));
+            m_childWidget.reset(new ShortIntValueFieldWidget(std::move(m_fieldPtr)));
             break;
         }
 
         if (valTypeSize <= sizeof(unsigned)) {
-            m_childWidget.reset(new LongIntValueFieldWidget(std::move(m_wrapper)));
+            m_childWidget.reset(new LongIntValueFieldWidget(std::move(m_fieldPtr)));
             break;
         }
 
         if ((valTypeSize < sizeof(long long int)) ||
              ((valTypeSize == sizeof(long long int) && isSigned))) {
-            m_childWidget.reset(new LongLongIntValueFieldWidget(std::move(m_wrapper)));
+            m_childWidget.reset(new LongLongIntValueFieldWidget(std::move(m_fieldPtr)));
             break;
         }
 
