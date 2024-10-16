@@ -60,9 +60,9 @@ public:
         m_widget.reset(new IntValueFieldWidget(field.clone(), m_parent));
     }
 
-    virtual void handle(field_wrapper::UnsignedLongValueWrapper& wrapper) override
+    virtual void handle(field::ToolsUnsignedLongField& field) override
     {
-        m_widget.reset(new UnsignedLongLongIntValueFieldWidget(wrapper.clone(), m_parent));
+        m_widget.reset(new UnsignedLongLongIntValueFieldWidget(field.clone(), m_parent));
     }
 
     virtual void handle(field_wrapper::BitmaskValueWrapper& wrapper) override

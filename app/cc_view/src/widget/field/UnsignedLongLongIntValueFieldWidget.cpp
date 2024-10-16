@@ -29,10 +29,10 @@ namespace cc_tools_qt
 {
 
 UnsignedLongLongIntValueFieldWidget::UnsignedLongLongIntValueFieldWidget(
-    WrapperPtr wrapper,
+    FieldPtr fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
@@ -41,7 +41,7 @@ UnsignedLongLongIntValueFieldWidget::UnsignedLongLongIntValueFieldWidget(
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
     assert(m_ui.m_serValueLineEdit != nullptr);
-    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_wrapper->minWidth(), m_wrapper->maxWidth());
+    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
 
     refresh();
 
@@ -57,31 +57,31 @@ UnsignedLongLongIntValueFieldWidget::~UnsignedLongLongIntValueFieldWidget() noex
 
 ToolsField& UnsignedLongLongIntValueFieldWidget::fieldImpl()
 {
-    assert(m_wrapper);
-    return *m_wrapper;
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
 }
 
 void UnsignedLongLongIntValueFieldWidget::refreshImpl()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_ui.m_serValueLineEdit != nullptr);
-    updateValue(*m_ui.m_serValueLineEdit, m_wrapper->getSerialisedString());
+    updateValue(*m_ui.m_serValueLineEdit, m_fieldPtr->getSerialisedString());
 
-    auto value = m_wrapper->getValue();
+    auto value = m_fieldPtr->getValue();
     assert(m_ui.m_valueLineEdit);
     auto valueTxt =
             QString("%1")
                 .arg(adjustRealToDisplayed(value), 0, 'f', m_decimals, QChar('0'));
     m_ui.m_valueLineEdit->setText(valueTxt);
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     setValidityStyleSheet(*m_ui.m_nameLabel, valid);
     setValidityStyleSheet(*m_ui.m_serFrontLabel, valid);
     setValidityStyleSheet(*m_ui.m_serValueLineEdit, valid);
     setValidityStyleSheet(*m_ui.m_serBackLabel, valid);
 
     if (m_specialsWidget != nullptr) {
-        m_specialsWidget->setIntValue(static_cast<long long>(m_wrapper->getValue()));
+        m_specialsWidget->setIntValue(static_cast<long long>(m_fieldPtr->getValue()));
     }
 }
 
@@ -104,22 +104,22 @@ void UnsignedLongLongIntValueFieldWidget::updatePropertiesImpl(const QVariantMap
 
 void UnsignedLongLongIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
-    handleNumericSerialisedValueUpdate(value, *m_wrapper);
+    handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
 }
 
 void UnsignedLongLongIntValueFieldWidget::valueUpdated(const QString& value)
 {
     auto adjustedValue = adjustDisplayedToReal(getDisplayedValue(value));
-    if (adjustedValue == m_wrapper->getValue()) {
+    if (adjustedValue == m_fieldPtr->getValue()) {
         return;
     }
 
     assert(isEditEnabled());
-    auto oldValue = m_wrapper->getValue();
-    m_wrapper->setValue(adjustedValue);
-    assert(m_wrapper->getValue() == adjustedValue);
-    if (!m_wrapper->canWrite()) {
-        m_wrapper->setValue(oldValue);
+    auto oldValue = m_fieldPtr->getValue();
+    m_fieldPtr->setValue(adjustedValue);
+    assert(m_fieldPtr->getValue() == adjustedValue);
+    if (!m_fieldPtr->canWrite()) {
+        m_fieldPtr->setValue(oldValue);
     }
     refresh();
     emitFieldUpdated();
@@ -132,7 +132,7 @@ void UnsignedLongLongIntValueFieldWidget::specialSelected(long long value)
         return;
     }
 
-    m_wrapper->setValue(static_cast<unsigned long long>(value));
+    m_fieldPtr->setValue(static_cast<unsigned long long>(value));
     refresh();
 }
 

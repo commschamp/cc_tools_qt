@@ -15,66 +15,66 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/field_wrapper/UnsignedLongValueWrapper.h"
+#include "cc_tools_qt/field/ToolsUnsignedLongField.h"
 
 #include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace field
 {
 
-UnsignedLongValueWrapper::UnsignedLongValueWrapper() {}
+ToolsUnsignedLongField::ToolsUnsignedLongField() {}
 
-UnsignedLongValueWrapper::~UnsignedLongValueWrapper() noexcept = default;
+ToolsUnsignedLongField::~ToolsUnsignedLongField() noexcept = default;
 
-UnsignedLongValueWrapper::UnderlyingType UnsignedLongValueWrapper::minValue() const
+ToolsUnsignedLongField::UnderlyingType ToolsUnsignedLongField::minValue() const
 {
     return minValueImpl();
 }
 
-UnsignedLongValueWrapper::UnderlyingType UnsignedLongValueWrapper::maxValue() const
+ToolsUnsignedLongField::UnderlyingType ToolsUnsignedLongField::maxValue() const
 {
     return maxValueImpl();
 }
 
-double UnsignedLongValueWrapper::getScaled() const
+double ToolsUnsignedLongField::getScaled() const
 {
     return getScaledImpl();
 }
 
-void UnsignedLongValueWrapper::setScaled(double value)
+void ToolsUnsignedLongField::setScaled(double value)
 {
     setScaledImpl(value);
 }
 
-double UnsignedLongValueWrapper::scaleValue(UnderlyingType value) const
+double ToolsUnsignedLongField::scaleValue(UnderlyingType value) const
 {
     return scaleValueImpl(value);
 }
 
-bool UnsignedLongValueWrapper::isSigned() const
+bool ToolsUnsignedLongField::isSigned() const
 {
     return isSignedImpl();
 }
 
-std::size_t UnsignedLongValueWrapper::valueTypeSize() const
+std::size_t ToolsUnsignedLongField::valueTypeSize() const
 {
     return valueTypeSizeImpl();
 }
 
-UnsignedLongValueWrapper::ActPtr UnsignedLongValueWrapper::clone()
+ToolsUnsignedLongField::ActPtr ToolsUnsignedLongField::clone()
 {
     return cloneImpl();
 }
 
-void UnsignedLongValueWrapper::dispatchImpl(FieldWrapperHandler& handler)
+void ToolsUnsignedLongField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
 {
     handler.handle(*this);
 }
 
-}  // namespace field_wrapper
+}  // namespace field
 
 }  // namespace cc_tools_qt
 

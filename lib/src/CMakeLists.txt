@@ -3,6 +3,7 @@ function (lib_tools)
     
     set (src
         field/ToolsIntField.cpp
+        field/ToolsUnsignedLongField.cpp
         ErrorStatus.cpp
         Message.cpp
         Filter.cpp
@@ -23,7 +24,6 @@ function (lib_tools)
         ToolsFrame.cpp
         ToolsMsgFactory.cpp
         ToolsProtocol.cpp
-        field_wrapper/UnsignedLongValueWrapper.cpp
         field_wrapper/BitmaskValueWrapper.cpp
         field_wrapper/EnumValueWrapper.cpp
         field_wrapper/StringWrapper.cpp

@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/field_wrapper/UnsignedLongValueWrapper.h"
+#include "cc_tools_qt/field/ToolsUnsignedLongField.h"
 #include "FieldWidget.h"
 
 #include "ui_UnsignedLongLongIntValueFieldWidget.h"
@@ -32,10 +32,10 @@ class UnsignedLongLongIntValueFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::UnsignedLongValueWrapperPtr;
+    using FieldPtr = field::ToolsUnsignedLongFieldPtr;
 
     explicit UnsignedLongLongIntValueFieldWidget(
-        WrapperPtr wrapper,
+        FieldPtr fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~UnsignedLongLongIntValueFieldWidget() noexcept;
@@ -54,7 +54,7 @@ private slots:
 private:
     using SpecialInfo = QPair<QString, long long>;
     using SpecialsList = QList<SpecialInfo>;
-    using WrapperType = WrapperPtr::element_type;
+    using WrapperType = FieldPtr::element_type;
     using UnderlyingType = WrapperType::UnderlyingType;
     typedef double DisplayedType;
     UnderlyingType adjustDisplayedToReal(DisplayedType val);
@@ -63,7 +63,7 @@ private:
     bool createSpecialsWidget(const SpecialsList& specials);
 
     Ui::UnsignedLongLongIntValueFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     long long m_offset = 0;
     int m_decimals = 0;
     SpecialValueWidget* m_specialsWidget = nullptr;
