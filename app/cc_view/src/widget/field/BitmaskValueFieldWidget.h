@@ -20,7 +20,7 @@
 
 #include <vector>
 
-#include "cc_tools_qt/field_wrapper/BitmaskValueWrapper.h"
+#include "cc_tools_qt/field/ToolsBitmaskField.h"
 #include "FieldWidget.h"
 
 #include "ui_BitmaskValueFieldWidget.h"
@@ -34,10 +34,10 @@ class BitmaskValueFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::BitmaskValueWrapperPtr;
+    using FieldPtr = field::ToolsBitmaskFieldPtr;
 
     explicit BitmaskValueFieldWidget(
-        WrapperPtr&& wrapper,
+        FieldPtr&& fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~BitmaskValueFieldWidget() noexcept;
@@ -53,11 +53,11 @@ private slots:
     void checkBoxUpdated(int value);
 
 private:
-    using WrapperType = WrapperPtr::element_type;
+    using WrapperType = FieldPtr::element_type;
     using UnderlyingType = WrapperType::UnderlyingType;
 
     Ui::BitmaskValueFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     std::vector<QCheckBox*> m_checkboxes;
 };
 

@@ -18,11 +18,11 @@
 
 #pragma once
 
+#include "cc_tools_qt/field/ToolsBitmaskField.h"
 #include "cc_tools_qt/field/ToolsEnumField.h"
 #include "cc_tools_qt/field/ToolsIntField.h"
 #include "cc_tools_qt/field/ToolsUnsignedLongField.h"
 
-#include "BitmaskValueWrapper.h"
 #include "StringWrapper.h"
 #include "BitfieldWrapper.h"
 #include "OptionalWrapper.h"
@@ -44,7 +44,7 @@ namespace field_wrapper
 typedef std::tuple<
     cc_tools_qt::field::ToolsIntField,
     cc_tools_qt::field::ToolsUnsignedLongField,
-    BitmaskValueWrapper,
+    cc_tools_qt::field::ToolsBitmaskField,
     cc_tools_qt::field::ToolsEnumField,
     StringWrapper,
     BitfieldWrapper,

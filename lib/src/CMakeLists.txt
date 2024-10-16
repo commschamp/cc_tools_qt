@@ -2,6 +2,7 @@ function (lib_tools)
     set (name "${PROJECT_NAME}")
     
     set (src
+        field/ToolsBitmaskField.cpp
         field/ToolsEnumField.cpp
         field/ToolsIntField.cpp
         field/ToolsUnsignedLongField.cpp
@@ -25,7 +26,6 @@ function (lib_tools)
         ToolsFrame.cpp
         ToolsMsgFactory.cpp
         ToolsProtocol.cpp
-        field_wrapper/BitmaskValueWrapper.cpp
         field_wrapper/StringWrapper.cpp
         field_wrapper/BitfieldWrapper.cpp
         field_wrapper/OptionalWrapper.cpp

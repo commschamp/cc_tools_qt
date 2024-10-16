@@ -29,11 +29,11 @@ namespace cc_tools_qt
 {
 
 BitmaskValueFieldWidget::BitmaskValueFieldWidget(
-    WrapperPtr&& wrapper,
+    FieldPtr&& fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper)),
-    m_checkboxes(m_wrapper->bitIdxLimit())
+    m_fieldPtr(std::move(fieldPtr)),
+    m_checkboxes(m_fieldPtr->bitIdxLimit())
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
@@ -42,7 +42,7 @@ BitmaskValueFieldWidget::BitmaskValueFieldWidget(
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
     assert(m_ui.m_serValueLineEdit != nullptr);
-    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_wrapper->width());
+    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->width());
 
     connect(m_ui.m_serValueLineEdit, SIGNAL(textEdited(const QString&)),
             this, SLOT(serialisedValueUpdated(const QString&)));
@@ -52,17 +52,17 @@ BitmaskValueFieldWidget::~BitmaskValueFieldWidget() noexcept = default;
 
 ToolsField& BitmaskValueFieldWidget::fieldImpl()
 {
-    assert(m_wrapper);
-    return *m_wrapper;
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
 }
 
 void BitmaskValueFieldWidget::refreshImpl()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_ui.m_serValueLineEdit != nullptr);
-    updateValue(*m_ui.m_serValueLineEdit, m_wrapper->getSerialisedString());
+    updateValue(*m_ui.m_serValueLineEdit, m_fieldPtr->getSerialisedString());
 
-    auto bitIdxLimit = m_wrapper->bitIdxLimit();
+    auto bitIdxLimit = m_fieldPtr->bitIdxLimit();
     assert(bitIdxLimit == m_checkboxes.size());
     for (auto idx = 0U; idx < bitIdxLimit; ++idx) {
         auto* checkbox = m_checkboxes[idx];
@@ -71,7 +71,7 @@ void BitmaskValueFieldWidget::refreshImpl()
         }
 
         bool showedBitValue = checkbox->checkState() != 0;
-        bool actualBitValue = m_wrapper->bitValue(idx);
+        bool actualBitValue = m_fieldPtr->bitValue(idx);
         if (showedBitValue != actualBitValue) {
             Qt::CheckState state = Qt::Unchecked;
             if (actualBitValue) {
@@ -81,7 +81,7 @@ void BitmaskValueFieldWidget::refreshImpl()
         }
     }
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     setValidityStyleSheet(*m_ui.m_serFrontLabel, valid);
     setValidityStyleSheet(*m_ui.m_serValueLineEdit, valid);
     setValidityStyleSheet(*m_ui.m_serBackLabel, valid);
@@ -105,8 +105,8 @@ void BitmaskValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
 
     m_checkboxes.clear();
 
-    auto count = std::min(static_cast<unsigned>(bitNamesList.size()), m_wrapper->bitIdxLimit());
-    m_checkboxes.resize(m_wrapper->bitIdxLimit());
+    auto count = std::min(static_cast<unsigned>(bitNamesList.size()), m_fieldPtr->bitIdxLimit());
+    m_checkboxes.resize(m_fieldPtr->bitIdxLimit());
 
     for (unsigned idx = 0; idx < count; ++idx) {
         auto& nameVar = bitNamesList[static_cast<int>(idx)];
@@ -127,7 +127,7 @@ void BitmaskValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
 
 void BitmaskValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
-    handleNumericSerialisedValueUpdate(value, *m_wrapper);
+    handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
 }
 
 void BitmaskValueFieldWidget::checkBoxUpdated(int value)
@@ -142,11 +142,11 @@ void BitmaskValueFieldWidget::checkBoxUpdated(int value)
             return;
         }
         auto idx = static_cast<unsigned>(std::distance(m_checkboxes.begin(), iter));
-        m_wrapper->setBitValue(idx, value != 0);
+        m_fieldPtr->setBitValue(idx, value != 0);
         updated = true;
-        if (!m_wrapper->canWrite()) {
-            m_wrapper->reset();
-            assert(m_wrapper->canWrite());
+        if (!m_fieldPtr->canWrite()) {
+            m_fieldPtr->reset();
+            assert(m_fieldPtr->canWrite());
         }
     }
 

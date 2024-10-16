@@ -15,44 +15,44 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/field_wrapper/BitmaskValueWrapper.h"
+#include "cc_tools_qt/field/ToolsBitmaskField.h"
 
 #include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace field
 {
 
-BitmaskValueWrapper::~BitmaskValueWrapper() noexcept = default;
+ToolsBitmaskField::~ToolsBitmaskField() noexcept = default;
 
-bool BitmaskValueWrapper::bitValue(unsigned idx) const
+bool ToolsBitmaskField::bitValue(unsigned idx) const
 {
     return bitValueImpl(idx);
 }
 
-void BitmaskValueWrapper::setBitValue(unsigned idx, bool value)
+void ToolsBitmaskField::setBitValue(unsigned idx, bool value)
 {
     setBitValueImpl(idx, value);
 }
 
-unsigned BitmaskValueWrapper::bitIdxLimit() const
+unsigned ToolsBitmaskField::bitIdxLimit() const
 {
     return bitIdxLimitImpl();
 }
 
-BitmaskValueWrapper::ActPtr BitmaskValueWrapper::clone()
+ToolsBitmaskField::ActPtr ToolsBitmaskField::clone()
 {
     return cloneImpl();
 }
 
-void BitmaskValueWrapper::dispatchImpl(FieldWrapperHandler& handler)
+void ToolsBitmaskField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
 {
     handler.handle(*this);
 }
 
-}  // namespace field_wrapper
+}  // namespace field
 
 }  // namespace cc_tools_qt
 

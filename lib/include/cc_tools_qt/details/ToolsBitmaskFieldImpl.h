@@ -18,48 +18,26 @@
 
 #pragma once
 
+#include "cc_tools_qt/details/ToolsNumericFieldImpl.h"
+#include "cc_tools_qt/field/ToolsBitmaskField.h"
+
+#include "comms/field/BitmaskValue.h"
+
 #include <cstdint>
 #include <cassert>
 #include <memory>
 #include <limits>
 
-#include "comms/field/BitmaskValue.h"
-#include "NumericValueWrapper.h"
-
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace details
 {
-
-class CC_API BitmaskValueWrapper : public NumericValueWrapper<unsigned long long>
-{
-public:
-    typedef std::unique_ptr<BitmaskValueWrapper> ActPtr;
-
-    virtual ~BitmaskValueWrapper() noexcept;
-
-    bool bitValue(unsigned idx) const;
-
-    void setBitValue(unsigned idx, bool value);
-
-    unsigned bitIdxLimit() const;
-
-    ActPtr clone();
-
-protected:
-    virtual bool bitValueImpl(unsigned idx) const = 0;
-    virtual void setBitValueImpl(unsigned idx, bool value) = 0;
-    virtual unsigned bitIdxLimitImpl() const = 0;
-    virtual ActPtr cloneImpl() = 0;
-
-    void dispatchImpl(FieldWrapperHandler& handler);
-};
 
 template <typename TField>
-class BitmaskValueWrapperT : public NumericValueWrapperT<BitmaskValueWrapper, TField>
+class ToolsBitmaskFieldImpl : public ToolsNumericFieldImpl<cc_tools_qt::field::ToolsBitmaskField, TField>
 {
-    using Base = NumericValueWrapperT<BitmaskValueWrapper, TField>;
+    using Base = ToolsNumericFieldImpl<cc_tools_qt::field::ToolsBitmaskField, TField>;
     using Field = TField;
     static_assert(comms::field::isBitmaskValue<Field>(), "Must be of BitmaskValueField type");
 
@@ -68,18 +46,18 @@ class BitmaskValueWrapperT : public NumericValueWrapperT<BitmaskValueWrapper, TF
     static_assert(sizeof(ValueType) <= sizeof(MaskType), "This wrapper cannot handle provided field.");
 
 public:
-    typedef typename Base::ActPtr ActPtr;
+    using ActPtr = typename Base::ActPtr;
 
-    explicit BitmaskValueWrapperT(Field& fieldRef)
+    explicit ToolsBitmaskFieldImpl(Field& fieldRef)
       : Base(fieldRef)
     {
     }
 
-    BitmaskValueWrapperT(const BitmaskValueWrapperT&) = default;
-    BitmaskValueWrapperT(BitmaskValueWrapperT&&) = default;
-    virtual ~BitmaskValueWrapperT() noexcept = default;
+    ToolsBitmaskFieldImpl(const ToolsBitmaskFieldImpl&) = default;
+    ToolsBitmaskFieldImpl(ToolsBitmaskFieldImpl&&) = default;
+    virtual ~ToolsBitmaskFieldImpl() noexcept = default;
 
-    BitmaskValueWrapperT& operator=(const BitmaskValueWrapperT&) = delete;
+    ToolsBitmaskFieldImpl& operator=(const ToolsBitmaskFieldImpl&) = delete;
 
 protected:
     virtual bool bitValueImpl(unsigned idx) const override
@@ -99,21 +77,15 @@ protected:
 
     virtual ActPtr cloneImpl() override
     {
-        return ActPtr(new BitmaskValueWrapperT<TField>(Base::field()));
+        return ActPtr(new ToolsBitmaskFieldImpl<TField>(Base::field()));
     }
 };
-
-using BitmaskValueWrapperPtr = BitmaskValueWrapper::ActPtr;
-
 template <typename TField>
-BitmaskValueWrapperPtr
-makeBitmaskValueWrapper(TField& field)
+cc_tools_qt::field::ToolsBitmaskFieldPtr makeBitmaskField(TField& field)
 {
-    return
-        BitmaskValueWrapperPtr(
-            new BitmaskValueWrapperT<TField>(field));
+    return std::make_unique<ToolsBitmaskFieldImpl<TField>>(field);
 }
 
-}  // namespace field_wrapper
+}  // namespace details
 
 }  // namespace cc_tools_qt
