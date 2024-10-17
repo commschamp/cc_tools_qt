@@ -30,10 +30,10 @@ namespace cc_tools_qt
 {
 
 BitfieldFieldWidget::BitfieldFieldWidget(
-    WrapperPtr&& wrapper,
+    FieldPtr&& fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
@@ -42,7 +42,7 @@ BitfieldFieldWidget::BitfieldFieldWidget(
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
     assert(m_ui.m_serValueLineEdit != nullptr);
-    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_wrapper->width());
+    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->width());
 
     connect(m_ui.m_serValueLineEdit, SIGNAL(textEdited(const QString&)),
             this, SLOT(serialisedValueUpdated(const QString&)));
@@ -74,8 +74,8 @@ void BitfieldFieldWidget::addMemberField(FieldWidget* memberFieldWidget)
 
 ToolsField& BitfieldFieldWidget::fieldImpl()
 {
-    assert(m_wrapper);
-    return *m_wrapper;
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
 }
 
 void BitfieldFieldWidget::refreshImpl()
@@ -107,7 +107,7 @@ void BitfieldFieldWidget::updatePropertiesImpl(const QVariantMap& props)
 
 void BitfieldFieldWidget::serialisedValueUpdated(const QString& value)
 {
-    handleNumericSerialisedValueUpdate(value, *m_wrapper);
+    handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
     refreshMembers();
 }
 
@@ -116,7 +116,7 @@ void BitfieldFieldWidget::memberFieldUpdated()
     auto senderIter = std::find(m_members.begin(), m_members.end(), qobject_cast<FieldWidget*>(sender()));
     assert(senderIter != m_members.end());
     auto idx = static_cast<unsigned>(std::distance(m_members.begin(), senderIter));
-    auto& memWrappers = m_wrapper->getMembers();
+    auto& memWrappers = m_fieldPtr->getMembers();
     assert(idx < memWrappers.size());
     auto& memWrapPtr = memWrappers[idx];
     if (!memWrapPtr->canWrite()) {
@@ -125,9 +125,9 @@ void BitfieldFieldWidget::memberFieldUpdated()
         (*senderIter)->refresh();
     }
 
-    if (!m_wrapper->canWrite()) {
-        m_wrapper->reset();
-        assert(m_wrapper->canWrite());
+    if (!m_fieldPtr->canWrite()) {
+        m_fieldPtr->reset();
+        assert(m_fieldPtr->canWrite());
     }
 
     refreshInternal();
@@ -136,11 +136,11 @@ void BitfieldFieldWidget::memberFieldUpdated()
 
 void BitfieldFieldWidget::refreshInternal()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_ui.m_serValueLineEdit != nullptr);
-    updateValue(*m_ui.m_serValueLineEdit, m_wrapper->getSerialisedString());
+    updateValue(*m_ui.m_serValueLineEdit, m_fieldPtr->getSerialisedString());
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     setValidityStyleSheet(*m_ui.m_serFrontLabel, valid);
     setValidityStyleSheet(*m_ui.m_serValueLineEdit, valid);
     setValidityStyleSheet(*m_ui.m_serBackLabel, valid);

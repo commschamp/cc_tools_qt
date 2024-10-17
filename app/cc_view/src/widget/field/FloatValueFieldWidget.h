@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/field_wrapper/FloatValueWrapper.h"
+#include "cc_tools_qt/field/ToolsFloatField.h"
 #include "FieldWidget.h"
 
 #include "ui_FloatValueFieldWidget.h"
@@ -32,10 +32,10 @@ class FloatValueFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::FloatValueWrapperPtr;
+    using FieldPtr = field::ToolsFloatFieldPtr;
 
     explicit FloatValueFieldWidget(
-        WrapperPtr wrapper,
+        FieldPtr fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~FloatValueFieldWidget() noexcept;
@@ -55,7 +55,7 @@ private slots:
 private:
     using SpecialInfo = QPair<QString, double>;
     using SpecialsList = QList<SpecialInfo>;
-    using WrapperType = WrapperPtr::element_type;
+    using WrapperType = FieldPtr::element_type;
     using UnderlyingType = WrapperType::UnderlyingType;
 
     void updateSpinBoxValueRange();
@@ -64,7 +64,7 @@ private:
     bool createSpecialsWidget(const SpecialsList& specials);
 
     Ui::FloatValueFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     double m_oldValue = 0.0;
     SpecialValueWidget* m_specialsWidget = nullptr;
 };

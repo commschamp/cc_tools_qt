@@ -15,66 +15,54 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/field_wrapper/FloatValueWrapper.h"
+#include "cc_tools_qt/field/ToolsBitfieldField.h"
 
 #include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace field
 {
 
-FloatValueWrapper::FloatValueWrapper() {}
+ToolsBitfieldField::ToolsBitfieldField() {}
 
-FloatValueWrapper::~FloatValueWrapper() noexcept = default;
+ToolsBitfieldField::~ToolsBitfieldField() noexcept = default;
 
-FloatValueWrapper::ActPtr FloatValueWrapper::clone()
+ToolsBitfieldField::Members& ToolsBitfieldField::getMembers()
 {
-    return cloneImpl();
+    return m_members;
 }
 
-bool FloatValueWrapper::isNan() const
+const ToolsBitfieldField::Members& ToolsBitfieldField::getMembers() const
 {
-    return isNanImpl();
+    return m_members;
 }
 
-void FloatValueWrapper::setNan()
+void ToolsBitfieldField::setMembers(Members&& members)
 {
-    setNanImpl();
+    m_members = std::move(members);
 }
 
-bool FloatValueWrapper::isInf() const
+ToolsBitfieldField::ActPtr ToolsBitfieldField::clone()
 {
-    return isInfImpl();
+    Members clonedMembers;
+    clonedMembers.reserve(m_members.size());
+    for (auto& mem : m_members) {
+        clonedMembers.push_back(mem->upClone());
+    }
+
+    auto ptr = cloneImpl();
+    ptr->setMembers(std::move(clonedMembers));
+    return ptr;
 }
 
-void FloatValueWrapper::setInf()
-{
-    setInfImpl();
-}
-
-bool FloatValueWrapper::isMinusInf() const
-{
-    return isMinusInfImpl();
-}
-
-void FloatValueWrapper::setMinusInf()
-{
-    setMinusInfImpl();
-}
-
-void FloatValueWrapper::dispatchImpl(FieldWrapperHandler& handler)
+void ToolsBitfieldField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
 {
     handler.handle(*this);
 }
 
-double FloatValueWrapper::getEpsilon() const
-{
-    return getEpsilonImpl();
-}
-
-}  // namespace field_wrapper
+}  // namespace field
 
 }  // namespace cc_tools_qt
 

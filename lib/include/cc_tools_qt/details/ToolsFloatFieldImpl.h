@@ -18,58 +18,26 @@
 
 #pragma once
 
+#include "cc_tools_qt/details/ToolsNumericFieldImpl.h"
+#include "cc_tools_qt/field/ToolsFloatField.h"
+
+#include "comms/field/FloatValue.h"
+
 #include <cstdint>
 #include <cassert>
-#include <memory>
 #include <cmath>
 #include <limits>
-
-#include "comms/field/IntValue.h"
-#include "NumericValueWrapper.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace details
 {
-
-class CC_API FloatValueWrapper : public NumericValueWrapper<double>
-{
-    typedef NumericValueWrapper<double> Base;
-public:
-
-    typedef Base::UnderlyingType UnderlyingType;
-    typedef std::unique_ptr<FloatValueWrapper> ActPtr;
-
-    FloatValueWrapper();
-    virtual ~FloatValueWrapper() noexcept;
-
-    ActPtr clone();
-    bool isNan() const;
-    void setNan();
-    bool isInf() const;
-    void setInf();
-    bool isMinusInf() const;
-    void setMinusInf();
-    double getEpsilon() const;
-
-protected:
-    virtual ActPtr cloneImpl() = 0;
-    virtual bool isNanImpl() const = 0;
-    virtual void setNanImpl() = 0;
-    virtual bool isInfImpl() const = 0;
-    virtual void setInfImpl() = 0;
-    virtual bool isMinusInfImpl() const = 0;
-    virtual void setMinusInfImpl() = 0;
-    virtual double getEpsilonImpl() const = 0;
-
-    virtual void dispatchImpl(FieldWrapperHandler& handler) override;
-};
 
 template <typename TField>
-class FloatValueWrapperT : public NumericValueWrapperT<FloatValueWrapper, TField>
+class ToolsFloatFieldImpl : public ToolsNumericFieldImpl<cc_tools_qt::field::ToolsFloatField, TField>
 {
-    using Base = NumericValueWrapperT<FloatValueWrapper, TField>;
+    using Base = ToolsNumericFieldImpl<cc_tools_qt::field::ToolsFloatField, TField>;
     using Field = TField;
     static_assert(comms::field::isFloatValue<Field>(), "Must be of FloatValueField type");
 
@@ -78,21 +46,21 @@ public:
     typedef typename Base::UnderlyingType UnderlyingType;
     typedef typename Base::ActPtr ActPtr;
 
-    explicit FloatValueWrapperT(Field& fieldRef)
+    explicit ToolsFloatFieldImpl(Field& fieldRef)
       : Base(fieldRef)
     {
     }
 
-    FloatValueWrapperT(const FloatValueWrapperT&) = default;
-    FloatValueWrapperT(FloatValueWrapperT&&) = default;
-    virtual ~FloatValueWrapperT() noexcept = default;
+    ToolsFloatFieldImpl(const ToolsFloatFieldImpl&) = default;
+    ToolsFloatFieldImpl(ToolsFloatFieldImpl&&) = default;
+    virtual ~ToolsFloatFieldImpl() noexcept = default;
 
-    FloatValueWrapperT& operator=(const FloatValueWrapperT&) = delete;
+    ToolsFloatFieldImpl& operator=(const ToolsFloatFieldImpl&) = delete;
 
 protected:
     virtual ActPtr cloneImpl() override
     {
-        return ActPtr(new FloatValueWrapperT<TField>(Base::field()));
+        return ActPtr(new ToolsFloatFieldImpl<TField>(Base::field()));
     }
 
     virtual bool isNanImpl() const override
@@ -131,17 +99,12 @@ protected:
     }
 };
 
-using FloatValueWrapperPtr = FloatValueWrapper::ActPtr;
-
 template <typename TField>
-FloatValueWrapperPtr
-makeFloatValueWrapper(TField& field)
+cc_tools_qt::field::ToolsFloatFieldPtr makeFloatField(TField& field)
 {
-    return
-        FloatValueWrapperPtr(
-            new FloatValueWrapperT<TField>(field));
+    return std::make_unique<ToolsFloatFieldImpl<TField>>(field);
 }
 
-}  // namespace field_wrapper
+}  // namespace details
 
 }  // namespace cc_tools_qt

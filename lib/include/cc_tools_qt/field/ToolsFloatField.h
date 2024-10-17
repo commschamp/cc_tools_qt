@@ -20,9 +20,8 @@
 
 #include "cc_tools_qt/details/ToolsNumericFieldBase.h"
 
-#include <cstdint>
-#include <cassert>
 #include <memory>
+
 
 namespace cc_tools_qt
 {
@@ -30,48 +29,40 @@ namespace cc_tools_qt
 namespace field
 {
 
-class CC_API ToolsIntField : public details::ToolsNumericFieldBase<long long int>
+class CC_API ToolsFloatField : public details::ToolsNumericFieldBase<double>
 {
-    using Base = details::ToolsNumericFieldBase<long long int>;
-
+    using Base = details::ToolsNumericFieldBase<double>;
 public:
-    using UnderlyingType = Base::UnderlyingType ;
-    using ActPtr = std::unique_ptr<ToolsIntField>;
 
-    ToolsIntField();
-    virtual ~ToolsIntField() noexcept;
+    using UnderlyingType = Base::UnderlyingType;
+    using ActPtr = std::unique_ptr<ToolsFloatField>;
 
-    UnderlyingType minValue() const;
-
-    UnderlyingType maxValue() const;
-
-    double getScaled() const;
-
-    void setScaled(double value);
-
-    double scaleValue(UnderlyingType value) const;
-
-    bool isSigned() const;
-
-    std::size_t valueTypeSize() const;
+    ToolsFloatField();
+    virtual ~ToolsFloatField() noexcept;
 
     ActPtr clone();
+    bool isNan() const;
+    void setNan();
+    bool isInf() const;
+    void setInf();
+    bool isMinusInf() const;
+    void setMinusInf();
+    double getEpsilon() const;
 
 protected:
-    virtual UnderlyingType minValueImpl() const = 0;
-    virtual UnderlyingType maxValueImpl() const = 0;
-    virtual double getScaledImpl() const = 0;
-    virtual void setScaledImpl(double value) = 0;
-    virtual double scaleValueImpl(UnderlyingType value) const = 0;
-    virtual bool isSignedImpl() const = 0;
-    virtual std::size_t valueTypeSizeImpl() const = 0;
     virtual ActPtr cloneImpl() = 0;
+    virtual bool isNanImpl() const = 0;
+    virtual void setNanImpl() = 0;
+    virtual bool isInfImpl() const = 0;
+    virtual void setInfImpl() = 0;
+    virtual bool isMinusInfImpl() const = 0;
+    virtual void setMinusInfImpl() = 0;
+    virtual double getEpsilonImpl() const = 0;
 
     virtual void dispatchImpl(field_wrapper::FieldWrapperHandler& handler) override;
 };
 
-using ToolsIntFieldPtr = ToolsIntField::ActPtr;
-
+using ToolsFloatFieldPtr = ToolsFloatField::ActPtr;
 
 }  // namespace field
 

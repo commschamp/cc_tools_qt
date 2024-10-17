@@ -80,9 +80,9 @@ public:
         m_widget.reset(new StringFieldWidget(wrapper.clone(), m_parent));
     }
 
-    virtual void handle(field_wrapper::BitfieldWrapper& wrapper) override
+    virtual void handle(field::ToolsBitfieldField& field) override
     {
-        auto& membersWrappers = wrapper.getMembers();
+        auto& membersWrappers = field.getMembers();
         std::vector<FieldWidgetPtr> membersWidgets;
         membersWidgets.reserve(membersWrappers.size());
         for (auto& mem : membersWrappers) {
@@ -90,7 +90,7 @@ public:
             membersWidgets.push_back(getWidget());
         }
 
-        std::unique_ptr<BitfieldFieldWidget> widget(new BitfieldFieldWidget(wrapper.clone(), m_parent));
+        std::unique_ptr<BitfieldFieldWidget> widget(new BitfieldFieldWidget(field.clone(), m_parent));
         for (auto& memWidget : membersWidgets) {
             widget->addMemberField(memWidget.release());
         }
@@ -155,9 +155,9 @@ public:
         m_widget.reset(new ArrayListFieldWidget(wrapper.clone(), std::move(createMembersWidgetsFunc), m_parent));
     }
 
-    virtual void handle(field_wrapper::FloatValueWrapper& wrapper) override
+    virtual void handle(field::ToolsFloatField& field) override
     {
-        m_widget.reset(new FloatValueFieldWidget(wrapper.clone(), m_parent));
+        m_widget.reset(new FloatValueFieldWidget(field.clone(), m_parent));
     }
 
     virtual void handle(field_wrapper::VariantWrapper& wrapper) override

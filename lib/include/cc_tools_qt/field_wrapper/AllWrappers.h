@@ -18,18 +18,18 @@
 
 #pragma once
 
+#include "cc_tools_qt/field/ToolsBitfieldField.h"
 #include "cc_tools_qt/field/ToolsBitmaskField.h"
 #include "cc_tools_qt/field/ToolsEnumField.h"
+#include "cc_tools_qt/field/ToolsFloatField.h"
 #include "cc_tools_qt/field/ToolsIntField.h"
 #include "cc_tools_qt/field/ToolsUnsignedLongField.h"
 
 #include "StringWrapper.h"
-#include "BitfieldWrapper.h"
 #include "OptionalWrapper.h"
 #include "BundleWrapper.h"
 #include "ArrayListRawDataWrapper.h"
 #include "ArrayListWrapper.h"
-#include "FloatValueWrapper.h"
 #include "VariantWrapper.h"
 #include "UnknownValueWrapper.h"
 
@@ -47,12 +47,12 @@ typedef std::tuple<
     cc_tools_qt::field::ToolsBitmaskField,
     cc_tools_qt::field::ToolsEnumField,
     StringWrapper,
-    BitfieldWrapper,
+    cc_tools_qt::field::ToolsBitfieldField,
     OptionalWrapper,
     BundleWrapper,
     ArrayListRawDataWrapper,
     ArrayListWrapper,
-    FloatValueWrapper,
+    cc_tools_qt::field::ToolsFloatField,
     VariantWrapper,
     UnknownValueWrapper
 > AllWrappers;

@@ -20,7 +20,7 @@
 
 #include <vector>
 
-#include "cc_tools_qt/field_wrapper/BitfieldWrapper.h"
+#include "cc_tools_qt/field/ToolsBitfieldField.h"
 #include "FieldWidget.h"
 
 #include "ui_BitfieldFieldWidget.h"
@@ -33,10 +33,10 @@ class BitfieldFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::BitfieldWrapperPtr;
+    using FieldPtr = field::ToolsBitfieldFieldPtr;
 
     explicit BitfieldFieldWidget(
-        WrapperPtr&& wrapper,
+        FieldPtr&& fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~BitfieldFieldWidget() noexcept;
@@ -54,14 +54,13 @@ private slots:
     void memberFieldUpdated();
 
 private:
-    using WrapperType = WrapperPtr::element_type;
-    using UnderlyingType = WrapperType::UnderlyingType;
+    using WrapperType = FieldPtr::element_type;
 
     void refreshInternal();
     void refreshMembers();
 
     Ui::BitfieldFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     std::vector<FieldWidget*> m_members;
 };
 

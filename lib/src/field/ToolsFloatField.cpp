@@ -15,54 +15,66 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/field_wrapper/BitfieldWrapper.h"
+#include "cc_tools_qt/field/ToolsFloatField.h"
 
 #include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace field
 {
 
-BitfieldWrapper::BitfieldWrapper() {}
+ToolsFloatField::ToolsFloatField() {}
 
-BitfieldWrapper::~BitfieldWrapper() noexcept = default;
+ToolsFloatField::~ToolsFloatField() noexcept = default;
 
-BitfieldWrapper::Members& BitfieldWrapper::getMembers()
+ToolsFloatField::ActPtr ToolsFloatField::clone()
 {
-    return m_members;
+    return cloneImpl();
 }
 
-const BitfieldWrapper::Members& BitfieldWrapper::getMembers() const
+bool ToolsFloatField::isNan() const
 {
-    return m_members;
+    return isNanImpl();
 }
 
-void BitfieldWrapper::setMembers(Members&& members)
+void ToolsFloatField::setNan()
 {
-    m_members = std::move(members);
+    setNanImpl();
 }
 
-BitfieldWrapper::ActPtr BitfieldWrapper::clone()
+bool ToolsFloatField::isInf() const
 {
-    Members clonedMembers;
-    clonedMembers.reserve(m_members.size());
-    for (auto& mem : m_members) {
-        clonedMembers.push_back(mem->upClone());
-    }
-
-    auto ptr = cloneImpl();
-    ptr->setMembers(std::move(clonedMembers));
-    return ptr;
+    return isInfImpl();
 }
 
-void BitfieldWrapper::dispatchImpl(FieldWrapperHandler& handler)
+void ToolsFloatField::setInf()
+{
+    setInfImpl();
+}
+
+bool ToolsFloatField::isMinusInf() const
+{
+    return isMinusInfImpl();
+}
+
+void ToolsFloatField::setMinusInf()
+{
+    setMinusInfImpl();
+}
+
+double ToolsFloatField::getEpsilon() const
+{
+    return getEpsilonImpl();
+}
+
+void ToolsFloatField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
 {
     handler.handle(*this);
 }
 
-}  // namespace field_wrapper
+}  // namespace field
 
 }  // namespace cc_tools_qt
 

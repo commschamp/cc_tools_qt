@@ -2,8 +2,10 @@ function (lib_tools)
     set (name "${PROJECT_NAME}")
     
     set (src
+        field/ToolsBitfieldField.cpp
         field/ToolsBitmaskField.cpp
         field/ToolsEnumField.cpp
+        field/ToolsFloatField.cpp
         field/ToolsIntField.cpp
         field/ToolsUnsignedLongField.cpp
         ErrorStatus.cpp
@@ -27,12 +29,10 @@ function (lib_tools)
         ToolsMsgFactory.cpp
         ToolsProtocol.cpp
         field_wrapper/StringWrapper.cpp
-        field_wrapper/BitfieldWrapper.cpp
         field_wrapper/OptionalWrapper.cpp
         field_wrapper/BundleWrapper.cpp
         field_wrapper/ArrayListRawDataWrapper.cpp
         field_wrapper/ArrayListWrapper.cpp
-        field_wrapper/FloatValueWrapper.cpp
         field_wrapper/VariantWrapper.cpp
         field_wrapper/UnknownValueWrapper.cpp
         property/message.cpp
