@@ -7,6 +7,7 @@ function (lib_tools)
         field/ToolsEnumField.cpp
         field/ToolsFloatField.cpp
         field/ToolsIntField.cpp
+        field/ToolsStringField.cpp
         field/ToolsUnsignedLongField.cpp
         ErrorStatus.cpp
         Message.cpp
@@ -28,7 +29,6 @@ function (lib_tools)
         ToolsFrame.cpp
         ToolsMsgFactory.cpp
         ToolsProtocol.cpp
-        field_wrapper/StringWrapper.cpp
         field_wrapper/OptionalWrapper.cpp
         field_wrapper/BundleWrapper.cpp
         field_wrapper/ArrayListRawDataWrapper.cpp

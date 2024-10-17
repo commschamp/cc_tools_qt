@@ -75,9 +75,9 @@ public:
         m_widget.reset(new EnumValueFieldWidget(field.clone(), m_parent));
     }
 
-    virtual void handle(field_wrapper::StringWrapper& wrapper) override
+    virtual void handle(field::ToolsStringField& field) override
     {
-        m_widget.reset(new StringFieldWidget(wrapper.clone(), m_parent));
+        m_widget.reset(new StringFieldWidget(field.clone(), m_parent));
     }
 
     virtual void handle(field::ToolsBitfieldField& field) override

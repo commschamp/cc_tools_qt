@@ -15,46 +15,46 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/field_wrapper/StringWrapper.h"
+#include "cc_tools_qt/field/ToolsStringField.h"
 
 #include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace field
 {
 
-StringWrapper::StringWrapper() = default;
+ToolsStringField::ToolsStringField() = default;
 
-StringWrapper::~StringWrapper() noexcept = default;
+ToolsStringField::~ToolsStringField() noexcept = default;
 
-QString StringWrapper::getValue() const
+QString ToolsStringField::getValue() const
 {
     return getValueImpl();
 }
 
-void StringWrapper::setValue(const QString& val)
+void ToolsStringField::setValue(const QString& val)
 {
     setValueImpl(val);
 }
 
-int StringWrapper::maxSize() const
+int ToolsStringField::maxSize() const
 {
     return maxSizeImpl();
 }
 
-StringWrapper::ActPtr StringWrapper::clone()
+ToolsStringField::ActPtr ToolsStringField::clone()
 {
     return cloneImpl();
 }
 
-void StringWrapper::dispatchImpl(FieldWrapperHandler& handler)
+void ToolsStringField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
 {
     handler.handle(*this);
 }
 
-}  // namespace field_wrapper
+}  // namespace field
 
 }  // namespace cc_tools_qt
 

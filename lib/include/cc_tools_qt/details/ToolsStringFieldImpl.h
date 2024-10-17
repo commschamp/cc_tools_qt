@@ -18,70 +18,44 @@
 
 #pragma once
 
+#include "cc_tools_qt/details/ToolsFieldBase.h"
+#include "cc_tools_qt/field/ToolsStringField.h"
 
-#pragma once
+#include "comms/field/String.h"
 
 #include <cstdint>
 #include <cassert>
 #include <memory>
 #include <limits>
 
-#include "comms/comms.h"
-
 #include "cc_tools_qt/ToolsField.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace details
 {
-
-class CC_API StringWrapper : public ToolsField
-{
-public:
-
-    typedef std::unique_ptr<StringWrapper> ActPtr;
-
-    StringWrapper();
-    virtual ~StringWrapper() noexcept;
-
-    QString getValue() const;
-
-    void setValue(const QString& val);
-
-    int maxSize() const;
-
-    ActPtr clone();
-
-protected:
-    virtual QString getValueImpl() const = 0;
-    virtual void setValueImpl(const QString& val) = 0;
-    virtual int maxSizeImpl() const = 0;
-    virtual ActPtr cloneImpl() = 0;
-
-    void dispatchImpl(FieldWrapperHandler& handler);
-};
 
 template <typename TField>
-class StringWrapperT : public ToolsFieldT<StringWrapper, TField>
+class ToolsStringFieldImpl : public ToolsFieldBase<cc_tools_qt::field::ToolsStringField, TField>
 {
-    using Base = ToolsFieldT<StringWrapper, TField>;
+    using Base = ToolsFieldBase<cc_tools_qt::field::ToolsStringField, TField>;
     using Field = TField;
 
 public:
     using SerialisedSeq = typename Base::SerialisedSeq;
     using ActPtr = typename Base::ActPtr;
 
-    explicit StringWrapperT(Field& fieldRef)
+    explicit ToolsStringFieldImpl(Field& fieldRef)
       : Base(fieldRef)
     {
     }
 
-    StringWrapperT(const StringWrapperT&) = default;
-    StringWrapperT(StringWrapperT&&) = default;
-    virtual ~StringWrapperT() noexcept = default;
+    ToolsStringFieldImpl(const ToolsStringFieldImpl&) = default;
+    ToolsStringFieldImpl(ToolsStringFieldImpl&&) = default;
+    virtual ~ToolsStringFieldImpl() noexcept = default;
 
-    StringWrapperT& operator=(const StringWrapperT&) = delete;
+    ToolsStringFieldImpl& operator=(const ToolsStringFieldImpl&) = delete;
 
 protected:
 
@@ -110,7 +84,7 @@ protected:
 
     virtual ActPtr cloneImpl() override
     {
-        return ActPtr(new StringWrapperT<TField>(Base::field()));
+        return ActPtr(new ToolsStringFieldImpl<TField>(Base::field()));
     }
 
 private:
@@ -118,15 +92,16 @@ private:
     struct SerLengthFieldExistsTag {};
     struct NoSizeFieldTag {};
 
-    typedef typename std::conditional<
-        Field::hasSizeFieldPrefix(),
-        SizeFieldExistsTag,
-        typename std::conditional<
-            Field::hasSerLengthFieldPrefix(),
-            SerLengthFieldExistsTag,
-            NoSizeFieldTag
-        >::type
-    >::type SizeExistanceTag;
+    using SizeExistanceTag = 
+        std::conditional_t<
+            Field::hasSizeFieldPrefix(),
+            SizeFieldExistsTag,
+            std::conditional_t<
+                Field::hasSerLengthFieldPrefix(),
+                SerLengthFieldExistsTag,
+                NoSizeFieldTag
+            >
+        >;
 
     template <typename TPrefixField>
     static int maxSizeByPrefix()
@@ -143,13 +118,13 @@ private:
 
     static int maxSizeInternal(SizeFieldExistsTag)
     {
-        typedef typename Field::SizeFieldPrefix SizeField;
+        using SizeField = typename Field::SizeFieldPrefix;
         return maxSizeByPrefix<SizeField>();
     }
 
     static int maxSizeInternal(SerLengthFieldExistsTag)
     {
-        typedef typename Field::SerLengthFieldPrefix LengthField;
+        using LengthField = typename Field::SerLengthFieldPrefix;
         return maxSizeByPrefix<LengthField>();
     }
 
@@ -163,18 +138,13 @@ private:
     }
 };
 
-using StringWrapperPtr = StringWrapper::ActPtr;
-
 template <typename TField>
-StringWrapperPtr
-makeStringWrapper(TField& field)
+cc_tools_qt::field::ToolsStringFieldPtr makeStringField(TField& field)
 {
-    return
-        StringWrapperPtr(
-            new StringWrapperT<TField>(field));
+    return std::make_unique<ToolsStringFieldImpl<TField>>(field);
 }
 
-}  // namespace field_wrapper
+}  // namespace details
 
 }  // namespace cc_tools_qt
 

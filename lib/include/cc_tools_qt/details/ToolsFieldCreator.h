@@ -27,9 +27,9 @@
 #include "cc_tools_qt/details/ToolsEnumFieldImpl.h"
 #include "cc_tools_qt/details/ToolsFloatFieldImpl.h"
 #include "cc_tools_qt/details/ToolsIntFieldImpl.h"
+#include "cc_tools_qt/details/ToolsStringFieldImpl.h"
 #include "cc_tools_qt/details/ToolsUnsignedLongFieldImpl.h"
 
-#include "cc_tools_qt/field_wrapper/StringWrapper.h"
 #include "cc_tools_qt/field_wrapper/OptionalWrapper.h"
 #include "cc_tools_qt/field_wrapper/BundleWrapper.h"
 #include "cc_tools_qt/field_wrapper/ArrayListRawDataWrapper.h"
@@ -156,7 +156,7 @@ private:
     template <typename TField>
     static ToolsFieldPtr createFieldInternal(TField& field, StringTag)
     {
-        return field_wrapper::makeStringWrapper(field);
+        return makeStringField(field);
     }
 
     template <typename TField>

@@ -24,10 +24,10 @@ namespace cc_tools_qt
 {
 
 StringFieldWidget::StringFieldWidget(
-    WrapperPtr&& wrapper,
+    FieldPtr&& fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
@@ -47,17 +47,17 @@ StringFieldWidget::~StringFieldWidget() noexcept = default;
 
 ToolsField& StringFieldWidget::fieldImpl()
 {
-    assert(m_wrapper);
-    return *m_wrapper;
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
 }
 
 void StringFieldWidget::refreshImpl()
 {
     assert(m_ui.m_serValuePlainTextEdit != nullptr);
-    updateSerValue(*m_ui.m_serValuePlainTextEdit, *m_wrapper);
+    updateSerValue(*m_ui.m_serValuePlainTextEdit, *m_fieldPtr);
 
     assert(m_ui.m_valuePlainTextEdit != nullptr);
-    auto value = m_wrapper->getValue();
+    auto value = m_fieldPtr->getValue();
     if (m_ui.m_valuePlainTextEdit->toPlainText() != value) {
         auto curs = m_ui.m_valuePlainTextEdit->textCursor();
         auto newPosition = std::min(curs.position(), static_cast<int>(value.size()));
@@ -66,7 +66,7 @@ void StringFieldWidget::refreshImpl()
         m_ui.m_valuePlainTextEdit->setTextCursor(curs);
     }
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     setValidityStyleSheet(*m_ui.m_nameLabel, valid);
     setValidityStyleSheet(*m_ui.m_serFrontLabel, valid);
     setValidityStyleSheet(*m_ui.m_valuePlainTextEdit, valid);
@@ -83,15 +83,15 @@ void StringFieldWidget::editEnabledUpdatedImpl()
 void StringFieldWidget::stringChanged()
 {
     auto str = m_ui.m_valuePlainTextEdit->toPlainText();
-    if (m_wrapper->maxSize() < str.size()) {
-        str.resize(m_wrapper->maxSize());
+    if (m_fieldPtr->maxSize() < str.size()) {
+        str.resize(m_fieldPtr->maxSize());
     }
 
-    auto oldValue = m_wrapper->getValue();
-    m_wrapper->setValue(str);
-    if (!m_wrapper->canWrite()) {
-        m_wrapper->setValue(oldValue);
-        assert(m_wrapper->canWrite());
+    auto oldValue = m_fieldPtr->getValue();
+    m_fieldPtr->setValue(str);
+    if (!m_fieldPtr->canWrite()) {
+        m_fieldPtr->setValue(oldValue);
+        assert(m_fieldPtr->canWrite());
     }
     refresh();
     emitFieldUpdated();

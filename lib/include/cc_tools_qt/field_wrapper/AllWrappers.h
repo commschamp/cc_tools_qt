@@ -23,9 +23,9 @@
 #include "cc_tools_qt/field/ToolsEnumField.h"
 #include "cc_tools_qt/field/ToolsFloatField.h"
 #include "cc_tools_qt/field/ToolsIntField.h"
+#include "cc_tools_qt/field/ToolsStringField.h"
 #include "cc_tools_qt/field/ToolsUnsignedLongField.h"
 
-#include "StringWrapper.h"
 #include "OptionalWrapper.h"
 #include "BundleWrapper.h"
 #include "ArrayListRawDataWrapper.h"
@@ -46,7 +46,7 @@ typedef std::tuple<
     cc_tools_qt::field::ToolsUnsignedLongField,
     cc_tools_qt::field::ToolsBitmaskField,
     cc_tools_qt::field::ToolsEnumField,
-    StringWrapper,
+    cc_tools_qt::field::ToolsStringField,
     cc_tools_qt::field::ToolsBitfieldField,
     OptionalWrapper,
     BundleWrapper,

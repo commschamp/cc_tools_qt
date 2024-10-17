@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/field_wrapper/StringWrapper.h"
+#include "cc_tools_qt/field/ToolsStringField.h"
 #include "FieldWidget.h"
 
 #include "ui_StringFieldWidget.h"
@@ -31,10 +31,10 @@ class StringFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::StringWrapperPtr;
+    using FieldPtr = field::ToolsStringFieldPtr;
 
     explicit StringFieldWidget(
-        WrapperPtr&& wrapper,
+        FieldPtr&& fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~StringFieldWidget() noexcept;
@@ -50,7 +50,7 @@ private slots:
 private:
 
     Ui::StringFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
 };
 
 
