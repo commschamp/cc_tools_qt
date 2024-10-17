@@ -15,63 +15,63 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/field_wrapper/OptionalWrapper.h"
+#include "cc_tools_qt/field/ToolsOptionalField.h"
 
 #include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace field
 {
 
-OptionalWrapper::OptionalWrapper() = default;
-OptionalWrapper::~OptionalWrapper() noexcept = default;
+ToolsOptionalField::ToolsOptionalField() = default;
+ToolsOptionalField::~ToolsOptionalField() noexcept = default;
 
-OptionalWrapper::Mode OptionalWrapper::getMode() const
+ToolsOptionalField::Mode ToolsOptionalField::getMode() const
 {
     return getModeImpl();
 }
 
-void OptionalWrapper::setMode(Mode mode) {
+void ToolsOptionalField::setMode(Mode mode) {
     setModeImpl(mode);
 }
 
-bool OptionalWrapper::hasFieldWrapper() const
+bool ToolsOptionalField::hasFieldWrapper() const
 {
     return static_cast<bool>(m_fieldWrapper);
 }
 
-ToolsField& OptionalWrapper::getFieldWrapper()
+ToolsField& ToolsOptionalField::getFieldWrapper()
 {
     assert(hasFieldWrapper());
     return *m_fieldWrapper;
 }
 
-const ToolsField& OptionalWrapper::getFieldWrapper() const
+const ToolsField& ToolsOptionalField::getFieldWrapper() const
 {
     assert(hasFieldWrapper());
     return *m_fieldWrapper;
 }
 
-void OptionalWrapper::setFieldWrapper(ToolsFieldPtr fieldWrapper)
+void ToolsOptionalField::setFieldWrapper(ToolsFieldPtr fieldWrapper)
 {
     m_fieldWrapper = std::move(fieldWrapper);
 }
 
-OptionalWrapper::ActPtr OptionalWrapper::clone()
+ToolsOptionalField::ActPtr ToolsOptionalField::clone()
 {
     auto ptr = cloneImpl();
     ptr->setFieldWrapper(m_fieldWrapper->upClone());
     return ptr;
 }
 
-void OptionalWrapper::dispatchImpl(FieldWrapperHandler& handler)
+void ToolsOptionalField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
 {
     handler.handle(*this);
 }
 
-}  // namespace field_wrapper
+}  // namespace field
 
 }  // namespace cc_tools_qt
 

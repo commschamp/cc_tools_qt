@@ -29,16 +29,16 @@ namespace cc_tools_qt
 {
 
 OptionalFieldWidget::OptionalFieldWidget(
-    WrapperPtr wrapper,
+    FieldPtr fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
 
-    if (m_wrapper->getMode() == Mode::Tentative) {
-        m_wrapper->setMode(Mode::Missing);
+    if (m_fieldPtr->getMode() == Mode::Tentative) {
+        m_fieldPtr->setMode(Mode::Missing);
     }
 
     connect(m_ui.m_optCheckBox, SIGNAL(stateChanged(int)),
@@ -64,8 +64,8 @@ void OptionalFieldWidget::setField(FieldWidget* fieldWidget)
 
 ToolsField& OptionalFieldWidget::fieldImpl()
 {
-    assert(m_wrapper);
-    return *m_wrapper;
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
 }
 
 void OptionalFieldWidget::refreshImpl()
@@ -95,9 +95,9 @@ void OptionalFieldWidget::updatePropertiesImpl(const QVariantMap& props)
 
 void OptionalFieldWidget::fieldUpdated()
 {
-    if (!m_wrapper->canWrite()) {
-        m_wrapper->reset();
-        assert(m_wrapper->canWrite());
+    if (!m_fieldPtr->canWrite()) {
+        m_fieldPtr->reset();
+        assert(m_fieldPtr->canWrite());
         refreshField();
     }
     refreshInternal();
@@ -114,7 +114,7 @@ void OptionalFieldWidget::availabilityChanged(int state)
         mode = Mode::Exists;
     }
 
-    if (mode == m_wrapper->getMode()) {
+    if (mode == m_fieldPtr->getMode()) {
         return;
     }
 
@@ -123,16 +123,16 @@ void OptionalFieldWidget::availabilityChanged(int state)
         return;
     }
 
-    m_wrapper->setMode(mode);
+    m_fieldPtr->setMode(mode);
     refresh();
     emitFieldUpdated();
 }
 
 void OptionalFieldWidget::refreshInternal()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_field);
-    auto mode = m_wrapper->getMode();
+    auto mode = m_fieldPtr->getMode();
     if (mode == Mode::Exists) {
         m_ui.m_optCheckBox->setCheckState(Qt::Checked);
         m_ui.m_nameLabel->hide();

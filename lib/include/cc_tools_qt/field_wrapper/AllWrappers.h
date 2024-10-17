@@ -23,10 +23,10 @@
 #include "cc_tools_qt/field/ToolsEnumField.h"
 #include "cc_tools_qt/field/ToolsFloatField.h"
 #include "cc_tools_qt/field/ToolsIntField.h"
+#include "cc_tools_qt/field/ToolsOptionalField.h"
 #include "cc_tools_qt/field/ToolsStringField.h"
 #include "cc_tools_qt/field/ToolsUnsignedLongField.h"
 
-#include "OptionalWrapper.h"
 #include "BundleWrapper.h"
 #include "ArrayListRawDataWrapper.h"
 #include "ArrayListWrapper.h"
@@ -48,7 +48,7 @@ typedef std::tuple<
     cc_tools_qt::field::ToolsEnumField,
     cc_tools_qt::field::ToolsStringField,
     cc_tools_qt::field::ToolsBitfieldField,
-    OptionalWrapper,
+    cc_tools_qt::field::ToolsOptionalField,
     BundleWrapper,
     ArrayListRawDataWrapper,
     ArrayListWrapper,

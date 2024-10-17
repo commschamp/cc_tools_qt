@@ -20,7 +20,7 @@
 
 #include <vector>
 
-#include "cc_tools_qt/field_wrapper/OptionalWrapper.h"
+#include "cc_tools_qt/field/ToolsOptionalField.h"
 #include "FieldWidget.h"
 
 #include "ui_OptionalFieldWidget.h"
@@ -33,10 +33,10 @@ class OptionalFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::OptionalWrapperPtr;
+    using FieldPtr = field::ToolsOptionalFieldPtr;
 
     explicit OptionalFieldWidget(
-        WrapperPtr wrapper,
+        FieldPtr fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~OptionalFieldWidget() noexcept;
@@ -54,7 +54,7 @@ private slots:
     void availabilityChanged(int state);
 
 private:
-    using WrapperType = WrapperPtr::element_type;
+    using WrapperType = FieldPtr::element_type;
     typedef WrapperType::Mode Mode;
 
     void refreshInternal();
@@ -63,7 +63,7 @@ private:
     void hideSpacer();
 
     Ui::OptionalFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     FieldWidget* m_field = nullptr;
 };
 

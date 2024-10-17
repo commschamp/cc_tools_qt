@@ -27,10 +27,10 @@
 #include "cc_tools_qt/details/ToolsEnumFieldImpl.h"
 #include "cc_tools_qt/details/ToolsFloatFieldImpl.h"
 #include "cc_tools_qt/details/ToolsIntFieldImpl.h"
+#include "cc_tools_qt/details/ToolsOptionalFieldImpl.h"
 #include "cc_tools_qt/details/ToolsStringFieldImpl.h"
 #include "cc_tools_qt/details/ToolsUnsignedLongFieldImpl.h"
 
-#include "cc_tools_qt/field_wrapper/OptionalWrapper.h"
 #include "cc_tools_qt/field_wrapper/BundleWrapper.h"
 #include "cc_tools_qt/field_wrapper/ArrayListRawDataWrapper.h"
 #include "cc_tools_qt/field_wrapper/ArrayListWrapper.h"
@@ -185,11 +185,11 @@ private:
     template <typename TField>
     static ToolsFieldPtr createFieldInternal(TField& field, OptionalTag)
     {
-        auto wrapper = field_wrapper::makeOptionalWrapper(field);
+        auto fieldPtr = makeOptionalField(field);
         auto& wrappedField = field.field();
         auto fieldWrapper = createField(wrappedField);
-        wrapper->setFieldWrapper(std::move(fieldWrapper));
-        return wrapper;
+        fieldPtr->setFieldWrapper(std::move(fieldWrapper));
+        return fieldPtr;
     }
 
     template <typename TField>

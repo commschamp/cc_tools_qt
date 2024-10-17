@@ -98,12 +98,12 @@ public:
         m_widget = std::move(widget);
     }
 
-    virtual void handle(field_wrapper::OptionalWrapper& wrapper) override
+    virtual void handle(field::ToolsOptionalField& field) override
     {
-        wrapper.getFieldWrapper().dispatch(*this);
+        field.getFieldWrapper().dispatch(*this);
         auto wrappedWidget = getWidget();
 
-        std::unique_ptr<OptionalFieldWidget> widget(new OptionalFieldWidget(wrapper.clone(), m_parent));
+        std::unique_ptr<OptionalFieldWidget> widget(new OptionalFieldWidget(field.clone(), m_parent));
         widget->setField(wrappedWidget.release());
         m_widget = std::move(widget);
     }
