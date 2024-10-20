@@ -100,7 +100,7 @@ protected:
 };
 
 template <typename TField>
-cc_tools_qt::field::ToolsFloatFieldPtr makeFloatField(TField& field)
+auto makeFloatField(TField& field)
 {
     return std::make_unique<ToolsFloatFieldImpl<TField>>(field);
 }

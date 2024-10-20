@@ -63,7 +63,7 @@ protected:
 };
 
 template <typename TField>
-cc_tools_qt::field::ToolsOptionalFieldPtr makeOptionalField(TField& field)
+auto makeOptionalField(TField& field)
 {
     return std::make_unique<ToolsOptionalFieldImpl<TField>>(field);
 }

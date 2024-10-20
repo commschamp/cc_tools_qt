@@ -102,7 +102,7 @@ protected:
 };
 
 template <typename TField>
-cc_tools_qt::field::ToolsUnsignedLongFieldPtr makeUnsignedLongField(TField& field)
+auto makeUnsignedLongField(TField& field)
 {
     return std::make_unique<ToolsUnsignedLongFieldImpl<TField>>(field);
 }

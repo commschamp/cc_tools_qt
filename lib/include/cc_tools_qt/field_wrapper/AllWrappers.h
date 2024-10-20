@@ -18,6 +18,7 @@
 
 #pragma once
 
+#include "cc_tools_qt/field/ToolsArrayListField.h"
 #include "cc_tools_qt/field/ToolsBitfieldField.h"
 #include "cc_tools_qt/field/ToolsBitmaskField.h"
 #include "cc_tools_qt/field/ToolsEnumField.h"
@@ -29,7 +30,6 @@
 
 #include "BundleWrapper.h"
 #include "ArrayListRawDataWrapper.h"
-#include "ArrayListWrapper.h"
 #include "VariantWrapper.h"
 #include "UnknownValueWrapper.h"
 
@@ -51,7 +51,7 @@ typedef std::tuple<
     cc_tools_qt::field::ToolsOptionalField,
     BundleWrapper,
     ArrayListRawDataWrapper,
-    ArrayListWrapper,
+    cc_tools_qt::field::ToolsArrayListField,
     cc_tools_qt::field::ToolsFloatField,
     VariantWrapper,
     UnknownValueWrapper

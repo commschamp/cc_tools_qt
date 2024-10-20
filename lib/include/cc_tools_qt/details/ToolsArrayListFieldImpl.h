@@ -18,8 +18,10 @@
 
 #pragma once
 
+#include "cc_tools_qt/details/ToolsFieldBase.h"
+#include "cc_tools_qt/field/ToolsArrayListField.h"
 
-#pragma once
+#include "comms/field/ArrayList.h"
 
 #include <cstdint>
 #include <cassert>
@@ -28,73 +30,17 @@
 #include <functional>
 #include <utility>
 
-#include "comms/comms.h"
-
-#include "cc_tools_qt/ToolsField.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace details
 {
-
-class CC_API ArrayListWrapper : public ToolsField
-{
-public:
-
-    typedef std::vector<ToolsFieldPtr> Members;
-    typedef std::unique_ptr<ArrayListWrapper> ActPtr;
-
-    ArrayListWrapper();
-    ArrayListWrapper(const ArrayListWrapper&) = delete;
-    ArrayListWrapper& operator=(const ArrayListWrapper&) = delete;
-
-    virtual ~ArrayListWrapper() noexcept;
-
-    void addField();
-
-    void removeField(int idx);
-
-    unsigned size() const;
-
-    bool hasFixedSize() const;
-
-    void adjustFixedSize();
-
-    Members& getMembers();
-
-    const Members& getMembers() const;
-
-    void setMembers(Members&& members);
-
-    ActPtr clone();
-
-    void refreshMembers();
-
-    using PrefixFieldInfo = std::pair<int, SerialisedSeq>;
-
-    PrefixFieldInfo getPrefixFieldInfo() const;
-
-protected:
-    virtual void addFieldImpl() = 0;
-    virtual void removeFieldImpl(int idx) = 0;
-    virtual unsigned sizeImpl() const = 0;
-    virtual bool hasFixedSizeImpl() const = 0;
-    virtual void adjustFixedSizeImpl() = 0;
-    virtual ActPtr cloneImpl() = 0;
-    virtual void refreshMembersImpl() = 0;
-    virtual PrefixFieldInfo getPrefixFieldInfoImpl() const = 0;
-
-    void dispatchImpl(FieldWrapperHandler& handler);
-
-private:
-    Members m_members;
-};
 
 template <typename TField>
-class ArrayListWrapperT : public ToolsFieldT<ArrayListWrapper, TField>
+class ToolsArrayListFieldImpl : public ToolsFieldBase<cc_tools_qt::field::ToolsArrayListField, TField>
 {
-    using Base = ToolsFieldT<ArrayListWrapper, TField>;
+    using Base = ToolsFieldBase<cc_tools_qt::field::ToolsArrayListField, TField>;
     using Field = TField;
     using ValueType = typename Field::ValueType;
     using ElementType = typename ValueType::value_type;
@@ -104,18 +50,18 @@ public:
     using ActPtr = typename Base::ActPtr;
     using PrefixFieldInfo = typename Base::PrefixFieldInfo;
 
-    typedef std::function<ToolsFieldPtr (ElementType&)> WrapFieldCallbackFunc;
+    using WrapFieldCallbackFunc = std::function<ToolsFieldPtr (ElementType&)>;
 
-    explicit ArrayListWrapperT(Field& fieldRef)
+    explicit ToolsArrayListFieldImpl(Field& fieldRef)
       : Base(fieldRef)
     {
     }
 
-    ArrayListWrapperT(const ArrayListWrapperT&) = default;
-    ArrayListWrapperT(ArrayListWrapperT&&) = default;
-    virtual ~ArrayListWrapperT() noexcept = default;
+    ToolsArrayListFieldImpl(const ToolsArrayListFieldImpl&) = default;
+    ToolsArrayListFieldImpl(ToolsArrayListFieldImpl&&) = default;
+    virtual ~ToolsArrayListFieldImpl() noexcept = default;
 
-    ArrayListWrapperT& operator=(const ArrayListWrapperT&) = delete;
+    ToolsArrayListFieldImpl& operator=(const ToolsArrayListFieldImpl&) = delete;
 
     void setWrapFieldCallback(WrapFieldCallbackFunc&& func)
     {
@@ -195,18 +141,18 @@ protected:
     virtual void adjustFixedSizeImpl() override
     {
         using Tag =
-            typename std::conditional<
+            std::conditional_t<
                 Field::hasFixedSize(),
                 HasFixedSizeTag,
                 HasVarSizeTag
-            >::type;
+            >;
         adjustFixedSizeInternal(Tag());
     }
 
     virtual ActPtr cloneImpl() override
     {
-        ActPtr ptr(new ArrayListWrapperT(Base::field()));
-        static_cast<ArrayListWrapperT<TField>*>(ptr.get())->m_wrapFieldFunc = m_wrapFieldFunc;
+        ActPtr ptr(new ToolsArrayListFieldImpl(Base::field()));
+        static_cast<ToolsArrayListFieldImpl<TField>*>(ptr.get())->m_wrapFieldFunc = m_wrapFieldFunc;
         return ptr;
     }
 
@@ -233,15 +179,15 @@ protected:
     virtual PrefixFieldInfo getPrefixFieldInfoImpl() const override
     {
         using Tag =
-            typename std::conditional<
+            std::conditional_t<
                 Field::hasSizeFieldPrefix(),
                 ElemCountFieldTag,
-                typename std::conditional<
+                std::conditional_t<
                     Field::hasSerLengthFieldPrefix(),
                     SerLengthFieldTag,
                     NoPrefixFieldTag
-                >::type
-            >::type;
+                >
+            >;
 
         return getPrefixFieldInfoInternal(Tag());
     }
@@ -272,11 +218,11 @@ private:
     {
         using LengthField = typename Field::SerLengthFieldPrefix;
         using Tag =
-            typename std::conditional<
+            std::conditional_t<
                 LengthField::hasVarLength(),
                 SerLengthFieldVarTag,
                 SerLengthFieldFixedTag
-            >::type;
+            >;
 
         return getPrefixFieldInfoInternal(Tag());
     }
@@ -341,27 +287,14 @@ private:
     WrapFieldCallbackFunc m_wrapFieldFunc;
 };
 
-using ArrayListWrapperPtr = ArrayListWrapper::ActPtr;
 
 template <typename TField>
-ArrayListWrapperPtr
-makeArrayListWrapper(TField& field)
+auto makeArrayListField(TField& field)
 {
-    return
-        ArrayListWrapperPtr(
-            new ArrayListWrapperT<TField>(field));
+    return std::make_unique<ToolsArrayListFieldImpl<TField>>(field);
 }
 
-template <typename TField>
-std::unique_ptr<ArrayListWrapperT<TField> >
-makeDowncastedArrayListWrapper(TField& field)
-{
-    return
-        std::unique_ptr<ArrayListWrapperT<TField> >(
-            new ArrayListWrapperT<TField>(field));
-}
-
-}  // namespace field_wrapper
+}  // namespace details
 
 }  // namespace cc_tools_qt
 

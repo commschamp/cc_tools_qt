@@ -131,28 +131,28 @@ public:
         m_widget.reset(new ArrayListRawDataFieldWidget(wrapper.clone(), m_parent));
     }
 
-    virtual void handle(field_wrapper::ArrayListWrapper& wrapper) override
+    virtual void handle(field::ToolsArrayListField& field) override
     {
         auto createMembersWidgetsFunc =
-            [](field_wrapper::ArrayListWrapper& wrap) -> std::vector<FieldWidgetPtr>
+            [](field::ToolsArrayListField& fieldParam) -> std::vector<FieldWidgetPtr>
             {
                 std::vector<FieldWidgetPtr> allFieldsWidgets;
                 WidgetCreator otherCreator;
-                auto& memWrappers = wrap.getMembers();
+                auto& memWrappers = fieldParam.getMembers();
                 allFieldsWidgets.reserve(memWrappers.size());
-                assert(memWrappers.size() == wrap.size());
+                assert(memWrappers.size() == fieldParam.size());
 
                 for (auto& memWrap : memWrappers) {
                     memWrap->dispatch(otherCreator);
                     allFieldsWidgets.push_back(otherCreator.getWidget());
                 }
 
-                assert(allFieldsWidgets.size() == wrap.size());
+                assert(allFieldsWidgets.size() == fieldParam.size());
                 return allFieldsWidgets;
             };
 
-        assert(wrapper.size() == wrapper.getMembers().size());
-        m_widget.reset(new ArrayListFieldWidget(wrapper.clone(), std::move(createMembersWidgetsFunc), m_parent));
+        assert(field.size() == field.getMembers().size());
+        m_widget.reset(new ArrayListFieldWidget(field.clone(), std::move(createMembersWidgetsFunc), m_parent));
     }
 
     virtual void handle(field::ToolsFloatField& field) override

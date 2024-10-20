@@ -101,7 +101,7 @@ protected:
 };
 
 template <typename TField>
-cc_tools_qt::field::ToolsIntFieldPtr makeIntField(TField& field)
+auto makeIntField(TField& field)
 {
     return std::make_unique<ToolsIntFieldImpl<TField>>(field);
 }

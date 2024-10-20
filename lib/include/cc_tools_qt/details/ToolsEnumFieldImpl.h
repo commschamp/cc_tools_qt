@@ -70,7 +70,7 @@ protected:
 };
 
 template <typename TField>
-cc_tools_qt::field::ToolsEnumFieldPtr makeEnumField(TField& field)
+auto makeEnumField(TField& field)
 {
     return std::make_unique<ToolsEnumFieldImpl<TField>>(field);
 }

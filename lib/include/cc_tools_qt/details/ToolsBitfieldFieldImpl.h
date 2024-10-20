@@ -65,7 +65,7 @@ protected:
 };
 
 template <typename TField>
-cc_tools_qt::field::ToolsBitfieldFieldPtr makeBitfieldField(TField& field)
+auto makeBitfieldField(TField& field)
 {
     return std::make_unique<ToolsBitfieldFieldImpl<TField>>(field);
 }

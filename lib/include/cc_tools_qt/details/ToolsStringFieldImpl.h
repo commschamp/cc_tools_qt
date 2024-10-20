@@ -139,7 +139,7 @@ private:
 };
 
 template <typename TField>
-cc_tools_qt::field::ToolsStringFieldPtr makeStringField(TField& field)
+auto makeStringField(TField& field)
 {
     return std::make_unique<ToolsStringFieldImpl<TField>>(field);
 }

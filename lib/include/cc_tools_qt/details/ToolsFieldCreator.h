@@ -22,6 +22,7 @@
 
 #include "comms/comms.h"
 
+#include "cc_tools_qt/details/ToolsArrayListFieldImpl.h"
 #include "cc_tools_qt/details/ToolsBitfieldFieldImpl.h"
 #include "cc_tools_qt/details/ToolsBitmaskFieldImpl.h"
 #include "cc_tools_qt/details/ToolsEnumFieldImpl.h"
@@ -33,7 +34,6 @@
 
 #include "cc_tools_qt/field_wrapper/BundleWrapper.h"
 #include "cc_tools_qt/field_wrapper/ArrayListRawDataWrapper.h"
-#include "cc_tools_qt/field_wrapper/ArrayListWrapper.h"
 #include "cc_tools_qt/field_wrapper/VariantWrapper.h"
 #include "cc_tools_qt/field_wrapper/UnknownValueWrapper.h"
 
@@ -224,23 +224,23 @@ private:
     template <typename TField>
     static ToolsFieldPtr createFieldInternal(TField& field, FieldsArrayListTag)
     {
-        typedef typename std::decay<decltype(field)>::type DecayedField;
-        typedef typename DecayedField::ValueType CollectionType;
-        typedef typename CollectionType::value_type ElementType;
+        using DecayedField = std::decay_t<decltype(field)>;
+        using CollectionType = typename DecayedField::ValueType;
+        using ElementType = typename CollectionType::value_type;
 
-        auto wrapper = field_wrapper::makeDowncastedArrayListWrapper(field);
-        if (wrapper->hasFixedSize()) {
-            wrapper->adjustFixedSize();
+        auto fieldPtr = makeArrayListField(field);
+        if (fieldPtr->hasFixedSize()) {
+            fieldPtr->adjustFixedSize();
         }
 
-        wrapper->setWrapFieldCallback(
+        fieldPtr->setWrapFieldCallback(
             [](ElementType& memField) -> ToolsFieldPtr
             {
                 return ToolsFieldCreator::createField(memField);
             });
 
-        wrapper->refreshMembers();
-        return wrapper;
+        fieldPtr->refreshMembers();
+        return fieldPtr;
     }
 
     template <typename TField>

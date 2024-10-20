@@ -2,6 +2,7 @@ function (lib_tools)
     set (name "${PROJECT_NAME}")
     
     set (src
+        field/ToolsArrayListField.cpp
         field/ToolsBitfieldField.cpp
         field/ToolsBitmaskField.cpp
         field/ToolsEnumField.cpp
@@ -32,7 +33,6 @@ function (lib_tools)
         ToolsProtocol.cpp
         field_wrapper/BundleWrapper.cpp
         field_wrapper/ArrayListRawDataWrapper.cpp
-        field_wrapper/ArrayListWrapper.cpp
         field_wrapper/VariantWrapper.cpp
         field_wrapper/UnknownValueWrapper.cpp
         property/message.cpp

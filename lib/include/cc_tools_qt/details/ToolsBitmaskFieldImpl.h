@@ -81,7 +81,7 @@ protected:
     }
 };
 template <typename TField>
-cc_tools_qt::field::ToolsBitmaskFieldPtr makeBitmaskField(TField& field)
+auto makeBitmaskField(TField& field)
 {
     return std::make_unique<ToolsBitmaskFieldImpl<TField>>(field);
 }

@@ -26,7 +26,7 @@
 #include "ui_ArrayListElementWidget.h"
 #include "ui_ArrayListFieldWidget.h"
 
-#include "cc_tools_qt/field_wrapper/ArrayListWrapper.h"
+#include "cc_tools_qt/field/ToolsArrayListField.h"
 #include "FieldWidget.h"
 
 namespace cc_tools_qt
@@ -66,12 +66,12 @@ class ArrayListFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using Wrapper = field_wrapper::ArrayListWrapper;
-    using WrapperPtr = field_wrapper::ArrayListWrapperPtr;
-    typedef std::function<std::vector<FieldWidgetPtr> (Wrapper&)> CreateMissingDataFieldsFunc;
+    using Field = field::ToolsArrayListField;
+    using FieldPtr = field::ToolsArrayListFieldPtr;
+    typedef std::function<std::vector<FieldWidgetPtr> (Field&)> CreateMissingDataFieldsFunc;
 
     explicit ArrayListFieldWidget(
-        WrapperPtr wrapper,
+        FieldPtr fieldPtr,
         CreateMissingDataFieldsFunc&& updateFunc,
         QWidget* parentObj = nullptr);
 
@@ -104,7 +104,7 @@ private:
     void updatePrefixField();
 
     Ui::ArrayListFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     std::vector<ArrayListElementWidget*> m_elements;
     CreateMissingDataFieldsFunc m_createMissingDataFieldsCallback;
     std::vector<QVariantMap> m_elemProperties;

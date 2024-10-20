@@ -15,61 +15,61 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/field_wrapper/ArrayListWrapper.h"
+#include "cc_tools_qt/field/ToolsArrayListField.h"
 
 #include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace field
 {
 
-ArrayListWrapper::ArrayListWrapper() {}
+ToolsArrayListField::ToolsArrayListField() {}
 
-ArrayListWrapper::~ArrayListWrapper() noexcept = default;
+ToolsArrayListField::~ToolsArrayListField() noexcept = default;
 
-void ArrayListWrapper::addField()
+void ToolsArrayListField::addField()
 {
     addFieldImpl();
 }
 
-void ArrayListWrapper::removeField(int idx)
+void ToolsArrayListField::removeField(int idx)
 {
     removeFieldImpl(idx);
 }
 
-unsigned ArrayListWrapper::size() const
+unsigned ToolsArrayListField::size() const
 {
     return sizeImpl();
 }
 
-bool ArrayListWrapper::hasFixedSize() const
+bool ToolsArrayListField::hasFixedSize() const
 {
     return hasFixedSizeImpl();
 }
 
-void ArrayListWrapper::adjustFixedSize()
+void ToolsArrayListField::adjustFixedSize()
 {
     adjustFixedSizeImpl();
 }
 
-ArrayListWrapper::Members& ArrayListWrapper::getMembers()
+ToolsArrayListField::Members& ToolsArrayListField::getMembers()
 {
     return m_members;
 }
 
-const ArrayListWrapper::Members& ArrayListWrapper::getMembers() const
+const ToolsArrayListField::Members& ToolsArrayListField::getMembers() const
 {
     return m_members;
 }
 
-void ArrayListWrapper::setMembers(Members&& members)
+void ToolsArrayListField::setMembers(Members&& members)
 {
     m_members = std::move(members);
 }
 
-ArrayListWrapper::ActPtr ArrayListWrapper::clone()
+ToolsArrayListField::ActPtr ToolsArrayListField::clone()
 {
     Members clonedMembers;
     clonedMembers.reserve(m_members.size());
@@ -85,22 +85,22 @@ ArrayListWrapper::ActPtr ArrayListWrapper::clone()
     return ptr;
 }
 
-void ArrayListWrapper::refreshMembers()
+void ToolsArrayListField::refreshMembers()
 {
     refreshMembersImpl();
 }
 
-ArrayListWrapper::PrefixFieldInfo ArrayListWrapper::getPrefixFieldInfo() const
+ToolsArrayListField::PrefixFieldInfo ToolsArrayListField::getPrefixFieldInfo() const
 {
     return getPrefixFieldInfoImpl();
 }
 
-void ArrayListWrapper::dispatchImpl(FieldWrapperHandler& handler)
+void ToolsArrayListField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
 {
     handler.handle(*this);
 }
 
-}  // namespace field_wrapper
+}  // namespace field
 
 }  // namespace cc_tools_qt
 
