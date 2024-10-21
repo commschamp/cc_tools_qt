@@ -33,8 +33,8 @@
 #include "cc_tools_qt/details/ToolsRawDataFieldImpl.h"
 #include "cc_tools_qt/details/ToolsStringFieldImpl.h"
 #include "cc_tools_qt/details/ToolsUnsignedLongFieldImpl.h"
+#include "cc_tools_qt/details/ToolsVariantFieldImpl.h"
 
-#include "cc_tools_qt/field_wrapper/VariantWrapper.h"
 #include "cc_tools_qt/field_wrapper/UnknownValueWrapper.h"
 
 #include <vector>
@@ -185,19 +185,19 @@ private:
     template <typename TField>
     static ToolsFieldPtr createFieldInternal(TField& field, OptionalTag)
     {
-        auto fieldPtr = makeOptionalField(field);
+        auto toolsField = makeOptionalField(field);
         auto& wrappedField = field.field();
         auto fieldWrapper = createField(wrappedField);
-        fieldPtr->setFieldWrapper(std::move(fieldWrapper));
-        return fieldPtr;
+        toolsField->setFieldWrapper(std::move(fieldWrapper));
+        return toolsField;
     }
 
     template <typename TField>
     static ToolsFieldPtr createFieldInternal(TField& field, BundleTag)
     {
-        auto fieldPtr = makeBundleField(field);
+        auto toolsField = makeBundleField(field);
 
-        using FieldPtrType = std::decay_t<decltype(fieldPtr)>;
+        using FieldPtrType = std::decay_t<decltype(toolsField)>;
         using FieldType = typename FieldPtrType::element_type;
         using MemberFieldsList = typename FieldType::Members;
 
@@ -211,8 +211,8 @@ private:
                     subFields.push_back(std::move(fieldParam));
                 }));
 
-        fieldPtr->setMembers(std::move(subFields));
-        return fieldPtr;
+        toolsField->setMembers(std::move(subFields));
+        return toolsField;
     }
 
     template <typename TField>
@@ -228,19 +228,19 @@ private:
         using CollectionType = typename DecayedField::ValueType;
         using ElementType = typename CollectionType::value_type;
 
-        auto fieldPtr = makeArrayListField(field);
-        if (fieldPtr->hasFixedSize()) {
-            fieldPtr->adjustFixedSize();
+        auto toolsField = makeArrayListField(field);
+        if (toolsField->hasFixedSize()) {
+            toolsField->adjustFixedSize();
         }
 
-        fieldPtr->setWrapFieldCallback(
+        toolsField->setWrapFieldCallback(
             [](ElementType& memField) -> ToolsFieldPtr
             {
                 return ToolsFieldCreator::createField(memField);
             });
 
-        fieldPtr->refreshMembers();
-        return fieldPtr;
+        toolsField->refreshMembers();
+        return toolsField;
     }
 
     template <typename TField>
@@ -252,9 +252,9 @@ private:
     template <typename TField>
     static ToolsFieldPtr createFieldInternal(TField& field, VariantTag)
     {
-        auto wrapper = field_wrapper::makeVariantWrapper(field);
+        auto toolsField = makeVariantField(field);
 
-        wrapper->setMemberCreateCallback(
+        toolsField->setMemberCreateCallback(
             [&field]() -> ToolsFieldPtr
             {
                 ToolsFieldPtr ptr;
@@ -272,16 +272,16 @@ private:
         if (field.currentFieldValid()) {
             field.currentFieldExec(
                 SubfieldsCreateHelper(
-                    [&wrapper](ToolsFieldPtr fieldWrapper)
+                    [&toolsField](ToolsFieldPtr fieldWrapper)
                     {
-                        wrapper->setCurrent(std::move(fieldWrapper));
+                        toolsField->setCurrent(std::move(fieldWrapper));
                     }));
         }
         else {
-            wrapper->setCurrent(ToolsFieldPtr());
+            toolsField->setCurrent(ToolsFieldPtr());
         }
 
-        return wrapper;
+        return toolsField;
     }
 
     template <typename TField, typename TTag>

@@ -19,11 +19,9 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsField.h"
+#include "cc_tools_qt/field/ToolsVariantField.h"
 
 #include "comms/field/Variant.h"
-
-#include <QtCore/QString>
-#include <QtCore/QList>
 
 #include <cassert>
 #include <cstdint>
@@ -35,85 +33,34 @@
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace details
 {
-
-class CC_API VariantWrapper : public ToolsField
-{
-    using Base = ToolsField;
-public:
-    using ActPtr = std::unique_ptr<VariantWrapper>;
-
-    using MemberCreateCallbackFunc = std::function<ToolsFieldPtr ()>;
-
-    VariantWrapper();
-    VariantWrapper(const VariantWrapper&) =delete;
-    VariantWrapper& operator=(const VariantWrapper&) =delete;
-
-    virtual ~VariantWrapper() noexcept;
-
-    ToolsFieldPtr& getCurrent();
-
-    const ToolsFieldPtr& getCurrent() const;
-
-    void setCurrent(ToolsFieldPtr current);
-
-    void updateCurrent();
-
-    ActPtr clone();
-
-    QStringList membersNames() const;
-
-    int getCurrentIndex() const;
-
-    void setCurrentIndex(int index);
-
-    int getMembersCount() const;
-
-    template <typename TFunc>
-    void setMemberCreateCallback(TFunc&& func)
-    {
-        m_createMemberCb = std::forward<TFunc>(func);
-    }
-
-protected:
-    virtual ActPtr cloneImpl() = 0;
-    virtual QStringList membersNamesImpl() const = 0;
-    virtual void dispatchImpl(FieldWrapperHandler& handler);
-    virtual int getCurrentIndexImpl() const = 0;
-    virtual void setCurrentIndexImpl(int index) = 0;
-    virtual int getMembersCountImpl() const = 0;
-
-private:
-    ToolsFieldPtr m_current;
-    MemberCreateCallbackFunc m_createMemberCb;
-};
 
 template <typename TField>
-class VariantWrapperT : public ToolsFieldT<VariantWrapper, TField>
+class ToolsVariantFieldImpl : public ToolsFieldBase<cc_tools_qt::field::ToolsVariantField, TField>
 {
-    using Base = ToolsFieldT<VariantWrapper, TField>;
+    using Base = ToolsFieldBase<cc_tools_qt::field::ToolsVariantField, TField>;
     using Field = TField;
     static_assert(comms::field::isVariant<Field>(), "Must be of Variant field type");
 
 public:
     using ActPtr = typename Base::ActPtr;
 
-    explicit VariantWrapperT(Field& fieldRef)
+    explicit ToolsVariantFieldImpl(Field& fieldRef)
       : Base(fieldRef)
     {
     }
 
-    VariantWrapperT(const VariantWrapperT&) = default;
-    VariantWrapperT(VariantWrapperT&&) = default;
-    virtual ~VariantWrapperT() noexcept = default;
+    ToolsVariantFieldImpl(const ToolsVariantFieldImpl&) = default;
+    ToolsVariantFieldImpl(ToolsVariantFieldImpl&&) = default;
+    virtual ~ToolsVariantFieldImpl() noexcept = default;
 
-    VariantWrapperT& operator=(const VariantWrapperT&) = delete;
+    ToolsVariantFieldImpl& operator=(const ToolsVariantFieldImpl&) = delete;
 
 protected:
     virtual ActPtr cloneImpl() override
     {
-        return ActPtr(new VariantWrapperT(Base::field()));
+        return ActPtr(new ToolsVariantFieldImpl(Base::field()));
     }
 
     virtual int getCurrentIndexImpl() const override
@@ -167,17 +114,12 @@ private:
 
 };
 
-using VariantWrapperPtr = VariantWrapper::ActPtr;
-
 template <typename TField>
-VariantWrapperPtr
-makeVariantWrapper(TField& field)
+auto makeVariantField(TField& field)
 {
-    return
-        VariantWrapperPtr(
-            new VariantWrapperT<TField>(field));
+    return std::make_unique<ToolsVariantFieldImpl<TField>>(field);
 }
 
-}  // namespace field_wrapper
+}  // namespace details
 
 }  // namespace cc_tools_qt

@@ -20,7 +20,7 @@
 
 #include <functional>
 
-#include "cc_tools_qt/field_wrapper/VariantWrapper.h"
+#include "cc_tools_qt/field/ToolsVariantField.h"
 #include "FieldWidget.h"
 
 #include "ui_VariantFieldWidget.h"
@@ -33,12 +33,12 @@ class VariantFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::VariantWrapperPtr;
+    using FieldPtr = field::ToolsVariantFieldPtr;
     using CreateMemberFieldWidgetFunc =
         std::function<FieldWidgetPtr (ToolsField&)>;
 
     explicit VariantFieldWidget(
-        WrapperPtr&& wrapper,
+        FieldPtr&& fieldPtr,
         CreateMemberFieldWidgetFunc&& func,
         QWidget* parentObj = nullptr);
 
@@ -58,7 +58,7 @@ private slots:
     void memberComboUpdated(int value);
 
 private:
-    using WrapperType = WrapperPtr::element_type;
+    using WrapperType = FieldPtr::element_type;
 
     void refreshInternal();
     void refreshMember();
@@ -70,7 +70,7 @@ private:
     void createMemberWidget();
 
     Ui::VariantFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     FieldWidget* m_member = nullptr;
     QList<QVariantMap> m_membersProps;
     CreateMemberFieldWidgetFunc m_createFunc;

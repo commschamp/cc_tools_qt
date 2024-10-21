@@ -160,7 +160,7 @@ public:
         m_widget.reset(new FloatValueFieldWidget(field.clone(), m_parent));
     }
 
-    virtual void handle(field_wrapper::VariantWrapper& wrapper) override
+    virtual void handle(field::ToolsVariantField& field) override
     {
         auto createMemberWidgetsFunc =
             [](ToolsField& wrap) -> FieldWidgetPtr
@@ -171,15 +171,15 @@ public:
             };
 
         FieldWidgetPtr memberWidget;
-        auto& memberWrapper = wrapper.getCurrent();
-        if (memberWrapper) {
-            memberWrapper->dispatch(*this);
+        auto& memberFieldPtr = field.getCurrent();
+        if (memberFieldPtr) {
+            memberFieldPtr->dispatch(*this);
             memberWidget = getWidget();
         }
 
         std::unique_ptr<VariantFieldWidget> widget(
                     new VariantFieldWidget(
-                        wrapper.clone(),
+                        field.clone(),
                         createMemberWidgetsFunc,
                         m_parent));
         if (memberWidget) {

@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/field_wrapper/VariantWrapper.h"
+#include "cc_tools_qt/field/ToolsVariantField.h"
 
 #include <cassert>
 
@@ -24,35 +24,35 @@
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace field
 {
 
-VariantWrapper::VariantWrapper() {}
+ToolsVariantField::ToolsVariantField() {}
 
-VariantWrapper::~VariantWrapper() noexcept = default;
+ToolsVariantField::~ToolsVariantField() noexcept = default;
 
-ToolsFieldPtr& VariantWrapper::getCurrent()
-{
-    return m_current;
-}
-
-const ToolsFieldPtr& VariantWrapper::getCurrent() const
+ToolsFieldPtr& ToolsVariantField::getCurrent()
 {
     return m_current;
 }
 
-void VariantWrapper::setCurrent(ToolsFieldPtr current)
+const ToolsFieldPtr& ToolsVariantField::getCurrent() const
+{
+    return m_current;
+}
+
+void ToolsVariantField::setCurrent(ToolsFieldPtr current)
 {
     m_current = std::move(current);
 }
 
-void VariantWrapper::updateCurrent()
+void ToolsVariantField::updateCurrent()
 {
     assert(m_createMemberCb);
     setCurrent(m_createMemberCb());
 }
 
-VariantWrapper::ActPtr VariantWrapper::clone()
+ToolsVariantField::ActPtr ToolsVariantField::clone()
 {
     auto ptr = cloneImpl();
     ptr->m_createMemberCb = m_createMemberCb;
@@ -63,32 +63,32 @@ VariantWrapper::ActPtr VariantWrapper::clone()
     return ptr;
 }
 
-QStringList VariantWrapper::membersNames() const
+QStringList ToolsVariantField::membersNames() const
 {
     return membersNamesImpl();
 }
 
-int VariantWrapper::getCurrentIndex() const
+int ToolsVariantField::getCurrentIndex() const
 {
     return getCurrentIndexImpl();
 }
 
-void VariantWrapper::setCurrentIndex(int index)
+void ToolsVariantField::setCurrentIndex(int index)
 {
     setCurrentIndexImpl(index);
 }
 
-int VariantWrapper::getMembersCount() const
+int ToolsVariantField::getMembersCount() const
 {
     return getMembersCountImpl();
 }
 
-void VariantWrapper::dispatchImpl(FieldWrapperHandler& handler)
+void ToolsVariantField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
 {
     handler.handle(*this);
 }
 
-}  // namespace field_wrapper
+}  // namespace field
 
 }  // namespace cc_tools_qt
 

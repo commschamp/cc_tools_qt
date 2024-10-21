@@ -33,11 +33,11 @@ const int MemberNamesStartIndex = 2;
 } // namespace
 
 VariantFieldWidget::VariantFieldWidget(
-    WrapperPtr&& wrapper,
+    FieldPtr&& fieldPtr,
     CreateMemberFieldWidgetFunc&& func,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper)),
+    m_fieldPtr(std::move(fieldPtr)),
     m_createFunc(std::move(func))
 {
     m_ui.setupUi(this);
@@ -46,7 +46,7 @@ VariantFieldWidget::VariantFieldWidget(
     setSeparatorWidget(m_ui.m_sepLine);
     setSerialisedValueWidget(m_ui.m_serValueWidget);\
 
-    m_ui.m_idxSpinBox->setMaximum(m_wrapper->getMembersCount() - 1);
+    m_ui.m_idxSpinBox->setMaximum(m_fieldPtr->getMembersCount() - 1);
     updateIndexValue();
     updateMemberCombo();
 
@@ -81,8 +81,8 @@ void VariantFieldWidget::setMemberField(FieldWidget* memberFieldWidget)
 
 ToolsField& VariantFieldWidget::fieldImpl()
 {
-    assert(m_wrapper);
-    return *m_wrapper;
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
 }
 
 void VariantFieldWidget::refreshImpl()
@@ -110,7 +110,7 @@ void VariantFieldWidget::updatePropertiesImpl(const QVariantMap& props)
 
     m_indexHidden = variantProps.isIndexHidden();
 
-    auto membersNames = m_wrapper->membersNames();
+    auto membersNames = m_fieldPtr->membersNames();
     using MemberInfosList = std::vector<std::pair<QString, int> >;
     MemberInfosList membersInfo;
     membersInfo.reserve(static_cast<unsigned>(membersNames.size()));
@@ -146,9 +146,9 @@ void VariantFieldWidget::updatePropertiesImpl(const QVariantMap& props)
 
 void VariantFieldWidget::memberFieldUpdated()
 {
-    if (!m_wrapper->canWrite()) {
-        m_wrapper->reset();
-        assert(m_wrapper->canWrite());
+    if (!m_fieldPtr->canWrite()) {
+        m_fieldPtr->reset();
+        assert(m_fieldPtr->canWrite());
     }
 
     refreshInternal();
@@ -158,15 +158,15 @@ void VariantFieldWidget::memberFieldUpdated()
 void VariantFieldWidget::indexUpdated(int value)
 {
     assert(isEditEnabled());
-    if (value == m_wrapper->getCurrentIndex()) {
+    if (value == m_fieldPtr->getCurrentIndex()) {
         return;
     }
 
     destroyMemberWidget();
 
     if (0 <= value) {
-        m_wrapper->setCurrentIndex(value);
-        m_wrapper->updateCurrent();
+        m_fieldPtr->setCurrentIndex(value);
+        m_fieldPtr->updateCurrent();
         createMemberWidget();
     }
 
@@ -182,7 +182,7 @@ void VariantFieldWidget::memberComboUpdated(int value)
         return;
     }
 
-    if ((value < MemberNamesStartIndex) && (m_wrapper->getCurrentIndex() < 0)) {
+    if ((value < MemberNamesStartIndex) && (m_fieldPtr->getCurrentIndex() < 0)) {
         return;
     }
 
@@ -192,8 +192,8 @@ void VariantFieldWidget::memberComboUpdated(int value)
         auto dataVar = m_ui.m_memberComboBox->itemData(value, Qt::UserRole);
         assert(dataVar.isValid() && dataVar.canConvert<int>());
         int memIdx = dataVar.value<int>();
-        m_wrapper->setCurrentIndex(memIdx);
-        m_wrapper->updateCurrent();
+        m_fieldPtr->setCurrentIndex(memIdx);
+        m_fieldPtr->updateCurrent();
         createMemberWidget();
     }
 
@@ -204,11 +204,11 @@ void VariantFieldWidget::memberComboUpdated(int value)
 
 void VariantFieldWidget::refreshInternal()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_ui.m_serValuePlainTextEdit != nullptr);
-    updateSerValue(*m_ui.m_serValuePlainTextEdit, *m_wrapper);
+    updateSerValue(*m_ui.m_serValuePlainTextEdit, *m_fieldPtr);
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     setValidityStyleSheet(*m_ui.m_serFrontLabel, valid);
     setValidityStyleSheet(*m_ui.m_serValuePlainTextEdit, valid);
     setValidityStyleSheet(*m_ui.m_serBackLabel, valid);
@@ -227,11 +227,11 @@ void VariantFieldWidget::updateMemberProps()
         return;
     }
 
-    if (m_membersProps.size() <= m_wrapper->getCurrentIndex()) {
+    if (m_membersProps.size() <= m_fieldPtr->getCurrentIndex()) {
         return;
     }
 
-    m_member->updateProperties(m_membersProps[m_wrapper->getCurrentIndex()]);
+    m_member->updateProperties(m_membersProps[m_fieldPtr->getCurrentIndex()]);
 }
 
 void VariantFieldWidget::updateIndexDisplay()
@@ -255,7 +255,7 @@ void VariantFieldWidget::updateIndexDisplay()
 
 void VariantFieldWidget::updateIndexValue()
 {
-    auto memIdx = m_wrapper->getCurrentIndex();
+    auto memIdx = m_fieldPtr->getCurrentIndex();
     m_ui.m_idxSpinBox->blockSignals(true);
     m_ui.m_idxSpinBox->setValue(memIdx);
     m_ui.m_idxSpinBox->blockSignals(false);
@@ -263,7 +263,7 @@ void VariantFieldWidget::updateIndexValue()
 
 void VariantFieldWidget::updateMemberCombo()
 {
-    auto memIdx = m_wrapper->getCurrentIndex();
+    auto memIdx = m_fieldPtr->getCurrentIndex();
     m_ui.m_memberComboBox->blockSignals(true);
     bool foundValid = false;
     for (int comboIdx = MemberNamesStartIndex; comboIdx < m_ui.m_memberComboBox->count(); ++comboIdx) {
@@ -291,15 +291,15 @@ void VariantFieldWidget::destroyMemberWidget()
 {
     delete m_member;
     m_member = nullptr;
-    m_wrapper->setCurrent(ToolsFieldPtr());
-    m_wrapper->setCurrentIndex(-1);
+    m_fieldPtr->setCurrent(ToolsFieldPtr());
+    m_fieldPtr->setCurrentIndex(-1);
 }
 
 void VariantFieldWidget::createMemberWidget()
 {
-    assert(m_wrapper->getCurrent());
+    assert(m_fieldPtr->getCurrent());
     assert(m_createFunc);
-    auto fieldWidget = m_createFunc(*m_wrapper->getCurrent());
+    auto fieldWidget = m_createFunc(*m_fieldPtr->getCurrent());
     m_member = fieldWidget.release();
     m_ui.m_membersLayout->addWidget(m_member);
     updateMemberProps();
