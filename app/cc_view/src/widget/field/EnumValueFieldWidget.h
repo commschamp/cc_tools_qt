@@ -50,8 +50,8 @@ private slots:
     void valueUpdated(int idx);
 
 private:
-    using WrapperType = FieldPtr::element_type;
-    using UnderlyingType = WrapperType::UnderlyingType;
+    using FieldType = FieldPtr::element_type;
+    using UnderlyingType = FieldType::UnderlyingType;
 
     Ui::EnumValueFieldWidget m_ui;
     FieldPtr m_fieldPtr;

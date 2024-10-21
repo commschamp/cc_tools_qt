@@ -138,19 +138,25 @@ void EnumValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
         maxValue = std::max(maxValue, val.second);
     }
 
-    auto invValue = maxValue + 1;
+    auto invValue = std::numeric_limits<long long int>::min();
+    if (maxValue < std::numeric_limits<long long int>::max()) {
+        invValue = maxValue + 1;
+    }
+
     auto len = m_fieldPtr->length();
     auto shift = len * std::numeric_limits<std::uint8_t>::digits;
-    auto maxAllowedValue =
-        static_cast<UnderlyingType>((static_cast<long long unsigned>(1) << shift) - 1);
+    auto maxAllowedValue = std::numeric_limits<UnderlyingType>::max();
+    if (len < sizeof(UnderlyingType)) {
+        maxAllowedValue = static_cast<UnderlyingType>((static_cast<long long unsigned>(1) << shift) - 1);
+    }
 
     do {
-        if (invValue < 0) {
+        if ((invValue < 0) && (maxValue < maxAllowedValue))  {
             invValue = maxAllowedValue;
             break;
         }
 
-        if (invValue <= maxAllowedValue) {
+        if ((0 <= invValue) && (invValue <= maxAllowedValue)) {
             break;
         }
 
@@ -178,7 +184,7 @@ void EnumValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
 
     m_idxOffset = 0;
     if (0 <= invValue) {
-        m_ui.m_valueComboBox->insertItem(0, InvalidValueComboText, QVariant(maxValue + 1));
+        m_ui.m_valueComboBox->insertItem(0, InvalidValueComboText, QVariant(invValue));
         m_ui.m_valueComboBox->insertSeparator(1);
         m_idxOffset = EnumValuesStartIndex;
     }
