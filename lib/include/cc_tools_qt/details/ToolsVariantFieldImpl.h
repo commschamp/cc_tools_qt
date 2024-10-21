@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/ToolsField.h"
+#include "cc_tools_qt/details/ToolsFieldBase.h"
 #include "cc_tools_qt/field/ToolsVariantField.h"
 
 #include "comms/field/Variant.h"

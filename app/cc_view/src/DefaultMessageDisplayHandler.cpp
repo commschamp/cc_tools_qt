@@ -189,15 +189,15 @@ public:
         m_widget = std::move(widget);
     }
 
-    virtual void handle(field_wrapper::UnknownValueWrapper& wrapper) override
+    virtual void handle(field::ToolsUnknownField& field) override
     {
-        m_widget.reset(new UnknownValueFieldWidget(wrapper.clone(), m_parent));
+        m_widget.reset(new UnknownValueFieldWidget(field.clone(), m_parent));
     }
 
-    virtual void handle([[maybe_unused]] ToolsField& wrapper) override
+    virtual void handle([[maybe_unused]] ToolsField& field) override
     {
-        [[maybe_unused]] static constexpr bool Unexpected_wrapper = false;
-        assert(Unexpected_wrapper);
+        [[maybe_unused]] static constexpr bool Unexpected_field = false;
+        assert(Unexpected_field);
     }
 
     FieldWidgetPtr getWidget()

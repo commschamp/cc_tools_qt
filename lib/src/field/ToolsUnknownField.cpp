@@ -15,31 +15,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/field_wrapper/UnknownValueWrapper.h"
+#include "cc_tools_qt/field/ToolsUnknownField.h"
 
 #include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace field
 {
 
-UnknownValueWrapper::UnknownValueWrapper() {}
+ToolsUnknownField::ToolsUnknownField() {}
 
-UnknownValueWrapper::~UnknownValueWrapper() noexcept = default;
+ToolsUnknownField::~ToolsUnknownField() noexcept = default;
 
-UnknownValueWrapper::ActPtr UnknownValueWrapper::clone()
+ToolsUnknownField::ActPtr ToolsUnknownField::clone()
 {
     return cloneImpl();
 }
 
-void UnknownValueWrapper::dispatchImpl(FieldWrapperHandler& handler)
+void ToolsUnknownField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
 {
     handler.handle(*this);
 }
 
-}  // namespace field_wrapper
+}  // namespace field
 
 }  // namespace cc_tools_qt
 

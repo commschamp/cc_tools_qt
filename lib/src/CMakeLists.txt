@@ -12,6 +12,7 @@ function (lib_tools)
         field/ToolsOptionalField.cpp
         field/ToolsRawDataField.cpp
         field/ToolsStringField.cpp
+        field/ToolsUnknownField.cpp
         field/ToolsUnsignedLongField.cpp
         field/ToolsVariantField.cpp
         ErrorStatus.cpp
@@ -34,7 +35,6 @@ function (lib_tools)
         ToolsFrame.cpp
         ToolsMsgFactory.cpp
         ToolsProtocol.cpp
-        field_wrapper/UnknownValueWrapper.cpp
         property/message.cpp
         property/field.cpp
     )

@@ -28,10 +28,9 @@
 #include "cc_tools_qt/field/ToolsOptionalField.h"
 #include "cc_tools_qt/field/ToolsRawDataField.h"
 #include "cc_tools_qt/field/ToolsStringField.h"
+#include "cc_tools_qt/field/ToolsUnknownField.h"
 #include "cc_tools_qt/field/ToolsUnsignedLongField.h"
 #include "cc_tools_qt/field/ToolsVariantField.h"
-
-#include "UnknownValueWrapper.h"
 
 #include <tuple>
 
@@ -54,7 +53,7 @@ typedef std::tuple<
     cc_tools_qt::field::ToolsArrayListField,
     cc_tools_qt::field::ToolsFloatField,
     cc_tools_qt::field::ToolsVariantField,
-    UnknownValueWrapper
+    cc_tools_qt::field::ToolsUnknownField
 > AllWrappers;
 
 }  // namespace field_wrapper

@@ -18,41 +18,36 @@
 
 #pragma once
 
-#include "cc_tools_qt/field/ToolsUnknownField.h"
-#include "FieldWidget.h"
+#include "cc_tools_qt/ToolsField.h"
 
-#include "ui_UnknownValueFieldWidget.h"
+#include <memory>
+
+#include "comms/comms.h"
 
 namespace cc_tools_qt
 {
 
-class UnknownValueFieldWidget : public FieldWidget
+namespace field
 {
-    Q_OBJECT
-    typedef FieldWidget Base;
-public:
-    explicit UnknownValueFieldWidget(
-        field::ToolsUnknownFieldPtr&& fieldPtr,
-        QWidget* parentObj = nullptr);
 
-    ~UnknownValueFieldWidget() noexcept;
+class CC_API ToolsUnknownField : public ToolsField
+{
+public:
+    using ActPtr = std::unique_ptr<ToolsUnknownField>;
+
+    ToolsUnknownField();
+    virtual ~ToolsUnknownField() noexcept;
+
+    ActPtr clone();
 
 protected:
-    virtual ToolsField& fieldImpl() override;
-    virtual void refreshImpl() override;
-    virtual void editEnabledUpdatedImpl() override;
+    virtual ActPtr cloneImpl() = 0;
 
-private slots:
-    void serialisedValueUpdated(const QString& value);
-
-private:
-    void setFieldValid(bool valid);
-
-    Ui::UnknownValueFieldWidget m_ui;
-    field::ToolsUnknownFieldPtr m_fieldPtr;
+    void dispatchImpl(field_wrapper::FieldWrapperHandler& handler);
 };
 
+using ToolsUnknownFieldPtr = ToolsUnknownField::ActPtr;
+
+}  // namespace field
 
 }  // namespace cc_tools_qt
-
-

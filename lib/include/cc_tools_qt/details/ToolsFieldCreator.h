@@ -32,10 +32,9 @@
 #include "cc_tools_qt/details/ToolsOptionalFieldImpl.h"
 #include "cc_tools_qt/details/ToolsRawDataFieldImpl.h"
 #include "cc_tools_qt/details/ToolsStringFieldImpl.h"
+#include "cc_tools_qt/details/ToolsUnknownFieldImpl.h"
 #include "cc_tools_qt/details/ToolsUnsignedLongFieldImpl.h"
 #include "cc_tools_qt/details/ToolsVariantFieldImpl.h"
-
-#include "cc_tools_qt/field_wrapper/UnknownValueWrapper.h"
 
 #include <vector>
 
@@ -287,7 +286,7 @@ private:
     template <typename TField, typename TTag>
     static ToolsFieldPtr createFieldInternal(TField& field, TTag)
     {
-        return field_wrapper::makeUnknownValueWrapper(field);
+        return makeUnknownField(field);
     }
 
 private:
