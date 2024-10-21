@@ -17,7 +17,7 @@
 
 #include "cc_tools_qt/field/ToolsFloatField.h"
 
-#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/ToolsFieldHandler.h"
 
 namespace cc_tools_qt
 {
@@ -69,7 +69,7 @@ double ToolsFloatField::getEpsilon() const
     return getEpsilonImpl();
 }
 
-void ToolsFloatField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
+void ToolsFloatField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);
 }

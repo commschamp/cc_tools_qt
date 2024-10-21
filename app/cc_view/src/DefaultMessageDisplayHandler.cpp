@@ -22,7 +22,7 @@
 #include <QtWidgets/QApplication>
 
 #include "cc_tools_qt/ToolsField.h"
-#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/ToolsFieldHandler.h"
 #include "widget/field/IntValueFieldWidget.h"
 #include "widget/field/UnsignedLongLongIntValueFieldWidget.h"
 #include "widget/field/BitmaskValueFieldWidget.h"
@@ -43,7 +43,7 @@ namespace cc_tools_qt
 namespace
 {
 
-class WidgetCreator : public field_wrapper::FieldWrapperHandler
+class WidgetCreator : public ToolsFieldHandler
 {
 public:
 

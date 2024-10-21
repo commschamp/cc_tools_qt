@@ -36,12 +36,7 @@ COMMS_MSVC_WARNING_DISABLE(4127) // Disable warning about constant conditional e
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
-{
-
-class FieldWrapperHandler;
-
-}  // namespace field_wrapper
+class ToolsFieldHandler;
 
 /// @brief Field class.
 class CC_API ToolsField
@@ -70,7 +65,7 @@ public:
 
     bool setSerialisedString(const QString& str);
 
-    void dispatch(field_wrapper::FieldWrapperHandler& handler);
+    void dispatch(ToolsFieldHandler& handler);
 
     Ptr upClone();
 
@@ -84,7 +79,7 @@ protected:
     virtual bool validImpl() const = 0;
     virtual SerialisedSeq getSerialisedValueImpl() const = 0;
     virtual bool setSerialisedValueImpl(const SerialisedSeq& value) = 0;
-    virtual void dispatchImpl(field_wrapper::FieldWrapperHandler& handler) = 0;
+    virtual void dispatchImpl(ToolsFieldHandler& handler) = 0;
     virtual Ptr upCloneImpl() = 0;
     virtual bool canWriteImpl() const = 0;
     virtual void resetImpl() = 0;

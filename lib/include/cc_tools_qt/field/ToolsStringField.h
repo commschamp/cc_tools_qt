@@ -53,7 +53,7 @@ protected:
     virtual int maxSizeImpl() const = 0;
     virtual ActPtr cloneImpl() = 0;
 
-    void dispatchImpl(field_wrapper::FieldWrapperHandler& handler);
+    void dispatchImpl(ToolsFieldHandler& handler);
 };
 
 using ToolsStringFieldPtr = ToolsStringField::ActPtr;

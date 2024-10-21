@@ -32,6 +32,7 @@ function (lib_tools)
         MsgMgr.cpp
         MsgMgrImpl.cpp
         ToolsField.cpp
+        ToolsFieldHandler.cpp
         ToolsFrame.cpp
         ToolsMsgFactory.cpp
         ToolsProtocol.cpp

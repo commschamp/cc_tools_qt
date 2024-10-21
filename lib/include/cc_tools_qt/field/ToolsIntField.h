@@ -67,7 +67,7 @@ protected:
     virtual std::size_t valueTypeSizeImpl() const = 0;
     virtual ActPtr cloneImpl() = 0;
 
-    virtual void dispatchImpl(field_wrapper::FieldWrapperHandler& handler) override;
+    virtual void dispatchImpl(ToolsFieldHandler& handler) override;
 };
 
 using ToolsIntFieldPtr = ToolsIntField::ActPtr;

@@ -59,7 +59,7 @@ protected:
     virtual void setMinusInfImpl() = 0;
     virtual double getEpsilonImpl() const = 0;
 
-    virtual void dispatchImpl(field_wrapper::FieldWrapperHandler& handler) override;
+    virtual void dispatchImpl(ToolsFieldHandler& handler) override;
 };
 
 using ToolsFloatFieldPtr = ToolsFloatField::ActPtr;

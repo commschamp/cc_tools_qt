@@ -17,7 +17,7 @@
 
 #include "cc_tools_qt/field/ToolsBitmaskField.h"
 
-#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/ToolsFieldHandler.h"
 
 namespace cc_tools_qt
 {
@@ -47,7 +47,7 @@ ToolsBitmaskField::ActPtr ToolsBitmaskField::clone()
     return cloneImpl();
 }
 
-void ToolsBitmaskField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
+void ToolsBitmaskField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);
 }

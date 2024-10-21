@@ -59,7 +59,7 @@ protected:
     virtual void setModeImpl(Mode mode) = 0;
     virtual ActPtr cloneImpl() = 0;
 
-    void dispatchImpl(field_wrapper::FieldWrapperHandler& handler);
+    void dispatchImpl(ToolsFieldHandler& handler);
 
 private:
     ToolsFieldPtr m_fieldWrapper;

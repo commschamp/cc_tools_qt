@@ -90,7 +90,7 @@ bool ToolsField::setSerialisedString(const QString& str)
     return setSerialisedValue(seq);
 }
 
-void ToolsField::dispatch(field_wrapper::FieldWrapperHandler& handler)
+void ToolsField::dispatch(ToolsFieldHandler& handler)
 {
     dispatchImpl(handler);
 }

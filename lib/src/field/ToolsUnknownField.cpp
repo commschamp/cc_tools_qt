@@ -17,7 +17,7 @@
 
 #include "cc_tools_qt/field/ToolsUnknownField.h"
 
-#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/ToolsFieldHandler.h"
 
 namespace cc_tools_qt
 {
@@ -34,7 +34,7 @@ ToolsUnknownField::ActPtr ToolsUnknownField::clone()
     return cloneImpl();
 }
 
-void ToolsUnknownField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
+void ToolsUnknownField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);
 }

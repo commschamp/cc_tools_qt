@@ -17,7 +17,7 @@
 
 #include "cc_tools_qt/field/ToolsBundleField.h"
 
-#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/ToolsFieldHandler.h"
 
 namespace cc_tools_qt
 {
@@ -57,7 +57,7 @@ ToolsBundleField::ActPtr ToolsBundleField::clone()
     return ptr;
 }
 
-void ToolsBundleField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
+void ToolsBundleField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);
 }

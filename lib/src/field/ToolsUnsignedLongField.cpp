@@ -17,7 +17,7 @@
 
 #include "cc_tools_qt/field/ToolsUnsignedLongField.h"
 
-#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/ToolsFieldHandler.h"
 
 namespace cc_tools_qt
 {
@@ -69,7 +69,7 @@ ToolsUnsignedLongField::ActPtr ToolsUnsignedLongField::clone()
     return cloneImpl();
 }
 
-void ToolsUnsignedLongField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
+void ToolsUnsignedLongField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);
 }

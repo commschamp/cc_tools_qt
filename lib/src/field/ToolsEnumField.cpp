@@ -17,7 +17,7 @@
 
 #include "cc_tools_qt/field/ToolsEnumField.h"
 
-#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/ToolsFieldHandler.h"
 
 namespace cc_tools_qt
 {
@@ -34,7 +34,7 @@ ToolsEnumField::ActPtr ToolsEnumField::clone()
     return cloneImpl();
 }
 
-void ToolsEnumField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
+void ToolsEnumField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);
 }

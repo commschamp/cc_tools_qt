@@ -53,7 +53,7 @@ public:
 protected:
     virtual ActPtr cloneImpl() = 0;
 
-    void dispatchImpl(field_wrapper::FieldWrapperHandler& handler);
+    void dispatchImpl(ToolsFieldHandler& handler);
 
 private:
     Members m_members;

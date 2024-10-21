@@ -17,7 +17,7 @@
 
 #include "cc_tools_qt/field/ToolsIntField.h"
 
-#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/ToolsFieldHandler.h"
 
 namespace cc_tools_qt
 {
@@ -69,7 +69,7 @@ ToolsIntField::ActPtr ToolsIntField::clone()
     return cloneImpl();
 }
 
-void ToolsIntField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
+void ToolsIntField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);
 }

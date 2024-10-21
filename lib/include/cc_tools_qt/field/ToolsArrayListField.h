@@ -77,7 +77,7 @@ protected:
     virtual void refreshMembersImpl() = 0;
     virtual PrefixFieldInfo getPrefixFieldInfoImpl() const = 0;
 
-    void dispatchImpl(field_wrapper::FieldWrapperHandler& handler);
+    void dispatchImpl(ToolsFieldHandler& handler);
 
 private:
     Members m_members;

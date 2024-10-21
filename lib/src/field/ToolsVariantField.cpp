@@ -19,7 +19,7 @@
 
 #include <cassert>
 
-#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/ToolsFieldHandler.h"
 
 namespace cc_tools_qt
 {
@@ -83,7 +83,7 @@ int ToolsVariantField::getMembersCount() const
     return getMembersCountImpl();
 }
 
-void ToolsVariantField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
+void ToolsVariantField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);
 }

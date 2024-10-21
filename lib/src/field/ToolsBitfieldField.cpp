@@ -17,7 +17,7 @@
 
 #include "cc_tools_qt/field/ToolsBitfieldField.h"
 
-#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/ToolsFieldHandler.h"
 
 namespace cc_tools_qt
 {
@@ -57,7 +57,7 @@ ToolsBitfieldField::ActPtr ToolsBitfieldField::clone()
     return ptr;
 }
 
-void ToolsBitfieldField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
+void ToolsBitfieldField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);
 }

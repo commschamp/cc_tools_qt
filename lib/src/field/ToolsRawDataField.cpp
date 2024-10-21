@@ -17,7 +17,7 @@
 
 #include "cc_tools_qt/field/ToolsRawDataField.h"
 
-#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/ToolsFieldHandler.h"
 
 namespace cc_tools_qt
 {
@@ -73,7 +73,7 @@ bool ToolsRawDataField::isTruncated() const
     return TruncateLength < length();
 }
 
-void ToolsRawDataField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
+void ToolsRawDataField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);
 }

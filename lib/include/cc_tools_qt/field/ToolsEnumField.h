@@ -43,7 +43,7 @@ public:
 protected:
     virtual ActPtr cloneImpl() = 0;
 
-    void dispatchImpl(field_wrapper::FieldWrapperHandler& handler);
+    void dispatchImpl(ToolsFieldHandler& handler);
 };
 
 using ToolsEnumFieldPtr = std::unique_ptr<ToolsEnumField>;

@@ -60,7 +60,7 @@ protected:
     virtual int minSizeImpl() const = 0;
     virtual ActPtr cloneImpl() = 0;
 
-    void dispatchImpl(field_wrapper::FieldWrapperHandler& handler);
+    void dispatchImpl(ToolsFieldHandler& handler);
 
     static const std::size_t TruncateLength = 128;
 

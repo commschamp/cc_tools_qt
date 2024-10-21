@@ -74,7 +74,7 @@ public:
 protected:
     virtual ActPtr cloneImpl() = 0;
     virtual QStringList membersNamesImpl() const = 0;
-    virtual void dispatchImpl(field_wrapper::FieldWrapperHandler& handler);
+    virtual void dispatchImpl(ToolsFieldHandler& handler);
     virtual int getCurrentIndexImpl() const = 0;
     virtual void setCurrentIndexImpl(int index) = 0;
     virtual int getMembersCountImpl() const = 0;

@@ -17,7 +17,7 @@
 
 #include "cc_tools_qt/field/ToolsArrayListField.h"
 
-#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/ToolsFieldHandler.h"
 
 namespace cc_tools_qt
 {
@@ -95,7 +95,7 @@ ToolsArrayListField::PrefixFieldInfo ToolsArrayListField::getPrefixFieldInfo() c
     return getPrefixFieldInfoImpl();
 }
 
-void ToolsArrayListField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
+void ToolsArrayListField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);
 }

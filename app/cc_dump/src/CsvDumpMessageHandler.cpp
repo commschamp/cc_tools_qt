@@ -20,7 +20,7 @@
 
 #include <iomanip>
 
-#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/ToolsFieldHandler.h"
 #include "cc_tools_qt/property/message.h"
 
 namespace cc = cc_tools_qt;
@@ -35,7 +35,7 @@ const char Endl = '\n';
 
 }  // namespace
 
-class CsvDumpFieldsHandler : public cc::field_wrapper::FieldWrapperHandler
+class CsvDumpFieldsHandler : public cc::ToolsFieldHandler
 {
 public:
     CsvDumpFieldsHandler(std::ostream& out, const std::string& sep)

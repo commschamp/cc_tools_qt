@@ -17,7 +17,7 @@
 
 #include "cc_tools_qt/field/ToolsOptionalField.h"
 
-#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/ToolsFieldHandler.h"
 
 namespace cc_tools_qt
 {
@@ -66,7 +66,7 @@ ToolsOptionalField::ActPtr ToolsOptionalField::clone()
     return ptr;
 }
 
-void ToolsOptionalField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
+void ToolsOptionalField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);
 }

@@ -31,32 +31,34 @@
 #include "cc_tools_qt/field/ToolsUnknownField.h"
 #include "cc_tools_qt/field/ToolsUnsignedLongField.h"
 #include "cc_tools_qt/field/ToolsVariantField.h"
-
-#include <tuple>
+#include "cc_tools_qt/ToolsField.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+class ToolsFieldHandler
 {
+public:
+    virtual ~ToolsFieldHandler() noexcept = default;
 
-typedef std::tuple<
-    cc_tools_qt::field::ToolsIntField,
-    cc_tools_qt::field::ToolsUnsignedLongField,
-    cc_tools_qt::field::ToolsBitmaskField,
-    cc_tools_qt::field::ToolsEnumField,
-    cc_tools_qt::field::ToolsStringField,
-    cc_tools_qt::field::ToolsBitfieldField,
-    cc_tools_qt::field::ToolsOptionalField,
-    cc_tools_qt::field::ToolsBundleField,
-    cc_tools_qt::field::ToolsRawDataField,
-    cc_tools_qt::field::ToolsArrayListField,
-    cc_tools_qt::field::ToolsFloatField,
-    cc_tools_qt::field::ToolsVariantField,
-    cc_tools_qt::field::ToolsUnknownField
-> AllWrappers;
+    virtual void handle(field::ToolsArrayListField& field);
+    virtual void handle(field::ToolsBitfieldField& field);
+    virtual void handle(field::ToolsBitmaskField& field);
+    virtual void handle(field::ToolsBundleField& field);
+    virtual void handle(field::ToolsEnumField& field);
+    virtual void handle(field::ToolsFloatField& field);
+    virtual void handle(field::ToolsIntField& field);
+    virtual void handle(field::ToolsOptionalField& field);
+    virtual void handle(field::ToolsRawDataField& field);
+    virtual void handle(field::ToolsStringField& field);
+    virtual void handle(field::ToolsUnknownField& field);
+    virtual void handle(field::ToolsUnsignedLongField& field);
+    virtual void handle(field::ToolsVariantField& field);
+    virtual void handle(ToolsField& field);
 
-}  // namespace field_wrapper
+protected:
+    ToolsFieldHandler() = default;
+};
 
 }  // namespace cc_tools_qt
 
