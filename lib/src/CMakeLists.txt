@@ -5,6 +5,7 @@ function (lib_tools)
         field/ToolsArrayListField.cpp
         field/ToolsBitfieldField.cpp
         field/ToolsBitmaskField.cpp
+        field/ToolsBundleField.cpp
         field/ToolsEnumField.cpp
         field/ToolsFloatField.cpp
         field/ToolsIntField.cpp
@@ -32,7 +33,6 @@ function (lib_tools)
         ToolsFrame.cpp
         ToolsMsgFactory.cpp
         ToolsProtocol.cpp
-        field_wrapper/BundleWrapper.cpp
         field_wrapper/VariantWrapper.cpp
         field_wrapper/UnknownValueWrapper.cpp
         property/message.cpp

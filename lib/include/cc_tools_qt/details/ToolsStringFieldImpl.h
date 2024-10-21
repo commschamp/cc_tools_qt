@@ -28,8 +28,6 @@
 #include <memory>
 #include <limits>
 
-#include "cc_tools_qt/ToolsField.h"
-
 namespace cc_tools_qt
 {
 

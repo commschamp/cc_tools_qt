@@ -25,6 +25,7 @@
 #include "cc_tools_qt/details/ToolsArrayListFieldImpl.h"
 #include "cc_tools_qt/details/ToolsBitfieldFieldImpl.h"
 #include "cc_tools_qt/details/ToolsBitmaskFieldImpl.h"
+#include "cc_tools_qt/details/ToolsBundleFieldImpl.h"
 #include "cc_tools_qt/details/ToolsEnumFieldImpl.h"
 #include "cc_tools_qt/details/ToolsFloatFieldImpl.h"
 #include "cc_tools_qt/details/ToolsIntFieldImpl.h"
@@ -33,7 +34,6 @@
 #include "cc_tools_qt/details/ToolsStringFieldImpl.h"
 #include "cc_tools_qt/details/ToolsUnsignedLongFieldImpl.h"
 
-#include "cc_tools_qt/field_wrapper/BundleWrapper.h"
 #include "cc_tools_qt/field_wrapper/VariantWrapper.h"
 #include "cc_tools_qt/field_wrapper/UnknownValueWrapper.h"
 
@@ -195,24 +195,24 @@ private:
     template <typename TField>
     static ToolsFieldPtr createFieldInternal(TField& field, BundleTag)
     {
-        auto wrapper = field_wrapper::makeBundleWrapper(field);
+        auto fieldPtr = makeBundleField(field);
 
-        typedef typename std::decay<decltype(wrapper)>::type WrapperPtrType;
-        typedef typename WrapperPtrType::element_type WrapperType;
-        typedef typename WrapperType::Members MembersWrappersList;
+        using FieldPtrType = std::decay_t<decltype(fieldPtr)>;
+        using FieldType = typename FieldPtrType::element_type;
+        using MemberFieldsList = typename FieldType::Members;
 
-        MembersWrappersList subWrappers;
+        MemberFieldsList subFields;
         auto& memberFields = field.value();
         comms::util::tupleForEach(
             memberFields,
             SubfieldsCreateHelper(
-                [&subWrappers](ToolsFieldPtr fieldWrapper)
+                [&subFields](ToolsFieldPtr fieldParam)
                 {
-                    subWrappers.push_back(std::move(fieldWrapper));
+                    subFields.push_back(std::move(fieldParam));
                 }));
 
-        wrapper->setMembers(std::move(subWrappers));
-        return wrapper;
+        fieldPtr->setMembers(std::move(subFields));
+        return fieldPtr;
     }
 
     template <typename TField>

@@ -30,10 +30,10 @@ namespace cc_tools_qt
 {
 
 BundleFieldWidget::BundleFieldWidget(
-    WrapperPtr wrapper,
+    FieldPtr fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper)),
+    m_fieldPtr(std::move(fieldPtr)),
     m_membersLayout(new QVBoxLayout),
     m_label(new QLabel)
 {
@@ -67,8 +67,8 @@ void BundleFieldWidget::addMemberField(FieldWidget* memberFieldWidget)
 
 ToolsField& BundleFieldWidget::fieldImpl()
 {
-    assert(m_wrapper);
-    return *m_wrapper;
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
 }
 
 void BundleFieldWidget::refreshImpl()
@@ -103,9 +103,9 @@ void BundleFieldWidget::memberFieldUpdated()
     auto senderIter = std::find(m_members.begin(), m_members.end(), qobject_cast<FieldWidget*>(sender()));
     assert(senderIter != m_members.end());
     auto idx = static_cast<unsigned>(std::distance(m_members.begin(), senderIter));
-    auto& memWrappers = m_wrapper->getMembers();
-    assert(idx < memWrappers.size());
-    auto& memWrapPtr = memWrappers[idx];
+    auto& memFields = m_fieldPtr->getMembers();
+    assert(idx < memFields.size());
+    auto& memWrapPtr = memFields[idx];
     if (!memWrapPtr->canWrite()) {
         memWrapPtr->reset();
         assert(memWrapPtr->canWrite());

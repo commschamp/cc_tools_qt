@@ -23,7 +23,7 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QLabel>
 
-#include "cc_tools_qt/field_wrapper/BundleWrapper.h"
+#include "cc_tools_qt/field/ToolsBundleField.h"
 #include "FieldWidget.h"
 
 namespace cc_tools_qt
@@ -35,11 +35,11 @@ class BundleFieldWidget : public FieldWidget
     typedef FieldWidget Base;
 public:
 
-    using Wrapper = field_wrapper::BundleWrapper;
-    using WrapperPtr = field_wrapper::BundleWrapperPtr;
+    using Field = field::ToolsBundleField;
+    using FieldPtr = field::ToolsBundleFieldPtr;
 
     explicit BundleFieldWidget(
-        WrapperPtr wrapper,
+        FieldPtr fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~BundleFieldWidget() noexcept;
@@ -57,7 +57,7 @@ private slots:
 
 private:
 
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     QVBoxLayout* m_membersLayout = nullptr;
     QLabel* m_label = nullptr;
     std::vector<FieldWidget*> m_members;

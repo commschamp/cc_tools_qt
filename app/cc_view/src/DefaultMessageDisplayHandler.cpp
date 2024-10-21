@@ -108,17 +108,17 @@ public:
         m_widget = std::move(widget);
     }
 
-    virtual void handle(field_wrapper::BundleWrapper& wrapper) override
+    virtual void handle(field::ToolsBundleField& field) override
     {
-        auto& membersWrappers = wrapper.getMembers();
+        auto& memberFields = field.getMembers();
         std::vector<FieldWidgetPtr> membersWidgets;
-        membersWidgets.reserve(membersWrappers.size());
-        for (auto& mem : membersWrappers) {
+        membersWidgets.reserve(memberFields.size());
+        for (auto& mem : memberFields) {
             mem->dispatch(*this);
             membersWidgets.push_back(getWidget());
         }
 
-        std::unique_ptr<BundleFieldWidget> widget(new BundleFieldWidget(wrapper.clone(), m_parent));
+        std::unique_ptr<BundleFieldWidget> widget(new BundleFieldWidget(field.clone(), m_parent));
         for (auto& memWidget : membersWidgets) {
             widget->addMemberField(memWidget.release());
         }

@@ -15,36 +15,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/field_wrapper/BundleWrapper.h"
+#include "cc_tools_qt/field/ToolsBundleField.h"
 
 #include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace field
 {
 
-BundleWrapper::BundleWrapper() {}
+ToolsBundleField::ToolsBundleField() {}
 
-BundleWrapper::~BundleWrapper() noexcept = default;
+ToolsBundleField::~ToolsBundleField() noexcept = default;
 
-BundleWrapper::Members& BundleWrapper::getMembers()
-{
-    return m_members;
-}
-
-const BundleWrapper::Members& BundleWrapper::getMembers() const
+ToolsBundleField::Members& ToolsBundleField::getMembers()
 {
     return m_members;
 }
 
-void BundleWrapper::setMembers(Members&& members)
+const ToolsBundleField::Members& ToolsBundleField::getMembers() const
+{
+    return m_members;
+}
+
+void ToolsBundleField::setMembers(Members&& members)
 {
     m_members = std::move(members);
 } 
 
-BundleWrapper::ActPtr BundleWrapper::clone()
+ToolsBundleField::ActPtr ToolsBundleField::clone()
 {
     Members clonedMembers;
     clonedMembers.reserve(m_members.size());
@@ -57,12 +57,12 @@ BundleWrapper::ActPtr BundleWrapper::clone()
     return ptr;
 }
 
-void BundleWrapper::dispatchImpl(FieldWrapperHandler& handler)
+void ToolsBundleField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
 {
     handler.handle(*this);
 }
 
-}  // namespace field_wrapper
+}  // namespace field
 
 }  // namespace cc_tools_qt
 
