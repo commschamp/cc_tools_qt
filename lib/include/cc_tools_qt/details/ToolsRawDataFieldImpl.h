@@ -18,82 +18,42 @@
 
 #pragma once
 
+#include "cc_tools_qt/details/ToolsFieldBase.h"
+#include "cc_tools_qt/field/ToolsRawDataField.h"
+
+#include "comms/field/ArrayList.h"
 
 #include <cstdint>
 #include <cassert>
 #include <memory>
 #include <limits>
 
-#include <QtCore/QString>
-
-#include "comms/comms.h"
-
-#include "cc_tools_qt/ToolsField.h"
-
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace details
 {
-
-class CC_API ArrayListRawDataWrapper : public ToolsField
-{
-public:
-
-    typedef std::unique_ptr<ArrayListRawDataWrapper> ActPtr;
-
-    ArrayListRawDataWrapper();
-    virtual ~ArrayListRawDataWrapper() noexcept;
-
-    QString getValue() const;
-
-    void setValue(const QString& val);
-
-    int maxSize() const;
-
-    int minSize() const;
-
-    ActPtr clone();
-
-    bool getForcedShowAll() const;
-    void setForcedShowAll(bool val = true);
-    bool isTruncated() const;
-
-protected:
-    virtual QString getValueImpl() const = 0;
-    virtual void setValueImpl(const QString& val) = 0;
-    virtual int maxSizeImpl() const = 0;
-    virtual int minSizeImpl() const = 0;
-    virtual ActPtr cloneImpl() = 0;
-
-    void dispatchImpl(FieldWrapperHandler& handler);
-
-    static const std::size_t TruncateLength = 128;
-
-private:
-    bool m_forcedShowAll = false;    
-};
 
 template <typename TField>
-class ArrayListRawDataWrapperT : public ToolsFieldT<ArrayListRawDataWrapper, TField>
+class ToolsRawDataFieldImpl : public ToolsFieldBase<cc_tools_qt::field::ToolsRawDataField, TField>
 {
-    using Base = ToolsFieldT<ArrayListRawDataWrapper, TField>;
+    using Base = ToolsFieldBase<cc_tools_qt::field::ToolsRawDataField, TField>;
     using Field = TField;
 
 public:
     using SerialisedSeq = typename Base::SerialisedSeq;
     typedef typename Base::ActPtr ActPtr;
 
-    explicit ArrayListRawDataWrapperT(Field& fieldRef)
+    explicit ToolsRawDataFieldImpl(Field& fieldRef)
       : Base(fieldRef)
     {
     }
 
-    ArrayListRawDataWrapperT(const ArrayListRawDataWrapperT&) = default;
-    ArrayListRawDataWrapperT(ArrayListRawDataWrapperT&&) = default;
-    virtual ~ArrayListRawDataWrapperT() noexcept = default;
+    ToolsRawDataFieldImpl(const ToolsRawDataFieldImpl&) = default;
+    ToolsRawDataFieldImpl(ToolsRawDataFieldImpl&&) = default;
+    virtual ~ToolsRawDataFieldImpl() noexcept = default;
 
-    ArrayListRawDataWrapperT& operator=(const ArrayListRawDataWrapperT&) = delete;
+    ToolsRawDataFieldImpl& operator=(const ToolsRawDataFieldImpl&) = delete;
 
 protected:
 
@@ -186,7 +146,7 @@ protected:
 
     virtual ActPtr cloneImpl() override
     {
-        return ActPtr(new ArrayListRawDataWrapperT<TField>(Base::field()));
+        return ActPtr(new ToolsRawDataFieldImpl<TField>(Base::field()));
     }
 
 private:
@@ -195,19 +155,20 @@ private:
     struct FixedSizeTag {};
     struct NoLimitsTag {};
 
-    typedef typename std::conditional<
-        Field::hasSizeFieldPrefix(),
-        SizeFieldExistsTag,
-        typename std::conditional<
-            Field::hasSerLengthFieldPrefix(),
-            SerLengthFieldExistsTag,
-            typename std::conditional<
-                Field::hasFixedSize(),
-                FixedSizeTag,
-                NoLimitsTag
-            >::type
-        >::type
-    >::type SizeExistanceTag;
+    using SizeExistanceTag =
+        std::conditional_t<
+            Field::hasSizeFieldPrefix(),
+            SizeFieldExistsTag,
+            std::conditional_t<
+                Field::hasSerLengthFieldPrefix(),
+                SerLengthFieldExistsTag,
+                std::conditional_t<
+                    Field::hasFixedSize(),
+                    FixedSizeTag,
+                    NoLimitsTag
+                >
+            >
+        >;
 
     template <typename TPrefixField>
     static int maxSizeByPrefix()
@@ -224,13 +185,13 @@ private:
 
     static int maxSizeInternal(SizeFieldExistsTag)
     {
-        typedef typename Field::SizeFieldPrefix PrefixField;
+        using PrefixField = typename Field::SizeFieldPrefix;
         return maxSizeByPrefix<PrefixField>();
     }
 
     static int maxSizeInternal(SerLengthFieldExistsTag)
     {
-        typedef typename Field::SerLengthFieldPrefix PrefixField;
+        using PrefixField = typename Field::SerLengthFieldPrefix;
         return maxSizeByPrefix<PrefixField>();
     }
 
@@ -269,18 +230,13 @@ private:
     }
 };
 
-using ArrayListRawDataWrapperPtr = ArrayListRawDataWrapper::ActPtr;
-
 template <typename TField>
-ArrayListRawDataWrapperPtr
-makeArrayListRawDataWrapper(TField& field)
+auto makeRawDataField(TField& field)
 {
-    return
-        ArrayListRawDataWrapperPtr(
-            new ArrayListRawDataWrapperT<TField>(field));
+    return std::make_unique<ToolsRawDataFieldImpl<TField>>(field);
 }
 
-}  // namespace field_wrapper
+}  // namespace details
 
 }  // namespace cc_tools_qt
 

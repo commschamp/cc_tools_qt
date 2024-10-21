@@ -25,11 +25,11 @@
 #include "cc_tools_qt/field/ToolsFloatField.h"
 #include "cc_tools_qt/field/ToolsIntField.h"
 #include "cc_tools_qt/field/ToolsOptionalField.h"
+#include "cc_tools_qt/field/ToolsRawDataField.h"
 #include "cc_tools_qt/field/ToolsStringField.h"
 #include "cc_tools_qt/field/ToolsUnsignedLongField.h"
 
 #include "BundleWrapper.h"
-#include "ArrayListRawDataWrapper.h"
 #include "VariantWrapper.h"
 #include "UnknownValueWrapper.h"
 
@@ -50,7 +50,7 @@ typedef std::tuple<
     cc_tools_qt::field::ToolsBitfieldField,
     cc_tools_qt::field::ToolsOptionalField,
     BundleWrapper,
-    ArrayListRawDataWrapper,
+    cc_tools_qt::field::ToolsRawDataField,
     cc_tools_qt::field::ToolsArrayListField,
     cc_tools_qt::field::ToolsFloatField,
     VariantWrapper,

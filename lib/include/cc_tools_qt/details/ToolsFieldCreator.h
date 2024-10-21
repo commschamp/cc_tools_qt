@@ -29,11 +29,11 @@
 #include "cc_tools_qt/details/ToolsFloatFieldImpl.h"
 #include "cc_tools_qt/details/ToolsIntFieldImpl.h"
 #include "cc_tools_qt/details/ToolsOptionalFieldImpl.h"
+#include "cc_tools_qt/details/ToolsRawDataFieldImpl.h"
 #include "cc_tools_qt/details/ToolsStringFieldImpl.h"
 #include "cc_tools_qt/details/ToolsUnsignedLongFieldImpl.h"
 
 #include "cc_tools_qt/field_wrapper/BundleWrapper.h"
-#include "cc_tools_qt/field_wrapper/ArrayListRawDataWrapper.h"
 #include "cc_tools_qt/field_wrapper/VariantWrapper.h"
 #include "cc_tools_qt/field_wrapper/UnknownValueWrapper.h"
 
@@ -218,7 +218,7 @@ private:
     template <typename TField>
     static ToolsFieldPtr createFieldInternal(TField& field, RawDataArrayListTag)
     {
-        return field_wrapper::makeArrayListRawDataWrapper(field);
+        return makeRawDataField(field);
     }
 
     template <typename TField>

@@ -9,6 +9,7 @@ function (lib_tools)
         field/ToolsFloatField.cpp
         field/ToolsIntField.cpp
         field/ToolsOptionalField.cpp
+        field/ToolsRawDataField.cpp
         field/ToolsStringField.cpp
         field/ToolsUnsignedLongField.cpp
         ErrorStatus.cpp
@@ -32,7 +33,6 @@ function (lib_tools)
         ToolsMsgFactory.cpp
         ToolsProtocol.cpp
         field_wrapper/BundleWrapper.cpp
-        field_wrapper/ArrayListRawDataWrapper.cpp
         field_wrapper/VariantWrapper.cpp
         field_wrapper/UnknownValueWrapper.cpp
         property/message.cpp

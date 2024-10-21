@@ -15,56 +15,56 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/field_wrapper/ArrayListRawDataWrapper.h"
+#include "cc_tools_qt/field/ToolsRawDataField.h"
 
 #include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
 
 namespace cc_tools_qt
 {
 
-namespace field_wrapper
+namespace field
 {
 
-ArrayListRawDataWrapper::ArrayListRawDataWrapper() {}
+ToolsRawDataField::ToolsRawDataField() {}
 
-ArrayListRawDataWrapper::~ArrayListRawDataWrapper() noexcept = default;
+ToolsRawDataField::~ToolsRawDataField() noexcept = default;
 
-QString ArrayListRawDataWrapper::getValue() const
+QString ToolsRawDataField::getValue() const
 {
     return getValueImpl();
 }
 
-void ArrayListRawDataWrapper::setValue(const QString& val)
+void ToolsRawDataField::setValue(const QString& val)
 {
     setValueImpl(val);
 }
 
-int ArrayListRawDataWrapper::maxSize() const
+int ToolsRawDataField::maxSize() const
 {
     return maxSizeImpl();
 }
 
-int ArrayListRawDataWrapper::minSize() const
+int ToolsRawDataField::minSize() const
 {
     return minSizeImpl();
 }
 
-ArrayListRawDataWrapper::ActPtr ArrayListRawDataWrapper::clone()
+ToolsRawDataField::ActPtr ToolsRawDataField::clone()
 {
     return cloneImpl();
 }
 
-bool ArrayListRawDataWrapper::getForcedShowAll() const
+bool ToolsRawDataField::getForcedShowAll() const
 {
     return m_forcedShowAll;
 }
 
-void ArrayListRawDataWrapper::setForcedShowAll(bool val)
+void ToolsRawDataField::setForcedShowAll(bool val)
 {
     m_forcedShowAll = val;
 }
 
-bool ArrayListRawDataWrapper::isTruncated() const
+bool ToolsRawDataField::isTruncated() const
 {
     if (m_forcedShowAll) {
         return false;
@@ -73,12 +73,12 @@ bool ArrayListRawDataWrapper::isTruncated() const
     return TruncateLength < length();
 }
 
-void ArrayListRawDataWrapper::dispatchImpl(FieldWrapperHandler& handler)
+void ToolsRawDataField::dispatchImpl(field_wrapper::FieldWrapperHandler& handler)
 {
     handler.handle(*this);
 }
 
-}  // namespace field_wrapper
+}  // namespace field
 
 }  // namespace cc_tools_qt
 

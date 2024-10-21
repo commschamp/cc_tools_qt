@@ -126,9 +126,9 @@ public:
         m_widget = std::move(widget);
     }
 
-    virtual void handle(field_wrapper::ArrayListRawDataWrapper& wrapper) override
+    virtual void handle(field::ToolsRawDataField& field) override
     {
-        m_widget.reset(new ArrayListRawDataFieldWidget(wrapper.clone(), m_parent));
+        m_widget.reset(new ArrayListRawDataFieldWidget(field.clone(), m_parent));
     }
 
     virtual void handle(field::ToolsArrayListField& field) override
