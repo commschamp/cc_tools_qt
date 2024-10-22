@@ -42,6 +42,7 @@ UnsignedLongLongIntValueFieldWidget::UnsignedLongLongIntValueFieldWidget(
 
     assert(m_ui.m_serValueLineEdit != nullptr);
     setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
+    createSpecialsWidget(m_fieldPtr->specials());
 
     refresh();
 
@@ -97,8 +98,6 @@ void UnsignedLongLongIntValueFieldWidget::updatePropertiesImpl(const QVariantMap
     property::field::IntValue parsedProps(props);
     m_offset = parsedProps.displayOffset();
     m_decimals = parsedProps.scaledDecimals();
-    auto& specials = parsedProps.specials();
-    createSpecialsWidget(specials);
     refresh();
 }
 
@@ -172,7 +171,12 @@ bool UnsignedLongLongIntValueFieldWidget::createSpecialsWidget(const SpecialsLis
         return false;
     }
 
-    m_specialsWidget = new SpecialValueWidget(specials);
+    SpecialValueWidget::IntValueInfosList adjSpecials;
+    for (auto& s : specials) {
+        adjSpecials.append(qMakePair(s.first, static_cast<long long>(s.second)));
+    }
+
+    m_specialsWidget = new SpecialValueWidget(adjSpecials);
     connect(
         m_specialsWidget, SIGNAL(sigIntValueChanged(long long)),
         this, SLOT(specialSelected(long long)));

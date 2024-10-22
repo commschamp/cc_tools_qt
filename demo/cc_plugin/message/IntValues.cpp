@@ -40,23 +40,11 @@ using ProtMsg = demo::cc_plugin::message::IntValues::ProtMsg;
 QVariantList createFieldsProperties()
 {
     QVariantList props;
-    props.append(
-        cc::property::field::ForField<ProtMsg::Field_field1>()
-            .addSpecial("S1", 1)
-            .addSpecial("S2", 5)
-            .asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field1>().asMap());
     props.append(cc::property::field::ForField<ProtMsg::Field_field2>().asMap());
-    props.append(
-        cc::property::field::ForField<ProtMsg::Field_field3>()
-            .addSpecial("S1", 100)
-            .addSpecial("S2", 500)
-            .asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field3>().asMap());
     props.append(cc::property::field::ForField<ProtMsg::Field_field4>().asMap());
-    props.append(
-        cc::property::field::ForField<ProtMsg::Field_field5>()
-            .addSpecial("S1", 0xffffff)
-            .addSpecial("S2", static_cast<long long>(0xffffffffffff))
-            .asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field5>().asMap());
     props.append(cc::property::field::ForField<ProtMsg::Field_field6>().asMap());
 
     assert(props.size() == ProtMsg::FieldIdx_numOfValues);

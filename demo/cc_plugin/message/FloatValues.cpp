@@ -57,8 +57,6 @@ QVariantList createFieldsProperties()
     props.append(
         cc::property::field::ForField<ProtMsg::Field_field3>()
             .scaledDecimals(2)
-            .addSpecial("S1", 123)
-            .addSpecial("S2", 22)
             .asMap());
     props.append(
         cc::property::field::ForField<ProtMsg::Field_field4>()

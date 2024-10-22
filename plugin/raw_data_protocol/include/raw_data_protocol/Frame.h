@@ -42,6 +42,11 @@ template <typename TField, typename... TOptions>
 class IdField : public comms::field::IntValue<TField, std::uint8_t, comms::option::def::EmptySerialization>
 {
 public:
+    static constexpr bool hasSpecials()
+    {
+        return false;
+    }
+    
     static const char* name()
     {
         return "Id";

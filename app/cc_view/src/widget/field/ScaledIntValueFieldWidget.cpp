@@ -49,6 +49,7 @@ ScaledIntValueFieldWidget::ScaledIntValueFieldWidget(
 
     assert(m_ui.m_serValueLineEdit != nullptr);
     setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
+    createSpecialsWidget(m_fieldPtr->specials());
 
     m_ui.m_valueSpinBox->setRange(
         m_fieldPtr->scaleValue(m_fieldPtr->minValue()),
@@ -117,8 +118,6 @@ void ScaledIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
         m_ui.m_valueSpinBox->setDecimals(0);
     }
 
-    auto& specials = actProps.specials();
-    createSpecialsWidget(specials);
     refresh();
 }
 

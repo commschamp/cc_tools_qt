@@ -69,6 +69,11 @@ ToolsIntField::ActPtr ToolsIntField::clone()
     return cloneImpl();
 }
 
+const ToolsIntField::SpecialsList& ToolsIntField::specials() const
+{
+    return specialsImpl();
+}
+
 void ToolsIntField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);

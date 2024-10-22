@@ -20,6 +20,9 @@
 
 #include "cc_tools_qt/details/ToolsNumericFieldBase.h"
 
+#include <QtCore/QList>
+#include <QtCore/QPair>
+
 #include <cstdint>
 #include <cassert>
 #include <memory>
@@ -38,6 +41,8 @@ class CC_API ToolsUnsignedLongField : public cc_tools_qt::details::ToolsNumericF
 public:
     using UnderlyingType = Base::UnderlyingType;
     using ActPtr = std::unique_ptr<ToolsUnsignedLongField>;
+    using SpecialType = QPair<QString, UnderlyingType>;
+    using SpecialsList = QList<SpecialType>;      
 
     ToolsUnsignedLongField();
     
@@ -59,6 +64,8 @@ public:
 
     ActPtr clone();
 
+    const SpecialsList& specials() const;
+
 protected:
     virtual UnderlyingType minValueImpl() const = 0;
     virtual UnderlyingType maxValueImpl() const = 0;
@@ -68,6 +75,7 @@ protected:
     virtual bool isSignedImpl() const = 0;
     virtual std::size_t valueTypeSizeImpl() const = 0;
     virtual ActPtr cloneImpl() = 0;
+    virtual const SpecialsList& specialsImpl() const = 0;
 
     virtual void dispatchImpl(ToolsFieldHandler& handler) override;
 };

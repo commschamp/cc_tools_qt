@@ -43,6 +43,11 @@ class SyncField : public
     >
 {
 public:
+    static constexpr bool hasSpecials()
+    {
+        return false;
+    }
+    
     static const char* name()
     {
         return "SYNC";
@@ -57,6 +62,11 @@ class ChecksumField : public
     >
 {
 public:
+    static constexpr bool hasSpecials()
+    {
+        return false;
+    }
+    
     static const char* name()
     {
         return "CHECKSUM";
@@ -72,6 +82,11 @@ class LengthField : public
     >
 {
 public:
+    static constexpr bool hasSpecials()
+    {
+        return false;
+    }
+    
     static const char* name()
     {
         return "LENGTH";

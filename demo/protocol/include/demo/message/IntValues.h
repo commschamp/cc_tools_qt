@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2018 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -26,6 +26,8 @@
 #include "demo/FieldBase.h"
 #include "demo/DefaultOptions.h"
 
+#include <type_traits>
+
 namespace demo
 {
 
@@ -48,11 +50,38 @@ struct IntValuesFields
             comms::option::ValidNumValueRange<0, 10>
         >
     {
+        using Base = 
+            comms::field::IntValue<
+                demo::FieldBase,
+                std::uint16_t,
+                typename TOpt::message::IntValuesFields::field1,
+                comms::option::ValidNumValueRange<0, 10>
+            >;
     public:
+        using ValueType = typename Base::ValueType;
+        using SpecialNameInfo = std::pair<ValueType, const char*>;
+        using SpecialNamesMapInfo = std::pair<const SpecialNameInfo*, std::size_t>;
+
+        static constexpr bool hasSpecials()
+        {
+            return true;
+        }
+
         static const char* name()
         {
             return "field1";
-        }                 
+        }   
+
+        static SpecialNamesMapInfo specialNamesMap()
+        {
+            static const SpecialNameInfo Map[] = {
+                std::make_pair(ValueType(1), "S1"),
+                std::make_pair(ValueType(5), "S2"),
+            };
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+
+            return std::make_pair(&Map[0], MapSize);
+        }                      
     };
 
     /// @brief Signed integer serialised using only 3 bytes
@@ -65,6 +94,11 @@ struct IntValuesFields
         >
     {
     public:
+        static constexpr bool hasSpecials()
+        {
+            return false;
+        }
+
         static const char* name()
         {
             return "field2";
@@ -80,11 +114,38 @@ struct IntValuesFields
             comms::option::VarLength<1, 4>
         >
     {
+        using Base =
+            comms::field::IntValue<
+                demo::FieldBase,
+                std::uint32_t,
+                typename TOpt::message::IntValuesFields::field3,
+                comms::option::VarLength<1, 4>
+            >;
     public:
+        using ValueType = typename Base::ValueType;
+        using SpecialNameInfo = std::pair<ValueType, const char*>;
+        using SpecialNamesMapInfo = std::pair<const SpecialNameInfo*, std::size_t>;
+
+        static constexpr bool hasSpecials()
+        {
+            return true;
+        }
+
         static const char* name()
         {
             return "field3";
-        }                 
+        }   
+
+        static SpecialNamesMapInfo specialNamesMap()
+        {
+            static const SpecialNameInfo Map[] = {
+                std::make_pair(ValueType(100), "S1"),
+                std::make_pair(ValueType(500), "S2"),
+            };
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+
+            return std::make_pair(&Map[0], MapSize);
+        }                        
     };
 
     /// @brief Example of serialising year information as a single byte.
@@ -102,6 +163,11 @@ struct IntValuesFields
         >
     {
     public:
+        static constexpr bool hasSpecials()
+        {
+            return false;
+        }
+
         static const char* name()
         {
             return "field4";
@@ -118,11 +184,40 @@ struct IntValuesFields
             comms::option::ValidNumValueRange<static_cast<std::int64_t>(0xffff800000000000), 0x7fffffffffff>
         >
     {
+        using Base =
+        comms::field::IntValue<
+            demo::FieldBase,
+            std::int64_t,
+            typename TOpt::message::IntValuesFields::field5,
+            comms::option::FixedLength<6>,
+            comms::option::ValidNumValueRange<static_cast<std::int64_t>(0xffff800000000000), 0x7fffffffffff>
+        >;
+
     public:
+        using ValueType = typename Base::ValueType;
+        using SpecialNameInfo = std::pair<ValueType, const char*>;
+        using SpecialNamesMapInfo = std::pair<const SpecialNameInfo*, std::size_t>;
+
+        static constexpr bool hasSpecials()
+        {
+            return true;
+        }
+
         static const char* name()
         {
             return "field5";
-        }                 
+        }  
+
+        static SpecialNamesMapInfo specialNamesMap()
+        {
+            static const SpecialNameInfo Map[] = {
+                std::make_pair(ValueType(0xffffff), "S1"),
+                std::make_pair(ValueType(0xffffffffffff), "S2"),
+            };
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+
+            return std::make_pair(&Map[0], MapSize);
+        }                       
     };
 
     /// @brief Unsigned integer serialised using 8 bytes
@@ -134,6 +229,11 @@ struct IntValuesFields
         >
     {
     public:
+        static constexpr bool hasSpecials()
+        {
+            return false;
+        }
+
         static const char* name()
         {
             return "field6";

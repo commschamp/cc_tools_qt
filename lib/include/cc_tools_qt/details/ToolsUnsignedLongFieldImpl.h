@@ -42,9 +42,9 @@ class ToolsUnsignedLongFieldImpl : public ToolsNumericFieldImpl<cc_tools_qt::fie
     static_assert(comms::field::isIntValue<Field>(), "Must be of IntValueField type");
 
 public:
-
     using UnderlyingType = typename Base::UnderlyingType;
     using ActPtr = typename Base::ActPtr;
+    using SpecialsList = typename Base::SpecialsList;
 
     explicit ToolsUnsignedLongFieldImpl(Field& fieldRef)
       : Base(fieldRef)
@@ -98,6 +98,46 @@ protected:
     virtual ActPtr cloneImpl() override
     {
         return ActPtr(new ToolsUnsignedLongFieldImpl<TField>(Base::field()));
+    }
+
+    virtual const SpecialsList& specialsImpl() const override
+    {
+        using Tag = 
+            std::conditional_t<
+                Field::hasSpecials(),
+                HasSpecialsTag,
+                NoSpecialstag
+            >;
+
+        return specialsInternal(Tag());
+    }
+
+private:
+    struct HasSpecialsTag{};    
+    struct NoSpecialstag{};
+
+    static const SpecialsList& specialsInternal(HasSpecialsTag)
+    {
+        static const SpecialsList List = createSpecialsList();
+        return List;
+    }
+
+    static const SpecialsList& specialsInternal(NoSpecialstag)
+    {
+        static const SpecialsList List;
+        return List;
+    }  
+
+    static SpecialsList createSpecialsList()
+    {
+        SpecialsList result;
+        auto mapInfo = Field::specialNamesMap();
+        for (auto idx = 0U; idx < mapInfo.second; ++idx) {
+            auto& sInfo = mapInfo.first[idx];
+            result.append(qMakePair(sInfo.second, static_cast<UnderlyingType>(sInfo.first)));
+        }
+
+        return result;
     }
 };
 

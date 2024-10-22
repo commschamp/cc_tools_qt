@@ -48,6 +48,11 @@ struct BundlesFields
             >
     {
     public:
+        static constexpr bool hasSpecials()
+        {
+            return false;
+        }
+
         static const char* name()
         {
             return "field1_mem1";
@@ -111,6 +116,11 @@ struct BundlesFields
             >
     {
     public:
+        static constexpr bool hasSpecials()
+        {
+            return false;
+        }
+        
         static const char* name()
         {
             return "field2_mem1";

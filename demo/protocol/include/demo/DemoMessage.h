@@ -44,6 +44,11 @@ class VersionField : public
     >
 {
 public:
+    static constexpr bool hasSpecials()
+    {
+        return false;
+    }
+    
     static const char* name()
     {
         return "VERSION";

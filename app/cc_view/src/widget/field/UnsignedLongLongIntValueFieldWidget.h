@@ -52,10 +52,9 @@ private slots:
     void specialSelected(long long value);
 
 private:
-    using SpecialInfo = QPair<QString, long long>;
-    using SpecialsList = QList<SpecialInfo>;
-    using WrapperType = FieldPtr::element_type;
-    using UnderlyingType = WrapperType::UnderlyingType;
+    using SpecialsList = field::ToolsUnsignedLongField::SpecialsList;
+    using FieldType = FieldPtr::element_type;
+    using UnderlyingType = FieldType::UnderlyingType;
     typedef double DisplayedType;
     UnderlyingType adjustDisplayedToReal(DisplayedType val);
     DisplayedType adjustRealToDisplayed(UnderlyingType val);

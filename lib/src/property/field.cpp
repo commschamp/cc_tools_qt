@@ -237,25 +237,12 @@ IntValue& IntValue::scaledDecimals(int value)
     return *this;
 }
 
-const IntValue::SpecialsList& IntValue::specials() const
-{
-    return m_specials;
-}
-
-IntValue& IntValue::addSpecial(const QString& elemName, long long value)
-{
-    m_specials.append(SpecialType(elemName, value));
-    return *this;
-}
-
-
 QVariantMap IntValue::asMap() const
 {
     QVariantMap props;
     Base::setTo(props);
     Base::setElemTo(m_displayOffset, numValueDisplayOffsetKey(), props);
     Base::setElemTo(m_scaledDecimals, floatDecimalsKey(), props);
-    Base::setElemTo(m_specials, specialsKey(), props);
     return props;
 }
 
@@ -266,9 +253,6 @@ void IntValue::getFrom(const QVariantMap& props)
 
     m_scaledDecimals =
         getElemFrom<decltype(m_scaledDecimals)>(props, floatDecimalsKey());
-
-    m_specials =
-        getElemFrom<decltype(m_specials)>(props, specialsKey());
 }
 
 EnumValue::EnumValue() = default;
@@ -702,7 +686,6 @@ QVariantMap FloatValue::asMap() const
     QVariantMap props;
     Base::setTo(props);
     Base::setElemTo(m_decimals, floatDecimalsKey(), props);
-    Base::setElemTo(m_specials, specialsKey(), props);
     return props;
 }
 

@@ -91,6 +91,11 @@ struct ListsFields
         >
     {
     public:
+        static constexpr bool hasSpecials()
+        {
+            return false;
+        }
+
         static const char* name()
         {
             return "element";
@@ -122,6 +127,11 @@ struct ListsFields
         >
     {
     public:
+        static constexpr bool hasSpecials()
+        {
+            return false;
+        }
+
         static const char* name()
         {
             return "element";
@@ -162,6 +172,11 @@ struct ListsFields
             >
         {
         public:
+            static constexpr bool hasSpecials()
+            {
+                return false;
+            }
+
             static const char* name()
             {
                 return "member1";
@@ -177,6 +192,11 @@ struct ListsFields
             >
         {
         public:
+            static constexpr bool hasSpecials()
+            {
+                return false;
+            }
+            
             static const char* name()
             {
                 return "member2";

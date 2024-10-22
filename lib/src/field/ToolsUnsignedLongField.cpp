@@ -69,6 +69,11 @@ ToolsUnsignedLongField::ActPtr ToolsUnsignedLongField::clone()
     return cloneImpl();
 }
 
+const ToolsUnsignedLongField::SpecialsList& ToolsUnsignedLongField::specials() const
+{
+    return specialsImpl();
+}
+
 void ToolsUnsignedLongField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);

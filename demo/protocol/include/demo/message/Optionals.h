@@ -68,7 +68,12 @@ struct OptionalsFields
                 std::uint16_t
             >
         {
-        public:            
+        public:   
+            static constexpr bool hasSpecials()
+            {
+                return false;
+            }
+
             static const char* name()
             {
                 return "field2";
@@ -105,7 +110,12 @@ struct OptionalsFields
                 >
             >
         {
-        public:            
+        public:   
+            static constexpr bool hasSpecials()
+            {
+                return false;
+            }
+                            
             static const char* name()
             {
                 return "field3";
@@ -137,7 +147,12 @@ struct OptionalsFields
                 std::int16_t
             >
         {
-        public:            
+        public:  
+            static constexpr bool hasSpecials()
+            {
+                return false;
+            }
+                            
             static const char* name()
             {
                 return "field4";

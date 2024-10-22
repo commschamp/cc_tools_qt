@@ -72,6 +72,11 @@ struct VariantsFields
             std::uint8_t>
     {
     public:
+        static constexpr bool hasSpecials()
+        {
+            return false;
+        }
+
         static const char* name()
         {
             return "length";
@@ -87,6 +92,11 @@ struct VariantsFields
             >
         {
         public:
+            static constexpr bool hasSpecials()
+            {
+                return false;
+            }
+
             static const char* name()
             {
                 return "value";
@@ -141,6 +151,11 @@ struct VariantsFields
             >
         {
         public:
+            static constexpr bool hasSpecials()
+            {
+                return false;
+            }
+                    
             static const char* name()
             {
                 return "value";
@@ -200,6 +215,11 @@ struct VariantsFields
             >
         {
         public:
+            static constexpr bool hasSpecials()
+            {
+                return false;
+            }
+                    
             static const char* name()
             {
                 return "value";
@@ -297,6 +317,11 @@ struct VariantsFields
             >
         {
         public:
+            static constexpr bool hasSpecials()
+            {
+                return false;
+            }
+
             static const char* name()
             {
                 return "value";
@@ -356,6 +381,11 @@ struct VariantsFields
             >
         {
         public:
+            static constexpr bool hasSpecials()
+            {
+                return false;
+            }
+                    
             static const char* name()
             {
                 return "value";

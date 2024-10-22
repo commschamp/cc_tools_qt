@@ -251,14 +251,6 @@ public:
     ///     value.
     IntValue& scaledDecimals(int value);
 
-    /// @brief Get access to all the special values information
-    const SpecialsList& specials() const;
-
-    /// @brief Add speical value
-    /// @param[in] specialName Name of the special value.
-    /// @param[in] value Numeric value
-    IntValue& addSpecial(const QString& specialName, long long value);
-
     /// @brief Retrieve all properties as map.
     QVariantMap asMap() const;
 
@@ -267,7 +259,6 @@ private:
 
     long long m_displayOffset = 0;
     int m_scaledDecimals = 0;
-    SpecialsList m_specials;
 };
 
 /// @brief Class to contain all the properties relevant to

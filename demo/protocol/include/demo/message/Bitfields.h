@@ -99,7 +99,12 @@ struct BitfieldsFields
             comms::option::ValidNumValueRange<0, 0x3f>
         >
     {
-    public:        
+    public:  
+        static constexpr bool hasSpecials()
+        {
+            return false;
+        }
+
         static const char* name()
         {
             return "field1_int1";
@@ -116,7 +121,12 @@ struct BitfieldsFields
             comms::option::ValidNumValueRange<0, 0xf>
         >
     {
-    public:        
+    public:    
+        static constexpr bool hasSpecials()
+        {
+            return false;
+        }
+            
         static const char* name()
         {
             return "field1_int2";

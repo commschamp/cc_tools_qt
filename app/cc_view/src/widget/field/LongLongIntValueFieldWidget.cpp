@@ -40,6 +40,7 @@ LongLongIntValueFieldWidget::LongLongIntValueFieldWidget(
     setSeparatorWidget(m_ui.m_sepLine);
     setSerialisedValueWidget(m_ui.m_serValueWidget);
     m_ui.m_valueLineEdit->setText(QString("%1").arg(adjustRealToDisplayed(m_fieldPtr->getValue())));
+    createSpecialsWidget(m_fieldPtr->specials());
 
     assert(m_ui.m_serValueLineEdit != nullptr);
     setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
@@ -103,9 +104,6 @@ void LongLongIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
         m_offset = offset;
         needRefresh = true;
     }
-
-    auto& specials = actProps.specials();
-    needRefresh = createSpecialsWidget(specials) || needRefresh;
 
     if (needRefresh) {
         refresh();

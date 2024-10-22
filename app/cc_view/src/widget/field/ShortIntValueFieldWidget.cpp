@@ -41,6 +41,7 @@ ShortIntValueFieldWidget::ShortIntValueFieldWidget(
 
     assert(m_ui.m_serValueLineEdit != nullptr);
     setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
+    createSpecialsWidget(m_fieldPtr->specials());
 
     m_ui.m_valueSpinBox->setRange(
         static_cast<int>(m_fieldPtr->minValue()), 
@@ -105,9 +106,6 @@ void ShortIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
         m_offset = offset;
         needRefresh = true;
     }
-
-    auto& specials = actProps.specials();
-    needRefresh = createSpecialsWidget(specials) || needRefresh;
 
     if (needRefresh) {
         refresh();

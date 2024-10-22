@@ -77,11 +77,38 @@ struct FloatValuesFields
             comms::option::ScalingRatio<1, 100>
         >
     {
+        using Base = 
+            comms::field::IntValue<
+                demo::FieldBase,
+                std::uint8_t,
+                typename TOpt::message::FloatValuesFields::field3,
+                comms::option::ScalingRatio<1, 100>
+            >;
     public:
+        using ValueType = typename Base::ValueType;
+        using SpecialNameInfo = std::pair<ValueType, const char*>;
+        using SpecialNamesMapInfo = std::pair<const SpecialNameInfo*, std::size_t>;
+
+        static constexpr bool hasSpecials()
+        {
+            return true;
+        }
+
         static const char* name()
         {
             return "field3";
-        }                 
+        }  
+
+        static SpecialNamesMapInfo specialNamesMap()
+        {
+            static const SpecialNameInfo Map[] = {
+                std::make_pair(ValueType(123), "S1"),
+                std::make_pair(ValueType(22), "S2"),
+            };
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+
+            return std::make_pair(&Map[0], MapSize);
+        }                         
     };
 
     /// @brief Floating point value serialised as 5 byte integer with (1e-11) scaling ratio.
@@ -95,6 +122,11 @@ struct FloatValuesFields
         >
     {
     public:
+        static constexpr bool hasSpecials()
+        {
+            return false;
+        }
+        
         static const char* name()
         {
             return "field1";
