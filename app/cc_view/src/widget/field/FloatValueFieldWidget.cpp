@@ -62,6 +62,8 @@ FloatValueFieldWidget::FloatValueFieldWidget(
     setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
     m_ui.m_valueSpinBox->setDecimals(DefaultDecimals);
 
+    createSpecialsWidget(m_fieldPtr->specials());
+
     refresh();
 
     connect(m_ui.m_valueSpinBox, SIGNAL(valueChanged(double)),
@@ -129,13 +131,6 @@ void FloatValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
         decimals = DefaultDecimals;
     }
     m_ui.m_valueSpinBox->setDecimals(decimals);
-
-    auto& specials = actProps.specials();
-    bool needRefresh = createSpecialsWidget(specials);
-
-    if (needRefresh) {
-        refresh();
-    }
 }
 
 void FloatValueFieldWidget::serialisedValueUpdated(const QString& value)

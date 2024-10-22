@@ -69,6 +69,11 @@ double ToolsFloatField::getEpsilon() const
     return getEpsilonImpl();
 }
 
+const ToolsFloatField::SpecialsList& ToolsFloatField::specials() const
+{
+    return specialsImpl();
+}
+
 void ToolsFloatField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);

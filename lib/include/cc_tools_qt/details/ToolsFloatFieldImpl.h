@@ -42,9 +42,9 @@ class ToolsFloatFieldImpl : public ToolsNumericFieldImpl<cc_tools_qt::field::Too
     static_assert(comms::field::isFloatValue<Field>(), "Must be of FloatValueField type");
 
 public:
-
-    typedef typename Base::UnderlyingType UnderlyingType;
-    typedef typename Base::ActPtr ActPtr;
+    using UnderlyingType = typename Base::UnderlyingType;
+    using ActPtr = typename Base::ActPtr;
+    using SpecialsList = typename Base::SpecialsList;
 
     explicit ToolsFloatFieldImpl(Field& fieldRef)
       : Base(fieldRef)
@@ -96,6 +96,46 @@ protected:
     virtual double getEpsilonImpl() const override
     {
         return static_cast<double>(std::numeric_limits<typename TField::ValueType>::epsilon());
+    }
+
+    virtual const SpecialsList& specialsImpl() const override
+    {
+        using Tag = 
+            std::conditional_t<
+                Field::hasSpecials(),
+                HasSpecialsTag,
+                NoSpecialstag
+            >;
+
+        return specialsInternal(Tag());
+    }
+
+private:
+    struct HasSpecialsTag{};    
+    struct NoSpecialstag{};
+
+    static const SpecialsList& specialsInternal(HasSpecialsTag)
+    {
+        static const SpecialsList List = createSpecialsList();
+        return List;
+    }
+
+    static const SpecialsList& specialsInternal(NoSpecialstag)
+    {
+        static const SpecialsList List;
+        return List;
+    }  
+
+    static SpecialsList createSpecialsList()
+    {
+        SpecialsList result;
+        auto mapInfo = Field::specialNamesMap();
+        for (auto idx = 0U; idx < mapInfo.second; ++idx) {
+            auto& sInfo = mapInfo.first[idx];
+            result.append(qMakePair(sInfo.second, static_cast<UnderlyingType>(sInfo.first)));
+        }
+
+        return result;
     }
 };
 

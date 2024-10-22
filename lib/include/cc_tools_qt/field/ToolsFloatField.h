@@ -20,8 +20,10 @@
 
 #include "cc_tools_qt/details/ToolsNumericFieldBase.h"
 
-#include <memory>
+#include <QtCore/QList>
+#include <QtCore/QPair>
 
+#include <memory>
 
 namespace cc_tools_qt
 {
@@ -36,6 +38,8 @@ public:
 
     using UnderlyingType = Base::UnderlyingType;
     using ActPtr = std::unique_ptr<ToolsFloatField>;
+    using SpecialType = QPair<QString, UnderlyingType>;
+    using SpecialsList = QList<SpecialType>;    
 
     ToolsFloatField();
     virtual ~ToolsFloatField() noexcept;
@@ -48,6 +52,7 @@ public:
     bool isMinusInf() const;
     void setMinusInf();
     double getEpsilon() const;
+    const SpecialsList& specials() const;
 
 protected:
     virtual ActPtr cloneImpl() = 0;
@@ -58,6 +63,7 @@ protected:
     virtual bool isMinusInfImpl() const = 0;
     virtual void setMinusInfImpl() = 0;
     virtual double getEpsilonImpl() const = 0;
+    virtual const SpecialsList& specialsImpl() const = 0;
 
     virtual void dispatchImpl(ToolsFieldHandler& handler) override;
 };

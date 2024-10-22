@@ -697,15 +697,6 @@ public:
     /// @brief Set number of decimal digits to display
     FloatValue& decimals(int value);
 
-    /// @brief Get access to all the special values information
-    const SpecialsList& specials() const;
-
-    /// @brief Add speical value
-    /// @param[in] specialName Name of the special value.
-    /// @param[in] value Numeric value
-    FloatValue& addSpecial(const QString& specialName, double value);
-
-
     /// @brief Retrieve all properties as map.
     QVariantMap asMap() const;
 
@@ -713,7 +704,6 @@ private:
     void getFrom(const QVariantMap& props);
 
     int m_decimals = 0;
-    SpecialsList m_specials;
 };
 
 /// @brief Class to contain all the properties relevant to

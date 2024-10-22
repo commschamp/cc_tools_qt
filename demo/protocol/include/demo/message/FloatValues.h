@@ -46,11 +46,39 @@ struct FloatValuesFields
             typename TOpt::message::FloatValuesFields::field1
         >
     {
+        using Base = 
+            comms::field::FloatValue<
+                demo::FieldBase,
+                float,
+                typename TOpt::message::FloatValuesFields::field1
+            >;        
     public:
+        using ValueType = typename Base::ValueType;
+        using SpecialNameInfo = std::pair<ValueType, const char*>;
+        using SpecialNamesMapInfo = std::pair<const SpecialNameInfo*, std::size_t>;
+
+        static constexpr bool hasSpecials()
+        {
+            return true;
+        }        
+
         static const char* name()
         {
             return "field1";
-        }                 
+        }   
+
+        static SpecialNamesMapInfo specialNamesMap()
+        {
+            static const SpecialNameInfo Map[] = {
+                std::make_pair(ValueType(0.1), "S1"),
+                std::make_pair(std::numeric_limits<ValueType>::quiet_NaN(), "S2"),
+                std::make_pair(std::numeric_limits<ValueType>::infinity(), "S3"),
+                std::make_pair(-std::numeric_limits<ValueType>::infinity(), "S4"),
+            };
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+
+            return std::make_pair(&Map[0], MapSize);
+        }                        
     };
 
     /// @brief Simple 8 byte IEEE 754 floating point value.
@@ -61,11 +89,39 @@ struct FloatValuesFields
             typename TOpt::message::FloatValuesFields::field2
         >
     {
+        using Base = 
+            comms::field::FloatValue<
+                demo::FieldBase,
+                double,
+                typename TOpt::message::FloatValuesFields::field2
+            >;
     public:
+        using ValueType = typename Base::ValueType;
+        using SpecialNameInfo = std::pair<ValueType, const char*>;
+        using SpecialNamesMapInfo = std::pair<const SpecialNameInfo*, std::size_t>;
+
+        static constexpr bool hasSpecials()
+        {
+            return true;
+        }          
+
         static const char* name()
         {
             return "field2";
-        }                 
+        }    
+
+        static SpecialNamesMapInfo specialNamesMap()
+        {
+            static const SpecialNameInfo Map[] = {
+                std::make_pair(ValueType(0.5), "S1"),
+                std::make_pair(std::numeric_limits<ValueType>::quiet_NaN(), "S2"),
+                std::make_pair(std::numeric_limits<ValueType>::infinity(), "S3"),
+                std::make_pair(-std::numeric_limits<ValueType>::infinity(), "S4"),
+            };
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+
+            return std::make_pair(&Map[0], MapSize);
+        }                        
     };
 
     /// @brief Floating point value serialised as integer with (1e-2) scaling ratio.

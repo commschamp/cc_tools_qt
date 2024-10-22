@@ -95,12 +95,6 @@ const QString& prefixNameKey()
     return Str;
 }
 
-const QString& specialsKey()
-{
-    static const QString Str("cc.specials");
-    return Str;
-}
-
 const QString& appendIdxKey()
 {
     static const QString Str("cc.append_idx");
@@ -670,17 +664,6 @@ FloatValue& FloatValue::decimals(int value)
     return *this;
 }
 
-const FloatValue::SpecialsList& FloatValue::specials() const
-{
-    return m_specials;
-}
-
-FloatValue& FloatValue::addSpecial(const QString& elemName, double value)
-{
-    m_specials.append(SpecialType(elemName, value));
-    return *this;
-}
-
 QVariantMap FloatValue::asMap() const
 {
     QVariantMap props;
@@ -692,7 +675,6 @@ QVariantMap FloatValue::asMap() const
 void FloatValue::getFrom(const QVariantMap& props)
 {
     m_decimals = getElemFrom<decltype(m_decimals)>(props, floatDecimalsKey());
-    m_specials = getElemFrom<decltype(m_specials)>(props, specialsKey());
 }
 
 Variant::Variant() = default;
