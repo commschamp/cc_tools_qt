@@ -37,7 +37,6 @@ namespace cc_tools_qt
 namespace details
 {
 
-
 template <typename TBase, typename TField>
 class ToolsFieldBase : public TBase
 {
