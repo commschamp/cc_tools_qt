@@ -74,6 +74,16 @@ const ToolsUnsignedLongField::SpecialsList& ToolsUnsignedLongField::specials() c
     return specialsImpl();
 }
 
+bool ToolsUnsignedLongField::hasScaledDecimals() const
+{
+    return 0 < scaledDecimals();
+}
+
+int ToolsUnsignedLongField::scaledDecimals() const
+{
+    return scaledDecimalsImpl();
+}
+
 void ToolsUnsignedLongField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);

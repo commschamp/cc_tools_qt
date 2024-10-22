@@ -66,6 +66,9 @@ public:
 
     const SpecialsList& specials() const;
 
+    bool hasScaledDecimals() const;
+    int scaledDecimals() const;    
+
 protected:
     virtual UnderlyingType minValueImpl() const = 0;
     virtual UnderlyingType maxValueImpl() const = 0;
@@ -76,6 +79,7 @@ protected:
     virtual std::size_t valueTypeSizeImpl() const = 0;
     virtual ActPtr cloneImpl() = 0;
     virtual const SpecialsList& specialsImpl() const = 0;
+    virtual int scaledDecimalsImpl() const = 0;
 
     virtual void dispatchImpl(ToolsFieldHandler& handler) override;
 };

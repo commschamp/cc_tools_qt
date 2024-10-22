@@ -28,13 +28,6 @@
 namespace cc_tools_qt
 {
 
-namespace
-{
-
-const int DefaultInitialDecimals = 6;
-
-} // namespace
-
 ScaledIntValueFieldWidget::ScaledIntValueFieldWidget(
     FieldPtr fieldPtr,
     QWidget* parentObj)
@@ -54,7 +47,11 @@ ScaledIntValueFieldWidget::ScaledIntValueFieldWidget(
     m_ui.m_valueSpinBox->setRange(
         m_fieldPtr->scaleValue(m_fieldPtr->minValue()),
         m_fieldPtr->scaleValue(m_fieldPtr->maxValue()));
-    m_ui.m_valueSpinBox->setDecimals(DefaultInitialDecimals);
+
+    auto decimals = m_fieldPtr->scaledDecimals();
+    if (0 < decimals) {
+        m_ui.m_valueSpinBox->setDecimals(decimals);
+    } 
 
     refresh();
 
@@ -106,18 +103,6 @@ void ScaledIntValueFieldWidget::editEnabledUpdatedImpl()
 void ScaledIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
 {
     property::field::IntValue actProps(props);
-
-    auto decimals = property::field::IntValue(props).scaledDecimals();
-
-    if (0 < decimals) {
-        m_ui.m_valueSpinBox->setDecimals(decimals);
-    }
-    else {
-        [[maybe_unused]] static constexpr bool Should_not_happen = false;
-        assert(Should_not_happen);  
-        m_ui.m_valueSpinBox->setDecimals(0);
-    }
-
     refresh();
 }
 

@@ -105,28 +105,50 @@ protected:
         using Tag = 
             std::conditional_t<
                 Field::hasSpecials(),
-                HasSpecialsTag,
-                NoSpecialstag
+                HasFeatureTag,
+                NoFeatureTag
             >;
 
         return specialsInternal(Tag());
     }
 
-private:
-    struct HasSpecialsTag{};    
-    struct NoSpecialstag{};
+    virtual int scaledDecimalsImpl() const override
+    {
+        using Tag = 
+            std::conditional_t<
+                Field::hasScaling(),
+                HasFeatureTag,
+                NoFeatureTag
+            >;
 
-    static const SpecialsList& specialsInternal(HasSpecialsTag)
+        return scaledDecimalsInternal(Tag());        
+    }    
+
+private:
+    struct HasFeatureTag{};    
+    struct NoFeatureTag{};
+
+    static const SpecialsList& specialsInternal(HasFeatureTag)
     {
         static const SpecialsList List = createSpecialsList();
         return List;
     }
 
-    static const SpecialsList& specialsInternal(NoSpecialstag)
+    static const SpecialsList& specialsInternal(NoFeatureTag)
     {
         static const SpecialsList List;
         return List;
     }  
+
+    static int scaledDecimalsInternal(HasFeatureTag)
+    {
+        return Field::displayDecimals();
+    }
+
+    static int scaledDecimalsInternal(NoFeatureTag)
+    {
+        return 0;
+    }     
 
     static SpecialsList createSpecialsList()
     {

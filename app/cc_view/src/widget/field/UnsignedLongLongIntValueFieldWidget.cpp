@@ -32,7 +32,8 @@ UnsignedLongLongIntValueFieldWidget::UnsignedLongLongIntValueFieldWidget(
     FieldPtr fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_fieldPtr(std::move(fieldPtr))
+    m_fieldPtr(std::move(fieldPtr)),
+    m_decimals(m_fieldPtr->scaledDecimals())
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
@@ -97,7 +98,6 @@ void UnsignedLongLongIntValueFieldWidget::updatePropertiesImpl(const QVariantMap
 {
     property::field::IntValue parsedProps(props);
     m_offset = parsedProps.displayOffset();
-    m_decimals = parsedProps.scaledDecimals();
     refresh();
 }
 

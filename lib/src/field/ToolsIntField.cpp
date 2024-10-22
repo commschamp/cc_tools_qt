@@ -74,6 +74,16 @@ const ToolsIntField::SpecialsList& ToolsIntField::specials() const
     return specialsImpl();
 }
 
+bool ToolsIntField::hasScaledDecimals() const
+{
+    return 0 < scaledDecimals();
+}
+
+int ToolsIntField::scaledDecimals() const
+{
+    return scaledDecimalsImpl();
+}
+
 void ToolsIntField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);

@@ -69,7 +69,7 @@ void IntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
     assert(m_fieldPtr);
     assert(!m_childWidget);
     do {
-        if (property::field::IntValue(props).hasScaledDecimals()) {
+        if (m_fieldPtr->hasScaledDecimals()) {
             m_childWidget.reset(new ScaledIntValueFieldWidget(std::move(m_fieldPtr)));
             break;
         }

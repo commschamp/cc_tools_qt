@@ -240,17 +240,6 @@ public:
     /// @brief Set numeric offset for displayed field
     IntValue& displayOffset(long long value);
 
-    /// @brief Check whether property of having scaled decimals being set
-    bool hasScaledDecimals() const;
-
-    /// @brief Get number of digits after decimal point when displaying
-    ///     scaled value.
-    int scaledDecimals() const;
-
-    /// @brief Set number of digits after decimal point when displaying scaled
-    ///     value.
-    IntValue& scaledDecimals(int value);
-
     /// @brief Retrieve all properties as map.
     QVariantMap asMap() const;
 
@@ -258,7 +247,6 @@ private:
     void getFrom(const QVariantMap& props);
 
     long long m_displayOffset = 0;
-    int m_scaledDecimals = 0;
 };
 
 /// @brief Class to contain all the properties relevant to

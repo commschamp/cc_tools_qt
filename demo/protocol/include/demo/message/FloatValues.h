@@ -164,7 +164,12 @@ struct FloatValuesFields
             static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
             return std::make_pair(&Map[0], MapSize);
-        }                         
+        }    
+
+        static constexpr unsigned displayDecimals()
+        {
+            return 2U;
+        }                             
     };
 
     /// @brief Floating point value serialised as 5 byte integer with (1e-11) scaling ratio.
@@ -185,8 +190,13 @@ struct FloatValuesFields
         
         static const char* name()
         {
-            return "field1";
-        }                 
+            return "field4";
+        } 
+
+        static constexpr unsigned displayDecimals()
+        {
+            return 11U;
+        }                          
     };
 
     /// @brief All the fields bundled in std::tuple.

@@ -215,28 +215,11 @@ IntValue& IntValue::displayOffset(long long value)
     return *this;
 }
 
-bool IntValue::hasScaledDecimals() const
-{
-    return 0 < scaledDecimals();
-}
-
-int IntValue::scaledDecimals() const
-{
-    return m_scaledDecimals;
-}
-
-IntValue& IntValue::scaledDecimals(int value)
-{
-    m_scaledDecimals = value;
-    return *this;
-}
-
 QVariantMap IntValue::asMap() const
 {
     QVariantMap props;
     Base::setTo(props);
     Base::setElemTo(m_displayOffset, numValueDisplayOffsetKey(), props);
-    Base::setElemTo(m_scaledDecimals, floatDecimalsKey(), props);
     return props;
 }
 
@@ -244,9 +227,6 @@ void IntValue::getFrom(const QVariantMap& props)
 {
     m_displayOffset =
         getElemFrom<decltype(m_displayOffset)>(props, numValueDisplayOffsetKey());
-
-    m_scaledDecimals =
-        getElemFrom<decltype(m_scaledDecimals)>(props, floatDecimalsKey());
 }
 
 EnumValue::EnumValue() = default;
