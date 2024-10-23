@@ -57,11 +57,59 @@ struct EnumValuesFields
             comms::option::ValidNumValueRange<static_cast<int>(0), static_cast<int>(ValuesField1::NumOfValues) - 1>
         >
     {
+        using Base = 
+            comms::field::EnumValue<
+                demo::FieldBase,
+                ValuesField1,
+                typename TOpt::message::EnumValuesFields::field1,
+                comms::option::ValidNumValueRange<static_cast<int>(0), static_cast<int>(ValuesField1::NumOfValues) - 1>
+            >;        
     public:
+        using ValueType = typename Base::ValueType;
+        using ValueNameInfo = const char*;
+        using ValueNamesMapInfo = std::pair<const ValueNameInfo*, std::size_t>;
+
+        static ValueType firstValue() 
+        {
+            return ValueType::Value1;
+        }
+
+        static ValueType lastValue() 
+        {
+            return ValueType::Value3;
+        }        
+
+        static ValueType valuesLimit() 
+        {
+            return ValueType::NumOfValues;
+        }          
+
         static const char* name()
         {
             return "field1";
-        }                 
+        }     
+
+        static const char* valueName(ValueType val)
+        {
+            auto namesMapInfo = valueNamesMap();
+            if (namesMapInfo.second <= static_cast<std::size_t>(val)) {
+                return nullptr;
+            }
+
+            return namesMapInfo.first[static_cast<std::size_t>(val)];
+        }   
+
+        static ValueNamesMapInfo valueNamesMap()
+        {
+            static const char* Map[] = {
+                "Value1",
+                "Value2",
+                "Value3"
+            };
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+
+            return std::make_pair(&Map[0], MapSize);
+        }                         
     };
 
     /// @brief Enumeration type for the @ref field2
@@ -94,6 +142,25 @@ struct EnumValuesFields
             >;
 
     public:
+        using ValueType = typename Base::ValueType;
+        using ValueNameInfo = std::pair<ValueType, const char*>;
+        using ValueNamesMapInfo = std::pair<const ValueNameInfo*, std::size_t>;
+
+        static ValueType firstValue() 
+        {
+            return ValueType::Value1;
+        }
+
+        static ValueType lastValue() 
+        {
+            return ValueType::Value4;
+        }        
+
+        static ValueType valuesLimit() 
+        {
+            return static_cast<ValueType>(static_cast<int>(lastValue()) + 1);
+        }         
+
         static const char* name()
         {
             return "field2";
@@ -103,11 +170,43 @@ struct EnumValuesFields
         bool valid() const
         {
             return
-                (Base::value() == ValuesField2::Value1) ||
-                (Base::value() == ValuesField2::Value2) ||
-                (Base::value() == ValuesField2::Value3) ||
-                (Base::value() == ValuesField2::Value4);            
+                (Base::value() == ValueType::Value1) ||
+                (Base::value() == ValueType::Value2) ||
+                (Base::value() == ValueType::Value3) ||
+                (Base::value() == ValueType::Value4);            
         }
+
+        static const char* valueName(ValueType val)
+        {
+            auto namesMapInfo = valueNamesMap();
+            auto begIter = namesMapInfo.first;
+            auto endIter = begIter + namesMapInfo.second;
+            auto iter = std::lower_bound(
+                begIter, endIter, val,
+                [](const ValueNameInfo& info, ValueType v) -> bool
+                {
+                    return info.first < v;
+                });
+
+            if ((iter == endIter) || (iter->first != val)) {
+                return nullptr;
+            }
+
+            return iter->second;
+        }   
+
+        static ValueNamesMapInfo valueNamesMap()
+        {
+            static const ValueNameInfo Map[] = {
+                std::make_pair(ValueType::Value1, "Value1"),
+                std::make_pair(ValueType::Value2, "Value2"),
+                std::make_pair(ValueType::Value3, "Value3"),
+                std::make_pair(ValueType::Value4, "Value4")
+            };
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+
+            return std::make_pair(&Map[0], MapSize);
+        }             
     };
 
     /// @brief Enumeration type for the @ref field3
@@ -143,6 +242,25 @@ struct EnumValuesFields
             >;
 
     public:
+        using ValueType = typename Base::ValueType;
+        using ValueNameInfo = std::pair<ValueType, const char*>;
+        using ValueNamesMapInfo = std::pair<const ValueNameInfo*, std::size_t>;
+
+        static ValueType firstValue() 
+        {
+            return ValueType::Value1;
+        }
+
+        static ValueType lastValue() 
+        {
+            return ValueType::Value5;
+        }        
+
+        static ValueType valuesLimit() 
+        {
+            return static_cast<ValueType>(static_cast<int>(lastValue()) + 1);
+        }           
+
         static const char* name()
         {
             return "field3";
@@ -151,12 +269,45 @@ struct EnumValuesFields
         bool valid() const
         {
             return
-                (Base::value() == ValuesField3::Value1) ||
-                (Base::value() == ValuesField3::Value2) ||
-                (Base::value() == ValuesField3::Value3) ||
-                (Base::value() == ValuesField3::Value4) ||
-                (Base::value() == ValuesField3::Value5);            
+                (Base::value() == ValueType::Value1) ||
+                (Base::value() == ValueType::Value2) ||
+                (Base::value() == ValueType::Value3) ||
+                (Base::value() == ValueType::Value4) ||
+                (Base::value() == ValueType::Value5);            
         }
+
+        static const char* valueName(ValueType val)
+        {
+            auto namesMapInfo = valueNamesMap();
+            auto begIter = namesMapInfo.first;
+            auto endIter = begIter + namesMapInfo.second;
+            auto iter = std::lower_bound(
+                begIter, endIter, val,
+                [](const ValueNameInfo& info, ValueType v) -> bool
+                {
+                    return info.first < v;
+                });
+
+            if ((iter == endIter) || (iter->first != val)) {
+                return nullptr;
+            }
+
+            return iter->second;
+        }   
+
+        static ValueNamesMapInfo valueNamesMap()
+        {
+            static const ValueNameInfo Map[] = {
+                std::make_pair(ValueType::Value1, "Value1"),
+                std::make_pair(ValueType::Value2, "Value2"),
+                std::make_pair(ValueType::Value3, "Value3"),
+                std::make_pair(ValueType::Value4, "Value4"),
+                std::make_pair(ValueType::Value5, "Value5"),
+            };
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+
+            return std::make_pair(&Map[0], MapSize);
+        }           
     };
 
     /// @brief Enumeration type for the @ref field4
@@ -179,11 +330,65 @@ struct EnumValuesFields
             comms::option::ValidBigUnsignedNumValue<static_cast<std::uintmax_t>(ValuesField4::Value3)>
         >
     {
+        using Base = 
+            comms::field::EnumValue<
+                demo::FieldBase,
+                ValuesField4,
+                typename TOpt::message::EnumValuesFields::field4,
+                comms::option::ValidBigUnsignedNumValue<static_cast<std::uintmax_t>(ValuesField4::Value1)>,
+                comms::option::ValidBigUnsignedNumValue<static_cast<std::uintmax_t>(ValuesField4::Value2)>,
+                comms::option::ValidBigUnsignedNumValue<static_cast<std::uintmax_t>(ValuesField4::Value3)>
+            >; 
     public:
+        using ValueType = typename Base::ValueType;
+        using ValueNameInfo = std::pair<ValueType, const char*>;
+        using ValueNamesMapInfo = std::pair<const ValueNameInfo*, std::size_t>;
+
+        static ValueType firstValue() 
+        {
+            return ValueType::Value1;
+        }
+
+        static ValueType lastValue() 
+        {
+            return ValueType::Value3;
+        }        
+
         static const char* name()
         {
             return "field4";
-        }                 
+        }   
+
+        static const char* valueName(ValueType val)
+        {
+            auto namesMapInfo = valueNamesMap();
+            auto begIter = namesMapInfo.first;
+            auto endIter = begIter + namesMapInfo.second;
+            auto iter = std::lower_bound(
+                begIter, endIter, val,
+                [](const ValueNameInfo& info, ValueType v) -> bool
+                {
+                    return info.first < v;
+                });
+
+            if ((iter == endIter) || (iter->first != val)) {
+                return nullptr;
+            }
+
+            return iter->second;
+        }   
+
+        static ValueNamesMapInfo valueNamesMap()
+        {
+            static const ValueNameInfo Map[] = {
+                std::make_pair(ValueType::Value1, "Value1"),
+                std::make_pair(ValueType::Value2, "Value2"),
+                std::make_pair(ValueType::Value3, "Value3"),
+            };
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+
+            return std::make_pair(&Map[0], MapSize);
+        }                        
     };
 
 

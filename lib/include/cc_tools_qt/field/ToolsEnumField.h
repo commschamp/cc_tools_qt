@@ -20,6 +20,9 @@
 
 #include "cc_tools_qt/details/ToolsNumericFieldBase.h"
 
+#include <QtCore/QList>
+#include <QtCore/QPair>
+
 #include <memory>
 
 namespace cc_tools_qt
@@ -34,16 +37,21 @@ class CC_API ToolsEnumField : public cc_tools_qt::details::ToolsNumericFieldBase
 public:
     using UnderlyingType = Base::UnderlyingType;
     using ActPtr = std::unique_ptr<ToolsEnumField>;
+    using ValueInfo = QPair<QString, long long>;
+    using ValueInfosList = QList<ValueInfo>;
 
     ToolsEnumField();
     virtual ~ToolsEnumField() noexcept;
 
     ActPtr clone();
 
+    const ValueInfosList& values() const;
+
 protected:
     virtual ActPtr cloneImpl() = 0;
+    virtual const ValueInfosList& valuesImpl() const = 0;
 
-    void dispatchImpl(ToolsFieldHandler& handler);
+    virtual void dispatchImpl(ToolsFieldHandler& handler) override;
 };
 
 using ToolsEnumFieldPtr = std::unique_ptr<ToolsEnumField>;

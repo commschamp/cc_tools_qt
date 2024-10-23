@@ -101,11 +101,65 @@ class MsgIdField : public
         comms::option::ValidNumValueRange<0, MsgId_NumOfValues - 1>
     >
 {
+    using Base = 
+        comms::field::EnumValue<
+            FieldBase,
+            MsgId,
+            comms::option::ValidNumValueRange<0, MsgId_NumOfValues - 1>
+        >;    
 public:
+    using ValueType = typename Base::ValueType;
+    using ValueNameInfo = const char*;
+    using ValueNamesMapInfo = std::pair<const ValueNameInfo*, std::size_t>;
+
+    static ValueType firstValue() 
+    {
+        return MsgId_IntValues;
+    }
+
+    static ValueType lastValue() 
+    {
+        return MsgId_Bundles;
+    }    
+
+    static ValueType valuesLimit() 
+    {
+        return MsgId_NumOfValues;
+    }          
+
     static const char* name()
     {
-        return "ID";
-    }
+        return "field4";
+    }      
+
+    static const char* valueName(ValueType val)
+    {
+        auto namesMapInfo = valueNamesMap();
+        if (namesMapInfo.second <= static_cast<std::size_t>(val)) {
+            return nullptr;
+        }
+
+        return namesMapInfo.first[static_cast<std::size_t>(val)];
+    }   
+
+    static ValueNamesMapInfo valueNamesMap()
+    {
+        static const char* Map[] = {
+            "IntValues",
+            "EnumValues",
+            "BitmaskValues",
+            "Bitfields",
+            "Strings",
+            "Lists",
+            "Optionals",
+            "FloatValues",
+            "Variants",
+            "Bundles",
+        };
+        static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+
+        return std::make_pair(&Map[0], MapSize);
+    }    
 };  
 
 /// @brief Field representing full message payload.

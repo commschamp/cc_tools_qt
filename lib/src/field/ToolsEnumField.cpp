@@ -34,6 +34,11 @@ ToolsEnumField::ActPtr ToolsEnumField::clone()
     return cloneImpl();
 }
 
+const ToolsEnumField::ValueInfosList& ToolsEnumField::values() const
+{
+    return valuesImpl();
+}
+
 void ToolsEnumField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);

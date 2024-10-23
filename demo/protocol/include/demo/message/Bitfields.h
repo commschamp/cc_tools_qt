@@ -81,11 +81,60 @@ struct BitfieldsFields
             comms::option::FixedBitLength<2>
         >
     {
+        using Base = 
+            comms::field::EnumValue<
+                demo::FieldBase,
+                Field1Enum,
+                typename TOpt::message::BitfieldsFields::field1_enum,
+                comms::option::ValidNumValueRange<static_cast<int>(0), static_cast<int>(Field1Enum::NumOfValues) - 1>,
+                comms::option::FixedBitLength<2>
+            >;        
     public:
+        using ValueType = typename Base::ValueType;
+        using ValueNameInfo = const char*;
+        using ValueNamesMapInfo = std::pair<const ValueNameInfo*, std::size_t>;
+
+        static ValueType firstValue() 
+        {
+            return ValueType::Value1;
+        }
+
+        static ValueType lastValue() 
+        {
+            return ValueType::Value3;
+        }        
+
+        static ValueType valuesLimit() 
+        {
+            return ValueType::NumOfValues;
+        }  
+
         static const char* name()
         {
             return "field1_enum";
         }
+
+        static const char* valueName(ValueType val)
+        {
+            auto namesMapInfo = valueNamesMap();
+            if (namesMapInfo.second <= static_cast<std::size_t>(val)) {
+                return nullptr;
+            }
+
+            return namesMapInfo.first[static_cast<std::size_t>(val)];
+        }   
+
+        static ValueNamesMapInfo valueNamesMap()
+        {
+            static const char* Map[] = {
+                "Value1",
+                "Value2",
+                "Value3",
+            };
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+
+            return std::make_pair(&Map[0], MapSize);
+        }           
     };
 
 

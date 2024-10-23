@@ -58,11 +58,60 @@ struct VariantsFields
             comms::option::FailOnInvalid<>
         >
     {
-    public:        
+        using Base = 
+            comms::field::EnumValue<
+                demo::FieldBase,
+                VarId,
+                comms::option::DefaultNumValue<static_cast<int>(TId)>,
+                comms::option::ValidNumValueRange<static_cast<int>(TId), static_cast<int>(TId)>,
+                comms::option::FailOnInvalid<>
+            >;                
+    public:   
+        using ValueType = typename Base::ValueType;
+        using ValueNameInfo = const char*;
+        using ValueNamesMapInfo = std::pair<const ValueNameInfo*, std::size_t>;
+
+        static ValueType firstValue() 
+        {
+            return ValueType::Elem1;
+        }
+
+        static ValueType lastValue() 
+        {
+            return ValueType::Elem3;
+        }        
+
+        static ValueType valuesLimit() 
+        {
+            return ValueType::NumOfValues;
+        }  
+
         static const char* name()
         {
             return "id";
-        }        
+        }  
+
+        static const char* valueName(ValueType val)
+        {
+            auto namesMapInfo = valueNamesMap();
+            if (namesMapInfo.second <= static_cast<std::size_t>(val)) {
+                return nullptr;
+            }
+
+            return namesMapInfo.first[static_cast<std::size_t>(val)];
+        }   
+
+        static ValueNamesMapInfo valueNamesMap()
+        {
+            static const char* Map[] = {
+                "Elem1",
+                "Elem2",
+                "Elem3",
+            };
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+
+            return std::make_pair(&Map[0], MapSize);
+        }               
     };
 
     /// @brief field used to identify the remaining length.

@@ -25,6 +25,7 @@
 
 #include <cstdint>
 #include <cassert>
+#include <limits>
 #include <memory>
 
 namespace cc_tools_qt
@@ -48,6 +49,7 @@ class ToolsEnumFieldImpl : public ToolsNumericFieldImpl<cc_tools_qt::field::Tool
 //        "This wrapper cannot handle provided field.");
 
 public:
+    using ValueInfosList = typename Base::ValueInfosList;
     using ActPtr = typename Base::ActPtr;
 
     explicit ToolsEnumFieldImpl(Field& fieldRef)
@@ -67,6 +69,44 @@ protected:
         return ActPtr(new ToolsEnumFieldImpl<TField>(Base::field()));
     }
 
+    const ValueInfosList& valuesImpl() const override
+    {
+        using Tag = 
+            std::conditional_t<
+                std::is_same_v<typename Field::ValueNameInfo, const char*>,
+                SeqValuesTag,
+                SparseValuesTag
+            >;
+
+        static const ValueInfosList List(createValues(Tag()));
+        return List;
+    }
+
+private:
+    struct SeqValuesTag{};
+    struct SparseValuesTag{};
+
+    static ValueInfosList createValues(SeqValuesTag)
+    {
+        ValueInfosList result;
+        auto namesMap = Field::valueNamesMap();
+        for (auto idx = 0U; namesMap.second; ++idx) {
+            auto* name = namesMap.first[idx];
+            result.append(qMakePair(name, static_cast<long long>(idx)));
+        }
+        return result;
+    }
+
+    static ValueInfosList createValues(SparseValuesTag)
+    {
+        ValueInfosList result;
+        auto namesMap = Field::valueNamesMap();
+        for (auto idx = 0U; namesMap.second; ++idx) {
+            auto& info = namesMap.first[idx];
+            result.append(qMakePair(info.second, static_cast<long long>(info.first)));
+        }
+        return result;
+    }
 };
 
 template <typename TField>
