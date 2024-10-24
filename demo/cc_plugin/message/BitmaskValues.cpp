@@ -41,30 +41,10 @@ QVariantList createFieldsProperties()
 {
     using Field1 = ProtMsg::Field_field1;
     QVariantList props;
-    props.append(
-        cc::property::field::ForField<Field1>()
-            .add("bit0")
-            .add("bit1")
-            .add("bit2")
-            .add("bit3")
-            .add("bit4")
-            .asMap());
-
-    assert(
-        cc::property::field::BitmaskValue(props.back())
-            .bits().size() == Field1::BitIdx_numOfValues);
+    props.append(cc::property::field::ForField<Field1>().asMap());
 
     using Field2 = ProtMsg::Field_field2;
-    props.append(
-        cc::property::field::ForField<Field2>()
-            .add("bit0")
-            .add(Field2::BitIdx_bit3, "bit3")
-            .add(Field2::BitIdx_bit8, "bit8")
-            .add("bit9")
-            .asMap());
-    assert(
-        cc::property::field::BitmaskValue(props.back())
-            .bits().size() == static_cast<int>(Field2::BitIdx_numOfValues));
+    props.append(cc::property::field::ForField<Field2>().asMap());
 
     assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;

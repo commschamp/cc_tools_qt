@@ -79,6 +79,29 @@ protected:
     {
         return ActPtr(new ToolsBitmaskFieldImpl<TField>(Base::field()));
     }
+
+    virtual const QStringList& bitsImpl() const override
+    {
+        static const QStringList Bits = createBitsList();
+        return Bits;
+    }
+
+private:
+
+    static QStringList createBitsList()
+    {
+        QStringList result;
+        for (auto idx = 0U; idx < Field::BitIdx_numOfValues; ++idx) {
+            auto* name = Field::bitName(idx);
+            if (name == nullptr) {
+                result.append(QString());
+                continue;
+            }
+
+            result.append(name);
+        }
+        return result;
+    }
 };
 template <typename TField>
 auto makeBitmaskField(TField& field)

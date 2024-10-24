@@ -57,7 +57,24 @@ struct OptionalsFields
         static const char* name()
         {
             return "field1";
-        }          
+        }   
+
+        static const char* bitName(std::size_t idx)
+        {
+            static const char* Map[] = {
+                "enable_field2",
+                "enable_field3",
+            };
+
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+            static_assert(MapSize == BitIdx_numOfValues, "Invalid map");
+
+            if (MapSize <= idx) {
+                return nullptr;
+            }
+
+            return Map[idx];
+        }                
     };
 
     struct field2Members

@@ -60,6 +60,24 @@ struct BitfieldsFields
         {
             return "field1_bitmask";
         }
+
+        static const char* bitName(std::size_t idx)
+        {
+            static const char* Map[] = {
+                "bit0",
+                "bit1",
+                "bit2",
+            };
+
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+            static_assert(MapSize == BitIdx_numOfValues, "Invalid map");
+
+            if (MapSize <= idx) {
+                return nullptr;
+            }
+
+            return Map[idx];
+        }           
     };
 
     /// @brief Enumeration type for the @ref field1_enum

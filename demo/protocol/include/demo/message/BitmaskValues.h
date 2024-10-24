@@ -59,7 +59,27 @@ struct BitmaskValuesFields
         static const char* name()
         {
             return "field1";
-        }          
+        }  
+
+        static const char* bitName(std::size_t idx)
+        {
+            static const char* Map[] = {
+                "bit0",
+                "bit1",
+                "bit2",
+                "bit3",
+                "bit4",
+            };
+
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+            static_assert(MapSize == BitIdx_numOfValues, "Invalid map");
+
+            if (MapSize <= idx) {
+                return nullptr;
+            }
+
+            return Map[idx];
+        }                
     };
 
     /// @brief Bitmask with 2 bytes length
@@ -89,7 +109,31 @@ struct BitmaskValuesFields
         static const char* name()
         {
             return "field2";
-        }         
+        }    
+
+        static const char* bitName(std::size_t idx)
+        {
+            static const char* Map[] = {
+                "bit0",
+                nullptr,
+                nullptr,
+                "bit3",
+                nullptr,
+                nullptr,
+                nullptr,
+                nullptr,
+                "bit8",
+                "bit9"
+            };
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+            static_assert(MapSize == BitIdx_numOfValues, "Invalid map");
+
+            if (MapSize <= idx) {
+                return nullptr;
+            }
+
+            return Map[idx];
+        }              
     };
 
     /// @brief All the fields bundled in std::tuple.

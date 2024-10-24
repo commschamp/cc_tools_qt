@@ -42,11 +42,7 @@ QVariantMap createProps_id()
 {
     auto props =
         cc::property::field::EnumValue()
-            .readOnly()
-            .add("elem1")
-            .add("elem2")
-            .add("elem3");
-    assert(props.values().size() == static_cast<int>(VariantsFields::VarId::NumOfValues));
+            .readOnly();
     return props.asMap();
 }
 

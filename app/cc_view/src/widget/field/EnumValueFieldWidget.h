@@ -43,7 +43,6 @@ protected:
     virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private slots:
     void serialisedValueUpdated(const QString& value);
@@ -53,9 +52,10 @@ private:
     using FieldType = FieldPtr::element_type;
     using UnderlyingType = FieldType::UnderlyingType;
 
+    void populateComboBox();
+
     Ui::EnumValueFieldWidget m_ui;
     FieldPtr m_fieldPtr;
-    bool m_signalsConnected = false;
     int m_idxOffset = 0;
 };
 

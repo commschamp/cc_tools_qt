@@ -100,12 +100,6 @@ void ScaledIntValueFieldWidget::editEnabledUpdatedImpl()
     m_ui.m_serValueLineEdit->setReadOnly(readonly);
 }
 
-void ScaledIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::IntValue actProps(props);
-    refresh();
-}
-
 void ScaledIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
     m_ui.m_valueSpinBox->blockSignals(true);

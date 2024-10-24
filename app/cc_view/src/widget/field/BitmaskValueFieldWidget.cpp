@@ -44,6 +44,10 @@ BitmaskValueFieldWidget::BitmaskValueFieldWidget(
     assert(m_ui.m_serValueLineEdit != nullptr);
     setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->width());
 
+    prepareCheckboxes();
+
+    refresh();
+
     connect(m_ui.m_serValueLineEdit, SIGNAL(textEdited(const QString&)),
             this, SLOT(serialisedValueUpdated(const QString&)));
 }
@@ -93,38 +97,6 @@ void BitmaskValueFieldWidget::editEnabledUpdatedImpl()
     m_ui.m_serValueLineEdit->setReadOnly(readonly);
 }
 
-void BitmaskValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    for (auto* checkbox : m_checkboxes) {
-        delete checkbox;
-    }
-
-    property::field::BitmaskValue bitmaskProps(props);
-
-    auto& bitNamesList = bitmaskProps.bits();
-
-    m_checkboxes.clear();
-
-    auto count = std::min(static_cast<unsigned>(bitNamesList.size()), m_fieldPtr->bitIdxLimit());
-    m_checkboxes.resize(m_fieldPtr->bitIdxLimit());
-
-    for (unsigned idx = 0; idx < count; ++idx) {
-        auto& nameVar = bitNamesList[static_cast<int>(idx)];
-        if ((!nameVar.isValid()) || (!nameVar.canConvert<QString>())) {
-            continue;
-        }
-
-        auto* checkbox = new QCheckBox(nameVar.toString());
-        m_ui.m_checkboxesLayout->addWidget(checkbox);
-        m_checkboxes[idx] = checkbox;
-
-        connect(checkbox, SIGNAL(stateChanged(int)),
-                this, SLOT(checkBoxUpdated(int)));
-    }
-
-    refresh();
-}
-
 void BitmaskValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
     handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
@@ -153,6 +125,30 @@ void BitmaskValueFieldWidget::checkBoxUpdated(int value)
     refresh();
     if (updated) {
         emitFieldUpdated();
+    }
+}
+
+void BitmaskValueFieldWidget::prepareCheckboxes()
+{
+    auto& bitNamesList = m_fieldPtr->bits();
+
+    m_checkboxes.clear();
+
+    auto count = std::min(static_cast<unsigned>(bitNamesList.size()), m_fieldPtr->bitIdxLimit());
+    m_checkboxes.resize(m_fieldPtr->bitIdxLimit());
+
+    for (unsigned idx = 0; idx < count; ++idx) {
+        auto name = bitNamesList[static_cast<int>(idx)];
+        if (name.isEmpty()) {
+            continue;
+        }
+
+        auto* checkbox = new QCheckBox(name);
+        m_ui.m_checkboxesLayout->addWidget(checkbox);
+        m_checkboxes[idx] = checkbox;
+
+        connect(checkbox, SIGNAL(stateChanged(int)),
+                this, SLOT(checkBoxUpdated(int)));
     }
 }
 

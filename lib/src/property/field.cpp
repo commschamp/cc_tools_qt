@@ -239,9 +239,6 @@ EnumValue::EnumValue(const QVariantMap& props) : Base(props)
 
 EnumValue::EnumValue(const QVariant& props) : Base(props)
 {
-    if (props.isValid() && props.canConvert<QVariantMap>()) {
-        getFrom(props.value<QVariantMap>());
-    }
 };
 
 EnumValue::~EnumValue() noexcept = default;
@@ -249,38 +246,11 @@ EnumValue::~EnumValue() noexcept = default;
 EnumValue& EnumValue::operator=(const EnumValue&) = default;
 EnumValue& EnumValue::operator=(EnumValue&&) = default;
 
-const EnumValue::ElemsList& EnumValue::values() const
-{
-    return m_elems;
-}
-
-EnumValue& EnumValue::add(const QString& elemName, long long value)
-{
-    m_elems.append(ElemType(elemName, value));
-    return *this;
-}
-
-EnumValue& EnumValue::add(const QString& elemName)
-{
-    if (m_elems.isEmpty()) {
-        return add(elemName, 0);
-    }
-
-    auto& lastElem = m_elems.back();
-    return add(elemName, lastElem.second + 1);
-}
-
 QVariantMap EnumValue::asMap() const
 {
     QVariantMap props;
     Base::setTo(props);
-    Base::setElemTo(m_elems, dataKey(), props);
     return props;
-}
-
-void EnumValue::getFrom(const QVariantMap& props)
-{
-    m_elems = getElemFrom<ElemsList>(props, dataKey());
 }
 
 BitmaskValue::BitmaskValue() = default;
@@ -293,9 +263,6 @@ BitmaskValue::BitmaskValue(const QVariantMap& props) : Base(props)
 
 BitmaskValue::BitmaskValue(const QVariant& props) : Base(props)
 {
-    if (props.isValid() && props.canConvert<QVariantMap>()) {
-        getFrom(props.value<QVariantMap>());
-    }
 };
 
 BitmaskValue::~BitmaskValue() noexcept = default;
@@ -303,42 +270,11 @@ BitmaskValue::~BitmaskValue() noexcept = default;
 BitmaskValue& BitmaskValue::operator=(const BitmaskValue&) = default;
 BitmaskValue& BitmaskValue::operator=(BitmaskValue&&) = default;
 
-const BitmaskValue::BitsList& BitmaskValue::bits() const
-{
-    return m_bits;
-}
-
-BitmaskValue& BitmaskValue::add(int idx, const QString& bitName)
-{
-    if (idx < m_bits.size()) {
-        m_bits[idx] = bitName;
-        return *this;
-    }
-
-    while (m_bits.size() < idx) {
-        m_bits.append(QVariant());
-    }
-
-    m_bits.append(bitName);
-    return *this;
-}
-
-BitmaskValue& BitmaskValue::add(const QString& bitName)
-{
-    return add(static_cast<int>(m_bits.size()), bitName);
-}
-
 QVariantMap BitmaskValue::asMap() const
 {
     QVariantMap props;
     Base::setTo(props);
-    Base::setElemTo(m_bits, dataKey(), props);
     return props;
-}
-
-void BitmaskValue::getFrom(const QVariantMap& props)
-{
-    m_bits = getElemFrom<BitsList>(props, dataKey());
 }
 
 Bitfield::Bitfield() = default;

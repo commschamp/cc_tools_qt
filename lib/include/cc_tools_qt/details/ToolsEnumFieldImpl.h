@@ -90,8 +90,12 @@ private:
     {
         ValueInfosList result;
         auto namesMap = Field::valueNamesMap();
-        for (auto idx = 0U; namesMap.second; ++idx) {
+        for (auto idx = 0U; idx < namesMap.second; ++idx) {
             auto* name = namesMap.first[idx];
+            if (name == nullptr) {
+                continue;
+            }
+
             result.append(qMakePair(name, static_cast<long long>(idx)));
         }
         return result;
@@ -101,7 +105,7 @@ private:
     {
         ValueInfosList result;
         auto namesMap = Field::valueNamesMap();
-        for (auto idx = 0U; namesMap.second; ++idx) {
+        for (auto idx = 0U; idx < namesMap.second; ++idx) {
             auto& info = namesMap.first[idx];
             result.append(qMakePair(info.second, static_cast<long long>(info.first)));
         }

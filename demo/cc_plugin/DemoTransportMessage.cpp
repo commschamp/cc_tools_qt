@@ -38,30 +38,7 @@ using ProtMsg = DemoTransportMessage::ProtMsg;
 
 QVariantMap createMsgIdProperties()
 {
-    static const char* Names[] = {
-        "IntValues",
-        "EnumValues",
-        "BitmaskValues",
-        "Bitfields",
-        "Strings",
-        "Lists",
-        "Optionals",
-        "FloatValues",
-        "Variants",
-        "Bundles",
-    };
-
-    static const auto NamesCount = std::extent<decltype(Names)>::value;
-    static_assert(NamesCount == demo::MsgId_NumOfValues, "Not all messages are added");
-
     cc::property::field::ForField<MsgIdField> props;
-
-    QVariantList enumValues;
-    for (auto name : Names) {
-        props.add(name);
-    }
-
-    assert(props.values().size() == demo::MsgId_NumOfValues);
     return props.asMap();
 }
 

@@ -203,13 +203,6 @@ class CC_API IntValue : public CommonBase<IntValue>
 {
     using Base = CommonBase<IntValue>;
 public:
-    /// @brief The special value is described as string containing name and
-    ///     the actual numeric value.
-    using SpecialType = QPair<QString, long long>;
-
-    /// @brief List of special values
-    using SpecialsList = QList<SpecialType>;
-
     /// @brief Default constructor
     IntValue();
 
@@ -257,13 +250,6 @@ class CC_API EnumValue : public CommonBase<EnumValue>
     using Base = CommonBase<EnumValue>;
 public:
 
-    /// @brief The enum value is described as string containing name and
-    ///     the actual numeric value.
-    using ElemType = QPair<QString, long long>;
-
-    /// @brief List of properties describing enum value
-    using ElemsList = QList<ElemType>;
-
     /// @brief Default constructor
     EnumValue();
 
@@ -288,27 +274,8 @@ public:
     /// @brief Move assignment
     EnumValue& operator=(EnumValue&&);
 
-    /// @brief Get access to all the values information
-    const ElemsList& values() const;
-
-    /// @brief Add value description
-    /// @param[in] elemName Name of the value.
-    /// @param[in] value Numeric value
-    EnumValue& add(const QString& elemName, long long value);
-
-    /// @brief Add value description
-    /// @details The assigned numeric value is the last inserted one incremented
-    ///     by 1. This function is convenient to use when describing enum
-    ///     with sequential values.
-    /// @param[in] elemName Name of the value.
-    EnumValue& add(const QString& elemName);
-
     /// @brief Retrieve all properties as map.
     QVariantMap asMap() const;
-private:
-    void getFrom(const QVariantMap& props);
-
-    ElemsList m_elems;
 };
 
 /// @brief Class to contain all the properties relevant to
@@ -346,26 +313,8 @@ public:
     /// @brief Move assignment
     BitmaskValue& operator=(BitmaskValue&&);
 
-    /// @brief Get access to bits information
-    const BitsList& bits() const;
-
-    /// @brief Add bit description
-    /// @param[in] idx Bit index
-    /// @param[in] bitName Name of the bit
-    BitmaskValue& add(int idx, const QString& bitName);
-
-    /// @brief Add bit description.
-    /// @details The bit index is assumed to be the last inserted one
-    ///     incremented by 1.
-    /// @param[in] bitName Name of the bit
-    BitmaskValue& add(const QString& bitName);
-
     /// @brief Retrieve all properties as map.
     QVariantMap asMap() const;
-private:
-    void getFrom(const QVariantMap& props);
-
-    BitsList m_bits;
 };
 
 /// @brief Class to contain all the properties relevant to

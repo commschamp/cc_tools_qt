@@ -42,11 +42,7 @@ QVariantMap createField1BitmaskProperties()
     using Field = ProtMsg::Field_field1::Field_member1;
     auto props = 
         cc::property::field::ForField<Field>()
-            .add("bit0")
-            .add("bit1")
-            .add("bit2");
-            
-    assert(props.bits().size() == Field::BitIdx_numOfValues);
+        .serialisedHidden();
     return props.asMap();
 }
 
@@ -55,12 +51,8 @@ QVariantMap createField1EnumProperties()
     using Field = ProtMsg::Field_field1::Field_member2;
     auto props = 
         cc::property::field::ForField<Field>()
-            .serialisedHidden()
-            .add("Value1")
-            .add("Value2")
-            .add("Value3");
+            .serialisedHidden();
 
-    assert(props.values().size() == static_cast<int>(Field::ValueType::NumOfValues));
     return props.asMap();
 }
 

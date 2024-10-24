@@ -40,39 +40,10 @@ using ProtMsg = demo::cc_plugin::message::EnumValues::ProtMsg;
 QVariantList createFieldsProperties()
 {
     QVariantList props;
-    props.append(
-        cc::property::field::ForField<ProtMsg::Field_field1>()
-            .add("Value1")
-            .add("Value2")
-            .add("Value3")
-            .asMap());
-    assert(
-        cc::property::field::EnumValue(props.back())
-            .values().size() == static_cast<int>(ProtMsg::Field_field1::ValueType::NumOfValues));
-
-    props.append(
-        cc::property::field::ForField<ProtMsg::Field_field2>()
-            .add("Value1", static_cast<int>(ProtMsg::Field_field2::ValueType::Value1))
-            .add("Value2", static_cast<int>(ProtMsg::Field_field2::ValueType::Value2))
-            .add("Value3", static_cast<int>(ProtMsg::Field_field2::ValueType::Value3))
-            .add("Value4", static_cast<int>(ProtMsg::Field_field2::ValueType::Value4))
-            .asMap());
-
-    props.append(
-        cc::property::field::ForField<ProtMsg::Field_field3>()
-            .add("Value1", static_cast<int>(ProtMsg::Field_field3::ValueType::Value1))
-            .add("Value2", static_cast<int>(ProtMsg::Field_field3::ValueType::Value2))
-            .add("Value3", static_cast<int>(ProtMsg::Field_field3::ValueType::Value3))
-            .add("Value4", static_cast<int>(ProtMsg::Field_field3::ValueType::Value4))
-            .add("Value5", static_cast<int>(ProtMsg::Field_field3::ValueType::Value5))
-            .asMap());
-
-    props.append(
-        cc::property::field::ForField<ProtMsg::Field_field4>()
-            .add("Value1", static_cast<long long>(ProtMsg::Field_field4::ValueType::Value1))
-            .add("Value2", static_cast<long long>(ProtMsg::Field_field4::ValueType::Value2))
-            .add("Value3", static_cast<long long>(ProtMsg::Field_field4::ValueType::Value3))
-            .asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field1>().asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field2>().asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field3>().asMap());
+    props.append(cc::property::field::ForField<ProtMsg::Field_field4>().asMap());
 
     assert(props.size() == ProtMsg::FieldIdx_numOfValues);
     return props;

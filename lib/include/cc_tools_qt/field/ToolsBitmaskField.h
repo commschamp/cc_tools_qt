@@ -20,6 +20,9 @@
 
 #include "cc_tools_qt/details/ToolsNumericFieldBase.h"
 
+#include <QtCore/QList>
+#include <QtCore/QString>
+
 #include <memory>
 
 namespace cc_tools_qt
@@ -31,7 +34,7 @@ namespace field
 class CC_API ToolsBitmaskField : public details::ToolsNumericFieldBase<unsigned long long>
 {
 public:
-    typedef std::unique_ptr<ToolsBitmaskField> ActPtr;
+    using ActPtr = std::unique_ptr<ToolsBitmaskField>;
 
     virtual ~ToolsBitmaskField() noexcept;
 
@@ -43,11 +46,14 @@ public:
 
     ActPtr clone();
 
+    const QStringList& bits() const;
+
 protected:
     virtual bool bitValueImpl(unsigned idx) const = 0;
     virtual void setBitValueImpl(unsigned idx, bool value) = 0;
     virtual unsigned bitIdxLimitImpl() const = 0;
     virtual ActPtr cloneImpl() = 0;
+    virtual const QStringList& bitsImpl() const = 0;
 
     virtual void dispatchImpl(ToolsFieldHandler& handler) override;
 };

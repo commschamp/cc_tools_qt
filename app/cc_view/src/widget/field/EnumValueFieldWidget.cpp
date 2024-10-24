@@ -48,6 +48,16 @@ EnumValueFieldWidget::EnumValueFieldWidget(
 
     assert(m_ui.m_serValueLineEdit != nullptr);
     setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
+
+    populateComboBox();
+
+    refresh();
+
+    connect(m_ui.m_valueComboBox, SIGNAL(currentIndexChanged(int)),
+            this, SLOT(valueUpdated(int)));
+
+    connect(m_ui.m_serValueLineEdit, SIGNAL(textEdited(const QString&)),
+            this, SLOT(serialisedValueUpdated(const QString&)));    
 }
 
 EnumValueFieldWidget::~EnumValueFieldWidget() noexcept = default;
@@ -118,20 +128,40 @@ void EnumValueFieldWidget::editEnabledUpdatedImpl()
     m_ui.m_serValueLineEdit->setReadOnly(readonly);
 }
 
-void EnumValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
+void EnumValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
-    if (m_signalsConnected) {
-        disconnect(m_ui.m_valueComboBox, SIGNAL(currentIndexChanged(int)),
-                   this, SLOT(valueUpdated(int)));
+    handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
+}
 
-        disconnect(m_ui.m_serValueLineEdit, SIGNAL(textEdited(const QString&)),
-                   this, SLOT(serialisedValueUpdated(const QString&)));
+void EnumValueFieldWidget::valueUpdated(int idx)
+{
+    if ((!m_fieldPtr->valid()) && (idx < m_idxOffset)) {
+        return;
     }
 
-    m_ui.m_valueComboBox->clear();
+    if (isEditEnabled()) {
+        auto valueVar = m_ui.m_valueComboBox->currentData();
+        assert(valueVar.isValid());
+        assert(valueVar.canConvert<UnderlyingType>());
+        auto value = valueVar.value<UnderlyingType>();
+        if (value == m_fieldPtr->getValue()) {
+            return;
+        }
 
-    property::field::EnumValue enumProps(props);
-    auto& values = enumProps.values();
+        assert(isEditEnabled());
+        m_fieldPtr->setValue(value);
+        if (!m_fieldPtr->canWrite()) {
+            m_fieldPtr->reset();
+            assert(m_fieldPtr->canWrite());
+        }
+        emitFieldUpdated();
+    }
+    refresh();
+}
+
+void EnumValueFieldWidget::populateComboBox()
+{
+    auto& values = m_fieldPtr->values();
     auto maxValue = std::numeric_limits<long long int>::min();
     for (auto& val : values) {
         m_ui.m_valueComboBox->addItem(val.first, val.second);
@@ -188,47 +218,6 @@ void EnumValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
         m_ui.m_valueComboBox->insertSeparator(1);
         m_idxOffset = EnumValuesStartIndex;
     }
-
-    refresh();
-
-    connect(m_ui.m_valueComboBox, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(valueUpdated(int)));
-
-    connect(m_ui.m_serValueLineEdit, SIGNAL(textEdited(const QString&)),
-            this, SLOT(serialisedValueUpdated(const QString&)));
-
-    m_signalsConnected = true;
-}
-
-void EnumValueFieldWidget::serialisedValueUpdated(const QString& value)
-{
-    handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
-}
-
-void EnumValueFieldWidget::valueUpdated(int idx)
-{
-    if ((!m_fieldPtr->valid()) && (idx < m_idxOffset)) {
-        return;
-    }
-
-    if (isEditEnabled()) {
-        auto valueVar = m_ui.m_valueComboBox->currentData();
-        assert(valueVar.isValid());
-        assert(valueVar.canConvert<UnderlyingType>());
-        auto value = valueVar.value<UnderlyingType>();
-        if (value == m_fieldPtr->getValue()) {
-            return;
-        }
-
-        assert(isEditEnabled());
-        m_fieldPtr->setValue(value);
-        if (!m_fieldPtr->canWrite()) {
-            m_fieldPtr->reset();
-            assert(m_fieldPtr->canWrite());
-        }
-        emitFieldUpdated();
-    }
-    refresh();
 }
 
 }  // namespace cc_tools_qt

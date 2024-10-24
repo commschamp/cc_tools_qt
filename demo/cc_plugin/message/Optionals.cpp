@@ -41,10 +41,6 @@ QVariantMap createField1Properties()
 {
     using Field = ProtMsg::Field_field1;
     cc::property::field::ForField<Field> props;
-    props.add("enable_field2")
-         .add("enable_field3");
-
-    assert(props.bits().size() == Field::BitIdx_numOfValues);
     return props.asMap();
 }
 

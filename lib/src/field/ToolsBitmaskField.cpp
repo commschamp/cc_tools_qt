@@ -47,6 +47,11 @@ ToolsBitmaskField::ActPtr ToolsBitmaskField::clone()
     return cloneImpl();
 }
 
+const QStringList& ToolsBitmaskField::bits() const
+{
+    return bitsImpl();
+}
+
 void ToolsBitmaskField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);
