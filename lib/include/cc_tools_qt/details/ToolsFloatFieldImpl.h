@@ -110,6 +110,11 @@ protected:
         return specialsInternal(Tag());
     }
 
+    virtual int decimalsImpl() const override
+    {
+        return Field::displayDecimals();
+    }
+
 private:
     struct HasSpecialsTag{};    
     struct NoSpecialstag{};

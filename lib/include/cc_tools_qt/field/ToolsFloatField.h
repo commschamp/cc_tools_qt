@@ -53,6 +53,7 @@ public:
     void setMinusInf();
     double getEpsilon() const;
     const SpecialsList& specials() const;
+    int decimals() const;
 
 protected:
     virtual ActPtr cloneImpl() = 0;
@@ -64,6 +65,7 @@ protected:
     virtual void setMinusInfImpl() = 0;
     virtual double getEpsilonImpl() const = 0;
     virtual const SpecialsList& specialsImpl() const = 0;
+    virtual int decimalsImpl() const = 0;
 
     virtual void dispatchImpl(ToolsFieldHandler& handler) override;
 };

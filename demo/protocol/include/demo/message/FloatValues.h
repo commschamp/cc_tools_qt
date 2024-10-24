@@ -78,7 +78,12 @@ struct FloatValuesFields
             static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
             return std::make_pair(&Map[0], MapSize);
-        }                        
+        } 
+
+        static constexpr unsigned displayDecimals()
+        {
+            return 3U;
+        }                                 
     };
 
     /// @brief Simple 8 byte IEEE 754 floating point value.
@@ -121,7 +126,12 @@ struct FloatValuesFields
             static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
             return std::make_pair(&Map[0], MapSize);
-        }                        
+        }      
+
+        static constexpr unsigned displayDecimals()
+        {
+            return 0U;
+        }                          
     };
 
     /// @brief Floating point value serialised as integer with (1e-2) scaling ratio.

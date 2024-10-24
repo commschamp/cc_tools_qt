@@ -74,6 +74,11 @@ const ToolsFloatField::SpecialsList& ToolsFloatField::specials() const
     return specialsImpl();
 }
 
+int ToolsFloatField::decimals() const
+{
+    return decimalsImpl();
+}
+
 void ToolsFloatField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);

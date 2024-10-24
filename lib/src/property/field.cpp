@@ -59,12 +59,6 @@ const QString& hiddenWhenReadOnlyKey()
     return Str;
 }
 
-const QString& floatDecimalsKey()
-{
-    static const QString Str("cc.float_dec");
-    return Str;
-}
-
 const QString& uncheckableKey()
 {
     static const QString Str("cc.uncheckable");
@@ -560,37 +554,18 @@ FloatValue::FloatValue(const QVariantMap& props) : Base(props)
 
 FloatValue::FloatValue(const QVariant& props) : Base(props)
 {
-    if (props.isValid() && props.canConvert<QVariantMap>()) {
-        getFrom(props.value<QVariantMap>());
-    }
 };
+
 FloatValue::~FloatValue() noexcept = default;
 
 FloatValue& FloatValue::operator=(const FloatValue&) = default;
 FloatValue& FloatValue::operator=(FloatValue&&) = default;
 
-int FloatValue::decimals() const
-{
-    return m_decimals;
-}
-
-FloatValue& FloatValue::decimals(int value)
-{
-    m_decimals = value;
-    return *this;
-}
-
 QVariantMap FloatValue::asMap() const
 {
     QVariantMap props;
     Base::setTo(props);
-    Base::setElemTo(m_decimals, floatDecimalsKey(), props);
     return props;
-}
-
-void FloatValue::getFrom(const QVariantMap& props)
-{
-    m_decimals = getElemFrom<decltype(m_decimals)>(props, floatDecimalsKey());
 }
 
 Variant::Variant() = default;

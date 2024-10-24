@@ -628,19 +628,8 @@ public:
     /// @brief Move assignment
     FloatValue& operator=(FloatValue&&);
 
-    /// @brief Get number of decimal digits to display
-    int decimals() const;
-
-    /// @brief Set number of decimal digits to display
-    FloatValue& decimals(int value);
-
     /// @brief Retrieve all properties as map.
     QVariantMap asMap() const;
-
-private:
-    void getFrom(const QVariantMap& props);
-
-    int m_decimals = 0;
 };
 
 /// @brief Class to contain all the properties relevant to
