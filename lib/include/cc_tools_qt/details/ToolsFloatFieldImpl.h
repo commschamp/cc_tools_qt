@@ -43,6 +43,7 @@ class ToolsFloatFieldImpl : public ToolsNumericFieldImpl<cc_tools_qt::field::Too
 
 public:
     using UnderlyingType = typename Base::UnderlyingType;
+    using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
     using SpecialsList = typename Base::SpecialsList;
 
@@ -58,7 +59,7 @@ public:
     ToolsFloatFieldImpl& operator=(const ToolsFloatFieldImpl&) = delete;
 
 protected:
-    virtual ActPtr cloneImpl() override
+    virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsFloatFieldImpl<TField>(Base::field()));
     }

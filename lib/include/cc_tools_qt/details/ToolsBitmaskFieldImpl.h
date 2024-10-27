@@ -46,6 +46,7 @@ class ToolsBitmaskFieldImpl : public ToolsNumericFieldImpl<cc_tools_qt::field::T
     static_assert(sizeof(ValueType) <= sizeof(MaskType), "This wrapper cannot handle provided field.");
 
 public:
+    using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
 
     explicit ToolsBitmaskFieldImpl(Field& fieldRef)
@@ -75,7 +76,7 @@ protected:
         return std::numeric_limits<ValueType>::digits;
     }
 
-    virtual ActPtr cloneImpl() override
+    virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsBitmaskFieldImpl<TField>(Base::field()));
     }

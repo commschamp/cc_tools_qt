@@ -44,6 +44,7 @@ class ToolsIntFieldImpl : public ToolsNumericFieldImpl<cc_tools_qt::field::Tools
 public:
 
     using UnderlyingType = typename Base::UnderlyingType;
+    using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
     using SpecialsList = typename Base::SpecialsList;
 
@@ -96,7 +97,7 @@ protected:
         return sizeof(typename Field::ValueType);
     }
 
-    virtual ActPtr cloneImpl() override
+    virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsIntFieldImpl<TField>(Base::field()));
     }

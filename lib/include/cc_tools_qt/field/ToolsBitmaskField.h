@@ -44,15 +44,14 @@ public:
 
     unsigned bitIdxLimit() const;
 
-    ActPtr clone();
-
     const QStringList& bits() const;
+
+    ActPtr actClone();
 
 protected:
     virtual bool bitValueImpl(unsigned idx) const = 0;
     virtual void setBitValueImpl(unsigned idx, bool value) = 0;
     virtual unsigned bitIdxLimitImpl() const = 0;
-    virtual ActPtr cloneImpl() = 0;
     virtual const QStringList& bitsImpl() const = 0;
 
     virtual void dispatchImpl(ToolsFieldHandler& handler) override;

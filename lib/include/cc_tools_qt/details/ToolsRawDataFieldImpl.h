@@ -42,7 +42,8 @@ class ToolsRawDataFieldImpl : public ToolsFieldBase<cc_tools_qt::field::ToolsRaw
 
 public:
     using SerialisedSeq = typename Base::SerialisedSeq;
-    typedef typename Base::ActPtr ActPtr;
+    using Ptr = typename Base::Ptr;
+    using ActPtr = typename Base::ActPtr;
 
     explicit ToolsRawDataFieldImpl(Field& fieldRef)
       : Base(fieldRef)
@@ -144,7 +145,7 @@ protected:
         return minSizeInternal(SizeExistanceTag());
     }
 
-    virtual ActPtr cloneImpl() override
+    virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsRawDataFieldImpl<TField>(Base::field()));
     }

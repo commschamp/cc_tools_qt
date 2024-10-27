@@ -44,7 +44,6 @@ public:
     ToolsFloatField();
     virtual ~ToolsFloatField() noexcept;
 
-    ActPtr clone();
     bool isNan() const;
     void setNan();
     bool isInf() const;
@@ -55,8 +54,9 @@ public:
     const SpecialsList& specials() const;
     int decimals() const;
 
+    ActPtr actClone();
+
 protected:
-    virtual ActPtr cloneImpl() = 0;
     virtual bool isNanImpl() const = 0;
     virtual void setNanImpl() = 0;
     virtual bool isInfImpl() const = 0;

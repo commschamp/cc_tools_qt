@@ -36,6 +36,8 @@ ArrayListRawDataFieldWidget::ArrayListRawDataFieldWidget(
     setSeparatorWidget(m_ui.m_sepLine);
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
+    performNameLabelUpdate();
+
     refresh();
 
     connect(

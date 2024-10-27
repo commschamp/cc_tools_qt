@@ -38,11 +38,9 @@ public:
     ToolsUnknownField();
     virtual ~ToolsUnknownField() noexcept;
 
-    ActPtr clone();
+    ActPtr actClone();
 
 protected:
-    virtual ActPtr cloneImpl() = 0;
-
     void dispatchImpl(ToolsFieldHandler& handler);
 };
 

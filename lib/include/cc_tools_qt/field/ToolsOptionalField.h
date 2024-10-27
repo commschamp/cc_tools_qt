@@ -50,19 +50,15 @@ public:
 
     const ToolsField& getFieldWrapper() const;
 
-    void setFieldWrapper(ToolsFieldPtr fieldWrapper);
+    void setFieldWrapper(ToolsFieldPtr fieldPtr);
 
-    ActPtr clone();
+    ActPtr actClone();
 
 protected:
     virtual Mode getModeImpl() const = 0;
     virtual void setModeImpl(Mode mode) = 0;
-    virtual ActPtr cloneImpl() = 0;
 
     void dispatchImpl(ToolsFieldHandler& handler);
-
-private:
-    ToolsFieldPtr m_fieldWrapper;
 };
 
 using ToolsOptionalFieldPtr = ToolsOptionalField::ActPtr;

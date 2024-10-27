@@ -53,6 +53,8 @@ ScaledIntValueFieldWidget::ScaledIntValueFieldWidget(
         m_ui.m_valueSpinBox->setDecimals(decimals);
     } 
 
+    performNameLabelUpdate();
+
     refresh();
 
     connect(m_ui.m_valueSpinBox, SIGNAL(valueChanged(double)),

@@ -50,6 +50,8 @@ VariantFieldWidget::VariantFieldWidget(
     updateIndexValue();
     updateMemberCombo();
 
+    performNameLabelUpdate();
+
     connect(
         m_ui.m_idxSpinBox, SIGNAL(valueChanged(int)),
         this, SLOT(indexUpdated(int)));

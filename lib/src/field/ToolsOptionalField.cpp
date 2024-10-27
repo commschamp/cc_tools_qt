@@ -33,37 +33,44 @@ ToolsOptionalField::Mode ToolsOptionalField::getMode() const
     return getModeImpl();
 }
 
-void ToolsOptionalField::setMode(Mode mode) {
+void ToolsOptionalField::setMode(Mode mode) 
+{
     setModeImpl(mode);
 }
 
 bool ToolsOptionalField::hasFieldWrapper() const
 {
-    return static_cast<bool>(m_fieldWrapper);
+    auto& members = getMembers();
+    return !members.empty();
 }
 
 ToolsField& ToolsOptionalField::getFieldWrapper()
 {
+    auto& members = getMembers();
+    assert(!members.empty());
     assert(hasFieldWrapper());
-    return *m_fieldWrapper;
+    return *members.front();
 }
 
 const ToolsField& ToolsOptionalField::getFieldWrapper() const
 {
+    auto& members = getMembers();
+    assert(!members.empty());
     assert(hasFieldWrapper());
-    return *m_fieldWrapper;
+    return *members.front();
 }
 
-void ToolsOptionalField::setFieldWrapper(ToolsFieldPtr fieldWrapper)
+void ToolsOptionalField::setFieldWrapper(ToolsFieldPtr fieldPtr)
 {
-    m_fieldWrapper = std::move(fieldWrapper);
+    assert(fieldPtr);
+    Members mems;
+    mems.push_back(std::move(fieldPtr));
+    setMembers(std::move(mems));
 }
 
-ToolsOptionalField::ActPtr ToolsOptionalField::clone()
+ToolsOptionalField::ActPtr ToolsOptionalField::actClone()
 {
-    auto ptr = cloneImpl();
-    ptr->setFieldWrapper(m_fieldWrapper->upClone());
-    return ptr;
+    return ActPtr(static_cast<ToolsOptionalField*>(clone().release()));
 }
 
 void ToolsOptionalField::dispatchImpl(ToolsFieldHandler& handler)

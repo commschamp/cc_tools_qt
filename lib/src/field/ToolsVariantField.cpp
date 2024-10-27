@@ -31,36 +31,42 @@ ToolsVariantField::ToolsVariantField() {}
 
 ToolsVariantField::~ToolsVariantField() noexcept = default;
 
-ToolsFieldPtr& ToolsVariantField::getCurrent()
+ToolsField* ToolsVariantField::getCurrent()
 {
-    return m_current;
+    auto& mems = getMembers();
+    if (mems.empty()) {
+        return nullptr;
+    }
+
+    return mems.front().get();
 }
 
-const ToolsFieldPtr& ToolsVariantField::getCurrent() const
+const ToolsField* ToolsVariantField::getCurrent() const
 {
-    return m_current;
+    auto& mems = getMembers();
+    if (mems.empty()) {
+        return nullptr;
+    }
+
+    return mems.front().get();
 }
 
 void ToolsVariantField::setCurrent(ToolsFieldPtr current)
 {
-    m_current = std::move(current);
+    if (!current) {
+        setMembers(Members());    
+        return;
+    }
+    
+    Members mems;
+    mems.push_back(std::move(current));
+    setMembers(std::move(mems));
 }
 
 void ToolsVariantField::updateCurrent()
 {
     assert(m_createMemberCb);
     setCurrent(m_createMemberCb());
-}
-
-ToolsVariantField::ActPtr ToolsVariantField::clone()
-{
-    auto ptr = cloneImpl();
-    ptr->m_createMemberCb = m_createMemberCb;
-    if (m_current) {
-        ptr->setCurrent(m_current->upClone());
-    }
-
-    return ptr;
 }
 
 QStringList ToolsVariantField::membersNames() const
@@ -81,6 +87,11 @@ void ToolsVariantField::setCurrentIndex(int index)
 int ToolsVariantField::getMembersCount() const
 {
     return getMembersCountImpl();
+}
+
+ToolsVariantField::ActPtr ToolsVariantField::actClone()
+{
+    return ActPtr(static_cast<ToolsVariantField*>(clone().release()));
 }
 
 void ToolsVariantField::dispatchImpl(ToolsFieldHandler& handler)

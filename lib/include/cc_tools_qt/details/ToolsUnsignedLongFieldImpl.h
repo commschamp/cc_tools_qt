@@ -43,6 +43,7 @@ class ToolsUnsignedLongFieldImpl : public ToolsNumericFieldImpl<cc_tools_qt::fie
 
 public:
     using UnderlyingType = typename Base::UnderlyingType;
+    using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
     using SpecialsList = typename Base::SpecialsList;
 
@@ -95,7 +96,7 @@ protected:
         return sizeof(typename Field::ValueType);
     }
 
-    virtual ActPtr cloneImpl() override
+    virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsUnsignedLongFieldImpl<TField>(Base::field()));
     }

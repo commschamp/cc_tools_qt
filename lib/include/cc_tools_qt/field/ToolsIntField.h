@@ -60,8 +60,6 @@ public:
 
     std::size_t valueTypeSize() const;
 
-    ActPtr clone();
-
     const SpecialsList& specials() const;
 
     bool hasScaledDecimals() const;
@@ -69,6 +67,8 @@ public:
 
     UnderlyingType getDisplayValue() const;
     void setDisplayValue(UnderlyingType value);
+
+    ActPtr actClone();
 
 protected:
     virtual UnderlyingType minValueImpl() const = 0;
@@ -78,7 +78,6 @@ protected:
     virtual double scaleValueImpl(UnderlyingType value) const = 0;
     virtual bool isSignedImpl() const = 0;
     virtual std::size_t valueTypeSizeImpl() const = 0;
-    virtual ActPtr cloneImpl() = 0;
     virtual const SpecialsList& specialsImpl() const = 0;
     virtual int scaledDecimalsImpl() const = 0;
     virtual UnderlyingType getDisplayValueImpl() const = 0;

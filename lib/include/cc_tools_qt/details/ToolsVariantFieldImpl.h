@@ -44,6 +44,7 @@ class ToolsVariantFieldImpl : public ToolsFieldBase<cc_tools_qt::field::ToolsVar
     static_assert(comms::field::isVariant<Field>(), "Must be of Variant field type");
 
 public:
+    using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
 
     explicit ToolsVariantFieldImpl(Field& fieldRef)
@@ -58,7 +59,7 @@ public:
     ToolsVariantFieldImpl& operator=(const ToolsVariantFieldImpl&) = delete;
 
 protected:
-    virtual ActPtr cloneImpl() override
+    virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsVariantFieldImpl(Base::field()));
     }

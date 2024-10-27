@@ -34,6 +34,7 @@ class ToolsUnknownFieldImpl : public ToolsFieldBase<cc_tools_qt::field::ToolsUnk
     using Field = TField;
 
 public:
+    using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
 
     explicit ToolsUnknownFieldImpl(Field& fieldRef)
@@ -48,7 +49,7 @@ public:
     ToolsUnknownFieldImpl& operator=(const ToolsUnknownFieldImpl&) = delete;
 
 protected:
-    virtual ActPtr cloneImpl() override
+    virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsUnknownFieldImpl<TField>(Base::field()));
     }

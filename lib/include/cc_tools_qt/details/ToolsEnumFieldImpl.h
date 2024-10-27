@@ -50,6 +50,7 @@ class ToolsEnumFieldImpl : public ToolsNumericFieldImpl<cc_tools_qt::field::Tool
 
 public:
     using ValueInfosList = typename Base::ValueInfosList;
+    using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
 
     explicit ToolsEnumFieldImpl(Field& fieldRef)
@@ -64,7 +65,7 @@ public:
     ToolsEnumFieldImpl& operator=(const ToolsEnumFieldImpl&) = delete;
 
 protected:
-    virtual ActPtr cloneImpl() override
+    virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsEnumFieldImpl<TField>(Base::field()));
     }

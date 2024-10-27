@@ -64,11 +64,6 @@ std::size_t ToolsIntField::valueTypeSize() const
     return valueTypeSizeImpl();
 }
 
-ToolsIntField::ActPtr ToolsIntField::clone()
-{
-    return cloneImpl();
-}
-
 const ToolsIntField::SpecialsList& ToolsIntField::specials() const
 {
     return specialsImpl();
@@ -92,6 +87,11 @@ void ToolsIntField::dispatchImpl(ToolsFieldHandler& handler)
 ToolsIntField::UnderlyingType ToolsIntField::getDisplayValue() const
 {
     return getDisplayValueImpl();
+}
+
+ToolsIntField::ActPtr ToolsIntField::actClone()
+{
+    return ActPtr(static_cast<ToolsIntField*>(clone().release()));
 }
 
 void ToolsIntField::setDisplayValue(UnderlyingType value)

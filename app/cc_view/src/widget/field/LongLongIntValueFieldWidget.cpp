@@ -45,6 +45,8 @@ LongLongIntValueFieldWidget::LongLongIntValueFieldWidget(
     assert(m_ui.m_serValueLineEdit != nullptr);
     setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
 
+    performNameLabelUpdate();
+
     connect(m_ui.m_valueLineEdit, SIGNAL(textEdited(const QString&)),
             this, SLOT(valueUpdated(const QString&)));
 

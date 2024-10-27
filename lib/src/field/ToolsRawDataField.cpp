@@ -49,11 +49,6 @@ int ToolsRawDataField::minSize() const
     return minSizeImpl();
 }
 
-ToolsRawDataField::ActPtr ToolsRawDataField::clone()
-{
-    return cloneImpl();
-}
-
 bool ToolsRawDataField::getForcedShowAll() const
 {
     return m_forcedShowAll;
@@ -71,6 +66,11 @@ bool ToolsRawDataField::isTruncated() const
     }
 
     return TruncateLength < length();
+}
+
+ToolsRawDataField::ActPtr ToolsRawDataField::actClone()
+{
+    return ActPtr(static_cast<ToolsRawDataField*>(clone().release()));
 }
 
 void ToolsRawDataField::dispatchImpl(ToolsFieldHandler& handler)

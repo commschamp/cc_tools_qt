@@ -47,18 +47,17 @@ public:
 
     int minSize() const;
 
-    ActPtr clone();
-
     bool getForcedShowAll() const;
     void setForcedShowAll(bool val = true);
     bool isTruncated() const;
+
+    ActPtr actClone();
 
 protected:
     virtual QString getValueImpl() const = 0;
     virtual void setValueImpl(const QString& val) = 0;
     virtual int maxSizeImpl() const = 0;
     virtual int minSizeImpl() const = 0;
-    virtual ActPtr cloneImpl() = 0;
 
     void dispatchImpl(ToolsFieldHandler& handler);
 

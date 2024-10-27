@@ -47,15 +47,13 @@ public:
 
     virtual ~ToolsVariantField() noexcept;
 
-    ToolsFieldPtr& getCurrent();
+    ToolsField* getCurrent();
 
-    const ToolsFieldPtr& getCurrent() const;
+    const ToolsField* getCurrent() const;
 
     void setCurrent(ToolsFieldPtr current);
 
     void updateCurrent();
-
-    ActPtr clone();
 
     QStringList membersNames() const;
 
@@ -71,8 +69,9 @@ public:
         m_createMemberCb = std::forward<TFunc>(func);
     }
 
+    ActPtr actClone();
+
 protected:
-    virtual ActPtr cloneImpl() = 0;
     virtual QStringList membersNamesImpl() const = 0;
     virtual void dispatchImpl(ToolsFieldHandler& handler);
     virtual int getCurrentIndexImpl() const = 0;
@@ -80,7 +79,6 @@ protected:
     virtual int getMembersCountImpl() const = 0;
 
 private:
-    ToolsFieldPtr m_current;
     MemberCreateCallbackFunc m_createMemberCb;
 };
 

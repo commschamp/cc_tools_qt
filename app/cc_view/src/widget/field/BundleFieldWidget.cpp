@@ -41,6 +41,8 @@ BundleFieldWidget::BundleFieldWidget(
     m_membersLayout->addWidget(m_label);
     setLayout(m_membersLayout);
     setNameLabelWidget(m_label);
+
+    performNameLabelUpdate();
 }
 
 BundleFieldWidget::~BundleFieldWidget() noexcept = default;

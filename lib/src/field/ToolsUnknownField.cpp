@@ -29,9 +29,9 @@ ToolsUnknownField::ToolsUnknownField() {}
 
 ToolsUnknownField::~ToolsUnknownField() noexcept = default;
 
-ToolsUnknownField::ActPtr ToolsUnknownField::clone()
+ToolsUnknownField::ActPtr ToolsUnknownField::actClone()
 {
-    return cloneImpl();
+    return ActPtr(static_cast<ToolsUnknownField*>(clone().release()));
 }
 
 void ToolsUnknownField::dispatchImpl(ToolsFieldHandler& handler)

@@ -51,6 +51,8 @@ EnumValueFieldWidget::EnumValueFieldWidget(
 
     populateComboBox();
 
+    performNameLabelUpdate();
+
     refresh();
 
     connect(m_ui.m_valueComboBox, SIGNAL(currentIndexChanged(int)),

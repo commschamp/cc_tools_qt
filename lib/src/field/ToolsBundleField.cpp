@@ -29,9 +29,9 @@ ToolsBundleField::ToolsBundleField() {}
 
 ToolsBundleField::~ToolsBundleField() noexcept = default;
 
-ToolsBundleField::ActPtr ToolsBundleField::clone()
+ToolsBundleField::ActPtr ToolsBundleField::actClone()
 {
-    return cloneImpl();
+    return ActPtr(static_cast<ToolsBundleField*>(clone().release()));
 }
 
 void ToolsBundleField::dispatchImpl(ToolsFieldHandler& handler)

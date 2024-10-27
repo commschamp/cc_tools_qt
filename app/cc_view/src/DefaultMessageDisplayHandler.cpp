@@ -57,27 +57,27 @@ public:
 
     virtual void handle(field::ToolsIntField& field) override
     {
-        m_widget.reset(new IntValueFieldWidget(field.clone(), m_parent));
+        m_widget.reset(new IntValueFieldWidget(field.actClone(), m_parent));
     }
 
     virtual void handle(field::ToolsUnsignedLongField& field) override
     {
-        m_widget.reset(new UnsignedLongLongIntValueFieldWidget(field.clone(), m_parent));
+        m_widget.reset(new UnsignedLongLongIntValueFieldWidget(field.actClone(), m_parent));
     }
 
     virtual void handle(field::ToolsBitmaskField& field) override
     {
-        m_widget.reset(new BitmaskValueFieldWidget(field.clone(), m_parent));
+        m_widget.reset(new BitmaskValueFieldWidget(field.actClone(), m_parent));
     }
 
     virtual void handle(field::ToolsEnumField& field) override
     {
-        m_widget.reset(new EnumValueFieldWidget(field.clone(), m_parent));
+        m_widget.reset(new EnumValueFieldWidget(field.actClone(), m_parent));
     }
 
     virtual void handle(field::ToolsStringField& field) override
     {
-        m_widget.reset(new StringFieldWidget(field.clone(), m_parent));
+        m_widget.reset(new StringFieldWidget(field.actClone(), m_parent));
     }
 
     virtual void handle(field::ToolsBitfieldField& field) override
@@ -90,7 +90,7 @@ public:
             membersWidgets.push_back(getWidget());
         }
 
-        std::unique_ptr<BitfieldFieldWidget> widget(new BitfieldFieldWidget(field.clone(), m_parent));
+        std::unique_ptr<BitfieldFieldWidget> widget(new BitfieldFieldWidget(field.actClone(), m_parent));
         for (auto& memWidget : membersWidgets) {
             widget->addMemberField(memWidget.release());
         }
@@ -103,7 +103,7 @@ public:
         field.getFieldWrapper().dispatch(*this);
         auto wrappedWidget = getWidget();
 
-        std::unique_ptr<OptionalFieldWidget> widget(new OptionalFieldWidget(field.clone(), m_parent));
+        std::unique_ptr<OptionalFieldWidget> widget(new OptionalFieldWidget(field.actClone(), m_parent));
         widget->setField(wrappedWidget.release());
         m_widget = std::move(widget);
     }
@@ -118,7 +118,7 @@ public:
             membersWidgets.push_back(getWidget());
         }
 
-        std::unique_ptr<BundleFieldWidget> widget(new BundleFieldWidget(field.clone(), m_parent));
+        std::unique_ptr<BundleFieldWidget> widget(new BundleFieldWidget(field.actClone(), m_parent));
         for (auto& memWidget : membersWidgets) {
             widget->addMemberField(memWidget.release());
         }
@@ -128,7 +128,7 @@ public:
 
     virtual void handle(field::ToolsRawDataField& field) override
     {
-        m_widget.reset(new ArrayListRawDataFieldWidget(field.clone(), m_parent));
+        m_widget.reset(new ArrayListRawDataFieldWidget(field.actClone(), m_parent));
     }
 
     virtual void handle(field::ToolsArrayListField& field) override
@@ -152,12 +152,12 @@ public:
             };
 
         assert(field.size() == field.getMembers().size());
-        m_widget.reset(new ArrayListFieldWidget(field.clone(), std::move(createMembersWidgetsFunc), m_parent));
+        m_widget.reset(new ArrayListFieldWidget(field.actClone(), std::move(createMembersWidgetsFunc), m_parent));
     }
 
     virtual void handle(field::ToolsFloatField& field) override
     {
-        m_widget.reset(new FloatValueFieldWidget(field.clone(), m_parent));
+        m_widget.reset(new FloatValueFieldWidget(field.actClone(), m_parent));
     }
 
     virtual void handle(field::ToolsVariantField& field) override
@@ -171,15 +171,15 @@ public:
             };
 
         FieldWidgetPtr memberWidget;
-        auto& memberFieldPtr = field.getCurrent();
-        if (memberFieldPtr) {
+        auto* memberFieldPtr = field.getCurrent();
+        if (memberFieldPtr != nullptr) {
             memberFieldPtr->dispatch(*this);
             memberWidget = getWidget();
         }
 
         std::unique_ptr<VariantFieldWidget> widget(
                     new VariantFieldWidget(
-                        field.clone(),
+                        field.actClone(),
                         createMemberWidgetsFunc,
                         m_parent));
         if (memberWidget) {
@@ -191,7 +191,7 @@ public:
 
     virtual void handle(field::ToolsUnknownField& field) override
     {
-        m_widget.reset(new UnknownValueFieldWidget(field.clone(), m_parent));
+        m_widget.reset(new UnknownValueFieldWidget(field.actClone(), m_parent));
     }
 
     virtual void handle([[maybe_unused]] ToolsField& field) override

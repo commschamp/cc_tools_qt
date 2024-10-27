@@ -29,9 +29,9 @@ ToolsBitfieldField::ToolsBitfieldField() {}
 
 ToolsBitfieldField::~ToolsBitfieldField() noexcept = default;
 
-ToolsBitfieldField::ActPtr ToolsBitfieldField::clone()
+ToolsBitfieldField::ActPtr ToolsBitfieldField::actClone()
 {
-    return cloneImpl();
+    return ActPtr(static_cast<ToolsBitfieldField*>(clone().release()));
 }
 
 void ToolsBitfieldField::dispatchImpl(ToolsFieldHandler& handler)

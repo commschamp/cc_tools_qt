@@ -69,6 +69,8 @@ FloatValueFieldWidget::FloatValueFieldWidget(
 
     createSpecialsWidget(m_fieldPtr->specials());
 
+    performNameLabelUpdate();
+
     refresh();
 
     connect(m_ui.m_valueSpinBox, SIGNAL(valueChanged(double)),

@@ -43,6 +43,7 @@ class ToolsBundleFieldImpl : public ToolsFieldBase<cc_tools_qt::field::ToolsBund
     static_assert(comms::field::isBundle<Field>(), "Must be of Bundle field type");
 
 public:
+    using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
 
     explicit ToolsBundleFieldImpl(Field& fieldRef)
@@ -57,7 +58,7 @@ public:
     ToolsBundleFieldImpl& operator=(const ToolsBundleFieldImpl&) = delete;
 
 protected:
-    virtual ActPtr cloneImpl() override
+    virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsBundleFieldImpl(Base::field()));
     }

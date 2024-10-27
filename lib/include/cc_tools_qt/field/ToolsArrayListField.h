@@ -52,13 +52,13 @@ public:
 
     void adjustFixedSize();
 
-    ActPtr clone();
-
     void refreshMembers();
 
     using PrefixFieldInfo = std::pair<int, SerialisedSeq>;
 
     PrefixFieldInfo getPrefixFieldInfo() const;
+
+    ActPtr actClone();
 
 protected:
     virtual void addFieldImpl() = 0;
@@ -66,7 +66,6 @@ protected:
     virtual unsigned sizeImpl() const = 0;
     virtual bool hasFixedSizeImpl() const = 0;
     virtual void adjustFixedSizeImpl() = 0;
-    virtual ActPtr cloneImpl() = 0;
     virtual void refreshMembersImpl() = 0;
     virtual PrefixFieldInfo getPrefixFieldInfoImpl() const = 0;
 

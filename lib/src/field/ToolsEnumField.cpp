@@ -29,14 +29,14 @@ ToolsEnumField::ToolsEnumField() {}
 
 ToolsEnumField::~ToolsEnumField() noexcept = default;
 
-ToolsEnumField::ActPtr ToolsEnumField::clone()
-{
-    return cloneImpl();
-}
-
 const ToolsEnumField::ValueInfosList& ToolsEnumField::values() const
 {
     return valuesImpl();
+}
+
+ToolsEnumField::ActPtr ToolsEnumField::actClone()
+{
+    return ActPtr(static_cast<ToolsEnumField*>(clone().release()));
 }
 
 void ToolsEnumField::dispatchImpl(ToolsFieldHandler& handler)

@@ -136,11 +136,6 @@ protected:
         return es == comms::ErrorStatus::Success;
     }
 
-    virtual Ptr upCloneImpl() override
-    {
-        return static_cast<Base*>(this)->clone();
-    }
-
     virtual bool canWriteImpl() const override
     {
         return m_field.canWrite();

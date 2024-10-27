@@ -46,6 +46,8 @@ BitmaskValueFieldWidget::BitmaskValueFieldWidget(
 
     prepareCheckboxes();
 
+    performNameLabelUpdate();
+
     refresh();
 
     connect(m_ui.m_serValueLineEdit, SIGNAL(textEdited(const QString&)),

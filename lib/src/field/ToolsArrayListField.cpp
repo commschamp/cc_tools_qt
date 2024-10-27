@@ -54,11 +54,6 @@ void ToolsArrayListField::adjustFixedSize()
     adjustFixedSizeImpl();
 }
 
-ToolsArrayListField::ActPtr ToolsArrayListField::clone()
-{
-    return cloneImpl();
-}
-
 void ToolsArrayListField::refreshMembers()
 {
     refreshMembersImpl();
@@ -67,6 +62,11 @@ void ToolsArrayListField::refreshMembers()
 ToolsArrayListField::PrefixFieldInfo ToolsArrayListField::getPrefixFieldInfo() const
 {
     return getPrefixFieldInfoImpl();
+}
+
+ToolsArrayListField::ActPtr ToolsArrayListField::actClone()
+{
+    return ActPtr(static_cast<ToolsArrayListField*>(clone().release()));
 }
 
 void ToolsArrayListField::dispatchImpl(ToolsFieldHandler& handler)

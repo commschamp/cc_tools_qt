@@ -157,6 +157,28 @@ void FieldWidget::updateSerValue(
     text.setPlainText(serValueStr);
 }
 
+void FieldWidget::performNameLabelUpdate()
+{
+    if (m_nameLabel == nullptr) {
+        return;
+    }
+
+    auto& f = fieldImpl();
+    QString str = f.name();
+    if (str.isEmpty()) {
+        m_nameLabel->hide();
+        return;
+    }
+
+    if (!m_nameSuffix.isEmpty()) {
+        str.append(m_nameSuffix);
+    }
+
+    str.append(':');
+    m_nameLabel->setText(str);
+    m_nameLabel->show();
+}
+
 void FieldWidget::editEnabledUpdatedImpl()
 {
 }
@@ -203,27 +225,6 @@ void FieldWidget::performUiReadOnlyCheck(const property::field::Common& props)
     }
 }
 
-void FieldWidget::performNameLabelUpdate()
-{
-    if (m_nameLabel == nullptr) {
-        return;
-    }
-
-    auto& f = fieldImpl();
-    QString str = f.name();
-    if (str.isEmpty()) {
-        m_nameLabel->hide();
-        return;
-    }
-
-    if (!m_nameSuffix.isEmpty()) {
-        str.append(m_nameSuffix);
-    }
-
-    str.append(':');
-    m_nameLabel->setText(str);
-    m_nameLabel->show();
-}
 
 }  // namespace cc_tools_qt
 

@@ -30,7 +30,6 @@
 #include <functional>
 #include <utility>
 
-
 namespace cc_tools_qt
 {
 
@@ -47,6 +46,7 @@ class ToolsArrayListFieldImpl : public ToolsFieldBase<cc_tools_qt::field::ToolsA
 
 public:
     using SerialisedSeq = typename Base::SerialisedSeq;
+    using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
     using PrefixFieldInfo = typename Base::PrefixFieldInfo;
 
@@ -149,7 +149,7 @@ protected:
         adjustFixedSizeInternal(Tag());
     }
 
-    virtual ActPtr cloneImpl() override
+    virtual Ptr cloneImpl() override
     {
         ActPtr ptr(new ToolsArrayListFieldImpl(Base::field()));
         static_cast<ToolsArrayListFieldImpl<TField>*>(ptr.get())->m_wrapFieldFunc = m_wrapFieldFunc;

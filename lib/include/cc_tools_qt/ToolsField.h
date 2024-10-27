@@ -45,6 +45,7 @@ public:
     virtual ~ToolsField() noexcept;
     
     ToolsField(const ToolsField&) = delete;
+    ToolsField& operator=(const ToolsField&) = delete;
 
     const char* name() const;
 
@@ -64,7 +65,7 @@ public:
 
     void dispatch(ToolsFieldHandler& handler);
 
-    Ptr upClone();
+    Ptr clone();
 
     bool canWrite() const;
 
@@ -81,7 +82,7 @@ protected:
     virtual SerialisedSeq getSerialisedValueImpl() const = 0;
     virtual bool setSerialisedValueImpl(const SerialisedSeq& value) = 0;
     virtual void dispatchImpl(ToolsFieldHandler& handler) = 0;
-    virtual Ptr upCloneImpl() = 0;
+    virtual Ptr cloneImpl() = 0;
     virtual bool canWriteImpl() const = 0;
     virtual void resetImpl() = 0;
 

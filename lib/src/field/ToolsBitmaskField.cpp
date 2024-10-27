@@ -42,14 +42,14 @@ unsigned ToolsBitmaskField::bitIdxLimit() const
     return bitIdxLimitImpl();
 }
 
-ToolsBitmaskField::ActPtr ToolsBitmaskField::clone()
-{
-    return cloneImpl();
-}
-
 const QStringList& ToolsBitmaskField::bits() const
 {
     return bitsImpl();
+}
+
+ToolsBitmaskField::ActPtr ToolsBitmaskField::actClone()
+{
+    return ActPtr(static_cast<ToolsBitmaskField*>(clone().release()));
 }
 
 void ToolsBitmaskField::dispatchImpl(ToolsFieldHandler& handler)

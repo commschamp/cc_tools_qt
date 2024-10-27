@@ -39,12 +39,10 @@ public:
     ToolsBitfieldField& operator=(const ToolsBitfieldField&) = delete;
 
     virtual ~ToolsBitfieldField() noexcept;
+
+    ActPtr actClone();
     
-    ActPtr clone();
-
 protected:
-    virtual ActPtr cloneImpl() = 0;
-
     void dispatchImpl(ToolsFieldHandler& handler);
 
 private:

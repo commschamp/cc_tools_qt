@@ -44,9 +44,9 @@ int ToolsStringField::maxSize() const
     return maxSizeImpl();
 }
 
-ToolsStringField::ActPtr ToolsStringField::clone()
+ToolsStringField::ActPtr ToolsStringField::actClone()
 {
-    return cloneImpl();
+    return ActPtr(static_cast<ToolsStringField*>(clone().release()));
 }
 
 void ToolsStringField::dispatchImpl(ToolsFieldHandler& handler)

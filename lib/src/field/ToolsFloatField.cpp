@@ -29,11 +29,6 @@ ToolsFloatField::ToolsFloatField() {}
 
 ToolsFloatField::~ToolsFloatField() noexcept = default;
 
-ToolsFloatField::ActPtr ToolsFloatField::clone()
-{
-    return cloneImpl();
-}
-
 bool ToolsFloatField::isNan() const
 {
     return isNanImpl();
@@ -77,6 +72,11 @@ const ToolsFloatField::SpecialsList& ToolsFloatField::specials() const
 int ToolsFloatField::decimals() const
 {
     return decimalsImpl();
+}
+
+ToolsFloatField::ActPtr ToolsFloatField::actClone()
+{
+    return ActPtr(static_cast<ToolsFloatField*>(clone().release()));
 }
 
 void ToolsFloatField::dispatchImpl(ToolsFieldHandler& handler)

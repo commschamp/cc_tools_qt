@@ -37,6 +37,7 @@ class ToolsOptionalFieldImpl : public ToolsFieldBase<cc_tools_qt::field::ToolsOp
 public:
 
     using Mode = typename Base::Mode;
+    using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
 
     typedef TField Field;
@@ -56,7 +57,7 @@ protected:
         Base::field().setMode(mode);
     }
 
-    virtual ActPtr cloneImpl() override
+    virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsOptionalFieldImpl<TField>(Base::field()));
     }

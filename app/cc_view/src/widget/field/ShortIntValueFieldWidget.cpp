@@ -47,6 +47,8 @@ ShortIntValueFieldWidget::ShortIntValueFieldWidget(
         static_cast<int>(m_fieldPtr->minValue()), 
         static_cast<int>(m_fieldPtr->maxValue()));
 
+    performNameLabelUpdate();        
+
     connect(m_ui.m_valueSpinBox, SIGNAL(valueChanged(int)),
             this, SLOT(valueUpdated(int)));
 

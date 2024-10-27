@@ -35,6 +35,7 @@ ArrayListElementWidget::ArrayListElementWidget(
     m_ui.m_layout->addWidget(fieldWidget);
 
     updateUi();
+
     connect(
         m_fieldWidget, SIGNAL(sigFieldUpdated()),
         this, SIGNAL(sigFieldUpdated()));
@@ -95,6 +96,8 @@ ArrayListFieldWidget::ArrayListFieldWidget(
     setValueWidget(m_ui.m_valueWidget);
     setSeparatorWidget(m_ui.m_sepLine);
     setSerialisedValueWidget(m_ui.m_serValueWidget);
+
+    performNameLabelUpdate();
 
     assert(m_fieldPtr->canWrite());
     refreshInternal();

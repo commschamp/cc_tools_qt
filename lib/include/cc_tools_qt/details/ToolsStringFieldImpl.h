@@ -42,6 +42,7 @@ class ToolsStringFieldImpl : public ToolsFieldBase<cc_tools_qt::field::ToolsStri
 
 public:
     using SerialisedSeq = typename Base::SerialisedSeq;
+    using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
 
     explicit ToolsStringFieldImpl(Field& fieldRef)
@@ -80,7 +81,7 @@ protected:
         return maxSizeInternal(SizeExistanceTag());
     }
 
-    virtual ActPtr cloneImpl() override
+    virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsStringFieldImpl<TField>(Base::field()));
     }

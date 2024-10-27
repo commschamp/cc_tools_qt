@@ -119,6 +119,8 @@ protected:
         m_serValueWidget = widget;
     }
 
+    void performNameLabelUpdate();
+
     virtual ToolsField& fieldImpl() = 0;
     virtual void refreshImpl() = 0;
     virtual void editEnabledUpdatedImpl();
@@ -127,8 +129,7 @@ protected:
 private:
     void performUiElementsVisibilityCheck(const property::field::Common& props);
     void performUiReadOnlyCheck(const property::field::Common& props);
-    void performNameLabelUpdate();
-
+    
     bool m_forcedReadOnly = false;
     bool m_editEnabled = true;
     bool m_hiddenWhenReadOnly = false;

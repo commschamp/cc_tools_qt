@@ -64,11 +64,6 @@ std::size_t ToolsUnsignedLongField::valueTypeSize() const
     return valueTypeSizeImpl();
 }
 
-ToolsUnsignedLongField::ActPtr ToolsUnsignedLongField::clone()
-{
-    return cloneImpl();
-}
-
 const ToolsUnsignedLongField::SpecialsList& ToolsUnsignedLongField::specials() const
 {
     return specialsImpl();
@@ -92,6 +87,11 @@ ToolsUnsignedLongField::UnderlyingType ToolsUnsignedLongField::getDisplayValue()
 void ToolsUnsignedLongField::setDisplayValue(UnderlyingType value)
 {
     setDisplayValueImpl(value);
+}
+
+ToolsUnsignedLongField::ActPtr ToolsUnsignedLongField::actClone()
+{
+    return ActPtr(static_cast<ToolsUnsignedLongField*>(clone().release()));
 }
 
 void ToolsUnsignedLongField::dispatchImpl(ToolsFieldHandler& handler)

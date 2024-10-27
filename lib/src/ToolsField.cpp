@@ -95,14 +95,14 @@ void ToolsField::dispatch(ToolsFieldHandler& handler)
     dispatchImpl(handler);
 }
 
-ToolsField::Ptr ToolsField::upClone()
+ToolsField::Ptr ToolsField::clone()
 {
     Members clonedMembers;
     clonedMembers.reserve(m_members.size());
     for (auto& m : m_members) {
-        clonedMembers.push_back(m->upClone());
+        clonedMembers.push_back(m->clone());
     }
-    auto ptr = upCloneImpl();
+    auto ptr = cloneImpl();
     ptr->setMembers(std::move(clonedMembers));
     return ptr;
 }

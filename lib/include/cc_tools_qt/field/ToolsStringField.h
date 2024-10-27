@@ -45,13 +45,12 @@ public:
 
     int maxSize() const;
 
-    ActPtr clone();
+    ActPtr actClone();
 
 protected:
     virtual QString getValueImpl() const = 0;
     virtual void setValueImpl(const QString& val) = 0;
     virtual int maxSizeImpl() const = 0;
-    virtual ActPtr cloneImpl() = 0;
 
     void dispatchImpl(ToolsFieldHandler& handler);
 };

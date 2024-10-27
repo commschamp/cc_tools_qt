@@ -32,6 +32,8 @@ UnknownValueFieldWidget::UnknownValueFieldWidget(
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
 
+    performNameLabelUpdate();
+
     connect(m_ui.m_serValueLineEdit, SIGNAL(textChanged(const QString&)),
             this, SLOT(serialisedValueUpdated(const QString&)));
 

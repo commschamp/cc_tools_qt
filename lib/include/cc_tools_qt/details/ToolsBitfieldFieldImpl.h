@@ -43,7 +43,8 @@ class ToolsBitfieldFieldImpl : public ToolsFieldBase<cc_tools_qt::field::ToolsBi
     static_assert(comms::field::isBitfield<Field>(), "Must be of Bitfield field type");
 
 public:
-    typedef typename Base::ActPtr ActPtr;
+    using Ptr = typename Base::Ptr;
+    using ActPtr = typename Base::ActPtr;
 
     explicit ToolsBitfieldFieldImpl(Field& fieldRef)
       : Base(fieldRef)
@@ -57,7 +58,7 @@ public:
     ToolsBitfieldFieldImpl& operator=(const ToolsBitfieldFieldImpl&) = delete;
 
 protected:
-    virtual ActPtr cloneImpl() override
+    virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsBitfieldFieldImpl<TField>(Base::field()));
     }
