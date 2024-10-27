@@ -29,32 +29,9 @@ ToolsBitfieldField::ToolsBitfieldField() {}
 
 ToolsBitfieldField::~ToolsBitfieldField() noexcept = default;
 
-ToolsBitfieldField::Members& ToolsBitfieldField::getMembers()
-{
-    return m_members;
-}
-
-const ToolsBitfieldField::Members& ToolsBitfieldField::getMembers() const
-{
-    return m_members;
-}
-
-void ToolsBitfieldField::setMembers(Members&& members)
-{
-    m_members = std::move(members);
-}
-
 ToolsBitfieldField::ActPtr ToolsBitfieldField::clone()
 {
-    Members clonedMembers;
-    clonedMembers.reserve(m_members.size());
-    for (auto& mem : m_members) {
-        clonedMembers.push_back(mem->upClone());
-    }
-
-    auto ptr = cloneImpl();
-    ptr->setMembers(std::move(clonedMembers));
-    return ptr;
+    return cloneImpl();
 }
 
 void ToolsBitfieldField::dispatchImpl(ToolsFieldHandler& handler)

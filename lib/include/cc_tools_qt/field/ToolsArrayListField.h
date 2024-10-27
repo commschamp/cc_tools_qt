@@ -34,8 +34,7 @@ class CC_API ToolsArrayListField : public ToolsField
 {
 public:
 
-    typedef std::vector<ToolsFieldPtr> Members;
-    typedef std::unique_ptr<ToolsArrayListField> ActPtr;
+    using ActPtr = std::unique_ptr<ToolsArrayListField>;
 
     ToolsArrayListField();
     ToolsArrayListField(const ToolsArrayListField&) = delete;
@@ -52,12 +51,6 @@ public:
     bool hasFixedSize() const;
 
     void adjustFixedSize();
-
-    Members& getMembers();
-
-    const Members& getMembers() const;
-
-    void setMembers(Members&& members);
 
     ActPtr clone();
 
@@ -78,9 +71,6 @@ protected:
     virtual PrefixFieldInfo getPrefixFieldInfoImpl() const = 0;
 
     void dispatchImpl(ToolsFieldHandler& handler);
-
-private:
-    Members m_members;
 };
 
 using ToolsArrayListFieldPtr = ToolsArrayListField::ActPtr;

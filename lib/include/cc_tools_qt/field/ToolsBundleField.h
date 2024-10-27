@@ -33,7 +33,6 @@ class CC_API ToolsBundleField : public ToolsField
 {
     using Base = ToolsField;
 public:
-    using Members = std::vector<ToolsFieldPtr>;
     using ActPtr = std::unique_ptr<ToolsBundleField>;
 
     ToolsBundleField();
@@ -42,21 +41,12 @@ public:
 
     virtual ~ToolsBundleField() noexcept;
 
-    Members& getMembers();
-
-    const Members& getMembers() const;
-
-    void setMembers(Members&& members);
-
     ActPtr clone();
 
 protected:
     virtual ActPtr cloneImpl() = 0;
 
     void dispatchImpl(ToolsFieldHandler& handler);
-
-private:
-    Members m_members;
 };
 
 using ToolsBundleFieldPtr = ToolsBundleField::ActPtr;

@@ -179,6 +179,13 @@ void Common::getFrom(const QVariantMap& props)
     m_hiddenWhenReadOnly = getElemFrom<decltype(m_hiddenWhenReadOnly)>(props, hiddenWhenReadOnlyKey());
 }
 
+QVariantMap Common::asMap() const
+{
+    QVariantMap props;
+    setTo(props);
+    return props;
+}
+
 IntValue::IntValue() = default;
 IntValue::IntValue(const IntValue&) = default;
 IntValue::IntValue(IntValue&&) = default;
@@ -221,54 +228,6 @@ void IntValue::getFrom(const QVariantMap& props)
 {
     m_displayOffset =
         getElemFrom<decltype(m_displayOffset)>(props, numValueDisplayOffsetKey());
-}
-
-EnumValue::EnumValue() = default;
-EnumValue::EnumValue(const EnumValue&) = default;
-EnumValue::EnumValue(EnumValue&&) = default;
-EnumValue::EnumValue(const QVariantMap& props) : Base(props)
-{
-    getFrom(props);
-};
-
-EnumValue::EnumValue(const QVariant& props) : Base(props)
-{
-};
-
-EnumValue::~EnumValue() noexcept = default;
-
-EnumValue& EnumValue::operator=(const EnumValue&) = default;
-EnumValue& EnumValue::operator=(EnumValue&&) = default;
-
-QVariantMap EnumValue::asMap() const
-{
-    QVariantMap props;
-    Base::setTo(props);
-    return props;
-}
-
-BitmaskValue::BitmaskValue() = default;
-BitmaskValue::BitmaskValue(const BitmaskValue&) = default;
-BitmaskValue::BitmaskValue(BitmaskValue&&) = default;
-BitmaskValue::BitmaskValue(const QVariantMap& props) : Base(props)
-{
-    getFrom(props);
-};
-
-BitmaskValue::BitmaskValue(const QVariant& props) : Base(props)
-{
-};
-
-BitmaskValue::~BitmaskValue() noexcept = default;
-
-BitmaskValue& BitmaskValue::operator=(const BitmaskValue&) = default;
-BitmaskValue& BitmaskValue::operator=(BitmaskValue&&) = default;
-
-QVariantMap BitmaskValue::asMap() const
-{
-    QVariantMap props;
-    Base::setTo(props);
-    return props;
 }
 
 Bitfield::Bitfield() = default;
@@ -369,23 +328,6 @@ QVariantMap Bundle::asMap() const
 void Bundle::getFrom(const QVariantMap& props)
 {
     m_members = getElemFrom<MembersList>(props, dataKey());
-}
-
-String::String() = default;
-String::String(const String&) = default;
-String::String(String&&) = default;
-String::String(const QVariantMap& props) : Base(props) {};
-String::String(const QVariant& props) : Base(props) {};
-String::~String() noexcept = default;
-
-String& String::operator=(const String&) = default;
-String& String::operator=(String&&) = default;
-
-QVariantMap String::asMap() const
-{
-    QVariantMap props;
-    Base::setTo(props);
-    return props;
 }
 
 ArrayList::ArrayList() = default;
@@ -544,29 +486,6 @@ void Optional::getFrom(const QVariantMap& props)
     m_uncheckable = getElemFrom<bool>(props, uncheckableKey());
 }
 
-FloatValue::FloatValue() = default;
-FloatValue::FloatValue(const FloatValue&) = default;
-FloatValue::FloatValue(FloatValue&&) = default;
-FloatValue::FloatValue(const QVariantMap& props) : Base(props)
-{
-    getFrom(props);
-};
-
-FloatValue::FloatValue(const QVariant& props) : Base(props)
-{
-};
-
-FloatValue::~FloatValue() noexcept = default;
-
-FloatValue& FloatValue::operator=(const FloatValue&) = default;
-FloatValue& FloatValue::operator=(FloatValue&&) = default;
-
-QVariantMap FloatValue::asMap() const
-{
-    QVariantMap props;
-    Base::setTo(props);
-    return props;
-}
 
 Variant::Variant() = default;
 Variant::Variant(const Variant&) = default;

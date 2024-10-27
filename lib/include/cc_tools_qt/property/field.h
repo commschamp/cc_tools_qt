@@ -96,6 +96,8 @@ public:
     /// @brief Read the properties values from the provided map
     void getFrom(const QVariantMap& props);
 
+    QVariantMap asMap() const;    
+
 protected:
 
     /// @brief set element value to the map
@@ -243,81 +245,6 @@ private:
 };
 
 /// @brief Class to contain all the properties relevant to
-///     @b comms::field::EnumValue fields.
-/// @headerfile cc_tools_qt/property/field.h
-class CC_API EnumValue : public CommonBase<EnumValue>
-{
-    using Base = CommonBase<EnumValue>;
-public:
-
-    /// @brief Default constructor
-    EnumValue();
-
-    /// @brief Copy constructor
-    EnumValue(const EnumValue&);
-
-    /// @brief Move constructor
-    EnumValue(EnumValue&&);
-
-    /// @brief Construct from QVariantMap
-    EnumValue(const QVariantMap& props);
-
-    /// @brief Construct from QVariant containing QVariantMap
-    EnumValue(const QVariant& props);
-
-    /// @brief Destructor
-    ~EnumValue() noexcept;
-
-    /// @brief Copy assignement
-    EnumValue& operator=(const EnumValue&);
-
-    /// @brief Move assignment
-    EnumValue& operator=(EnumValue&&);
-
-    /// @brief Retrieve all properties as map.
-    QVariantMap asMap() const;
-};
-
-/// @brief Class to contain all the properties relevant to
-///     @b comms::field::BitmaskValue fields.
-/// @headerfile cc_tools_qt/property/field.h
-class CC_API BitmaskValue : public CommonBase<BitmaskValue>
-{
-    using Base = CommonBase<BitmaskValue>;
-public:
-
-    /// @brief List of bits descriptions.
-    using BitsList = QVariantList;
-
-    /// @brief Default constructor
-    BitmaskValue();
-
-    /// @brief Copy constructor
-    BitmaskValue(const BitmaskValue&);
-
-    /// @brief Move constructor
-    BitmaskValue(BitmaskValue&&);
-
-    /// @brief Construct from QVariantMap
-    BitmaskValue(const QVariantMap& props);
-
-    /// @brief Construct from QVariant containing QVariantMap
-    BitmaskValue(const QVariant& props);
-
-    /// @brief Destructor
-    ~BitmaskValue() noexcept;
-
-    /// @brief Copy assignment
-    BitmaskValue& operator=(const BitmaskValue&);
-
-    /// @brief Move assignment
-    BitmaskValue& operator=(BitmaskValue&&);
-
-    /// @brief Retrieve all properties as map.
-    QVariantMap asMap() const;
-};
-
-/// @brief Class to contain all the properties relevant to
 ///     @b comms::field::Bitfield fields.
 /// @headerfile cc_tools_qt/property/field.h
 class CC_API Bitfield : public CommonBase<Bitfield>
@@ -419,41 +346,6 @@ private:
     void getFrom(const QVariantMap& props);
 
     MembersList m_members;
-};
-
-/// @brief Class to contain all the properties relevant to
-///     @b comms::field::String fields.
-/// @headerfile cc_tools_qt/property/field.h
-class CC_API String : public CommonBase<String>
-{
-    typedef CommonBase<String> Base;
-public:
-    /// @brief Default constructor
-    String();
-
-    /// @brief Copy constructor
-    String(const String&);
-
-    /// @brief Move constructor
-    String(String&&);
-
-    /// @brief Construct from QVariantMap
-    String(const QVariantMap& props);
-
-    /// @brief Construct from QVariant containing QVariantMap
-    String(const QVariant& props);
-
-    /// @brief Destructor
-    ~String() noexcept;
-
-    /// @brief Copy assignment
-    String& operator=(const String&);
-
-    /// @brief Move assignement
-    String& operator=(String&&);
-
-    /// @brief Retrieve all properties as map.
-    QVariantMap asMap() const;
 };
 
 /// @brief Class to contain all the properties relevant to
@@ -590,47 +482,6 @@ private:
     bool m_uncheckable = false;
 };
 
-/// @brief Class to contain all the properties relevant to
-///     @b comms::field::FloatValue fields.
-/// @headerfile cc_tools_qt/property/field.h
-class CC_API FloatValue : public CommonBase<FloatValue>
-{
-    typedef CommonBase<FloatValue> Base;
-public:
-    /// @brief The special value is described as string containing name and
-    ///     the actual numeric value.
-    using SpecialType = QPair<QString, double>;
-
-    /// @brief List of special values
-    using SpecialsList = QList<SpecialType>;
-
-    /// @brief Default constructor
-    FloatValue();
-
-    /// @brief Copy constructor
-    FloatValue(const FloatValue&);
-
-    /// @brief Move constructor
-    FloatValue(FloatValue&&);
-
-    /// @brief Construct from QVariantMap
-    FloatValue(const QVariantMap& props);
-
-    /// @brief Construct from QVariant containing QVariantMap
-    FloatValue(const QVariant& props);
-
-    /// @brief Destructor
-    ~FloatValue() noexcept;
-
-    /// @brief Copy assignment
-    FloatValue& operator=(const FloatValue&);
-
-    /// @brief Move assignment
-    FloatValue& operator=(FloatValue&&);
-
-    /// @brief Retrieve all properties as map.
-    QVariantMap asMap() const;
-};
 
 /// @brief Class to contain all the properties relevant to
 ///     @b comms::field::Variant fields.
@@ -706,13 +557,13 @@ struct ForTag<comms::field::tag::Int>
 template <>
 struct ForTag<comms::field::tag::Enum>
 {
-    typedef cc_tools_qt::property::field::EnumValue Type;
+    using Type = cc_tools_qt::property::field::Common;
 };
 
 template <>
 struct ForTag<comms::field::tag::Bitmask>
 {
-    typedef cc_tools_qt::property::field::BitmaskValue Type;
+    using Type = cc_tools_qt::property::field::Common;
 };
 
 template <>
@@ -730,7 +581,7 @@ struct ForTag<comms::field::tag::Bundle>
 template <>
 struct ForTag<comms::field::tag::String>
 {
-    typedef cc_tools_qt::property::field::String Type;
+    using Type = cc_tools_qt::property::field::Common;
 };
 
 template <>
@@ -754,7 +605,7 @@ struct ForTag<comms::field::tag::Optional>
 template <>
 struct ForTag<comms::field::tag::Float>
 {
-    typedef cc_tools_qt::property::field::FloatValue Type;
+    using Type = cc_tools_qt::property::field::Common;
 };
 
 template <>

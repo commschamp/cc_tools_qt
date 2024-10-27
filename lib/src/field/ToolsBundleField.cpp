@@ -29,32 +29,9 @@ ToolsBundleField::ToolsBundleField() {}
 
 ToolsBundleField::~ToolsBundleField() noexcept = default;
 
-ToolsBundleField::Members& ToolsBundleField::getMembers()
-{
-    return m_members;
-}
-
-const ToolsBundleField::Members& ToolsBundleField::getMembers() const
-{
-    return m_members;
-}
-
-void ToolsBundleField::setMembers(Members&& members)
-{
-    m_members = std::move(members);
-} 
-
 ToolsBundleField::ActPtr ToolsBundleField::clone()
 {
-    Members clonedMembers;
-    clonedMembers.reserve(m_members.size());
-    for (auto& mem : m_members) {
-        clonedMembers.push_back(mem->upClone());
-    }
-
-    auto ptr = cloneImpl();
-    ptr->setMembers(std::move(clonedMembers));
-    return ptr;
+    return cloneImpl();
 }
 
 void ToolsBundleField::dispatchImpl(ToolsFieldHandler& handler)

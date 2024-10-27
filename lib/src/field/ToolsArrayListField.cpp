@@ -54,35 +54,9 @@ void ToolsArrayListField::adjustFixedSize()
     adjustFixedSizeImpl();
 }
 
-ToolsArrayListField::Members& ToolsArrayListField::getMembers()
-{
-    return m_members;
-}
-
-const ToolsArrayListField::Members& ToolsArrayListField::getMembers() const
-{
-    return m_members;
-}
-
-void ToolsArrayListField::setMembers(Members&& members)
-{
-    m_members = std::move(members);
-}
-
 ToolsArrayListField::ActPtr ToolsArrayListField::clone()
 {
-    Members clonedMembers;
-    clonedMembers.reserve(m_members.size());
-    for (auto& mem : m_members) {
-        clonedMembers.push_back(mem->upClone());
-    }
-
-    auto ptr = cloneImpl();
-    ptr->setMembers(std::move(clonedMembers));
-    assert(size() == ptr->size());
-    assert(getMembers().size() == ptr->getMembers().size());
-    assert(size() == getMembers().size());
-    return ptr;
+    return cloneImpl();
 }
 
 void ToolsArrayListField::refreshMembers()

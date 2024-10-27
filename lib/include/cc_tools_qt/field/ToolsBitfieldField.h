@@ -32,8 +32,6 @@ class CC_API ToolsBitfieldField : public cc_tools_qt::ToolsField
 {
     using Base = cc_tools_qt::ToolsField;
 public:
-    using Members = std::vector<ToolsFieldPtr>;
-
     using ActPtr = std::unique_ptr<ToolsBitfieldField>;
 
     ToolsBitfieldField();
@@ -42,12 +40,6 @@ public:
 
     virtual ~ToolsBitfieldField() noexcept;
     
-    Members& getMembers();
-
-    const Members& getMembers() const;
-
-    void setMembers(Members&& members);
-
     ActPtr clone();
 
 protected:

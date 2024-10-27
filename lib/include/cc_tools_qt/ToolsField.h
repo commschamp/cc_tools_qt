@@ -37,9 +37,9 @@ class ToolsFieldHandler;
 class CC_API ToolsField
 {
 public:
-    using SerialisedSeq = std::vector<std::uint8_t>;
-
     using Ptr = std::unique_ptr<ToolsField>;
+    using SerialisedSeq = std::vector<std::uint8_t>;
+    using Members = std::vector<Ptr>;
 
     ToolsField();
     virtual ~ToolsField() noexcept;
@@ -68,6 +68,10 @@ public:
 
     void reset();
 
+    Members& getMembers();
+    const Members& getMembers() const;
+    void setMembers(Members&& members);    
+
 protected:
     virtual const char* nameImpl() const = 0;
     virtual std::size_t lengthImpl() const = 0;
@@ -78,6 +82,9 @@ protected:
     virtual Ptr upCloneImpl() = 0;
     virtual bool canWriteImpl() const = 0;
     virtual void resetImpl() = 0;
+
+private:
+    Members m_members;
 };
 
 using ToolsFieldPtr = ToolsField::Ptr;

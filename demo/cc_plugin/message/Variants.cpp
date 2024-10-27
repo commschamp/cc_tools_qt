@@ -41,7 +41,7 @@ using ProtMsg = demo::cc_plugin::message::Variants::ProtMsg;
 QVariantMap createProps_id()
 {
     auto props =
-        cc::property::field::EnumValue()
+        cc::property::field::Common()
             .readOnly();
     return props.asMap();
 }
@@ -49,7 +49,7 @@ QVariantMap createProps_id()
 QVariantMap createProps_length()
 {
     auto props =
-        cc::property::field::EnumValue()
+        cc::property::field::Common()
             .readOnly();
     return props.asMap();
 }
@@ -82,7 +82,7 @@ QVariantMap createProps_field1_var3()
     auto props =
         cc::property::field::ForField<Field>()
             .add(createProps_id())
-            .add(cc::property::field::String().asMap());
+            .add(cc::property::field::Common().asMap());
     assert(props.members().size() == Field::FieldIdx_numOfValues);
     return props.asMap();
 }
@@ -132,7 +132,7 @@ QVariantMap createProps_field2_var3()
         cc::property::field::ForField<Field>()
             .add(createProps_id())
             .add(createProps_length())
-            .add(cc::property::field::String().asMap());
+            .add(cc::property::field::Common().asMap());
     assert(props.members().size() == Field::FieldIdx_numOfValues);
     return props.asMap();
 }

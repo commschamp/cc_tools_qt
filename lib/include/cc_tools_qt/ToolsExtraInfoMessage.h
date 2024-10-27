@@ -125,8 +125,7 @@ private:
     static QVariantList createFieldsProperties()
     {
         QVariantList props;
-        props.append(
-            property::field::String().serialisedHidden().asMap());
+        props.append(property::field::Common().serialisedHidden().asMap());
         return props;
     }
 };

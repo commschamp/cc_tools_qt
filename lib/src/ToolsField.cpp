@@ -97,7 +97,14 @@ void ToolsField::dispatch(ToolsFieldHandler& handler)
 
 ToolsField::Ptr ToolsField::upClone()
 {
-    return upCloneImpl();
+    Members clonedMembers;
+    clonedMembers.reserve(m_members.size());
+    for (auto& m : m_members) {
+        clonedMembers.push_back(m->upClone());
+    }
+    auto ptr = upCloneImpl();
+    ptr->setMembers(std::move(clonedMembers));
+    return ptr;
 }
 
 bool ToolsField::canWrite() const
@@ -108,6 +115,21 @@ bool ToolsField::canWrite() const
 void ToolsField::reset()
 {
     return resetImpl();
+}
+
+ToolsField::Members& ToolsField::getMembers()
+{
+    return m_members;
+}
+
+const ToolsField::Members& ToolsField::getMembers() const
+{
+    return m_members;
+}
+
+void ToolsField::setMembers(Members&& members)
+{
+    m_members = std::move(members);
 }
 
 }  // namespace cc_tools_qt
