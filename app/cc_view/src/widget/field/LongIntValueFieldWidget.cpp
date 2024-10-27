@@ -72,10 +72,10 @@ void LongIntValueFieldWidget::refreshImpl()
     assert(m_ui.m_serValueLineEdit != nullptr);
     updateValue(*m_ui.m_serValueLineEdit, m_fieldPtr->getSerialisedString());
 
-    auto value = m_fieldPtr->getValue();
+    auto value = static_cast<double>(m_fieldPtr->getDisplayValue());
     assert(m_ui.m_valueSpinBox);
-    if (adjustDisplayedToReal(m_ui.m_valueSpinBox->value()) != value) {
-        m_ui.m_valueSpinBox->setValue(adjustRealToDisplayed(value));
+    if (m_ui.m_valueSpinBox->value() != value) {
+        m_ui.m_valueSpinBox->setValue(value);
     }
 
     bool valid = m_fieldPtr->valid();
@@ -96,24 +96,6 @@ void LongIntValueFieldWidget::editEnabledUpdatedImpl()
     m_ui.m_serValueLineEdit->setReadOnly(readonly);
 }
 
-void LongIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::IntValue actProps(props);
-
-    auto offset =
-        static_cast<decltype(m_offset)>(actProps.displayOffset());
-
-    bool needRefresh = false;
-    if (std::numeric_limits<double>::epsilon() < std::fabs(m_offset - offset)) {
-        m_offset = offset;
-        needRefresh = true;
-    }
-
-    if (needRefresh) {
-        refresh();
-    }
-}
-
 void LongIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
     handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
@@ -121,13 +103,13 @@ void LongIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 
 void LongIntValueFieldWidget::valueUpdated(double value)
 {
-    auto adjustedValue = adjustDisplayedToReal(value);
-    if (adjustedValue == m_fieldPtr->getValue()) {
+    auto adjustedValue = static_cast<long long>(value);
+    if (adjustedValue == m_fieldPtr->getDisplayValue()) {
         return;
     }
 
     assert(isEditEnabled());
-    m_fieldPtr->setValue(adjustedValue);
+    m_fieldPtr->setDisplayValue(adjustedValue);
     if (!m_fieldPtr->canWrite()) {
         m_fieldPtr->reset();
         assert(m_fieldPtr->canWrite());
@@ -143,18 +125,8 @@ void LongIntValueFieldWidget::specialSelected(long long value)
         return;
     }
 
-    valueUpdated(adjustRealToDisplayed(static_cast<UnderlyingType>(value)));
-}
-
-LongIntValueFieldWidget::UnderlyingType
-LongIntValueFieldWidget::adjustDisplayedToReal(double val)
-{
-    return static_cast<UnderlyingType>(val - m_offset);
-}
-
-double LongIntValueFieldWidget::adjustRealToDisplayed(UnderlyingType val)
-{
-    return static_cast<double>(val) + m_offset;
+    m_fieldPtr->setDisplayValue(value);
+    refresh();
 }
 
 bool LongIntValueFieldWidget::createSpecialsWidget(const SpecialsList& specials)

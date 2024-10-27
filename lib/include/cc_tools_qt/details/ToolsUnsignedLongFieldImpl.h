@@ -122,7 +122,17 @@ protected:
             >;
 
         return scaledDecimalsInternal(Tag());        
-    }    
+    }   
+
+    virtual UnderlyingType getDisplayValueImpl() const override
+    {
+        return static_cast<UnderlyingType>(Base::field().getDisplayValue());
+    }
+
+    virtual void setDisplayValueImpl(UnderlyingType value) override
+    {
+        Base::field().setDisplayValue(value);
+    }       
 
 private:
     struct HasFeatureTag{};    

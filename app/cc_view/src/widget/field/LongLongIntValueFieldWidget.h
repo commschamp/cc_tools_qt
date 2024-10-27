@@ -44,7 +44,6 @@ protected:
     virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private slots:
     void serialisedValueUpdated(const QString& value);
@@ -54,17 +53,14 @@ private slots:
 private:
     using SpecialInfo = QPair<QString, long long>;
     using SpecialsList = QList<SpecialInfo>;
-    using WrapperType = FieldPtr::element_type;
-    using UnderlyingType = WrapperType::UnderlyingType;
+    using FieldType = FieldPtr::element_type;
+    using UnderlyingType = FieldType::UnderlyingType;
     typedef long long int DisplayedType;
-    UnderlyingType adjustDisplayedToReal(DisplayedType val);
-    DisplayedType adjustRealToDisplayed(UnderlyingType val);
     static DisplayedType getDisplayedValue(const QString& value);
     bool createSpecialsWidget(const SpecialsList& specials);
 
     Ui::LongLongIntValueFieldWidget m_ui;
     FieldPtr m_fieldPtr;
-    DisplayedType m_offset = 0;
     SpecialValueWidget* m_specialsWidget = nullptr;
 };
 

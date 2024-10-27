@@ -43,6 +43,8 @@ public:
 
     ToolsField();
     virtual ~ToolsField() noexcept;
+    
+    ToolsField(const ToolsField&) = delete;
 
     const char* name() const;
 

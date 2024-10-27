@@ -70,7 +70,7 @@ void ShortIntValueFieldWidget::refreshImpl()
     assert(m_ui.m_serValueLineEdit != nullptr);
     updateValue(*m_ui.m_serValueLineEdit, m_fieldPtr->getSerialisedString());
 
-    auto value = adjustRealToDisplayed(static_cast<int>(m_fieldPtr->getValue()));
+    auto value = static_cast<int>(m_fieldPtr->getDisplayValue());
     assert(m_ui.m_valueSpinBox);
     if (m_ui.m_valueSpinBox->value() != value) {
         m_ui.m_valueSpinBox->setValue(value);
@@ -94,24 +94,6 @@ void ShortIntValueFieldWidget::editEnabledUpdatedImpl()
     m_ui.m_serValueLineEdit->setReadOnly(readonly);
 }
 
-void ShortIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::IntValue actProps(props);
-
-    auto offset =
-        static_cast<decltype(m_offset)>(actProps.displayOffset());
-
-    bool needRefresh = false;
-    if (m_offset != offset) {
-        m_offset = offset;
-        needRefresh = true;
-    }
-
-    if (needRefresh) {
-        refresh();
-    }
-}
-
 void ShortIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
     handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
@@ -119,12 +101,12 @@ void ShortIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 
 void ShortIntValueFieldWidget::valueUpdated(int value)
 {
-    if (value == adjustRealToDisplayed(static_cast<int>(m_fieldPtr->getValue()))) {
+    if (value == static_cast<int>(m_fieldPtr->getDisplayValue())) {
         return;
     }
 
     assert(isEditEnabled());
-    m_fieldPtr->setValue(adjustDisplayedToReal(value));
+    m_fieldPtr->setDisplayValue(value);
     if (!m_fieldPtr->canWrite()) {
         m_fieldPtr->reset();
         assert(m_fieldPtr->canWrite());
@@ -140,17 +122,8 @@ void ShortIntValueFieldWidget::specialSelected(long long value)
         return;
     }
 
-    valueUpdated(adjustRealToDisplayed(static_cast<int>(value)));
-}
-
-int ShortIntValueFieldWidget::adjustDisplayedToReal(int val)
-{
-    return val - m_offset;
-}
-
-int ShortIntValueFieldWidget::adjustRealToDisplayed(int val)
-{
-    return val + m_offset;
+    m_fieldPtr->setValue(value);
+    refresh();
 }
 
 bool ShortIntValueFieldWidget::createSpecialsWidget(const SpecialsList& specials)

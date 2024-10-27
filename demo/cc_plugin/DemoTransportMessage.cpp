@@ -46,10 +46,7 @@ QVariantList createFieldsProperties()
 {
     QVariantList props;
     props.append(cc::property::field::ForField<demo::SyncField>().asMap());
-    props.append(
-        cc::property::field::ForField<demo::LengthField>()
-            .displayOffset(2)
-            .asMap());
+    props.append(cc::property::field::ForField<demo::LengthField>().asMap());
     props.append(createMsgIdProperties());
     props.append(cc::property::field::ForField<demo::VersionField>().asMap());
     props.append(cc::property::field::ForField<demo::DataField<> >().asMap());

@@ -49,9 +49,9 @@ public:
     using SerialisedSeq = typename Base::SerialisedSeq;
     using Ptr = typename Base::Ptr;
 
-    virtual ~ToolsFieldBase() noexcept = default;
-
 protected:
+
+    virtual ~ToolsFieldBase() noexcept = default;
 
     using Field = TField;
 

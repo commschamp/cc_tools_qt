@@ -69,6 +69,9 @@ public:
     bool hasScaledDecimals() const;
     int scaledDecimals() const;    
 
+    UnderlyingType getDisplayValue() const;
+    void setDisplayValue(UnderlyingType value);    
+
 protected:
     virtual UnderlyingType minValueImpl() const = 0;
     virtual UnderlyingType maxValueImpl() const = 0;
@@ -80,6 +83,8 @@ protected:
     virtual ActPtr cloneImpl() = 0;
     virtual const SpecialsList& specialsImpl() const = 0;
     virtual int scaledDecimalsImpl() const = 0;
+    virtual UnderlyingType getDisplayValueImpl() const = 0;
+    virtual void setDisplayValueImpl(UnderlyingType value) = 0;        
 
     virtual void dispatchImpl(ToolsFieldHandler& handler) override;
 };

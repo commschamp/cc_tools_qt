@@ -89,6 +89,16 @@ void ToolsIntField::dispatchImpl(ToolsFieldHandler& handler)
     handler.handle(*this);
 }
 
+ToolsIntField::UnderlyingType ToolsIntField::getDisplayValue() const
+{
+    return getDisplayValueImpl();
+}
+
+void ToolsIntField::setDisplayValue(UnderlyingType value)
+{
+    setDisplayValueImpl(value);
+}
+
 }  // namespace field
 
 }  // namespace cc_tools_qt

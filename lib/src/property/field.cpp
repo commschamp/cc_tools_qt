@@ -65,12 +65,6 @@ const QString& uncheckableKey()
     return Str;
 }
 
-const QString& numValueDisplayOffsetKey()
-{
-    static const QString Str("cc.num_display_offset");
-    return Str;
-}
-
 const QString& indexHiddenKey()
 {
     static const QString Str("cc.index_hidden");
@@ -196,38 +190,17 @@ IntValue::IntValue(const QVariantMap& props) : Base(props)
 
 IntValue::IntValue(const QVariant& props) : Base(props)
 {
-    if (props.isValid() && props.canConvert<QVariantMap>()) {
-        getFrom(props.value<QVariantMap>());
-    }
 };
 IntValue::~IntValue() noexcept = default;
 
 IntValue& IntValue::operator=(const IntValue&) = default;
 IntValue& IntValue::operator=(IntValue&&) = default;
 
-long long IntValue::displayOffset() const
-{
-    return m_displayOffset;
-}
-
-IntValue& IntValue::displayOffset(long long value)
-{
-    m_displayOffset = value;
-    return *this;
-}
-
 QVariantMap IntValue::asMap() const
 {
     QVariantMap props;
     Base::setTo(props);
-    Base::setElemTo(m_displayOffset, numValueDisplayOffsetKey(), props);
     return props;
-}
-
-void IntValue::getFrom(const QVariantMap& props)
-{
-    m_displayOffset =
-        getElemFrom<decltype(m_displayOffset)>(props, numValueDisplayOffsetKey());
 }
 
 Bitfield::Bitfield() = default;

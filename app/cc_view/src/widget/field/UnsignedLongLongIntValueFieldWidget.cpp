@@ -69,7 +69,7 @@ void UnsignedLongLongIntValueFieldWidget::refreshImpl()
     assert(m_ui.m_serValueLineEdit != nullptr);
     updateValue(*m_ui.m_serValueLineEdit, m_fieldPtr->getSerialisedString());
 
-    auto value = m_fieldPtr->getValue();
+    auto value = m_fieldPtr->getDisplayValue();
     assert(m_ui.m_valueLineEdit);
     auto valueTxt =
             QString("%1")
@@ -94,13 +94,6 @@ void UnsignedLongLongIntValueFieldWidget::editEnabledUpdatedImpl()
     m_ui.m_serValueLineEdit->setReadOnly(readonly);
 }
 
-void UnsignedLongLongIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::IntValue parsedProps(props);
-    m_offset = parsedProps.displayOffset();
-    refresh();
-}
-
 void UnsignedLongLongIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
     handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
@@ -108,18 +101,19 @@ void UnsignedLongLongIntValueFieldWidget::serialisedValueUpdated(const QString& 
 
 void UnsignedLongLongIntValueFieldWidget::valueUpdated(const QString& value)
 {
-    auto adjustedValue = adjustDisplayedToReal(getDisplayedValue(value));
-    if (adjustedValue == m_fieldPtr->getValue()) {
+    auto adjustedValue = static_cast<UnderlyingType>(adjustDisplayedToReal(getDisplayedValue(value)));
+    if (adjustedValue == m_fieldPtr->getDisplayValue()) {
         return;
     }
 
     assert(isEditEnabled());
-    auto oldValue = m_fieldPtr->getValue();
-    m_fieldPtr->setValue(adjustedValue);
-    assert(m_fieldPtr->getValue() == adjustedValue);
+    auto oldValue = m_fieldPtr->getDisplayValue();
+    m_fieldPtr->setDisplayValue(adjustedValue);
+    assert(m_fieldPtr->getDisplayValue() == adjustedValue);
     if (!m_fieldPtr->canWrite()) {
-        m_fieldPtr->setValue(oldValue);
+        m_fieldPtr->setDisplayValue(oldValue);
     }
+    
     refresh();
     emitFieldUpdated();
 }
@@ -142,13 +136,13 @@ UnsignedLongLongIntValueFieldWidget::adjustDisplayedToReal(DisplayedType val)
     if (0 < m_decimals) {
         uVal = static_cast<decltype(uVal)>(val * std::pow(10, m_decimals));
     }
-    return static_cast<UnderlyingType>(uVal - static_cast<std::size_t>(m_offset));
+    return static_cast<UnderlyingType>(uVal);
 }
 
 UnsignedLongLongIntValueFieldWidget::DisplayedType
 UnsignedLongLongIntValueFieldWidget::adjustRealToDisplayed(UnderlyingType val)
 {
-    auto dVal = static_cast<DisplayedType>(val + static_cast<std::size_t>(m_offset));
+    auto dVal = static_cast<DisplayedType>(val);
     if (0 < m_decimals) {
         dVal /= std::pow(10, m_decimals);
     }

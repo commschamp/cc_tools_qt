@@ -78,7 +78,8 @@ class LengthField : public
     comms::field::IntValue<
         FieldBase,
         std::uint16_t,
-        comms::option::NumValueSerOffset<sizeof(std::uint16_t)>
+        comms::option::def::NumValueSerOffset<sizeof(std::uint16_t)>,
+        comms::option::def::DisplayOffset<sizeof(std::uint16_t)>
     >
 {
 public:

@@ -49,7 +49,6 @@ protected:
 //            (sizeof(ValueType) < sizeof(UnderlyingType)),
 //        "This wrapper cannot handle provided field.");
 
-public:
     explicit ToolsNumericFieldImpl(Field& fieldRef)
       : Base(fieldRef)
     {
@@ -60,11 +59,10 @@ public:
 
     ToolsNumericFieldImpl(const ToolsNumericFieldImpl&) = default;
     ToolsNumericFieldImpl(ToolsNumericFieldImpl&&) = default;
-    virtual ~ToolsNumericFieldImpl() noexcept = default;
 
     ToolsNumericFieldImpl& operator=(const ToolsNumericFieldImpl&) = delete;
 
-protected:
+    virtual ~ToolsNumericFieldImpl() noexcept = default;
 
     virtual UnderlyingType getValueImpl() const override
     {

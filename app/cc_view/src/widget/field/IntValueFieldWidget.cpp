@@ -36,36 +36,6 @@ IntValueFieldWidget::IntValueFieldWidget(FieldPtr fieldPtr, QWidget* parentObj)
   : Base(parentObj),
     m_fieldPtr(std::move(fieldPtr))
 {
-}
-
-IntValueFieldWidget::~IntValueFieldWidget() noexcept
-{
-    m_childWidget.release();
-}
-
-ToolsField& IntValueFieldWidget::fieldImpl()
-{
-    assert(m_fieldPtr);
-    return *m_fieldPtr;
-}
-
-void IntValueFieldWidget::refreshImpl()
-{
-    assert((!m_fieldPtr) || (m_fieldPtr->canWrite()));
-    if (m_childWidget) {
-        m_childWidget->refresh();
-    }
-}
-
-void IntValueFieldWidget::editEnabledUpdatedImpl()
-{
-    if (m_childWidget) {
-        m_childWidget->setEditEnabled(isEditEnabled());
-    }
-}
-
-void IntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
     assert(m_fieldPtr);
     assert(!m_childWidget);
     do {
@@ -105,12 +75,37 @@ void IntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
     childLayout->setContentsMargins(0, 0, 0, 0);
     childLayout->setSpacing(0);
     setLayout(childLayout);
-    m_childWidget->updateProperties(props);
     m_childWidget->setEditEnabled(isEditEnabled());
 
     connect(
         m_childWidget.get(), SIGNAL(sigFieldUpdated()),
-        this, SIGNAL(sigFieldUpdated()));
+        this, SIGNAL(sigFieldUpdated()));    
+}
+
+IntValueFieldWidget::~IntValueFieldWidget() noexcept
+{
+    m_childWidget.release();
+}
+
+ToolsField& IntValueFieldWidget::fieldImpl()
+{
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
+}
+
+void IntValueFieldWidget::refreshImpl()
+{
+    assert((!m_fieldPtr) || (m_fieldPtr->canWrite()));
+    if (m_childWidget) {
+        m_childWidget->refresh();
+    }
+}
+
+void IntValueFieldWidget::editEnabledUpdatedImpl()
+{
+    if (m_childWidget) {
+        m_childWidget->setEditEnabled(isEditEnabled());
+    }
 }
 
 }  // namespace cc_tools_qt

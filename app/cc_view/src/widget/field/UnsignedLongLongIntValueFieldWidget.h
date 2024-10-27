@@ -44,7 +44,6 @@ protected:
     virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private slots:
     void serialisedValueUpdated(const QString& value);
@@ -63,7 +62,6 @@ private:
 
     Ui::UnsignedLongLongIntValueFieldWidget m_ui;
     FieldPtr m_fieldPtr;
-    long long m_offset = 0;
     int m_decimals = 0;
     SpecialValueWidget* m_specialsWidget = nullptr;
 };

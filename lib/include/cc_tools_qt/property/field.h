@@ -229,19 +229,8 @@ public:
     /// @brief Move assignment
     IntValue& operator=(IntValue&&);
 
-    /// @brief Get numeric offset of the displayed field
-    long long displayOffset() const;
-
-    /// @brief Set numeric offset for displayed field
-    IntValue& displayOffset(long long value);
-
     /// @brief Retrieve all properties as map.
     QVariantMap asMap() const;
-
-private:
-    void getFrom(const QVariantMap& props);
-
-    long long m_displayOffset = 0;
 };
 
 /// @brief Class to contain all the properties relevant to

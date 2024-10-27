@@ -39,7 +39,7 @@ LongLongIntValueFieldWidget::LongLongIntValueFieldWidget(
     setValueWidget(m_ui.m_valueWidget);
     setSeparatorWidget(m_ui.m_sepLine);
     setSerialisedValueWidget(m_ui.m_serValueWidget);
-    m_ui.m_valueLineEdit->setText(QString("%1").arg(adjustRealToDisplayed(m_fieldPtr->getValue())));
+    m_ui.m_valueLineEdit->setText(QString("%1").arg(m_fieldPtr->getDisplayValue()));
     createSpecialsWidget(m_fieldPtr->specials());
 
     assert(m_ui.m_serValueLineEdit != nullptr);
@@ -68,10 +68,10 @@ void LongLongIntValueFieldWidget::refreshImpl()
     assert(m_ui.m_serValueLineEdit != nullptr);
     updateValue(*m_ui.m_serValueLineEdit, m_fieldPtr->getSerialisedString());
 
-    auto value = m_fieldPtr->getValue();
+    auto value = m_fieldPtr->getDisplayValue();
     assert(m_ui.m_valueLineEdit);
-    if (adjustDisplayedToReal(getDisplayedValue(m_ui.m_valueLineEdit->text())) != value) {
-        m_ui.m_valueLineEdit->setText(QString("%1").arg(adjustRealToDisplayed(value)));
+    if (getDisplayedValue(m_ui.m_valueLineEdit->text()) != value) {
+        m_ui.m_valueLineEdit->setText(QString("%1").arg(value));
     }
 
     bool valid = m_fieldPtr->valid();
@@ -92,24 +92,6 @@ void LongLongIntValueFieldWidget::editEnabledUpdatedImpl()
     m_ui.m_serValueLineEdit->setReadOnly(readonly);
 }
 
-void LongLongIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::IntValue actProps(props);
-
-    auto offset =
-        static_cast<decltype(m_offset)>(actProps.displayOffset());
-
-    bool needRefresh = false;
-    if (std::numeric_limits<double>::epsilon() < std::fabs(m_offset - offset)) {
-        m_offset = offset;
-        needRefresh = true;
-    }
-
-    if (needRefresh) {
-        refresh();
-    }
-}
-
 void LongLongIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
     handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
@@ -117,14 +99,14 @@ void LongLongIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 
 void LongLongIntValueFieldWidget::valueUpdated(const QString& value)
 {
-    auto adjustedValue = adjustDisplayedToReal(getDisplayedValue(value));
-    if (adjustedValue == m_fieldPtr->getValue()) {
+    auto adjustedValue = getDisplayedValue(value);
+    if (adjustedValue == m_fieldPtr->getDisplayValue()) {
         return;
     }
 
     assert(isEditEnabled());
-    m_fieldPtr->setValue(adjustedValue);
-    assert(m_fieldPtr->getValue() == adjustedValue);
+    m_fieldPtr->setDisplayValue(adjustedValue);
+    assert(m_fieldPtr->getDisplayValue() == adjustedValue);
     if (!m_fieldPtr->canWrite()) {
         m_fieldPtr->reset();
         assert(m_fieldPtr->canWrite());
@@ -140,19 +122,8 @@ void LongLongIntValueFieldWidget::specialSelected(long long value)
         return;
     }
 
-    valueUpdated(QString("%1").arg(adjustRealToDisplayed(static_cast<UnderlyingType>(value))));
-}
-
-LongLongIntValueFieldWidget::UnderlyingType
-LongLongIntValueFieldWidget::adjustDisplayedToReal(DisplayedType val)
-{
-    return static_cast<UnderlyingType>(val - m_offset);
-}
-
-LongLongIntValueFieldWidget::DisplayedType
-LongLongIntValueFieldWidget::adjustRealToDisplayed(UnderlyingType val)
-{
-    return static_cast<DisplayedType>(val + m_offset);
+    m_fieldPtr->setValue(value);
+    refresh();
 }
 
 LongLongIntValueFieldWidget::DisplayedType

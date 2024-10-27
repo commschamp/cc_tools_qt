@@ -84,6 +84,16 @@ int ToolsUnsignedLongField::scaledDecimals() const
     return scaledDecimalsImpl();
 }
 
+ToolsUnsignedLongField::UnderlyingType ToolsUnsignedLongField::getDisplayValue() const
+{
+    return getDisplayValueImpl();
+}
+
+void ToolsUnsignedLongField::setDisplayValue(UnderlyingType value)
+{
+    setDisplayValueImpl(value);
+}
+
 void ToolsUnsignedLongField::dispatchImpl(ToolsFieldHandler& handler)
 {
     handler.handle(*this);
