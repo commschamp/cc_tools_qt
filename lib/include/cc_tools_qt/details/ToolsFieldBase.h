@@ -75,6 +75,16 @@ protected:
         return m_field.valid();
     }
 
+    virtual bool isReadOnlyImpl() const override
+    {
+        return Field::hasFixedValue();
+    }
+
+    virtual bool isHiddenSerializationImpl() const override
+    {
+        return Field::hasEmptySerialization();
+    }
+
     Field& field()
     {
         return m_field;

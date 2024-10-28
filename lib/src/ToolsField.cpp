@@ -19,9 +19,29 @@
 #include "cc_tools_qt/ToolsField.h"
 
 #include <cassert>
+#include <vector>
+#include <utility>
 
 namespace cc_tools_qt
 {
+
+namespace 
+{
+
+const QString& readOnlyProp()
+{
+    static const QString Str("cc.read_only");
+    return Str;
+}
+
+const QString& hiddenSerializationProp()
+{
+    static const QString Str("cc.hidden_ser");
+    return Str;
+}
+
+} // namespace 
+    
 
 ToolsField::ToolsField() = default;
 
@@ -104,6 +124,7 @@ ToolsField::Ptr ToolsField::clone()
     }
     auto ptr = cloneImpl();
     ptr->setMembers(std::move(clonedMembers));
+    ptr->m_props = m_props;
     return ptr;
 }
 
@@ -130,6 +151,56 @@ const ToolsField::Members& ToolsField::getMembers() const
 void ToolsField::setMembers(Members&& members)
 {
     m_members = std::move(members);
+    for (auto& m : m_members) {
+        using CheckFunc = bool (ToolsField::*)() const;
+        using ForceFunc = void (ToolsField::*)();
+        static const std::vector<std::pair<CheckFunc, ForceFunc>> List = {
+            {&ToolsField::isReadOnly, &ToolsField::forceReadOnly},
+        };
+
+        assert(m);
+        for (auto& funcs : List) {
+            if ((m.get()->*funcs.first)()) {
+                (m.get()->*funcs.second)();
+            }
+        }
+    }
+}
+
+void ToolsField::forceReadOnly()
+{
+    m_props[readOnlyProp()] = true;
+    for (auto& m : m_members) {
+        assert(m);
+        m->forceReadOnly();
+    }
+}
+
+bool ToolsField::isReadOnly() const
+{
+    if (m_props.contains(readOnlyProp())) {
+        return true;
+    }
+
+    return isReadOnlyImpl();
+}
+
+void ToolsField::forceHiddenSerialization()
+{
+    m_props[hiddenSerializationProp()] = true;
+    for (auto& m : m_members) {
+        assert(m);
+        m->forceHiddenSerialization();
+    }
+}
+
+bool ToolsField::isHiddenSerialization() const
+{
+    if (m_props.contains(hiddenSerializationProp())) {
+        return true;
+    }
+
+    return isHiddenSerializationImpl();
 }
 
 }  // namespace cc_tools_qt

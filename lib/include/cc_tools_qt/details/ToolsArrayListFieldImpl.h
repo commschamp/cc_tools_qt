@@ -49,6 +49,7 @@ public:
     using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
     using PrefixFieldInfo = typename Base::PrefixFieldInfo;
+    using Members = typename Base::Members;
 
     using WrapFieldCallbackFunc = std::function<ToolsFieldPtr (ElementType&)>;
 
@@ -263,35 +264,8 @@ private:
     void addFieldInternal(HasFeatureTag)
     {
         auto& col = Base::field().value();
-
-        auto& mems = Base::getMembers();
-
-        decltype(&col[0]) firstElemPtr = nullptr;
-        if (!col.empty()) {
-            firstElemPtr = &col[0];
-        }
-
         col.push_back(ElementType());
-        if (!m_wrapFieldFunc) {
-            [[maybe_unused]] static constexpr bool Callback_is_not_set = false;
-            assert(Callback_is_not_set);       
-            mems.clear();
-            return;
-        }
-
-        if (firstElemPtr == &col[0]) {
-            mems.push_back(m_wrapFieldFunc(col.back()));
-            assert(col.size() == mems.size());
-            return;
-        }
-
-        mems.clear();
-        mems.reserve(col.size());
-        for (auto& f : col) {
-            mems.push_back(m_wrapFieldFunc(f));
-        }
-
-        assert(col.size() == mems.size());
+        refreshMembersInternal(HasFeatureTag());
     }   
 
     void addFieldInternal(NoFeatureTag)
@@ -308,12 +282,7 @@ private:
         }
 
         storage.erase(storage.begin() + idx);
-        auto& mems = Base::getMembers();
-        mems.clear();
-        mems.reserve(storage.size());
-        for (auto& f : storage) {
-            mems.push_back(m_wrapFieldFunc(f));
-        }
+        refreshMembersInternal(HasFeatureTag());
     }
 
     void removeFieldInternal([[maybe_unused]] int idx, NoFeatureTag)
@@ -330,8 +299,7 @@ private:
         }
 
         auto& storage = Base::field().value();
-        auto& mems = Base::getMembers();
-        mems.clear();
+        Members mems;
         mems.reserve(storage.size());
         for (auto& f : storage) {
             mems.push_back(m_wrapFieldFunc(f));
@@ -340,6 +308,8 @@ private:
                 assert(mems.back()->canWrite());
             }
         }
+
+        Base::setMembers(std::move(mems));
     }    
 
     void refreshMembersInternal(NoFeatureTag)

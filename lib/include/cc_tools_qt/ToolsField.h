@@ -20,7 +20,9 @@
 
 #include "cc_tools_qt/Api.h"
 
+#include <QtCore/QMap>
 #include <QtCore/QString>
+#include <QtCore/QVariant>
 
 #include <cassert>
 #include <cstddef>
@@ -75,19 +77,29 @@ public:
     const Members& getMembers() const;
     void setMembers(Members&& members);    
 
+    void forceReadOnly();
+    bool isReadOnly() const;
+
+    void forceHiddenSerialization();
+    bool isHiddenSerialization() const;    
+
 protected:
     virtual const char* nameImpl() const = 0;
     virtual std::size_t lengthImpl() const = 0;
     virtual bool validImpl() const = 0;
+    virtual bool isReadOnlyImpl() const = 0;
+    virtual bool isHiddenSerializationImpl() const = 0;
     virtual SerialisedSeq getSerialisedValueImpl() const = 0;
     virtual bool setSerialisedValueImpl(const SerialisedSeq& value) = 0;
     virtual void dispatchImpl(ToolsFieldHandler& handler) = 0;
     virtual Ptr cloneImpl() = 0;
     virtual bool canWriteImpl() const = 0;
     virtual void resetImpl() = 0;
+    
 
 private:
     Members m_members;
+    QVariantMap m_props;
 };
 
 using ToolsFieldPtr = ToolsField::Ptr;
