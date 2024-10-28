@@ -42,6 +42,7 @@ class ToolsVariantFieldImpl : public ToolsFieldBase<cc_tools_qt::field::ToolsVar
     using Base = ToolsFieldBase<cc_tools_qt::field::ToolsVariantField, TField>;
     using Field = TField;
     static_assert(comms::field::isVariant<Field>(), "Must be of Variant field type");
+    static_assert(!Field::hasFixedValue(), "Fixed value variants are not supported");
 
 public:
     using Ptr = typename Base::Ptr;

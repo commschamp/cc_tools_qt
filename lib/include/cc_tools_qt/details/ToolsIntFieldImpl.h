@@ -77,14 +77,25 @@ protected:
 
     virtual void setScaledImpl(double value) override
     {
-        Base::field().setScaled(value);
+        using Tag = 
+            std::conditional_t<
+                Field::hasFixedValue(),
+                NoFeatureTag,
+                HasFeatureTag
+            >;
+
+        setScaledInternal(value, Tag());
     }
 
     virtual double scaleValueImpl(UnderlyingType value) const override
     {
-        Field fieldTmp;
-        fieldTmp.setValue(value);
-        return fieldTmp.template scaleAs<double>();
+        using Tag = 
+            std::conditional_t<
+                Field::hasFixedValue(),
+                NoFeatureTag,
+                HasFeatureTag
+            >;
+        return scaleValueInternal(value, Tag());
     }
 
     virtual bool isSignedImpl() const override
@@ -173,6 +184,31 @@ private:
 
         return result;
     }
+
+    void setScaledInternal(double value, HasFeatureTag)
+    {
+        Base::field().setScaled(value);
+    }
+
+    void setScaledInternal([[maybe_unused]] double value, NoFeatureTag)
+    {
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
+        assert(Must_not_be_called);
+    }
+
+    static double scaleValueInternal(UnderlyingType value, HasFeatureTag)
+    {
+        Field fieldTmp;
+        fieldTmp.setValue(value);
+        return fieldTmp.template scaleAs<double>();
+    }   
+
+    static double scaleValueInternal([[maybe_unused]] UnderlyingType value, NoFeatureTag)
+    {
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
+        assert(Must_not_be_called);
+        return 0.0;
+    }      
 };
 
 template <typename TField>

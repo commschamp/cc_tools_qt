@@ -71,7 +71,7 @@ protected:
 
     virtual void setNanImpl() override
     {
-        Base::field().setValue(std::numeric_limits<typename TField::ValueType>::quiet_NaN());
+        setFieldValueInternal(std::numeric_limits<typename TField::ValueType>::quiet_NaN());
     }
 
     virtual bool isInfImpl() const override
@@ -81,7 +81,7 @@ protected:
 
     virtual void setInfImpl() override
     {
-        Base::field().setValue(std::numeric_limits<typename TField::ValueType>::infinity());
+        setFieldValueInternal(std::numeric_limits<typename TField::ValueType>::infinity());
     }
 
     virtual bool isMinusInfImpl() const override
@@ -91,7 +91,7 @@ protected:
 
     virtual void setMinusInfImpl() override
     {
-        Base::field().setValue(-std::numeric_limits<typename TField::ValueType>::infinity());
+        setFieldValueInternal(-std::numeric_limits<typename TField::ValueType>::infinity());
     }
 
     virtual double getEpsilonImpl() const override
@@ -104,8 +104,8 @@ protected:
         using Tag = 
             std::conditional_t<
                 Field::hasSpecials(),
-                HasSpecialsTag,
-                NoSpecialstag
+                HasFeatureTag,
+                NoFeatureTag
             >;
 
         return specialsInternal(Tag());
@@ -117,16 +117,39 @@ protected:
     }
 
 private:
-    struct HasSpecialsTag{};    
-    struct NoSpecialstag{};
+    struct HasFeatureTag{};    
+    struct NoFeatureTag{};
 
-    static const SpecialsList& specialsInternal(HasSpecialsTag)
+    void setFieldValueInternal(typename TField::ValueType val)
+    {
+        using Tag = 
+            std::conditional_t<
+                Field::hasFixedValue(),
+                NoFeatureTag,
+                HasFeatureTag
+            >;
+        
+        setFieldValueInternal(val, Tag());     
+    }
+
+    void setFieldValueInternal(typename TField::ValueType val, HasFeatureTag)
+    {
+        Base::field().setValue(val);
+    }
+
+    void setFieldValueInternal([[maybe_unused]] typename TField::ValueType val, NoFeatureTag)
+    {
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
+        assert(Must_not_be_called);        
+    }    
+
+    static const SpecialsList& specialsInternal(HasFeatureTag)
     {
         static const SpecialsList List = createSpecialsList();
         return List;
     }
 
-    static const SpecialsList& specialsInternal(NoSpecialstag)
+    static const SpecialsList& specialsInternal(NoFeatureTag)
     {
         static const SpecialsList List;
         return List;

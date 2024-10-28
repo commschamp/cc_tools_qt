@@ -21,6 +21,7 @@
 #include "cc_tools_qt/details/ToolsFieldBase.h"
 #include "cc_tools_qt/details/ToolsNumericFieldBase.h"
 
+#include <cassert>
 #include <cstddef>
 #include <type_traits>
 
@@ -71,7 +72,14 @@ protected:
 
     virtual void setValueImpl(UnderlyingType value) override
     {
-        Base::field().setValue(value);
+        using Tag = 
+            std::conditional_t<
+                Field::hasFixedValue(),
+                NoFeatureTag,
+                HasFeatureTag
+            >;
+
+        setValueInternal(value, Tag());
     }
 
     virtual std::size_t minLengthImpl() const override
@@ -84,6 +92,20 @@ protected:
         return Base::field().maxLength();
     }
 
+private:
+    struct HasFeatureTag {};
+    struct NoFeatureTag {};
+
+    void setValueInternal(UnderlyingType value, HasFeatureTag)
+    {
+        Base::field().setValue(value);
+    }
+
+    void setValueInternal([[maybe_unused]] UnderlyingType value, NoFeatureTag)
+    {
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
+        assert(Must_not_be_called);
+    }    
 };
 
 }  // namespace details

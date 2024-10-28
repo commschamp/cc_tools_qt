@@ -70,55 +70,28 @@ public:
     }
 
 protected:
-
     virtual void addFieldImpl() override
     {
-        auto& col = Base::field().value();
+        using Tag = 
+            std::conditional_t<
+                Field::hasFixedValue(),
+                NoFeatureTag,
+                HasFeatureTag
+            >;
 
-        auto& mems = Base::getMembers();
-
-        decltype(&col[0]) firstElemPtr = nullptr;
-        if (!col.empty()) {
-            firstElemPtr = &col[0];
-        }
-
-        col.push_back(ElementType());
-        if (!m_wrapFieldFunc) {
-            [[maybe_unused]] static constexpr bool Callback_is_not_set = false;
-            assert(Callback_is_not_set);       
-            mems.clear();
-            return;
-        }
-
-        if (firstElemPtr == &col[0]) {
-            mems.push_back(m_wrapFieldFunc(col.back()));
-            assert(col.size() == mems.size());
-            return;
-        }
-
-        mems.clear();
-        mems.reserve(col.size());
-        for (auto& f : col) {
-            mems.push_back(m_wrapFieldFunc(f));
-        }
-
-        assert(col.size() == mems.size());
+        addFieldInternal(Tag());
     }
 
     virtual void removeFieldImpl(int idx) override
     {
-        auto& storage = Base::field().value();
-        if (static_cast<decltype(idx)>(storage.size()) <= idx) {
-            return;
-        }
+        using Tag = 
+            std::conditional_t<
+                Field::hasFixedValue(),
+                NoFeatureTag,
+                HasFeatureTag
+            >;
 
-        storage.erase(storage.begin() + idx);
-        auto& mems = Base::getMembers();
-        mems.clear();
-        mems.reserve(storage.size());
-        for (auto& f : storage) {
-            mems.push_back(m_wrapFieldFunc(f));
-        }
+        removeFieldInternal(idx, Tag());
     }
 
     virtual bool setSerialisedValueImpl([[maybe_unused]] const SerialisedSeq& value) override
@@ -142,9 +115,13 @@ protected:
     {
         using Tag =
             std::conditional_t<
-                Field::hasFixedSize(),
-                HasFixedSizeTag,
-                HasVarSizeTag
+                Field::hasFixedValue(),
+                NoFeatureTag,
+                std::conditional_t<
+                    Field::hasFixedSize(),
+                    HasFixedSizeTag,
+                    HasVarSizeTag
+                >
             >;
         adjustFixedSizeInternal(Tag());
     }
@@ -158,22 +135,14 @@ protected:
 
     virtual void refreshMembersImpl() override
     {
-        if (!m_wrapFieldFunc) {
-            [[maybe_unused]] static constexpr bool Callback_is_not_set = false;
-            assert(Callback_is_not_set);  
-        }
+        using Tag = 
+            std::conditional_t<
+                Field::hasFixedValue(),
+                NoFeatureTag,
+                HasFeatureTag
+            >;
 
-        auto& storage = Base::field().value();
-        auto& mems = Base::getMembers();
-        mems.clear();
-        mems.reserve(storage.size());
-        for (auto& f : storage) {
-            mems.push_back(m_wrapFieldFunc(f));
-            if (!mems.back()->canWrite()) {
-                mems.back()->reset();
-                assert(mems.back()->canWrite());
-            }
-        }
+        refreshMembersInternal(Tag());
     }
 
     virtual PrefixFieldInfo getPrefixFieldInfoImpl() const override
@@ -200,6 +169,8 @@ private:
     struct SerLengthFieldVarTag {};
     struct HasFixedSizeTag {};
     struct HasVarSizeTag {};
+    struct HasFeatureTag {};
+    struct NoFeatureTag {};     
 
     PrefixFieldInfo getPrefixFieldInfoInternal(NoPrefixFieldTag) const
     {
@@ -283,6 +254,97 @@ private:
         COMMS_GNU_WARNING_POP        
     }
 
+    void adjustFixedSizeInternal(NoFeatureTag)
+    {
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
+        assert(Must_not_be_called); 
+    }    
+
+    void addFieldInternal(HasFeatureTag)
+    {
+        auto& col = Base::field().value();
+
+        auto& mems = Base::getMembers();
+
+        decltype(&col[0]) firstElemPtr = nullptr;
+        if (!col.empty()) {
+            firstElemPtr = &col[0];
+        }
+
+        col.push_back(ElementType());
+        if (!m_wrapFieldFunc) {
+            [[maybe_unused]] static constexpr bool Callback_is_not_set = false;
+            assert(Callback_is_not_set);       
+            mems.clear();
+            return;
+        }
+
+        if (firstElemPtr == &col[0]) {
+            mems.push_back(m_wrapFieldFunc(col.back()));
+            assert(col.size() == mems.size());
+            return;
+        }
+
+        mems.clear();
+        mems.reserve(col.size());
+        for (auto& f : col) {
+            mems.push_back(m_wrapFieldFunc(f));
+        }
+
+        assert(col.size() == mems.size());
+    }   
+
+    void addFieldInternal(NoFeatureTag)
+    {
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
+        assert(Must_not_be_called);        
+    } 
+
+    void removeFieldInternal(int idx, HasFeatureTag)
+    {
+        auto& storage = Base::field().value();
+        if (static_cast<decltype(idx)>(storage.size()) <= idx) {
+            return;
+        }
+
+        storage.erase(storage.begin() + idx);
+        auto& mems = Base::getMembers();
+        mems.clear();
+        mems.reserve(storage.size());
+        for (auto& f : storage) {
+            mems.push_back(m_wrapFieldFunc(f));
+        }
+    }
+
+    void removeFieldInternal([[maybe_unused]] int idx, NoFeatureTag)
+    {
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
+        assert(Must_not_be_called);        
+    }
+
+    void refreshMembersInternal(HasFeatureTag)
+    {
+        if (!m_wrapFieldFunc) {
+            [[maybe_unused]] static constexpr bool Callback_is_not_set = false;
+            assert(Callback_is_not_set);  
+        }
+
+        auto& storage = Base::field().value();
+        auto& mems = Base::getMembers();
+        mems.clear();
+        mems.reserve(storage.size());
+        for (auto& f : storage) {
+            mems.push_back(m_wrapFieldFunc(f));
+            if (!mems.back()->canWrite()) {
+                mems.back()->reset();
+                assert(mems.back()->canWrite());
+            }
+        }
+    }    
+
+    void refreshMembersInternal(NoFeatureTag)
+    {
+    }    
 
     WrapFieldCallbackFunc m_wrapFieldFunc;
 };

@@ -23,10 +23,11 @@
 
 #include "comms/field/BitmaskValue.h"
 
-#include <cstdint>
 #include <cassert>
-#include <memory>
+#include <cstdint>
 #include <limits>
+#include <memory>
+#include <type_traits>
 
 namespace cc_tools_qt
 {
@@ -68,7 +69,14 @@ protected:
 
     virtual void setBitValueImpl(unsigned idx, bool value) override
     {
-        Base::field().setBitValue(idx, value);
+        using Tag = 
+            std::conditional_t<
+                Field::hasFixedValue(),
+                NoFeatureTag,
+                HasFeatureTag
+            >;
+            
+        setBitValueInternal(idx, value, Tag());
     }
 
     virtual unsigned bitIdxLimitImpl() const override
@@ -88,6 +96,8 @@ protected:
     }
 
 private:
+    struct HasFeatureTag {};
+    struct NoFeatureTag {};
 
     static QStringList createBitsList()
     {
@@ -103,6 +113,17 @@ private:
         }
         return result;
     }
+
+    void setBitValueInternal(unsigned idx, bool value, HasFeatureTag)
+    {
+        Base::field().setBitValue(idx, value);
+    }    
+
+    void setBitValueInternal([[maybe_unused]] unsigned idx, [[maybe_unused]] bool value, NoFeatureTag)
+    {
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
+        assert(Must_not_be_called);
+    }        
 };
 template <typename TField>
 auto makeBitmaskField(TField& field)

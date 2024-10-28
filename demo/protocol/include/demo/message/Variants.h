@@ -53,18 +53,20 @@ struct VariantsFields
         comms::field::EnumValue<
             demo::FieldBase,
             VarId,
-            comms::option::DefaultNumValue<static_cast<int>(TId)>,
-            comms::option::ValidNumValueRange<static_cast<int>(TId), static_cast<int>(TId)>,
-            comms::option::FailOnInvalid<>
+            comms::option::def::DefaultNumValue<static_cast<int>(TId)>,
+            comms::option::def::ValidNumValueRange<static_cast<int>(TId), static_cast<int>(TId)>,
+            comms::option::def::FailOnInvalid<>,
+            comms::option::def::FixedValue
         >
     {
         using Base = 
             comms::field::EnumValue<
                 demo::FieldBase,
                 VarId,
-                comms::option::DefaultNumValue<static_cast<int>(TId)>,
-                comms::option::ValidNumValueRange<static_cast<int>(TId), static_cast<int>(TId)>,
-                comms::option::FailOnInvalid<>
+                comms::option::def::DefaultNumValue<static_cast<int>(TId)>,
+                comms::option::def::ValidNumValueRange<static_cast<int>(TId), static_cast<int>(TId)>,
+                comms::option::def::FailOnInvalid<>,
+                comms::option::def::FixedValue
             >;                
     public:   
         using ValueType = typename Base::ValueType;

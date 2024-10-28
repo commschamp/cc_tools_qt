@@ -25,8 +25,9 @@
 
 #include <cstdint>
 #include <cassert>
-#include <memory>
 #include <limits>
+#include <memory>
+#include <type_traits>
 
 namespace cc_tools_qt
 {
@@ -66,7 +67,14 @@ protected:
 
     virtual void setValueImpl(const QString& val) override
     {
-        Base::field().setValue(val.toStdString().c_str());
+        using Tag = 
+            std::conditional_t<
+                Field::hasFixedValue(),
+                NoFeatureTag,
+                HasFeatureTag
+            >;
+
+        setValueInternal(val, Tag());
     }
 
     virtual bool setSerialisedValueImpl([[maybe_unused]] const SerialisedSeq& value) override
@@ -90,6 +98,8 @@ private:
     struct SizeFieldExistsTag {};
     struct SerLengthFieldExistsTag {};
     struct NoSizeFieldTag {};
+    struct HasFeatureTag {};
+    struct NoFeatureTag {};    
 
     using SizeExistanceTag = 
         std::conditional_t<
@@ -135,6 +145,17 @@ private:
                     static_cast<std::size_t>(std::numeric_limits<int>::max()),
                     Base::field().getValue().max_size()));
     }
+
+    void setValueInternal(const QString& val, HasFeatureTag)
+    {
+        Base::field().setValue(val.toStdString().c_str());
+    } 
+
+    void setValueInternal([[maybe_unused]] const QString& val, NoFeatureTag)
+    {
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
+        assert(Must_not_be_called);
+    }        
 };
 
 template <typename TField>
