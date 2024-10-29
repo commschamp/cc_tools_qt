@@ -100,7 +100,11 @@ Message::DataSeq Message::encodeFramed(ToolsFrame& frame) const
 
 Message::FieldsList Message::transportFields()
 {
-    return transportFieldsImpl();
+    auto fields = transportFieldsImpl();
+    for (auto& f : fields) {
+        f->forceHiddenSerialization();
+    }
+    return fields;
 }
 
 Message::FieldsList Message::payloadFields()

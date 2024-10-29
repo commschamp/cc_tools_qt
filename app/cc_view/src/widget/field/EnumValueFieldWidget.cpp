@@ -51,7 +51,7 @@ EnumValueFieldWidget::EnumValueFieldWidget(
 
     populateComboBox();
 
-    performNameLabelUpdate();
+    commonConstruct();
 
     refresh();
 

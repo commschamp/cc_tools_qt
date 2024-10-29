@@ -42,7 +42,7 @@ BundleFieldWidget::BundleFieldWidget(
     setLayout(m_membersLayout);
     setNameLabelWidget(m_label);
 
-    performNameLabelUpdate();
+    commonConstruct();
 }
 
 BundleFieldWidget::~BundleFieldWidget() noexcept = default;

@@ -35,7 +35,7 @@ StringFieldWidget::StringFieldWidget(
     setSeparatorWidget(m_ui.m_sepLine);
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
-    performNameLabelUpdate();
+    commonConstruct();
 
     connect(
         m_ui.m_valuePlainTextEdit, SIGNAL(textChanged()),

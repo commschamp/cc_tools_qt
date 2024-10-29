@@ -37,7 +37,7 @@ OptionalFieldWidget::OptionalFieldWidget(
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
 
-    performNameLabelUpdate();
+    commonConstruct();
 
     if (m_fieldPtr->getMode() == Mode::Tentative) {
         m_fieldPtr->setMode(Mode::Missing);

@@ -156,6 +156,7 @@ void ToolsField::setMembers(Members&& members)
         using ForceFunc = void (ToolsField::*)();
         static const std::vector<std::pair<CheckFunc, ForceFunc>> List = {
             {&ToolsField::isReadOnly, &ToolsField::forceReadOnly},
+            {&ToolsField::isHiddenSerialization, &ToolsField::forceHiddenSerialization},
         };
 
         assert(m);
@@ -165,6 +166,8 @@ void ToolsField::setMembers(Members&& members)
             }
         }
     }
+
+    membersUpdatedImpl();
 }
 
 void ToolsField::forceReadOnly()
@@ -201,6 +204,10 @@ bool ToolsField::isHiddenSerialization() const
     }
 
     return isHiddenSerializationImpl();
+}
+
+void ToolsField::membersUpdatedImpl()
+{
 }
 
 }  // namespace cc_tools_qt

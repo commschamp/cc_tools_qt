@@ -72,12 +72,6 @@ public:
     /// @brief Set whether the field is hidden
     Common& hidden(bool value = true);
 
-    /// @brief Check the serialisation part is hidden
-    bool isSerialisedHidden() const;
-
-    /// @brief Set whether the serialised part is hidden
-    Common& serialisedHidden(bool value = true);
-
     /// @brief Check whether the field cannot be modified.
     bool isReadOnly() const;
 
@@ -132,7 +126,6 @@ protected:
 private:
     QString m_name;
     bool m_hidden = false;
-    bool m_serialisedHidden = false;
     bool m_readOnly = false;
     bool m_hiddenWhenReadOnly = false;
 };
@@ -174,13 +167,6 @@ public:
     TDerived& hidden(bool value = true)
     {
         return static_cast<TDerived&>(Base::hidden(value));
-    }
-
-    /// @brief Set whether the serialised part is hidden
-    /// @return reference to derived class
-    TDerived& serialisedHidden(bool value = true)
-    {
-        return static_cast<TDerived&>(Base::serialisedHidden(value));
     }
 
     /// @brief Set whether the field cannot be modified

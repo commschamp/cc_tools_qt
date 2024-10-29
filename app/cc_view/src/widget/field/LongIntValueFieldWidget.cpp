@@ -49,7 +49,7 @@ LongIntValueFieldWidget::LongIntValueFieldWidget(
         static_cast<double>(m_fieldPtr->maxValue()));
     m_ui.m_valueSpinBox->setDecimals(0);
 
-    performNameLabelUpdate();
+    commonConstruct();
 
     connect(m_ui.m_valueSpinBox, SIGNAL(valueChanged(double)),
             this, SLOT(valueUpdated(double)));

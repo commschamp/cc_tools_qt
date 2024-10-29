@@ -97,7 +97,7 @@ ArrayListFieldWidget::ArrayListFieldWidget(
     setSeparatorWidget(m_ui.m_sepLine);
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
-    performNameLabelUpdate();
+    commonConstruct();
 
     assert(m_fieldPtr->canWrite());
     refreshInternal();

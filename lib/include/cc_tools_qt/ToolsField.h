@@ -95,7 +95,7 @@ protected:
     virtual Ptr cloneImpl() = 0;
     virtual bool canWriteImpl() const = 0;
     virtual void resetImpl() = 0;
-    
+    virtual void membersUpdatedImpl();
 
 private:
     Members m_members;

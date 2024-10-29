@@ -40,39 +40,28 @@ using ProtMsg = demo::cc_plugin::message::Bitfields::ProtMsg;
 QVariantMap createField1BitmaskProperties()
 {
     using Field = ProtMsg::Field_field1::Field_member1;
-    auto props = 
-        cc::property::field::ForField<Field>()
-        .serialisedHidden();
+    auto props = cc::property::field::ForField<Field>();
     return props.asMap();
 }
 
 QVariantMap createField1EnumProperties()
 {
     using Field = ProtMsg::Field_field1::Field_member2;
-    auto props = 
-        cc::property::field::ForField<Field>()
-            .serialisedHidden();
-
+    auto props = cc::property::field::ForField<Field>();
     return props.asMap();
 }
 
 QVariantMap createField1Int1Properties()
 {
     using Field = ProtMsg::Field_field1::Field_member3;
-    auto props = 
-        cc::property::field::ForField<Field>()
-            .serialisedHidden();
-
+    auto props = cc::property::field::ForField<Field>();
     return props.asMap();
 }
 
 QVariantMap createField1Int2Properties()
 {
     using Field = ProtMsg::Field_field1::Field_member4;
-    auto props = 
-        cc::property::field::ForField<Field>()
-            .serialisedHidden();
-
+    auto props = cc::property::field::ForField<Field>();
     return props.asMap();
 }
 

@@ -69,7 +69,7 @@ FloatValueFieldWidget::FloatValueFieldWidget(
 
     createSpecialsWidget(m_fieldPtr->specials());
 
-    performNameLabelUpdate();
+    commonConstruct();
 
     refresh();
 

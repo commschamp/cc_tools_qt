@@ -42,10 +42,7 @@ QVariantMap createField3Properties()
     using Field3 = ProtMsg::Field_field3;
     cc::property::field::ForField<Field3> props;
     props.appendIndexToElementName();
-    props.add(
-        cc::property::field::IntValue()
-            .serialisedHidden()
-            .asMap());
+    props.add(cc::property::field::IntValue().asMap());
     return props.asMap();
 }
 
@@ -54,7 +51,7 @@ QVariantMap createField4Properties()
     return
         cc::property::field::ForField<ProtMsg::Field_field4>()
             .appendIndexToElementName()
-            .add(cc::property::field::IntValue().serialisedHidden().asMap())
+            .add(cc::property::field::IntValue().asMap())
             .asMap();
 }
 
@@ -65,12 +62,11 @@ QVariantMap createField5Properties()
             .appendIndexToElementName()
             .add(
                 cc::property::field::ForField<ProtMsg::Field_field5::ValueType::value_type>()
-                    .add(cc::property::field::IntValue().serialisedHidden().asMap())
-                    .add(cc::property::field::IntValue().serialisedHidden().asMap())
-                    .add(cc::property::field::IntValue().serialisedHidden().asMap())
-                    .serialisedHidden()
+                    .add(cc::property::field::IntValue().asMap())
+                    .add(cc::property::field::IntValue().asMap())
+                    .add(cc::property::field::IntValue().asMap())
                     .asMap())
-//            .serialisedHidden()
+//            
 //            .showPrefix()
 //            .prefixName("length")
             .asMap();

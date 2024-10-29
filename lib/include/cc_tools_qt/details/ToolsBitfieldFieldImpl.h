@@ -63,6 +63,15 @@ protected:
         return ActPtr(new ToolsBitfieldFieldImpl<TField>(Base::field()));
     }
 
+    virtual void membersUpdatedImpl() override
+    {
+        auto& mems = Base::getMembers();
+        for (auto& m : mems) {
+            assert(m);
+            m->forceHiddenSerialization();
+        }
+    }
+
 };
 
 template <typename TField>

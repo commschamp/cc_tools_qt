@@ -58,7 +58,6 @@ QVariantMap createProps_field1()
     using Field = ProtMsg::Field_field1;
     auto props =
         cc::property::field::ForField<Field>()
-            .serialisedHidden()
             .add(createProps_field1_mem1())
             .add(createProps_field1_mem2());
     assert(props.members().size() == Field::FieldIdx_numOfValues);
@@ -68,8 +67,7 @@ QVariantMap createProps_field1()
 QVariantMap createProps_field2_mem1()
 {
     using Field = ProtMsg::Field_field2::Field_length;
-    auto props =
-        cc::property::field::ForField<Field>();
+    auto props = cc::property::field::ForField<Field>();
     return props.asMap();
 }
 
@@ -86,7 +84,6 @@ QVariantMap createProps_field2()
     using Field = ProtMsg::Field_field2;
     auto props =
         cc::property::field::ForField<Field>()
-            .serialisedHidden()
             .add(createProps_field2_mem1())
             .add(createProps_field2_mem2());
     assert(props.members().size() == Field::FieldIdx_numOfValues);

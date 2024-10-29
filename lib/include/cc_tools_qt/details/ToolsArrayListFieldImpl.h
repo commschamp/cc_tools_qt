@@ -71,6 +71,21 @@ public:
     }
 
 protected:
+    virtual bool isHiddenSerializationImpl() const override
+    {
+        static constexpr bool NoPrefix =
+            (!Field::hasElemFixedSerLengthFieldPrefix()) &&
+            (!Field::hasElemSerLengthFieldPrefix()) && 
+            (!Field::hasSerLengthFieldPrefix()) &&
+            (!Field::hasSizeFieldPrefix());
+            
+        static constexpr bool NoSuffix =
+            (!Field::hasTerminationFieldSuffix()) &&
+            (!Field::hasTrailingFieldSuffix());
+
+        return NoPrefix && NoSuffix;
+    }
+
     virtual void addFieldImpl() override
     {
         using Tag = 
@@ -160,6 +175,19 @@ protected:
             >;
 
         return getPrefixFieldInfoInternal(Tag());
+    }
+
+    virtual void membersUpdatedImpl() override
+    {
+        if (isHiddenSerializationImpl()) {
+            return;
+        }
+
+        auto& mems = Base::getMembers();
+        for (auto& m : mems) {
+            assert(m);
+            m->forceHiddenSerialization();
+        }
     }
 
 private:

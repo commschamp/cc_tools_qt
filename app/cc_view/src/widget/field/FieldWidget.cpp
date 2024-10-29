@@ -73,7 +73,6 @@ void FieldWidget::updateProperties(const QVariantMap& props)
 {
     property::field::Common commonProps(props);
     m_hiddenWhenReadOnly = commonProps.isHiddenWhenReadOnly();
-    performNameLabelUpdate();
     updatePropertiesImpl(props);
     performUiElementsVisibilityCheck(commonProps);
     performUiReadOnlyCheck(commonProps);
@@ -157,26 +156,10 @@ void FieldWidget::updateSerValue(
     text.setPlainText(serValueStr);
 }
 
-void FieldWidget::performNameLabelUpdate()
+void FieldWidget::commonConstruct()
 {
-    if (m_nameLabel == nullptr) {
-        return;
-    }
-
-    auto& f = fieldImpl();
-    QString str = f.name();
-    if (str.isEmpty()) {
-        m_nameLabel->hide();
-        return;
-    }
-
-    if (!m_nameSuffix.isEmpty()) {
-        str.append(m_nameSuffix);
-    }
-
-    str.append(':');
-    m_nameLabel->setText(str);
-    m_nameLabel->show();
+    performNameLabelUpdate();
+    performSerVisibilityUpdate();
 }
 
 void FieldWidget::editEnabledUpdatedImpl()
@@ -202,18 +185,6 @@ void FieldWidget::performUiElementsVisibilityCheck(const property::field::Common
         (m_serValueWidget == nullptr)) {
         return;
     }
-
-    auto setWidgetHiddenFunc =
-        [](QWidget* widget, bool hidden)
-        {
-            if (widget != nullptr) {
-                widget->setHidden(hidden);
-            }
-        };
-
-    auto serHidden = props.isSerialisedHidden();
-    setWidgetHiddenFunc(m_sepWidget, serHidden);
-    setWidgetHiddenFunc(m_serValueWidget, serHidden);
 }
 
 void FieldWidget::performUiReadOnlyCheck(const property::field::Common& props)
@@ -225,6 +196,43 @@ void FieldWidget::performUiReadOnlyCheck(const property::field::Common& props)
     }
 }
 
+void FieldWidget::performNameLabelUpdate()
+{
+    if (m_nameLabel == nullptr) {
+        return;
+    }
+
+    auto& f = fieldImpl();
+    QString str = f.name();
+    if (str.isEmpty()) {
+        m_nameLabel->hide();
+        return;
+    }
+
+    if (!m_nameSuffix.isEmpty()) {
+        str.append(m_nameSuffix);
+    }
+
+    str.append(':');
+    m_nameLabel->setText(str);
+    m_nameLabel->show();
+}
+
+void FieldWidget::performSerVisibilityUpdate()
+{
+    auto setWidgetHiddenFunc =
+        [](QWidget* widget, bool hidden)
+        {
+            if (widget != nullptr) {
+                widget->setHidden(hidden);
+            }
+        };
+            
+    auto& f = fieldImpl();
+    bool serHidden = f.isHiddenSerialization();
+    setWidgetHiddenFunc(m_sepWidget, serHidden);
+    setWidgetHiddenFunc(m_serValueWidget, serHidden);    
+}
 
 }  // namespace cc_tools_qt
 

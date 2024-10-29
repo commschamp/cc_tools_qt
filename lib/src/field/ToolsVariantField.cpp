@@ -91,7 +91,9 @@ int ToolsVariantField::getMembersCount() const
 
 ToolsVariantField::ActPtr ToolsVariantField::actClone()
 {
-    return ActPtr(static_cast<ToolsVariantField*>(clone().release()));
+    auto ptr = ActPtr(static_cast<ToolsVariantField*>(clone().release()));
+    ptr->m_createMemberCb = m_createMemberCb;
+    return ptr;
 }
 
 void ToolsVariantField::dispatchImpl(ToolsFieldHandler& handler)

@@ -62,6 +62,11 @@ protected:
     {
         return ActPtr(new ToolsBundleFieldImpl(Base::field()));
     }
+
+    virtual bool isHiddenSerializationImpl() const override
+    {
+        return true;
+    }
 };
 
 template <typename TField>

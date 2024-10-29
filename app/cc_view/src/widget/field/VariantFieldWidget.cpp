@@ -44,13 +44,13 @@ VariantFieldWidget::VariantFieldWidget(
     setNameLabelWidget(m_ui.m_nameLabel);
     setValueWidget(m_ui.m_valueWidget);
     setSeparatorWidget(m_ui.m_sepLine);
-    setSerialisedValueWidget(m_ui.m_serValueWidget);\
+    setSerialisedValueWidget(m_ui.m_serValueWidget);
 
     m_ui.m_idxSpinBox->setMaximum(m_fieldPtr->getMembersCount() - 1);
     updateIndexValue();
     updateMemberCombo();
 
-    performNameLabelUpdate();
+    commonConstruct();
 
     connect(
         m_ui.m_idxSpinBox, SIGNAL(valueChanged(int)),

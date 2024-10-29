@@ -45,7 +45,7 @@ UnsignedLongLongIntValueFieldWidget::UnsignedLongLongIntValueFieldWidget(
     setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
     createSpecialsWidget(m_fieldPtr->specials());
 
-    performNameLabelUpdate();
+    commonConstruct();
 
     refresh();
 

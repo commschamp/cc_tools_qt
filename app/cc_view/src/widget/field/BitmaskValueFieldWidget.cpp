@@ -46,7 +46,7 @@ BitmaskValueFieldWidget::BitmaskValueFieldWidget(
 
     prepareCheckboxes();
 
-    performNameLabelUpdate();
+    commonConstruct();
 
     refresh();
 

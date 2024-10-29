@@ -35,12 +35,6 @@ const QString& dataKey()
     return Str;
 }
 
-const QString& serialisedHiddenKey()
-{
-    static const QString Str("cc.ser_hidden");
-    return Str;
-}
-
 const QString& fieldHiddenKey()
 {
     static const QString Str("cc.field_hidden");
@@ -124,17 +118,6 @@ Common& Common::hidden(bool value)
     return *this;
 }
 
-bool Common::isSerialisedHidden() const
-{
-    return m_serialisedHidden;
-}
-
-Common& Common::serialisedHidden(bool value)
-{
-    m_serialisedHidden = value;
-    return *this;
-}
-
 bool Common::isReadOnly() const
 {
     return m_readOnly;
@@ -160,7 +143,6 @@ Common& Common::hiddenWhenReadOnly(bool value)
 void Common::setTo(QVariantMap& props) const
 {
     setElemTo(m_hidden, fieldHiddenKey(), props);
-    setElemTo(m_serialisedHidden, serialisedHiddenKey(), props);
     setElemTo(m_readOnly, readOnlyKey(), props);
     setElemTo(m_hiddenWhenReadOnly, hiddenWhenReadOnlyKey(), props);
 }
@@ -168,7 +150,6 @@ void Common::setTo(QVariantMap& props) const
 void Common::getFrom(const QVariantMap& props)
 {
     m_hidden = getElemFrom<decltype(m_hidden)>(props, fieldHiddenKey());
-    m_serialisedHidden = getElemFrom<decltype(m_serialisedHidden)>(props, serialisedHiddenKey());
     m_readOnly = getElemFrom<decltype(m_readOnly)>(props, readOnlyKey());
     m_hiddenWhenReadOnly = getElemFrom<decltype(m_hiddenWhenReadOnly)>(props, hiddenWhenReadOnlyKey());
 }

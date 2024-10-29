@@ -84,7 +84,15 @@ class ToolsExtraInfoMessage : public
         ToolsExtraInfoMessage<TBase>
     >
 {
+    using Base = 
+        cc_tools_qt::ToolsMessageBase<
+            TBase,
+            details::ToolsExtraInfoMessageImpl,
+            ToolsExtraInfoMessage<TBase>
+        >;    
 public:
+    using FieldsList = typename Base::FieldsList;
+    
     virtual ~ToolsExtraInfoMessage() noexcept = default;
 
 protected:
@@ -94,7 +102,6 @@ protected:
         return Str;
     }
 
-    /// @brief Overriding virtual cc_tools_qt::Message::extraTransportFieldsPropertiesImpl()
     virtual const QVariantList&  extraTransportFieldsPropertiesImpl() const override
     {
         static const QVariantList List;
@@ -120,12 +127,21 @@ protected:
         return false;
     }
 
+    virtual FieldsList payloadFieldsImpl() override
+    {
+        auto fields = Base::payloadFieldsImpl();
+        for (auto& f : fields) {
+            f->forceHiddenSerialization();
+        }
+        return fields;
+    }
+
 private:
 
     static QVariantList createFieldsProperties()
     {
         QVariantList props;
-        props.append(property::field::Common().serialisedHidden().asMap());
+        props.append(property::field::Common().asMap());
         return props;
     }
 };
