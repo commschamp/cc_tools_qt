@@ -101,14 +101,12 @@ private:
     void refreshInternal();
     void updateUi();
     void addMissingFields();
-    void updatePrefixField();
 
     Ui::ArrayListFieldWidget m_ui;
     FieldPtr m_fieldPtr;
     std::vector<ArrayListElementWidget*> m_elements;
     CreateMissingDataFieldsFunc m_createMissingDataFieldsCallback;
     std::vector<QVariantMap> m_elemProperties;
-    bool m_prefixVisible = false;
     bool m_appendIndexToElementName = false;
 };
 

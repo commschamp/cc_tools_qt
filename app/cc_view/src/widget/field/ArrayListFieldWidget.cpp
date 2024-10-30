@@ -134,7 +134,6 @@ void ArrayListFieldWidget::refreshImpl()
 
     refreshInternal();
     addMissingFields();
-    updatePrefixField();
     assert(m_elements.size() == m_fieldPtr->size());
 }
 
@@ -149,10 +148,7 @@ void ArrayListFieldWidget::editEnabledUpdatedImpl()
 void ArrayListFieldWidget::updatePropertiesImpl(const QVariantMap& props)
 {
     property::field::ArrayList arrayListProps(props);
-    m_ui.m_prefixNameLabel->setText(arrayListProps.prefixName());
-    m_prefixVisible = arrayListProps.isPrefixVisible();
     m_appendIndexToElementName = arrayListProps.isIndexAppendedToElementName();
-    updatePrefixField();
     auto& elementsProps = arrayListProps.elements();
 
     m_elemProperties.clear();
@@ -198,7 +194,6 @@ void ArrayListFieldWidget::dataFieldUpdated()
     }
 
     refreshInternal();
-    updatePrefixField();
     emitFieldUpdated();
 }
 
@@ -279,7 +274,6 @@ void ArrayListFieldWidget::updateUi()
     bool addButtonVisible = isEditEnabled() && (!m_fieldPtr->hasFixedSize());
     m_ui.m_addSepLine->setVisible(addButtonVisible);
     m_ui.m_addFieldPushButton->setVisible(addButtonVisible);
-    updatePrefixField();
 }
 
 void ArrayListFieldWidget::addMissingFields()
@@ -298,23 +292,6 @@ void ArrayListFieldWidget::addMissingFields()
 
     assert(m_elements.size() == m_fieldPtr->size());
     assert(m_elements.size() == static_cast<unsigned>(m_ui.m_membersLayout->count()));
-}
-
-void ArrayListFieldWidget::updatePrefixField()
-{
-    if (!m_prefixVisible) {
-        m_ui.m_prefixFieldWidget->hide();
-        return;
-    }
-
-    auto info = m_fieldPtr->getPrefixFieldInfo();
-    m_ui.m_prefixValueSpinBox->setValue(info.first);
-    QString serText;
-    for (auto byte : info.second) {
-        serText.append(QString("%1").arg(static_cast<unsigned>(byte), 2, 16, QChar('0')));
-    }
-    m_ui.m_prefixSerValueLineEdit->setText(serText);
-    m_ui.m_prefixFieldWidget->show();
 }
 
 }  // namespace cc_tools_qt
