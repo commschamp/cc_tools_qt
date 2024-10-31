@@ -82,19 +82,6 @@ void OptionalFieldWidget::editEnabledUpdatedImpl()
     m_field->setEditEnabled(isEditEnabled());
 }
 
-void OptionalFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::Optional optProps(props);
-    auto& fieldPropsMap = optProps.field();
-    assert(m_field);
-    m_field->updateProperties(fieldPropsMap);
-    refreshInternal();
-
-    bool uncheckable = optProps.isUncheckable();
-    m_ui.m_optCheckBox->setHidden(uncheckable);
-    m_ui.m_optSep->setHidden(uncheckable);
-}
-
 void OptionalFieldWidget::fieldUpdated()
 {
     if (!m_fieldPtr->canWrite()) {

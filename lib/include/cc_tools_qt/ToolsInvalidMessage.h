@@ -55,7 +55,14 @@ class ToolsInvalidMessage : public
         ToolsInvalidMessage<TBase>
     >
 {
+    using Base =
+        cc_tools_qt::ToolsMessageBase<
+            TBase,
+            details::ToolInvalidMessageImpl,
+            ToolsInvalidMessage<TBase>
+        >;
 public:
+    using FieldsList = typename Base::FieldsList;
     virtual ~ToolsInvalidMessage() noexcept = default;
 
 protected:
@@ -94,6 +101,10 @@ protected:
         return false;
     }
 
+    virtual FieldsList transportFieldsImpl() override
+    {
+        return FieldsList();
+    }
 };
 
 }  // namespace cc_tools_qt

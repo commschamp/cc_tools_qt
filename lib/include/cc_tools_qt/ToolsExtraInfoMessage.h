@@ -127,6 +127,11 @@ protected:
         return false;
     }
 
+    virtual FieldsList transportFieldsImpl() override
+    {
+        return FieldsList();
+    }    
+
     virtual FieldsList payloadFieldsImpl() override
     {
         auto fields = Base::payloadFieldsImpl();

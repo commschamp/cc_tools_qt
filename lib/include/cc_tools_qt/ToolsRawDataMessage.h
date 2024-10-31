@@ -69,7 +69,15 @@ class ToolsRawDataMessage : public
         ToolsRawDataMessage<TBase>
     >
 {
+    using Base = 
+        cc_tools_qt::ToolsMessageBase<
+            TBase,
+            details::ToolsRawDataMessageImpl,
+            ToolsRawDataMessage<TBase>
+        >;    
 public:
+    using FieldsList = typename Base::FieldsList;
+    
     virtual ~ToolsRawDataMessage() noexcept = default;
 
 protected:
@@ -104,6 +112,11 @@ protected:
         assert(Must_not_be_called); 
         return false;
     }
+
+    virtual FieldsList transportFieldsImpl() override
+    {
+        return FieldsList();
+    }    
 
 private:
 

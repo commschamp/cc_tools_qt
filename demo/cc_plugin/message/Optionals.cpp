@@ -46,35 +46,17 @@ QVariantMap createField1Properties()
 
 QVariantMap createField2Properties()
 {
-    return
-        cc::property::field::ForField<ProtMsg::Field_field2>()
-            .field(
-                cc::property::field::ForField<ProtMsg::Field_field2::Field>()
-                    .asMap())
-            .uncheckable()
-            .asMap();
+    return cc::property::field::ForField<ProtMsg::Field_field2>().asMap();
 }
 
 QVariantMap createField3Properties()
 {
-    return
-        cc::property::field::ForField<ProtMsg::Field_field3>()
-            .field(
-                cc::property::field::ForField<ProtMsg::Field_field3::Field>()
-                    .asMap())
-            .uncheckable()
-            .asMap();
+    return cc::property::field::ForField<ProtMsg::Field_field3>().asMap();
 }
 
 QVariantMap createField4Properties()
 {
-    return
-        cc::property::field::ForField<ProtMsg::Field_field4>()
-            .field(
-                cc::property::field::ForField<ProtMsg::Field_field4::Field>()
-                    .asMap())
-            .uncheckable()
-            .asMap();
+    return cc::property::field::ForField<ProtMsg::Field_field4>().asMap();
 }
 
 QVariantList createFieldsProperties()

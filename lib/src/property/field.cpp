@@ -35,12 +35,6 @@ const QString& dataKey()
     return Str;
 }
 
-const QString& uncheckableKey()
-{
-    static const QString Str("cc.uncheckable");
-    return Str;
-}
-
 const QString& indexHiddenKey()
 {
     static const QString Str("cc.index_hidden");
@@ -84,72 +78,6 @@ QVariantMap Common::asMap() const
     setTo(props);
     return props;
 }
-
-Optional::Optional() = default;
-Optional::Optional(const Optional&) = default;
-Optional::Optional(Optional&&) = default;
-Optional::Optional(const QVariantMap& props)
-  : Base(props)
-{
-    getFrom(props);
-}
-
-Optional::Optional(const QVariant& props)
-  : Base(props)
-{
-    if (props.isValid() && props.canConvert<QVariantMap>()) {
-        getFrom(props.value<QVariantMap>());
-    }
-}
-
-Optional::~Optional() noexcept = default;
-
-Optional& Optional::operator=(const Optional&) = default;
-Optional& Optional::operator=(Optional&&) = default;
-
-const QVariantMap& Optional::field() const
-{
-    return m_field;
-}
-
-Optional& Optional::field(QVariantMap&& fieldProps)
-{
-    m_field = std::move(fieldProps);
-    return *this;
-}
-
-Optional& Optional::field(const QVariantMap& fieldProps)
-{
-    m_field = fieldProps;
-    return *this;
-}
-
-bool Optional::isUncheckable() const
-{
-    return m_uncheckable;
-}
-
-Optional& Optional::uncheckable(bool value)
-{
-    m_uncheckable = value;
-    return *this;
-}
-
-QVariantMap Optional::asMap() const
-{
-    QVariantMap props;
-    Base::setTo(props);
-    Base::setElemTo(m_field, dataKey(), props);
-    Base::setElemTo(m_uncheckable, uncheckableKey(), props);
-    return props;
-}
-
-void Optional::getFrom(const QVariantMap& props)
-{
-    m_field = getElemFrom<QVariantMap>(props, dataKey());
-    m_uncheckable = getElemFrom<bool>(props, uncheckableKey());
-}
-
 
 Variant::Variant() = default;
 Variant::Variant(const Variant&) = default;

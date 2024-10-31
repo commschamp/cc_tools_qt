@@ -141,66 +141,6 @@ public:
 };
 
 /// @brief Class to contain all the properties relevant to
-///     @b comms::field::Optional fields.
-/// @headerfile cc_tools_qt/property/field.h
-class CC_API Optional : public CommonBase<Optional>
-{
-    typedef CommonBase<Optional> Base;
-public:
-
-    /// @brief Default constructor
-    Optional();
-
-    /// @brief Copy constructor
-    Optional(const Optional&);
-
-    /// @brief Move constructor
-    Optional(Optional&&);
-
-    /// @brief Construct from QVariantMap
-    Optional(const QVariantMap& props);
-
-    /// @brief Construct from QVariant containing QVariantMap
-    Optional(const QVariant& props);
-
-    /// @brief Destructor
-    ~Optional() noexcept;
-
-    /// @brief Copy assignment
-    Optional& operator=(const Optional&);
-
-    /// @brief Move assignment
-    Optional& operator=(Optional&&);
-
-    /// @brief Get access to contained field's properties
-    const QVariantMap& field() const;
-
-    /// @brief Set contained field's properties.
-    Optional& field(QVariantMap&& fieldProps);
-
-    /// @brief Set contained field's properties.
-    Optional& field(const QVariantMap& fieldProps);
-
-    /// @brief Check field is uncheckable.
-    /// @details Uncheckable means that the user cannot manually mark the field
-    ///     as existing/missing independently.
-    bool isUncheckable() const;
-
-    /// @brief (Un)Mark the field uncheckable.
-    Optional& uncheckable(bool value = true);
-
-    /// @brief Retrieve all properties as map.
-    QVariantMap asMap() const;
-
-private:
-    void getFrom(const QVariantMap& props);
-
-    QVariantMap m_field;
-    bool m_uncheckable = false;
-};
-
-
-/// @brief Class to contain all the properties relevant to
 ///     @b comms::field::Variant fields.
 /// @headerfile cc_tools_qt/property/field.h
 class CC_API Variant : public CommonBase<Variant>
@@ -316,7 +256,7 @@ struct ForTag<comms::field::tag::ArrayList>
 template <>
 struct ForTag<comms::field::tag::Optional>
 {
-    typedef cc_tools_qt::property::field::Optional Type;
+    using Type = cc_tools_qt::property::field::Common;
 };
 
 template <>
