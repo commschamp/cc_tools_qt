@@ -141,145 +141,6 @@ public:
 };
 
 /// @brief Class to contain all the properties relevant to
-///     @b comms::field::IntValue fields.
-/// @headerfile cc_tools_qt/property/field.h
-class CC_API IntValue : public CommonBase<IntValue>
-{
-    using Base = CommonBase<IntValue>;
-public:
-    /// @brief Default constructor
-    IntValue();
-
-    /// @brief Copy constructor
-    IntValue(const IntValue&);
-
-    /// @brief Move constructor
-    IntValue(IntValue&&);
-
-    /// @brief Construct from QVariantMap
-    IntValue(const QVariantMap& props);
-
-    /// @brief Construct from QVariant that contains QVariantMap.
-    IntValue(const QVariant& props);
-
-    /// @brief Destructor
-    ~IntValue() noexcept;
-
-    /// @brief Copy assignement
-    IntValue& operator=(const IntValue&);
-
-    /// @brief Move assignment
-    IntValue& operator=(IntValue&&);
-
-    /// @brief Retrieve all properties as map.
-    QVariantMap asMap() const;
-};
-
-/// @brief Class to contain all the properties relevant to
-///     @b comms::field::Bitfield fields.
-/// @headerfile cc_tools_qt/property/field.h
-class CC_API Bitfield : public CommonBase<Bitfield>
-{
-    using Base = CommonBase<Bitfield>;
-public:
-
-    /// @brief Properties of contained fields.
-    using MembersList = QList<QVariantMap>;
-
-    /// @brief Default constructor
-    Bitfield();
-
-    /// @brief Copy constructor
-    Bitfield(const Bitfield&);
-
-    /// @brief Move constructor
-    Bitfield(Bitfield&&);
-
-    /// @brief Construct from QVariantMap
-    Bitfield(const QVariantMap& props);
-
-    /// @brief Construct from QVariant containing QVariantMap
-    Bitfield(const QVariant& props);
-
-    /// @brief Desctructor
-    ~Bitfield() noexcept;
-
-    /// @brief Copy assignment
-    Bitfield& operator=(const Bitfield&);
-
-    /// @brief Move assignment
-    Bitfield& operator=(Bitfield&&);
-
-    /// @brief Get access to the properties of contained members
-    const MembersList& members() const;
-
-    /// @brief Add properties of the next member
-    Bitfield& add(QVariantMap&& memberProps);
-
-    /// @brief Add properties of the next member
-    Bitfield& add(const QVariantMap& memberProps);
-
-    /// @brief Retrieve all properties as map.
-    QVariantMap asMap() const;
-private:
-    void getFrom(const QVariantMap& props);
-
-    MembersList m_members;
-};
-
-/// @brief Class to contain all the properties relevant to
-///     @b comms::field::Bundle fields.
-/// @headerfile cc_tools_qt/property/field.h
-class CC_API Bundle : public CommonBase<Bundle>
-{
-    using Base = CommonBase<Bundle>;
-public:
-
-    /// @brief Properties of contained fields.
-    using MembersList = QList<QVariantMap>;
-
-    /// @brief Default constructor
-    Bundle();
-
-    /// @brief Copy constructor
-    Bundle(const Bundle&);
-
-    /// @brief Move constructor
-    Bundle(Bundle&&);
-
-    /// @brief Construct from QVariantMap
-    Bundle(const QVariantMap& props);
-
-    /// @brief Construct from QVariant containing QVariantMap
-    Bundle(const QVariant& props);
-
-    ///  @brief Destructor
-    ~Bundle() noexcept;
-
-    /// @brief Copy assignment
-    Bundle& operator=(const Bundle&);
-
-    /// @brief Move assignment
-    Bundle& operator=(Bundle&&);
-
-    /// @brief Get access to the properties of contained members
-    const MembersList& members() const;
-
-    /// @brief Add properties of the next member
-    Bundle& add(QVariantMap&& memberProps);
-
-    /// @brief Add properties of the next member
-    Bundle& add(const QVariantMap& memberProps);
-
-    /// @brief Retrieve all properties as map.
-    QVariantMap asMap() const;
-private:
-    void getFrom(const QVariantMap& props);
-
-    MembersList m_members;
-};
-
-/// @brief Class to contain all the properties relevant to
 ///     @b comms::field::Optional fields.
 /// @headerfile cc_tools_qt/property/field.h
 class CC_API Optional : public CommonBase<Optional>
@@ -407,7 +268,7 @@ struct ForTag;
 template <>
 struct ForTag<comms::field::tag::Int>
 {
-    typedef cc_tools_qt::property::field::IntValue Type;
+    using Type = cc_tools_qt::property::field::Common;
 };
 
 template <>
@@ -425,13 +286,13 @@ struct ForTag<comms::field::tag::Bitmask>
 template <>
 struct ForTag<comms::field::tag::Bitfield>
 {
-    typedef cc_tools_qt::property::field::Bitfield Type;
+    using Type = cc_tools_qt::property::field::Common;
 };
 
 template <>
 struct ForTag<comms::field::tag::Bundle>
 {
-    typedef cc_tools_qt::property::field::Bundle Type;
+    using Type = cc_tools_qt::property::field::Common;
 };
 
 template <>

@@ -35,51 +35,26 @@ namespace message
 namespace
 {
 
-using VariantsFields = demo::message::VariantsFields<>;
 using ProtMsg = demo::cc_plugin::message::Variants::ProtMsg;
-
-QVariantMap createProps_id()
-{
-    auto props = cc::property::field::Common();
-    return props.asMap();
-}
-
-QVariantMap createProps_length()
-{
-    auto props = cc::property::field::Common();
-    return props.asMap();
-}
 
 QVariantMap createProps_field1_var1()
 {
     using Field = ProtMsg::Field_field1::Field_val1;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .add(createProps_id())
-            .add(cc::property::field::IntValue().asMap());
-    assert(props.members().size() == Field::FieldIdx_numOfValues);
+    auto props = cc::property::field::ForField<Field>();
     return props.asMap();
 }
 
 QVariantMap createProps_field1_var2()
 {
     using Field = ProtMsg::Field_field1::Field_val2;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .add(createProps_id())
-            .add(cc::property::field::IntValue().asMap());
-    assert(props.members().size() == Field::FieldIdx_numOfValues);
+    auto props = cc::property::field::ForField<Field>();
     return props.asMap();
 }
 
 QVariantMap createProps_field1_var3()
 {
     using Field = ProtMsg::Field_field1::Field_val3;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .add(createProps_id())
-            .add(cc::property::field::Common().asMap());
-    assert(props.members().size() == Field::FieldIdx_numOfValues);
+    auto props = cc::property::field::ForField<Field>();
     return props.asMap();
 }
 
@@ -99,36 +74,21 @@ QVariantMap createProps_field1()
 QVariantMap createProps_field2_var1()
 {
     using Field = ProtMsg::Field_field2::Field_val1;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .add(createProps_id())
-            .add(createProps_length())
-            .add(cc::property::field::IntValue().asMap());
-    assert(props.members().size() == Field::FieldIdx_numOfValues);
+    auto props = cc::property::field::ForField<Field>();
     return props.asMap();
 }
 
 QVariantMap createProps_field2_var2()
 {
     using Field = ProtMsg::Field_field2::Field_val2;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .add(createProps_id())
-            .add(createProps_length())
-            .add(cc::property::field::IntValue().asMap());
-    assert(props.members().size() == Field::FieldIdx_numOfValues);
+    auto props = cc::property::field::ForField<Field>();
     return props.asMap();
 }
 
 QVariantMap createProps_field2_var3()
 {
     using Field = ProtMsg::Field_field2::Field_val3;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .add(createProps_id())
-            .add(createProps_length())
-            .add(cc::property::field::Common().asMap());
-    assert(props.members().size() == Field::FieldIdx_numOfValues);
+    auto props = cc::property::field::ForField<Field>();
     return props.asMap();
 }
 

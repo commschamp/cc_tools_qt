@@ -37,56 +37,17 @@ namespace
 
 using ProtMsg = demo::cc_plugin::message::Bundles::ProtMsg;
 
-QVariantMap createProps_field1_mem1()
-{
-    using Field = ProtMsg::Field_field1::Field_length;
-    auto props =
-        cc::property::field::ForField<Field>();
-    return props.asMap();
-}
-
-QVariantMap createProps_field1_mem2()
-{
-    using Field = ProtMsg::Field_field1::Field_str;
-    auto props =
-        cc::property::field::ForField<Field>();
-    return props.asMap();
-}
-
 QVariantMap createProps_field1()
 {
     using Field = ProtMsg::Field_field1;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .add(createProps_field1_mem1())
-            .add(createProps_field1_mem2());
-    assert(props.members().size() == Field::FieldIdx_numOfValues);
-    return props.asMap();
-}
-
-QVariantMap createProps_field2_mem1()
-{
-    using Field = ProtMsg::Field_field2::Field_length;
     auto props = cc::property::field::ForField<Field>();
-    return props.asMap();
-}
-
-QVariantMap createProps_field2_mem2()
-{
-    using Field = ProtMsg::Field_field2::Field_data;
-    auto props =
-        cc::property::field::ForField<Field>();
     return props.asMap();
 }
 
 QVariantMap createProps_field2()
 {
     using Field = ProtMsg::Field_field2;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .add(createProps_field2_mem1())
-            .add(createProps_field2_mem2());
-    assert(props.members().size() == Field::FieldIdx_numOfValues);
+    auto props = cc::property::field::ForField<Field>();
     return props.asMap();
 }
 

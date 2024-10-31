@@ -37,45 +37,10 @@ namespace
 
 using ProtMsg = demo::cc_plugin::message::Bitfields::ProtMsg;
 
-QVariantMap createField1BitmaskProperties()
-{
-    using Field = ProtMsg::Field_field1::Field_member1;
-    auto props = cc::property::field::ForField<Field>();
-    return props.asMap();
-}
-
-QVariantMap createField1EnumProperties()
-{
-    using Field = ProtMsg::Field_field1::Field_member2;
-    auto props = cc::property::field::ForField<Field>();
-    return props.asMap();
-}
-
-QVariantMap createField1Int1Properties()
-{
-    using Field = ProtMsg::Field_field1::Field_member3;
-    auto props = cc::property::field::ForField<Field>();
-    return props.asMap();
-}
-
-QVariantMap createField1Int2Properties()
-{
-    using Field = ProtMsg::Field_field1::Field_member4;
-    auto props = cc::property::field::ForField<Field>();
-    return props.asMap();
-}
-
 QVariantMap createField1Properties()
 {
     using Field = ProtMsg::Field_field1;
-    auto props = 
-        cc::property::field::ForField<Field>()
-            .add(createField1BitmaskProperties())
-            .add(createField1EnumProperties())
-            .add(createField1Int1Properties())
-            .add(createField1Int2Properties());
-
-    assert(props.members().size() == Field::FieldIdx_numOfValues);
+    auto props = cc::property::field::ForField<Field>();
     return props.asMap();
 }
 
