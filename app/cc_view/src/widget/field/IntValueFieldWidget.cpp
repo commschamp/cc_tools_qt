@@ -79,7 +79,7 @@ IntValueFieldWidget::IntValueFieldWidget(FieldPtr fieldPtr, QWidget* parentObj)
 
     connect(
         m_childWidget.get(), SIGNAL(sigFieldUpdated()),
-        this, SIGNAL(sigFieldUpdated()));    
+        this, SIGNAL(sigFieldUpdated()));   
 }
 
 IntValueFieldWidget::~IntValueFieldWidget() noexcept
@@ -89,8 +89,8 @@ IntValueFieldWidget::~IntValueFieldWidget() noexcept
 
 ToolsField& IntValueFieldWidget::fieldImpl()
 {
-    assert(m_fieldPtr);
-    return *m_fieldPtr;
+    assert(m_childWidget != nullptr);
+    return m_childWidget->field();
 }
 
 void IntValueFieldWidget::refreshImpl()
@@ -105,6 +105,13 @@ void IntValueFieldWidget::editEnabledUpdatedImpl()
 {
     if (m_childWidget) {
         m_childWidget->setEditEnabled(isEditEnabled());
+    }
+}
+
+void IntValueFieldWidget::nameSuffixUpdatedImpl()
+{
+    if (m_childWidget) {
+        m_childWidget->setNameSuffix(getNameSuffix());
     }
 }
 

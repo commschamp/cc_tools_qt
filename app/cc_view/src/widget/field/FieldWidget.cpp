@@ -55,6 +55,13 @@ FieldWidget::FieldWidget(QWidget* parentObj)
 {
 }
 
+void FieldWidget::setNameSuffix(const QString& value)
+{
+    m_nameSuffix = value;
+    performNameLabelUpdate();
+    nameSuffixUpdatedImpl();
+}
+
 void FieldWidget::refresh()
 {
     refreshImpl();
@@ -165,6 +172,10 @@ void FieldWidget::updatePropertiesImpl([[maybe_unused]] const QVariantMap& props
 {
 }
 
+void FieldWidget::nameSuffixUpdatedImpl()
+{
+}
+
 void FieldWidget::performNameLabelUpdate()
 {
     if (m_nameLabel == nullptr) {
@@ -172,6 +183,7 @@ void FieldWidget::performNameLabelUpdate()
     }
 
     auto& f = fieldImpl();
+
     QString str = f.name();
     if (str.isEmpty()) {
         m_nameLabel->hide();

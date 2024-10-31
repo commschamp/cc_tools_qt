@@ -95,17 +95,6 @@ void BitfieldFieldWidget::editEnabledUpdatedImpl()
     }
 }
 
-void BitfieldFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::Bitfield bitfieldProps(props);
-    auto& membersProps = bitfieldProps.members();
-    auto count = std::min(static_cast<std::size_t>(membersProps.size()), m_members.size());
-    for (auto idx = 0U; idx < count; ++idx) {
-        auto* memberFieldWidget = m_members[idx];
-        assert(memberFieldWidget != nullptr);
-        memberFieldWidget->updateProperties(membersProps[static_cast<int>(idx)]);
-    }
-}
 
 void BitfieldFieldWidget::serialisedValueUpdated(const QString& value)
 {

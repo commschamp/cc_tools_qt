@@ -110,8 +110,7 @@ private:
     static QVariantList createFieldsProperties()
     {
         QVariantList props;
-        props.append(
-            property::field::ArrayList().asMap());
+        props.append(property::field::Common().asMap());
         return props;
     }
 };

@@ -280,81 +280,6 @@ private:
 };
 
 /// @brief Class to contain all the properties relevant to
-///     @b comms::field::ArrayList fields.
-/// @headerfile cc_tools_qt/property/field.h
-class CC_API ArrayList : public CommonBase<ArrayList>
-{
-    typedef CommonBase<ArrayList> Base;
-public:
-    /// @brief List of data elements' properties.
-    using ElemsList = QList<QVariantMap>;
-
-    /// @brief Default constructor
-    ArrayList();
-
-    /// @brief Copy constructor
-    ArrayList(const ArrayList&);
-
-    /// @brief Move constructor
-    ArrayList(ArrayList&&);
-
-    /// @brief Construct from QVariantMap
-    ArrayList(const QVariantMap& props);
-
-    /// @brief Construct from QVariant containing QVariantMap
-    ArrayList(const QVariant& props);
-
-    /// @brief Destructor
-    ~ArrayList() noexcept;
-
-    /// @brief Copy assignment
-    ArrayList& operator=(const ArrayList&);
-
-    /// @brief Move assignment
-    ArrayList& operator=(ArrayList&&);
-
-    /// @brief Get access to the properties of elements.
-    const ElemsList& elements() const;
-
-    /// @brief Add properties of the next element.
-    ArrayList& add(QVariantMap&& elemProps);
-
-    /// @brief Add properties of the next element.
-    ArrayList& add(const QVariantMap& elemProps);
-
-    /// @brief Check whether the size/length prefix field should be displayed
-    ///     separately.
-    bool isPrefixVisible() const;
-
-    /// @brief Set whether the size/length prefix field should be displayed
-    ///     separately.
-    ArrayList& showPrefix(bool value = true);
-
-    /// @brief Get name of the size/length prefix displayed separately.
-    const QString& prefixName() const;
-
-    /// @brief Set name of the size/length prefix displayed separately.
-    ArrayList& prefixName(const QString& nameParam);
-
-    /// @brief Check whether index info needs to be appended to element name.
-    bool isIndexAppendedToElementName() const;
-
-    /// @brief Set whether index infor needs to be appended to element name.
-    ArrayList& appendIndexToElementName(bool value = true);
-
-    /// @brief Retrieve all properties as map.
-    QVariantMap asMap() const;
-
-private:
-    void getFrom(const QVariantMap& props);
-
-    ElemsList m_elems;
-    QString m_prefixName;
-    bool m_showPrefix = false;
-    bool m_appendIndexToElementName = false;
-};
-
-/// @brief Class to contain all the properties relevant to
 ///     @b comms::field::Optional fields.
 /// @headerfile cc_tools_qt/property/field.h
 class CC_API Optional : public CommonBase<Optional>
@@ -518,13 +443,13 @@ struct ForTag<comms::field::tag::String>
 template <>
 struct ForTag<comms::field::tag::RawArrayList>
 {
-    typedef cc_tools_qt::property::field::ArrayList Type;
+    using Type = cc_tools_qt::property::field::Common;
 };
 
 template <>
 struct ForTag<comms::field::tag::ArrayList>
 {
-    typedef cc_tools_qt::property::field::ArrayList Type;
+    using Type = cc_tools_qt::property::field::Common;
 };
 
 template <>

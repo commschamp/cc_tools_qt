@@ -18,6 +18,7 @@
 
 #pragma once
 
+#include "cc_tools_qt/Message.h"
 #include "cc_tools_qt/ToolsMessageBase.h"
 
 #include "comms/MessageBase.h"
@@ -42,9 +43,18 @@ class ToolsTransportMessageBase : public
     cc_tools_qt::ToolsMessageBase<
         TBase,
         TProtMsg,
-        TActualMsg>
+        TActualMsg
+    >
 {
+    using Base = 
+        cc_tools_qt::ToolsMessageBase<
+            TBase,
+            TProtMsg,
+            TActualMsg
+        >;    
 public:
+    using FieldsList = typename Base::FieldsList;
+
     /// @brief Destructor
     virtual ~ToolsTransportMessageBase() noexcept = default;
 
@@ -76,6 +86,11 @@ protected:
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
         assert(Must_not_be_called); 
         return false;
+    }
+
+    virtual FieldsList transportFieldsImpl() override
+    {
+        return FieldsList();
     }
 };
 

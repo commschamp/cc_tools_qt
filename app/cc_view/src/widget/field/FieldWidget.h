@@ -44,14 +44,16 @@ public:
     FieldWidget(QWidget* parentObj = nullptr);
     ~FieldWidget() noexcept = default;
 
-    void setNameSuffix(const QString& value)
-    {
-        m_nameSuffix = value;
-    }
+    void setNameSuffix(const QString& value);
 
     const QString& getNameSuffix() const
     {
         return m_nameSuffix;
+    }
+
+    ToolsField& field()
+    {
+        return fieldImpl();
     }
 
 public slots:
@@ -125,6 +127,7 @@ protected:
     virtual void refreshImpl() = 0;
     virtual void editEnabledUpdatedImpl();
     virtual void updatePropertiesImpl(const QVariantMap& props);
+    virtual void nameSuffixUpdatedImpl();
 
 private:
     void performNameLabelUpdate();

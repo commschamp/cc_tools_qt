@@ -88,7 +88,6 @@ protected:
     virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private slots:
     void dataFieldUpdated();
@@ -106,8 +105,6 @@ private:
     FieldPtr m_fieldPtr;
     std::vector<ArrayListElementWidget*> m_elements;
     CreateMissingDataFieldsFunc m_createMissingDataFieldsCallback;
-    std::vector<QVariantMap> m_elemProperties;
-    bool m_appendIndexToElementName = false;
 };
 
 }  // namespace cc_tools_qt

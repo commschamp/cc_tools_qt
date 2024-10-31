@@ -88,18 +88,6 @@ void BundleFieldWidget::editEnabledUpdatedImpl()
     }
 }
 
-void BundleFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::Bundle bundleProps(props);
-    auto& membersProps = bundleProps.members();
-    auto count = std::min(static_cast<std::size_t>(membersProps.size()), m_members.size());
-    for (auto idx = 0U; idx < count; ++idx) {
-        auto* memberFieldWidget = m_members[idx];
-        assert(memberFieldWidget != nullptr);
-        memberFieldWidget->updateProperties(membersProps[static_cast<int>(idx)]);
-    }
-}
-
 void BundleFieldWidget::memberFieldUpdated()
 {
     auto senderIter = std::find(m_members.begin(), m_members.end(), qobject_cast<FieldWidget*>(sender()));

@@ -42,6 +42,7 @@ protected:
     virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
+    virtual void nameSuffixUpdatedImpl() override;
 
 private:
     using WrapperType = FieldPtr::element_type;

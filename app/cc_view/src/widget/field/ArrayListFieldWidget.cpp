@@ -145,32 +145,6 @@ void ArrayListFieldWidget::editEnabledUpdatedImpl()
     updateUi();
 }
 
-void ArrayListFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::ArrayList arrayListProps(props);
-    m_appendIndexToElementName = arrayListProps.isIndexAppendedToElementName();
-    auto& elementsProps = arrayListProps.elements();
-
-    m_elemProperties.clear();
-    m_elemProperties.reserve(static_cast<std::size_t>(elementsProps.size()));
-    m_elemProperties.assign(elementsProps.begin(), elementsProps.end());
-
-    if (m_elemProperties.empty()) {
-        return;
-    }
-
-    std::size_t idx = 0;
-    for (std::size_t elemIdx = 0U; elemIdx < m_elements.size(); ++elemIdx) {
-        auto* elem = m_elements[elemIdx];
-        if (m_appendIndexToElementName) {
-            elem->setNameSuffix(QString(" %1").arg(elemIdx));
-        }
-
-        elem->updateProperties(m_elemProperties[idx]);
-        idx = ((idx + 1) % m_elemProperties.size());
-    }
-}
-
 void ArrayListFieldWidget::dataFieldUpdated()
 {
     if (!m_fieldPtr->canWrite()) {
@@ -229,20 +203,10 @@ void ArrayListFieldWidget::removeField()
 
 void ArrayListFieldWidget::addDataField(FieldWidget* dataFieldWidget)
 {
-    if (m_appendIndexToElementName) {
-        dataFieldWidget->setNameSuffix(QString(" %1").arg(m_elements.size()));
-    }
-
+    dataFieldWidget->setNameSuffix(QString(" %1").arg(m_elements.size()));
     auto* fieldPtrWidget = new ArrayListElementWidget(dataFieldWidget);
     fieldPtrWidget->setEditEnabled(isEditEnabled());
     fieldPtrWidget->setDeletable(!m_fieldPtr->hasFixedSize());
-
-    if (!m_elemProperties.empty()) {
-        auto elemPropsIdx = m_elements.size() % m_elemProperties.size();
-        assert(elemPropsIdx < m_elemProperties.size());
-        auto& elemProps = m_elemProperties[elemPropsIdx];
-        fieldPtrWidget->updateProperties(elemProps);
-    }
 
     connect(
         fieldPtrWidget, SIGNAL(sigFieldUpdated()),

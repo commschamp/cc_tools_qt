@@ -47,25 +47,6 @@ const QString& indexHiddenKey()
     return Str;
 }
 
-const QString& showPrefixKey()
-{
-    static const QString Str("cc.show_prefix");
-    return Str;
-}
-
-const QString& prefixNameKey()
-{
-    static const QString Str("cc.prefix_name");
-    return Str;
-}
-
-const QString& appendIdxKey()
-{
-    static const QString Str("cc.append_idx");
-    return Str;
-}
-
-
 }  // namespace
 
 Common::Common() = default;
@@ -225,97 +206,6 @@ QVariantMap Bundle::asMap() const
 void Bundle::getFrom(const QVariantMap& props)
 {
     m_members = getElemFrom<MembersList>(props, dataKey());
-}
-
-ArrayList::ArrayList() = default;
-ArrayList::ArrayList(const ArrayList&) = default;
-ArrayList::ArrayList(ArrayList&&) = default;
-ArrayList::ArrayList(const QVariantMap& props)
-  : Base(props)
-{
-    getFrom(props);
-}
-
-ArrayList::ArrayList(const QVariant& props)
-  : Base(props)
-{
-    if (props.isValid() && props.canConvert<QVariantMap>()) {
-        getFrom(props.value<QVariantMap>());
-    }
-}
-
-ArrayList::~ArrayList() noexcept = default;
-
-ArrayList& ArrayList::operator=(const ArrayList&) = default;
-ArrayList& ArrayList::operator=(ArrayList&&) = default;
-
-const ArrayList::ElemsList& ArrayList::elements() const
-{
-    return m_elems;
-}
-
-ArrayList& ArrayList::add(QVariantMap&& elemProps)
-{
-    m_elems.append(std::move(elemProps));
-    return *this;
-}
-
-ArrayList& ArrayList::add(const QVariantMap& elemProps)
-{
-    m_elems.append(elemProps);
-    return *this;
-}
-
-bool ArrayList::isPrefixVisible() const
-{
-    return m_showPrefix;
-}
-
-ArrayList& ArrayList::showPrefix(bool value)
-{
-    m_showPrefix = value;
-    return *this;
-}
-
-const QString& ArrayList::prefixName() const
-{
-    return m_prefixName;
-}
-
-ArrayList& ArrayList::prefixName(const QString& nameParam)
-{
-    m_prefixName = nameParam;
-    return *this;
-}
-
-bool ArrayList::isIndexAppendedToElementName() const
-{
-    return m_appendIndexToElementName;
-}
-
-ArrayList& ArrayList::appendIndexToElementName(bool value)
-{
-    m_appendIndexToElementName = value;
-    return *this;
-}
-
-QVariantMap ArrayList::asMap() const
-{
-    QVariantMap props;
-    Base::setTo(props);
-    Base::setElemTo(m_elems, dataKey(), props);
-    Base::setElemTo(m_prefixName, prefixNameKey(), props);
-    Base::setElemTo(m_showPrefix, showPrefixKey(), props);
-    Base::setElemTo(m_appendIndexToElementName, appendIdxKey(), props);
-    return props;
-}
-
-void ArrayList::getFrom(const QVariantMap& props)
-{
-    m_elems = getElemFrom<ElemsList>(props, dataKey());
-    m_prefixName = getElemFrom<QString>(props, prefixNameKey());
-    m_showPrefix = getElemFrom<bool>(props, showPrefixKey());
-    m_appendIndexToElementName = getElemFrom<bool>(props, appendIdxKey());
 }
 
 Optional::Optional() = default;
