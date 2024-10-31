@@ -127,14 +127,12 @@ protected:
     virtual void updatePropertiesImpl(const QVariantMap& props);
 
 private:
-    void performUiElementsVisibilityCheck(const property::field::Common& props);
-    void performUiReadOnlyCheck(const property::field::Common& props);
     void performNameLabelUpdate();
     void performSerVisibilityUpdate();
+    void performReadOnlyUpdate();
     
     bool m_forcedReadOnly = false;
     bool m_editEnabled = true;
-    bool m_hiddenWhenReadOnly = false;
     QLabel* m_nameLabel = nullptr;
     QWidget* m_valueWidget = nullptr;
     QWidget* m_sepWidget = nullptr;

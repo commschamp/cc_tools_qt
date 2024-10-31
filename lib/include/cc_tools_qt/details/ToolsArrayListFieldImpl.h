@@ -48,7 +48,6 @@ public:
     using SerialisedSeq = typename Base::SerialisedSeq;
     using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
-    using PrefixFieldInfo = typename Base::PrefixFieldInfo;
     using Members = typename Base::Members;
 
     using WrapFieldCallbackFunc = std::function<ToolsFieldPtr (ElementType&)>;
@@ -161,22 +160,6 @@ protected:
         refreshMembersInternal(Tag());
     }
 
-    virtual PrefixFieldInfo getPrefixFieldInfoImpl() const override
-    {
-        using Tag =
-            std::conditional_t<
-                Field::hasSizeFieldPrefix(),
-                ElemCountFieldTag,
-                std::conditional_t<
-                    Field::hasSerLengthFieldPrefix(),
-                    SerLengthFieldTag,
-                    NoPrefixFieldTag
-                >
-            >;
-
-        return getPrefixFieldInfoInternal(Tag());
-    }
-
     virtual void membersUpdatedImpl() override
     {
         if (isHiddenSerializationImpl()) {
@@ -191,80 +174,11 @@ protected:
     }
 
 private:
-    struct NoPrefixFieldTag {};
-    struct ElemCountFieldTag {};
-    struct SerLengthFieldTag {};
-    struct SerLengthFieldFixedTag {};
-    struct SerLengthFieldVarTag {};
     struct HasFixedSizeTag {};
     struct HasVarSizeTag {};
     struct HasFeatureTag {};
     struct NoFeatureTag {};     
 
-    PrefixFieldInfo getPrefixFieldInfoInternal(NoPrefixFieldTag) const
-    {
-        return std::make_pair(0, SerialisedSeq());
-    }
-
-    PrefixFieldInfo getPrefixFieldInfoInternal(ElemCountFieldTag) const
-    {
-        using SizeField = typename Field::SizeFieldPrefix;
-        SizeField sizeField;
-        sizeField.setValue(Base::field().value().size());
-        return std::make_pair(static_cast<int>(sizeField.getValue()), getPrefixFieldSerialised(sizeField));
-    }
-
-    PrefixFieldInfo getPrefixFieldInfoInternal(SerLengthFieldTag) const
-    {
-        using LengthField = typename Field::SerLengthFieldPrefix;
-        using Tag =
-            std::conditional_t<
-                LengthField::hasVarLength(),
-                SerLengthFieldVarTag,
-                SerLengthFieldFixedTag
-            >;
-
-        return getPrefixFieldInfoInternal(Tag());
-    }
-
-    PrefixFieldInfo getPrefixFieldInfoInternal(SerLengthFieldFixedTag) const
-    {
-        using LengthField = typename Field::SerLengthFieldPrefix;
-        LengthField lenField;
-        lenField.setValue(Base::field().length() - LengthField::maxLength());
-        return std::make_pair(static_cast<int>(lenField.getValue()), getPrefixFieldSerialised(lenField));
-    }
-
-    PrefixFieldInfo getPrefixFieldInfoInternal(SerLengthFieldVarTag) const
-    {
-        using LengthField = typename Field::SerLengthFieldPrefix;
-
-        auto fullLen = Base::field().length();
-        LengthField lenFieldTmp;
-        lenFieldTmp.setValue(fullLen);
-        auto tmpLen = lenFieldTmp.length();
-        LengthField lenField;
-        lenField.setValue(fullLen - tmpLen);
-        if (lenField.length() == tmpLen) {
-            assert(static_cast<int>(lenField.getValue()) <= std::numeric_limits<int>::max());
-            return std::make_pair(static_cast<int>(lenField.getValue()), getPrefixFieldSerialised(lenField));
-        }
-
-        lenField.setValue(fullLen - lenField.length());
-        assert(static_cast<int>(lenField.getValue()) <= std::numeric_limits<int>::max());
-        return std::make_pair(static_cast<int>(lenField.getValue()), getPrefixFieldSerialised(lenField));
-    }
-
-    template <typename TPrefixField>
-    SerialisedSeq getPrefixFieldSerialised(const TPrefixField& prefixField) const
-    {
-        SerialisedSeq serData;
-        serData.reserve(prefixField.length());
-        auto writeIter = std::back_inserter(serData);
-        [[maybe_unused]] auto es = prefixField.write(writeIter, serData.max_size());
-        assert(es == comms::ErrorStatus::Success);
-        return serData;
-    }
 
     void adjustFixedSizeInternal(HasVarSizeTag)
     {

@@ -226,7 +226,6 @@ DefaultMessageDisplayHandler::MsgWidgetPtr DefaultMessageDisplayHandler::getMsgW
         WidgetCreator creator;
         f->dispatch(creator);
         auto fieldWidget = creator.getWidget();
-        fieldWidget->hide();
         widget->addExtraTransportFieldWidget(fieldWidget.release());        
     }
 
@@ -235,7 +234,6 @@ DefaultMessageDisplayHandler::MsgWidgetPtr DefaultMessageDisplayHandler::getMsgW
         WidgetCreator creator;
         f->dispatch(creator);
         auto fieldWidget = creator.getWidget();
-        fieldWidget->hide();
         widget->addFieldWidget(fieldWidget.release());        
     }
 

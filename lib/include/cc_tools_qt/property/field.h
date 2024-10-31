@@ -66,24 +66,6 @@ public:
     /// @brief Move assignment operator
     Common& operator=(Common&&);
 
-    /// @brief Check the field is hidden
-    bool isHidden() const;
-
-    /// @brief Set whether the field is hidden
-    Common& hidden(bool value = true);
-
-    /// @brief Check whether the field cannot be modified.
-    bool isReadOnly() const;
-
-    /// @brief Set whether the field cannot be modified
-    Common& readOnly(bool value = true);
-
-    /// @brief Check the field is hidden when readOnly
-    bool isHiddenWhenReadOnly() const;
-
-    /// @brief Set whether the field must be hidden when cannot be modified
-    Common& hiddenWhenReadOnly(bool value = true);
-
     /// @brief Copy all the properties value into provided properties map
     void setTo(QVariantMap& props) const;
 
@@ -123,11 +105,6 @@ protected:
         return var.value<TValueType>();
     }
 
-private:
-    QString m_name;
-    bool m_hidden = false;
-    bool m_readOnly = false;
-    bool m_hiddenWhenReadOnly = false;
 };
 
 /// @brief Intermediate helper class to define properties describing one
@@ -161,27 +138,6 @@ public:
 
     /// @brief Move assignment
     CommonBase& operator=(CommonBase&&) = default;
-
-    /// @brief Set whether the field is hidden
-    /// @return reference to derived class
-    TDerived& hidden(bool value = true)
-    {
-        return static_cast<TDerived&>(Base::hidden(value));
-    }
-
-    /// @brief Set whether the field cannot be modified
-    /// @return reference to derived class
-    TDerived& readOnly(bool value = true)
-    {
-        return static_cast<TDerived&>(Base::readOnly(value));
-    }
-
-    /// @brief Set whether the field must be hidden when cannot be modified
-    /// @return reference to derived class
-    TDerived& hiddenWhenReadOnly(bool value = true)
-    {
-        return static_cast<TDerived&>(Base::hiddenWhenReadOnly(value));
-    }
 };
 
 /// @brief Class to contain all the properties relevant to

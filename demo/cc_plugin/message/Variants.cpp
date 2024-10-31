@@ -40,17 +40,13 @@ using ProtMsg = demo::cc_plugin::message::Variants::ProtMsg;
 
 QVariantMap createProps_id()
 {
-    auto props =
-        cc::property::field::Common()
-            .readOnly();
+    auto props = cc::property::field::Common();
     return props.asMap();
 }
 
 QVariantMap createProps_length()
 {
-    auto props =
-        cc::property::field::Common()
-            .readOnly();
+    auto props = cc::property::field::Common();
     return props.asMap();
 }
 

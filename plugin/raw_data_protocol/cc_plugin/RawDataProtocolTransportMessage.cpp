@@ -49,7 +49,7 @@ using DataField = raw_data_protocol::DataField<>;
 QVariantList createFieldsProperties()
 {
     QVariantList props;
-    props.append(cc::property::field::ForField<IdField>().hidden().asMap());
+    props.append(cc::property::field::ForField<IdField>().asMap());
     props.append(cc::property::field::ForField<DataField>().asMap());
     return props;
 }

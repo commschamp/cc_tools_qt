@@ -59,11 +59,6 @@ void ToolsArrayListField::refreshMembers()
     refreshMembersImpl();
 }
 
-ToolsArrayListField::PrefixFieldInfo ToolsArrayListField::getPrefixFieldInfo() const
-{
-    return getPrefixFieldInfoImpl();
-}
-
 ToolsArrayListField::ActPtr ToolsArrayListField::actClone()
 {
     return ActPtr(static_cast<ToolsArrayListField*>(clone().release()));

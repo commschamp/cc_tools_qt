@@ -35,24 +35,6 @@ const QString& dataKey()
     return Str;
 }
 
-const QString& fieldHiddenKey()
-{
-    static const QString Str("cc.field_hidden");
-    return Str;
-}
-
-const QString& readOnlyKey()
-{
-    static const QString Str("cc.read_only");
-    return Str;
-}
-
-const QString& hiddenWhenReadOnlyKey()
-{
-    static const QString Str("cc.hidden_when_read_only");
-    return Str;
-}
-
 const QString& uncheckableKey()
 {
     static const QString Str("cc.uncheckable");
@@ -107,51 +89,12 @@ Common::~Common() noexcept = default;
 Common& Common::operator=(const Common&) = default;
 Common& Common::operator=(Common&&) = default;
 
-bool Common::isHidden() const
+void Common::setTo([[maybe_unused]] QVariantMap& props) const
 {
-    return m_hidden;
 }
 
-Common& Common::hidden(bool value)
+void Common::getFrom([[maybe_unused]] const QVariantMap& props)
 {
-    m_hidden = value;
-    return *this;
-}
-
-bool Common::isReadOnly() const
-{
-    return m_readOnly;
-}
-
-Common& Common::readOnly(bool value)
-{
-    m_readOnly = value;
-    return *this;
-}
-
-bool Common::isHiddenWhenReadOnly() const
-{
-    return m_hiddenWhenReadOnly;
-}
-
-Common& Common::hiddenWhenReadOnly(bool value)
-{
-    m_hiddenWhenReadOnly = value;
-    return *this;
-}
-
-void Common::setTo(QVariantMap& props) const
-{
-    setElemTo(m_hidden, fieldHiddenKey(), props);
-    setElemTo(m_readOnly, readOnlyKey(), props);
-    setElemTo(m_hiddenWhenReadOnly, hiddenWhenReadOnlyKey(), props);
-}
-
-void Common::getFrom(const QVariantMap& props)
-{
-    m_hidden = getElemFrom<decltype(m_hidden)>(props, fieldHiddenKey());
-    m_readOnly = getElemFrom<decltype(m_readOnly)>(props, readOnlyKey());
-    m_hiddenWhenReadOnly = getElemFrom<decltype(m_hiddenWhenReadOnly)>(props, hiddenWhenReadOnlyKey());
 }
 
 QVariantMap Common::asMap() const

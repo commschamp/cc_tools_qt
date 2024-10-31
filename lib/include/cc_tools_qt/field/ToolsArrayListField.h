@@ -54,10 +54,6 @@ public:
 
     void refreshMembers();
 
-    using PrefixFieldInfo = std::pair<int, SerialisedSeq>;
-
-    PrefixFieldInfo getPrefixFieldInfo() const;
-
     ActPtr actClone();
 
 protected:
@@ -67,7 +63,6 @@ protected:
     virtual bool hasFixedSizeImpl() const = 0;
     virtual void adjustFixedSizeImpl() = 0;
     virtual void refreshMembersImpl() = 0;
-    virtual PrefixFieldInfo getPrefixFieldInfoImpl() const = 0;
 
     void dispatchImpl(ToolsFieldHandler& handler);
 };

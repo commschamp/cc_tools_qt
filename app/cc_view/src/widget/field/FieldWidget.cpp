@@ -63,19 +63,13 @@ void FieldWidget::refresh()
 void FieldWidget::setEditEnabled(bool enabled)
 {
     m_editEnabled = enabled;
-    if ((!m_editEnabled) && (m_hiddenWhenReadOnly) && (!isHidden())) {
-        setHidden(true);
-    }
     editEnabledUpdatedImpl();
 }
 
 void FieldWidget::updateProperties(const QVariantMap& props)
 {
     property::field::Common commonProps(props);
-    m_hiddenWhenReadOnly = commonProps.isHiddenWhenReadOnly();
     updatePropertiesImpl(props);
-    performUiElementsVisibilityCheck(commonProps);
-    performUiReadOnlyCheck(commonProps);
 }
 
 void FieldWidget::emitFieldUpdated()
@@ -160,6 +154,7 @@ void FieldWidget::commonConstruct()
 {
     performNameLabelUpdate();
     performSerVisibilityUpdate();
+    performReadOnlyUpdate();
 }
 
 void FieldWidget::editEnabledUpdatedImpl()
@@ -168,32 +163,6 @@ void FieldWidget::editEnabledUpdatedImpl()
 
 void FieldWidget::updatePropertiesImpl([[maybe_unused]] const QVariantMap& props)
 {
-}
-
-void FieldWidget::performUiElementsVisibilityCheck(const property::field::Common& props)
-{
-    auto allHidden =
-        (props.isHidden()) ||
-        (props.isReadOnly() && props.isHiddenWhenReadOnly());
-    setHidden(allHidden);
-    if (allHidden) {
-        return;
-    }
-
-    if ((m_valueWidget == nullptr) &&
-        (m_sepWidget == nullptr) &&
-        (m_serValueWidget == nullptr)) {
-        return;
-    }
-}
-
-void FieldWidget::performUiReadOnlyCheck(const property::field::Common& props)
-{
-    auto readOnly = props.isReadOnly();
-    if (m_forcedReadOnly != readOnly) {
-        m_forcedReadOnly = readOnly;
-        editEnabledUpdatedImpl();
-    }
 }
 
 void FieldWidget::performNameLabelUpdate()
@@ -232,6 +201,15 @@ void FieldWidget::performSerVisibilityUpdate()
     bool serHidden = f.isHiddenSerialization();
     setWidgetHiddenFunc(m_sepWidget, serHidden);
     setWidgetHiddenFunc(m_serValueWidget, serHidden);    
+}
+
+void FieldWidget::performReadOnlyUpdate()
+{
+    auto readOnly = fieldImpl().isReadOnly();
+    if (m_forcedReadOnly != readOnly) {
+        m_forcedReadOnly = readOnly;
+        editEnabledUpdatedImpl();
+    }
 }
 
 }  // namespace cc_tools_qt
