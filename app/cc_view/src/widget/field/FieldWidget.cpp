@@ -73,12 +73,6 @@ void FieldWidget::setEditEnabled(bool enabled)
     editEnabledUpdatedImpl();
 }
 
-void FieldWidget::updateProperties(const QVariantMap& props)
-{
-    property::field::Common commonProps(props);
-    updatePropertiesImpl(props);
-}
-
 void FieldWidget::emitFieldUpdated()
 {
     emit sigFieldUpdated();
@@ -165,10 +159,6 @@ void FieldWidget::commonConstruct()
 }
 
 void FieldWidget::editEnabledUpdatedImpl()
-{
-}
-
-void FieldWidget::updatePropertiesImpl([[maybe_unused]] const QVariantMap& props)
 {
 }
 

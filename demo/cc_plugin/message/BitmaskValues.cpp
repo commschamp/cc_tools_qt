@@ -17,8 +17,6 @@
 
 #include "BitmaskValues.h"
 
-#include "cc_tools_qt/property/field.h"
-
 #include <cassert>
 
 namespace cc = cc_tools_qt;
@@ -32,37 +30,11 @@ namespace cc_plugin
 namespace message
 {
 
-namespace
-{
-
-using ProtMsg = demo::cc_plugin::message::BitmaskValues::ProtMsg;
-
-QVariantList createFieldsProperties()
-{
-    using Field1 = ProtMsg::Field_field1;
-    QVariantList props;
-    props.append(cc::property::field::ForField<Field1>().asMap());
-
-    using Field2 = ProtMsg::Field_field2;
-    props.append(cc::property::field::ForField<Field2>().asMap());
-
-    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
-    return props;
-}
-
-}  // namespace
-
 BitmaskValues::BitmaskValues() = default;
 BitmaskValues::~BitmaskValues() noexcept = default;
 
 BitmaskValues& BitmaskValues::operator=(const BitmaskValues&) = default;
 BitmaskValues& BitmaskValues::operator=(BitmaskValues&&) = default;
-
-const QVariantList& BitmaskValues::fieldsPropertiesImpl() const
-{
-    static const auto Props = createFieldsProperties();
-    return Props;
-}
 
 }  // namespace message
 

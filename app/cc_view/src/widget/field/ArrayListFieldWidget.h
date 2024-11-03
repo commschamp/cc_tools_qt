@@ -45,7 +45,6 @@ public:
     void refresh();
     void setEditEnabled(bool enabled);
     void setDeletable(bool deletable);
-    void updateProperties(const QVariantMap& props);
     void setNameSuffix(const QString& value);
 
 signals:

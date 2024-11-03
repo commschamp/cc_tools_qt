@@ -22,8 +22,6 @@
 
 #include <QtWidgets/QVBoxLayout>
 
-#include "cc_tools_qt/property/field.h"
-
 #include "ShortIntValueFieldWidget.h"
 #include "LongIntValueFieldWidget.h"
 #include "LongLongIntValueFieldWidget.h"

@@ -17,8 +17,6 @@
 
 #include "IntValues.h"
 
-#include "cc_tools_qt/property/field.h"
-
 #include <cassert>
 
 namespace cc = cc_tools_qt;
@@ -32,39 +30,11 @@ namespace cc_plugin
 namespace message
 {
 
-namespace
-{
-
-using ProtMsg = demo::cc_plugin::message::IntValues::ProtMsg;
-
-QVariantList createFieldsProperties()
-{
-    QVariantList props;
-    props.append(cc::property::field::ForField<ProtMsg::Field_field1>().asMap());
-    props.append(cc::property::field::ForField<ProtMsg::Field_field2>().asMap());
-    props.append(cc::property::field::ForField<ProtMsg::Field_field3>().asMap());
-    props.append(cc::property::field::ForField<ProtMsg::Field_field4>().asMap());
-    props.append(cc::property::field::ForField<ProtMsg::Field_field5>().asMap());
-    props.append(cc::property::field::ForField<ProtMsg::Field_field6>().asMap());
-
-    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
-    return props;
-}
-
-}  // namespace
-
-
 IntValues::IntValues() = default;
 IntValues::~IntValues() noexcept = default;
 
 IntValues& IntValues::operator=(const IntValues&) = default;
 IntValues& IntValues::operator=(IntValues&&) = default;
-
-const QVariantList& IntValues::fieldsPropertiesImpl() const
-{
-    static const auto Props = createFieldsProperties();
-    return Props;
-}
 
 }  // namespace message
 

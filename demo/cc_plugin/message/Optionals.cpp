@@ -17,8 +17,6 @@
 
 #include "Optionals.h"
 
-#include "cc_tools_qt/property/field.h"
-
 #include <cassert>
 
 namespace cc = cc_tools_qt;
@@ -32,58 +30,11 @@ namespace cc_plugin
 namespace message
 {
 
-namespace
-{
-
-using ProtMsg = demo::cc_plugin::message::Optionals::ProtMsg;
-
-QVariantMap createField1Properties()
-{
-    using Field = ProtMsg::Field_field1;
-    cc::property::field::ForField<Field> props;
-    return props.asMap();
-}
-
-QVariantMap createField2Properties()
-{
-    return cc::property::field::ForField<ProtMsg::Field_field2>().asMap();
-}
-
-QVariantMap createField3Properties()
-{
-    return cc::property::field::ForField<ProtMsg::Field_field3>().asMap();
-}
-
-QVariantMap createField4Properties()
-{
-    return cc::property::field::ForField<ProtMsg::Field_field4>().asMap();
-}
-
-QVariantList createFieldsProperties()
-{
-    QVariantList props;
-    props.append(createField1Properties());
-    props.append(createField2Properties());
-    props.append(createField3Properties());
-    props.append(createField4Properties());
-
-    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
-    return props;
-}
-
-}  // namespace
-
 Optionals::Optionals() = default;
 Optionals::~Optionals() noexcept = default;
 
 Optionals& Optionals::operator=(const Optionals&) = default;
 Optionals& Optionals::operator=(Optionals&&) = default;
-
-const QVariantList& Optionals::fieldsPropertiesImpl() const
-{
-    static const auto Props = createFieldsProperties();
-    return Props;
-}
 
 }  // namespace message
 

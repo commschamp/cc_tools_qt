@@ -47,9 +47,6 @@ public:
 
     IntValues& operator=(const IntValues&);
     IntValues& operator=(IntValues&&);
-
-protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
 };
 
 }  // namespace message

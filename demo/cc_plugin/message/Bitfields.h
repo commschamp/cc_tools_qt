@@ -47,9 +47,6 @@ public:
 
     Bitfields& operator=(const Bitfields&);
     Bitfields& operator=(Bitfields&&);
-
-protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
 };
 
 }  // namespace message

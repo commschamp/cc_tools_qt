@@ -17,8 +17,6 @@
 
 #include "Strings.h"
 
-#include "cc_tools_qt/property/field.h"
-
 #include <cassert>
 
 namespace cc = cc_tools_qt;
@@ -32,35 +30,11 @@ namespace cc_plugin
 namespace message
 {
 
-namespace
-{
-
-using ProtMsg = demo::cc_plugin::message::Strings::ProtMsg;
-
-QVariantList createFieldsProperties()
-{
-    QVariantList props;
-    props.append(cc::property::field::ForField<ProtMsg::Field_field1>().asMap());
-    props.append(cc::property::field::ForField<ProtMsg::Field_field2>().asMap());
-    props.append(cc::property::field::ForField<ProtMsg::Field_field3>().asMap());
-
-    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
-    return props;
-}
-
-}  // namespace
-
 Strings::Strings() = default;
 Strings::~Strings() noexcept = default;
 
 Strings& Strings::operator=(const Strings&) = default;
 Strings& Strings::operator=(Strings&&) = default;
-
-const QVariantList& Strings::fieldsPropertiesImpl() const
-{
-    static const auto Props = createFieldsProperties();
-    return Props;
-}
 
 }  // namespace message
 

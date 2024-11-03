@@ -17,8 +17,6 @@
 
 #include "Bitfields.h"
 
-#include "cc_tools_qt/property/field.h"
-
 #include <cassert>
 
 namespace cc = cc_tools_qt;
@@ -32,40 +30,11 @@ namespace cc_plugin
 namespace message
 {
 
-namespace
-{
-
-using ProtMsg = demo::cc_plugin::message::Bitfields::ProtMsg;
-
-QVariantMap createField1Properties()
-{
-    using Field = ProtMsg::Field_field1;
-    auto props = cc::property::field::ForField<Field>();
-    return props.asMap();
-}
-
-QVariantList createFieldsProperties()
-{
-    QVariantList props;
-    props.append(createField1Properties());
-
-    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
-    return props;
-}
-
-}  // namespace
-
 Bitfields::Bitfields() = default;
 Bitfields::~Bitfields() noexcept = default;
 
 Bitfields& Bitfields::operator=(const Bitfields&) = default;
 Bitfields& Bitfields::operator=(Bitfields&&) = default;
-
-const QVariantList& Bitfields::fieldsPropertiesImpl() const
-{
-    static const auto Props = createFieldsProperties();
-    return Props;
-}
 
 }  // namespace message
 

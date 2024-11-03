@@ -47,9 +47,6 @@ public:
 
     Optionals& operator=(const Optionals&);
     Optionals& operator=(Optionals&&);
-
-protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
 };
 
 }  // namespace message

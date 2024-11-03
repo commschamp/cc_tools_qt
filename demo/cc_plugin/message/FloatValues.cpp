@@ -17,8 +17,6 @@
 
 #include "FloatValues.h"
 
-#include "cc_tools_qt/property/field.h"
-
 #include <cassert>
 
 namespace cc = cc_tools_qt;
@@ -32,36 +30,11 @@ namespace cc_plugin
 namespace message
 {
 
-namespace
-{
-
-using ProtMsg = demo::cc_plugin::message::FloatValues::ProtMsg;
-
-QVariantList createFieldsProperties()
-{
-    QVariantList props;
-    props.append(cc::property::field::ForField<ProtMsg::Field_field1>().asMap());
-    props.append(cc::property::field::ForField<ProtMsg::Field_field2>().asMap());
-    props.append(cc::property::field::ForField<ProtMsg::Field_field3>().asMap());
-    props.append(cc::property::field::ForField<ProtMsg::Field_field4>().asMap());
-
-    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
-    return props;
-}
-
-}  // namespace
-
 FloatValues::FloatValues() = default;
 FloatValues::~FloatValues() noexcept = default;
 
 FloatValues& FloatValues::operator=(const FloatValues&) = default;
 FloatValues& FloatValues::operator=(FloatValues&&) = default;
-
-const QVariantList& FloatValues::fieldsPropertiesImpl() const
-{
-    static const auto Props = createFieldsProperties();
-    return Props;
-}
 
 }  // namespace message
 

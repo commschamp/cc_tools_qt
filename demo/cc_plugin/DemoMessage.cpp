@@ -17,8 +17,6 @@
 
 #include "DemoMessage.h"
 
-#include "cc_tools_qt/property/field.h"
-
 #include "demo/DemoMessage.h"
 
 #include <cassert>
@@ -31,28 +29,8 @@ namespace demo
 namespace cc_plugin
 {
 
-namespace
-{
-
-static QVariantList createFieldsProperties()
-{
-    QVariantList props;
-    props.append(cc::property::field::Common().asMap());
-
-    assert(props.size() == demo::DemoMessage<>::TransportFieldIdx_numOfValues);
-    return props;
-}
-
-} // namespace
-
 DemoMessage::DemoMessage() = default;
 DemoMessage::~DemoMessage() noexcept = default;
-
-const QVariantList& DemoMessage::extraTransportFieldsPropertiesImpl() const
-{
-    static const QVariantList Props = createFieldsProperties();
-    return Props;
-}
 
 QString DemoMessage::idAsStringImpl() const
 {

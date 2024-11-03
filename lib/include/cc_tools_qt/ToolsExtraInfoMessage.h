@@ -20,7 +20,6 @@
 
 #include "cc_tools_qt/ToolsMessageBase.h"
 #include "cc_tools_qt/ToolsProtMsgInterface.h"
-#include "cc_tools_qt/property/field.h"
 
 #include "comms/field/String.h"
 
@@ -102,18 +101,6 @@ protected:
         return Str;
     }
 
-    virtual const QVariantList&  extraTransportFieldsPropertiesImpl() const override
-    {
-        static const QVariantList List;
-        return List;
-    }
-
-    virtual const QVariantList& fieldsPropertiesImpl() const override
-    {
-        static const QVariantList Props = createFieldsProperties();
-        return Props;
-    }
-
     virtual void resetImpl() override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
@@ -142,13 +129,6 @@ protected:
     }
 
 private:
-
-    static QVariantList createFieldsProperties()
-    {
-        QVariantList props;
-        props.append(property::field::Common().asMap());
-        return props;
-    }
 };
 
 }  // namespace cc_tools_qt

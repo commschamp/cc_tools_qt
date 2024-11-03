@@ -77,12 +77,6 @@ protected:
         return GarbageStr;
     }
 
-    virtual const QVariantList& fieldsPropertiesImpl() const override
-    {
-        static const QVariantList Props;
-        return Props;
-    }
-
     virtual bool isValidImpl() const override
     {
         return false;

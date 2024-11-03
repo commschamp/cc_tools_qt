@@ -17,8 +17,6 @@
 
 #include "Variants.h"
 
-#include "cc_tools_qt/property/field.h"
-
 #include <cassert>
 
 namespace cc = cc_tools_qt;
@@ -32,48 +30,11 @@ namespace cc_plugin
 namespace message
 {
 
-namespace
-{
-
-using ProtMsg = demo::cc_plugin::message::Variants::ProtMsg;
-
-QVariantMap createProps_field1()
-{
-    using Field = ProtMsg::Field_field1;
-    auto props = cc::property::field::ForField<Field>();
-    return props.asMap();
-}
-
-QVariantMap createProps_field2()
-{
-    using Field = ProtMsg::Field_field2;
-    auto props = cc::property::field::ForField<Field>();
-    return props.asMap();
-}
-
-QVariantList createFieldsProperties()
-{
-    QVariantList props;
-    props.append(createProps_field1());
-    props.append(createProps_field2());
-
-    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
-    return props;
-}
-
-}  // namespace
-
 Variants::Variants() = default;
 Variants::~Variants() noexcept = default;
 
 Variants& Variants::operator=(const Variants&) = default;
 Variants& Variants::operator=(Variants&&) = default;
-
-const QVariantList& Variants::fieldsPropertiesImpl() const
-{
-    static const auto Props = createFieldsProperties();
-    return Props;
-}
 
 }  // namespace message
 

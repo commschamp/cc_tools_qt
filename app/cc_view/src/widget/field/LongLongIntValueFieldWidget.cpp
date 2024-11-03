@@ -22,7 +22,6 @@
 #include <limits>
 #include <cmath>
 
-#include "cc_tools_qt/property/field.h"
 #include "SpecialValueWidget.h"
 
 namespace cc_tools_qt

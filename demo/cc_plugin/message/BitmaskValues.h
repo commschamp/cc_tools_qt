@@ -47,9 +47,6 @@ public:
 
     BitmaskValues& operator=(const BitmaskValues&);
     BitmaskValues& operator=(BitmaskValues&&);
-
-protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
 };
 
 }  // namespace message

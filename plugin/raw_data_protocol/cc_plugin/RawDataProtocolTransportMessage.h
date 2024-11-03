@@ -67,9 +67,6 @@ class RawDataProtocolTransportMessage : public
         RawDataProtocolTransportMessage
     >
 {
-protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
-
 };
 
 }  // namespace cc_plugin

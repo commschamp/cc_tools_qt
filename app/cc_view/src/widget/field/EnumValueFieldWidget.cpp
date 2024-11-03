@@ -21,8 +21,6 @@
 #include <cassert>
 #include <limits>
 
-#include "cc_tools_qt/property/field.h"
-
 namespace cc_tools_qt
 {
 

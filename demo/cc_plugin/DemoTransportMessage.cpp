@@ -17,8 +17,6 @@
 
 #include "DemoTransportMessage.h"
 
-#include "cc_tools_qt/property/field.h"
-
 #include <QtCore/QVariantMap>
 
 #include <cassert>
@@ -30,38 +28,6 @@ namespace demo
 
 namespace cc_plugin
 {
-
-namespace
-{
-
-using ProtMsg = DemoTransportMessage::ProtMsg;    
-
-QVariantMap createMsgIdProperties()
-{
-    cc::property::field::ForField<MsgIdField> props;
-    return props.asMap();
-}
-
-QVariantList createFieldsProperties()
-{
-    QVariantList props;
-    props.append(cc::property::field::ForField<demo::SyncField>().asMap());
-    props.append(cc::property::field::ForField<demo::LengthField>().asMap());
-    props.append(createMsgIdProperties());
-    props.append(cc::property::field::ForField<demo::VersionField>().asMap());
-    props.append(cc::property::field::ForField<demo::DataField<> >().asMap());
-    props.append(cc::property::field::ForField<demo::ChecksumField>().asMap());
-    assert(props.size() == ProtMsg::FieldIdx_numOfValues);
-    return props;
-}
-
-}  // namespace
-
-const QVariantList& DemoTransportMessage::fieldsPropertiesImpl() const
-{
-    static const auto Props = createFieldsProperties();
-    return Props;
-}
 
 qlonglong DemoTransportMessage::numericIdImpl() const 
 {

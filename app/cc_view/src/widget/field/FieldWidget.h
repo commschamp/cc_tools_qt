@@ -25,7 +25,6 @@
 #include <QtCore/QVariantMap>
 #include <QtWidgets/QWidget>
 
-#include "cc_tools_qt/property/field.h"
 #include "cc_tools_qt/ToolsField.h"
 
 class QLineEdit;
@@ -59,7 +58,6 @@ public:
 public slots:
     void refresh();
     void setEditEnabled(bool enabled);
-    void updateProperties(const QVariantMap& props);
 
 signals:
     void sigFieldUpdated();
@@ -126,7 +124,6 @@ protected:
     virtual ToolsField& fieldImpl() = 0;
     virtual void refreshImpl() = 0;
     virtual void editEnabledUpdatedImpl();
-    virtual void updatePropertiesImpl(const QVariantMap& props);
     virtual void nameSuffixUpdatedImpl();
 
 private:

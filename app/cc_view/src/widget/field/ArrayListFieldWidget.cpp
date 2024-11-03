@@ -20,8 +20,6 @@
 #include <algorithm>
 #include <cassert>
 
-#include "cc_tools_qt/property/field.h"
-
 namespace cc_tools_qt
 {
 
@@ -62,12 +60,6 @@ void ArrayListElementWidget::setDeletable(bool deletable)
 {
     m_deletable = deletable;
     updateUi();
-}
-
-void ArrayListElementWidget::updateProperties(const QVariantMap& props)
-{
-    assert(m_fieldWidget != nullptr);
-    m_fieldWidget->updateProperties(props);
 }
 
 void ArrayListElementWidget::setNameSuffix(const QString& value)

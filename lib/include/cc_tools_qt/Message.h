@@ -67,14 +67,6 @@ public:
     /// @details Invokes virtual nameImpl().
     const char* name() const;
 
-    /// @brief Get properties describing message extra transport fields
-    /// @details Invokes extraTransportFieldsPropertiesImpl()
-    const QVariantList& extraTransportFieldsProperties() const;
-
-    /// @brief Get properties describing message fields
-    /// @details Invokes fieldsPropertiesImpl()
-    const QVariantList& fieldsProperties() const;
-
     /// @brief Refresh message contents
     /// @details Needs to be invoked by the <b>CommsChampion Tools</b> when
     ///     some field get modified. Invokes refreshMsgImpl().
@@ -121,18 +113,6 @@ protected:
     /// @brief Polymorphic name retrieval functionality.
     /// @details Invoked by name().
     virtual const char* nameImpl() const = 0;
-
-    /// @brief Polymorphic extra transport fields properties retrieval function.
-    /// @details Default implementation returns empty list, should be
-    ///     overriden by the derived classes if message contains at least
-    ///     one extra transport field. Invoked by extraTransportFieldsProperties().
-    virtual const QVariantList& extraTransportFieldsPropertiesImpl() const;
-
-    /// @brief Polymorphic fields properties retrieval function.
-    /// @details Default implementation returns empty list, should be
-    ///     overriden by the derived classes if message contains at least
-    ///     one field. Invoked by fieldsProperties().
-    virtual const QVariantList& fieldsPropertiesImpl() const;
 
     /// @brief Polymorphic refresh functionality.
     /// @details Invoked by refresh().

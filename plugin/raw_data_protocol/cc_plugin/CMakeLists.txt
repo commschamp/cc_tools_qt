@@ -17,9 +17,6 @@ function (cc_plugin_raw_data_protocol)
         RawDataProtocolPlugin.h
         RawDataProtocolPlugin.cpp
         RawDataProtocol.cpp
-        RawDataProtocolTransportMessage.cpp
-        RawDataProtocolDataMessage.cpp
-        
     )
     
     add_library (${name} MODULE ${src})

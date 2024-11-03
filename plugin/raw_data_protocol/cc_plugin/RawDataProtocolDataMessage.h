@@ -44,8 +44,6 @@ class RawDataProtocolDataMessage : public
         raw_data_protocol::DataMessage,
         RawDataProtocolDataMessage>
 {
-protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
 };
 
 }  // namespace cc_plugin

@@ -47,9 +47,6 @@ public:
 
     FloatValues& operator=(const FloatValues&);
     FloatValues& operator=(FloatValues&&);
-
-protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
 };
 
 }  // namespace message

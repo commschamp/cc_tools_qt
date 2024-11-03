@@ -47,9 +47,6 @@ public:
 
     EnumValues& operator=(const EnumValues&);
     EnumValues& operator=(EnumValues&&);
-
-protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
 };
 
 }  // namespace message

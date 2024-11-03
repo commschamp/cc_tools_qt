@@ -37,7 +37,6 @@ class DemoTransportMessage : public
     >
 {
 protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
     virtual qlonglong numericIdImpl() const override;
 };
 

@@ -47,9 +47,6 @@ public:
 
     Bundles& operator=(const Bundles&);
     Bundles& operator=(Bundles&&);
-
-protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
 };
 
 }  // namespace message

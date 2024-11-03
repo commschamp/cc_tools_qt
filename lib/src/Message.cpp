@@ -33,16 +33,6 @@ const char* Message::name() const
     return nameImpl();
 }
 
-const QVariantList& Message::extraTransportFieldsProperties() const
-{
-    return extraTransportFieldsPropertiesImpl();
-}
-
-const QVariantList& Message::fieldsProperties() const
-{
-    return fieldsPropertiesImpl();
-}
-
 bool Message::refreshMsg()
 {
     return refreshMsgImpl();
@@ -110,18 +100,6 @@ Message::FieldsList Message::transportFields()
 Message::FieldsList Message::payloadFields()
 {
     return payloadFieldsImpl();
-}
-
-const QVariantList& Message::extraTransportFieldsPropertiesImpl() const
-{
-    static const QVariantList Props;
-    return Props;
-}
-
-const QVariantList& Message::fieldsPropertiesImpl() const
-{
-    static const QVariantList Props;
-    return Props;
 }
 
 QString Message::idAsStringImpl() const

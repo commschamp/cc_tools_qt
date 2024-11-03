@@ -39,7 +39,6 @@ public:
 
 protected:
 
-    virtual const QVariantList& extraTransportFieldsPropertiesImpl() const override;
     virtual QString idAsStringImpl() const override;
 };
 

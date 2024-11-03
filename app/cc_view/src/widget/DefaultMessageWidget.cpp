@@ -48,17 +48,6 @@ void DefaultMessageWidget::addExtraTransportFieldWidget(FieldWidget* field)
         return;
     }
 
-    auto& props = m_msg.extraTransportFieldsProperties();
-    if (static_cast<decltype(m_curExtraTransportFieldIdx)>(props.size()) <= m_curExtraTransportFieldIdx) {
-        return;
-    }
-
-    auto& propsMapVar = props.at(static_cast<int>(m_curExtraTransportFieldIdx));
-    if (propsMapVar.isValid() && propsMapVar.canConvert<QVariantMap>()) {
-        auto propsMap = propsMapVar.value<QVariantMap>();
-        field->updateProperties(propsMap);
-    }
-
     if (m_curExtraTransportFieldIdx != 0) {
         m_layout->insertWidget(m_layout->count() - 1, createFieldSeparator().release());
     }
@@ -74,15 +63,6 @@ void DefaultMessageWidget::addFieldWidget(FieldWidget* field)
         [[maybe_unused]] static constexpr bool Field_object_should_be_provided = false;
         assert(Field_object_should_be_provided);
         return;
-    }
-
-    auto& props = m_msg.fieldsProperties();
-    if (m_curFieldIdx < static_cast<decltype(m_curFieldIdx)>(props.size())) {
-        auto& propsMapVar = props.at(static_cast<int>(m_curFieldIdx));
-        if (propsMapVar.isValid() && propsMapVar.canConvert<QVariantMap>()) {
-            auto propsMap = propsMapVar.value<QVariantMap>();
-            field->updateProperties(propsMap);
-        }
     }
 
     if ((m_curFieldIdx != 0) || (m_curExtraTransportFieldIdx != 0)) {

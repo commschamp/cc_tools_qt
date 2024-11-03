@@ -37,7 +37,6 @@ function (lib_tools)
         ToolsMsgFactory.cpp
         ToolsProtocol.cpp
         property/message.cpp
-        property/field.cpp
     )
     
     add_library(${name} SHARED ${src})
