@@ -50,7 +50,6 @@ protected:
     virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private slots:
     void memberFieldUpdated();
@@ -62,19 +61,17 @@ private:
 
     void refreshInternal();
     void refreshMember();
-    void updateMemberProps();
     void updateIndexDisplay();
     void updateIndexValue();
     void updateMemberCombo();
     void destroyMemberWidget();
     void createMemberWidget();
+    void fillMemberCombo();
 
     Ui::VariantFieldWidget m_ui;
     FieldPtr m_fieldPtr;
     FieldWidget* m_member = nullptr;
-    QList<QVariantMap> m_membersProps;
     CreateMemberFieldWidgetFunc m_createFunc;
-    bool m_indexHidden = false;
 };
 
 

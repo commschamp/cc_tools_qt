@@ -47,6 +47,7 @@ VariantFieldWidget::VariantFieldWidget(
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
     m_ui.m_idxSpinBox->setMaximum(m_fieldPtr->getMembersCount() - 1);
+    fillMemberCombo();
     updateIndexValue();
     updateMemberCombo();
 
@@ -102,48 +103,6 @@ void VariantFieldWidget::editEnabledUpdatedImpl()
     }
 
     updateIndexDisplay();
-}
-
-void VariantFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::Variant variantProps(props);
-    m_membersProps = variantProps.members();
-    updateMemberProps();
-
-    m_indexHidden = variantProps.isIndexHidden();
-
-    auto membersNames = m_fieldPtr->membersNames();
-    using MemberInfosList = std::vector<std::pair<QString, int> >;
-    MemberInfosList membersInfo;
-    membersInfo.reserve(static_cast<unsigned>(membersNames.size()));
-    for (auto idx = 0; idx < membersNames.size(); ++idx) {
-        auto& memName = membersNames[idx];
-        if (memName.isEmpty()) {
-            continue;
-        }
-
-        membersInfo.push_back(std::make_pair(memName, idx));
-    } 
-
-    std::sort(
-        membersInfo.begin(), membersInfo.end(),
-        [](MemberInfosList::const_reference elem1, MemberInfosList::const_reference elem2)
-        {
-            return elem1.first < elem2.first;
-        });
-
-    m_ui.m_memberComboBox->blockSignals(true);
-    m_ui.m_memberComboBox->clear(); 
-    m_ui.m_memberComboBox->addItem(InvalidMemberComboText, QVariant(-1));
-    m_ui.m_memberComboBox->insertSeparator(1);
-
-    for (auto& i : membersInfo) {
-        m_ui.m_memberComboBox->addItem(i.first, QVariant(i.second));
-    }
-    m_ui.m_memberComboBox->blockSignals(false);
-       
-    updateIndexDisplay();
-    updateMemberCombo();
 }
 
 void VariantFieldWidget::memberFieldUpdated()
@@ -223,19 +182,6 @@ void VariantFieldWidget::refreshMember()
     }
 }
 
-void VariantFieldWidget::updateMemberProps()
-{
-    if (m_member == nullptr) {
-        return;
-    }
-
-    if (m_membersProps.size() <= m_fieldPtr->getCurrentIndex()) {
-        return;
-    }
-
-    m_member->updateProperties(m_membersProps[m_fieldPtr->getCurrentIndex()]);
-}
-
 void VariantFieldWidget::updateIndexDisplay()
 {
     bool readOnly = !isEditEnabled();
@@ -248,10 +194,9 @@ void VariantFieldWidget::updateIndexDisplay()
         m_ui.m_idxSpinBox->setButtonSymbols(QSpinBox::UpDownArrows);
     }
 
-    bool hidden = readOnly && m_indexHidden;
-    m_ui.m_idxWidget->setHidden(hidden);
+    m_ui.m_idxWidget->setHidden(readOnly);
 
-    bool idxWidgetHidden = hidden && (m_ui.m_nameLabel->isHidden());
+    bool idxWidgetHidden = readOnly && (m_ui.m_nameLabel->isHidden());
     m_ui.m_infoWidget->setHidden(idxWidgetHidden);
 }
 
@@ -304,11 +249,43 @@ void VariantFieldWidget::createMemberWidget()
     auto fieldWidget = m_createFunc(*m_fieldPtr->getCurrent());
     m_member = fieldWidget.release();
     m_ui.m_membersLayout->addWidget(m_member);
-    updateMemberProps();
 
     connect(
         m_member, SIGNAL(sigFieldUpdated()),
         this, SLOT(memberFieldUpdated()));
+}
+
+void VariantFieldWidget::fillMemberCombo()
+{
+    auto membersNames = m_fieldPtr->membersNames();
+    using MemberInfosList = std::vector<std::pair<QString, int> >;
+    MemberInfosList membersInfo;
+    membersInfo.reserve(static_cast<unsigned>(membersNames.size()));
+    for (auto idx = 0; idx < membersNames.size(); ++idx) {
+        auto& memName = membersNames[idx];
+        if (memName.isEmpty()) {
+            continue;
+        }
+
+        membersInfo.push_back(std::make_pair(memName, idx));
+    } 
+
+    std::sort(
+        membersInfo.begin(), membersInfo.end(),
+        [](MemberInfosList::const_reference elem1, MemberInfosList::const_reference elem2)
+        {
+            return elem1.first < elem2.first;
+        });
+
+    m_ui.m_memberComboBox->blockSignals(true);
+    m_ui.m_memberComboBox->clear(); 
+    m_ui.m_memberComboBox->addItem(InvalidMemberComboText, QVariant(-1));
+    m_ui.m_memberComboBox->insertSeparator(1);
+
+    for (auto& i : membersInfo) {
+        m_ui.m_memberComboBox->addItem(i.first, QVariant(i.second));
+    }
+    m_ui.m_memberComboBox->blockSignals(false);
 }
 
 }  // namespace cc_tools_qt

@@ -343,6 +343,9 @@ struct VariantsFields
                 typename TOpt::message::VariantsFields::field1
             >;
     public:
+        using MemberNameInfo = const char*;
+        using MemberNamesMapInfo = std::pair<const MemberNameInfo*, std::size_t>;
+            
         /// @brief Allow access to internal fields.
         /// @details See definition of @b COMMS_VARIANT_MEMBERS_NAMES macro
         ///     related to @b comms::field::Variant class from COMMS library
@@ -356,7 +359,30 @@ struct VariantsFields
         static const char* name()
         {
             return "field1";
+        }  
+
+        static const char* memberName(std::size_t idx)
+        {
+            auto namesMapInfo = memberNamesMap();
+            if (namesMapInfo.second <= idx) {
+                return nullptr;
+            }
+
+            return namesMapInfo.first[idx];
         }        
+
+        static MemberNamesMapInfo memberNamesMap()
+        {
+            static const MemberNameInfo Map[] = {
+                field1_var1::name(),
+                field1_var2::name(),
+                field1_var3::name(),
+            };
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+            static_assert(MapSize == FieldIdx_numOfValues, "Invalid map");
+
+            return std::make_pair(&Map[0], MapSize);
+        }               
     };
 
     struct field2_var1Members
@@ -568,6 +594,9 @@ struct VariantsFields
                 typename TOpt::message::VariantsFields::field2
             >;
     public:
+        using MemberNameInfo = const char*;
+        using MemberNamesMapInfo = std::pair<const MemberNameInfo*, std::size_t>;
+            
         /// @brief Allow access to internal fields.
         /// @details See definition of @b COMMS_VARIANT_MEMBERS_NAMES macro
         ///     related to @b comms::field::Variant class from COMMS library
@@ -581,7 +610,30 @@ struct VariantsFields
         static const char* name()
         {
             return "field2";
+        }  
+
+        static const char* memberName(std::size_t idx)
+        {
+            auto namesMapInfo = memberNamesMap();
+            if (namesMapInfo.second <= idx) {
+                return nullptr;
+            }
+
+            return namesMapInfo.first[idx];
         }        
+
+        static MemberNamesMapInfo memberNamesMap()
+        {
+            static const MemberNameInfo Map[] = {
+                field2_var1::name(),
+                field2_var2::name(),
+                field2_var3::name(),
+            };
+            static const std::size_t MapSize = std::extent<decltype(Map)>::value;
+            static_assert(MapSize == FieldIdx_numOfValues, "Invalid map");
+
+            return std::make_pair(&Map[0], MapSize);
+        }               
     };    
 
     /// @brief All the fields bundled in std::tuple.

@@ -37,57 +37,9 @@ namespace
 
 using ProtMsg = demo::cc_plugin::message::Variants::ProtMsg;
 
-QVariantMap createProps_field1_var1()
-{
-    using Field = ProtMsg::Field_field1::Field_val1;
-    auto props = cc::property::field::ForField<Field>();
-    return props.asMap();
-}
-
-QVariantMap createProps_field1_var2()
-{
-    using Field = ProtMsg::Field_field1::Field_val2;
-    auto props = cc::property::field::ForField<Field>();
-    return props.asMap();
-}
-
-QVariantMap createProps_field1_var3()
-{
-    using Field = ProtMsg::Field_field1::Field_val3;
-    auto props = cc::property::field::ForField<Field>();
-    return props.asMap();
-}
-
 QVariantMap createProps_field1()
 {
     using Field = ProtMsg::Field_field1;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .add(createProps_field1_var1())
-            .add(createProps_field1_var2())
-            .add(createProps_field1_var3());
-    assert(props.members().size() == Field::FieldIdx_numOfValues);
-    return props.asMap();
-}
-
-
-QVariantMap createProps_field2_var1()
-{
-    using Field = ProtMsg::Field_field2::Field_val1;
-    auto props = cc::property::field::ForField<Field>();
-    return props.asMap();
-}
-
-QVariantMap createProps_field2_var2()
-{
-    using Field = ProtMsg::Field_field2::Field_val2;
-    auto props = cc::property::field::ForField<Field>();
-    return props.asMap();
-}
-
-QVariantMap createProps_field2_var3()
-{
-    using Field = ProtMsg::Field_field2::Field_val3;
     auto props = cc::property::field::ForField<Field>();
     return props.asMap();
 }
@@ -95,12 +47,7 @@ QVariantMap createProps_field2_var3()
 QVariantMap createProps_field2()
 {
     using Field = ProtMsg::Field_field2;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .add(createProps_field2_var1())
-            .add(createProps_field2_var2())
-            .add(createProps_field2_var3());
-    assert(props.members().size() == Field::FieldIdx_numOfValues);
+    auto props = cc::property::field::ForField<Field>();
     return props.asMap();
 }
 

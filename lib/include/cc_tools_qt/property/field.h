@@ -107,98 +107,6 @@ protected:
 
 };
 
-/// @brief Intermediate helper class to define properties describing one
-/// @tparam TDerived Actual derived class
-/// @headerfile cc_tools_qt/property/field.h
-template <typename TDerived>
-class CommonBase : public Common
-{
-    using Base = Common;
-public:
-    /// @brief Default constructor
-    CommonBase() = default;
-
-    /// @brief Copy constructor
-    CommonBase(const CommonBase&) = default;
-
-    /// @brief Move constructor
-    CommonBase(CommonBase&&) = default;
-
-    /// @brief Construct from QVariantMap
-    explicit CommonBase(const QVariantMap& props) : Base(props) {}
-
-    /// @brief Construct from QVariant that contains QVariantMap.
-    explicit CommonBase(const QVariant& props) : Base(props) {}
-
-    /// @brief Destructor
-    ~CommonBase() noexcept = default;
-
-    /// @brief Copy assignment
-    CommonBase& operator=(const CommonBase&) = default;
-
-    /// @brief Move assignment
-    CommonBase& operator=(CommonBase&&) = default;
-};
-
-/// @brief Class to contain all the properties relevant to
-///     @b comms::field::Variant fields.
-/// @headerfile cc_tools_qt/property/field.h
-class CC_API Variant : public CommonBase<Variant>
-{
-    typedef CommonBase<Variant> Base;
-public:
-
-    /// @brief List of properties of the contained fields.
-    using MembersList = QList<QVariantMap>;
-
-    /// @brief Default constructor
-    Variant();
-
-    /// @brief Copy constructor
-    Variant(const Variant&);
-
-    /// @brief Move constructor
-    Variant(Variant&&);
-
-    /// @brief Construct from QVariantMap
-    Variant(const QVariantMap& props);
-
-    /// @brief Construct from QVariant containing QVariantMap
-    Variant(const QVariant& props);
-
-    /// @brief Destructor
-    ~Variant() noexcept;
-
-    /// @brief Copy assignment
-    Variant& operator=(const Variant&);
-
-    /// @brief Move assignment
-    Variant& operator=(Variant&&);
-
-    /// @brief Get access to the contained fields' properties.
-    const MembersList& members() const;
-
-    /// @brief Add properties of the next member
-    Variant& add(QVariantMap&& memberProps);
-
-    /// @brief Add properties of the next member.
-    Variant& add(const QVariantMap& memberProps);
-
-    /// @brief Check the member index should be hidden when displaying field.
-    bool isIndexHidden() const;
-
-    /// @brief Set the member index should be hidden when displaying field.
-    Variant& setIndexHidden(bool hiddenVal = true);
-
-    /// @brief Retrieve all properties as map.
-    QVariantMap asMap() const;
-private:
-    void getFrom(const QVariantMap& props);
-
-    MembersList m_members;
-    bool m_indexHidden = false;
-};
-
 namespace details
 {
 
@@ -268,7 +176,7 @@ struct ForTag<comms::field::tag::Float>
 template <>
 struct ForTag<comms::field::tag::Variant>
 {
-    typedef cc_tools_qt::property::field::Variant Type;
+    using Type = cc_tools_qt::property::field::Common;
 };
 
 }  // namespace details
