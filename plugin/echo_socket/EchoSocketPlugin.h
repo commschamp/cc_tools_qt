@@ -35,9 +35,14 @@ class EchoSocketPlugin : public cc_tools_qt::Plugin
     Q_PLUGIN_METADATA(IID "cc.EchoSocketPlugin" FILE "echo_socket.json")
     Q_INTERFACES(cc_tools_qt::Plugin)
 
+    using Base = cc_tools_qt::Plugin;
+
 public:
     EchoSocketPlugin();
     ~EchoSocketPlugin() noexcept;
+
+protected:
+    virtual SocketPtr createSocketImpl() override;    
 
 private:
     cc_tools_qt::SocketPtr m_socket;

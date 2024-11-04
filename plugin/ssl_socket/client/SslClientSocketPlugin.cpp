@@ -50,15 +50,10 @@ const QString PrivFormatSubKey("priv_format");
 
 }  // namespace
 
-SslClientSocketPlugin::SslClientSocketPlugin()
+SslClientSocketPlugin::SslClientSocketPlugin() :
+    Base(Type_Socket)
 {
     pluginProperties()
-        .setSocketCreateFunc(
-            [this]()
-            {
-                createSocketIfNeeded();
-                return m_socket;
-            })
         .setConfigWidgetCreateFunc(
             [this]()
             {
@@ -192,6 +187,12 @@ void SslClientSocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props)
 {
     createSocketIfNeeded();
     m_socket->applyInterPluginConfig(props);
+}
+
+SocketPtr SslClientSocketPlugin::createSocketImpl()
+{
+    createSocketIfNeeded();
+    return m_socket;
 }
 
 void SslClientSocketPlugin::createSocketIfNeeded()

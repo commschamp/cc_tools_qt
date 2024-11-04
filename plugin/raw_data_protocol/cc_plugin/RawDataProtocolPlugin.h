@@ -41,6 +41,8 @@ class RawDataProtocolPlugin : public cc_tools_qt::Plugin
     Q_PLUGIN_METADATA(IID "cc.RawDataProtocol" FILE "raw_data_protocol.json")
     Q_INTERFACES(cc_tools_qt::Plugin)
 
+    using Base = cc_tools_qt::Plugin;
+
 public:
     RawDataProtocolPlugin();
     ~RawDataProtocolPlugin() noexcept;

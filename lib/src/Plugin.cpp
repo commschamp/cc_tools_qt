@@ -37,8 +37,18 @@ auto invokeCreationFunc(TFunc&& func) -> decltype(func())
 
 }  // namespace
 
-Plugin::Plugin() = default;
+Plugin::Plugin(Type type) :
+    m_type(type)
+{
+    assert(type < Type_NumOfValues);
+}
+
 Plugin::~Plugin() noexcept = default;
+
+Plugin::Type Plugin::type() const
+{
+    return m_type;
+}
 
 void Plugin::getCurrentConfig(QVariantMap& config)
 {
@@ -57,9 +67,14 @@ void Plugin::reconfigure(const QVariantMap& config)
     reconfigureImpl(config);
 }
 
-SocketPtr Plugin::createSocket() const
+SocketPtr Plugin::createSocket()
 {
-    auto socketPtr = invokeCreationFunc(m_props.getSocketCreateFunc());
+    if (m_type != Type_Socket) {
+        return SocketPtr();
+    }
+
+    auto socketPtr = createSocketImpl();
+    assert(socketPtr); // Must override
     if (socketPtr) {
         socketPtr->setDebugOutputLevel(m_debugOutputLevel);
     }
@@ -131,6 +146,11 @@ void Plugin::reconfigureImpl([[maybe_unused]] const QVariantMap& config)
 
 void Plugin::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& props)
 {
+}
+
+SocketPtr Plugin::createSocketImpl()
+{
+    return SocketPtr();
 }
 
 PluginProperties& Plugin::pluginProperties()

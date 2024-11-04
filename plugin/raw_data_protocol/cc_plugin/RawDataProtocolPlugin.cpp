@@ -33,7 +33,8 @@ namespace raw_data_protocol
 namespace cc_plugin
 {
 
-RawDataProtocolPlugin::RawDataProtocolPlugin()
+RawDataProtocolPlugin::RawDataProtocolPlugin() :
+    Base(Type_Protocol)
 {
     pluginProperties()
         .setProtocolCreateFunc(

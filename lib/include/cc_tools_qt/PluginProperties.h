@@ -54,9 +54,6 @@ public:
     /// @brief Destructor
     ~PluginProperties() noexcept;
 
-    /// @brief Type of callback to be used to allocate a @ref Socket object
-    using SocketCreateFunc = std::function<SocketPtr ()>;
-
     /// @brief Type of callback to be used to allocate a @ref Protocol object
     using ProtocolCreateFunc = std::function<ToolsProtocolPtr ()>;
 
@@ -74,11 +71,6 @@ public:
     ///     owned by the application. The plugin won't need to delete it
     ///     explicitly.
     using ConfigWidgetCreateFunc = std::function<QWidget* ()>;
-
-    /// @brief Assign callback for @ref Socket allocation.
-    /// @param[in] func Callback function
-    /// @return `*this`
-    PluginProperties& setSocketCreateFunc(SocketCreateFunc&& func);
 
     /// @brief Assign callback for @ref Protocol allocation.
     /// @param[in] func Callback function
@@ -105,9 +97,6 @@ public:
     /// @param[out] val Property value
     PluginProperties& setCustomProperty(const QString& name, QVariant&& val);
 
-    /// @brief Retrieve @ref Socket creation callback.
-    SocketCreateFunc getSocketCreateFunc() const;
-
     /// @brief Retrieve @ref Protocol creation callback.
     ProtocolCreateFunc getProtocolCreateFunc() const;
 
@@ -131,7 +120,6 @@ private:
 
 }  // namespace cc_tools_qt
 
-Q_DECLARE_METATYPE(cc_tools_qt::PluginProperties::SocketCreateFunc);
 Q_DECLARE_METATYPE(cc_tools_qt::PluginProperties::ProtocolCreateFunc);
 Q_DECLARE_METATYPE(cc_tools_qt::PluginProperties::FiltersCreateFunc);
 Q_DECLARE_METATYPE(cc_tools_qt::PluginProperties::GuiActionsCreateFunc);

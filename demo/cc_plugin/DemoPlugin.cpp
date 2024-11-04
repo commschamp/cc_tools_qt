@@ -27,7 +27,8 @@ namespace demo
 namespace cc_plugin
 {
 
-DemoPlugin::DemoPlugin()
+DemoPlugin::DemoPlugin() :
+    Base(Type_Protocol)
 {
     pluginProperties()
         .setProtocolCreateFunc(

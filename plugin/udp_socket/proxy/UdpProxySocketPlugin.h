@@ -36,16 +36,19 @@ class UdpProxySocketPlugin : public cc_tools_qt::Plugin
     Q_PLUGIN_METADATA(IID "cc.UdpProxySocketPlugin" FILE "udp_proxy_socket.json")
     Q_INTERFACES(cc_tools_qt::Plugin)
 
+    using Base = cc_tools_qt::Plugin;
+
 public:
     UdpProxySocketPlugin();
     ~UdpProxySocketPlugin() noexcept;
 
+protected:
     virtual void getCurrentConfigImpl(QVariantMap& config) override;
     virtual void reconfigureImpl(const QVariantMap& config) override;
     virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;       
+    virtual SocketPtr createSocketImpl() override;    
 
 private:
-
     void createSocketIfNeeded();
 
     std::shared_ptr<UdpProxySocket> m_socket;

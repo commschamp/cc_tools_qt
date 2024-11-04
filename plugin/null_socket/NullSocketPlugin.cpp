@@ -28,17 +28,18 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-NullSocketPlugin::NullSocketPlugin()
+NullSocketPlugin::NullSocketPlugin() :
+    Base(Type_Socket)
 {
-    pluginProperties()
-        .setSocketCreateFunc(
-            []()
-            {
-                return makeNullSocket();
-            });
 }
 
 NullSocketPlugin::~NullSocketPlugin() noexcept = default;
+
+SocketPtr NullSocketPlugin::createSocketImpl()
+{
+    return makeNullSocket();
+}
+
 
 }  // namespace plugin
 

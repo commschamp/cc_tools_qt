@@ -28,17 +28,17 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-EchoSocketPlugin::EchoSocketPlugin()
+EchoSocketPlugin::EchoSocketPlugin() :
+    Base(Type_Socket)
 {
-    pluginProperties()
-        .setSocketCreateFunc(
-            []()
-            {
-                return makeEchoSocket();
-            });
 }
 
 EchoSocketPlugin::~EchoSocketPlugin() noexcept = default;
+
+SocketPtr EchoSocketPlugin::createSocketImpl()
+{
+    return makeEchoSocket();
+}
 
 }  // namespace plugin
 

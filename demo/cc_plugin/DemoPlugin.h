@@ -35,6 +35,8 @@ class DemoPlugin : public cc_tools_qt::Plugin
     Q_PLUGIN_METADATA(IID "cc.DemoProtocol" FILE "demo.json")
     Q_INTERFACES(cc_tools_qt::Plugin)
 
+    using Base = cc_tools_qt::Plugin;
+
 public:
     DemoPlugin();
     ~DemoPlugin() noexcept;

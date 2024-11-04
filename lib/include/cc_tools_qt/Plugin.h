@@ -38,6 +38,14 @@ namespace cc_tools_qt
 class CC_API Plugin : public QObject
 {
 public:
+    enum Type : unsigned
+    {
+        Type_Socket,
+        Type_Filter,
+        Type_Protocol,
+        Type_NumOfValues
+    };
+
     /// @brief Pointer to widget object
     using WidgetPtr = std::unique_ptr<QWidget>;
 
@@ -48,10 +56,12 @@ public:
     using ListOfGuiActions = PluginProperties::ListOfGuiActions;
 
     /// @brief Constructor
-    Plugin();
+    explicit Plugin(Type type);
 
     /// @brief Destructor
     virtual ~Plugin() noexcept;
+
+    Type type() const;
 
     /// @brief Get current configuration.
     /// @details Invokes getCurrentConfigImpl(), which can be overridden by
@@ -78,7 +88,7 @@ public:
     ///     will invoke socket creation callback function assigned by the
     ///     derived class to pluginProperties().
     /// @return Allocated socket object
-    SocketPtr createSocket() const;
+    SocketPtr createSocket();
 
     /// @brief Create filters
     /// @details This function will be called if it is @b filter plugin. It
@@ -158,6 +168,8 @@ protected:
     /// @param[in] props Properties map.
     virtual void applyInterPluginConfigImpl(const QVariantMap& props);       
 
+    virtual SocketPtr createSocketImpl();
+
     /// @brief Get access to plugin properties
     /// @details Expected to be called by the derived class to get an access
     ///     to the properties accumulation objects and provide appropriate
@@ -174,6 +186,7 @@ protected:
     void reportInterPluginConfig(const QVariantMap& props);       
 
 private:
+    Type m_type = Type_NumOfValues;
     PluginProperties m_props;
     InterPluginConfigReportCallback m_interPluginConfigReportCallback;
     unsigned m_debugOutputLevel = 0U;

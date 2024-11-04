@@ -39,13 +39,17 @@ class SerialSocketPlugin : public cc_tools_qt::Plugin
     Q_PLUGIN_METADATA(IID "cc.SerialSocketPlugin" FILE "serial_socket.json")
     Q_INTERFACES(cc_tools_qt::Plugin)
 
+    using Base = cc_tools_qt::Plugin;
+
 public:
     SerialSocketPlugin();
     ~SerialSocketPlugin() noexcept;
 
+protected:
     virtual void getCurrentConfigImpl(QVariantMap& config) override;
     virtual void reconfigureImpl(const QVariantMap& config) override;
-
+    virtual SocketPtr createSocketImpl() override;    
+    
 private:
 
     void createSocketIfNeeded();

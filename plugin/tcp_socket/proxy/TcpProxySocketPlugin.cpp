@@ -39,15 +39,10 @@ const QString RemotePortSubKey("remote_port");
 
 }  // namespace
 
-TcpProxySocketPlugin::TcpProxySocketPlugin()
+TcpProxySocketPlugin::TcpProxySocketPlugin() :
+    Base(Type_Socket)
 {
     pluginProperties()
-        .setSocketCreateFunc(
-            [this]()
-            {
-                createSocketIfNeeded();
-                return m_socket;
-            })
         .setConfigWidgetCreateFunc(
             [this]()
             {
@@ -108,6 +103,12 @@ void TcpProxySocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props)
 {
     createSocketIfNeeded();
     m_socket->applyInterPluginConfig(props);
+}
+
+SocketPtr TcpProxySocketPlugin::createSocketImpl()
+{
+    createSocketIfNeeded();
+    return m_socket;
 }
 
 void TcpProxySocketPlugin::createSocketIfNeeded()

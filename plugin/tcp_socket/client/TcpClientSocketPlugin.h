@@ -36,16 +36,18 @@ class TcpClientSocketPlugin : public cc_tools_qt::Plugin
     Q_PLUGIN_METADATA(IID "cc.TcpClientSocketPlugin" FILE "tcp_client_socket.json")
     Q_INTERFACES(cc_tools_qt::Plugin)
 
+    using Base = cc_tools_qt::Plugin;
+
 public:
     TcpClientSocketPlugin();
     ~TcpClientSocketPlugin() noexcept;
 
 protected:        
-
     virtual void getCurrentConfigImpl(QVariantMap& config) override;
     virtual void reconfigureImpl(const QVariantMap& config) override;
     virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;     
-
+    virtual SocketPtr createSocketImpl() override;    
+    
 private:
 
     void createSocketIfNeeded();

@@ -35,10 +35,15 @@ class NullSocketPlugin : public cc_tools_qt::Plugin
     Q_PLUGIN_METADATA(IID "cc.NullSocketPlugin" FILE "null_socket.json")
     Q_INTERFACES(cc_tools_qt::Plugin)
 
+    using Base = cc_tools_qt::Plugin;
+
 public:
     NullSocketPlugin();
     ~NullSocketPlugin() noexcept;
 
+protected:
+    virtual SocketPtr createSocketImpl() override;    
+    
 private:
     cc_tools_qt::SocketPtr m_socket;
 };

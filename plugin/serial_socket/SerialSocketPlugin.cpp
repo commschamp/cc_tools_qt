@@ -45,15 +45,10 @@ const QString FlowControlSubKey("flow");
 
 }  // namespace
 
-SerialSocketPlugin::SerialSocketPlugin()
+SerialSocketPlugin::SerialSocketPlugin() :
+    Base(Type_Socket)
 {
     pluginProperties()
-        .setSocketCreateFunc(
-            [this]()
-            {
-                createSocketIfNeeded();
-                return m_socket;
-            })
         .setConfigWidgetCreateFunc(
             [this]()
             {
@@ -134,6 +129,12 @@ void SerialSocketPlugin::reconfigureImpl(const QVariantMap& config)
             m_socket->flowControl() = flow;
         }
     }
+}
+
+SocketPtr SerialSocketPlugin::createSocketImpl()
+{
+    createSocketIfNeeded();
+    return m_socket;
 }
 
 void SerialSocketPlugin::createSocketIfNeeded()

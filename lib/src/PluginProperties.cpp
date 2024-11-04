@@ -49,12 +49,6 @@ TFunc getFuncProperty(const QVariantMap& props, const QString& name)
 PluginProperties::PluginProperties() = default;
 PluginProperties::~PluginProperties() noexcept = default;
 
-PluginProperties& PluginProperties::setSocketCreateFunc(
-    SocketCreateFunc&& func)
-{
-    m_props.insert(SocketCreateFuncPropName, QVariant::fromValue(std::move(func)));
-    return *this;
-}
 
 PluginProperties& PluginProperties::setProtocolCreateFunc(
     ProtocolCreateFunc&& func)
@@ -98,11 +92,6 @@ PluginProperties& PluginProperties::setCustomProperty(
         m_props.insert(name, std::move(val));
     } while (false);
     return *this;
-}
-
-PluginProperties::SocketCreateFunc PluginProperties::getSocketCreateFunc() const
-{
-    return getFuncProperty<SocketCreateFunc>(m_props, SocketCreateFuncPropName);
 }
 
 PluginProperties::ProtocolCreateFunc PluginProperties::getProtocolCreateFunc() const
