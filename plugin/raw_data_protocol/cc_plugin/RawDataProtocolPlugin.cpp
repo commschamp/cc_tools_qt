@@ -36,15 +36,14 @@ namespace cc_plugin
 RawDataProtocolPlugin::RawDataProtocolPlugin() :
     Base(Type_Protocol)
 {
-    pluginProperties()
-        .setProtocolCreateFunc(
-            []()
-            {
-                return cc::ToolsProtocolPtr(new RawDataProtocol());
-            });
 }
 
 RawDataProtocolPlugin::~RawDataProtocolPlugin() noexcept = default;
+
+ToolsProtocolPtr RawDataProtocolPlugin::createProtocolImpl()
+{
+    return cc::ToolsProtocolPtr(new RawDataProtocol());
+}
 
 }  // namespace cc_plugin
 

@@ -51,9 +51,6 @@ public:
     /// @brief Destructor
     ~PluginProperties() noexcept;
 
-    /// @brief Type of callback to be used to allocate a @ref Protocol object
-    using ProtocolCreateFunc = std::function<ToolsProtocolPtr ()>;
-
     /// @brief Type of callback to be used to allocate @b QAction to be
     ///     displayed in the main toolbar of GUI application.
     /// @details The allocated @b QAction objects will be owned by the
@@ -65,11 +62,6 @@ public:
     ///     owned by the application. The plugin won't need to delete it
     ///     explicitly.
     using ConfigWidgetCreateFunc = std::function<QWidget* ()>;
-
-    /// @brief Assign callback for @ref Protocol allocation.
-    /// @param[in] func Callback function
-    /// @return `*this`
-    PluginProperties& setProtocolCreateFunc(ProtocolCreateFunc&& func);
 
     /// @brief Assign callback for list of @b QAction allocation.
     /// @param[in] func Callback function
@@ -85,9 +77,6 @@ public:
     /// @param[in] name Name of the property
     /// @param[out] val Property value
     PluginProperties& setCustomProperty(const QString& name, QVariant&& val);
-
-    /// @brief Retrieve @ref Protocol creation callback.
-    ProtocolCreateFunc getProtocolCreateFunc() const;
 
     /// @brief Retrieve GUI Actions creation callback.
     GuiActionsCreateFunc getGuiActionsCreateFunc() const;
@@ -106,7 +95,6 @@ private:
 
 }  // namespace cc_tools_qt
 
-Q_DECLARE_METATYPE(cc_tools_qt::PluginProperties::ProtocolCreateFunc);
 Q_DECLARE_METATYPE(cc_tools_qt::PluginProperties::GuiActionsCreateFunc);
 Q_DECLARE_METATYPE(cc_tools_qt::PluginProperties::ConfigWidgetCreateFunc);
 

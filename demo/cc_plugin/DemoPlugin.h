@@ -40,6 +40,9 @@ class DemoPlugin : public cc_tools_qt::Plugin
 public:
     DemoPlugin();
     ~DemoPlugin() noexcept;
+
+protected:
+    virtual cc_tools_qt::ToolsProtocolPtr createProtocolImpl() override;        
 };
 
 }  // namespace cc_plugin

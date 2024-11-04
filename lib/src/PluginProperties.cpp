@@ -50,13 +50,6 @@ PluginProperties::PluginProperties() = default;
 PluginProperties::~PluginProperties() noexcept = default;
 
 
-PluginProperties& PluginProperties::setProtocolCreateFunc(
-    ProtocolCreateFunc&& func)
-{
-    m_props.insert(ProtocolCreateFuncPropName, QVariant::fromValue(std::move(func)));
-    return *this;
-}
-
 PluginProperties& PluginProperties::setGuiActionsCreateFunc(
     GuiActionsCreateFunc&& func)
 {
@@ -85,11 +78,6 @@ PluginProperties& PluginProperties::setCustomProperty(
         m_props.insert(name, std::move(val));
     } while (false);
     return *this;
-}
-
-PluginProperties::ProtocolCreateFunc PluginProperties::getProtocolCreateFunc() const
-{
-    return getFuncProperty<ProtocolCreateFunc>(m_props, ProtocolCreateFuncPropName);
 }
 
 PluginProperties::GuiActionsCreateFunc PluginProperties::getGuiActionsCreateFunc() const

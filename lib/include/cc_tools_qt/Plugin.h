@@ -94,7 +94,7 @@ public:
     ///     will invoke protocol creation callback function assigned by the
     ///     derived class to pluginProperties().
     /// @return Allocated protocol object
-    ToolsProtocolPtr createProtocol() const;
+    ToolsProtocolPtr createProtocol();
 
     /// @brief Create GUI actions relevant to the plugin.
     /// @details This function will invoke the relevant callback function
@@ -162,6 +162,7 @@ protected:
 
     virtual SocketPtr createSocketImpl();
     virtual FilterPtr createFilterImpl();
+    virtual ToolsProtocolPtr createProtocolImpl();
 
     /// @brief Get access to plugin properties
     /// @details Expected to be called by the derived class to get an access

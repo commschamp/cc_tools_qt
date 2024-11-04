@@ -95,12 +95,18 @@ FilterPtr Plugin::createFilter()
     return filterPtr;
 }
 
-ToolsProtocolPtr Plugin::createProtocol() const
+ToolsProtocolPtr Plugin::createProtocol()
 {
-    auto protocolPtr = invokeCreationFunc(m_props.getProtocolCreateFunc());
+    if (m_type != Type_Protocol) {
+        return ToolsProtocolPtr();
+    }
+
+    auto protocolPtr = createProtocolImpl();
+    assert(protocolPtr);
     if (protocolPtr) {
         protocolPtr->setDebugOutputLevel(m_debugOutputLevel);
     }
+
     return protocolPtr;
 }
 
@@ -159,6 +165,11 @@ SocketPtr Plugin::createSocketImpl()
 FilterPtr Plugin::createFilterImpl()
 {
     return FilterPtr();
+}
+
+ToolsProtocolPtr Plugin::createProtocolImpl()
+{
+    return ToolsProtocolPtr();
 }
 
 PluginProperties& Plugin::pluginProperties()

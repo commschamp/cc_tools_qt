@@ -46,6 +46,9 @@ class RawDataProtocolPlugin : public cc_tools_qt::Plugin
 public:
     RawDataProtocolPlugin();
     ~RawDataProtocolPlugin() noexcept;
+
+protected:
+    virtual ToolsProtocolPtr createProtocolImpl() override;    
 };
 
 }  // namespace cc_plugin
