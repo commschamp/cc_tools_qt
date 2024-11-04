@@ -25,6 +25,7 @@
 #include <QtCore/QStandardPaths>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
+#include <QtCore/QList>
 
 #include "cc_tools_qt/property/message.h"
 #include "DefaultMessageDisplayHandler.h"
@@ -611,13 +612,12 @@ bool GuiAppMgr::applyNewPlugins(const ListOfPluginInfos& plugins)
         emit sigActivityStateChanged(static_cast<int>(ActivityState::Clear));
     }
 
-    typedef Plugin::ListOfFilters ListOfFilters;
     typedef QList<ActionPtr> ListOfGuiActions;
 
     struct ApplyInfo
     {
         SocketPtr m_socket;
-        ListOfFilters m_filters;
+        QList<FilterPtr> m_filters;
         ToolsProtocolPtr m_protocol;
         ListOfGuiActions m_actions;
     };
@@ -637,7 +637,7 @@ bool GuiAppMgr::applyNewPlugins(const ListOfPluginInfos& plugins)
             applyInfo.m_socket = plugin->createSocket();
         }
 
-        applyInfo.m_filters.append(plugin->createFilters());
+        applyInfo.m_filters.append(plugin->createFilter());
 
         if (!applyInfo.m_protocol) {
             applyInfo.m_protocol = plugin->createProtocol();

@@ -49,9 +49,6 @@ public:
     /// @brief Pointer to widget object
     using WidgetPtr = std::unique_ptr<QWidget>;
 
-    /// @brief List of filter objects
-    using ListOfFilters = PluginProperties::ListOfFilters;
-
     /// @brief List of GUI action buttons
     using ListOfGuiActions = PluginProperties::ListOfGuiActions;
 
@@ -90,12 +87,7 @@ public:
     /// @return Allocated socket object
     SocketPtr createSocket();
 
-    /// @brief Create filters
-    /// @details This function will be called if it is @b filter plugin. It
-    ///     will invoke filters creation callback function assigned by the
-    ///     derived class to pluginProperties().
-    /// @return List of allocated plugin objects
-    ListOfFilters createFilters() const;
+    FilterPtr createFilter();
 
     /// @brief Create protocol
     /// @details This function will be called if it is @b protocol plugin. It
@@ -169,6 +161,7 @@ protected:
     virtual void applyInterPluginConfigImpl(const QVariantMap& props);       
 
     virtual SocketPtr createSocketImpl();
+    virtual FilterPtr createFilterImpl();
 
     /// @brief Get access to plugin properties
     /// @details Expected to be called by the derived class to get an access

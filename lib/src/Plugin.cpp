@@ -81,15 +81,18 @@ SocketPtr Plugin::createSocket()
     return socketPtr;
 }
 
-Plugin::ListOfFilters Plugin::createFilters() const
+FilterPtr Plugin::createFilter()
 {
-    auto filters = invokeCreationFunc(m_props.getFiltersCreateFunc());
-    for (auto& f : filters) {
-        if (f) {
-            f->setDebugOutputLevel(m_debugOutputLevel);
-        }
+    if (m_type != Type_Filter) {
+        return FilterPtr();
     }
-    return filters;
+
+    auto filterPtr = createFilterImpl();
+    assert(filterPtr);
+    if (filterPtr) {
+        filterPtr->setDebugOutputLevel(m_debugOutputLevel);
+    }
+    return filterPtr;
 }
 
 ToolsProtocolPtr Plugin::createProtocol() const
@@ -151,6 +154,11 @@ void Plugin::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& prop
 SocketPtr Plugin::createSocketImpl()
 {
     return SocketPtr();
+}
+
+FilterPtr Plugin::createFilterImpl()
+{
+    return FilterPtr();
 }
 
 PluginProperties& Plugin::pluginProperties()

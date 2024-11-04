@@ -57,13 +57,6 @@ PluginProperties& PluginProperties::setProtocolCreateFunc(
     return *this;
 }
 
-PluginProperties& PluginProperties::setFiltersCreateFunc(
-    FiltersCreateFunc&& func)
-{
-    m_props.insert(FiltersCreateFuncPropName, QVariant::fromValue(std::move(func)));
-    return *this;
-}
-
 PluginProperties& PluginProperties::setGuiActionsCreateFunc(
     GuiActionsCreateFunc&& func)
 {
@@ -97,11 +90,6 @@ PluginProperties& PluginProperties::setCustomProperty(
 PluginProperties::ProtocolCreateFunc PluginProperties::getProtocolCreateFunc() const
 {
     return getFuncProperty<ProtocolCreateFunc>(m_props, ProtocolCreateFuncPropName);
-}
-
-PluginProperties::FiltersCreateFunc PluginProperties::getFiltersCreateFunc() const
-{
-    return getFuncProperty<FiltersCreateFunc>(m_props, FiltersCreateFuncPropName);
 }
 
 PluginProperties::GuiActionsCreateFunc PluginProperties::getGuiActionsCreateFunc() const

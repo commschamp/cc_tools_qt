@@ -42,9 +42,6 @@ namespace cc_tools_qt
 class CC_API PluginProperties
 {
 public:
-    /// @brief List of @ref Filter objects
-    using ListOfFilters = QList<FilterPtr>;
-
     /// @brief List of dynamically allocated @b QAction objects
     using ListOfGuiActions = QList<QAction*>;
 
@@ -56,9 +53,6 @@ public:
 
     /// @brief Type of callback to be used to allocate a @ref Protocol object
     using ProtocolCreateFunc = std::function<ToolsProtocolPtr ()>;
-
-    /// @brief Type of callback to be used to allocate a @ref Filter objects
-    using FiltersCreateFunc = std::function<ListOfFilters ()>;
 
     /// @brief Type of callback to be used to allocate @b QAction to be
     ///     displayed in the main toolbar of GUI application.
@@ -76,11 +70,6 @@ public:
     /// @param[in] func Callback function
     /// @return `*this`
     PluginProperties& setProtocolCreateFunc(ProtocolCreateFunc&& func);
-
-    /// @brief Assign callback for @ref Filter allocation.
-    /// @param[in] func Callback function
-    /// @return `*this`
-    PluginProperties& setFiltersCreateFunc(FiltersCreateFunc&& func);
 
     /// @brief Assign callback for list of @b QAction allocation.
     /// @param[in] func Callback function
@@ -100,9 +89,6 @@ public:
     /// @brief Retrieve @ref Protocol creation callback.
     ProtocolCreateFunc getProtocolCreateFunc() const;
 
-    /// @brief Retrieve list of @ref Filter creation callback.
-    FiltersCreateFunc getFiltersCreateFunc() const;
-
     /// @brief Retrieve GUI Actions creation callback.
     GuiActionsCreateFunc getGuiActionsCreateFunc() const;
 
@@ -121,7 +107,6 @@ private:
 }  // namespace cc_tools_qt
 
 Q_DECLARE_METATYPE(cc_tools_qt::PluginProperties::ProtocolCreateFunc);
-Q_DECLARE_METATYPE(cc_tools_qt::PluginProperties::FiltersCreateFunc);
 Q_DECLARE_METATYPE(cc_tools_qt::PluginProperties::GuiActionsCreateFunc);
 Q_DECLARE_METATYPE(cc_tools_qt::PluginProperties::ConfigWidgetCreateFunc);
 
