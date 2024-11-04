@@ -58,7 +58,7 @@ void PluginConfigWrapsListWidget::addPluginConfig(PluginInfoPtr pluginInfo)
 
     m_loadedPlugins.push_back(plugin);
 
-    auto* configWidget = plugin->createConfiguarionWidget();
+    auto* configWidget = plugin->createConfigurationWidget();
     if (configWidget == nullptr) {
         return;
     }

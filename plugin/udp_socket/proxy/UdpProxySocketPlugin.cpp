@@ -98,7 +98,7 @@ SocketPtr UdpProxySocketPlugin::createSocketImpl()
     return m_socket;
 }
 
-QWidget* UdpProxySocketPlugin::createConfiguarionWidgetImpl()
+QWidget* UdpProxySocketPlugin::createConfigurationWidgetImpl()
 {
     createSocketIfNeeded();
     return new UdpProxySocketConfigWidget(*m_socket);

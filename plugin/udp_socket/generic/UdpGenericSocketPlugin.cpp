@@ -107,7 +107,7 @@ SocketPtr UdpGenericSocketPlugin::createSocketImpl()
     return m_socket;
 }
 
-QWidget* UdpGenericSocketPlugin::createConfiguarionWidgetImpl()
+QWidget* UdpGenericSocketPlugin::createConfigurationWidgetImpl()
 {
     createSocketIfNeeded();
     return new UdpGenericSocketConfigWidget(*m_socket);

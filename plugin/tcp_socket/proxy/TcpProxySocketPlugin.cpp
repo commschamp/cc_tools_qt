@@ -104,7 +104,7 @@ SocketPtr TcpProxySocketPlugin::createSocketImpl()
     return m_socket;
 }
 
-QWidget* TcpProxySocketPlugin::createConfiguarionWidgetImpl()
+QWidget* TcpProxySocketPlugin::createConfigurationWidgetImpl()
 {
     createSocketIfNeeded();
     return new TcpProxySocketConfigWidget(*m_socket);

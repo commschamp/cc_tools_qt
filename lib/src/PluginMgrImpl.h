@@ -43,7 +43,6 @@ public:
     typedef PluginMgr::PluginInfo PluginInfo;
     typedef PluginMgr::PluginInfoPtr PluginInfoPtr;
     typedef PluginMgr::ListOfPluginInfos ListOfPluginInfos;
-    typedef Plugin::WidgetPtr WidgetPtr;
 
     PluginMgrImpl();
     ~PluginMgrImpl() noexcept;

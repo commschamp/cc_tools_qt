@@ -110,19 +110,14 @@ ToolsProtocolPtr Plugin::createProtocol()
     return protocolPtr;
 }
 
-Plugin::ListOfGuiActions Plugin::createGuiActions() const
+QWidget* Plugin::createConfigurationWidget()
 {
-    return invokeCreationFunc(m_props.getGuiActionsCreateFunc());
+    return createConfigurationWidgetImpl();
 }
 
-QWidget* Plugin::createConfiguarionWidget()
+Plugin::ListOfGuiActions Plugin::createGuiActions()
 {
-    return createConfiguarionWidgetImpl();
-}
-
-QVariant Plugin::getCustomProperty(const QString& name)
-{
-    return m_props.getCustomProperty(name);
+    return createGuiActionsImpl();
 }
 
 void Plugin::applyInterPluginConfig(const QVariantMap& props)
@@ -167,14 +162,14 @@ ToolsProtocolPtr Plugin::createProtocolImpl()
     return ToolsProtocolPtr();
 }
 
-QWidget* Plugin::createConfiguarionWidgetImpl()
+QWidget* Plugin::createConfigurationWidgetImpl()
 {
     return nullptr;
 }
 
-PluginProperties& Plugin::pluginProperties()
+Plugin::ListOfGuiActions Plugin::createGuiActionsImpl()
 {
-    return m_props;
+    return ListOfGuiActions();
 }
 
 void Plugin::reportInterPluginConfig(const QVariantMap& props)

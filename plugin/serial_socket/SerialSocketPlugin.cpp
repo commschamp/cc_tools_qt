@@ -130,7 +130,7 @@ SocketPtr SerialSocketPlugin::createSocketImpl()
     return m_socket;
 }
 
-QWidget* SerialSocketPlugin::createConfiguarionWidgetImpl()
+QWidget* SerialSocketPlugin::createConfigurationWidgetImpl()
 {
     createSocketIfNeeded();
     return new SerialSocketConfigWidget(*m_socket);

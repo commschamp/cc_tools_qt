@@ -87,7 +87,6 @@ public:
 
     typedef std::shared_ptr<PluginInfo> PluginInfoPtr;
     typedef std::list<PluginInfoPtr> ListOfPluginInfos;
-    typedef Plugin::WidgetPtr WidgetPtr;
 
     PluginMgr();
     ~PluginMgr() noexcept;

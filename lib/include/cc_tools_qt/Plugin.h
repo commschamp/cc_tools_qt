@@ -18,17 +18,17 @@
 
 #pragma once
 
-#include <string>
-#include <cassert>
-#include <memory>
+#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/Socket.h"
+#include "cc_tools_qt/Filter.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 #include <QtCore/QObject>
+#include <QtCore/QList>
 #include <QtCore/QtPlugin>
 #include <QtCore/QVariantMap>
 
-#include "Api.h"
-#include "PluginProperties.h"
-
+class QAction;
 class QWidget;
 
 namespace cc_tools_qt
@@ -47,11 +47,8 @@ public:
         Type_NumOfValues
     };
 
-    /// @brief Pointer to widget object
-    using WidgetPtr = std::unique_ptr<QWidget>;
-
     /// @brief List of GUI action buttons
-    using ListOfGuiActions = PluginProperties::ListOfGuiActions;
+    using ListOfGuiActions = QList<QAction*>;
 
     /// @brief Constructor
     explicit Plugin(Type type);
@@ -97,16 +94,6 @@ public:
     /// @return Allocated protocol object
     ToolsProtocolPtr createProtocol();
 
-    /// @brief Create GUI actions relevant to the plugin.
-    /// @details This function will invoke the relevant callback function
-    ///     assigned by the derived class to pluginProperties(). The callback
-    ///     function is responsible to allocate and return a list of
-    ///     @b QAction objects, which will appear to the main toolbar of the
-    ///     GUI application. Note, that the main application will @b own the
-    ///     allocated @b QAction objects and will delete them later. The plugin
-    ///     doesn't need to do it explicityly.
-    /// @return List of GUI QAction objects.
-    ListOfGuiActions createGuiActions() const;
 
     /// @brief Create a widget to perform plugin configuration in GUI application.
     /// @details Sometimes there is a need to provide a way to configure the
@@ -116,13 +103,18 @@ public:
     ///     GUI application, i.e. the plugin doesn't need to perform any
     ///     delete operation on it.
     /// @return Dynamically allocated widget object
-    QWidget* createConfiguarionWidget();
+    QWidget* createConfigurationWidget();    
 
-    /// @brief Retrieve custom property assigned by the derived class.
-    /// @param[in] name Name of the property
-    /// @return Property value. The value needs to be converted to
-    ///     proper type by the caller.
-    QVariant getCustomProperty(const QString& name);
+    /// @brief Create GUI actions relevant to the plugin.
+    /// @details This function will invoke the relevant callback function
+    ///     assigned by the derived class to pluginProperties(). The callback
+    ///     function is responsible to allocate and return a list of
+    ///     @b QAction objects, which will appear to the main toolbar of the
+    ///     GUI application. Note, that the main application will @b own the
+    ///     allocated @b QAction objects and will delete them later. The plugin
+    ///     doesn't need to do it explicityly.
+    /// @return List of GUI QAction objects.
+    ListOfGuiActions createGuiActions();
 
     /// @brief Apply inter-plugin configuration.
     /// @details Allows one plugin to influence the configuration of another.
@@ -164,14 +156,8 @@ protected:
     virtual SocketPtr createSocketImpl();
     virtual FilterPtr createFilterImpl();
     virtual ToolsProtocolPtr createProtocolImpl();
-    virtual QWidget* createConfiguarionWidgetImpl();
-
-    /// @brief Get access to plugin properties
-    /// @details Expected to be called by the derived class to get an access
-    ///     to the properties accumulation objects and provide appropriate
-    ///     callbacks and/or other custom properties.
-    /// @return Reference to plugin properties object
-    PluginProperties& pluginProperties();
+    virtual QWidget* createConfigurationWidgetImpl();
+    virtual ListOfGuiActions createGuiActionsImpl();
 
     /// @brief Report inter-plugin configuration.
     /// @details Sometimes configuration of one plugin may influence configuration of another.
@@ -183,7 +169,6 @@ protected:
 
 private:
     Type m_type = Type_NumOfValues;
-    PluginProperties m_props;
     InterPluginConfigReportCallback m_interPluginConfigReportCallback;
     unsigned m_debugOutputLevel = 0U;
 };

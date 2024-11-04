@@ -86,7 +86,7 @@ SocketPtr TcpServerSocketPlugin::createSocketImpl()
     return m_socket;
 }
 
-QWidget* TcpServerSocketPlugin::createConfiguarionWidgetImpl()
+QWidget* TcpServerSocketPlugin::createConfigurationWidgetImpl()
 {
     createSocketIfNeeded();
     return new TcpServerSocketConfigWidget(*m_socket);

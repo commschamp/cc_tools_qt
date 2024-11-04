@@ -188,7 +188,7 @@ SocketPtr SslClientSocketPlugin::createSocketImpl()
     return m_socket;
 }
 
-QWidget* SslClientSocketPlugin::createConfiguarionWidgetImpl()
+QWidget* SslClientSocketPlugin::createConfigurationWidgetImpl()
 {
     createSocketIfNeeded();
     return new SslClientSocketConfigWidget(*m_socket);

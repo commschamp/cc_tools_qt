@@ -22,7 +22,6 @@ function (lib_tools)
         MessageHandler.cpp
         Plugin.cpp
         DataInfo.cpp
-        PluginProperties.cpp
         ConfigMgr.cpp
         PluginMgr.cpp
         PluginMgrImpl.cpp
