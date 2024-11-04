@@ -41,13 +41,6 @@ const QString LocalPortSubKey("local_port");
 UdpProxySocketPlugin::UdpProxySocketPlugin() :
     Base(Type_Socket)
 {
-    pluginProperties()
-        .setConfigWidgetCreateFunc(
-            [this]() -> QWidget*
-            {
-                createSocketIfNeeded();
-                return new UdpProxySocketConfigWidget(*m_socket);
-            });
 }
 
 UdpProxySocketPlugin::~UdpProxySocketPlugin() noexcept = default;
@@ -103,6 +96,12 @@ SocketPtr UdpProxySocketPlugin::createSocketImpl()
 {
     createSocketIfNeeded();
     return m_socket;
+}
+
+QWidget* UdpProxySocketPlugin::createConfiguarionWidgetImpl()
+{
+    createSocketIfNeeded();
+    return new UdpProxySocketConfigWidget(*m_socket);
 }
 
 void UdpProxySocketPlugin::createSocketIfNeeded()

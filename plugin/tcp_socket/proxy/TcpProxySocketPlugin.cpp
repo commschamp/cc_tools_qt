@@ -42,13 +42,6 @@ const QString RemotePortSubKey("remote_port");
 TcpProxySocketPlugin::TcpProxySocketPlugin() :
     Base(Type_Socket)
 {
-    pluginProperties()
-        .setConfigWidgetCreateFunc(
-            [this]()
-            {
-                createSocketIfNeeded();
-                return new TcpProxySocketConfigWidget(*m_socket);
-            });
 }
 
 TcpProxySocketPlugin::~TcpProxySocketPlugin() noexcept = default;
@@ -109,6 +102,12 @@ SocketPtr TcpProxySocketPlugin::createSocketImpl()
 {
     createSocketIfNeeded();
     return m_socket;
+}
+
+QWidget* TcpProxySocketPlugin::createConfiguarionWidgetImpl()
+{
+    createSocketIfNeeded();
+    return new TcpProxySocketConfigWidget(*m_socket);
 }
 
 void TcpProxySocketPlugin::createSocketIfNeeded()

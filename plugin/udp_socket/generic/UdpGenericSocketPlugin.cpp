@@ -42,13 +42,6 @@ const QString BroadcastMaskSubKey("broadcast_prop");
 UdpGenericSocketPlugin::UdpGenericSocketPlugin() :
     Base(Type_Socket)
 {
-    pluginProperties()
-        .setConfigWidgetCreateFunc(
-            [this]() -> QWidget*
-            {
-                createSocketIfNeeded();
-                return new UdpGenericSocketConfigWidget(*m_socket);
-            });
 }
 
 UdpGenericSocketPlugin::~UdpGenericSocketPlugin() noexcept = default;
@@ -112,6 +105,12 @@ SocketPtr UdpGenericSocketPlugin::createSocketImpl()
 {
     createSocketIfNeeded();
     return m_socket;
+}
+
+QWidget* UdpGenericSocketPlugin::createConfiguarionWidgetImpl()
+{
+    createSocketIfNeeded();
+    return new UdpGenericSocketConfigWidget(*m_socket);
 }
 
 void UdpGenericSocketPlugin::createSocketIfNeeded()

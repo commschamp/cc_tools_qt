@@ -40,13 +40,6 @@ const QString PortSubKey("port");
 TcpServerSocketPlugin::TcpServerSocketPlugin() :
     Base(Type_Socket)
 {
-    pluginProperties()
-        .setConfigWidgetCreateFunc(
-            [this]()
-            {
-                createSocketIfNeeded();
-                return new TcpServerSocketConfigWidget(*m_socket);
-            });
 }
 
 TcpServerSocketPlugin::~TcpServerSocketPlugin() noexcept = default;
@@ -91,6 +84,12 @@ SocketPtr TcpServerSocketPlugin::createSocketImpl()
 {
     createSocketIfNeeded();
     return m_socket;
+}
+
+QWidget* TcpServerSocketPlugin::createConfiguarionWidgetImpl()
+{
+    createSocketIfNeeded();
+    return new TcpServerSocketConfigWidget(*m_socket);
 }
 
 void TcpServerSocketPlugin::createSocketIfNeeded()

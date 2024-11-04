@@ -32,7 +32,6 @@
 #include "Api.h"
 
 class QAction;
-class QWidget;
 
 namespace cc_tools_qt
 {
@@ -57,21 +56,10 @@ public:
     ///     application. The plugin won't need to delete them explicitly.
     using GuiActionsCreateFunc = std::function<ListOfGuiActions ()>;
 
-    /// @brief Type of callback to be used when a widget responsible to configure
-    ///     the plugin needs to be allocated. The allocated widget will be
-    ///     owned by the application. The plugin won't need to delete it
-    ///     explicitly.
-    using ConfigWidgetCreateFunc = std::function<QWidget* ()>;
-
     /// @brief Assign callback for list of @b QAction allocation.
     /// @param[in] func Callback function
     /// @return `*this`
     PluginProperties& setGuiActionsCreateFunc(GuiActionsCreateFunc&& func);
-
-    /// @brief Assign callback for configuration widget creation.
-    /// @param[in] func Callback function
-    /// @return `*this`
-    PluginProperties& setConfigWidgetCreateFunc(ConfigWidgetCreateFunc&& func);
 
     /// @brief Set custom property
     /// @param[in] name Name of the property
@@ -80,9 +68,6 @@ public:
 
     /// @brief Retrieve GUI Actions creation callback.
     GuiActionsCreateFunc getGuiActionsCreateFunc() const;
-
-    /// @brief Retrieve plugin configuration widget creation callback.
-    ConfigWidgetCreateFunc getConfigWidgetCreateFunc() const;
 
     /// @brief Get custom property
     /// @param[in] name Property name
@@ -96,6 +81,5 @@ private:
 }  // namespace cc_tools_qt
 
 Q_DECLARE_METATYPE(cc_tools_qt::PluginProperties::GuiActionsCreateFunc);
-Q_DECLARE_METATYPE(cc_tools_qt::PluginProperties::ConfigWidgetCreateFunc);
 
 

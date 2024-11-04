@@ -53,13 +53,6 @@ const QString PrivFormatSubKey("priv_format");
 SslClientSocketPlugin::SslClientSocketPlugin() :
     Base(Type_Socket)
 {
-    pluginProperties()
-        .setConfigWidgetCreateFunc(
-            [this]()
-            {
-                createSocketIfNeeded();
-                return new SslClientSocketConfigWidget(*m_socket);
-            });
 }
 
 SslClientSocketPlugin::~SslClientSocketPlugin() noexcept = default;
@@ -193,6 +186,12 @@ SocketPtr SslClientSocketPlugin::createSocketImpl()
 {
     createSocketIfNeeded();
     return m_socket;
+}
+
+QWidget* SslClientSocketPlugin::createConfiguarionWidgetImpl()
+{
+    createSocketIfNeeded();
+    return new SslClientSocketConfigWidget(*m_socket);
 }
 
 void SslClientSocketPlugin::createSocketIfNeeded()

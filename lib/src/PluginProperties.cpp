@@ -57,13 +57,6 @@ PluginProperties& PluginProperties::setGuiActionsCreateFunc(
     return *this;
 }
 
-PluginProperties& PluginProperties::setConfigWidgetCreateFunc(
-    ConfigWidgetCreateFunc&& func)
-{
-    m_props.insert(ConfigWidgetCreateFuncPropName, QVariant::fromValue(std::move(func)));
-    return *this;
-}
-
 PluginProperties& PluginProperties::setCustomProperty(
     const QString& name,
     QVariant&& val)
@@ -83,11 +76,6 @@ PluginProperties& PluginProperties::setCustomProperty(
 PluginProperties::GuiActionsCreateFunc PluginProperties::getGuiActionsCreateFunc() const
 {
     return getFuncProperty<GuiActionsCreateFunc>(m_props, GuiActionsCreateFuncPropName);
-}
-
-PluginProperties::ConfigWidgetCreateFunc PluginProperties::getConfigWidgetCreateFunc() const
-{
-    return getFuncProperty<ConfigWidgetCreateFunc>(m_props, ConfigWidgetCreateFuncPropName);
 }
 
 QVariant PluginProperties::getCustomProperty(const QString& name) const

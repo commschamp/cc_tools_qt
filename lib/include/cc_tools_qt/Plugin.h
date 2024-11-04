@@ -25,10 +25,11 @@
 #include <QtCore/QObject>
 #include <QtCore/QtPlugin>
 #include <QtCore/QVariantMap>
-#include <QtWidgets/QWidget>
 
 #include "Api.h"
 #include "PluginProperties.h"
+
+class QWidget;
 
 namespace cc_tools_qt
 {
@@ -115,7 +116,7 @@ public:
     ///     GUI application, i.e. the plugin doesn't need to perform any
     ///     delete operation on it.
     /// @return Dynamically allocated widget object
-    QWidget* createConfiguarionWidget() const;
+    QWidget* createConfiguarionWidget();
 
     /// @brief Retrieve custom property assigned by the derived class.
     /// @param[in] name Name of the property
@@ -163,6 +164,7 @@ protected:
     virtual SocketPtr createSocketImpl();
     virtual FilterPtr createFilterImpl();
     virtual ToolsProtocolPtr createProtocolImpl();
+    virtual QWidget* createConfiguarionWidgetImpl();
 
     /// @brief Get access to plugin properties
     /// @details Expected to be called by the derived class to get an access

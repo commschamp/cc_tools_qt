@@ -47,6 +47,7 @@ protected:
     virtual void reconfigureImpl(const QVariantMap& config) override;
     virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;     
     virtual SocketPtr createSocketImpl() override;    
+    virtual QWidget* createConfiguarionWidgetImpl() override;
     
 private:
 

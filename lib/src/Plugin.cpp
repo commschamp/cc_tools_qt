@@ -115,14 +115,9 @@ Plugin::ListOfGuiActions Plugin::createGuiActions() const
     return invokeCreationFunc(m_props.getGuiActionsCreateFunc());
 }
 
-QWidget* Plugin::createConfiguarionWidget() const
+QWidget* Plugin::createConfiguarionWidget()
 {
-    auto func = m_props.getConfigWidgetCreateFunc();
-    if (!func) {
-        return nullptr;
-    }
-
-    return func();
+    return createConfiguarionWidgetImpl();
 }
 
 QVariant Plugin::getCustomProperty(const QString& name)
@@ -170,6 +165,11 @@ FilterPtr Plugin::createFilterImpl()
 ToolsProtocolPtr Plugin::createProtocolImpl()
 {
     return ToolsProtocolPtr();
+}
+
+QWidget* Plugin::createConfiguarionWidgetImpl()
+{
+    return nullptr;
 }
 
 PluginProperties& Plugin::pluginProperties()

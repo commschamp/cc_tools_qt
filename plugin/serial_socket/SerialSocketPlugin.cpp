@@ -48,13 +48,6 @@ const QString FlowControlSubKey("flow");
 SerialSocketPlugin::SerialSocketPlugin() :
     Base(Type_Socket)
 {
-    pluginProperties()
-        .setConfigWidgetCreateFunc(
-            [this]()
-            {
-                createSocketIfNeeded();
-                return new SerialSocketConfigWidget(*m_socket);
-            });
 }
 
 SerialSocketPlugin::~SerialSocketPlugin() noexcept = default;
@@ -135,6 +128,12 @@ SocketPtr SerialSocketPlugin::createSocketImpl()
 {
     createSocketIfNeeded();
     return m_socket;
+}
+
+QWidget* SerialSocketPlugin::createConfiguarionWidgetImpl()
+{
+    createSocketIfNeeded();
+    return new SerialSocketConfigWidget(*m_socket);
 }
 
 void SerialSocketPlugin::createSocketIfNeeded()
