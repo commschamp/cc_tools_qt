@@ -28,7 +28,7 @@
 #include <QtCore/QJsonArray>
 #include <QtCore/QVariantList>
 
-#include "cc_tools_qt/Plugin.h"
+#include "cc_tools_qt/ToolsPlugin.h"
 
 namespace cc_tools_qt
 {
@@ -55,10 +55,10 @@ struct PluginLoaderDeleter
     }
 };
 
-Plugin* getPlugin(QPluginLoader& loader)
+ToolsPlugin* getPlugin(QPluginLoader& loader)
 {
     auto* inst = loader.instance();
-    auto* plugin = qobject_cast<Plugin*>(loader.instance());
+    auto* plugin = qobject_cast<ToolsPlugin*>(loader.instance());
 
     do {
         if (plugin != nullptr) {
@@ -229,7 +229,7 @@ bool PluginMgrImpl::savePluginsToConfigFile(
     return m_configMgr.saveConfig(filename, config);
 }
 
-Plugin* PluginMgrImpl::loadPlugin(const PluginInfo& info)
+ToolsPlugin* PluginMgrImpl::loadPlugin(const PluginInfo& info)
 {
     return getPlugin(*info.m_loader);
 }

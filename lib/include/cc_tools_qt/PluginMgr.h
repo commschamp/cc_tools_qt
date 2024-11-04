@@ -26,8 +26,8 @@
 #include <QtCore/QVariantMap>
 #include <QtCore/QPluginLoader>
 
-#include "Api.h"
-#include "Plugin.h"
+#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/ToolsPlugin.h"
 
 namespace cc_tools_qt
 {
@@ -98,7 +98,7 @@ public:
     ListOfPluginInfos loadPluginsFromConfig(const QVariantMap& config);
     ListOfPluginInfos loadPluginsFromConfigFile(const QString& filename);
     bool savePluginsToConfigFile(const ListOfPluginInfos& infos, const QString& filename);
-    Plugin* loadPlugin(const PluginInfo& info);
+    ToolsPlugin* loadPlugin(const PluginInfo& info);
     bool hasAppliedPlugins() const;
     bool needsReload(const ListOfPluginInfos& infos) const;
     bool isProtocolChanging(const ListOfPluginInfos& infos) const;

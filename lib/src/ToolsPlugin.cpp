@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/Plugin.h"
+#include "cc_tools_qt/ToolsPlugin.h"
 
 namespace cc_tools_qt
 {
@@ -37,37 +37,37 @@ auto invokeCreationFunc(TFunc&& func) -> decltype(func())
 
 }  // namespace
 
-Plugin::Plugin(Type type) :
+ToolsPlugin::ToolsPlugin(Type type) :
     m_type(type)
 {
     assert(type < Type_NumOfValues);
 }
 
-Plugin::~Plugin() noexcept = default;
+ToolsPlugin::~ToolsPlugin() noexcept = default;
 
-Plugin::Type Plugin::type() const
+ToolsPlugin::Type ToolsPlugin::type() const
 {
     return m_type;
 }
 
-void Plugin::getCurrentConfig(QVariantMap& config)
+void ToolsPlugin::getCurrentConfig(QVariantMap& config)
 {
     getCurrentConfigImpl(config);
 }
 
-QVariantMap Plugin::getCurrentConfig()
+QVariantMap ToolsPlugin::getCurrentConfig()
 {
     QVariantMap config;
     getCurrentConfig(config);
     return config;
 }
 
-void Plugin::reconfigure(const QVariantMap& config)
+void ToolsPlugin::reconfigure(const QVariantMap& config)
 {
     reconfigureImpl(config);
 }
 
-SocketPtr Plugin::createSocket()
+SocketPtr ToolsPlugin::createSocket()
 {
     if (m_type != Type_Socket) {
         return SocketPtr();
@@ -81,7 +81,7 @@ SocketPtr Plugin::createSocket()
     return socketPtr;
 }
 
-FilterPtr Plugin::createFilter()
+FilterPtr ToolsPlugin::createFilter()
 {
     if (m_type != Type_Filter) {
         return FilterPtr();
@@ -95,7 +95,7 @@ FilterPtr Plugin::createFilter()
     return filterPtr;
 }
 
-ToolsProtocolPtr Plugin::createProtocol()
+ToolsProtocolPtr ToolsPlugin::createProtocol()
 {
     if (m_type != Type_Protocol) {
         return ToolsProtocolPtr();
@@ -110,69 +110,69 @@ ToolsProtocolPtr Plugin::createProtocol()
     return protocolPtr;
 }
 
-QWidget* Plugin::createConfigurationWidget()
+QWidget* ToolsPlugin::createConfigurationWidget()
 {
     return createConfigurationWidgetImpl();
 }
 
-Plugin::ListOfGuiActions Plugin::createGuiActions()
+ToolsPlugin::ListOfGuiActions ToolsPlugin::createGuiActions()
 {
     return createGuiActionsImpl();
 }
 
-void Plugin::applyInterPluginConfig(const QVariantMap& props)
+void ToolsPlugin::applyInterPluginConfig(const QVariantMap& props)
 {
     applyInterPluginConfigImpl(props);
 }
 
-void Plugin::setInterPluginConfigReportCallback(InterPluginConfigReportCallback&& func)
+void ToolsPlugin::setInterPluginConfigReportCallback(InterPluginConfigReportCallback&& func)
 {
     m_interPluginConfigReportCallback = std::move(func);
 }    
 
-void Plugin::setDebugOutputLevel(unsigned level)
+void ToolsPlugin::setDebugOutputLevel(unsigned level)
 {
     m_debugOutputLevel = level;
 }
 
-void Plugin::getCurrentConfigImpl([[maybe_unused]] QVariantMap& config)
+void ToolsPlugin::getCurrentConfigImpl([[maybe_unused]] QVariantMap& config)
 {
 }
 
-void Plugin::reconfigureImpl([[maybe_unused]] const QVariantMap& config)
+void ToolsPlugin::reconfigureImpl([[maybe_unused]] const QVariantMap& config)
 {
 }
 
-void Plugin::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& props)
+void ToolsPlugin::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& props)
 {
 }
 
-SocketPtr Plugin::createSocketImpl()
+SocketPtr ToolsPlugin::createSocketImpl()
 {
     return SocketPtr();
 }
 
-FilterPtr Plugin::createFilterImpl()
+FilterPtr ToolsPlugin::createFilterImpl()
 {
     return FilterPtr();
 }
 
-ToolsProtocolPtr Plugin::createProtocolImpl()
+ToolsProtocolPtr ToolsPlugin::createProtocolImpl()
 {
     return ToolsProtocolPtr();
 }
 
-QWidget* Plugin::createConfigurationWidgetImpl()
+QWidget* ToolsPlugin::createConfigurationWidgetImpl()
 {
     return nullptr;
 }
 
-Plugin::ListOfGuiActions Plugin::createGuiActionsImpl()
+ToolsPlugin::ListOfGuiActions ToolsPlugin::createGuiActionsImpl()
 {
     return ListOfGuiActions();
 }
 
-void Plugin::reportInterPluginConfig(const QVariantMap& props)
+void ToolsPlugin::reportInterPluginConfig(const QVariantMap& props)
 {
     if (m_interPluginConfigReportCallback) {
         m_interPluginConfigReportCallback(props);

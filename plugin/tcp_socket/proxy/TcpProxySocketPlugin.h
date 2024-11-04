@@ -20,7 +20,7 @@
 
 #include <memory>
 
-#include "cc_tools_qt/Plugin.h"
+#include "cc_tools_qt/ToolsPlugin.h"
 
 #include "TcpProxySocket.h"
 
@@ -31,13 +31,13 @@ namespace plugin
 {
 
 
-class TcpProxySocketPlugin : public cc_tools_qt::Plugin
+class TcpProxySocketPlugin : public cc_tools_qt::ToolsPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "cc.TcpProxySocketPlugin" FILE "tcp_proxy_socket.json")
-    Q_INTERFACES(cc_tools_qt::Plugin)
+    Q_INTERFACES(cc_tools_qt::ToolsPlugin)
 
-    using Base = cc_tools_qt::Plugin;
+    using Base = cc_tools_qt::ToolsPlugin;
 
 public:
     TcpProxySocketPlugin();

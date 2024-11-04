@@ -20,7 +20,7 @@
 
 #include <memory>
 
-#include "cc_tools_qt/Plugin.h"
+#include "cc_tools_qt/ToolsPlugin.h"
 #include "cc_tools_qt/Socket.h"
 
 namespace cc_tools_qt
@@ -29,13 +29,13 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-class EchoSocketPlugin : public cc_tools_qt::Plugin
+class EchoSocketPlugin : public cc_tools_qt::ToolsPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "cc.EchoSocketPlugin" FILE "echo_socket.json")
-    Q_INTERFACES(cc_tools_qt::Plugin)
+    Q_INTERFACES(cc_tools_qt::ToolsPlugin)
 
-    using Base = cc_tools_qt::Plugin;
+    using Base = cc_tools_qt::ToolsPlugin;
 
 public:
     EchoSocketPlugin();

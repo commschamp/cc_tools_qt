@@ -20,7 +20,6 @@ function (lib_tools)
         Filter.cpp
         Socket.cpp
         MessageHandler.cpp
-        Plugin.cpp
         DataInfo.cpp
         ConfigMgr.cpp
         PluginMgr.cpp
@@ -34,6 +33,7 @@ function (lib_tools)
         ToolsFieldHandler.cpp
         ToolsFrame.cpp
         ToolsMsgFactory.cpp
+        ToolsPlugin.cpp
         ToolsProtocol.cpp
         property/message.cpp
     )

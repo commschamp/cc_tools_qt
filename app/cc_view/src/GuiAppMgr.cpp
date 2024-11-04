@@ -624,7 +624,7 @@ bool GuiAppMgr::applyNewPlugins(const ListOfPluginInfos& plugins)
 
     auto applyInfo = ApplyInfo();
     for (auto& info : plugins) {
-        Plugin* plugin = pluginMgr.loadPlugin(*info);
+        auto* plugin = pluginMgr.loadPlugin(*info);
         if (plugin == nullptr) {
             [[maybe_unused]] static constexpr bool Failed_to_load_plugin = false;
             assert(Failed_to_load_plugin);

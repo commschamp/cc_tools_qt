@@ -35,8 +35,8 @@ namespace cc_tools_qt
 {
 
 /// @brief Interface class for plugin definition
-/// @headerfile cc_tools_qt/Plugin.h
-class CC_API Plugin : public QObject
+/// @headerfile cc_tools_qt/ToolsPlugin.h
+class CC_API ToolsPlugin : public QObject
 {
 public:
     enum Type : unsigned
@@ -51,10 +51,10 @@ public:
     using ListOfGuiActions = QList<QAction*>;
 
     /// @brief Constructor
-    explicit Plugin(Type type);
+    explicit ToolsPlugin(Type type);
 
     /// @brief Destructor
-    virtual ~Plugin() noexcept;
+    virtual ~ToolsPlugin() noexcept;
 
     Type type() const;
 
@@ -175,6 +175,6 @@ private:
 
 }  // namespace cc_tools_qt
 
-Q_DECLARE_INTERFACE(cc_tools_qt::Plugin, "cc.Plugin")
+Q_DECLARE_INTERFACE(cc_tools_qt::ToolsPlugin, "cc.ToolsPlugin")
 
 

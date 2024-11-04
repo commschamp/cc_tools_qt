@@ -68,7 +68,7 @@ bool PluginMgr::savePluginsToConfigFile(
     return m_impl->savePluginsToConfigFile(infos, filename);
 }
 
-Plugin* PluginMgr::loadPlugin(const PluginInfo& info)
+ToolsPlugin* PluginMgr::loadPlugin(const PluginInfo& info)
 {
     return m_impl->loadPlugin(info);
 }
