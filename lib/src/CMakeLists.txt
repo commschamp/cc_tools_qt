@@ -41,7 +41,7 @@ function (lib_tools)
     add_library(${name} SHARED ${src})
     add_library (cc::${PROJECT_NAME} ALIAS ${name})
 
-    target_link_libraries(${name} PUBLIC cc::comms Qt::Widgets Qt::Core ${CC_PLATFORM_SPECIFIC})
+    target_link_libraries(${name} PUBLIC cc::comms Qt::Core ${CC_PLATFORM_SPECIFIC})
     target_include_directories(${name} BEFORE
         PRIVATE
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>

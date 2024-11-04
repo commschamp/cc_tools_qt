@@ -1,5 +1,10 @@
 macro (cc_find_qt_major)
-    find_package(Qt${CC_TOOLS_QT_MAJOR_QT_VERSION} REQUIRED COMPONENTS Core Widgets)
+    set (qt_components Core)
+    if (CC_TOOLS_QT_BUILD_APPS)
+        list (APPEND qt_components Widgets)
+    endif ()
+
+    find_package(Qt${CC_TOOLS_QT_MAJOR_QT_VERSION} REQUIRED COMPONENTS ${qt_components})
     message (STATUS "Using Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}")
 
     if (NOT TARGET Qt::Core)
