@@ -21,8 +21,6 @@ function (lib_tools)
         MsgFileMgr.cpp
         MsgSendMgr.cpp
         MsgSendMgrImpl.cpp
-        MsgMgr.cpp
-        MsgMgrImpl.cpp
         ToolsDataInfo.cpp
         ToolsField.cpp
         ToolsFieldHandler.cpp
@@ -30,6 +28,8 @@ function (lib_tools)
         ToolsFrame.cpp
         ToolsMessage.cpp
         ToolsMsgFactory.cpp
+        ToolsMsgMgr.cpp
+        ToolsMsgMgrImpl.cpp
         ToolsPlugin.cpp
         ToolsProtocol.cpp
         ToolsSocket.cpp

@@ -20,21 +20,19 @@
 
 #include <vector>
 
-#include "cc_tools_qt/MsgMgr.h"
+#include "cc_tools_qt/ToolsMsgMgr.h"
 
 namespace cc_tools_qt
 {
 
-class MsgMgrImpl
+class ToolsMsgMgrImpl
 {
 public:
-    typedef MsgMgr::AllMessages AllMessages;
-    typedef MsgMgr::MessagesList MessagesList;
+    using MessagesList = ToolsMsgMgr::MessagesList;
+    using MsgType = ToolsMsgMgr::MsgType;
 
-    typedef MsgMgr::MsgType MsgType;
-
-    MsgMgrImpl();
-    ~MsgMgrImpl() noexcept;
+    ToolsMsgMgrImpl();
+    ~ToolsMsgMgrImpl() noexcept;
 
     void start();
     void stop();
@@ -53,7 +51,7 @@ public:
 
     void sendMsgs(MessagesList&& msgs);
 
-    const AllMessages& getAllMsgs() const
+    const MessagesList& getAllMsgs() const
     {
         return m_allMsgs;
     }
@@ -64,9 +62,9 @@ public:
     void setProtocol(ToolsProtocolPtr protocol);
     void addFilter(ToolsFilterPtr filter);
 
-    typedef MsgMgr::MsgAddedCallbackFunc MsgAddedCallbackFunc;
-    typedef MsgMgr::ErrorReportCallbackFunc ErrorReportCallbackFunc;
-    typedef MsgMgr::SocketConnectionStatusReportCallbackFunc SocketConnectionStatusReportCallbackFunc;
+    using MsgAddedCallbackFunc = ToolsMsgMgr::MsgAddedCallbackFunc;
+    using ErrorReportCallbackFunc = ToolsMsgMgr::ErrorReportCallbackFunc;
+    using SocketConnectionStatusReportCallbackFunc = ToolsMsgMgr::SocketConnectionStatusReportCallbackFunc;
 
     template <typename TFunc>
     void setMsgAddedCallbackFunc(TFunc&& func)
@@ -96,7 +94,7 @@ private:
     void reportError(const QString& error);
     void reportSocketConnectionStatus(bool connected);
 
-    AllMessages m_allMsgs;
+    MessagesList m_allMsgs;
     bool m_recvEnabled = false;
 
     ToolsSocketPtr m_socket;

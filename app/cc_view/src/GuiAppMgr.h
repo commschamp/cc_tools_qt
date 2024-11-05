@@ -62,7 +62,7 @@ public:
         RecvListMode_ApplyFilter = 1U << 3
     };
 
-    using MsgType = MsgMgr::MsgType ;
+    using MsgType = ToolsMsgMgr::MsgType;
     using ActionPtr = std::shared_ptr<QAction>;
     using ListOfPluginInfos = PluginMgr::ListOfPluginInfos;
     using MessagesList = ToolsProtocol::MessagesList;

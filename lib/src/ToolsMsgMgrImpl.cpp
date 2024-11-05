@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include "MsgMgrImpl.h"
+#include "ToolsMsgMgrImpl.h"
 
 #include <algorithm>
 #include <cassert>
@@ -59,13 +59,13 @@ void updateMsgTimestamp(ToolsMessage& msg, const ToolsDataInfo::Timestamp& times
 
 }  // namespace
 
-MsgMgrImpl::MsgMgrImpl()
+ToolsMsgMgrImpl::ToolsMsgMgrImpl()
 {
 }
 
-MsgMgrImpl::~MsgMgrImpl() noexcept = default;
+ToolsMsgMgrImpl::~ToolsMsgMgrImpl() noexcept = default;
 
-void MsgMgrImpl::start()
+void ToolsMsgMgrImpl::start()
 {
     if (m_running) {
         [[maybe_unused]] static constexpr bool Already_running = false;
@@ -84,7 +84,7 @@ void MsgMgrImpl::start()
     m_running = true;
 }
 
-void MsgMgrImpl::stop()
+void ToolsMsgMgrImpl::stop()
 {
     if (!m_running) {
         [[maybe_unused]] static constexpr bool Already_stopped = false;
@@ -103,7 +103,7 @@ void MsgMgrImpl::stop()
     m_running = false;
 }
 
-void MsgMgrImpl::clear()
+void ToolsMsgMgrImpl::clear()
 {
     if (m_running) {
         [[maybe_unused]] static constexpr bool Still_running = false;
@@ -116,22 +116,22 @@ void MsgMgrImpl::clear()
     m_filters.clear();
 }
 
-ToolsSocketPtr MsgMgrImpl::getSocket() const
+ToolsSocketPtr ToolsMsgMgrImpl::getSocket() const
 {
     return m_socket;
 }
 
-ToolsProtocolPtr MsgMgrImpl::getProtocol() const
+ToolsProtocolPtr ToolsMsgMgrImpl::getProtocol() const
 {
     return m_protocol;
 }
 
-void MsgMgrImpl::setRecvEnabled(bool enabled)
+void ToolsMsgMgrImpl::setRecvEnabled(bool enabled)
 {
     m_recvEnabled = enabled;
 }
 
-void MsgMgrImpl::deleteMsgs(const MessagesList& msgs)
+void ToolsMsgMgrImpl::deleteMsgs(const MessagesList& msgs)
 {
     auto listIter = msgs.begin();
     auto storedIter = m_allMsgs.begin();
@@ -154,7 +154,7 @@ void MsgMgrImpl::deleteMsgs(const MessagesList& msgs)
     m_allMsgs.erase(prevStoredIter, storedIter);
 }
 
-void MsgMgrImpl::deleteMsg(ToolsMessagePtr msg)
+void ToolsMsgMgrImpl::deleteMsg(ToolsMessagePtr msg)
 {
     assert(!m_allMsgs.empty());
     assert(msg);
@@ -178,7 +178,7 @@ void MsgMgrImpl::deleteMsg(ToolsMessagePtr msg)
     m_allMsgs.erase(iter);
 }
 
-void MsgMgrImpl::sendMsgs(MessagesList&& msgs)
+void ToolsMsgMgrImpl::sendMsgs(MessagesList&& msgs)
 {
     if (msgs.empty() || (!m_socket) || (!m_protocol)) {
         return;
@@ -243,7 +243,7 @@ void MsgMgrImpl::sendMsgs(MessagesList&& msgs)
     }
 }
 
-void MsgMgrImpl::addMsgs(const MessagesList& msgs, bool reportAdded)
+void ToolsMsgMgrImpl::addMsgs(const MessagesList& msgs, bool reportAdded)
 {
     for (auto& m : msgs) {
         if (!m) {
@@ -271,7 +271,7 @@ void MsgMgrImpl::addMsgs(const MessagesList& msgs, bool reportAdded)
     }
 }
 
-void MsgMgrImpl::setSocket(ToolsSocketPtr socket)
+void ToolsMsgMgrImpl::setSocket(ToolsSocketPtr socket)
 {
     if (m_socket) {
         m_socket->setDataReceivedCallback(nullptr);
@@ -313,7 +313,7 @@ void MsgMgrImpl::setSocket(ToolsSocketPtr socket)
     m_socket = std::move(socket);
 }
 
-void MsgMgrImpl::setProtocol(ToolsProtocolPtr protocol)
+void ToolsMsgMgrImpl::setProtocol(ToolsProtocolPtr protocol)
 {
     if (m_protocol) {
         m_protocol->setErrorReportCallback(nullptr);
@@ -338,7 +338,7 @@ void MsgMgrImpl::setProtocol(ToolsProtocolPtr protocol)
     m_protocol = std::move(protocol);
 }
 
-void MsgMgrImpl::addFilter(ToolsFilterPtr filter)
+void ToolsMsgMgrImpl::addFilter(ToolsFilterPtr filter)
 {
     if (!filter) {
         return;
@@ -391,7 +391,7 @@ void MsgMgrImpl::addFilter(ToolsFilterPtr filter)
     m_filters.push_back(std::move(filter));
 }
 
-void MsgMgrImpl::socketDataReceived(ToolsDataInfoPtr dataInfoPtr)
+void ToolsMsgMgrImpl::socketDataReceived(ToolsDataInfoPtr dataInfoPtr)
 {
     if ((!m_recvEnabled) || !(m_protocol) || (!dataInfoPtr)) {
         return;
@@ -452,21 +452,21 @@ void MsgMgrImpl::socketDataReceived(ToolsDataInfoPtr dataInfoPtr)
     m_allMsgs.splice(m_allMsgs.end(), std::move(msgsList));
 }
 
-void MsgMgrImpl::updateInternalId(ToolsMessage& msg)
+void ToolsMsgMgrImpl::updateInternalId(ToolsMessage& msg)
 {
     SeqNumber().setTo(m_nextMsgNum, msg);
     ++m_nextMsgNum;
     assert(0 < m_nextMsgNum); // wrap around is not supported
 }
 
-void MsgMgrImpl::reportMsgAdded(ToolsMessagePtr msg)
+void ToolsMsgMgrImpl::reportMsgAdded(ToolsMessagePtr msg)
 {
     if (m_msgAddedCallback) {
         m_msgAddedCallback(std::move(msg));
     }
 }
 
-void MsgMgrImpl::reportError(const QString& error)
+void ToolsMsgMgrImpl::reportError(const QString& error)
 {
     auto timestamp = std::chrono::high_resolution_clock::now();
     auto sinceEpoch = timestamp.time_since_epoch();
@@ -479,7 +479,7 @@ void MsgMgrImpl::reportError(const QString& error)
     }
 }
 
-void MsgMgrImpl::reportSocketConnectionStatus(bool connected)
+void ToolsMsgMgrImpl::reportSocketConnectionStatus(bool connected)
 {
     if (m_socketConnectionStatusReportCallback) {
         m_socketConnectionStatusReportCallback(connected);

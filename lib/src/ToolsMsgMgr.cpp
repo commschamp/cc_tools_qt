@@ -16,106 +16,106 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include "cc_tools_qt/MsgMgr.h"
+#include "cc_tools_qt/ToolsMsgMgr.h"
 
-#include "MsgMgrImpl.h"
+#include "ToolsMsgMgrImpl.h"
 
 namespace cc_tools_qt
 {
 
-MsgMgr::MsgMgr()
-  : m_impl(new MsgMgrImpl())
+ToolsMsgMgr::ToolsMsgMgr()
+  : m_impl(new ToolsMsgMgrImpl())
 {
 }
 
-MsgMgr::~MsgMgr() noexcept = default;
+ToolsMsgMgr::~ToolsMsgMgr() noexcept = default;
 
-void MsgMgr::start()
+void ToolsMsgMgr::start()
 {
     m_impl->start();
 }
 
-void MsgMgr::stop()
+void ToolsMsgMgr::stop()
 {
     m_impl->stop();
 }
 
-void MsgMgr::clear()
+void ToolsMsgMgr::clear()
 {
     m_impl->clear();
 }
 
-ToolsSocketPtr MsgMgr::getSocket() const
+ToolsSocketPtr ToolsMsgMgr::getSocket() const
 {
     return m_impl->getSocket();
 }
 
-ToolsProtocolPtr MsgMgr::getProtocol() const
+ToolsProtocolPtr ToolsMsgMgr::getProtocol() const
 {
     return m_impl->getProtocol();
 }
 
-void MsgMgr::setRecvEnabled(bool enabled)
+void ToolsMsgMgr::setRecvEnabled(bool enabled)
 {
     m_impl->setRecvEnabled(enabled);
 }
 
-void MsgMgr::deleteMsg(ToolsMessagePtr msg)
+void ToolsMsgMgr::deleteMsg(ToolsMessagePtr msg)
 {
     m_impl->deleteMsg(std::move(msg));
 }
 
-void MsgMgr::deleteMsgs(const MessagesList& msgs)
+void ToolsMsgMgr::deleteMsgs(const MessagesList& msgs)
 {
     m_impl->deleteMsgs(msgs);
 }
 
-void MsgMgr::deleteAllMsgs()
+void ToolsMsgMgr::deleteAllMsgs()
 {
     m_impl->deleteAllMsgs();
 }
 
-void MsgMgr::sendMsgs(MessagesList&& msgs)
+void ToolsMsgMgr::sendMsgs(MessagesList&& msgs)
 {
     m_impl->sendMsgs(std::move(msgs));
 }
 
-const MsgMgr::AllMessages& MsgMgr::getAllMsgs() const
+const ToolsMsgMgr::MessagesList& ToolsMsgMgr::getAllMsgs() const
 {
     return m_impl->getAllMsgs();
 }
 
-void MsgMgr::addMsgs(const MessagesList& msgs, bool reportAdded)
+void ToolsMsgMgr::addMsgs(const MessagesList& msgs, bool reportAdded)
 {
     m_impl->addMsgs(msgs, reportAdded);
 }
 
-void MsgMgr::setSocket(ToolsSocketPtr socket)
+void ToolsMsgMgr::setSocket(ToolsSocketPtr socket)
 {
     m_impl->setSocket(std::move(socket));
 }
 
-void MsgMgr::setProtocol(ToolsProtocolPtr protocol)
+void ToolsMsgMgr::setProtocol(ToolsProtocolPtr protocol)
 {
     m_impl->setProtocol(std::move(protocol));
 }
 
-void MsgMgr::addFilter(ToolsFilterPtr filter)
+void ToolsMsgMgr::addFilter(ToolsFilterPtr filter)
 {
     m_impl->addFilter(std::move(filter));
 }
 
-void MsgMgr::setMsgAddedCallbackFunc(MsgAddedCallbackFunc&& func)
+void ToolsMsgMgr::setMsgAddedCallbackFunc(MsgAddedCallbackFunc&& func)
 {
     m_impl->setMsgAddedCallbackFunc(std::move(func));
 }
 
-void MsgMgr::setErrorReportCallbackFunc(ErrorReportCallbackFunc&& func)
+void ToolsMsgMgr::setErrorReportCallbackFunc(ErrorReportCallbackFunc&& func)
 {
     m_impl->setErrorReportCallbackFunc(std::move(func));
 }
 
-void MsgMgr::setSocketConnectionStatusReportCallbackFunc(
+void ToolsMsgMgr::setSocketConnectionStatusReportCallbackFunc(
     SocketConnectionStatusReportCallbackFunc&& func)
 {
     m_impl->setSocketConnectionStatusReportCallbackFunc(std::move(func));

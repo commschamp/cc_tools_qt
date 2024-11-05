@@ -32,17 +32,15 @@
 namespace cc_tools_qt
 {
 
-class MsgMgrImpl;
-class CC_TOOLS_API MsgMgr
+class ToolsMsgMgrImpl;
+class CC_TOOLS_API ToolsMsgMgr
 {
 public:
-    typedef std::list<ToolsMessagePtr> AllMessages;
-    typedef ToolsProtocol::MessagesList MessagesList;
+    using MessagesList = ToolsProtocol::MessagesList;
+    using MsgType = ToolsMessage::Type;
 
-    typedef ToolsMessage::Type MsgType;
-
-    MsgMgr();
-    ~MsgMgr() noexcept;
+    ToolsMsgMgr();
+    ~ToolsMsgMgr() noexcept;
 
     void start();
     void stop();
@@ -58,23 +56,23 @@ public:
 
     void sendMsgs(MessagesList&& msgs);
 
-    const AllMessages& getAllMsgs() const;
+    const MessagesList& getAllMsgs() const;
     void addMsgs(const MessagesList& msgs, bool reportAdded = true);
 
     void setSocket(ToolsSocketPtr socket);
     void setProtocol(ToolsProtocolPtr protocol);
     void addFilter(ToolsFilterPtr filter);
 
-    typedef std::function<void (ToolsMessagePtr msg)> MsgAddedCallbackFunc;
-    typedef std::function<void (const QString& error)> ErrorReportCallbackFunc;
-    typedef std::function<void (bool connected)> SocketConnectionStatusReportCallbackFunc;
+    using MsgAddedCallbackFunc = std::function<void (ToolsMessagePtr msg)>;
+    using ErrorReportCallbackFunc = std::function<void (const QString& error)>;
+    using SocketConnectionStatusReportCallbackFunc = std::function<void (bool connected)>;
 
     void setMsgAddedCallbackFunc(MsgAddedCallbackFunc&& func);
     void setErrorReportCallbackFunc(ErrorReportCallbackFunc&& func);
     void setSocketConnectionStatusReportCallbackFunc(SocketConnectionStatusReportCallbackFunc&& func);
 
 private:
-    std::unique_ptr<MsgMgrImpl> m_impl;
+    std::unique_ptr<ToolsMsgMgrImpl> m_impl;
 };
 
 }  // namespace cc_tools_qt
