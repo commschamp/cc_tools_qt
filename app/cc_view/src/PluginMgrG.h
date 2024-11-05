@@ -18,14 +18,14 @@
 
 #pragma once
 
-#include "cc_tools_qt/StaticSingleton.h"
+#include "cc_tools_qt/ToolsStaticSingleton.h"
 #include "cc_tools_qt/PluginMgr.h"
 
 namespace cc_tools_qt
 {
 
-using PluginMgrG = StaticSingleton<PluginMgr>;
+using PluginMgrG = ToolsStaticSingleton<PluginMgr>;
 
 }  // namespace cc_tools_qt
 
-extern template class cc_tools_qt::StaticSingleton<cc_tools_qt::PluginMgr>;
+extern template class cc_tools_qt::ToolsStaticSingleton<cc_tools_qt::PluginMgr>;

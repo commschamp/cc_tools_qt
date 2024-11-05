@@ -22,7 +22,7 @@ namespace cc_tools_qt
 {
 
 template <typename T>
-class StaticSingleton
+class ToolsStaticSingleton
 {
 public:
     static T* instance()

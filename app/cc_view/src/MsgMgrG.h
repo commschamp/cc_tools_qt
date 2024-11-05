@@ -20,17 +20,17 @@
 
 #pragma once
 
-#include "cc_tools_qt/StaticSingleton.h"
+#include "cc_tools_qt/ToolsStaticSingleton.h"
 #include "cc_tools_qt/MsgMgr.h"
 
 namespace cc_tools_qt
 {
 
-using MsgMgrG = StaticSingleton<MsgMgr>;
+using MsgMgrG = ToolsStaticSingleton<MsgMgr>;
 
 }  // namespace cc_tools_qt
 
-extern template class cc_tools_qt::StaticSingleton<cc_tools_qt::MsgMgr>;
+extern template class cc_tools_qt::ToolsStaticSingleton<cc_tools_qt::MsgMgr>;
 
 
 
