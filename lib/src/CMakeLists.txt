@@ -15,7 +15,6 @@ function (lib_tools)
         field/ToolsUnknownField.cpp
         field/ToolsUnsignedLongField.cpp
         field/ToolsVariantField.cpp
-        MessageHandler.cpp
         ConfigMgr.cpp
         PluginMgr.cpp
         PluginMgrImpl.cpp

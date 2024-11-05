@@ -26,13 +26,12 @@
 #include "comms/comms.h"
 
 #include "cc_tools_qt/ToolsMessage.h"
-#include "cc_tools_qt/MessageHandler.h"
 #include "widget/DefaultMessageWidget.h"
 
 namespace cc_tools_qt
 {
 
-class DefaultMessageDisplayHandler : public MessageHandler
+class DefaultMessageDisplayHandler
 {
 public:
     using MsgWidgetPtr = std::unique_ptr<MessageWidget>;
