@@ -15,7 +15,6 @@ function (lib_tools)
         field/ToolsUnknownField.cpp
         field/ToolsUnsignedLongField.cpp
         field/ToolsVariantField.cpp
-        ErrorStatus.cpp
         Message.cpp
         Filter.cpp
         Socket.cpp
