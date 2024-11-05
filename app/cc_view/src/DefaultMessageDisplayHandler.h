@@ -25,7 +25,7 @@
 
 #include "comms/comms.h"
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/MessageHandler.h"
 #include "widget/DefaultMessageWidget.h"
 
@@ -39,7 +39,7 @@ public:
 
     ~DefaultMessageDisplayHandler() noexcept;
 
-    static MsgWidgetPtr getMsgWidget(Message& msg);
+    static MsgWidgetPtr getMsgWidget(ToolsMessage& msg);
 };
 
 }  // namespace cc_tools_qt

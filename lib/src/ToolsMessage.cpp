@@ -16,79 +16,78 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include "cc_tools_qt/Message.h"
-
-#include <cassert>
+#include "cc_tools_qt/ToolsMessage.h"
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QWidget>
+
+#include <cassert>
 
 namespace cc_tools_qt
 {
 
-Message::~Message() noexcept = default;
+ToolsMessage::~ToolsMessage() noexcept = default;
 
-const char* Message::name() const
+const char* ToolsMessage::name() const
 {
     return nameImpl();
 }
 
-bool Message::refreshMsg()
+bool ToolsMessage::refreshMsg()
 {
     return refreshMsgImpl();
 }
 
-QString Message::idAsString() const
+QString ToolsMessage::idAsString() const
 {
     return idAsStringImpl();
 }
 
-qlonglong Message::numericId() const
+qlonglong ToolsMessage::numericId() const
 {
     return numericIdImpl();
 }
 
-void Message::reset()
+void ToolsMessage::reset()
 {
     resetImpl();
 }
 
-bool Message::assign(const Message& other)
+bool ToolsMessage::assign(const ToolsMessage& other)
 {
     return assignImpl(other);
 }
 
-bool Message::isValid() const
+bool ToolsMessage::isValid() const
 {
     return isValidImpl();
 }
 
-Message::DataSeq Message::encodeData() const
+ToolsMessage::DataSeq ToolsMessage::encodeData() const
 {
     return encodeDataImpl();
 }
 
-bool Message::decodeData(const DataSeq& data)
+bool ToolsMessage::decodeData(const DataSeq& data)
 {
     return decodeDataImpl(data);
 }
 
-Message::Ptr Message::clone() const
+ToolsMessage::Ptr ToolsMessage::clone() const
 {
     return cloneImpl();
 }
 
-void Message::assignProtMessage(void* protMsg)
+void ToolsMessage::assignProtMessage(void* protMsg)
 {
     assignProtMessageImpl(protMsg);
 }
 
-Message::DataSeq Message::encodeFramed(ToolsFrame& frame) const
+ToolsMessage::DataSeq ToolsMessage::encodeFramed(ToolsFrame& frame) const
 {
     return encodeFramedImpl(frame);
 }
 
-Message::FieldsList Message::transportFields()
+ToolsMessage::FieldsList ToolsMessage::transportFields()
 {
     auto fields = transportFieldsImpl();
     for (auto& f : fields) {
@@ -97,12 +96,12 @@ Message::FieldsList Message::transportFields()
     return fields;
 }
 
-Message::FieldsList Message::payloadFields()
+ToolsMessage::FieldsList ToolsMessage::payloadFields()
 {
     return payloadFieldsImpl();
 }
 
-QString Message::idAsStringImpl() const
+QString ToolsMessage::idAsStringImpl() const
 {
     return QString("%1").arg(numericIdImpl());
 }

@@ -20,7 +20,7 @@
 
 #include "raw_data_protocol/Message.h"
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 
 namespace cc_tools_qt
 {
@@ -34,7 +34,7 @@ namespace raw_data_protocol
 namespace cc_plugin
 {
 
-class RawDataProtocolMessage : public cc_tools_qt::Message
+class RawDataProtocolMessage : public cc_tools_qt::ToolsMessage
 {
 public:
     template <typename... TOptions>

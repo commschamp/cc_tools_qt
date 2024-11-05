@@ -23,7 +23,7 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QFrame>
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 #include "MessageWidget.h"
 #include "field/FieldWidget.h"
 
@@ -35,7 +35,7 @@ class DefaultMessageWidget : public MessageWidget
     Q_OBJECT
     using Base = MessageWidget;
 public:
-    DefaultMessageWidget(Message& msg, QWidget* parentObj = nullptr);
+    DefaultMessageWidget(ToolsMessage& msg, QWidget* parentObj = nullptr);
     ~DefaultMessageWidget() noexcept = default;
 
     void addExtraTransportFieldWidget(FieldWidget* field);
@@ -54,7 +54,7 @@ private:
     void connectFieldSignals(FieldWidget* field);
 
     using LayoutType = QVBoxLayout;
-    Message& m_msg;
+    ToolsMessage& m_msg;
     LayoutType* m_layout;
     uint m_curExtraTransportFieldIdx = 0;
     uint m_curFieldIdx = 0;

@@ -47,7 +47,7 @@ public:
 private slots:
     void newSendMsgDialog(ToolsProtocolPtr protocol);
     void sendRawMsgDialog(ToolsProtocolPtr protocol);
-    void updateSendMsgDialog(MessagePtr msg, ToolsProtocolPtr protocol);
+    void updateSendMsgDialog(ToolsMessagePtr msg, ToolsProtocolPtr protocol);
     void pluginsEditDialog();
     void displayErrorMsg(const QString& msg);
     void addMainToolbarAction(ActionPtr action);
@@ -57,7 +57,7 @@ private slots:
     void saveRecvMsgsDialog();
     void loadSendMsgsDialog(bool askForClear);
     void saveSendMsgsDialog();
-    void msgCommentDialog(MessagePtr msg);
+    void msgCommentDialog(ToolsMessagePtr msg);
     void aboutInfo();
     void recvFilterDialog(ToolsProtocolPtr protocol);
 

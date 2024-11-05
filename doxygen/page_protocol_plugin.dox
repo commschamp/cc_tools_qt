@@ -105,19 +105,19 @@
 /// is passed to it "as-is" without angle brackets.
 ///
 /// The cc_tools_qt::MessageBase uses multiple inheritance to extend both
-/// cc_tools_qt::Message and provided custom protocol message interface class
+/// cc_tools_qt::ToolsMessage and provided custom protocol message interface class
 /// (@b demo::DemoMessage). When extending provided interface class,
 /// additional options are passed to it to allow full available polymorphic interface 
-/// (read, write, length retrieval, validity check, etc...). The cc_tools_qt::Message
+/// (read, write, length retrieval, validity check, etc...). The cc_tools_qt::ToolsMessage
 /// is the main interface class used by the <b>CommsChampion Tools</b> 
 /// to manipulate messages. 
 ///
 /// The class hierarchy will look like this:
 /// @diafile plugin_heirarchy.dia
 ///
-/// The cc_tools_qt::Message interface class has multiple pure virtual
+/// The cc_tools_qt::ToolsMessage interface class has multiple pure virtual
 /// functions, many of them are implemented inside cc_tools_qt::MessageBase.
-/// One of them is cc_tools_qt::Message::idAsStringImpl(). It is used to
+/// One of them is cc_tools_qt::ToolsMessage::idAsStringImpl(). It is used to
 /// convert the message numeric ID into string representation to display it 
 /// to user. The default implementation inside cc_tools_qt::MessageBase will
 /// convert it as is. However, it is recommended to override this function and
@@ -145,10 +145,10 @@
 /// @endcode
 /// 
 /// Please note, that there are two polymorphic interface classes: 
-/// cc_tools_qt::Message and @b comms::Message (or @b demo::DemoMessage). The
+/// cc_tools_qt::ToolsMessage and @b comms::Message (or @b demo::DemoMessage). The
 /// latter defines its virtual functions, which are implemented as part of
 /// protocol message definition (using @b comms::MessageBase). 
-/// The cc_tools_qt::Message is used only by
+/// The cc_tools_qt::ToolsMessage is used only by
 /// <b>CommsChampion Tools</b> and defines its own (pure) virtual functions 
 /// which are expected to be overridden by the message implementation class.
 /// One of them is message name retrieval.
@@ -200,9 +200,9 @@
 /// @endcode
 /// Please note that the class inherits from cc_tools_qt::ProtocolMessageBase,
 /// which overrides and implements two pure virtual functions defined by
-/// cc_tools_qt::Message: 
-/// @li cc_tools_qt::Message::assignImpl()
-/// @li cc_tools_qt::Message::resetImpl()
+/// cc_tools_qt::ToolsMessage: 
+/// @li cc_tools_qt::ToolsMessage::assignImpl()
+/// @li cc_tools_qt::ToolsMessage::resetImpl()
 /// 
 /// Also note, that cc_tools_qt::ProtocolMessageBase class receives two
 /// template parameters. The first one is the protocol message class the 
@@ -230,7 +230,7 @@
 ///
 /// In order to provide the required information, the message definition class
 /// for the protocol plugin (@b demo::cc_plugin::IntValues) is expected to override inherited 
-/// cc_tools_qt::Message::fieldsPropertiesImpl() and provide the required
+/// cc_tools_qt::ToolsMessage::fieldsPropertiesImpl() and provide the required
 /// properties of the fields.
 /// @code
 /// namespace demo
@@ -286,8 +286,8 @@
 /// into the @b QVariantList.
 /// 
 /// If the message doesn't have any fields, there is no need to override
-/// cc_tools_qt::Message::fieldsPropertiesImpl(). The
-/// cc_tools_qt::Message class itself provides default implementation which
+/// cc_tools_qt::ToolsMessage::fieldsPropertiesImpl(). The
+/// cc_tools_qt::ToolsMessage class itself provides default implementation which
 /// returns empty list.
 ///
 /// The helper classes that allow definition of the fields' properties reside

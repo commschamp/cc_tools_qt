@@ -40,7 +40,7 @@ namespace cc_tools_qt
 namespace
 {
 
-QString getMessageNameForList(MessagePtr msg)
+QString getMessageNameForList(ToolsMessagePtr msg)
 {
     assert(msg);
     return QString("(%1) %2").arg(msg->idAsString()).arg(msg->name());
@@ -169,7 +169,7 @@ int msToDurationUnits(long long unsigned value, Duration dur)
 }  // namespace
 
 MessageUpdateDialog::MessageUpdateDialog(
-    MessagePtr& msg,
+    ToolsMessagePtr& msg,
     ToolsProtocolPtr protocol,
     QWidget* parentObj)
   : Base(parentObj),
@@ -315,8 +315,8 @@ void MessageUpdateDialog::msgUpdated()
     auto* item = m_ui.m_msgListWidget->currentItem();
     auto msgVar = item->data(Qt::UserRole);
     assert(msgVar.isValid());
-    assert(msgVar.canConvert<MessagePtr>());
-    auto msg = msgVar.value<MessagePtr>();
+    assert(msgVar.canConvert<ToolsMessagePtr>());
+    auto msg = msgVar.value<ToolsMessagePtr>();
 
     assert(m_protocol);
     assert(msg);
@@ -330,7 +330,7 @@ void MessageUpdateDialog::msgUpdated()
         this,
         "displayMessagePostponed",
         Qt::QueuedConnection,
-        Q_ARG(cc_tools_qt::MessagePtr, std::move(msg)),
+        Q_ARG(cc_tools_qt::ToolsMessagePtr, std::move(msg)),
         Q_ARG(bool, forceUpdate));
     //m_msgDisplayWidget->displayMessage(std::move(msg), forceUpdate);
 }
@@ -348,14 +348,14 @@ void MessageUpdateDialog::newItemSelected()
     refreshButtons();
 }
 
-void MessageUpdateDialog::displayMessagePostponed(MessagePtr msg, bool force)
+void MessageUpdateDialog::displayMessagePostponed(ToolsMessagePtr msg, bool force)
 {
     m_msgDisplayWidget->displayMessage(std::move(msg), force);
 }
 
 void MessageUpdateDialog::refreshDisplayedList(const QString& searchText)
 {
-    MessagePtr selected;
+    ToolsMessagePtr selected;
     if (0 <= m_ui.m_msgListWidget->currentRow()) {
         selected = getMsgFromItem(m_ui.m_msgListWidget->currentItem());
     }
@@ -531,12 +531,12 @@ void MessageUpdateDialog::reset()
     m_msgDisplayWidget->displayMessage(std::move(msg));
 }
 
-MessagePtr MessageUpdateDialog::getMsgFromItem(QListWidgetItem* item)
+ToolsMessagePtr MessageUpdateDialog::getMsgFromItem(QListWidgetItem* item)
 {
     assert(item);
     auto var = item->data(Qt::UserRole);
-    assert(var.canConvert<MessagePtr>());
-    return var.value<MessagePtr>();
+    assert(var.canConvert<ToolsMessagePtr>());
+    return var.value<ToolsMessagePtr>();
 }
 
 void MessageUpdateDialog::refreshButtons()

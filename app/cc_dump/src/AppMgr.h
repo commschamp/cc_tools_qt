@@ -63,7 +63,7 @@ private:
     typedef std::unique_ptr<RecordMessageHandler> RecordMessageHandlerPtr;
 
     bool applyPlugins(const ListOfPluginInfos& plugins);
-    void dispatchMsg(cc_tools_qt::Message& msg);
+    void dispatchMsg(cc_tools_qt::ToolsMessage& msg);
 
     cc_tools_qt::PluginMgr m_pluginMgr;
     cc_tools_qt::MsgMgr m_msgMgr;

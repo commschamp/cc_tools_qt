@@ -46,12 +46,12 @@ public:
 
     using TransportMsg = TTransportMsg;
 
-    /// @brief Type of "Invalid Message".
+    /// @brief Type of "Invalid ToolsMessage".
     using InvalidMsg = ToolsInvalidMessage<TMsgBase>;
 
     using RawDataMsg = ToolsRawDataMessage<TMsgBase>;
 
-    /// @brief Type of "Extra Info Message"
+    /// @brief Type of "Extra Info ToolsMessage"
     using ExtraInfoMsg = ToolsExtraInfoMessage<TMsgBase>;
 
     using ProtFrame = TProtFrame<ProtMsgBase>;
@@ -74,7 +74,7 @@ protected:
                     return;
                 }
 
-                MessagePtr invalidMsgPtr(new InvalidMsg);
+                ToolsMessagePtr invalidMsgPtr(new InvalidMsg);
                 updateRawDataInternal(m_garbage, *invalidMsgPtr);
                 allMsgs.push_back(std::move(invalidMsgPtr));
                 m_garbage.clear();
@@ -173,7 +173,7 @@ protected:
         return allMsgs;
     }
 
-    virtual void updateMessageImpl(Message& msg) override
+    virtual void updateMessageImpl(ToolsMessage& msg) override
     {
         auto data = msg.encodeFramed(*this);
         updateTransportInternal(data, msg);
@@ -182,13 +182,13 @@ protected:
         auto extraProps = property::message::ExtraInfo().getFrom(msg);
         bool extraInfoMsgIsForced = property::message::ForceExtraInfoExistence().getFrom(msg);
         if (extraProps.isEmpty() && (!extraInfoMsgIsForced)) {
-            property::message::ExtraInfoMsg().setTo(MessagePtr(), msg);
+            property::message::ExtraInfoMsg().setTo(ToolsMessagePtr(), msg);
             return;
         }
 
         auto extraInfoMsgPtr = std::make_unique<ExtraInfoMsg>();
         if (extraProps.isEmpty()) {
-            property::message::ExtraInfoMsg().setTo(MessagePtr(extraInfoMsgPtr.release()), msg);
+            property::message::ExtraInfoMsg().setTo(ToolsMessagePtr(extraInfoMsgPtr.release()), msg);
             return;
         }        
 
@@ -199,19 +199,19 @@ protected:
         updateExtraInfoInternal(jsonRawBytes, msg);
     }
 
-    virtual MessagePtr createInvalidMessageImpl() override
+    virtual ToolsMessagePtr createInvalidMessageImpl() override
     {
-        return MessagePtr(new InvalidMsg());
+        return ToolsMessagePtr(new InvalidMsg());
     }
 
-    virtual MessagePtr createRawDataMessageImpl() override
+    virtual ToolsMessagePtr createRawDataMessageImpl() override
     {
-        return MessagePtr(new RawDataMsg());
+        return ToolsMessagePtr(new RawDataMsg());
     }    
 
-    virtual MessagePtr createExtraInfoMessageImpl() override
+    virtual ToolsMessagePtr createExtraInfoMessageImpl() override
     {
-        return MessagePtr(new ExtraInfoMsg());
+        return ToolsMessagePtr(new ExtraInfoMsg());
     }
 
     virtual MessagesList createAllMessagesImpl() override
@@ -219,7 +219,7 @@ protected:
         return m_factory.createAllMessages();
     }
 
-    virtual MessagePtr createMessageImpl(const QString& idAsString, unsigned idx) override
+    virtual ToolsMessagePtr createMessageImpl(const QString& idAsString, unsigned idx) override
     {
         return m_factory.createMessage(idAsString, idx);
     }
@@ -246,9 +246,9 @@ protected:
     }
 
 private:
-    void updateTransportInternal(const DataSeq& data, Message& msg)
+    void updateTransportInternal(const DataSeq& data, ToolsMessage& msg)
     {
-        MessagePtr transportMsg(new TransportMsg);
+        ToolsMessagePtr transportMsg(new TransportMsg);
         if (!transportMsg->decodeData(data)) {
             [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
             assert(Must_not_be_happen);                
@@ -257,9 +257,9 @@ private:
         property::message::TransportMsg().setTo(std::move(transportMsg), msg);
     }
 
-    void updateRawDataInternal(const DataSeq& data, Message& msg)
+    void updateRawDataInternal(const DataSeq& data, ToolsMessage& msg)
     {
-        MessagePtr rawDataMsg(new RawDataMsg);
+        ToolsMessagePtr rawDataMsg(new RawDataMsg);
         if (!rawDataMsg->decodeData(data)) {
             [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
             assert(Must_not_be_happen); 
@@ -268,9 +268,9 @@ private:
         property::message::RawDataMsg().setTo(std::move(rawDataMsg), msg);   
     }    
 
-    void updateExtraInfoInternal(const DataSeq& jsonRawBytes, Message& msg)
+    void updateExtraInfoInternal(const DataSeq& jsonRawBytes, ToolsMessage& msg)
     {
-        MessagePtr extraInfoMsg(new ExtraInfoMsg);
+        ToolsMessagePtr extraInfoMsg(new ExtraInfoMsg);
         if (!extraInfoMsg->decodeData(jsonRawBytes)) {
             [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
             assert(Must_not_be_happen); 

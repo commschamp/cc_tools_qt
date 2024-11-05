@@ -110,7 +110,7 @@ bool GuiAppMgr::startFromFile(const QString& filename)
     return applyNewPlugins(plugins);
 }
 
-void GuiAppMgr::msgCommentUpdated(MessagePtr msg)
+void GuiAppMgr::msgCommentUpdated(ToolsMessagePtr msg)
 {
     assert(msg == m_clickedMsg);
     emit sigMsgCommentUpdated(std::move(msg));
@@ -134,7 +134,7 @@ void GuiAppMgr::setFilteredMessages(FilteredMessages&& filteredMessages)
     }
 }
 
-QString GuiAppMgr::messageDesc(const Message& msg)
+QString GuiAppMgr::messageDesc(const ToolsMessage& msg)
 {
     return QString("(%1) %2").arg(msg.idAsString()).arg(msg.name());
 }
@@ -343,7 +343,7 @@ void GuiAppMgr::sendBottomClicked()
     emit sigSendMoveSelectedBottom();
 }
 
-void GuiAppMgr::recvMsgClicked(MessagePtr msg, int idx)
+void GuiAppMgr::recvMsgClicked(ToolsMessagePtr msg, int idx)
 {
     emit sigSendMsgListClearSelection();
     emitSendNotSelected();
@@ -358,7 +358,7 @@ void GuiAppMgr::recvMsgClicked(MessagePtr msg, int idx)
     }
 }
 
-void GuiAppMgr::sendMsgClicked(MessagePtr msg, int idx)
+void GuiAppMgr::sendMsgClicked(ToolsMessagePtr msg, int idx)
 {
     emit sigRecvMsgListClearSelection();
     emitRecvNotSelected();
@@ -373,7 +373,7 @@ void GuiAppMgr::sendMsgClicked(MessagePtr msg, int idx)
     }
 }
 
-void GuiAppMgr::sendMsgDoubleClicked(MessagePtr msg, int idx)
+void GuiAppMgr::sendMsgDoubleClicked(ToolsMessagePtr msg, int idx)
 {
     // Equivalent to selection + edit
     assert(msg);
@@ -472,7 +472,7 @@ GuiAppMgr::SendState GuiAppMgr::sendState() const
     return m_sendState;
 }
 
-void GuiAppMgr::sendAddNewMessage(MessagePtr msg)
+void GuiAppMgr::sendAddNewMessage(ToolsMessagePtr msg)
 {
     ++m_sendListCount;
     emit sigSendListCountReport(m_sendListCount);
@@ -483,7 +483,7 @@ void GuiAppMgr::sendAddNewMessage(MessagePtr msg)
     assert(m_clickedMsg);
 }
 
-void GuiAppMgr::sendUpdateMessage(MessagePtr msg)
+void GuiAppMgr::sendUpdateMessage(ToolsMessagePtr msg)
 {
     assert(!sendListEmpty());
     assert(msg);
@@ -714,7 +714,7 @@ GuiAppMgr::GuiAppMgr(QObject* parentObj)
 
     auto& msgMgr = MsgMgrG::instanceRef();
     msgMgr.setMsgAddedCallbackFunc(
-        [this](MessagePtr msg)
+        [this](ToolsMessagePtr msg)
         {
             msgAdded(std::move(msg));
         });
@@ -744,7 +744,7 @@ void GuiAppMgr::emitSendStateUpdate()
     emit sigSetSendState(static_cast<int>(m_sendState));
 }
 
-void GuiAppMgr::msgAdded(MessagePtr msg)
+void GuiAppMgr::msgAdded(ToolsMessagePtr msg)
 {
     assert(msg);
     auto type = property::message::Type().getFrom(*msg);
@@ -798,7 +798,7 @@ void GuiAppMgr::pendingDisplayTimeout()
     }
 }
 
-void GuiAppMgr::msgClicked(MessagePtr msg, SelectionType selType)
+void GuiAppMgr::msgClicked(ToolsMessagePtr msg, SelectionType selType)
 {
     assert(msg);
     if (m_clickedMsg == msg) {
@@ -814,7 +814,7 @@ void GuiAppMgr::msgClicked(MessagePtr msg, SelectionType selType)
     emit sigRecvMsgListSelectOnAddEnabled(false);
 }
 
-void GuiAppMgr::displayMessage(MessagePtr msg)
+void GuiAppMgr::displayMessage(ToolsMessagePtr msg)
 {
     m_pendingDisplayMsg.reset();
     emit sigDisplayMsg(msg);
@@ -861,7 +861,7 @@ void GuiAppMgr::refreshRecvList()
     }
 }
 
-void GuiAppMgr::addMsgToRecvList(MessagePtr msg)
+void GuiAppMgr::addMsgToRecvList(ToolsMessagePtr msg)
 {
     assert(msg);
     ++m_recvListCount;
@@ -892,7 +892,7 @@ void GuiAppMgr::clearRecvList(bool reportDeleted)
 }
 
 bool GuiAppMgr::canAddToRecvList(
-    const Message& msg,
+    const ToolsMessage& msg,
     MsgType type) const
 {
     assert((type == MsgType::Received) || (type == MsgType::Sent));

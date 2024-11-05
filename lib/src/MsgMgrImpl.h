@@ -44,7 +44,7 @@ public:
     ToolsProtocolPtr getProtocol() const;
     void setRecvEnabled(bool enabled);
 
-    void deleteMsg(MessagePtr msg);
+    void deleteMsg(ToolsMessagePtr msg);
     void deleteMsgs(const MessagesList& msgs);
     void deleteAllMsgs()
     {
@@ -91,8 +91,8 @@ private:
     typedef std::vector<ToolsFilterPtr> FiltersList;
 
     void socketDataReceived(DataInfoPtr dataInfoPtr);
-    void updateInternalId(Message& msg);
-    void reportMsgAdded(MessagePtr msg);
+    void updateInternalId(ToolsMessage& msg);
+    void reportMsgAdded(ToolsMessagePtr msg);
     void reportError(const QString& error);
     void reportSocketConnectionStatus(bool connected);
 

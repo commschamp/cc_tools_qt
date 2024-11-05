@@ -217,7 +217,7 @@ private:
 
 DefaultMessageDisplayHandler::~DefaultMessageDisplayHandler() noexcept = default;
 
-DefaultMessageDisplayHandler::MsgWidgetPtr DefaultMessageDisplayHandler::getMsgWidget(Message& msg)
+DefaultMessageDisplayHandler::MsgWidgetPtr DefaultMessageDisplayHandler::getMsgWidget(ToolsMessage& msg)
 {
     auto widget = std::make_unique<DefaultMessageWidget>(msg);
 

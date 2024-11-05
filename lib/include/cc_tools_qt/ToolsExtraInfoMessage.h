@@ -107,7 +107,7 @@ protected:
         assert(Must_not_be_called); 
     }
 
-    virtual bool assignImpl([[maybe_unused]] const cc_tools_qt::Message& other) override
+    virtual bool assignImpl([[maybe_unused]] const cc_tools_qt::ToolsMessage& other) override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
         assert(Must_not_be_called); 

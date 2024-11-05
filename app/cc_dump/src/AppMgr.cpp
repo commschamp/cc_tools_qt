@@ -42,7 +42,7 @@ const int FlushInterval = 1000;
 AppMgr::AppMgr()
 {
     m_msgMgr.setMsgAddedCallbackFunc(
-        [this](cc::MessagePtr msg)
+        [this](cc::ToolsMessagePtr msg)
         {
             if (!msg) {
                 [[maybe_unused]] static constexpr bool Application_message_was_not_provided = false;
@@ -51,9 +51,9 @@ AppMgr::AppMgr()
             }
 
             auto type = cc::property::message::Type().getFrom(*msg);
-            assert((type == cc::Message::Type::Sent) ||
-                   (type == cc::Message::Type::Received));
-            if ((type == cc::Message::Type::Sent) &&
+            assert((type == cc::ToolsMessage::Type::Sent) ||
+                   (type == cc::ToolsMessage::Type::Received));
+            if ((type == cc::ToolsMessage::Type::Sent) &&
                 (!m_config.m_recordOutgoing)) {
                 return;
             }
@@ -219,7 +219,7 @@ bool AppMgr::applyPlugins(const ListOfPluginInfos& plugins)
     return true;
 }
 
-void AppMgr::dispatchMsg(cc_tools_qt::Message& msg)
+void AppMgr::dispatchMsg(cc_tools_qt::ToolsMessage& msg)
 {
     if (m_csvDump) {
         msg.dispatch(*m_csvDump);

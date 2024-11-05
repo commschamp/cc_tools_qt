@@ -33,18 +33,18 @@ public:
     DefaultMessageDisplayWidget(QWidget* parentObj = nullptr);
 
 protected:
-    virtual void displayMessageImpl(MessagePtr msg, bool force) override;
+    virtual void displayMessageImpl(ToolsMessagePtr msg, bool force) override;
     virtual void setEditEnabledImpl(bool enabled) override;
     virtual void clearImpl() override;
     virtual void refreshImpl() override;
 
 private slots:
-    void msgSelectedInProtocol(MessagePtr msg, bool editEnabled);
+    void msgSelectedInProtocol(ToolsMessagePtr msg, bool editEnabled);
     void msgUpdated();
 private:
     MsgDetailsWidget* m_msgDetailsWidget = nullptr;
     ProtocolsStackWidget* m_protocolsDetailsWidget = nullptr;
-    MessagePtr m_displayedMsg;
+    ToolsMessagePtr m_displayedMsg;
     bool m_globalEditEnabled = true;
 };
 

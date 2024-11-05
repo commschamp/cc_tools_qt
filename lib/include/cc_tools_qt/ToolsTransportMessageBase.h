@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/ToolsMessageBase.h"
 
 #include "comms/MessageBase.h"
@@ -36,7 +36,7 @@ namespace cc_tools_qt
 ///     plugin.
 /// @tparam TProtMsg TODO
 /// @tparam TActualMsg Type of the actual message class inheriting from this one
-/// @tparam TBase Base class that this class is expected to inherit. Expected to be cc_tools_qt::Message or derivative.
+/// @tparam TBase Base class that this class is expected to inherit. Expected to be cc_tools_qt::ToolsMessage or derivative.
 /// @headerfile cc_tools_qt/ToolTransportMessageBase.h
 template <typename TBase, template<typename...> class TProtMsg, typename TActualMsg>
 class ToolsTransportMessageBase : public
@@ -59,7 +59,7 @@ public:
     virtual ~ToolsTransportMessageBase() noexcept = default;
 
 protected:
-    /// @brief Overriding virtual cc_tools_qt::Message::nameImpl()
+    /// @brief Overriding virtual cc_tools_qt::ToolsMessage::nameImpl()
     virtual const char* nameImpl() const override
     {
         static const char* Str = "Generic Transport Message";
@@ -73,15 +73,15 @@ protected:
         return 0;
     }
 
-    /// @brief Overriding virtual cc_tools_qt::Message::resetImpl()
+    /// @brief Overriding virtual cc_tools_qt::ToolsMessage::resetImpl()
     virtual void resetImpl() override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
         assert(Must_not_be_called); 
     }
 
-    /// @brief Overriding virtual cc_tools_qt::Message::assignImpl()
-    virtual bool assignImpl([[maybe_unused]] const cc_tools_qt::Message& other) override
+    /// @brief Overriding virtual cc_tools_qt::ToolsMessage::assignImpl()
+    virtual bool assignImpl([[maybe_unused]] const cc_tools_qt::ToolsMessage& other) override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
         assert(Must_not_be_called); 

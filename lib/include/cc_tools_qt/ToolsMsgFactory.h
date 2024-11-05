@@ -19,7 +19,7 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsApi.h"
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 
 #include <list>
 #include <vector>
@@ -30,16 +30,16 @@ namespace cc_tools_qt
 class CC_TOOLS_API ToolsMsgFactory
 {
 public:
-    using MessagesList = std::list<MessagePtr>;
+    using MessagesList = std::list<ToolsMessagePtr>;
 
     virtual ~ToolsMsgFactory();
 
-    MessagePtr createMessage(const QString& idAsString, unsigned idx = 0);
-    MessagePtr createMessage(const qlonglong id, unsigned idx = 0);
+    ToolsMessagePtr createMessage(const QString& idAsString, unsigned idx = 0);
+    ToolsMessagePtr createMessage(const qlonglong id, unsigned idx = 0);
     MessagesList createAllMessages();
 
 protected:
-    using MessagesListInternal = std::vector<MessagePtr>;
+    using MessagesListInternal = std::vector<ToolsMessagePtr>;
 
     ToolsMsgFactory();
     virtual MessagesListInternal createAllMessagesImpl() = 0;

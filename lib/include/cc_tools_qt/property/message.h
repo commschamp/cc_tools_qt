@@ -25,7 +25,7 @@
 #include <QtCore/QVariantMap>
 
 #include "cc_tools_qt/ToolsApi.h"
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 
 namespace cc_tools_qt
 {
@@ -99,7 +99,7 @@ class CC_TOOLS_API Type : public PropBase<unsigned>
 {
     typedef PropBase<unsigned> Base;
 public:
-    typedef Message::Type ValueType;
+    typedef ToolsMessage::Type ValueType;
 
     Type() : Base(Name, PropName) {}
 
@@ -154,9 +154,9 @@ private:
     static const QByteArray PropName;
 };
 
-class CC_TOOLS_API TransportMsg : public PropBase<MessagePtr>
+class CC_TOOLS_API TransportMsg : public PropBase<ToolsMessagePtr>
 {
-    typedef PropBase<MessagePtr> Base;
+    typedef PropBase<ToolsMessagePtr> Base;
 public:
     TransportMsg() : Base(Name, PropName) {}
 
@@ -165,9 +165,9 @@ private:
     static const QByteArray PropName;
 };
 
-class CC_TOOLS_API RawDataMsg : public PropBase<MessagePtr>
+class CC_TOOLS_API RawDataMsg : public PropBase<ToolsMessagePtr>
 {
-    typedef PropBase<MessagePtr> Base;
+    typedef PropBase<ToolsMessagePtr> Base;
 public:
     RawDataMsg() : Base(Name, PropName) {}
 
@@ -176,9 +176,9 @@ private:
     static const QByteArray PropName;
 };
 
-class CC_TOOLS_API ExtraInfoMsg : public PropBase<MessagePtr>
+class CC_TOOLS_API ExtraInfoMsg : public PropBase<ToolsMessagePtr>
 {
-    typedef PropBase<MessagePtr> Base;
+    typedef PropBase<ToolsMessagePtr> Base;
 public:
     ExtraInfoMsg() : Base(Name, PropName) {}
 

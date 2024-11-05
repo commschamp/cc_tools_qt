@@ -21,7 +21,7 @@
 #include "cc_tools_qt/ToolsApi.h"
 #include "cc_tools_qt/DataInfo.h"
 #include "cc_tools_qt/ToolsFrame.h"
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 
 #include <QtCore/QMetaType>
 #include <QtCore/QString>
@@ -49,7 +49,7 @@ public:
     using DataInfosList = std::list<DataInfoPtr>;
 
     /// @brief Type used to contain raw bytes seqence
-    using MsgDataSeq = Message::DataSeq ;
+    using MsgDataSeq = ToolsMessage::DataSeq ;
 
     /// @brief Status of message "update" operation.
     enum class UpdateStatus
@@ -77,7 +77,7 @@ public:
     /// @param[in] msg Reference to message object, passed by non-const reference
     ///     to allow update of the message properties.
     /// @return Serialised data.
-    DataInfoPtr write(Message& msg);
+    DataInfoPtr write(ToolsMessage& msg);
 
     /// @brief Create all messages supported by the protocol.
     /// @details Invokes @ref createAllMessagesImpl().
@@ -88,20 +88,20 @@ public:
     /// @param[in] idAsString String representation of the message ID.
     /// @param[in] idx Index of the message type within the range of message types
     ///     with the same ID.
-    MessagePtr createMessage(const QString& idAsString, unsigned idx = 0);
+    ToolsMessagePtr createMessage(const QString& idAsString, unsigned idx = 0);
 
     /// @brief Update (or refresh) message contents
     /// @details Invokes @ref updateMessageImpl().
     /// @return Status of the update.
-    UpdateStatus updateMessage(Message& msg);
+    UpdateStatus updateMessage(ToolsMessage& msg);
 
     /// @brief Clone the message object
     /// @details Invokes @ref cloneMessageImpl().
     /// @return Pointer to newly created message with the same contents
-    MessagePtr cloneMessage(const Message& msg);
+    ToolsMessagePtr cloneMessage(const ToolsMessage& msg);
 
     /// @brief Create dummy message containing invalid input
-    MessagePtr createInvalidMessage(const MsgDataSeq& data);
+    ToolsMessagePtr createInvalidMessage(const MsgDataSeq& data);
 
     /// @brief Make the protocol aware about socket connection status
     /// @details Invokes @ref socketConnectionReportImpl().
@@ -111,12 +111,12 @@ public:
     /// @brief Make the protocol aware that the message has been received from remote end
     /// @details Invokes @ref messageReceivedReportImpl().
     /// @param[in] msg Pointer to the message object
-    void messageReceivedReport(MessagePtr msg);
+    void messageReceivedReport(ToolsMessagePtr msg);
 
     /// @brief Make the protocol aware that the message has been sent out to the remote end
     /// @details Invokes @ref messageSentReportImpl().
     /// @param[in] msg Pointer to the message object
-    void messageSentReport(MessagePtr msg);
+    void messageSentReport(ToolsMessagePtr msg);
 
     /// @brief Apply inter-plugin configuration.
     /// @details Allows one plugin to influence the configuration of another.
@@ -141,7 +141,7 @@ public:
     }     
 
     /// @brief Type of callback to request message being sent initiated by the plugin itself
-    using SendMessageRequestCallback = std::function<void (MessagePtr)>;
+    using SendMessageRequestCallback = std::function<void (ToolsMessagePtr)>;
 
     /// @brief Set the callback to allow request of extra messages to be sent out
     /// @details The callback must have the same signature as @ref SendMessageRequestCallback
@@ -177,12 +177,12 @@ protected:
     /// @brief Polymorphic processing of the message reception report
     /// @details Empty function, does nothing.
     /// @param[in] msg Pointer to the message object
-    virtual void messageReceivedReportImpl(MessagePtr msg);
+    virtual void messageReceivedReportImpl(ToolsMessagePtr msg);
 
     /// @brief Make the protocol aware that the message has been sent out to the remote end
     /// @details Empty function, does nothing
     /// @param[in] msg Pointer to the message object
-    virtual void messageSentReportImpl(MessagePtr msg);    
+    virtual void messageSentReportImpl(ToolsMessagePtr msg);    
 
     /// @brief Polymorphic inter-plugin configuration application.
     /// @details Invoked by the applyInterPluginConfig().
@@ -191,7 +191,7 @@ protected:
 
     /// @brief Helper function to assign protocol name to message properties.
     /// @details Expected to be used by the derived class.
-    void setNameToMessageProperties(Message& msg);
+    void setNameToMessageProperties(ToolsMessage& msg);
 
     /// @brief Report operation error.
     /// @details This function is expected to be invoked by the derived class,
@@ -205,7 +205,7 @@ protected:
     ///     when an extra message needs to be sent out. This function will invoke
     ///     callback set by @ref setSendMessageRequestCallback().
     /// @param[in] msg Pointer to the message object.
-    void sendMessageRequest(MessagePtr msg);  
+    void sendMessageRequest(ToolsMessagePtr msg);  
 
     /// @brief Report inter-plugin configuration.
     /// @details Sometimes configuration of one plugin may influence configuration of another.
@@ -220,34 +220,34 @@ protected:
 
     /// @brief Helper function to assign "tranport message" object as a property
     ///     of application message object.
-    static void setTransportToMessageProperties(MessagePtr transportMsg, Message& msg);
+    static void setTransportToMessageProperties(ToolsMessagePtr transportMsg, ToolsMessage& msg);
 
     /// @brief Helper function to assign "raw data message" object as a property
     ///     of application message object.
-    static void setRawDataToMessageProperties(MessagePtr rawDataMsg, Message& msg);
+    static void setRawDataToMessageProperties(ToolsMessagePtr rawDataMsg, ToolsMessage& msg);
 
     /// @brief Helper function to assign "extra info message" object as a property
     ///     of application message object.
-    static void setExtraInfoMsgToMessageProperties(MessagePtr extraInfoMsg, Message& msg);
+    static void setExtraInfoMsgToMessageProperties(ToolsMessagePtr extraInfoMsg, ToolsMessage& msg);
 
     /// @brief Helper function to retrieve "extra info message" object from properties
     ///     of the application message object.
-    static MessagePtr getExtraInfoMsgToMessageProperties(const Message& msg);
+    static ToolsMessagePtr getExtraInfoMsgToMessageProperties(const ToolsMessage& msg);
 
     /// @brief Helper function to retrieve "extra info" from message properties.
-    static QVariantMap getExtraInfoFromMessageProperties(const Message& msg);
+    static QVariantMap getExtraInfoFromMessageProperties(const ToolsMessage& msg);
 
     /// @brief Helper function to set "extra info" to message properties.
-    static void setExtraInfoToMessageProperties(const QVariantMap& extraInfo, Message& msg);
+    static void setExtraInfoToMessageProperties(const QVariantMap& extraInfo, ToolsMessage& msg);
 
     /// @brief Helper function to merge existing "extra info" and provided one.
-    static void mergeExtraInfoToMessageProperties(const QVariantMap& extraInfo, Message& msg);
+    static void mergeExtraInfoToMessageProperties(const QVariantMap& extraInfo, ToolsMessage& msg);
 
     /// @brief Helper function to force "extra info" existence.
-    static void setForceExtraInfoExistenceToMessageProperties(Message& msg);
+    static void setForceExtraInfoExistenceToMessageProperties(ToolsMessage& msg);
 
     /// @brief Helper function to check whether "extra info" existence is force.
-    static bool getForceExtraInfoExistenceFromMessageProperties(const Message& msg);
+    static bool getForceExtraInfoExistenceFromMessageProperties(const ToolsMessage& msg);
 
 private:
     ToolsFramePtr m_frame;

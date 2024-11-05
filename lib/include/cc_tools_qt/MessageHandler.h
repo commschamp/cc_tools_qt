@@ -21,8 +21,9 @@
 #include <functional>
 
 #include "cc_tools_qt/ToolsApi.h"
-#include "Message.h"
-#include "ToolsField.h"
+#include "cc_tools_qt/ToolsField.h"
+#include "cc_tools_qt/ToolsMessage.h"
+
 
 namespace cc_tools_qt
 {
@@ -43,7 +44,7 @@ public:
     ///     contains, the addFieldImpl() virtuam member function is invoked.
     ///     At the end the endMsgHandlingImpl() virtual member function is
     ///     invoked.
-    /// @tparam TMessage Message type
+    /// @tparam TMessage ToolsMessage type
     /// @param[in] msg Reference to message object
     template <typename TMessage>
     void handle(TMessage& msg)
@@ -65,7 +66,7 @@ public:
 protected:
     /// @brief Polymorphic report about starting message handling
     /// @param[in] msg Reference to message object.
-    virtual void beginMsgHandlingImpl(Message& msg);
+    virtual void beginMsgHandlingImpl(ToolsMessage& msg);
 
     /// @brief Polymorphic request to add handling of the extra transport field.
     /// @param [in] wrapper Pointer to field wrapper.

@@ -37,7 +37,7 @@ void RecordMessageHandler::flush()
     }
 }
 
-void RecordMessageHandler::beginMsgHandlingImpl(cc::Message& msg)
+void RecordMessageHandler::beginMsgHandlingImpl(cc::ToolsMessage& msg)
 {
     if (m_saveHandler) {
         cc::MsgFileMgr::addToRecvSave(m_saveHandler, msg);

@@ -22,7 +22,7 @@ namespace cc_tools_qt
 
 MessageHandler::~MessageHandler() noexcept = default;
 
-void MessageHandler::beginMsgHandlingImpl([[maybe_unused]] Message& msg)
+void MessageHandler::beginMsgHandlingImpl([[maybe_unused]] ToolsMessage& msg)
 {
 }
 

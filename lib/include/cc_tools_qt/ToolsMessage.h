@@ -38,13 +38,13 @@ class ToolsFrame;
 
 /// @brief Main interface class used by <b>CommsChampion Tools</b>
 ///     to display and manipulate messages.
-/// @headerfile cc_tools_qt/Message.h
-class CC_TOOLS_API Message : public QObject
+/// @headerfile cc_tools_qt/ToolsMessage.h
+class CC_TOOLS_API ToolsMessage : public QObject
 {
     using Base = QObject;
 public:
     /// @brief Pointer to message object
-    using Ptr = std::shared_ptr<Message>;
+    using Ptr = std::shared_ptr<ToolsMessage>;
 
     /// @brief Type for sequence of raw bytes
     using DataSeq = std::vector<std::uint8_t>;
@@ -61,7 +61,7 @@ public:
 
     /// @brief Destructor
     /// @details virtual to allow polymorphic destruction
-    virtual ~Message() noexcept;
+    virtual ~ToolsMessage() noexcept;
 
     /// @brief Get message name
     /// @details Invokes virtual nameImpl().
@@ -85,7 +85,7 @@ public:
     /// @brief Assign contents of other message to this ones
     /// @return true in case the messages are of the same type and the assignement
     ///     is successful, false othewise. Invokes assignImpl().
-    bool assign(const Message& other);
+    bool assign(const ToolsMessage& other);
 
     /// @brief Check the message contents are valid.
     /// @details Invokes isValidImpl().
@@ -132,7 +132,7 @@ protected:
 
     /// @brief Polymophic assignment functionality.
     /// @details Invoked by assign().
-    virtual bool assignImpl(const Message& other) = 0;
+    virtual bool assignImpl(const ToolsMessage& other) = 0;
 
     /// @brief Polymorphic validity check functionality.
     /// @details Invoked by isValid().
@@ -156,10 +156,10 @@ protected:
     virtual FieldsList payloadFieldsImpl() = 0;
 };
 
-/// @brief Smart pointer to @ref Message
-using MessagePtr = Message::Ptr;
+/// @brief Smart pointer to @ref ToolsMessage
+using ToolsMessagePtr = ToolsMessage::Ptr;
 
 }  // namespace cc_tools_qt
 
-Q_DECLARE_METATYPE(cc_tools_qt::MessagePtr);
-Q_DECLARE_METATYPE(cc_tools_qt::Message::DataSeq);
+Q_DECLARE_METATYPE(cc_tools_qt::ToolsMessagePtr);
+Q_DECLARE_METATYPE(cc_tools_qt::ToolsMessage::DataSeq);

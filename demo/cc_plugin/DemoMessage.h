@@ -20,7 +20,7 @@
 
 #include "demo/DemoMessage.h"
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 
 namespace demo
 {
@@ -28,7 +28,7 @@ namespace demo
 namespace cc_plugin
 {
 
-class DemoMessage : public cc_tools_qt::Message
+class DemoMessage : public cc_tools_qt::ToolsMessage
 {
 public:
     template <typename... TOptions>

@@ -41,7 +41,7 @@ ProtocolsStackWidget::ProtocolsStackWidget(QWidget* parentObj)
 
 ProtocolsStackWidget::~ProtocolsStackWidget() noexcept = default;
 
-void ProtocolsStackWidget::displayMessage(MessagePtr msg, bool force)
+void ProtocolsStackWidget::displayMessage(ToolsMessagePtr msg, bool force)
 {
     do {
         if (force) {
@@ -108,7 +108,7 @@ void ProtocolsStackWidget::displayMessage(MessagePtr msg, bool force)
     auto* topLevelItem = new QTreeWidgetItem(colValues);
 
     auto addMsgFunc =
-        [topLevelItem](MessagePtr msgParam, const char* name)
+        [topLevelItem](ToolsMessagePtr msgParam, const char* name)
         {
             if (msgParam) {
                 QString nameStr(name);
@@ -196,12 +196,12 @@ void ProtocolsStackWidget::reportMessageSelected(QTreeWidgetItem* item)
     emit sigMessageSelected(msgPtr, editEnabled);
 }
 
-MessagePtr ProtocolsStackWidget::msgFromItem(QTreeWidgetItem* item)
+ToolsMessagePtr ProtocolsStackWidget::msgFromItem(QTreeWidgetItem* item)
 {
     auto msgPtrVar = item->data(0, Qt::UserRole);
     assert(msgPtrVar.isValid());
-    assert(msgPtrVar.canConvert<MessagePtr>());
-    return msgPtrVar.value<MessagePtr>();
+    assert(msgPtrVar.canConvert<ToolsMessagePtr>());
+    return msgPtrVar.value<ToolsMessagePtr>();
 }
 
 }  // namespace cc_tools_qt

@@ -38,7 +38,7 @@ public:
     void flush();
 
 protected:
-    virtual void beginMsgHandlingImpl(cc_tools_qt::Message& msg) override;
+    virtual void beginMsgHandlingImpl(cc_tools_qt::ToolsMessage& msg) override;
 
 private:
     typedef cc_tools_qt::MsgFileMgr::FileSaveHandler FileSaveHandler;

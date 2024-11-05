@@ -154,7 +154,7 @@ CsvDumpMessageHandler::CsvDumpMessageHandler(
 CsvDumpMessageHandler::~CsvDumpMessageHandler() noexcept = default;
 
 
-void CsvDumpMessageHandler::beginMsgHandlingImpl(cc::Message& msg)
+void CsvDumpMessageHandler::beginMsgHandlingImpl(cc::ToolsMessage& msg)
 {
     if (m_showType) {
         static const std::string DirMap[] = {
@@ -166,15 +166,15 @@ void CsvDumpMessageHandler::beginMsgHandlingImpl(cc::Message& msg)
         static const auto DirMapSize =
                                 std::extent<decltype(DirMap)>::value;
 
-        static_assert(DirMapSize == static_cast<unsigned>(cc::Message::Type::NumOfValues),
+        static_assert(DirMapSize == static_cast<unsigned>(cc::ToolsMessage::Type::NumOfValues),
             "The map above is incorrect");
 
         auto type = cc::property::message::Type().getFrom(msg);
-        assert((type == cc::Message::Type::Sent) ||
-               (type == cc::Message::Type::Received));
+        assert((type == cc::ToolsMessage::Type::Sent) ||
+               (type == cc::ToolsMessage::Type::Received));
 
         if (DirMapSize <= static_cast<unsigned>(type)) {
-            type = cc::Message::Type::Invalid;
+            type = cc::ToolsMessage::Type::Invalid;
         }
 
         m_out << DirMap[static_cast<unsigned>(type)] << m_sep;

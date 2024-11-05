@@ -38,8 +38,8 @@ DefaultMessageDisplayWidget::DefaultMessageDisplayWidget(QWidget* parentObj)
     m_protocolsDetailsWidget(new ProtocolsStackWidget())
 {
     connect(
-        m_protocolsDetailsWidget, SIGNAL(sigMessageSelected(MessagePtr, bool)),
-        this, SLOT(msgSelectedInProtocol(MessagePtr, bool)));
+        m_protocolsDetailsWidget, SIGNAL(sigMessageSelected(ToolsMessagePtr, bool)),
+        this, SLOT(msgSelectedInProtocol(ToolsMessagePtr, bool)));
 
     connect(
         m_msgDetailsWidget, SIGNAL(sigMsgUpdated()),
@@ -57,7 +57,7 @@ DefaultMessageDisplayWidget::DefaultMessageDisplayWidget(QWidget* parentObj)
 }
 
 void DefaultMessageDisplayWidget::displayMessageImpl(
-    MessagePtr msg,
+    ToolsMessagePtr msg,
     bool force)
 {
     assert(msg);
@@ -86,7 +86,7 @@ void DefaultMessageDisplayWidget::refreshImpl()
 }
 
 void DefaultMessageDisplayWidget::msgSelectedInProtocol(
-    MessagePtr msg,
+    ToolsMessagePtr msg,
     bool editEnabled)
 {
     assert(msg);

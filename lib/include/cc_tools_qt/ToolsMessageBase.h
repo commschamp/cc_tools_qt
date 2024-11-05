@@ -18,10 +18,10 @@
 
 #pragma once
 
-#include "Message.h"
 #include "cc_tools_qt/ToolsField.h"
-#include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "cc_tools_qt/ToolsFrameCommon.h"
+#include "cc_tools_qt/ToolsMessage.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "cc_tools_qt/details/ToolsFieldCreator.h"
 
 #include "comms/util/Tuple.h"
@@ -39,7 +39,7 @@ namespace cc_tools_qt
 ///     in <b>CommsChampion Tools</b> plugin environment.
 /// @tparam TProtMsg Type of the message class used for the plugin.
 /// @tparam TActualMsg Type of the actual message class inheriting from this one
-/// @tparam TBase Base class that this class is expected to inherit. Expected to be cc_tools_qt::Message or derivative.
+/// @tparam TBase Base class that this class is expected to inherit. Expected to be cc_tools_qt::ToolsMessage or derivative.
 /// @headerfile cc_tools_qt/ToolMessageBase.h
 template <typename TBase, template<typename...> class TProtMsg, typename TActualMsg>
 class ToolsMessageBase : public TBase
@@ -148,7 +148,7 @@ protected:
         return numericIdInternal(Tag());
     }
 
-    /// @brief Overriding implementation to cc_tools_qt::Message::resetImpl()
+    /// @brief Overriding implementation to cc_tools_qt::ToolsMessage::resetImpl()
     virtual void resetImpl() override
     {
         auto& actObj = static_cast<TActualMsg&>(*this);
@@ -156,7 +156,7 @@ protected:
     }    
 
     /// @brief Overriding polymorphic assignment
-    virtual bool assignImpl(const cc_tools_qt::Message& other) override
+    virtual bool assignImpl(const cc_tools_qt::ToolsMessage& other) override
     {
         auto* castedOther = dynamic_cast<const TActualMsg*>(&other);
         if (castedOther == nullptr) {

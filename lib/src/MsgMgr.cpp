@@ -60,7 +60,7 @@ void MsgMgr::setRecvEnabled(bool enabled)
     m_impl->setRecvEnabled(enabled);
 }
 
-void MsgMgr::deleteMsg(MessagePtr msg)
+void MsgMgr::deleteMsg(ToolsMessagePtr msg)
 {
     m_impl->deleteMsg(std::move(msg));
 }

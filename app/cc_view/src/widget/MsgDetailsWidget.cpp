@@ -72,7 +72,7 @@ void MsgDetailsWidget::setEditEnabled(bool enabled)
     }
 }
 
-void MsgDetailsWidget::displayMessage(MessagePtr msg)
+void MsgDetailsWidget::displayMessage(ToolsMessagePtr msg)
 {
     assert(msg);
     auto msgWidget = m_msgDisplayHandler.getMsgWidget(*msg);
@@ -101,7 +101,7 @@ void MsgDetailsWidget::displayMessage(MessagePtr msg)
     m_displayedMsg = std::move(msg);
 }
 
-void MsgDetailsWidget::updateTitle(MessagePtr msg)
+void MsgDetailsWidget::updateTitle(ToolsMessagePtr msg)
 {
     auto title = getTitlePrefix();
     title.append(": ");

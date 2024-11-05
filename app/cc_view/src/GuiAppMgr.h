@@ -25,7 +25,7 @@
 #include <QtCore/QTimer>
 #include <QtWidgets/QWidget>
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/PluginMgr.h"
 #include "cc_tools_qt/MsgSendMgr.h"
 #include "cc_tools_qt/ToolsProtocol.h"
@@ -96,8 +96,8 @@ public:
     unsigned recvListModeMask() const;
 
     SendState sendState() const;
-    void sendAddNewMessage(MessagePtr msg);
-    void sendUpdateMessage(MessagePtr msg);
+    void sendAddNewMessage(ToolsMessagePtr msg);
+    void sendUpdateMessage(ToolsMessagePtr msg);
     bool sendListEmpty() const;
     void sendLoadMsgsFromFile(bool clear, const QString& filename);
     void sendSaveMsgsToFile(const QString& filename);
@@ -108,12 +108,12 @@ public:
 
     static ActivityState getActivityState();
     bool applyNewPlugins(const ListOfPluginInfos& plugins);
-    void msgCommentUpdated(MessagePtr msg);
+    void msgCommentUpdated(ToolsMessagePtr msg);
 
     const FilteredMessages& getFilteredMessages() const;
     void setFilteredMessages(FilteredMessages&& filteredMessages);
 
-    static QString messageDesc(const Message& msg);
+    static QString messageDesc(const ToolsMessage& msg);
 
     void setDebugOutputLevel(unsigned level);
 
@@ -151,10 +151,10 @@ public slots:
     void sendDownClicked();
     void sendBottomClicked();
 
-    void recvMsgClicked(MessagePtr msg, int idx);
+    void recvMsgClicked(ToolsMessagePtr msg, int idx);
 
-    void sendMsgClicked(MessagePtr msg, int idx);
-    void sendMsgDoubleClicked(MessagePtr msg, int idx);
+    void sendMsgClicked(ToolsMessagePtr msg, int idx);
+    void sendMsgDoubleClicked(ToolsMessagePtr msg, int idx);
     void sendSelectedMsgMoved(int idx);
 
     void addMainToolbarAction(ActionPtr action);
@@ -163,16 +163,16 @@ public slots:
     void disconnectSocketClicked();
 
 signals:
-    void sigAddRecvMsg(MessagePtr msg);
-    void sigAddSendMsg(MessagePtr msg);
-    void sigSendMsgUpdated(MessagePtr msg);
+    void sigAddRecvMsg(ToolsMessagePtr msg);
+    void sigAddSendMsg(ToolsMessagePtr msg);
+    void sigSendMsgUpdated(ToolsMessagePtr msg);
     void sigSetRecvState(int state);
     void sigSetSendState(int state);
     void sigDisplayMsgDetailsWidget(QWidget* widget);
     void sigRecvMsgListSelectOnAddEnabled(bool enabled);
     void sigRecvMsgListClearSelection();
     void sigSendMsgListClearSelection();
-    void sigDisplayMsg(MessagePtr msg);
+    void sigDisplayMsg(ToolsMessagePtr msg);
     void sigClearDisplayedMsg();
     void sigRecvMsgSelected(int index);
     void sigSendMsgSelected(int index);
@@ -189,7 +189,7 @@ signals:
     void sigRecvListTitleNeedsUpdate();
     void sigNewSendMsgDialog(ToolsProtocolPtr protocol);
     void sigSendRawMsgDialog(ToolsProtocolPtr protocol);
-    void sigUpdateSendMsgDialog(MessagePtr msg, ToolsProtocolPtr protocol);
+    void sigUpdateSendMsgDialog(ToolsMessagePtr msg, ToolsProtocolPtr protocol);
     void sigLoadRecvMsgsDialog();
     void sigSaveRecvMsgsDialog();
     void sigLoadSendMsgsDialog(bool askForClear);
@@ -204,8 +204,8 @@ signals:
     void sigSendSaveMsgs(const QString& filename);
     void sigSocketConnected(bool connected);
     void sigSocketConnectEnabled(bool enabled);
-    void sigMsgCommentDialog(MessagePtr msg);
-    void sigMsgCommentUpdated(MessagePtr msg);
+    void sigMsgCommentDialog(ToolsMessagePtr msg);
+    void sigMsgCommentUpdated(ToolsMessagePtr msg);
     void sigRecvFilterDialog(ToolsProtocolPtr protocol);
 
 private:
@@ -221,19 +221,19 @@ private:
     void emitSendStateUpdate();
 
 private slots:
-    void msgAdded(MessagePtr msg);
+    void msgAdded(ToolsMessagePtr msg);
     void errorReported(const QString& msg);
     void pendingDisplayTimeout();
 
 private /*data*/:
 
-    void msgClicked(MessagePtr msg, SelectionType selType);
-    void displayMessage(MessagePtr msg);
+    void msgClicked(ToolsMessagePtr msg, SelectionType selType);
+    void displayMessage(ToolsMessagePtr msg);
     void clearDisplayedMessage();
     void refreshRecvList();
-    void addMsgToRecvList(MessagePtr msg);
+    void addMsgToRecvList(ToolsMessagePtr msg);
     void clearRecvList(bool reportDeleted);
-    bool canAddToRecvList(const Message& msg, MsgType type) const;
+    bool canAddToRecvList(const ToolsMessage& msg, MsgType type) const;
     void decRecvListCount();
     void decSendListCount();
     void emitRecvNotSelected();
@@ -254,10 +254,10 @@ private /*data*/:
     unsigned m_sendListCount = 0;
 
     SelectionType m_selType = SelectionType::None;
-    MessagePtr m_clickedMsg;
+    ToolsMessagePtr m_clickedMsg;
 
     QTimer m_pendingDisplayTimer;
-    MessagePtr m_pendingDisplayMsg;
+    ToolsMessagePtr m_pendingDisplayMsg;
     bool m_pendingDisplayWaitInProgress = false;
 
     MsgSendMgr m_sendMgr;

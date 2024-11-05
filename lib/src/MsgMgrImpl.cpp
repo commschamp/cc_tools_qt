@@ -49,7 +49,7 @@ private:
 const QString SeqNumber::Name("cc.msg_num");
 const QByteArray SeqNumber::PropName = SeqNumber::Name.toUtf8();
 
-void updateMsgTimestamp(Message& msg, const DataInfo::Timestamp& timestamp)
+void updateMsgTimestamp(ToolsMessage& msg, const DataInfo::Timestamp& timestamp)
 {
     auto sinceEpoch = timestamp.time_since_epoch();
     auto milliseconds =
@@ -154,7 +154,7 @@ void MsgMgrImpl::deleteMsgs(const MessagesList& msgs)
     m_allMsgs.erase(prevStoredIter, storedIter);
 }
 
-void MsgMgrImpl::deleteMsg(MessagePtr msg)
+void MsgMgrImpl::deleteMsg(ToolsMessagePtr msg)
 {
     assert(!m_allMsgs.empty());
     assert(msg);
@@ -164,7 +164,7 @@ void MsgMgrImpl::deleteMsg(MessagePtr msg)
     auto iter = std::find_if(
         m_allMsgs.begin(),
         m_allMsgs.end(),
-        [msgNum](const MessagePtr& msgTmp) -> bool
+        [msgNum](const ToolsMessagePtr& msgTmp) -> bool
         {
             return SeqNumber().getFrom(*msgTmp) == msgNum;
         });
@@ -328,7 +328,7 @@ void MsgMgrImpl::setProtocol(ToolsProtocolPtr protocol)
         });
 
     protocol->setSendMessageRequestCallback(
-        [this](MessagePtr msg)
+        [this](ToolsMessagePtr msg)
         {
             MessagesList msgsList;
             msgsList.push_back(std::move(msg));
@@ -452,14 +452,14 @@ void MsgMgrImpl::socketDataReceived(DataInfoPtr dataInfoPtr)
     m_allMsgs.splice(m_allMsgs.end(), std::move(msgsList));
 }
 
-void MsgMgrImpl::updateInternalId(Message& msg)
+void MsgMgrImpl::updateInternalId(ToolsMessage& msg)
 {
     SeqNumber().setTo(m_nextMsgNum, msg);
     ++m_nextMsgNum;
     assert(0 < m_nextMsgNum); // wrap around is not supported
 }
 
-void MsgMgrImpl::reportMsgAdded(MessagePtr msg)
+void MsgMgrImpl::reportMsgAdded(ToolsMessagePtr msg)
 {
     if (m_msgAddedCallback) {
         m_msgAddedCallback(std::move(msg));

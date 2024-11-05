@@ -102,7 +102,7 @@ void MsgSendMgrImpl::sendPendingAndWait()
             auto reinsertIter =
                 std::find_if(
                     m_msgsToSend.begin(), m_msgsToSend.end(),
-                    [&newDelay](MessagePtr mPtr) mutable -> bool
+                    [&newDelay](ToolsMessagePtr mPtr) mutable -> bool
                     {
                         assert(mPtr);
                         auto mDelay = property::message::Delay().getFrom(*mPtr);

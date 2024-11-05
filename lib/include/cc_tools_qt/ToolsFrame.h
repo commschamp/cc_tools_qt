@@ -20,7 +20,7 @@
 
 #include "cc_tools_qt/ToolsApi.h"
 #include "cc_tools_qt/DataInfo.h"
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 
 #include <memory>
 #include <list>
@@ -31,28 +31,28 @@ namespace cc_tools_qt
 class CC_TOOLS_API ToolsFrame
 {
 public:
-    using MessagesList = std::list<MessagePtr>;
+    using MessagesList = std::list<ToolsMessagePtr>;
 
     virtual ~ToolsFrame();
 
     MessagesList readData(const DataInfo& dataInfo, bool final);
-    void updateMessage(Message& msg);
-    MessagePtr createInvalidMessage();
-    MessagePtr createRawDataMessage();
-    MessagePtr createExtraInfoMessage();
+    void updateMessage(ToolsMessage& msg);
+    ToolsMessagePtr createInvalidMessage();
+    ToolsMessagePtr createRawDataMessage();
+    ToolsMessagePtr createExtraInfoMessage();
     MessagesList createAllMessages();
-    MessagePtr createMessage(const QString& idAsString, unsigned idx);
+    ToolsMessagePtr createMessage(const QString& idAsString, unsigned idx);
 
 protected:
     ToolsFrame() = default;
 
     virtual MessagesList readDataImpl(const DataInfo& dataInfo, bool final) = 0;
-    virtual void updateMessageImpl(Message& msg) = 0;
-    virtual MessagePtr createInvalidMessageImpl() = 0;
-    virtual MessagePtr createRawDataMessageImpl() = 0;
-    virtual MessagePtr createExtraInfoMessageImpl() = 0;
+    virtual void updateMessageImpl(ToolsMessage& msg) = 0;
+    virtual ToolsMessagePtr createInvalidMessageImpl() = 0;
+    virtual ToolsMessagePtr createRawDataMessageImpl() = 0;
+    virtual ToolsMessagePtr createExtraInfoMessageImpl() = 0;
     virtual MessagesList createAllMessagesImpl() = 0;
-    virtual MessagePtr createMessageImpl(const QString& idAsString, unsigned idx) = 0;
+    virtual ToolsMessagePtr createMessageImpl(const QString& idAsString, unsigned idx) = 0;
 };
 
 using ToolsFramePtr = std::unique_ptr<ToolsFrame>;

@@ -24,7 +24,7 @@
 
 #include "ui_MsgListWidget.h"
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/ToolsProtocol.h"
 
 #include "GuiAppMgr.h"
@@ -32,7 +32,7 @@
 namespace cc_tools_qt
 {
 
-class Message;
+class ToolsMessage;
 
 class MsgListWidget : public QWidget
 {
@@ -48,8 +48,8 @@ public:
         QWidget* parentObj = nullptr);
 
 protected slots:
-    void addMessage(MessagePtr msg);
-    void updateCurrentMessage(MessagePtr msg);
+    void addMessage(ToolsMessagePtr msg);
+    void updateCurrentMessage(ToolsMessagePtr msg);
     void deleteCurrentMessage();
     void selectOnAdd(bool enabled);
     void clearSelection();
@@ -66,10 +66,10 @@ protected slots:
     void selectMsg(int idx);
 
 protected:
-    virtual void msgClickedImpl(MessagePtr msg, int idx);
-    virtual void msgDoubleClickedImpl(MessagePtr msg, int idx);
+    virtual void msgClickedImpl(ToolsMessagePtr msg, int idx);
+    virtual void msgDoubleClickedImpl(ToolsMessagePtr msg, int idx);
     virtual void msgListClearedImpl(MessagesList&& msgsList);
-    virtual QString msgPrefixImpl(const Message& msg) const;
+    virtual QString msgPrefixImpl(const ToolsMessage& msg) const;
     virtual const QString& msgTooltipImpl() const;
     virtual void stateChangedImpl(int state);
     virtual Qt::GlobalColor getItemColourImpl(MsgType type, bool valid) const;
@@ -78,18 +78,18 @@ protected:
     virtual void loadMessagesImpl(const QString& filename, ToolsProtocol& protocol);
     virtual void saveMessagesImpl(const QString& filename);
 
-    MessagePtr currentMsg() const;
+    ToolsMessagePtr currentMsg() const;
     MessagesList allMsgs() const;
 
 private slots:
     void itemClicked(QListWidgetItem* item);
     void currentItemChanged(QListWidgetItem* current, QListWidgetItem* prev);
     void itemDoubleClicked(QListWidgetItem* item);
-    void msgCommentUpdated(MessagePtr msg);
+    void msgCommentUpdated(ToolsMessagePtr msg);
 
 private:
-    MessagePtr getMsgFromItem(QListWidgetItem* item) const;
-    QString getMsgNameText(MessagePtr msg);
+    ToolsMessagePtr getMsgFromItem(QListWidgetItem* item) const;
+    QString getMsgNameText(ToolsMessagePtr msg);
     Qt::GlobalColor defaultItemColour(bool valid) const;
     void moveItem(int fromRow, int toRow);
     void updateTitle();

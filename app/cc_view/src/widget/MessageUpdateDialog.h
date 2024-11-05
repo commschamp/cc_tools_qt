@@ -34,14 +34,14 @@ class MessageUpdateDialog : public QDialog
     using Base = QDialog;
 public:
     MessageUpdateDialog(
-        MessagePtr& msg,
+        ToolsMessagePtr& msg,
         ToolsProtocolPtr protocol,
         QWidget* parentObj = nullptr);
 
 private slots:
     void msgUpdated();
     void newItemSelected();
-    void displayMessagePostponed(cc_tools_qt::MessagePtr msg, bool force);
+    void displayMessagePostponed(ToolsMessagePtr msg, bool force);
     void refreshDisplayedList(const QString& searchText);
     void refreshDelayInfo(int checkboxValue);
     void delayUpdated(int value);
@@ -53,10 +53,10 @@ private slots:
     void reset();
 
 private:
-    MessagePtr getMsgFromItem(QListWidgetItem* item);
+    ToolsMessagePtr getMsgFromItem(QListWidgetItem* item);
     void refreshButtons();
 
-    MessagePtr& m_msg;
+    ToolsMessagePtr& m_msg;
     ToolsProtocolPtr m_protocol;
     ToolsProtocol::MessagesList m_allMsgs;
     MessageDisplayWidget* m_msgDisplayWidget = nullptr;

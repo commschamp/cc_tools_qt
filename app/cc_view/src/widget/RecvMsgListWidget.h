@@ -29,9 +29,9 @@ public:
     RecvMsgListWidget(QWidget* parentObj = nullptr);
 
 protected:
-    virtual void msgClickedImpl(MessagePtr msg, int idx) override;
+    virtual void msgClickedImpl(ToolsMessagePtr msg, int idx) override;
     virtual void msgListClearedImpl(MessagesList&& msgs) override;
-    virtual QString msgPrefixImpl(const Message& msg) const override;
+    virtual QString msgPrefixImpl(const ToolsMessage& msg) const override;
     virtual const QString& msgTooltipImpl() const override;
     virtual Qt::GlobalColor getItemColourImpl(MsgType type, bool valid) const override;
     virtual QString getTitleImpl() const override;

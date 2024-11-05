@@ -28,7 +28,7 @@ namespace cc_tools_qt
 {
 
 DefaultMessageWidget::DefaultMessageWidget(
-    Message& msg,
+    ToolsMessage& msg,
     QWidget* parentObj)
   : Base(parentObj),
     m_msg(msg),

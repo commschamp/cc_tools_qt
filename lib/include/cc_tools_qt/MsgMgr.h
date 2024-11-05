@@ -20,7 +20,7 @@
 
 #include "cc_tools_qt/ToolsApi.h"
 #include "cc_tools_qt/ToolsFilter.h"
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/ToolsProtocol.h"
 #include "cc_tools_qt/ToolsSocket.h"
 
@@ -36,10 +36,10 @@ class MsgMgrImpl;
 class CC_TOOLS_API MsgMgr
 {
 public:
-    typedef std::list<MessagePtr> AllMessages;
+    typedef std::list<ToolsMessagePtr> AllMessages;
     typedef ToolsProtocol::MessagesList MessagesList;
 
-    typedef Message::Type MsgType;
+    typedef ToolsMessage::Type MsgType;
 
     MsgMgr();
     ~MsgMgr() noexcept;
@@ -52,7 +52,7 @@ public:
     ToolsProtocolPtr getProtocol() const;
     void setRecvEnabled(bool enabled);
 
-    void deleteMsg(MessagePtr msg);
+    void deleteMsg(ToolsMessagePtr msg);
     void deleteMsgs(const MessagesList& msgs);
     void deleteAllMsgs();
 
@@ -65,7 +65,7 @@ public:
     void setProtocol(ToolsProtocolPtr protocol);
     void addFilter(ToolsFilterPtr filter);
 
-    typedef std::function<void (MessagePtr msg)> MsgAddedCallbackFunc;
+    typedef std::function<void (ToolsMessagePtr msg)> MsgAddedCallbackFunc;
     typedef std::function<void (const QString& error)> ErrorReportCallbackFunc;
     typedef std::function<void (bool connected)> SocketConnectionStatusReportCallbackFunc;
 

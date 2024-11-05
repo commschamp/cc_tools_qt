@@ -70,8 +70,8 @@ MainWindowWidget::MainWindowWidget(QWidget* parentObj)
         guiAppMgr, SIGNAL(sigSendRawMsgDialog(ToolsProtocolPtr)),
         this, SLOT(sendRawMsgDialog(ToolsProtocolPtr)));
     connect(
-        guiAppMgr, SIGNAL(sigUpdateSendMsgDialog(MessagePtr, ToolsProtocolPtr)),
-        this, SLOT(updateSendMsgDialog(MessagePtr, ToolsProtocolPtr)));
+        guiAppMgr, SIGNAL(sigUpdateSendMsgDialog(ToolsMessagePtr, ToolsProtocolPtr)),
+        this, SLOT(updateSendMsgDialog(ToolsMessagePtr, ToolsProtocolPtr)));
     connect(
         guiAppMgr, SIGNAL(sigPluginsEditDialog()),
         this, SLOT(pluginsEditDialog()));
@@ -100,8 +100,8 @@ MainWindowWidget::MainWindowWidget(QWidget* parentObj)
         guiAppMgr, SIGNAL(sigSaveSendMsgsDialog()),
         this, SLOT(saveSendMsgsDialog()));
     connect(
-        guiAppMgr, SIGNAL(sigMsgCommentDialog(MessagePtr)),
-        this, SLOT(msgCommentDialog(MessagePtr)));
+        guiAppMgr, SIGNAL(sigMsgCommentDialog(ToolsMessagePtr)),
+        this, SLOT(msgCommentDialog(ToolsMessagePtr)));
     connect(
         m_ui.m_actionQuit, SIGNAL(triggered()),
         this, SLOT(close()));
@@ -120,7 +120,7 @@ MainWindowWidget::~MainWindowWidget() noexcept
 
 void MainWindowWidget::newSendMsgDialog(ToolsProtocolPtr protocol)
 {
-    MessagePtr msg;
+    ToolsMessagePtr msg;
     MessageUpdateDialog dialog(msg, std::move(protocol), this);
     dialog.exec();
     if (msg) {
@@ -140,7 +140,7 @@ void MainWindowWidget::sendRawMsgDialog(ToolsProtocolPtr protocol)
 }
 
 void MainWindowWidget::updateSendMsgDialog(
-    MessagePtr msg,
+    ToolsMessagePtr msg,
     ToolsProtocolPtr protocol)
 {
     assert(msg);
@@ -254,7 +254,7 @@ void MainWindowWidget::saveSendMsgsDialog()
     GuiAppMgr::instance()->sendSaveMsgsToFile(filename);
 }
 
-void MainWindowWidget::msgCommentDialog(MessagePtr msg)
+void MainWindowWidget::msgCommentDialog(ToolsMessagePtr msg)
 {
     assert(msg);
     MsgCommentDialog dialog(msg, this);

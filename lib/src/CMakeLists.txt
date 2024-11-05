@@ -15,7 +15,6 @@ function (lib_tools)
         field/ToolsUnknownField.cpp
         field/ToolsUnsignedLongField.cpp
         field/ToolsVariantField.cpp
-        Message.cpp
         MessageHandler.cpp
         DataInfo.cpp
         ConfigMgr.cpp
@@ -30,6 +29,7 @@ function (lib_tools)
         ToolsFieldHandler.cpp
         ToolsFilter.cpp
         ToolsFrame.cpp
+        ToolsMessage.cpp
         ToolsMsgFactory.cpp
         ToolsPlugin.cpp
         ToolsProtocol.cpp

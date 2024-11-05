@@ -27,7 +27,7 @@
 #include <QtCore/QFile>
 
 #include "cc_tools_qt/ToolsApi.h"
-#include "Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/ToolsProtocol.h"
 
 namespace cc_tools_qt
@@ -62,7 +62,7 @@ public:
 
     typedef std::shared_ptr<QFile> FileSaveHandler;
     static FileSaveHandler startRecvSave(const QString& filename);
-    static void addToRecvSave(FileSaveHandler handler, const Message& msg, bool flush = false);
+    static void addToRecvSave(FileSaveHandler handler, const ToolsMessage& msg, bool flush = false);
     static void flushRecvFile(FileSaveHandler handler);
 
 private:

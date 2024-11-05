@@ -38,11 +38,11 @@ SendMsgListWidget::SendMsgListWidget(QWidget* parentObj)
     auto* guiMgr = GuiAppMgr::instance();
     assert(guiMgr != nullptr);
     connect(
-        guiMgr, SIGNAL(sigAddSendMsg(MessagePtr)),
-        this, SLOT(addMessage(MessagePtr)));
+        guiMgr, SIGNAL(sigAddSendMsg(ToolsMessagePtr)),
+        this, SLOT(addMessage(ToolsMessagePtr)));
     connect(
-        guiMgr, SIGNAL(sigSendMsgUpdated(MessagePtr)),
-        this, SLOT(updateCurrentMessage(MessagePtr)));
+        guiMgr, SIGNAL(sigSendMsgUpdated(ToolsMessagePtr)),
+        this, SLOT(updateCurrentMessage(ToolsMessagePtr)));
     connect(
         guiMgr, SIGNAL(sigSendDeleteSelectedMsg()),
         this, SLOT(deleteCurrentMessage()));
@@ -78,12 +78,12 @@ SendMsgListWidget::SendMsgListWidget(QWidget* parentObj)
         this, SLOT(selectMsg(int)));
 }
 
-void SendMsgListWidget::msgClickedImpl(MessagePtr msg, int idx)
+void SendMsgListWidget::msgClickedImpl(ToolsMessagePtr msg, int idx)
 {
     GuiAppMgr::instance()->sendMsgClicked(std::move(msg), idx);
 }
 
-void SendMsgListWidget::msgDoubleClickedImpl(MessagePtr msg, int idx)
+void SendMsgListWidget::msgDoubleClickedImpl(ToolsMessagePtr msg, int idx)
 {
     if (m_state != State::Idle) {
         return;
@@ -91,7 +91,7 @@ void SendMsgListWidget::msgDoubleClickedImpl(MessagePtr msg, int idx)
     GuiAppMgr::instance()->sendMsgDoubleClicked(std::move(msg), idx);
 }
 
-QString SendMsgListWidget::msgPrefixImpl(const Message& msg) const
+QString SendMsgListWidget::msgPrefixImpl(const ToolsMessage& msg) const
 {
     QString str;
     do {

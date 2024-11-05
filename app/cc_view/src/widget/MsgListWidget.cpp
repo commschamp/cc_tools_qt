@@ -22,7 +22,7 @@
 #include <QtCore/QVariant>
 #include <QtCore/QDateTime>
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/property/message.h"
 #include "GuiAppMgr.h"
 
@@ -61,11 +61,11 @@ MsgListWidget::MsgListWidget(
     auto* guiMgr = GuiAppMgr::instance();
     assert(guiMgr != nullptr);
     connect(
-        guiMgr, SIGNAL(sigMsgCommentUpdated(MessagePtr)),
-        this, SLOT(msgCommentUpdated(MessagePtr)));
+        guiMgr, SIGNAL(sigMsgCommentUpdated(ToolsMessagePtr)),
+        this, SLOT(msgCommentUpdated(ToolsMessagePtr)));
 }
 
-void MsgListWidget::addMessage(MessagePtr msg)
+void MsgListWidget::addMessage(ToolsMessagePtr msg)
 {
     assert(msg);
     m_ui.m_listWidget->addItem(getMsgNameText(msg));
@@ -100,7 +100,7 @@ void MsgListWidget::addMessage(MessagePtr msg)
     updateTitle();
 }
 
-void MsgListWidget::updateCurrentMessage(MessagePtr msg)
+void MsgListWidget::updateCurrentMessage(ToolsMessagePtr msg)
 {
     auto* item = m_ui.m_listWidget->currentItem();
     if (item == nullptr) {
@@ -273,11 +273,11 @@ void MsgListWidget::selectMsg(int idx)
     m_ui.m_listWidget->blockSignals(false);
 }
 
-void MsgListWidget::msgClickedImpl([[maybe_unused]] MessagePtr msg, [[maybe_unused]] int idx)
+void MsgListWidget::msgClickedImpl([[maybe_unused]] ToolsMessagePtr msg, [[maybe_unused]] int idx)
 {
 }
 
-void MsgListWidget::msgDoubleClickedImpl([[maybe_unused]] MessagePtr msg, [[maybe_unused]] int idx)
+void MsgListWidget::msgDoubleClickedImpl([[maybe_unused]] ToolsMessagePtr msg, [[maybe_unused]] int idx)
 {
 }
 
@@ -285,7 +285,7 @@ void MsgListWidget::msgListClearedImpl([[maybe_unused]] MessagesList&& msgs)
 {
 }
 
-QString MsgListWidget::msgPrefixImpl([[maybe_unused]] const Message& msg) const
+QString MsgListWidget::msgPrefixImpl([[maybe_unused]] const ToolsMessage& msg) const
 {
     return QString();
 }
@@ -323,7 +323,7 @@ void MsgListWidget::saveMessagesImpl([[maybe_unused]] const QString& filename)
 {
 }
 
-MessagePtr MsgListWidget::currentMsg() const
+ToolsMessagePtr MsgListWidget::currentMsg() const
 {
     auto* item = m_ui.m_listWidget->currentItem();
     assert(item != nullptr);
@@ -377,7 +377,7 @@ void MsgListWidget::itemDoubleClicked(QListWidgetItem* item)
         m_ui.m_listWidget->row(item));
 }
 
-void MsgListWidget::msgCommentUpdated(MessagePtr msg)
+void MsgListWidget::msgCommentUpdated(ToolsMessagePtr msg)
 {
     assert(msg);
     auto item = m_ui.m_listWidget->currentItem();
@@ -390,14 +390,14 @@ void MsgListWidget::msgCommentUpdated(MessagePtr msg)
     }
 }
 
-MessagePtr MsgListWidget::getMsgFromItem(QListWidgetItem* item) const
+ToolsMessagePtr MsgListWidget::getMsgFromItem(QListWidgetItem* item) const
 {
     auto var = item->data(Qt::UserRole);
-    assert(var.canConvert<MessagePtr>());
-    return var.value<MessagePtr>();
+    assert(var.canConvert<ToolsMessagePtr>());
+    return var.value<ToolsMessagePtr>();
 }
 
-QString MsgListWidget::getMsgNameText(MessagePtr msg)
+QString MsgListWidget::getMsgNameText(ToolsMessagePtr msg)
 {
     assert(msg);
     auto itemStr = msgPrefixImpl(*msg);

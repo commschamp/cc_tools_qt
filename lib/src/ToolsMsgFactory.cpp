@@ -26,7 +26,7 @@ namespace cc_tools_qt
 {
 ToolsMsgFactory::~ToolsMsgFactory() = default;
 
-MessagePtr ToolsMsgFactory::createMessage(const QString& idAsString, unsigned idx)
+ToolsMessagePtr ToolsMsgFactory::createMessage(const QString& idAsString, unsigned idx)
 {
     bool ok = false;
     auto numId = idAsString.toLongLong(&ok, 10);
@@ -40,13 +40,13 @@ MessagePtr ToolsMsgFactory::createMessage(const QString& idAsString, unsigned id
             break;
         }
 
-        return MessagePtr();
+        return ToolsMessagePtr();
     } while (false);
 
     return createMessage(numId, idx);
 }
 
-MessagePtr ToolsMsgFactory::createMessage(const qlonglong id, unsigned idx)
+ToolsMessagePtr ToolsMsgFactory::createMessage(const qlonglong id, unsigned idx)
 {
     createDefaultMessagesIfNeeded();
     auto lowerIter = 
@@ -59,7 +59,7 @@ MessagePtr ToolsMsgFactory::createMessage(const qlonglong id, unsigned idx)
 
     if ((lowerIter == m_defaultMsgs.end()) ||
         ((*lowerIter)->numericId() != id)) {
-        return MessagePtr();
+        return ToolsMessagePtr();
     }
 
     auto upperIter = 
@@ -72,7 +72,7 @@ MessagePtr ToolsMsgFactory::createMessage(const qlonglong id, unsigned idx)
 
     auto distance = static_cast<unsigned>(std::distance(lowerIter, upperIter));
     if (distance <= idx) {
-        return MessagePtr();
+        return ToolsMessagePtr();
     }
 
     auto iter = lowerIter + idx;

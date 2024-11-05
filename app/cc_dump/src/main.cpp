@@ -23,7 +23,7 @@
 #include <QtCore/QCommandLineParser>
 #include <QtCore/QStringList>
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/ToolsProtocol.h"
 #include "cc_tools_qt/PluginMgr.h"
 #include "cc_tools_qt/DataInfo.h"
@@ -44,7 +44,7 @@ const QString QuietOptStr("quiet");
 
 void metaTypesRegisterAll()
 {
-    qRegisterMetaType<cc::MessagePtr>();
+    qRegisterMetaType<cc::ToolsMessagePtr>();
     qRegisterMetaType<cc::ToolsProtocolPtr>();
     qRegisterMetaType<cc::PluginMgr::PluginInfoPtr>();
     qRegisterMetaType<cc::DataInfoPtr>();

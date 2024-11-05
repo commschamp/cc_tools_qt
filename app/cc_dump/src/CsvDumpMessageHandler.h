@@ -51,7 +51,7 @@ public:
     }
 
 protected:
-    virtual void beginMsgHandlingImpl(cc_tools_qt::Message& msg) override;
+    virtual void beginMsgHandlingImpl(cc_tools_qt::ToolsMessage& msg) override;
     virtual void addFieldImpl(ToolsFieldPtr wrapper) override;
     virtual void endMsgHandlingImpl() override;
 

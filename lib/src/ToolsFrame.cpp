@@ -32,22 +32,22 @@ ToolsFrame::MessagesList ToolsFrame::readData(const DataInfo& dataInfo, bool fin
     return readDataImpl(dataInfo, final);
 }
 
-void ToolsFrame::updateMessage(Message& msg)
+void ToolsFrame::updateMessage(ToolsMessage& msg)
 {
     updateMessageImpl(msg);
 }
 
-MessagePtr ToolsFrame::createInvalidMessage()
+ToolsMessagePtr ToolsFrame::createInvalidMessage()
 {
     return createInvalidMessageImpl();
 }
 
-MessagePtr ToolsFrame::createRawDataMessage()
+ToolsMessagePtr ToolsFrame::createRawDataMessage()
 {
     return createRawDataMessageImpl();
 }
 
-MessagePtr ToolsFrame::createExtraInfoMessage()
+ToolsMessagePtr ToolsFrame::createExtraInfoMessage()
 {
     return createExtraInfoMessageImpl();
 }
@@ -57,7 +57,7 @@ ToolsFrame::MessagesList ToolsFrame::createAllMessages()
     return createAllMessagesImpl();
 }
 
-MessagePtr ToolsFrame::createMessage(const QString& idAsString, unsigned idx)
+ToolsMessagePtr ToolsFrame::createMessage(const QString& idAsString, unsigned idx)
 {
     return createMessageImpl(idAsString, idx);
 }

@@ -193,9 +193,9 @@ const QString ExtraPropsProp::Name("extra_info");
 const QByteArray ExtraPropsProp::PropName = ExtraPropsProp::Name.toUtf8();
 
 
-QString encodeMsgData(const Message& msg)
+QString encodeMsgData(const ToolsMessage& msg)
 {
-    Message::DataSeq msgData;
+    ToolsMessage::DataSeq msgData;
     do {
         if (!msg.idAsString().isEmpty()) {
             msgData = msg.encodeData();
@@ -223,12 +223,12 @@ QString encodeMsgData(const Message& msg)
     return msgDataStr;
 }
 
-MessagePtr createMsgObjectFrom(
+ToolsMessagePtr createMsgObjectFrom(
     const QVariant& msgMapVar,
     ToolsProtocol& protocol)
 {
     if ((!msgMapVar.isValid()) || (!msgMapVar.canConvert<QVariantMap>())) {
-        return MessagePtr();
+        return ToolsMessagePtr();
     }
 
     auto msgMap = msgMapVar.value<QVariantMap>();
@@ -237,7 +237,7 @@ MessagePtr createMsgObjectFrom(
     auto dataStr = DataProp().getFrom(msgMap);
 
     if (msgId.isEmpty() && dataStr.isEmpty()) {
-        return MessagePtr();
+        return ToolsMessagePtr();
     }
 
     QString stripedDataStr;
@@ -256,7 +256,7 @@ MessagePtr createMsgObjectFrom(
         stripedDataStr.prepend(QChar('0'));
     }
 
-    Message::DataSeq data;
+    ToolsMessage::DataSeq data;
     QString num;
     for (auto ch : stripedDataStr) {
         num.append(ch);
@@ -269,13 +269,13 @@ MessagePtr createMsgObjectFrom(
         auto byte = num.toInt(&ok, 16);
         assert(ok);
         assert((0 <= byte) && (byte <= 0xff));
-        data.push_back(static_cast<Message::DataSeq::value_type>(byte));
+        data.push_back(static_cast<ToolsMessage::DataSeq::value_type>(byte));
         num.clear();
     }
 
     auto extraInfo = ExtraPropsProp().getFrom(msgMap);
 
-    MessagePtr msg;
+    ToolsMessagePtr msg;
     if (msgId.isEmpty()) {
         msg = protocol.createInvalidMessage(data);
         if (!msg) {
@@ -332,7 +332,7 @@ MessagePtr createMsgObjectFrom(
     return msg;
 }
 
-QVariantMap convertRecvMsg(const Message& msg)
+QVariantMap convertRecvMsg(const ToolsMessage& msg)
 {
     QVariantMap msgInfoMap;
     auto idStr = msg.idAsString();
@@ -405,7 +405,7 @@ MsgFileMgr::MessagesList convertRecvMsgList(
             continue;
         }
 
-        auto type = static_cast<Message::Type>(TypeProp().getFrom(msgMap));
+        auto type = static_cast<ToolsMessage::Type>(TypeProp().getFrom(msgMap));
         auto comment = CommentProp().getFrom(msgMap);
 
         property::message::Timestamp().setTo(timestamp, *msg);
@@ -656,7 +656,7 @@ MsgFileMgr::FileSaveHandler MsgFileMgr::startRecvSave(const QString& filename)
 
 void MsgFileMgr::addToRecvSave(
     FileSaveHandler handler,
-    const Message& msg,
+    const ToolsMessage& msg,
     bool flush)
 {
     assert(handler);

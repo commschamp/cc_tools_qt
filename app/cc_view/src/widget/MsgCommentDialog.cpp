@@ -25,7 +25,7 @@ namespace cc_tools_qt
 {
 
 MsgCommentDialog::MsgCommentDialog(
-    MessagePtr msg,
+    ToolsMessagePtr msg,
     QWidget* parentObj)
   : Base(parentObj),
     m_msg(std::move(msg))

@@ -21,7 +21,7 @@
 #include <functional>
 
 #include "cc_tools_qt/ToolsApi.h"
-#include "Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/ToolsProtocol.h"
 
 namespace cc_tools_qt
