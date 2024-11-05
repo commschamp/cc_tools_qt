@@ -35,7 +35,7 @@ NullSocketPlugin::NullSocketPlugin() :
 
 NullSocketPlugin::~NullSocketPlugin() noexcept = default;
 
-SocketPtr NullSocketPlugin::createSocketImpl()
+ToolsSocketPtr NullSocketPlugin::createSocketImpl()
 {
     return makeNullSocket();
 }

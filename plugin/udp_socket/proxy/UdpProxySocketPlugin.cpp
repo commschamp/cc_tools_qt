@@ -92,7 +92,8 @@ void UdpProxySocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props)
     createSocketIfNeeded();
     m_socket->applyInterPluginConfig(props);
 }
-SocketPtr UdpProxySocketPlugin::createSocketImpl()
+
+ToolsSocketPtr UdpProxySocketPlugin::createSocketImpl()
 {
     createSocketIfNeeded();
     return m_socket;

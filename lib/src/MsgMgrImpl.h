@@ -40,7 +40,7 @@ public:
     void stop();
     void clear();
 
-    SocketPtr getSocket() const;
+    ToolsSocketPtr getSocket() const;
     ToolsProtocolPtr getProtocol() const;
     void setRecvEnabled(bool enabled);
 
@@ -60,7 +60,7 @@ public:
 
     void addMsgs(const MessagesList& msgs, bool reportAdded);
 
-    void setSocket(SocketPtr socket);
+    void setSocket(ToolsSocketPtr socket);
     void setProtocol(ToolsProtocolPtr protocol);
     void addFilter(ToolsFilterPtr filter);
 
@@ -99,7 +99,7 @@ private:
     AllMessages m_allMsgs;
     bool m_recvEnabled = false;
 
-    SocketPtr m_socket;
+    ToolsSocketPtr m_socket;
     ToolsProtocolPtr m_protocol;
     FiltersList m_filters;
     MsgNumberType m_nextMsgNum = 1;

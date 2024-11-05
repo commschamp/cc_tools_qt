@@ -616,7 +616,7 @@ bool GuiAppMgr::applyNewPlugins(const ListOfPluginInfos& plugins)
 
     struct ApplyInfo
     {
-        SocketPtr m_socket;
+        ToolsSocketPtr m_socket;
         QList<ToolsFilterPtr> m_filters;
         ToolsProtocolPtr m_protocol;
         ListOfGuiActions m_actions;
@@ -661,9 +661,9 @@ bool GuiAppMgr::applyNewPlugins(const ListOfPluginInfos& plugins)
 
     auto connectProps = applyInfo.m_socket->connectionProperties();
     bool socketAutoConnect =
-        (connectProps & Socket::ConnectionProperty_Autoconnect) != 0U;
+        (connectProps & ToolsSocket::ConnectionProperty_Autoconnect) != 0U;
     bool socketNonDisconnectable =
-        (connectProps & Socket::ConnectionProperty_NonDisconnectable) != 0U;
+        (connectProps & ToolsSocket::ConnectionProperty_NonDisconnectable) != 0U;
 
     msgMgr.setSocket(std::move(applyInfo.m_socket));
 

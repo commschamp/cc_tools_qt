@@ -101,7 +101,7 @@ void UdpGenericSocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props
     m_socket->applyInterPluginConfig(props);
 }
 
-SocketPtr UdpGenericSocketPlugin::createSocketImpl()
+ToolsSocketPtr UdpGenericSocketPlugin::createSocketImpl()
 {
     createSocketIfNeeded();
     return m_socket;

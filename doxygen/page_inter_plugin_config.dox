@@ -29,12 +29,12 @@
 /// @endcode
 ///
 /// In case the plugin configuration is handled inside the class extending the
-/// @ref cc_tools_qt::Socket "socket", @ref cc_tools_qt::Filter "filter", or @ref cc_tools_qt::ToolsProtocol "protocol",
-/// then such class can override its @ref cc_tools_qt::Socket::applyInterPluginConfigImpl() "applyInterPluginConfigImpl()"
+/// @ref cc_tools_qt::ToolsSocket "socket", @ref cc_tools_qt::Filter "filter", or @ref cc_tools_qt::ToolsProtocol "protocol",
+/// then such class can override its @ref cc_tools_qt::ToolsSocket::applyInterPluginConfigImpl() "applyInterPluginConfigImpl()"
 /// member function while the plugin's @ref cc_tools_qt::Plugin::applyInterPluginConfigImpl() "applyInterPluginConfigImpl()"
 /// one can redirect the request.
 /// @code
-/// class MySocket : public cc_tools_qt::Socket
+/// class MySocket : public cc_tools_qt::ToolsSocket
 /// {
 ///     ...
 /// protected:
@@ -88,13 +88,13 @@
 /// @endcode
 ///
 /// In case the inter-plugin configuration event is initiated inside the class extending the
-/// @ref cc_tools_qt::Socket "socket", @ref cc_tools_qt::Filter "filter", or @ref cc_tools_qt::ToolsProtocol "protocol",
-/// then such class can use inherited @ref cc_tools_qt::Socket::reportInterPluginConfig() member function
+/// @ref cc_tools_qt::ToolsSocket "socket", @ref cc_tools_qt::Filter "filter", or @ref cc_tools_qt::ToolsProtocol "protocol",
+/// then such class can use inherited @ref cc_tools_qt::ToolsSocket::reportInterPluginConfig() member function
 /// while the plugin class can set appropriate callback and use the inherited
 /// @ref cc_tools_qt::Plugin::reportInterPluginConfig() "reportInterPluginConfig()" to propagate
 /// the inter-plugin configuration request.
 /// @code
-/// class MySocket : public cc_tools_qt::Socket
+/// class MySocket : public cc_tools_qt::ToolsSocket
 /// {
 ///     ...
 /// private:

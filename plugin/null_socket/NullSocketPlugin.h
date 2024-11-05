@@ -21,7 +21,7 @@
 #include <memory>
 
 #include "cc_tools_qt/ToolsPlugin.h"
-#include "cc_tools_qt/Socket.h"
+#include "cc_tools_qt/ToolsSocket.h"
 
 namespace cc_tools_qt
 {
@@ -42,10 +42,10 @@ public:
     ~NullSocketPlugin() noexcept;
 
 protected:
-    virtual SocketPtr createSocketImpl() override;    
+    virtual ToolsSocketPtr createSocketImpl() override;    
     
 private:
-    cc_tools_qt::SocketPtr m_socket;
+    ToolsSocketPtr m_socket;
 };
 
 }  // namespace plugin

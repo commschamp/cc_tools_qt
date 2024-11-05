@@ -45,7 +45,7 @@ void MsgMgr::clear()
     m_impl->clear();
 }
 
-SocketPtr MsgMgr::getSocket() const
+ToolsSocketPtr MsgMgr::getSocket() const
 {
     return m_impl->getSocket();
 }
@@ -90,7 +90,7 @@ void MsgMgr::addMsgs(const MessagesList& msgs, bool reportAdded)
     m_impl->addMsgs(msgs, reportAdded);
 }
 
-void MsgMgr::setSocket(SocketPtr socket)
+void MsgMgr::setSocket(ToolsSocketPtr socket)
 {
     m_impl->setSocket(std::move(socket));
 }

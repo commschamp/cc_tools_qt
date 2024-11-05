@@ -18,11 +18,11 @@
 
 #pragma once
 
-#include <list>
+#include "cc_tools_qt/ToolsSocket.h"
 
 #include <QtCore/QTimer>
 
-#include "cc_tools_qt/Socket.h"
+#include <list>
 
 namespace cc_tools_qt
 {
@@ -30,7 +30,7 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-class EchoSocket : public QObject, public Socket
+class EchoSocket : public QObject, public cc_tools_qt::ToolsSocket
 {
     Q_OBJECT
 
@@ -52,9 +52,9 @@ private:
 };
 
 inline
-SocketPtr makeEchoSocket()
+ToolsSocketPtr makeEchoSocket()
 {
-    return SocketPtr(new EchoSocket());
+    return ToolsSocketPtr(new EchoSocket());
 }
 
 } // namespace plugin

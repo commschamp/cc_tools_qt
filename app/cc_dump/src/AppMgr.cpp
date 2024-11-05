@@ -172,7 +172,7 @@ bool AppMgr::applyPlugins(const ListOfPluginInfos& plugins)
 
     struct ApplyInfo
     {
-        cc::SocketPtr m_socket;
+        cc::ToolsSocketPtr m_socket;
         ListOfFilters m_filters;
         cc::ToolsProtocolPtr m_protocol;
     };

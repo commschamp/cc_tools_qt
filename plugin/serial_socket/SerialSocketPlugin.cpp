@@ -124,7 +124,7 @@ void SerialSocketPlugin::reconfigureImpl(const QVariantMap& config)
     }
 }
 
-SocketPtr SerialSocketPlugin::createSocketImpl()
+ToolsSocketPtr SerialSocketPlugin::createSocketImpl()
 {
     createSocketIfNeeded();
     return m_socket;

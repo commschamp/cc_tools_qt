@@ -116,7 +116,7 @@ void MsgMgrImpl::clear()
     m_filters.clear();
 }
 
-SocketPtr MsgMgrImpl::getSocket() const
+ToolsSocketPtr MsgMgrImpl::getSocket() const
 {
     return m_socket;
 }
@@ -271,7 +271,7 @@ void MsgMgrImpl::addMsgs(const MessagesList& msgs, bool reportAdded)
     }
 }
 
-void MsgMgrImpl::setSocket(SocketPtr socket)
+void MsgMgrImpl::setSocket(ToolsSocketPtr socket)
 {
     if (m_socket) {
         m_socket->setDataReceivedCallback(nullptr);

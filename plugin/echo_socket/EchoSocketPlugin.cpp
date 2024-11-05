@@ -35,7 +35,7 @@ EchoSocketPlugin::EchoSocketPlugin() :
 
 EchoSocketPlugin::~EchoSocketPlugin() noexcept = default;
 
-SocketPtr EchoSocketPlugin::createSocketImpl()
+ToolsSocketPtr EchoSocketPlugin::createSocketImpl()
 {
     return makeEchoSocket();
 }

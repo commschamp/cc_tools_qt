@@ -22,7 +22,7 @@
 #include "cc_tools_qt/ToolsFilter.h"
 #include "cc_tools_qt/Message.h"
 #include "cc_tools_qt/ToolsProtocol.h"
-#include "cc_tools_qt/Socket.h"
+#include "cc_tools_qt/ToolsSocket.h"
 
 #include <memory>
 #include <list>
@@ -48,7 +48,7 @@ public:
     void stop();
     void clear();
 
-    SocketPtr getSocket() const;
+    ToolsSocketPtr getSocket() const;
     ToolsProtocolPtr getProtocol() const;
     void setRecvEnabled(bool enabled);
 
@@ -61,7 +61,7 @@ public:
     const AllMessages& getAllMsgs() const;
     void addMsgs(const MessagesList& msgs, bool reportAdded = true);
 
-    void setSocket(SocketPtr socket);
+    void setSocket(ToolsSocketPtr socket);
     void setProtocol(ToolsProtocolPtr protocol);
     void addFilter(ToolsFilterPtr filter);
 

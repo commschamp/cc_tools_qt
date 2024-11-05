@@ -18,15 +18,15 @@
 
 #pragma once
 
+#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/DataInfo.h"
+
+#include <QtCore/QString>
+
 #include <cstdint>
 #include <cstddef>
 #include <vector>
 #include <functional>
-
-#include <QtCore/QString>
-
-#include "Api.h"
-#include "DataInfo.h"
 
 namespace cc_tools_qt
 {
@@ -34,8 +34,8 @@ namespace cc_tools_qt
 /// @brief Main polymorphic interface class for sockets.
 /// @details It is used by @b CommsChampion @b Tools to drive low level
 ///     I/O operations.
-/// @headerfile cc_tools_qt/Socket.h
-class CC_API Socket
+/// @headerfile cc_tools_qt/ToolsSocket.h
+class CC_API ToolsSocket
 {
 public:
     /// @brief Available socket connection properties values.
@@ -46,10 +46,10 @@ public:
     };
 
     /// @brief Constructor
-    Socket();
+    ToolsSocket();
 
     /// @brief Destructor
-    virtual ~Socket() noexcept;
+    virtual ~ToolsSocket() noexcept;
 
     /// @brief Start socket's operation
     /// @details Prior to being started, the socket is not allowed to generate
@@ -242,8 +242,8 @@ private:
     bool m_connected = false;
 };
 
-/// @brief Pointer to @ref Socket object.
-using SocketPtr = std::shared_ptr<Socket>;
+/// @brief Pointer to @ref ToolsSocket object.
+using ToolsSocketPtr = std::shared_ptr<ToolsSocket>;
 
 }  // namespace cc_tools_qt
 

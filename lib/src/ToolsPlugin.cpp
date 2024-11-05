@@ -67,10 +67,10 @@ void ToolsPlugin::reconfigure(const QVariantMap& config)
     reconfigureImpl(config);
 }
 
-SocketPtr ToolsPlugin::createSocket()
+ToolsSocketPtr ToolsPlugin::createSocket()
 {
     if (m_type != Type_Socket) {
-        return SocketPtr();
+        return ToolsSocketPtr();
     }
 
     auto socketPtr = createSocketImpl();
@@ -147,9 +147,9 @@ void ToolsPlugin::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap&
 {
 }
 
-SocketPtr ToolsPlugin::createSocketImpl()
+ToolsSocketPtr ToolsPlugin::createSocketImpl()
 {
-    return SocketPtr();
+    return ToolsSocketPtr();
 }
 
 ToolsFilterPtr ToolsPlugin::createFilterImpl()

@@ -11,9 +11,9 @@
 /// 
 /// @section page_socket_plugin_socket_class Socket Class
 /// To implement the required functionality the plugin's code must define its
-/// socket class inheriting from cc_tools_qt::Socket. 
+/// socket class inheriting from cc_tools_qt::ToolsSocket. 
 /// @code
-/// class MySocket : public cc_tools_qt::Socket
+/// class MySocket : public cc_tools_qt::ToolsSocket
 /// {
 ///     ...
 /// };
@@ -21,7 +21,7 @@
 /// If socket implementation uses Qt signals/slots infrastructure, it can use
 /// multiple inheritance and extend @b QObject as well.
 /// @code
-/// class MySocket : public QObject, public cc_tools_qt::Socket
+/// class MySocket : public QObject, public cc_tools_qt::ToolsSocket
 /// {
 ///     Q_OBJECT
 ///     ...
@@ -29,7 +29,7 @@
 ///     ...
 /// };
 /// @endcode
-/// The cc_tools_qt::Socket class is implemented using  
+/// The cc_tools_qt::ToolsSocket class is implemented using  
 /// <a href="https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Non-Virtual_Interface">Non-Virtual Interface Idiom</a>
 /// It's non-virtual public interface is used by the driving application. The
 /// inheriting class needs to implement virtual @b *Impl() functions to override
@@ -37,10 +37,10 @@
 ///
 /// @subsection page_socket_plugin_connection Connection / Disconnection
 /// The actual socket class is expected to override virtual 
-/// cc_tools_qt::Socket::socketConnectImpl() and cc_tools_qt::Socket::socketDisconnectImpl()
+/// cc_tools_qt::ToolsSocket::socketConnectImpl() and cc_tools_qt::ToolsSocket::socketDisconnectImpl()
 /// functions.
 /// @code
-/// class MySocket : public cc_tools_qt::Socket
+/// class MySocket : public cc_tools_qt::ToolsSocket
 /// {
 /// public:
 ///     MySocket();
@@ -58,7 +58,7 @@
 ///
 /// Sometimes the unsolicited low level I/O socket disconnection can be detected.
 /// In this case, the socket object must use inherited 
-/// cc_tools_qt::Socket::reportDisconnected() member function to report it
+/// cc_tools_qt::ToolsSocket::reportDisconnected() member function to report it
 /// to the running application. The latter will report it to the user.
 /// 
 /// @b NOTE, that during requested disconnection (inside overriden @b socketDisconnectImpl())
@@ -74,7 +74,7 @@
 /// the updates to the main thread using the same signal/slot facility.
 ///
 /// When new data arrival is detected, the @b socket object needs to report it 
-/// using inherited cc_tools_qt::Socket::reportDataReceived() function. Note,
+/// using inherited cc_tools_qt::ToolsSocket::reportDataReceived() function. Note,
 /// that the latter receives single parameter of type cc_tools_qt::DataInfoPtr.
 /// It is @b std::shared_ptr to cc_tools_qt::DataInfo. Please use 
 /// cc_tools_qt::makeDataInfo() function to allocate one. The cc_tools_qt::DataInfo
@@ -111,7 +111,7 @@
 /// 
 /// @subsection page_socket_plugin_data_send Sending Data
 /// The socket object receives requests to send outgoing data using call to
-/// overridden virtual @b sendDataImpl() (see cc_tools_qt::Socket::sendDataImpl()).
+/// overridden virtual @b sendDataImpl() (see cc_tools_qt::ToolsSocket::sendDataImpl()).
 /// @code
 /// class MySocket : public ...
 /// {
@@ -133,14 +133,14 @@
 ///
 /// @subsection page_socket_plugin_errors Reporting Errors
 /// If there is any error discovered, the socket object is expected to report 
-/// them using inherited cc_tools_qt::Socket::reportError() member function.
+/// them using inherited cc_tools_qt::ToolsSocket::reportError() member function.
 ///
 /// @section page_socket_plugin_plugin_class Plugin Class
 /// Please read the @ref page_plugin page first to understand the way the 
 /// plugins are defined.
 ///
 /// The @b socket plugin must provide a callback to allocate the 
-/// @b Socket object (the one that is derived from cc_tools_qt::Socket).
+/// @b Socket object (the one that is derived from cc_tools_qt::ToolsSocket).
 /// @code
 /// class EchoSocketPlugin : public cc_tools_qt::Plugin
 /// {

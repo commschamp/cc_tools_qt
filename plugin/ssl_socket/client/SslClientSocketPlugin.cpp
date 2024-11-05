@@ -182,7 +182,7 @@ void SslClientSocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props)
     m_socket->applyInterPluginConfig(props);
 }
 
-SocketPtr SslClientSocketPlugin::createSocketImpl()
+ToolsSocketPtr SslClientSocketPlugin::createSocketImpl()
 {
     createSocketIfNeeded();
     return m_socket;

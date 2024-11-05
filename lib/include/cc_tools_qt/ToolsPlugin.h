@@ -21,7 +21,7 @@
 #include "cc_tools_qt/Api.h"
 #include "cc_tools_qt/ToolsFilter.h"
 #include "cc_tools_qt/ToolsProtocol.h"
-#include "cc_tools_qt/Socket.h"
+#include "cc_tools_qt/ToolsSocket.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
@@ -83,7 +83,7 @@ public:
     ///     will invoke socket creation callback function assigned by the
     ///     derived class to pluginProperties().
     /// @return Allocated socket object
-    SocketPtr createSocket();
+    ToolsSocketPtr createSocket();
 
     ToolsFilterPtr createFilter();
 
@@ -153,7 +153,7 @@ protected:
     /// @param[in] props Properties map.
     virtual void applyInterPluginConfigImpl(const QVariantMap& props);       
 
-    virtual SocketPtr createSocketImpl();
+    virtual ToolsSocketPtr createSocketImpl();
     virtual ToolsFilterPtr createFilterImpl();
     virtual ToolsProtocolPtr createProtocolImpl();
     virtual QWidget* createConfigurationWidgetImpl();

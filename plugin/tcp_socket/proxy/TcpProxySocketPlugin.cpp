@@ -98,7 +98,7 @@ void TcpProxySocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props)
     m_socket->applyInterPluginConfig(props);
 }
 
-SocketPtr TcpProxySocketPlugin::createSocketImpl()
+ToolsSocketPtr TcpProxySocketPlugin::createSocketImpl()
 {
     createSocketIfNeeded();
     return m_socket;

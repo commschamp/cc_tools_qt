@@ -21,7 +21,7 @@
 
 #include <QtNetwork/QUdpSocket>
 
-#include "cc_tools_qt/Socket.h"
+#include "cc_tools_qt/ToolsSocket.h"
 
 #ifdef CC_TOOLS_QT_DEFAULT_NETWORK_PORT
 #define UDP_GENERIC_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT    
@@ -36,10 +36,10 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-class UdpGenericSocket : public QObject, public cc_tools_qt::Socket
+class UdpGenericSocket : public QObject, public cc_tools_qt::ToolsSocket
 {
     Q_OBJECT
-    using Base = cc_tools_qt::Socket;
+    using Base = cc_tools_qt::ToolsSocket;
 
 public:
     typedef unsigned short PortType;

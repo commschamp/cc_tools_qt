@@ -16,7 +16,6 @@ function (lib_tools)
         field/ToolsUnsignedLongField.cpp
         field/ToolsVariantField.cpp
         Message.cpp
-        Socket.cpp
         MessageHandler.cpp
         DataInfo.cpp
         ConfigMgr.cpp
@@ -34,6 +33,7 @@ function (lib_tools)
         ToolsMsgFactory.cpp
         ToolsPlugin.cpp
         ToolsProtocol.cpp
+        ToolsSocket.cpp
         property/message.cpp
     )
     

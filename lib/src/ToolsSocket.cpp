@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/Socket.h"
+#include "cc_tools_qt/ToolsSocket.h"
 
 #include <chrono>
 #include <iomanip>
@@ -50,16 +50,16 @@ std::string dataToStr(const DataInfo::DataSeq& data)
 
 } // namespace 
 
-Socket::Socket() = default;
-Socket::~Socket() noexcept = default;
+ToolsSocket::ToolsSocket() = default;
+ToolsSocket::~ToolsSocket() noexcept = default;
 
-bool Socket::start()
+bool ToolsSocket::start()
 {
     m_running = startImpl();
     return m_running;
 }
 
-void Socket::stop()
+void ToolsSocket::stop()
 {
     if (m_connected) {
         socketDisconnect();
@@ -69,12 +69,12 @@ void Socket::stop()
     stopImpl();
 }
 
-bool Socket::isRunning() const
+bool ToolsSocket::isRunning() const
 {
     return m_running;
 }
 
-bool Socket::socketConnect()
+bool ToolsSocket::socketConnect()
 {
     m_connected = socketConnectImpl();
     if (m_connectionStatusReportCallback) {
@@ -83,7 +83,7 @@ bool Socket::socketConnect()
     return m_connected;
 }
 
-void Socket::socketDisconnect()
+void ToolsSocket::socketDisconnect()
 {
     socketDisconnectImpl();
     m_connected = false;
@@ -92,12 +92,12 @@ void Socket::socketDisconnect()
     }      
 }
 
-bool Socket::isSocketConnected() const
+bool ToolsSocket::isSocketConnected() const
 {
     return m_connected;
 }
 
-void Socket::sendData(DataInfoPtr dataPtr)
+void ToolsSocket::sendData(DataInfoPtr dataPtr)
 {
     if (!isSocketConnected()) {
         return;
@@ -120,49 +120,49 @@ void Socket::sendData(DataInfoPtr dataPtr)
     sendDataImpl(std::move(dataPtr));
 }
 
-unsigned Socket::connectionProperties() const
+unsigned ToolsSocket::connectionProperties() const
 {
     return connectionPropertiesImpl();
 }
 
-void Socket::applyInterPluginConfig(const QVariantMap& props)
+void ToolsSocket::applyInterPluginConfig(const QVariantMap& props)
 {
     applyInterPluginConfigImpl(props);
 }
 
-void Socket::setDebugOutputLevel(unsigned level)
+void ToolsSocket::setDebugOutputLevel(unsigned level)
 {
     m_debugLevel = level;
 }
 
-bool Socket::startImpl()
+bool ToolsSocket::startImpl()
 {
     return true;
 }
 
-void Socket::stopImpl()
+void ToolsSocket::stopImpl()
 {
 }
 
-bool Socket::socketConnectImpl()
+bool ToolsSocket::socketConnectImpl()
 {
     return true;
 }
 
-void Socket::socketDisconnectImpl()
+void ToolsSocket::socketDisconnectImpl()
 {
 }
 
-unsigned Socket::connectionPropertiesImpl() const
+unsigned ToolsSocket::connectionPropertiesImpl() const
 {
     return 0U;
 }
 
-void Socket::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& props)
+void ToolsSocket::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& props)
 {
 }
 
-void Socket::reportDataReceived(DataInfoPtr dataPtr)
+void ToolsSocket::reportDataReceived(DataInfoPtr dataPtr)
 {
     if ((!m_running) || (!m_dataReceivedCallback)) {
         return;
@@ -185,14 +185,14 @@ void Socket::reportDataReceived(DataInfoPtr dataPtr)
     m_dataReceivedCallback(std::move(dataPtr));
 }
 
-void Socket::reportError(const QString& msg)
+void ToolsSocket::reportError(const QString& msg)
 {
     if (m_running && m_errorReportCallback) {
         m_errorReportCallback(msg);
     }
 }
 
-void Socket::reportDisconnected()
+void ToolsSocket::reportDisconnected()
 {
     m_connected = false;
     if (m_running && m_connectionStatusReportCallback) {
@@ -200,14 +200,14 @@ void Socket::reportDisconnected()
     }
 }
 
-void Socket::reportInterPluginConfig(const QVariantMap& props)
+void ToolsSocket::reportInterPluginConfig(const QVariantMap& props)
 {
     if (m_interPluginConfigReportCallback) {
         m_interPluginConfigReportCallback(props);
     }
 }
 
-unsigned long long Socket::currTimestamp()
+unsigned long long ToolsSocket::currTimestamp()
 {
     auto timestamp = std::chrono::high_resolution_clock::now();
     auto sinceEpoch = timestamp.time_since_epoch();
@@ -216,7 +216,7 @@ unsigned long long Socket::currTimestamp()
     return milliseconds;
 }
 
-unsigned Socket::getDebugOutputLevel() const
+unsigned ToolsSocket::getDebugOutputLevel() const
 {
     return m_debugLevel;
 }

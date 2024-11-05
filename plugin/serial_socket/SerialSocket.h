@@ -22,7 +22,7 @@
 #include <QtSerialPort/QSerialPort>
 #include <QtCore/QString>
 
-#include "cc_tools_qt/Socket.h"
+#include "cc_tools_qt/ToolsSocket.h"
 
 
 namespace cc_tools_qt
@@ -35,10 +35,10 @@ namespace serial_socket
 {
 
 class SerialSocket : public QObject,
-                     public cc_tools_qt::Socket
+                     public cc_tools_qt::ToolsSocket
 {
     Q_OBJECT
-    using Base = cc_tools_qt::Socket;
+    using Base = cc_tools_qt::ToolsSocket;
 
 public:
 

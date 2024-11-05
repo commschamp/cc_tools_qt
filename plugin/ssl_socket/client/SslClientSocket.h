@@ -21,7 +21,7 @@
 
 #include <QtNetwork/QSslSocket>
 
-#include "cc_tools_qt/Socket.h"
+#include "cc_tools_qt/ToolsSocket.h"
 
 #ifdef CC_TOOLS_QT_DEFAULT_NETWORK_PORT
 #define SSL_CLIENT_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT    
@@ -36,10 +36,10 @@ namespace plugin
 {
 
 class SslClientSocket : public QObject,
-               public cc_tools_qt::Socket
+               public cc_tools_qt::ToolsSocket
 {
     Q_OBJECT
-    using Base = cc_tools_qt::Socket;
+    using Base = cc_tools_qt::ToolsSocket;
 
 public:
     typedef unsigned short PortType;
