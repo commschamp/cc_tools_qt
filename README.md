@@ -14,14 +14,6 @@ for tutorial on how to use them.
 - **cc_view** is the main generic GUI application for visualisation and analysis of the
 communication protocols.  
 
-- **cc_dump** is a command line utility, that recognises all the received
-custom binary protocol messages and dumps them all in CSV format to standard output.
-It can also record the incoming message into the file, which can be opened
-later for visual analysis using **cc_view** GUI application. 
-The tool has an ability to receive a file with definition of outgoing messages, 
-created using **cc_view** GUI application, and send them one by one 
-in parallel to dumping/recording the incoming messages.
-
 The **CommsChampion Tools** contain the following
 plugins that can be used with any application:
 
