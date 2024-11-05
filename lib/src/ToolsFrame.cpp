@@ -27,7 +27,7 @@ namespace cc_tools_qt
 
 ToolsFrame::~ToolsFrame() = default;
 
-ToolsFrame::MessagesList ToolsFrame::readData(const DataInfo& dataInfo, bool final)
+ToolsFrame::MessagesList ToolsFrame::readData(const ToolsDataInfo& dataInfo, bool final)
 {
     return readDataImpl(dataInfo, final);
 }

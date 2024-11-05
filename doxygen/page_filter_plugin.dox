@@ -80,11 +80,11 @@
 /// {
 ///     ...
 /// protected:
-///     virtual QList<cc_tools_qt::DataInfoPtr> recvDataImpl(cc_tools_qt::DataInfoPtr dataPtr) override;
+///     virtual QList<cc_tools_qt::ToolsDataInfoPtr> recvDataImpl(cc_tools_qt::ToolsDataInfoPtr dataPtr) override;
 /// };
 /// @endcode
 /// @b NOTE, that the return value from the function is a list of smart pointers
-/// to cc_tools_qt::DataInfo. Every such "data chunk" will be forwarded
+/// to cc_tools_qt::ToolsDataInfo. Every such "data chunk" will be forwarded
 /// separately to the @b protocol or other @b filter up the chain.
 ///
 /// The @b filter is allowed to consume the provided data and not to report
@@ -98,7 +98,7 @@
 /// {
 ///     ...
 /// protected:
-///     virtual QList<cc_tools_qt::DataInfoPtr> sendDataImpl(cc_tools_qt::DataInfoPtr dataPtr) override;
+///     virtual QList<cc_tools_qt::ToolsDataInfoPtr> sendDataImpl(cc_tools_qt::ToolsDataInfoPtr dataPtr) override;
 /// };
 /// @endcode
 /// It is very similar to @b recvDataImpl() mentioned above

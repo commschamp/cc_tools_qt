@@ -36,7 +36,7 @@ const std::string& debugPrefix()
     return Str;
 }    
 
-std::string dataToStr(const DataInfo::DataSeq& data)
+std::string dataToStr(const ToolsDataInfo::DataSeq& data)
 {
     std::stringstream stream;
     stream << std::hex;
@@ -97,14 +97,14 @@ bool ToolsSocket::isSocketConnected() const
     return m_connected;
 }
 
-void ToolsSocket::sendData(DataInfoPtr dataPtr)
+void ToolsSocket::sendData(ToolsDataInfoPtr dataPtr)
 {
     if (!isSocketConnected()) {
         return;
     }
 
-    if (dataPtr->m_timestamp == DataInfo::Timestamp()) {
-        dataPtr->m_timestamp = DataInfo::TimestampClock::now();
+    if (dataPtr->m_timestamp == ToolsDataInfo::Timestamp()) {
+        dataPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
     }
 
     if (1U < m_debugLevel) {
@@ -162,14 +162,14 @@ void ToolsSocket::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap&
 {
 }
 
-void ToolsSocket::reportDataReceived(DataInfoPtr dataPtr)
+void ToolsSocket::reportDataReceived(ToolsDataInfoPtr dataPtr)
 {
     if ((!m_running) || (!m_dataReceivedCallback)) {
         return;
     }
 
-    if (dataPtr->m_timestamp == DataInfo::Timestamp()) {
-        dataPtr->m_timestamp = DataInfo::TimestampClock::now();
+    if (dataPtr->m_timestamp == ToolsDataInfo::Timestamp()) {
+        dataPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
     }
 
     if (1U <= m_debugLevel) {

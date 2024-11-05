@@ -40,7 +40,7 @@ const std::string& debugPrefix()
     return Str;
 } 
 
-std::string dataToStr(const DataInfo::DataSeq& data)
+std::string dataToStr(const ToolsDataInfo::DataSeq& data)
 {
     std::stringstream stream;
     stream << std::hex;
@@ -63,15 +63,15 @@ const QString& ToolsProtocol::name() const
 }
 
 ToolsProtocol::MessagesList ToolsProtocol::read(
-    const DataInfo& dataInfo,
+    const ToolsDataInfo& dataInfo,
     bool final)
 {
     unsigned long long milliseconds = 0U;
 
     if (1U <= m_debugLevel) {
         auto timestamp = dataInfo.m_timestamp;
-        if (timestamp == DataInfo::Timestamp()) {
-            timestamp = DataInfo::TimestampClock::now();
+        if (timestamp == ToolsDataInfo::Timestamp()) {
+            timestamp = ToolsDataInfo::TimestampClock::now();
         }
 
         auto sinceEpoch = timestamp.time_since_epoch();
@@ -98,12 +98,12 @@ ToolsProtocol::MessagesList ToolsProtocol::read(
     return messages;
 }
 
-DataInfoPtr ToolsProtocol::write(ToolsMessage& msg)
+ToolsDataInfoPtr ToolsProtocol::write(ToolsMessage& msg)
 {
     unsigned long long milliseconds = property::message::Timestamp().getFrom(msg);;
     if (1U <= m_debugLevel) {
         if (milliseconds == 0) {
-            auto timestamp = DataInfo::TimestampClock::now();
+            auto timestamp = ToolsDataInfo::TimestampClock::now();
             auto sinceEpoch = timestamp.time_since_epoch();
             milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
         }
@@ -115,13 +115,13 @@ DataInfoPtr ToolsProtocol::write(ToolsMessage& msg)
 
         auto rawDataMsg = property::message::RawDataMsg().getFrom(msg);
         if (!rawDataMsg) {
-            return DataInfoPtr();
+            return ToolsDataInfoPtr();
         }
 
         auto dataInfoPtr = makeDataInfo();
         assert(dataInfoPtr);
 
-        dataInfoPtr->m_timestamp = DataInfo::TimestampClock::now();
+        dataInfoPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
         dataInfoPtr->m_data = rawDataMsg->encodeData();
 
         return dataInfoPtr;
@@ -130,7 +130,7 @@ DataInfoPtr ToolsProtocol::write(ToolsMessage& msg)
     auto dataInfo = makeDataInfo();
     assert(dataInfo);
 
-    dataInfo->m_timestamp = DataInfo::TimestampClock::now();
+    dataInfo->m_timestamp = ToolsDataInfo::TimestampClock::now();
     dataInfo->m_data = msg.encodeFramed(*m_frame);
     dataInfo->m_extraProperties = getExtraInfoFromMessageProperties(msg);
     if (1U <= m_debugLevel) {

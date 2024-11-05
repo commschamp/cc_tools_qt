@@ -29,7 +29,7 @@ namespace cc_tools_qt
 namespace 
 {
 
-std::string dataToStr(const DataInfo::DataSeq& data)
+std::string dataToStr(const ToolsDataInfo::DataSeq& data)
 {
     std::stringstream stream;
     stream << std::hex;
@@ -57,14 +57,14 @@ void ToolsFilter::stop()
     stopImpl();
 }
 
-QList<DataInfoPtr> ToolsFilter::recvData(DataInfoPtr dataPtr)
+QList<ToolsDataInfoPtr> ToolsFilter::recvData(ToolsDataInfoPtr dataPtr)
 {
     unsigned long long milliseconds = 0U;
 
     if (1U <= m_debugLevel) {
         auto timestamp = dataPtr->m_timestamp;
-        if (timestamp == DataInfo::Timestamp()) {
-            timestamp = DataInfo::TimestampClock::now();
+        if (timestamp == ToolsDataInfo::Timestamp()) {
+            timestamp = ToolsDataInfo::TimestampClock::now();
         }
 
         auto sinceEpoch = timestamp.time_since_epoch();
@@ -89,14 +89,14 @@ QList<DataInfoPtr> ToolsFilter::recvData(DataInfoPtr dataPtr)
     return result;
 }
 
-QList<DataInfoPtr> ToolsFilter::sendData(DataInfoPtr dataPtr)
+QList<ToolsDataInfoPtr> ToolsFilter::sendData(ToolsDataInfoPtr dataPtr)
 {
     unsigned long long milliseconds = 0U;
 
     if (0U < m_debugLevel) {
         auto timestamp = dataPtr->m_timestamp;
-        if (timestamp == DataInfo::Timestamp()) {
-            timestamp = DataInfo::TimestampClock::now();
+        if (timestamp == ToolsDataInfo::Timestamp()) {
+            timestamp = ToolsDataInfo::TimestampClock::now();
         }
 
         auto sinceEpoch = timestamp.time_since_epoch();
@@ -145,16 +145,16 @@ void ToolsFilter::stopImpl()
 {
 }
 
-QList<DataInfoPtr> ToolsFilter::recvDataImpl(DataInfoPtr dataPtr)
+QList<ToolsDataInfoPtr> ToolsFilter::recvDataImpl(ToolsDataInfoPtr dataPtr)
 {
-    QList<DataInfoPtr> result;
+    QList<ToolsDataInfoPtr> result;
     result.append(std::move(dataPtr));
     return result;
 }
 
-QList<DataInfoPtr> ToolsFilter::sendDataImpl(DataInfoPtr dataPtr)
+QList<ToolsDataInfoPtr> ToolsFilter::sendDataImpl(ToolsDataInfoPtr dataPtr)
 {
-    QList<DataInfoPtr> result;
+    QList<ToolsDataInfoPtr> result;
     result.append(std::move(dataPtr));
     return result;
 }
@@ -172,12 +172,12 @@ const char* ToolsFilter::debugNameImpl() const
     return "filter";
 }
 
-void ToolsFilter::reportDataToSend(DataInfoPtr dataPtr)
+void ToolsFilter::reportDataToSend(ToolsDataInfoPtr dataPtr)
 {
     if (0U < m_debugLevel) {
         auto timestamp = dataPtr->m_timestamp;
-        if (timestamp == DataInfo::Timestamp()) {
-            timestamp = DataInfo::TimestampClock::now();
+        if (timestamp == ToolsDataInfo::Timestamp()) {
+            timestamp = ToolsDataInfo::TimestampClock::now();
         }
 
         auto sinceEpoch = timestamp.time_since_epoch();

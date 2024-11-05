@@ -19,7 +19,7 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsApi.h"
-#include "cc_tools_qt/DataInfo.h"
+#include "cc_tools_qt/ToolsDataInfo.h"
 #include "cc_tools_qt/ToolsFrame.h"
 #include "cc_tools_qt/ToolsMessage.h"
 
@@ -46,7 +46,7 @@ public:
     using MessagesList = ToolsFrame::MessagesList;
 
     /// @brief List of raw data buffers
-    using DataInfosList = std::list<DataInfoPtr>;
+    using DataInfosList = std::list<ToolsDataInfoPtr>;
 
     /// @brief Type used to contain raw bytes seqence
     using MsgDataSeq = ToolsMessage::DataSeq ;
@@ -70,14 +70,14 @@ public:
     /// @param[in] dataInfo Received data information
     /// @param[in] final Final input indication, if @b true no more data is expected
     /// @return List of created messages
-    MessagesList read(const DataInfo& dataInfo, bool final = false);
+    MessagesList read(const ToolsDataInfo& dataInfo, bool final = false);
 
     /// @brief Serialse message.
     /// @details Invokes @ref writeImpl().
     /// @param[in] msg Reference to message object, passed by non-const reference
     ///     to allow update of the message properties.
     /// @return Serialised data.
-    DataInfoPtr write(ToolsMessage& msg);
+    ToolsDataInfoPtr write(ToolsMessage& msg);
 
     /// @brief Create all messages supported by the protocol.
     /// @details Invokes @ref createAllMessagesImpl().

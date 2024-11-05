@@ -227,7 +227,7 @@ void UdpGenericSocket::socketDisconnectImpl()
     m_socket.blockSignals(false);
 }
 
-void UdpGenericSocket::sendDataImpl(DataInfoPtr dataPtr)
+void UdpGenericSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
 {
     assert(dataPtr);
     QString from =
@@ -416,7 +416,7 @@ void UdpGenericSocket::readFromSocket()
         quint16 senderPort;
 
         auto dataPtr = makeDataInfo();
-        dataPtr->m_timestamp = DataInfo::TimestampClock::now();
+        dataPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
         dataPtr->m_data.resize(static_cast<std::size_t>(m_socket.pendingDatagramSize()));
         m_socket.readDatagram(
             reinterpret_cast<char*>(&dataPtr->m_data[0]),

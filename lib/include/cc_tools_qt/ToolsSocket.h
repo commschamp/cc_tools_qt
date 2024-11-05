@@ -19,7 +19,7 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsApi.h"
-#include "cc_tools_qt/DataInfo.h"
+#include "cc_tools_qt/ToolsDataInfo.h"
 
 #include <QtCore/QString>
 
@@ -91,7 +91,7 @@ public:
     /// @details Invokes the sendDataImpl(), which must be implemented in
     ///     the derived class.
     /// @param[in] dataPtr Information about outging data
-    void sendData(DataInfoPtr dataPtr);
+    void sendData(ToolsDataInfoPtr dataPtr);
 
     /// @brief Get properties describing socket connection right after plugins
     ///     have been loaded and applied.
@@ -110,7 +110,7 @@ public:
     void applyInterPluginConfig(const QVariantMap& props);       
 
     /// @brief Callback to report incoming data.
-    using DataReceivedCallback = std::function<void (DataInfoPtr)>;
+    using DataReceivedCallback = std::function<void (ToolsDataInfoPtr)>;
 
     /// @brief Set callback to report incoming data
     /// @details The callback must have the same signature as @ref DataReceivedCallback.
@@ -183,7 +183,7 @@ protected:
     /// @brief Polymorphic data send functionality implementation.
     /// @details Invoked by sendData(). It must be overridden and implemented in
     ///     the derived class.
-    virtual void sendDataImpl(DataInfoPtr dataPtr) = 0;
+    virtual void sendDataImpl(ToolsDataInfoPtr dataPtr) = 0;
 
     /// @brief Polymorphic connection properties functionality implementation.
     /// @details Invoked by connectionProperties(). In can be overriden by the
@@ -201,7 +201,7 @@ protected:
     ///     new data has been received from the I/O link. This function
     ///     will invoke callback set by setDataReceivedCallback().
     /// @param[in] dataPtr New data information.
-    void reportDataReceived(DataInfoPtr dataPtr);
+    void reportDataReceived(ToolsDataInfoPtr dataPtr);
 
     /// @brief Report I/O operation error.
     /// @details This function is expected to be invoked by the derived class,

@@ -102,8 +102,8 @@ void RawHexDataDialog::accept()
 {
     auto str = m_ui.m_rawDataText->toPlainText();
 
-    DataInfo dataInfo;
-    dataInfo.m_timestamp = DataInfo::TimestampClock::now();
+    ToolsDataInfo dataInfo;
+    dataInfo.m_timestamp = ToolsDataInfo::TimestampClock::now();
     dataInfo.m_data.reserve(static_cast<std::size_t>(str.size() / 2));
 
     QString numStr;
@@ -111,7 +111,7 @@ void RawHexDataDialog::accept()
         [&dataInfo, &numStr]()
         {
             bool ok = false;
-            auto byte = static_cast<DataInfo::DataSeq::value_type>(numStr.toUInt(&ok, 16));
+            auto byte = static_cast<ToolsDataInfo::DataSeq::value_type>(numStr.toUInt(&ok, 16));
             assert(ok);
             dataInfo.m_data.push_back(byte);
             numStr.clear();

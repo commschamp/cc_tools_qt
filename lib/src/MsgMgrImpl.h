@@ -90,7 +90,7 @@ private:
     typedef unsigned long long MsgNumberType;
     typedef std::vector<ToolsFilterPtr> FiltersList;
 
-    void socketDataReceived(DataInfoPtr dataInfoPtr);
+    void socketDataReceived(ToolsDataInfoPtr dataInfoPtr);
     void updateInternalId(ToolsMessage& msg);
     void reportMsgAdded(ToolsMessagePtr msg);
     void reportError(const QString& error);

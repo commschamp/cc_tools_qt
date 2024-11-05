@@ -141,7 +141,7 @@ void UdpProxySocket::socketDisconnectImpl()
     m_running = false;
 }
 
-void UdpProxySocket::sendDataImpl(DataInfoPtr dataPtr)
+void UdpProxySocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
 {
     if (!m_running) {
         return;
@@ -251,7 +251,7 @@ void UdpProxySocket::readFromListenSocket()
         quint16 senderPort;
 
         auto dataPtr = makeDataInfo();
-        dataPtr->m_timestamp = DataInfo::TimestampClock::now();
+        dataPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
         dataPtr->m_data.resize(static_cast<std::size_t>(m_listenSocket->pendingDatagramSize()));
         m_listenSocket->readDatagram(
             reinterpret_cast<char*>(&dataPtr->m_data[0]),
@@ -318,7 +318,7 @@ void UdpProxySocket::readFromRemoteSocket()
         quint16 senderPort;
 
         auto dataPtr = makeDataInfo();
-        dataPtr->m_timestamp = DataInfo::TimestampClock::now();
+        dataPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
         dataPtr->m_data.resize(static_cast<std::size_t>(m_remoteSocket->pendingDatagramSize()));
         m_remoteSocket->readDatagram(
             reinterpret_cast<char*>(&dataPtr->m_data[0]),

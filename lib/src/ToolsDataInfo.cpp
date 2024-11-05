@@ -12,20 +12,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/DataInfo.h"
+#include "cc_tools_qt/ToolsDataInfo.h"
 
 namespace cc_tools_qt
 {
 
-CC_TOOLS_API DataInfoPtr makeDataInfo()
+CC_TOOLS_API ToolsDataInfoPtr makeDataInfo()
 {
-    return DataInfoPtr(new DataInfo());
+    return ToolsDataInfoPtr(new ToolsDataInfo());
 }
 
-CC_TOOLS_API DataInfoPtr makeDataInfoTimed()
+CC_TOOLS_API ToolsDataInfoPtr makeDataInfoTimed()
 {
     auto info = makeDataInfo();
-    info->m_timestamp = DataInfo::TimestampClock::now();
+    info->m_timestamp = ToolsDataInfo::TimestampClock::now();
     return info;
 }
 

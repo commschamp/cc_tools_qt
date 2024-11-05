@@ -143,7 +143,7 @@ void TcpProxySocket::socketDisconnectImpl()
     m_server.close();
 }
 
-void TcpProxySocket::sendDataImpl(DataInfoPtr dataPtr)
+void TcpProxySocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
 {
     assert(dataPtr);
     QVariantList toList;
@@ -442,7 +442,7 @@ void TcpProxySocket::performReadWrite(QTcpSocket& readFromSocket, QTcpSocket& wr
     }
 
     auto dataPtr = makeDataInfo();
-    dataPtr->m_timestamp = DataInfo::TimestampClock::now();
+    dataPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
 
     auto dataSize = readFromSocket.bytesAvailable();
     dataPtr->m_data.resize(static_cast<std::size_t>(dataSize));

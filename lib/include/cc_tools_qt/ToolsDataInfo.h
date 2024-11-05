@@ -18,22 +18,22 @@
 
 #pragma once
 
-#include <chrono>
-#include <vector>
-#include <string>
-#include <memory>
+#include "cc_tools_qt/ToolsApi.h"
 
 #include <QtCore/QVariant>
 #include <QtCore/QVariantMap>
 
-#include "cc_tools_qt/ToolsApi.h"
+#include <chrono>
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace cc_tools_qt
 {
 
 /// @brief Information about incomming or outdoing data
-/// @headerfile "cc_tools_qt/DataInfo.h"
-struct DataInfo
+/// @headerfile "cc_tools_qt/ToolsDataInfo.h"
+struct ToolsDataInfo
 {
     /// @brief Type of clock used for timestamping
     using TimestampClock = std::chrono::high_resolution_clock;
@@ -53,18 +53,18 @@ struct DataInfo
                                      /// other componets
 };
 
-/// @brief Pointer to @ref DataInfo
-using DataInfoPtr = std::shared_ptr<DataInfo>;
+/// @brief Pointer to @ref ToolsDataInfo
+using ToolsDataInfoPtr = std::shared_ptr<ToolsDataInfo>;
 
-/// @brief Dynamically allocate @ref DataInfo and return in in @ref DataInfoPtr;
-CC_TOOLS_API DataInfoPtr makeDataInfo();
+/// @brief Dynamically allocate @ref ToolsDataInfo and return in in @ref ToolsDataInfoPtr;
+CC_TOOLS_API ToolsDataInfoPtr makeDataInfo();
 
-/// @brief Dynamically allocate @ref DataInfo and return in in @ref DataInfoPtr;
+/// @brief Dynamically allocate @ref ToolsDataInfo and return in in @ref ToolsDataInfoPtr;
 /// @details Automatically populate the timestamp.
-CC_TOOLS_API DataInfoPtr makeDataInfoTimed();
+CC_TOOLS_API ToolsDataInfoPtr makeDataInfoTimed();
 
 }  // namespace cc_tools_qt
 
-Q_DECLARE_METATYPE(cc_tools_qt::DataInfoPtr);
+Q_DECLARE_METATYPE(cc_tools_qt::ToolsDataInfoPtr);
 
 

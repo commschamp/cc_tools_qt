@@ -91,7 +91,7 @@ void SerialSocket::socketDisconnectImpl()
     m_serial.close();
 }
 
-void SerialSocket::sendDataImpl(DataInfoPtr dataPtr)
+void SerialSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
 {
     assert(dataPtr);
     m_serial.write(
@@ -104,7 +104,7 @@ void SerialSocket::performRead()
     assert(sender() == &m_serial);
 
     auto dataPtr = makeDataInfo();
-    dataPtr->m_timestamp = DataInfo::TimestampClock::now();
+    dataPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
 
     auto dataSize = m_serial.bytesAvailable();
     dataPtr->m_data.resize(static_cast<std::size_t>(dataSize));

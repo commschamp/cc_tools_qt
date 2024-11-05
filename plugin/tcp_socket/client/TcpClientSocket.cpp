@@ -135,7 +135,7 @@ void TcpClientSocket::socketDisconnectImpl()
     m_socket.blockSignals(false);
 }
 
-void TcpClientSocket::sendDataImpl(DataInfoPtr dataPtr)
+void TcpClientSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
 {
     assert(dataPtr);
     m_socket.write(
@@ -204,7 +204,7 @@ void TcpClientSocket::readFromSocket()
     assert(socket != nullptr);
 
     auto dataPtr = makeDataInfo();
-    dataPtr->m_timestamp = DataInfo::TimestampClock::now();
+    dataPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
 
     auto dataSize = socket->bytesAvailable();
     dataPtr->m_data.resize(static_cast<std::size_t>(dataSize));

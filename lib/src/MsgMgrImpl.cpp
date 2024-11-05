@@ -49,7 +49,7 @@ private:
 const QString SeqNumber::Name("cc.msg_num");
 const QByteArray SeqNumber::PropName = SeqNumber::Name.toUtf8();
 
-void updateMsgTimestamp(ToolsMessage& msg, const DataInfo::Timestamp& timestamp)
+void updateMsgTimestamp(ToolsMessage& msg, const ToolsDataInfo::Timestamp& timestamp)
 {
     auto sinceEpoch = timestamp.time_since_epoch();
     auto milliseconds =
@@ -195,7 +195,7 @@ void MsgMgrImpl::sendMsgs(MessagesList&& msgs)
                 {
                     updateInternalId(*msgPtr);
                     property::message::Type().setTo(MsgType::Sent, *msgPtr);
-                    auto now = DataInfo::TimestampClock::now();
+                    auto now = ToolsDataInfo::TimestampClock::now();
                     updateMsgTimestamp(*msgPtr, now);
                     m_allMsgs.push_back(msgPtr);
                     reportMsgAdded(msgPtr);
@@ -206,7 +206,7 @@ void MsgMgrImpl::sendMsgs(MessagesList&& msgs)
             continue;
         }
 
-        QList <DataInfoPtr> data;
+        QList <ToolsDataInfoPtr> data;
         data.append(std::move(dataInfoPtr));
         for (auto iter = m_filters.rbegin(); iter != m_filters.rend(); ++iter) {
             auto& filter = *iter;
@@ -214,7 +214,7 @@ void MsgMgrImpl::sendMsgs(MessagesList&& msgs)
                 break;
             }
 
-            QList <DataInfoPtr> dataTmp;
+            QList <ToolsDataInfoPtr> dataTmp;
             for (auto& d : data) {
                 dataTmp.append(filter->sendData(d));
             }
@@ -259,7 +259,7 @@ void MsgMgrImpl::addMsgs(const MessagesList& msgs, bool reportAdded)
         }
 
         if (property::message::Timestamp().getFrom(*m) == 0) {
-            auto now = DataInfo::TimestampClock::now();
+            auto now = ToolsDataInfo::TimestampClock::now();
             updateMsgTimestamp(*m, now);
         }
 
@@ -285,7 +285,7 @@ void MsgMgrImpl::setSocket(ToolsSocketPtr socket)
     }
 
     socket->setDataReceivedCallback(
-        [this](DataInfoPtr dataPtr)
+        [this](ToolsDataInfoPtr dataPtr)
         {
             socketDataReceived(std::move(dataPtr));
         });
@@ -346,7 +346,7 @@ void MsgMgrImpl::addFilter(ToolsFilterPtr filter)
 
     auto filterIdx = m_filters.size();
     filter->setDataToSendCallback(
-        [this, filterIdx](DataInfoPtr dataPtr)
+        [this, filterIdx](ToolsDataInfoPtr dataPtr)
         {
             if (!dataPtr) {
                 return;
@@ -355,7 +355,7 @@ void MsgMgrImpl::addFilter(ToolsFilterPtr filter)
             assert(filterIdx < m_filters.size());
             auto revIdx = m_filters.size() - filterIdx;
 
-            QList<DataInfoPtr> data;
+            QList<ToolsDataInfoPtr> data;
             data.append(std::move(dataPtr));
             for (auto iter = m_filters.rbegin() + static_cast<std::intmax_t>(revIdx); iter != m_filters.rend(); ++iter) {
 
@@ -365,7 +365,7 @@ void MsgMgrImpl::addFilter(ToolsFilterPtr filter)
 
                 auto nextFilter = *iter;
 
-                QList<DataInfoPtr> dataTmp;
+                QList<ToolsDataInfoPtr> dataTmp;
                 for (auto& d : data) {
                     dataTmp.append(nextFilter->sendData(d));
                 }
@@ -391,13 +391,13 @@ void MsgMgrImpl::addFilter(ToolsFilterPtr filter)
     m_filters.push_back(std::move(filter));
 }
 
-void MsgMgrImpl::socketDataReceived(DataInfoPtr dataInfoPtr)
+void MsgMgrImpl::socketDataReceived(ToolsDataInfoPtr dataInfoPtr)
 {
     if ((!m_recvEnabled) || !(m_protocol) || (!dataInfoPtr)) {
         return;
     }
 
-    QList<DataInfoPtr> data;
+    QList<ToolsDataInfoPtr> data;
     data.append(dataInfoPtr);
     for (auto filt : m_filters) {
         assert(filt);
@@ -406,7 +406,7 @@ void MsgMgrImpl::socketDataReceived(DataInfoPtr dataInfoPtr)
             return;
         }
 
-        QList<DataInfoPtr> dataTmp;
+        QList<ToolsDataInfoPtr> dataTmp;
         for (auto& d : data) {
             dataTmp.append(filt->recvData(d));
         }
@@ -436,12 +436,12 @@ void MsgMgrImpl::socketDataReceived(DataInfoPtr dataInfoPtr)
         updateInternalId(*m);
         property::message::Type().setTo(MsgType::Received, *m);
 
-        static const DataInfo::Timestamp DefaultTimestamp;
+        static const ToolsDataInfo::Timestamp DefaultTimestamp;
         if (dataInfoPtr->m_timestamp != DefaultTimestamp) {
             updateMsgTimestamp(*m, dataInfoPtr->m_timestamp);
         }
         else {
-            auto now = DataInfo::TimestampClock::now();
+            auto now = ToolsDataInfo::TimestampClock::now();
             updateMsgTimestamp(*m, now);
         }
 

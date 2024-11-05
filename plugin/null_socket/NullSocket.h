@@ -33,7 +33,7 @@ public:
     ~NullSocket() noexcept;
 
 protected:
-    virtual void sendDataImpl(DataInfoPtr dataPtr) override;
+    virtual void sendDataImpl(ToolsDataInfoPtr dataPtr) override;
     virtual unsigned connectionPropertiesImpl() const override;
 };
 

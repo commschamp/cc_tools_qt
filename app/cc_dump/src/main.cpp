@@ -23,10 +23,11 @@
 #include <QtCore/QCommandLineParser>
 #include <QtCore/QStringList>
 
+#include "cc_tools_qt/ToolsDataInfo.h"
 #include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/ToolsProtocol.h"
 #include "cc_tools_qt/PluginMgr.h"
-#include "cc_tools_qt/DataInfo.h"
+
 
 #include "AppMgr.h"
 
@@ -47,7 +48,7 @@ void metaTypesRegisterAll()
     qRegisterMetaType<cc::ToolsMessagePtr>();
     qRegisterMetaType<cc::ToolsProtocolPtr>();
     qRegisterMetaType<cc::PluginMgr::PluginInfoPtr>();
-    qRegisterMetaType<cc::DataInfoPtr>();
+    qRegisterMetaType<cc::ToolsDataInfoPtr>();
 }
 
 void prepareCommandLineOptions(QCommandLineParser& parser)

@@ -59,7 +59,7 @@ public:
     ToolsFrameBase() = default;
 
 protected:
-    virtual MessagesList readDataImpl(const DataInfo& dataInfo, bool final) override
+    virtual MessagesList readDataImpl(const ToolsDataInfo& dataInfo, bool final) override
     {
         m_inData.reserve(m_inData.size() + dataInfo.m_data.size());
         m_inData.insert(m_inData.end(), dataInfo.m_data.begin(), dataInfo.m_data.end());

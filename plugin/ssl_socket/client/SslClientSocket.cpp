@@ -169,7 +169,7 @@ void SslClientSocket::socketDisconnectImpl()
     m_socket.blockSignals(false);
 }
 
-void SslClientSocket::sendDataImpl(DataInfoPtr dataPtr)
+void SslClientSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
 {
     assert(dataPtr);
     m_socket.write(
@@ -246,7 +246,7 @@ void SslClientSocket::readFromSocket()
     assert(socket != nullptr);
 
     auto dataPtr = makeDataInfo();
-    dataPtr->m_timestamp = DataInfo::TimestampClock::now();
+    dataPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
 
     auto dataSize = socket->bytesAvailable();
     dataPtr->m_data.resize(static_cast<std::size_t>(dataSize));

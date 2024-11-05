@@ -19,7 +19,7 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsApi.h"
-#include "cc_tools_qt/DataInfo.h"
+#include "cc_tools_qt/ToolsDataInfo.h"
 #include "cc_tools_qt/ToolsMessage.h"
 
 #include <memory>
@@ -35,7 +35,7 @@ public:
 
     virtual ~ToolsFrame();
 
-    MessagesList readData(const DataInfo& dataInfo, bool final);
+    MessagesList readData(const ToolsDataInfo& dataInfo, bool final);
     void updateMessage(ToolsMessage& msg);
     ToolsMessagePtr createInvalidMessage();
     ToolsMessagePtr createRawDataMessage();
@@ -46,7 +46,7 @@ public:
 protected:
     ToolsFrame() = default;
 
-    virtual MessagesList readDataImpl(const DataInfo& dataInfo, bool final) = 0;
+    virtual MessagesList readDataImpl(const ToolsDataInfo& dataInfo, bool final) = 0;
     virtual void updateMessageImpl(ToolsMessage& msg) = 0;
     virtual ToolsMessagePtr createInvalidMessageImpl() = 0;
     virtual ToolsMessagePtr createRawDataMessageImpl() = 0;

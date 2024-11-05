@@ -75,9 +75,9 @@
 ///
 /// When new data arrival is detected, the @b socket object needs to report it 
 /// using inherited cc_tools_qt::ToolsSocket::reportDataReceived() function. Note,
-/// that the latter receives single parameter of type cc_tools_qt::DataInfoPtr.
-/// It is @b std::shared_ptr to cc_tools_qt::DataInfo. Please use 
-/// cc_tools_qt::makeDataInfo() function to allocate one. The cc_tools_qt::DataInfo
+/// that the latter receives single parameter of type cc_tools_qt::ToolsDataInfoPtr.
+/// It is @b std::shared_ptr to cc_tools_qt::ToolsDataInfo. Please use 
+/// cc_tools_qt::makeDataInfo() function to allocate one. The cc_tools_qt::ToolsDataInfo
 /// contains three data members:
 /// @li @b m_timestamp - timestamp when data is received
 /// @li @b m_data - raw bytes data
@@ -91,7 +91,7 @@
 ///     void dataReceived(const std::uint8_t* buf, std::size_t len)
 ///     {
 ///         auto data = cc_tools_qt::makeDataInfo();
-///         data->m_timestamp = cc_tools_qt::DataInfo::TimestampClock::now();
+///         data->m_timestamp = cc_tools_qt::ToolsDataInfo::TimestampClock::now();
 ///         data->m_data.assign(buf, buf + len);
 ///         reportDataReceived(std::move(data));
 ///     }
@@ -99,7 +99,7 @@
 /// @endcode
 /// @b NOTE, that the assignment of the @b m_timestamp value can be omitted. If no
 /// value has been set, the inherited @b reportDataReceived() function will assign
-/// the value returned by call to `cc_tools_qt::DataInfo::TimestampClock::now()` prior
+/// the value returned by call to `cc_tools_qt::ToolsDataInfo::TimestampClock::now()` prior
 /// to invoking the callback to report the data to the application.
 ///
 /// Also note, that there is @b m_extraProperties data member which can contain
@@ -116,14 +116,14 @@
 /// class MySocket : public ...
 /// {
 /// protected:
-///     virtual void sendDataImpl(cc_tools_qt::DataInfoPtr dataPtr) override
+///     virtual void sendDataImpl(cc_tools_qt::ToolsDataInfoPtr dataPtr) override
 ///     {
 ///         ... // write contents of dataPtr->m_data to I/O socket.
 ///     }
 /// };
 /// @endcode
 /// Note, that the parameter to the function is the same std::shared_ptr to
-/// cc_tools_qt::DataInfo. In addition to raw data bytes in may also contain
+/// cc_tools_qt::ToolsDataInfo. In addition to raw data bytes in may also contain
 /// extra properties. Depending on the socket, these properties can be used by the
 /// other plugins (@b filters and/or @b protocol) to provide extra information on
 /// how the data needs to be sent. For example, it can specify whether 
