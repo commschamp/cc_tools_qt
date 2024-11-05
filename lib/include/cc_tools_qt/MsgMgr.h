@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 #include "cc_tools_qt/ToolsFilter.h"
 #include "cc_tools_qt/Message.h"
 #include "cc_tools_qt/ToolsProtocol.h"
@@ -33,7 +33,7 @@ namespace cc_tools_qt
 {
 
 class MsgMgrImpl;
-class CC_API MsgMgr
+class CC_TOOLS_API MsgMgr
 {
 public:
     typedef std::list<MessagePtr> AllMessages;

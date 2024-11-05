@@ -28,7 +28,7 @@ namespace cc_tools_qt
 namespace field
 {
 
-class CC_API ToolsBitfieldField : public cc_tools_qt::ToolsField
+class CC_TOOLS_API ToolsBitfieldField : public cc_tools_qt::ToolsField
 {
     using Base = cc_tools_qt::ToolsField;
 public:

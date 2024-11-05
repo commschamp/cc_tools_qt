@@ -30,7 +30,7 @@ namespace cc_tools_qt
 namespace field
 {
 
-class CC_API ToolsStringField : public ToolsField
+class CC_TOOLS_API ToolsStringField : public ToolsField
 {
 public:
 

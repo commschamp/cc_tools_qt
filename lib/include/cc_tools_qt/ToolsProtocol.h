@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 #include "cc_tools_qt/DataInfo.h"
 #include "cc_tools_qt/ToolsFrame.h"
 #include "cc_tools_qt/Message.h"
@@ -39,7 +39,7 @@ namespace cc_tools_qt
 ///     protocol messages.
 /// @headerfile cc_tools_qt/ToolsProtocol.h
 
-class CC_API ToolsProtocol
+class CC_TOOLS_API ToolsProtocol
 {
 public:
     /// @brief List of messages

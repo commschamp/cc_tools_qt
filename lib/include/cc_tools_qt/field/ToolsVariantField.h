@@ -33,7 +33,7 @@ namespace cc_tools_qt
 namespace field
 {
 
-class CC_API ToolsVariantField : public ToolsField
+class CC_TOOLS_API ToolsVariantField : public ToolsField
 {
     using Base = ToolsField;
 public:

@@ -20,12 +20,12 @@
 #ifdef WIN32
 
 #ifdef CC_TOOLS_QT_EXPORT
-#define CC_API __declspec(dllexport)
+#define CC_TOOLS_API __declspec(dllexport)
 #else // #ifdef CC_TOOLS_QT_EXPORT
-#define CC_API __declspec(dllimport)
+#define CC_TOOLS_API __declspec(dllimport)
 #endif // #ifdef CC_TOOLS_QT_EXPORT
 
 #else // #ifdef WIN32
-#define CC_API
+#define CC_TOOLS_API
 #endif // #ifdef WIN32
 

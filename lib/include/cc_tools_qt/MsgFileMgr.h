@@ -26,14 +26,14 @@
 #include <QtCore/QVariantList>
 #include <QtCore/QFile>
 
-#include "Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 #include "Message.h"
 #include "cc_tools_qt/ToolsProtocol.h"
 
 namespace cc_tools_qt
 {
 
-class CC_API MsgFileMgr
+class CC_TOOLS_API MsgFileMgr
 {
 public:
 

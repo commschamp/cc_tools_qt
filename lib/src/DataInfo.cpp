@@ -17,12 +17,12 @@
 namespace cc_tools_qt
 {
 
-CC_API DataInfoPtr makeDataInfo()
+CC_TOOLS_API DataInfoPtr makeDataInfo()
 {
     return DataInfoPtr(new DataInfo());
 }
 
-CC_API DataInfoPtr makeDataInfoTimed()
+CC_TOOLS_API DataInfoPtr makeDataInfoTimed()
 {
     auto info = makeDataInfo();
     info->m_timestamp = DataInfo::TimestampClock::now();

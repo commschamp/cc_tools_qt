@@ -31,7 +31,7 @@ namespace cc_tools_qt
 namespace field
 {
 
-class CC_API ToolsOptionalField : public ToolsField
+class CC_TOOLS_API ToolsOptionalField : public ToolsField
 {
 public:
     using ActPtr = std::unique_ptr<ToolsOptionalField>;

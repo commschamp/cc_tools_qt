@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 #include "cc_tools_qt/DataInfo.h"
 #include "cc_tools_qt/Message.h"
 
@@ -28,7 +28,7 @@
 namespace cc_tools_qt
 {
 
-class CC_API ToolsFrame
+class CC_TOOLS_API ToolsFrame
 {
 public:
     using MessagesList = std::list<MessagePtr>;

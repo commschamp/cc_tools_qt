@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 #include "cc_tools_qt/ToolsField.h"
 
 #include "comms/ErrorStatus.h"
@@ -39,7 +39,7 @@ class ToolsFrame;
 /// @brief Main interface class used by <b>CommsChampion Tools</b>
 ///     to display and manipulate messages.
 /// @headerfile cc_tools_qt/Message.h
-class CC_API Message : public QObject
+class CC_TOOLS_API Message : public QObject
 {
     using Base = QObject;
 public:

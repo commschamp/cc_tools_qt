@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 
 #include "cc_tools_qt/field/ToolsArrayListField.h"
 #include "cc_tools_qt/field/ToolsBitfieldField.h"
@@ -38,7 +38,7 @@
 namespace cc_tools_qt
 {
 
-class CC_API ToolsFieldHandler
+class CC_TOOLS_API ToolsFieldHandler
 {
 public:
     virtual ~ToolsFieldHandler() noexcept = default;

@@ -26,7 +26,7 @@
 #include <QtCore/QVariant>
 #include <QtCore/QVariantMap>
 
-#include "Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 
 namespace cc_tools_qt
 {
@@ -57,11 +57,11 @@ struct DataInfo
 using DataInfoPtr = std::shared_ptr<DataInfo>;
 
 /// @brief Dynamically allocate @ref DataInfo and return in in @ref DataInfoPtr;
-CC_API DataInfoPtr makeDataInfo();
+CC_TOOLS_API DataInfoPtr makeDataInfo();
 
 /// @brief Dynamically allocate @ref DataInfo and return in in @ref DataInfoPtr;
 /// @details Automatically populate the timestamp.
-CC_API DataInfoPtr makeDataInfoTimed();
+CC_TOOLS_API DataInfoPtr makeDataInfoTimed();
 
 }  // namespace cc_tools_qt
 

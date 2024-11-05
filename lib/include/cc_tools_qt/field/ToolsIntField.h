@@ -33,7 +33,7 @@ namespace cc_tools_qt
 namespace field
 {
 
-class CC_API ToolsIntField : public details::ToolsNumericFieldBase<long long int>
+class CC_TOOLS_API ToolsIntField : public details::ToolsNumericFieldBase<long long int>
 {
     using Base = details::ToolsNumericFieldBase<long long int>;
 

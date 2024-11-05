@@ -26,14 +26,14 @@
 #include <QtCore/QVariantMap>
 #include <QtCore/QPluginLoader>
 
-#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 #include "cc_tools_qt/ToolsPlugin.h"
 
 namespace cc_tools_qt
 {
 
 class PluginMgrImpl;
-class CC_API PluginMgr
+class CC_TOOLS_API PluginMgr
 {
 public:
 

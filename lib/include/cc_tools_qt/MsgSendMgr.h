@@ -20,7 +20,7 @@
 
 #include <functional>
 
-#include "Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 #include "Message.h"
 #include "cc_tools_qt/ToolsProtocol.h"
 
@@ -28,7 +28,7 @@ namespace cc_tools_qt
 {
 
 class MsgSendMgrImpl;
-class CC_API MsgSendMgr
+class CC_TOOLS_API MsgSendMgr
 {
 public:
     typedef ToolsProtocol::MessagesList MessagesList;

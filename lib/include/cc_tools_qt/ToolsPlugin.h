@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 #include "cc_tools_qt/ToolsFilter.h"
 #include "cc_tools_qt/ToolsProtocol.h"
 #include "cc_tools_qt/ToolsSocket.h"
@@ -36,7 +36,7 @@ namespace cc_tools_qt
 
 /// @brief Interface class for plugin definition
 /// @headerfile cc_tools_qt/ToolsPlugin.h
-class CC_API ToolsPlugin : public QObject
+class CC_TOOLS_API ToolsPlugin : public QObject
 {
 public:
     enum Type : unsigned

@@ -20,7 +20,7 @@
 
 #include <functional>
 
-#include "Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 #include "Message.h"
 #include "ToolsField.h"
 
@@ -31,7 +31,7 @@ namespace cc_tools_qt
 /// @details Provides polymorphic behavior via its protected functions, which
 ///     can be overriden in the derived class.
 /// @headerfile cc_tools_qt/MessageHandler.h
-class CC_API MessageHandler
+class CC_TOOLS_API MessageHandler
 {
 public:
     /// @brief Destructor

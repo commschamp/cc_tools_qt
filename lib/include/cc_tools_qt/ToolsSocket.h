@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 #include "cc_tools_qt/DataInfo.h"
 
 #include <QtCore/QString>
@@ -35,7 +35,7 @@ namespace cc_tools_qt
 /// @details It is used by @b CommsChampion @b Tools to drive low level
 ///     I/O operations.
 /// @headerfile cc_tools_qt/ToolsSocket.h
-class CC_API ToolsSocket
+class CC_TOOLS_API ToolsSocket
 {
 public:
     /// @brief Available socket connection properties values.

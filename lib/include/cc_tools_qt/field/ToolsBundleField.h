@@ -29,7 +29,7 @@ namespace cc_tools_qt
 namespace field
 {
 
-class CC_API ToolsBundleField : public ToolsField
+class CC_TOOLS_API ToolsBundleField : public ToolsField
 {
     using Base = ToolsField;
 public:

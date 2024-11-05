@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 #include "DataInfo.h"
 
 #include <QtCore/QString>
@@ -36,7 +36,7 @@ namespace cc_tools_qt
 /// @details The filter can be used to implement encryption / decryption of
 ///     the data, and/or additional transport layer.
 /// @headerfile cc_tools_qt/ToolsFilter.h
-class CC_API ToolsFilter
+class CC_TOOLS_API ToolsFilter
 {
 public:
     /// @brief Constructor

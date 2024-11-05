@@ -24,7 +24,7 @@
 #include <QtCore/QString>
 #include <QtCore/QVariantMap>
 
-#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 #include "cc_tools_qt/Message.h"
 
 namespace cc_tools_qt
@@ -95,7 +95,7 @@ private:
     const QByteArray& m_propName;
 };
 
-class CC_API Type : public PropBase<unsigned>
+class CC_TOOLS_API Type : public PropBase<unsigned>
 {
     typedef PropBase<unsigned> Base;
 public:
@@ -120,7 +120,7 @@ private:
     static const QByteArray PropName;
 };
 
-class CC_API MsgIdx : public PropBase<unsigned>
+class CC_TOOLS_API MsgIdx : public PropBase<unsigned>
 {
     typedef PropBase<unsigned> Base;
 public:
@@ -132,7 +132,7 @@ private:
 };
 
 
-class CC_API Timestamp : public PropBase<unsigned long long>
+class CC_TOOLS_API Timestamp : public PropBase<unsigned long long>
 {
     typedef PropBase<unsigned long long> Base;
 public:
@@ -143,7 +143,7 @@ private:
     static const QByteArray PropName;
 };
 
-class CC_API ProtocolName : public PropBase<QString>
+class CC_TOOLS_API ProtocolName : public PropBase<QString>
 {
     typedef PropBase<QString> Base;
 public:
@@ -154,7 +154,7 @@ private:
     static const QByteArray PropName;
 };
 
-class CC_API TransportMsg : public PropBase<MessagePtr>
+class CC_TOOLS_API TransportMsg : public PropBase<MessagePtr>
 {
     typedef PropBase<MessagePtr> Base;
 public:
@@ -165,7 +165,7 @@ private:
     static const QByteArray PropName;
 };
 
-class CC_API RawDataMsg : public PropBase<MessagePtr>
+class CC_TOOLS_API RawDataMsg : public PropBase<MessagePtr>
 {
     typedef PropBase<MessagePtr> Base;
 public:
@@ -176,7 +176,7 @@ private:
     static const QByteArray PropName;
 };
 
-class CC_API ExtraInfoMsg : public PropBase<MessagePtr>
+class CC_TOOLS_API ExtraInfoMsg : public PropBase<MessagePtr>
 {
     typedef PropBase<MessagePtr> Base;
 public:
@@ -187,7 +187,7 @@ private:
     static const QByteArray PropName;
 };
 
-class CC_API ExtraInfo : public PropBase<QVariantMap>
+class CC_TOOLS_API ExtraInfo : public PropBase<QVariantMap>
 {
     typedef PropBase<QVariantMap> Base;
 public:
@@ -198,7 +198,7 @@ private:
     static const QByteArray PropName;
 };
 
-class CC_API ForceExtraInfoExistence : public PropBase<bool>
+class CC_TOOLS_API ForceExtraInfoExistence : public PropBase<bool>
 {
     typedef PropBase<bool> Base;
 public:
@@ -210,7 +210,7 @@ private:
 };
 
 
-class CC_API Delay : public PropBase<unsigned long long>
+class CC_TOOLS_API Delay : public PropBase<unsigned long long>
 {
     typedef PropBase<unsigned long long> Base;
 public:
@@ -221,7 +221,7 @@ private:
     static const QByteArray PropName;
 };
 
-class CC_API DelayUnits : public PropBase<QString>
+class CC_TOOLS_API DelayUnits : public PropBase<QString>
 {
     typedef PropBase<QString> Base;
 public:
@@ -233,7 +233,7 @@ private:
 };
 
 
-class CC_API RepeatDuration : public PropBase<unsigned long long>
+class CC_TOOLS_API RepeatDuration : public PropBase<unsigned long long>
 {
     typedef PropBase<unsigned long long> Base;
 public:
@@ -244,7 +244,7 @@ private:
     static const QByteArray PropName;
 };
 
-class CC_API RepeatDurationUnits : public PropBase<QString>
+class CC_TOOLS_API RepeatDurationUnits : public PropBase<QString>
 {
     typedef PropBase<QString> Base;
 public:
@@ -255,7 +255,7 @@ private:
     static const QByteArray PropName;
 };
 
-class CC_API RepeatCount : public PropBase<unsigned>
+class CC_TOOLS_API RepeatCount : public PropBase<unsigned>
 {
     typedef PropBase<unsigned> Base;
 public:
@@ -266,7 +266,7 @@ private:
     static const QByteArray PropName;
 };
 
-class CC_API ScrollPos : public PropBase<int>
+class CC_TOOLS_API ScrollPos : public PropBase<int>
 {
     typedef PropBase<int> Base;
 public:
@@ -278,7 +278,7 @@ private:
 
 };
 
-class CC_API Comment : public PropBase<QString>
+class CC_TOOLS_API Comment : public PropBase<QString>
 {
     typedef PropBase<QString> Base;
 public:

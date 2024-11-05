@@ -31,7 +31,7 @@ namespace cc_tools_qt
 namespace field
 {
 
-class CC_API ToolsFloatField : public details::ToolsNumericFieldBase<double>
+class CC_TOOLS_API ToolsFloatField : public details::ToolsNumericFieldBase<double>
 {
     using Base = details::ToolsNumericFieldBase<double>;
 public:

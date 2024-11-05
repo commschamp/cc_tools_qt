@@ -34,7 +34,7 @@ namespace cc_tools_qt
 namespace field
 {
 
-class CC_API ToolsUnsignedLongField : public cc_tools_qt::details::ToolsNumericFieldBase<long long unsigned>
+class CC_TOOLS_API ToolsUnsignedLongField : public cc_tools_qt::details::ToolsNumericFieldBase<long long unsigned>
 {
     using Base = cc_tools_qt::details::ToolsNumericFieldBase<long long unsigned>;
 

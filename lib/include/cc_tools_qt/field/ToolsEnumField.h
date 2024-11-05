@@ -31,7 +31,7 @@ namespace cc_tools_qt
 namespace field
 {
 
-class CC_API ToolsEnumField : public cc_tools_qt::details::ToolsNumericFieldBase<long long int>
+class CC_TOOLS_API ToolsEnumField : public cc_tools_qt::details::ToolsNumericFieldBase<long long int>
 {
     using Base = cc_tools_qt::details::ToolsNumericFieldBase<long long int>;
 public:

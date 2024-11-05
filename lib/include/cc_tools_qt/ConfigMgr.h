@@ -24,12 +24,12 @@
 #include <QtCore/QString>
 #include <QtCore/QVariantMap>
 
-#include "Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 
 namespace cc_tools_qt
 {
 
-class CC_API ConfigMgr
+class CC_TOOLS_API ConfigMgr
 {
 public:
 

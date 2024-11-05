@@ -31,7 +31,7 @@ namespace cc_tools_qt
 namespace field
 {
 
-class CC_API ToolsBitmaskField : public details::ToolsNumericFieldBase<unsigned long long>
+class CC_TOOLS_API ToolsBitmaskField : public details::ToolsNumericFieldBase<unsigned long long>
 {
 public:
     using ActPtr = std::unique_ptr<ToolsBitmaskField>;

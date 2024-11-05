@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/ToolsApi.h"
 
 #include <QtCore/QMap>
 #include <QtCore/QString>
@@ -36,7 +36,7 @@ namespace cc_tools_qt
 class ToolsFieldHandler;
 
 /// @brief Field class.
-class CC_API ToolsField
+class CC_TOOLS_API ToolsField
 {
 public:
     using Ptr = std::unique_ptr<ToolsField>;
