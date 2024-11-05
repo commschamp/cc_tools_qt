@@ -18,16 +18,16 @@
 
 #pragma once
 
+#include "cc_tools_qt/Api.h"
+#include "cc_tools_qt/ToolsFilter.h"
+#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsProtocol.h"
+#include "cc_tools_qt/Socket.h"
+
 #include <memory>
 #include <list>
 #include <vector>
 
-#include "Api.h"
-#include "Message.h"
-#include "cc_tools_qt/ToolsProtocol.h"
-#include "Message.h"
-#include "Socket.h"
-#include "Filter.h"
 
 namespace cc_tools_qt
 {
@@ -63,7 +63,7 @@ public:
 
     void setSocket(SocketPtr socket);
     void setProtocol(ToolsProtocolPtr protocol);
-    void addFilter(FilterPtr filter);
+    void addFilter(ToolsFilterPtr filter);
 
     typedef std::function<void (MessagePtr msg)> MsgAddedCallbackFunc;
     typedef std::function<void (const QString& error)> ErrorReportCallbackFunc;

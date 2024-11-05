@@ -617,7 +617,7 @@ bool GuiAppMgr::applyNewPlugins(const ListOfPluginInfos& plugins)
     struct ApplyInfo
     {
         SocketPtr m_socket;
-        QList<FilterPtr> m_filters;
+        QList<ToolsFilterPtr> m_filters;
         ToolsProtocolPtr m_protocol;
         ListOfGuiActions m_actions;
     };

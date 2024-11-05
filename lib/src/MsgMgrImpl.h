@@ -62,7 +62,7 @@ public:
 
     void setSocket(SocketPtr socket);
     void setProtocol(ToolsProtocolPtr protocol);
-    void addFilter(FilterPtr filter);
+    void addFilter(ToolsFilterPtr filter);
 
     typedef MsgMgr::MsgAddedCallbackFunc MsgAddedCallbackFunc;
     typedef MsgMgr::ErrorReportCallbackFunc ErrorReportCallbackFunc;
@@ -88,7 +88,7 @@ public:
 
 private:
     typedef unsigned long long MsgNumberType;
-    typedef std::vector<FilterPtr> FiltersList;
+    typedef std::vector<ToolsFilterPtr> FiltersList;
 
     void socketDataReceived(DataInfoPtr dataInfoPtr);
     void updateInternalId(Message& msg);

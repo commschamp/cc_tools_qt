@@ -81,10 +81,10 @@ SocketPtr ToolsPlugin::createSocket()
     return socketPtr;
 }
 
-FilterPtr ToolsPlugin::createFilter()
+ToolsFilterPtr ToolsPlugin::createFilter()
 {
     if (m_type != Type_Filter) {
-        return FilterPtr();
+        return ToolsFilterPtr();
     }
 
     auto filterPtr = createFilterImpl();
@@ -152,9 +152,9 @@ SocketPtr ToolsPlugin::createSocketImpl()
     return SocketPtr();
 }
 
-FilterPtr ToolsPlugin::createFilterImpl()
+ToolsFilterPtr ToolsPlugin::createFilterImpl()
 {
-    return FilterPtr();
+    return ToolsFilterPtr();
 }
 
 ToolsProtocolPtr ToolsPlugin::createProtocolImpl()

@@ -18,16 +18,16 @@
 
 #pragma once
 
-#include <cstdint>
-#include <cstddef>
-#include <vector>
-#include <functional>
+#include "Api.h"
+#include "DataInfo.h"
 
 #include <QtCore/QString>
 #include <QtCore/QList>
 
-#include "DataInfo.h"
-#include "Api.h"
+#include <cstdint>
+#include <cstddef>
+#include <vector>
+#include <functional>
 
 namespace cc_tools_qt
 {
@@ -35,15 +35,15 @@ namespace cc_tools_qt
 /// @brief Main polymorphic interface class for filters.
 /// @details The filter can be used to implement encryption / decryption of
 ///     the data, and/or additional transport layer.
-/// @headerfile cc_tools_qt/Filter.h
-class CC_API Filter
+/// @headerfile cc_tools_qt/ToolsFilter.h
+class CC_API ToolsFilter
 {
 public:
     /// @brief Constructor
-    Filter();
+    ToolsFilter();
 
     /// @brief Destructor
-    virtual ~Filter() noexcept;
+    virtual ~ToolsFilter() noexcept;
 
     /// @brief Start filter's operation
     /// @details Prior to being started, the filter is not allowed to generate
@@ -196,8 +196,8 @@ private:
     unsigned m_debugLevel = 0U;
 };
 
-/// @brief Pointer to @ref Filter object.
-using FilterPtr = std::shared_ptr<Filter>;
+/// @brief Pointer to @ref ToolsFilter object.
+using ToolsFilterPtr = std::shared_ptr<ToolsFilter>;
 
 }  // namespace cc_tools_qt
 

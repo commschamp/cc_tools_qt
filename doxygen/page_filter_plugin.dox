@@ -134,7 +134,7 @@
 ///                 [this]() -> cc_tools_qt::PluginProperties::ListOfFilters
 ///                 {
 ///                     cc_tools_qt::PluginProperties::ListOfFilters filters;
-///                     filters.append(cc_tools_qt::FilterPtr(new MyFilter));
+///                     filters.append(cc_tools_qt::ToolsFilterPtr(new MyFilter));
 ///                     return filters;
 ///                 });
 ///     }

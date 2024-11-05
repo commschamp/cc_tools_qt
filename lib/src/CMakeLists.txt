@@ -16,7 +16,6 @@ function (lib_tools)
         field/ToolsUnsignedLongField.cpp
         field/ToolsVariantField.cpp
         Message.cpp
-        Filter.cpp
         Socket.cpp
         MessageHandler.cpp
         DataInfo.cpp
@@ -30,6 +29,7 @@ function (lib_tools)
         MsgMgrImpl.cpp
         ToolsField.cpp
         ToolsFieldHandler.cpp
+        ToolsFilter.cpp
         ToolsFrame.cpp
         ToolsMsgFactory.cpp
         ToolsPlugin.cpp

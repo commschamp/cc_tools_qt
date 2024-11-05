@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/Filter.h"
+#include "cc_tools_qt/ToolsFilter.h"
 
 #include <chrono>
 #include <iomanip>
@@ -44,20 +44,20 @@ std::string dataToStr(const DataInfo::DataSeq& data)
 } // namespace 
     
 
-Filter::Filter() = default;
-Filter::~Filter() noexcept = default;
+ToolsFilter::ToolsFilter() = default;
+ToolsFilter::~ToolsFilter() noexcept = default;
 
-bool Filter::start()
+bool ToolsFilter::start()
 {
     return startImpl();
 }
 
-void Filter::stop()
+void ToolsFilter::stop()
 {
     stopImpl();
 }
 
-QList<DataInfoPtr> Filter::recvData(DataInfoPtr dataPtr)
+QList<DataInfoPtr> ToolsFilter::recvData(DataInfoPtr dataPtr)
 {
     unsigned long long milliseconds = 0U;
 
@@ -89,7 +89,7 @@ QList<DataInfoPtr> Filter::recvData(DataInfoPtr dataPtr)
     return result;
 }
 
-QList<DataInfoPtr> Filter::sendData(DataInfoPtr dataPtr)
+QList<DataInfoPtr> ToolsFilter::sendData(DataInfoPtr dataPtr)
 {
     unsigned long long milliseconds = 0U;
 
@@ -121,58 +121,58 @@ QList<DataInfoPtr> Filter::sendData(DataInfoPtr dataPtr)
     return result;
 }
 
-void Filter::socketConnectionReport(bool connected)
+void ToolsFilter::socketConnectionReport(bool connected)
 {
     return socketConnectionReportImpl(connected);
 }
 
-void Filter::applyInterPluginConfig(const QVariantMap& props)
+void ToolsFilter::applyInterPluginConfig(const QVariantMap& props)
 {
     applyInterPluginConfigImpl(props);
 }
 
-void Filter::setDebugOutputLevel(unsigned level)
+void ToolsFilter::setDebugOutputLevel(unsigned level)
 {
     m_debugLevel = level;
 }
 
-bool Filter::startImpl()
+bool ToolsFilter::startImpl()
 {
     return true;
 }
 
-void Filter::stopImpl()
+void ToolsFilter::stopImpl()
 {
 }
 
-QList<DataInfoPtr> Filter::recvDataImpl(DataInfoPtr dataPtr)
-{
-    QList<DataInfoPtr> result;
-    result.append(std::move(dataPtr));
-    return result;
-}
-
-QList<DataInfoPtr> Filter::sendDataImpl(DataInfoPtr dataPtr)
+QList<DataInfoPtr> ToolsFilter::recvDataImpl(DataInfoPtr dataPtr)
 {
     QList<DataInfoPtr> result;
     result.append(std::move(dataPtr));
     return result;
 }
 
-void Filter::socketConnectionReportImpl([[maybe_unused]] bool connected)
+QList<DataInfoPtr> ToolsFilter::sendDataImpl(DataInfoPtr dataPtr)
+{
+    QList<DataInfoPtr> result;
+    result.append(std::move(dataPtr));
+    return result;
+}
+
+void ToolsFilter::socketConnectionReportImpl([[maybe_unused]] bool connected)
 {
 }
 
-void Filter::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& props)
+void ToolsFilter::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap& props)
 {
 }
 
-const char* Filter::debugNameImpl() const
+const char* ToolsFilter::debugNameImpl() const
 {
     return "filter";
 }
 
-void Filter::reportDataToSend(DataInfoPtr dataPtr)
+void ToolsFilter::reportDataToSend(DataInfoPtr dataPtr)
 {
     if (0U < m_debugLevel) {
         auto timestamp = dataPtr->m_timestamp;
@@ -194,21 +194,21 @@ void Filter::reportDataToSend(DataInfoPtr dataPtr)
     }
 }
 
-void Filter::reportError(const QString& msg)
+void ToolsFilter::reportError(const QString& msg)
 {
     if (m_errorReportCallback) {
         m_errorReportCallback(msg);
     }
 }
 
-void Filter::reportInterPluginConfig(const QVariantMap& props)
+void ToolsFilter::reportInterPluginConfig(const QVariantMap& props)
 {
     if (m_interPluginConfigReportCallback) {
         m_interPluginConfigReportCallback(props);
     }
 }
 
-unsigned long long Filter::currTimestamp()
+unsigned long long ToolsFilter::currTimestamp()
 {
     auto timestamp = std::chrono::high_resolution_clock::now();
     auto sinceEpoch = timestamp.time_since_epoch();
@@ -217,7 +217,7 @@ unsigned long long Filter::currTimestamp()
     return milliseconds;
 }
 
-unsigned Filter::getDebugOutputLevel() const
+unsigned ToolsFilter::getDebugOutputLevel() const
 {
     return m_debugLevel;
 }

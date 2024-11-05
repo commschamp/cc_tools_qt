@@ -338,7 +338,7 @@ void MsgMgrImpl::setProtocol(ToolsProtocolPtr protocol)
     m_protocol = std::move(protocol);
 }
 
-void MsgMgrImpl::addFilter(FilterPtr filter)
+void MsgMgrImpl::addFilter(ToolsFilterPtr filter)
 {
     if (!filter) {
         return;

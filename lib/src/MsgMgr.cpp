@@ -100,7 +100,7 @@ void MsgMgr::setProtocol(ToolsProtocolPtr protocol)
     m_impl->setProtocol(std::move(protocol));
 }
 
-void MsgMgr::addFilter(FilterPtr filter)
+void MsgMgr::addFilter(ToolsFilterPtr filter)
 {
     m_impl->addFilter(std::move(filter));
 }

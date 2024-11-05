@@ -19,9 +19,9 @@
 #pragma once
 
 #include "cc_tools_qt/Api.h"
-#include "cc_tools_qt/Socket.h"
-#include "cc_tools_qt/Filter.h"
+#include "cc_tools_qt/ToolsFilter.h"
 #include "cc_tools_qt/ToolsProtocol.h"
+#include "cc_tools_qt/Socket.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
@@ -85,7 +85,7 @@ public:
     /// @return Allocated socket object
     SocketPtr createSocket();
 
-    FilterPtr createFilter();
+    ToolsFilterPtr createFilter();
 
     /// @brief Create protocol
     /// @details This function will be called if it is @b protocol plugin. It
@@ -154,7 +154,7 @@ protected:
     virtual void applyInterPluginConfigImpl(const QVariantMap& props);       
 
     virtual SocketPtr createSocketImpl();
-    virtual FilterPtr createFilterImpl();
+    virtual ToolsFilterPtr createFilterImpl();
     virtual ToolsProtocolPtr createProtocolImpl();
     virtual QWidget* createConfigurationWidgetImpl();
     virtual ListOfGuiActions createGuiActionsImpl();
