@@ -74,7 +74,7 @@ void RecvMsgListWidget::msgListClearedImpl(MessagesList&& msgs)
 
 QString RecvMsgListWidget::msgPrefixImpl(const ToolsMessage& msg) const
 {
-    auto timestamp = property::message::Timestamp().getFrom(msg);
+    auto timestamp = property::message::ToolsMsgTimestamp().getFrom(msg);
     if (timestamp == 0U) {
         return QString();
     }

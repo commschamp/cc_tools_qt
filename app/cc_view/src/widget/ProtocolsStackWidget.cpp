@@ -29,7 +29,9 @@ namespace
 
 const char* ApplicationStr = "Application";
 const char* ExtraInfoStr ="Extra Info";
+
 } // namespace
+
 ProtocolsStackWidget::ProtocolsStackWidget(QWidget* parentObj)
   : Base(parentObj)
 {
@@ -78,7 +80,7 @@ void ProtocolsStackWidget::displayMessage(ToolsMessagePtr msg, bool force)
 
         secondChild->setData(
             0, Qt::UserRole,
-            QVariant::fromValue(property::message::TransportMsg().getFrom(*msg)));
+            QVariant::fromValue(property::message::ToolsMsgTransportMsg().getFrom(*msg)));
 
         auto* thirdChild = topProtocolItem->child(2);
         if (thirdChild == nullptr) {
@@ -89,13 +91,13 @@ void ProtocolsStackWidget::displayMessage(ToolsMessagePtr msg, bool force)
 
         thirdChild->setData(
             0, Qt::UserRole,
-            QVariant::fromValue(property::message::RawDataMsg().getFrom(*msg)));
+            QVariant::fromValue(property::message::ToolsMsgRawDataMsg().getFrom(*msg)));
 
         auto* fourthChild = topProtocolItem->child(3);
         if (fourthChild != nullptr) {
             fourthChild->setData(
                 0, Qt::UserRole,
-                QVariant::fromValue(property::message::ExtraInfoMsg().getFrom(*msg)));
+                QVariant::fromValue(property::message::ToolsMsgExtraInfoMsg().getFrom(*msg)));
         }
 
         return;
@@ -104,7 +106,7 @@ void ProtocolsStackWidget::displayMessage(ToolsMessagePtr msg, bool force)
     assert(msg);
     m_ui.m_protocolsTreeWidget->blockSignals(true);
     m_ui.m_protocolsTreeWidget->clear();
-    QStringList colValues(property::message::ProtocolName().getFrom(*msg));
+    QStringList colValues(property::message::ToolsMsgProtocolName().getFrom(*msg));
     auto* topLevelItem = new QTreeWidgetItem(colValues);
 
     auto addMsgFunc =
@@ -122,9 +124,9 @@ void ProtocolsStackWidget::displayMessage(ToolsMessagePtr msg, bool force)
     if (!msg->idAsString().isEmpty()) {
         addMsgFunc(msg, ApplicationStr);
     }
-    addMsgFunc(property::message::TransportMsg().getFrom(*msg), "Transport");
-    addMsgFunc(property::message::RawDataMsg().getFrom(*msg), "Raw Data");
-    addMsgFunc(property::message::ExtraInfoMsg().getFrom(*msg), ExtraInfoStr);
+    addMsgFunc(property::message::ToolsMsgTransportMsg().getFrom(*msg), "Transport");
+    addMsgFunc(property::message::ToolsMsgRawDataMsg().getFrom(*msg), "Raw Data");
+    addMsgFunc(property::message::ToolsMsgExtraInfoMsg().getFrom(*msg), ExtraInfoStr);
 
     m_ui.m_protocolsTreeWidget->addTopLevelItem(topLevelItem);
 

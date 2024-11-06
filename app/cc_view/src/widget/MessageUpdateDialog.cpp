@@ -180,16 +180,16 @@ MessageUpdateDialog::MessageUpdateDialog(
 {
     int msgIdx = -1;
     if (m_msg) {
-        m_origScrollPos = property::message::ScrollPos().getFrom(*m_msg);
+        m_origScrollPos = property::message::ToolsMsgScrollPos().getFrom(*m_msg);
         auto id = m_msg->idAsString();
         int msgIdxTmp = 0;
         for (auto& msgTmp : m_allMsgs) {
             assert(msgTmp);
             auto idTmp = msgTmp->idAsString();
             if ((idTmp == id) && msgTmp->assign(*m_msg)) {
-                property::message::ExtraInfo().copyFromTo(*m_msg, *msgTmp);
+                property::message::ToolsMsgExtraInfo().copyFromTo(*m_msg, *msgTmp);
                 m_protocol->updateMessage(*msgTmp);
-                property::message::ScrollPos().setTo(m_origScrollPos, *msgTmp);
+                property::message::ToolsMsgScrollPos().setTo(m_origScrollPos, *msgTmp);
 
                 msgIdx = msgIdxTmp;
                 break;
@@ -222,18 +222,18 @@ MessageUpdateDialog::MessageUpdateDialog(
             getMsgFromItem(m_ui.m_msgListWidget->currentItem()));
 
         auto delayUnits =
-            stringToDuration(property::message::DelayUnits().getFrom(*m_msg));
-        auto delay = msToDurationUnits(property::message::Delay().getFrom(*m_msg), delayUnits);
+            stringToDuration(property::message::ToolsMsgDelayUnits().getFrom(*m_msg));
+        auto delay = msToDurationUnits(property::message::ToolsMsgDelay().getFrom(*m_msg), delayUnits);
         if (delay != 0) {
             m_prevDelay = delay;
             m_ui.m_delayUnitsComboBox->setCurrentIndex(static_cast<int>(delayUnits));
             m_ui.m_delayCheckBox->setCheckState(Qt::Checked);
         }
 
-        auto repeatVal = property::message::RepeatDuration().getFrom(*m_msg);
+        auto repeatVal = property::message::ToolsMsgRepeatDuration().getFrom(*m_msg);
         auto repeatUnits =
             stringToDuration(
-                property::message::RepeatDurationUnits().getFrom(*m_msg));
+                property::message::ToolsMsgRepeatDurationUnits().getFrom(*m_msg));
         auto repeatDuration =
             msToDurationUnits(
                 repeatVal,
@@ -245,7 +245,7 @@ MessageUpdateDialog::MessageUpdateDialog(
         }
 
         auto repeatCount = static_cast<int>(
-            property::message::RepeatCount().getFrom(*m_msg), 1U);
+            property::message::ToolsMsgRepeatCount().getFrom(*m_msg), 1U);
         if (repeatCount != 0) {
             m_prevRepeatCount = repeatCount;
         }
@@ -481,30 +481,30 @@ void MessageUpdateDialog::accept()
 
     auto delayUnits =
         static_cast<Duration>(m_ui.m_delayUnitsComboBox->currentIndex());
-    property::message::Delay().setTo(
+    property::message::ToolsMsgDelay().setTo(
         durationToMs(m_ui.m_delaySpinBox->value(), delayUnits), *msg);
-    property::message::DelayUnits().setTo(durationToString(delayUnits), *msg);
+    property::message::ToolsMsgDelayUnits().setTo(durationToString(delayUnits), *msg);
 
     auto repeatUnits =
         static_cast<Duration>(m_ui.m_repeatUnitsComboBox->currentIndex());
-    property::message::RepeatDuration().setTo(
+    property::message::ToolsMsgRepeatDuration().setTo(
         durationToMs(m_ui.m_repeatSpinBox->value(), repeatUnits), *msg);
-    property::message::RepeatDurationUnits().setTo(
+    property::message::ToolsMsgRepeatDurationUnits().setTo(
         durationToString(repeatUnits), *msg);
-    property::message::RepeatCount().setTo(
+    property::message::ToolsMsgRepeatCount().setTo(
         m_ui.m_repeatCountSpinBox->value(), *msg);
 
-    property::message::ScrollPos().setTo(m_origScrollPos, *msg);
+    property::message::ToolsMsgScrollPos().setTo(m_origScrollPos, *msg);
 
     do {
-        auto extraInfoMsg = property::message::ExtraInfoMsg().getFrom(*msg);
+        auto extraInfoMsg = property::message::ToolsMsgExtraInfoMsg().getFrom(*msg);
         if (!extraInfoMsg) {
             break;
         }
 
         auto extraData = extraInfoMsg->encodeData();
         if (extraData.empty()) {
-            property::message::ExtraInfo().setTo(QVariantMap(), *msg);
+            property::message::ToolsMsgExtraInfo().setTo(QVariantMap(), *msg);
             break;
         }
 
@@ -513,7 +513,7 @@ void MessageUpdateDialog::accept()
                 QByteArray(
                     reinterpret_cast<const char*>(&extraData[0]),
                     static_cast<int>(extraData.size())));
-        property::message::ExtraInfo().setTo(doc.object().toVariantMap(), *msg);
+        property::message::ToolsMsgExtraInfo().setTo(doc.object().toVariantMap(), *msg);
     } while (false);
     m_msg = std::move(msg);
     assert(m_msg);

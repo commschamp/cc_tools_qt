@@ -134,7 +134,7 @@ void MainWindowWidget::sendRawMsgDialog(ToolsProtocolPtr protocol)
     RawHexDataDialog dialog(msgs, std::move(protocol), this);
     dialog.exec();
     for (auto& msgPtr : msgs) {
-        property::message::RepeatCount().setTo(1, *msgPtr);
+        property::message::ToolsMsgRepeatCount().setTo(1, *msgPtr);
         GuiAppMgr::instance()->sendAddNewMessage(std::move(msgPtr));
     }
 }

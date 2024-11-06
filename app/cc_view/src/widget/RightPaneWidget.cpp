@@ -53,7 +53,7 @@ void RightPaneWidget::displayMessage(ToolsMessagePtr msg)
     // Enable edit of the messages that haven't been sent or received yet, 
     // i.e. reside in the send area.
     m_displayedMsg = msg;
-    auto type = cc_tools_qt::property::message::Type().getFrom(*msg);
+    auto type = static_cast<ToolsMessage::Type>(cc_tools_qt::property::message::ToolsMsgType().getFrom(*msg));
     m_displayWidget->setEditEnabled(type == ToolsMessage::Type::Invalid);
 }
 

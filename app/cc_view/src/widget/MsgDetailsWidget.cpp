@@ -96,7 +96,7 @@ void MsgDetailsWidget::displayMessage(ToolsMessagePtr msg)
     m_displayedMsgWidget->show();
     scrollBar->blockSignals(false);
 
-    auto scrollValue = property::message::ScrollPos().getFrom(*msg);
+    auto scrollValue = property::message::ToolsMsgScrollPos().getFrom(*msg);
     scrollBar->setValue(scrollValue);
     m_displayedMsg = std::move(msg);
 }
@@ -140,7 +140,7 @@ void MsgDetailsWidget::widgetScrolled(int value)
         return;
     }
 
-    property::message::ScrollPos().setTo(value, *m_displayedMsg);
+    property::message::ToolsMsgScrollPos().setTo(value, *m_displayedMsg);
 }
 
 void MsgDetailsWidget::msgUpdated()

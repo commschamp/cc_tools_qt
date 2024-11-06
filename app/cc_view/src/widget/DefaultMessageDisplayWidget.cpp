@@ -106,14 +106,14 @@ void DefaultMessageDisplayWidget::msgUpdated()
         return;
     }
 
-    auto extraInfoMsg = property::message::ExtraInfoMsg().getFrom(*m_displayedMsg);
+    auto extraInfoMsg = property::message::ToolsMsgExtraInfoMsg().getFrom(*m_displayedMsg);
     if ((!extraInfoMsg) || (!extraInfoMsg->isValid())) {
         return;
     }
 
     auto extraData = extraInfoMsg->encodeData();
     if (extraData.empty()) {
-        property::message::ExtraInfo().setTo(QVariantMap(), *m_displayedMsg);
+        property::message::ToolsMsgExtraInfo().setTo(QVariantMap(), *m_displayedMsg);
         return;
     }
 
@@ -122,7 +122,7 @@ void DefaultMessageDisplayWidget::msgUpdated()
             QByteArray(
                 reinterpret_cast<const char*>(&extraData[0]),
                 static_cast<int>(extraData.size())));
-    property::message::ExtraInfo().setTo(doc.object().toVariantMap(), *m_displayedMsg);    
+    property::message::ToolsMsgExtraInfo().setTo(doc.object().toVariantMap(), *m_displayedMsg);    
 }
 
 }  // namespace cc_tools_qt

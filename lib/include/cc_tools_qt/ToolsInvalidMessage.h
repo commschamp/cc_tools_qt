@@ -68,7 +68,7 @@ public:
 protected:
     virtual const char* nameImpl() const override
     {
-        if (property::message::TransportMsg().getFrom(*this)) {
+        if (property::message::ToolsMsgTransportMsg().getFrom(*this)) {
             static const char* InvalidMsgStr = "???";
             return InvalidMsgStr;
         }

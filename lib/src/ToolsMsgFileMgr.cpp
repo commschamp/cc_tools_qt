@@ -35,164 +35,91 @@ namespace cc_tools_qt
 namespace
 {
 
-class IdProp : public property::message::PropBase<QString>
+class IdProp : public property::message::ToolsMsgPropBase<QString>
 {
-    using Base = property::message::PropBase<QString>;
+    using Base = property::message::ToolsMsgPropBase<QString>;
 public:
-    IdProp() : Base(Name, PropName) {}
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    IdProp() : Base("id") {}
 };
 
-const QString IdProp::Name("id");
-const QByteArray IdProp::PropName = IdProp::Name.toUtf8();
-
-class MsgIdxProp : public property::message::PropBase<unsigned>
+class MsgIdxProp : public property::message::ToolsMsgPropBase<unsigned>
 {
-    using Base = property::message::PropBase<unsigned>;
+    using Base = property::message::ToolsMsgPropBase<unsigned>;
 
 public:
-    MsgIdxProp() : Base(Name, PropName) {}
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    MsgIdxProp() : Base("msg_idx") {}
 };
 
-const QString MsgIdxProp::Name("msg_idx");
-const QByteArray MsgIdxProp::PropName = MsgIdxProp::Name.toUtf8();
-
-class DataProp : public property::message::PropBase<QString>
+class DataProp : public property::message::ToolsMsgPropBase<QString>
 {
-    using Base = property::message::PropBase<QString>;
+    using Base = property::message::ToolsMsgPropBase<QString>;
     
 public:
-    DataProp() : Base(Name, PropName) {}
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    DataProp() : Base("data") {}
 };
 
-const QString DataProp::Name("data");
-const QByteArray DataProp::PropName = DataProp::Name.toUtf8();
-
-class DelayProp : public property::message::PropBase<unsigned long long>
+class DelayProp : public property::message::ToolsMsgPropBase<unsigned long long>
 {
-    using Base = property::message::PropBase<unsigned long long>;
+    using Base = property::message::ToolsMsgPropBase<unsigned long long>;
 public:
-    DelayProp() : Base(Name, PropName) {}
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    DelayProp() : Base("delay") {}
 };
 
-const QString DelayProp::Name("delay");
-const QByteArray DelayProp::PropName = DelayProp::Name.toUtf8();
-
-class DelayUnitsProp : public property::message::PropBase<QString>
+class DelayUnitsProp : public property::message::ToolsMsgPropBase<QString>
 {
-    using Base = property::message::PropBase<QString>;
+    using Base = property::message::ToolsMsgPropBase<QString>;
 public:
-    DelayUnitsProp() : Base(Name, PropName) {}
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    DelayUnitsProp() : Base("delay_units") {}
 };
 
-const QString DelayUnitsProp::Name("delay_units");
-const QByteArray DelayUnitsProp::PropName = DelayUnitsProp::Name.toUtf8();
-
-class RepeatProp : public property::message::PropBase<unsigned long long>
+class RepeatProp : public property::message::ToolsMsgPropBase<unsigned long long>
 {
-    using Base = property::message::PropBase<unsigned long long>;
+    using Base = property::message::ToolsMsgPropBase<unsigned long long>;
 public:
-    RepeatProp() : Base(Name, PropName) {}
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    RepeatProp() : Base("repeat") {}
 };
 
-const QString RepeatProp::Name("repeat");
-const QByteArray RepeatProp::PropName = RepeatProp::Name.toUtf8();
-
-class RepeatUnitsProp : public property::message::PropBase<QString>
+class RepeatUnitsProp : public property::message::ToolsMsgPropBase<QString>
 {
-    using Base = property::message::PropBase<QString>;
+    using Base = property::message::ToolsMsgPropBase<QString>;
 public:
-    RepeatUnitsProp() : Base(Name, PropName) {}
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    RepeatUnitsProp() : Base("repeat_units") {}
 };
 
-const QString RepeatUnitsProp::Name("repeat_units");
-const QByteArray RepeatUnitsProp::PropName = RepeatUnitsProp::Name.toUtf8();
-
-class RepeatCountProp : public property::message::PropBase<unsigned>
+class RepeatCountProp : public property::message::ToolsMsgPropBase<unsigned>
 {
-    using Base = property::message::PropBase<unsigned>;
+    using Base = property::message::ToolsMsgPropBase<unsigned>;
 public:
-    RepeatCountProp() : Base(Name, PropName) {}
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    RepeatCountProp() : Base("repeat_count") {}
 };
 
-const QString RepeatCountProp::Name("repeat_count");
-const QByteArray RepeatCountProp::PropName = RepeatCountProp::Name.toUtf8();
-
-class CommentProp : public property::message::PropBase<QString>
+class CommentProp : public property::message::ToolsMsgPropBase<QString>
 {
-    using Base = property::message::PropBase<QString>;
+    using Base = property::message::ToolsMsgPropBase<QString>;
 public:
-    CommentProp() : Base(Name, PropName) {}
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    CommentProp() : Base("comment") {}
 };
 
-const QString CommentProp::Name("comment");
-const QByteArray CommentProp::PropName = CommentProp::Name.toUtf8();
-
-class TimestampProp : public property::message::PropBase<unsigned long long>
+class TimestampProp : public property::message::ToolsMsgPropBase<unsigned long long>
 {
-    using Base = property::message::PropBase<unsigned long long>;
+    using Base = property::message::ToolsMsgPropBase<unsigned long long>;
 public:
-    TimestampProp() : Base(Name, PropName) {}
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    TimestampProp() : Base("timestamp") {}
 };
 
-const QString TimestampProp::Name("timestamp");
-const QByteArray TimestampProp::PropName = TimestampProp::Name.toUtf8();
-
-class TypeProp : public property::message::PropBase<unsigned>
+class TypeProp : public property::message::ToolsMsgPropBase<unsigned>
 {
-    using Base = property::message::PropBase<unsigned>;
+    using Base = property::message::ToolsMsgPropBase<unsigned>;
 public:
-    TypeProp() : Base(Name, PropName) {}
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    TypeProp() : Base("type") {}
 };
 
-const QString TypeProp::Name("type");
-const QByteArray TypeProp::PropName = TypeProp::Name.toUtf8();
-
-class ExtraPropsProp : public property::message::PropBase<QVariantMap>
+class ExtraPropsProp : public property::message::ToolsMsgPropBase<QVariantMap>
 {
-    using Base = property::message::PropBase<QVariantMap>;
+    using Base = property::message::ToolsMsgPropBase<QVariantMap>;
 public:
-    ExtraPropsProp() : Base(Name, PropName) {}
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    ExtraPropsProp() : Base("extra_info") {}
 };
-
-const QString ExtraPropsProp::Name("extra_info");
-const QByteArray ExtraPropsProp::PropName = ExtraPropsProp::Name.toUtf8();
-
 
 QString encodeMsgData(const ToolsMessage& msg)
 {
@@ -203,7 +130,7 @@ QString encodeMsgData(const ToolsMessage& msg)
             break;
         }
 
-        auto rawDataMsg = property::message::RawDataMsg().getFrom(msg);
+        auto rawDataMsg = property::message::ToolsMsgRawDataMsg().getFrom(msg);
         if (!rawDataMsg) {
             break;
         }
@@ -284,7 +211,7 @@ ToolsMessagePtr createMsgObjectFrom(
         }
 
         if (!extraInfo.isEmpty()) {
-            property::message::ExtraInfo().setTo(std::move(extraInfo), *msg);
+            property::message::ToolsMsgExtraInfo().setTo(std::move(extraInfo), *msg);
             protocol.updateMessage(*msg);
         }
         return msg;
@@ -324,7 +251,7 @@ ToolsMessagePtr createMsgObjectFrom(
 
     if (msg) {
         if (!extraInfo.isEmpty()) {
-            property::message::ExtraInfo().setTo(std::move(extraInfo), *msg);
+            property::message::ToolsMsgExtraInfo().setTo(std::move(extraInfo), *msg);
         }
 
         protocol.updateMessage(*msg);
@@ -344,19 +271,19 @@ QVariantMap convertRecvMsg(const ToolsMessage& msg)
 
     if (!idStr.isEmpty()) {
         IdProp().setTo(std::move(idStr), msgInfoMap);
-        MsgIdxProp().setTo(property::message::MsgIdx().getFrom(msg), msgInfoMap);
+        MsgIdxProp().setTo(property::message::ToolsMsgIdx().getFrom(msg), msgInfoMap);
     }
 
     DataProp().setTo(std::move(dataStr), msgInfoMap);
-    TimestampProp().setTo(property::message::Timestamp().getFrom(msg), msgInfoMap);
-    TypeProp().setTo(static_cast<unsigned>(property::message::Type().getFrom(msg)), msgInfoMap);
+    TimestampProp().setTo(property::message::ToolsMsgTimestamp().getFrom(msg), msgInfoMap);
+    TypeProp().setTo(static_cast<unsigned>(property::message::ToolsMsgType().getFrom(msg)), msgInfoMap);
 
-    auto comment = property::message::Comment().getFrom(msg);
+    auto comment = property::message::ToolsMsgComment().getFrom(msg);
     if (!comment.isEmpty()) {
         CommentProp().setTo(comment, msgInfoMap);
     }
 
-    auto extraInfo = property::message::ExtraInfo().getFrom(msg);
+    auto extraInfo = property::message::ToolsMsgExtraInfo().getFrom(msg);
     if (!extraInfo.isEmpty()) {
         ExtraPropsProp().setTo(std::move(extraInfo), msgInfoMap);
     }
@@ -409,9 +336,9 @@ ToolsMsgFileMgr::MessagesList convertRecvMsgList(
         auto type = static_cast<ToolsMessage::Type>(TypeProp().getFrom(msgMap));
         auto comment = CommentProp().getFrom(msgMap);
 
-        property::message::Timestamp().setTo(timestamp, *msg);
-        property::message::Type().setTo(type, *msg);
-        property::message::Comment().setTo(comment, *msg);
+        property::message::ToolsMsgTimestamp().setTo(timestamp, *msg);
+        property::message::ToolsMsgType().setTo(type, *msg);
+        property::message::ToolsMsgComment().setTo(comment, *msg);
 
         convertedList.push_back(std::move(msg));
     }
@@ -431,21 +358,21 @@ QVariantList convertSendMsgList(
 
         QVariantMap msgInfoMap;
         IdProp().setTo(msg->idAsString(), msgInfoMap);
-        MsgIdxProp().setTo(property::message::MsgIdx().getFrom(*msg), msgInfoMap);
+        MsgIdxProp().setTo(property::message::ToolsMsgIdx().getFrom(*msg), msgInfoMap);
         DataProp().setTo(encodeMsgData(*msg), msgInfoMap);
-        DelayProp().setTo(property::message::Delay().getFrom(*msg), msgInfoMap);
-        DelayUnitsProp().setTo(property::message::DelayUnits().getFrom(*msg), msgInfoMap);
-        RepeatProp().setTo(property::message::RepeatDuration().getFrom(*msg), msgInfoMap);
-        RepeatUnitsProp().setTo(property::message::RepeatDurationUnits().getFrom(*msg), msgInfoMap);
-        RepeatCountProp().setTo(property::message::RepeatCount().getFrom(*msg, 1U), msgInfoMap);
+        DelayProp().setTo(property::message::ToolsMsgDelay().getFrom(*msg), msgInfoMap);
+        DelayUnitsProp().setTo(property::message::ToolsMsgDelayUnits().getFrom(*msg), msgInfoMap);
+        RepeatProp().setTo(property::message::ToolsMsgRepeatDuration().getFrom(*msg), msgInfoMap);
+        RepeatUnitsProp().setTo(property::message::ToolsMsgRepeatDurationUnits().getFrom(*msg), msgInfoMap);
+        RepeatCountProp().setTo(property::message::ToolsMsgRepeatCount().getFrom(*msg, 1U), msgInfoMap);
 
-        auto comment = property::message::Comment().getFrom(*msg);
+        auto comment = property::message::ToolsMsgComment().getFrom(*msg);
         if (!comment.isEmpty()) {
             CommentProp().setTo(comment, msgInfoMap);
         }
 
 
-        auto extraInfo = property::message::ExtraInfo().getFrom(*msg);
+        auto extraInfo = property::message::ToolsMsgExtraInfo().getFrom(*msg);
         if (!extraInfo.isEmpty()) {
             ExtraPropsProp().setTo(std::move(extraInfo), msgInfoMap);
         }
@@ -506,12 +433,12 @@ ToolsMsgFileMgr::MessagesList convertSendMsgList(
             } while (false);
         }
 
-        property::message::Delay().setTo(delay, *msg);
-        property::message::DelayUnits().setTo(std::move(delayUnits), *msg);
-        property::message::RepeatDuration().setTo(repeatDuration, *msg);
-        property::message::RepeatDurationUnits().setTo(std::move(repeatDurationUnits), *msg);
-        property::message::RepeatCount().setTo(repeatCount, *msg);
-        property::message::Comment().setTo(comment, *msg);
+        property::message::ToolsMsgDelay().setTo(delay, *msg);
+        property::message::ToolsMsgDelayUnits().setTo(std::move(delayUnits), *msg);
+        property::message::ToolsMsgRepeatDuration().setTo(repeatDuration, *msg);
+        property::message::ToolsMsgRepeatDurationUnits().setTo(std::move(repeatDurationUnits), *msg);
+        property::message::ToolsMsgRepeatCount().setTo(repeatCount, *msg);
+        property::message::ToolsMsgComment().setTo(comment, *msg);
 
         convertedList.push_back(std::move(msg));
     }

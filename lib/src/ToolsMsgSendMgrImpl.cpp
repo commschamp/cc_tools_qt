@@ -41,17 +41,17 @@ void ToolsMsgSendMgrImpl::start(ToolsProtocolPtr protocol, const MessagesList& m
     m_protocol = std::move(protocol);
     for (auto& m : msgs) {
         auto clonedMsg = m_protocol->cloneMessage(*m);
-        property::message::Delay().copyFromTo(*m, *clonedMsg);
-        property::message::DelayUnits().copyFromTo(*m, *clonedMsg);
-        property::message::RepeatDuration().copyFromTo(*m, *clonedMsg);
-        property::message::RepeatDurationUnits().copyFromTo(*m, *clonedMsg);
-        property::message::RepeatCount().copyFromTo(*m, *clonedMsg);
-        property::message::Comment().copyFromTo(*m, *clonedMsg);
-        auto extraProps = property::message::ExtraInfo().getFrom(*m);
+        property::message::ToolsMsgDelay().copyFromTo(*m, *clonedMsg);
+        property::message::ToolsMsgDelayUnits().copyFromTo(*m, *clonedMsg);
+        property::message::ToolsMsgRepeatDuration().copyFromTo(*m, *clonedMsg);
+        property::message::ToolsMsgRepeatDurationUnits().copyFromTo(*m, *clonedMsg);
+        property::message::ToolsMsgRepeatCount().copyFromTo(*m, *clonedMsg);
+        property::message::ToolsMsgComment().copyFromTo(*m, *clonedMsg);
+        auto extraProps = property::message::ToolsMsgExtraInfo().getFrom(*m);
         if (!extraProps.isEmpty()) {
-            property::message::ExtraInfo().setTo(std::move(extraProps), *clonedMsg);
+            property::message::ToolsMsgExtraInfo().setTo(std::move(extraProps), *clonedMsg);
             m_protocol->updateMessage(*clonedMsg);
-            assert(!property::message::ExtraInfo().getFrom(*clonedMsg).isEmpty());
+            assert(!property::message::ToolsMsgExtraInfo().getFrom(*clonedMsg).isEmpty());
         }
 
         m_msgsToSend.push_back(std::move(clonedMsg));
@@ -73,7 +73,7 @@ void ToolsMsgSendMgrImpl::sendPendingAndWait()
     for (; iter != m_msgsToSend.end(); ++iter) {
         auto& msg = *iter;
         assert(msg);
-        auto delay = property::message::Delay().getFrom(*msg);
+        auto delay = property::message::ToolsMsgDelay().getFrom(*msg);
         if (delay != 0U) {
             break;
         }
@@ -84,8 +84,8 @@ void ToolsMsgSendMgrImpl::sendPendingAndWait()
         nextMsgsToSend.end(), m_msgsToSend, m_msgsToSend.begin(), iter);
 
     for (auto& msgToSend : nextMsgsToSend) {
-        auto repeatMs = property::message::RepeatDuration().getFrom(*msgToSend);
-        auto repeatCount = property::message::RepeatCount().getFrom(*msgToSend, 1U);
+        auto repeatMs = property::message::ToolsMsgRepeatDuration().getFrom(*msgToSend);
+        auto repeatCount = property::message::ToolsMsgRepeatCount().getFrom(*msgToSend, 1U);
 
         bool reinsert =
             (0U < repeatMs) &&
@@ -105,7 +105,7 @@ void ToolsMsgSendMgrImpl::sendPendingAndWait()
                     [&newDelay](ToolsMessagePtr mPtr) mutable -> bool
                     {
                         assert(mPtr);
-                        auto mDelay = property::message::Delay().getFrom(*mPtr);
+                        auto mDelay = property::message::ToolsMsgDelay().getFrom(*mPtr);
                         if (newDelay < mDelay) {
                             return true;
                         }
@@ -116,22 +116,22 @@ void ToolsMsgSendMgrImpl::sendPendingAndWait()
             if (reinsertIter != m_msgsToSend.end()) {
                 auto& msgToUpdate = *reinsertIter;
                 assert(msgToUpdate);
-                auto mDelay = property::message::Delay().getFrom(*msgToUpdate);
-                property::message::Delay().setTo(mDelay - newDelay, *msgToUpdate);
+                auto mDelay = property::message::ToolsMsgDelay().getFrom(*msgToUpdate);
+                property::message::ToolsMsgDelay().setTo(mDelay - newDelay, *msgToUpdate);
             }
 
             auto clonedMsg = m_protocol->cloneMessage(*msgToSend);
-            auto extraProps = property::message::ExtraInfo().getFrom(*msgToSend);
+            auto extraProps = property::message::ToolsMsgExtraInfo().getFrom(*msgToSend);
             if (!extraProps.isEmpty()) {
-                property::message::ExtraInfo().setTo(std::move(extraProps), *clonedMsg);
+                property::message::ToolsMsgExtraInfo().setTo(std::move(extraProps), *clonedMsg);
                 m_protocol->updateMessage(*clonedMsg);
             }
 
             std::swap(clonedMsg, msgToSend);
-            property::message::Delay().setTo(newDelay, *clonedMsg);
+            property::message::ToolsMsgDelay().setTo(newDelay, *clonedMsg);
 
             if (repeatCount != 0) {
-                property::message::RepeatCount().setTo(repeatCount - 1, *clonedMsg);
+                property::message::ToolsMsgRepeatCount().setTo(repeatCount - 1, *clonedMsg);
             }
 
             m_msgsToSend.insert(reinsertIter, std::move(clonedMsg));
@@ -141,9 +141,9 @@ void ToolsMsgSendMgrImpl::sendPendingAndWait()
     if (!m_msgsToSend.empty()) {
         auto& msg = m_msgsToSend.front();
         assert(msg);
-        auto delay = property::message::Delay().getFrom(*msg);
+        auto delay = property::message::ToolsMsgDelay().getFrom(*msg);
         assert(0 < delay);
-        property::message::Delay().setTo(0, *msg);
+        property::message::ToolsMsgDelay().setTo(0, *msg);
         m_timer.setSingleShot(true);
         m_timer.start(static_cast<int>(delay));
     }

@@ -35,26 +35,19 @@ namespace cc_tools_qt
 namespace
 {
 
-class SeqNumber : public property::message::PropBase<unsigned long long>
+class SeqNumber : public property::message::ToolsMsgPropBase<unsigned long long>
 {
-    using Base = property::message::PropBase<unsigned long long>;
+    using Base = property::message::ToolsMsgPropBase<unsigned long long>;
 public:
-    SeqNumber() : Base(Name, PropName) {};
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    SeqNumber() : Base("cc.msg_num") {};
 };
-
-const QString SeqNumber::Name("cc.msg_num");
-const QByteArray SeqNumber::PropName = SeqNumber::Name.toUtf8();
 
 void updateMsgTimestamp(ToolsMessage& msg, const ToolsDataInfo::Timestamp& timestamp)
 {
     auto sinceEpoch = timestamp.time_since_epoch();
     auto milliseconds =
         std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch);
-    property::message::Timestamp().setTo(milliseconds.count(), msg);
+    property::message::ToolsMsgTimestamp().setTo(milliseconds.count(), msg);
 }
 
 }  // namespace
@@ -194,7 +187,7 @@ void ToolsMsgMgrImpl::sendMsgs(MessagesList&& msgs)
                 [this, &msgPtr]()
                 {
                     updateInternalId(*msgPtr);
-                    property::message::Type().setTo(MsgType::Sent, *msgPtr);
+                    property::message::ToolsMsgType().setTo(MsgType::Sent, *msgPtr);
                     auto now = ToolsDataInfo::TimestampClock::now();
                     updateMsgTimestamp(*msgPtr, now);
                     m_allMsgs.push_back(msgPtr);
@@ -230,11 +223,11 @@ void ToolsMsgMgrImpl::sendMsgs(MessagesList&& msgs)
             m_socket->sendData(d);
 
             if (!d->m_extraProperties.isEmpty()) {
-                auto map = property::message::ExtraInfo().getFrom(*msgPtr);
+                auto map = property::message::ToolsMsgExtraInfo().getFrom(*msgPtr);
                 for (auto& key : d->m_extraProperties.keys()) {
                     map.insert(key, d->m_extraProperties.value(key));
                 }
-                property::message::ExtraInfo().setTo(std::move(map), *msgPtr);
+                property::message::ToolsMsgExtraInfo().setTo(std::move(map), *msgPtr);
                 m_protocol->updateMessage(*msgPtr);
             }
         }
@@ -252,13 +245,13 @@ void ToolsMsgMgrImpl::addMsgs(const MessagesList& msgs, bool reportAdded)
             continue;
         }
 
-        if (property::message::Type().getFrom(*m) == MsgType::Invalid) {
+        if (property::message::ToolsMsgType().getFrom(*m) == MsgType::Invalid) {
             [[maybe_unused]] static constexpr bool Invalid_type_of_message = false;
             assert(Invalid_type_of_message);            
             continue;
         }
 
-        if (property::message::Timestamp().getFrom(*m) == 0) {
+        if (property::message::ToolsMsgTimestamp().getFrom(*m) == 0) {
             auto now = ToolsDataInfo::TimestampClock::now();
             updateMsgTimestamp(*m, now);
         }
@@ -434,7 +427,7 @@ void ToolsMsgMgrImpl::socketDataReceived(ToolsDataInfoPtr dataInfoPtr)
     for (auto& m : msgsList) {
         assert(m);
         updateInternalId(*m);
-        property::message::Type().setTo(MsgType::Received, *m);
+        property::message::ToolsMsgType().setTo(MsgType::Received, *m);
 
         static const ToolsDataInfo::Timestamp DefaultTimestamp;
         if (dataInfoPtr->m_timestamp != DefaultTimestamp) {

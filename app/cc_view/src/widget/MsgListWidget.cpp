@@ -74,7 +74,7 @@ void MsgListWidget::addMessage(ToolsMessagePtr msg)
 
     bool valid = msg->isValid();
 
-    auto type = property::message::Type().getFrom(*msg);
+    auto type = property::message::ToolsMsgType().getFrom(*msg);
     if ((type != MsgType::Invalid) && (!msg->idAsString().isEmpty())) {
         item->setForeground(getItemColourImpl(type, valid));
     }
@@ -122,7 +122,7 @@ void MsgListWidget::updateCurrentMessage(ToolsMessagePtr msg)
 
     bool valid = msg->isValid();
 
-    auto type = property::message::Type().getFrom(*msg);
+    auto type = property::message::ToolsMsgType().getFrom(*msg);
     if (type != MsgType::Invalid) {
         item->setForeground(getItemColourImpl(type, valid));
     }
@@ -406,7 +406,7 @@ QString MsgListWidget::getMsgNameText(ToolsMessagePtr msg)
     }
     itemStr.append(msg->name());
 
-    auto comment = property::message::Comment().getFrom(*msg);
+    auto comment = property::message::ToolsMsgComment().getFrom(*msg);
     if (!comment.isEmpty()) {
         itemStr.append(" (" + comment + ")");
     }

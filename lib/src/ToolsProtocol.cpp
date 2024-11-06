@@ -100,7 +100,7 @@ ToolsProtocol::MessagesList ToolsProtocol::read(
 
 ToolsDataInfoPtr ToolsProtocol::write(ToolsMessage& msg)
 {
-    unsigned long long milliseconds = property::message::Timestamp().getFrom(msg);;
+    unsigned long long milliseconds = property::message::ToolsMsgTimestamp().getFrom(msg);;
     if (1U <= m_debugLevel) {
         if (milliseconds == 0) {
             auto timestamp = ToolsDataInfo::TimestampClock::now();
@@ -113,7 +113,7 @@ ToolsDataInfoPtr ToolsProtocol::write(ToolsMessage& msg)
 
     if (msg.idAsString().isEmpty()) {
 
-        auto rawDataMsg = property::message::RawDataMsg().getFrom(msg);
+        auto rawDataMsg = property::message::ToolsMsgRawDataMsg().getFrom(msg);
         if (!rawDataMsg) {
             return ToolsDataInfoPtr();
         }
@@ -158,7 +158,7 @@ ToolsProtocol::MessagesList ToolsProtocol::createAllMessages()
 
         prevId = msgPtr->idAsString();
         prevIdx = idx;
-        property::message::MsgIdx().setTo(idx, *msgPtr);
+        property::message::ToolsMsgIdx().setTo(idx, *msgPtr);
 
         setNameToMessageProperties(*msgPtr);
         setForceExtraInfoExistenceToMessageProperties(*msgPtr);
@@ -173,7 +173,7 @@ ToolsMessagePtr ToolsProtocol::createMessage(const QString& idAsString, unsigned
     assert(m_frame);
     auto msgPtr = m_frame->createMessage(idAsString, idx);
     if (msgPtr) {
-        property::message::MsgIdx().setTo(idx, *msgPtr);
+        property::message::ToolsMsgIdx().setTo(idx, *msgPtr);
     }
     return msgPtr;
 }
@@ -193,7 +193,7 @@ ToolsProtocol::UpdateStatus ToolsProtocol::updateMessage(ToolsMessage& msg)
 
     auto extraInfo = getExtraInfoFromMessageProperties(msg);
     if (extraInfo.isEmpty()) {
-        if (!property::message::ExtraInfoMsg().getFrom(msg)) {
+        if (!property::message::ToolsMsgExtraInfoMsg().getFrom(msg)) {
             return UpdateStatus::NoChange;
         }
 
@@ -229,7 +229,7 @@ ToolsMessagePtr ToolsProtocol::cloneMessage(const ToolsMessage& msg)
     if (msg.idAsString().isEmpty()) {
         ToolsMessagePtr clonedMsg;
 
-        auto rawDataMsg = property::message::RawDataMsg().getFrom(msg);
+        auto rawDataMsg = property::message::ToolsMsgRawDataMsg().getFrom(msg);
         if (rawDataMsg) {
             auto data = rawDataMsg->encodeData();
             clonedMsg = createInvalidMessage(data);
@@ -257,7 +257,7 @@ ToolsMessagePtr ToolsProtocol::cloneMessage(const ToolsMessage& msg)
     if (clonedMsg) {
         setNameToMessageProperties(*clonedMsg);
         updateMessage(*clonedMsg);
-        property::message::ExtraInfo().copyFromTo(msg, *clonedMsg);
+        property::message::ToolsMsgExtraInfo().copyFromTo(msg, *clonedMsg);
     }
     return clonedMsg;
 }
@@ -332,7 +332,7 @@ void ToolsProtocol::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMa
 
 void ToolsProtocol::setNameToMessageProperties(ToolsMessage& msg)
 {
-    property::message::ProtocolName().setTo(name(), msg);
+    property::message::ToolsMsgProtocolName().setTo(name(), msg);
 }
 
 void ToolsProtocol::reportError(const QString& str)
@@ -363,34 +363,34 @@ unsigned ToolsProtocol::getDebugOutputLevel() const
 
 void ToolsProtocol::setTransportToMessageProperties(ToolsMessagePtr transportMsg, ToolsMessage& msg)
 {
-    property::message::TransportMsg().setTo(std::move(transportMsg), msg);
+    property::message::ToolsMsgTransportMsg().setTo(std::move(transportMsg), msg);
 }
 
 void ToolsProtocol::setRawDataToMessageProperties(ToolsMessagePtr rawDataMsg, ToolsMessage& msg)
 {
-    property::message::RawDataMsg().setTo(std::move(rawDataMsg), msg);
+    property::message::ToolsMsgRawDataMsg().setTo(std::move(rawDataMsg), msg);
 }
 
 void ToolsProtocol::setExtraInfoMsgToMessageProperties(ToolsMessagePtr extraInfoMsg, ToolsMessage& msg)
 {
-    property::message::ExtraInfoMsg().setTo(std::move(extraInfoMsg), msg);
+    property::message::ToolsMsgExtraInfoMsg().setTo(std::move(extraInfoMsg), msg);
 }
 
 ToolsMessagePtr ToolsProtocol::getExtraInfoMsgToMessageProperties(const ToolsMessage& msg)
 {
-    return property::message::ExtraInfoMsg().getFrom(msg);
+    return property::message::ToolsMsgExtraInfoMsg().getFrom(msg);
 }
 
 QVariantMap ToolsProtocol::getExtraInfoFromMessageProperties(const ToolsMessage& msg)
 {
-    return property::message::ExtraInfo().getFrom(msg);
+    return property::message::ToolsMsgExtraInfo().getFrom(msg);
 }
 
 void ToolsProtocol::setExtraInfoToMessageProperties(
     const QVariantMap& extraInfo,
     ToolsMessage& msg)
 {
-    property::message::ExtraInfo().setTo(extraInfo, msg);
+    property::message::ToolsMsgExtraInfo().setTo(extraInfo, msg);
 }
 
 void ToolsProtocol::mergeExtraInfoToMessageProperties(
@@ -406,12 +406,12 @@ void ToolsProtocol::mergeExtraInfoToMessageProperties(
 
 void ToolsProtocol::setForceExtraInfoExistenceToMessageProperties(ToolsMessage& msg)
 {
-    property::message::ForceExtraInfoExistence().setTo(true, msg);
+    property::message::ToolsMsgForceExtraInfoExistence().setTo(true, msg);
 }
 
 bool ToolsProtocol::getForceExtraInfoExistenceFromMessageProperties(const ToolsMessage& msg)
 {
-    return property::message::ForceExtraInfoExistence().getFrom(msg);
+    return property::message::ToolsMsgForceExtraInfoExistence().getFrom(msg);
 }
 
 

@@ -31,12 +31,12 @@ MsgCommentDialog::MsgCommentDialog(
     m_msg(std::move(msg))
 {
     m_ui.setupUi(this);
-    m_ui.m_commentLineEdit->setText(property::message::Comment().getFrom(*m_msg));
+    m_ui.m_commentLineEdit->setText(property::message::ToolsMsgComment().getFrom(*m_msg));
 }
 
 void MsgCommentDialog::accept()
 {
-    property::message::Comment().setTo(m_ui.m_commentLineEdit->text(), *m_msg);
+    property::message::ToolsMsgComment().setTo(m_ui.m_commentLineEdit->text(), *m_msg);
     Base::accept();
 }
 

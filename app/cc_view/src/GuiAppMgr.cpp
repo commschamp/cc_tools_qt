@@ -747,7 +747,7 @@ void GuiAppMgr::emitSendStateUpdate()
 void GuiAppMgr::msgAdded(ToolsMessagePtr msg)
 {
     assert(msg);
-    auto type = property::message::Type().getFrom(*msg);
+    auto type = static_cast<MsgType>(property::message::ToolsMsgType().getFrom(*msg));
     assert((type == MsgType::Received) || (type == MsgType::Sent));
 
 #ifndef NDEBUG
@@ -760,7 +760,7 @@ void GuiAppMgr::msgAdded(ToolsMessagePtr msg)
         prefix = SentPrefix;
     }
 
-    std::cout << '[' << property::message::Timestamp().getFrom(*msg) << "] " << prefix << msg->name() << std::endl;
+    std::cout << '[' << property::message::ToolsMsgTimestamp().getFrom(*msg) << "] " << prefix << msg->name() << std::endl;
 #endif
 
     if (!canAddToRecvList(*msg, type)) {
@@ -845,7 +845,7 @@ void GuiAppMgr::refreshRecvList()
     auto& allMsgs = MsgMgrG::instanceRef().getAllMsgs();
     for (auto& msg : allMsgs) {
         assert(msg);
-        auto type = property::message::Type().getFrom(*msg);
+        auto type = property::message::ToolsMsgType().getFrom(*msg);
 
         if (canAddToRecvList(*msg, type)) {
             addMsgToRecvList(msg);

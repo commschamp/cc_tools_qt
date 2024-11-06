@@ -163,3 +163,4 @@ using ToolsMessagePtr = ToolsMessage::Ptr;
 
 Q_DECLARE_METATYPE(cc_tools_qt::ToolsMessagePtr);
 Q_DECLARE_METATYPE(cc_tools_qt::ToolsMessage::DataSeq);
+Q_DECLARE_METATYPE(cc_tools_qt::ToolsMessage::Type);

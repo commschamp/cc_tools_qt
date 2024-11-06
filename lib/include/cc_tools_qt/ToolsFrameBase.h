@@ -165,7 +165,7 @@ protected:
             DataSeq jsonRawBytes(jsonData.begin(), jsonData.end());
 
             for (auto& m : allMsgs) {
-                property::message::ExtraInfo().setTo(dataInfo.m_extraProperties, *m);
+                property::message::ToolsMsgExtraInfo().setTo(dataInfo.m_extraProperties, *m);
                 updateExtraInfoInternal(jsonRawBytes, *m);
             }
         }
@@ -179,16 +179,16 @@ protected:
         updateTransportInternal(data, msg);
         updateRawDataInternal(data, msg);
 
-        auto extraProps = property::message::ExtraInfo().getFrom(msg);
-        bool extraInfoMsgIsForced = property::message::ForceExtraInfoExistence().getFrom(msg);
+        auto extraProps = property::message::ToolsMsgExtraInfo().getFrom(msg);
+        bool extraInfoMsgIsForced = property::message::ToolsMsgForceExtraInfoExistence().getFrom(msg);
         if (extraProps.isEmpty() && (!extraInfoMsgIsForced)) {
-            property::message::ExtraInfoMsg().setTo(ToolsMessagePtr(), msg);
+            property::message::ToolsMsgExtraInfoMsg().setTo(ToolsMessagePtr(), msg);
             return;
         }
 
         auto extraInfoMsgPtr = std::make_unique<ExtraInfoMsg>();
         if (extraProps.isEmpty()) {
-            property::message::ExtraInfoMsg().setTo(ToolsMessagePtr(extraInfoMsgPtr.release()), msg);
+            property::message::ToolsMsgExtraInfoMsg().setTo(ToolsMessagePtr(extraInfoMsgPtr.release()), msg);
             return;
         }        
 
@@ -254,7 +254,7 @@ private:
             assert(Must_not_be_happen);                
         }
 
-        property::message::TransportMsg().setTo(std::move(transportMsg), msg);
+        property::message::ToolsMsgTransportMsg().setTo(std::move(transportMsg), msg);
     }
 
     void updateRawDataInternal(const DataSeq& data, ToolsMessage& msg)
@@ -265,7 +265,7 @@ private:
             assert(Must_not_be_happen); 
         }    
         
-        property::message::RawDataMsg().setTo(std::move(rawDataMsg), msg);   
+        property::message::ToolsMsgRawDataMsg().setTo(std::move(rawDataMsg), msg);   
     }    
 
     void updateExtraInfoInternal(const DataSeq& jsonRawBytes, ToolsMessage& msg)
@@ -276,7 +276,7 @@ private:
             assert(Must_not_be_happen); 
         }
 
-        property::message::ExtraInfoMsg().setTo(std::move(extraInfoMsg), msg);        
+        property::message::ToolsMsgExtraInfoMsg().setTo(std::move(extraInfoMsg), msg);        
   
     }     
 

@@ -95,9 +95,9 @@ QString SendMsgListWidget::msgPrefixImpl(const ToolsMessage& msg) const
 {
     QString str;
     do {
-        auto delay = property::message::Delay().getFrom(msg);
-        auto repeatDur = property::message::RepeatDuration().getFrom(msg);
-        auto repeatCount = property::message::RepeatCount().getFrom(msg, 1U);
+        auto delay = property::message::ToolsMsgDelay().getFrom(msg);
+        auto repeatDur = property::message::ToolsMsgRepeatDuration().getFrom(msg);
+        auto repeatCount = property::message::ToolsMsgRepeatCount().getFrom(msg, 1U);
 
         str =
             QString("(%1:%2:%3)").
