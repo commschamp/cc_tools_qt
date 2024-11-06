@@ -37,7 +37,7 @@ namespace
 
 class SeqNumber : public property::message::PropBase<unsigned long long>
 {
-    typedef property::message::PropBase<unsigned long long> Base;
+    using Base = property::message::PropBase<unsigned long long>;
 public:
     SeqNumber() : Base(Name, PropName) {};
 

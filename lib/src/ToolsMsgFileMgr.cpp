@@ -37,7 +37,7 @@ namespace
 
 class IdProp : public property::message::PropBase<QString>
 {
-    typedef property::message::PropBase<QString> Base;
+    using Base = property::message::PropBase<QString>;
 public:
     IdProp() : Base(Name, PropName) {}
 private:
@@ -50,7 +50,8 @@ const QByteArray IdProp::PropName = IdProp::Name.toUtf8();
 
 class MsgIdxProp : public property::message::PropBase<unsigned>
 {
-    typedef property::message::PropBase<unsigned> Base;
+    using Base = property::message::PropBase<unsigned>;
+
 public:
     MsgIdxProp() : Base(Name, PropName) {}
 private:
@@ -63,7 +64,8 @@ const QByteArray MsgIdxProp::PropName = MsgIdxProp::Name.toUtf8();
 
 class DataProp : public property::message::PropBase<QString>
 {
-    typedef property::message::PropBase<QString> Base;
+    using Base = property::message::PropBase<QString>;
+    
 public:
     DataProp() : Base(Name, PropName) {}
 private:
@@ -76,7 +78,7 @@ const QByteArray DataProp::PropName = DataProp::Name.toUtf8();
 
 class DelayProp : public property::message::PropBase<unsigned long long>
 {
-    typedef property::message::PropBase<unsigned long long> Base;
+    using Base = property::message::PropBase<unsigned long long>;
 public:
     DelayProp() : Base(Name, PropName) {}
 private:
@@ -89,7 +91,7 @@ const QByteArray DelayProp::PropName = DelayProp::Name.toUtf8();
 
 class DelayUnitsProp : public property::message::PropBase<QString>
 {
-    typedef property::message::PropBase<QString> Base;
+    using Base = property::message::PropBase<QString>;
 public:
     DelayUnitsProp() : Base(Name, PropName) {}
 private:
@@ -102,7 +104,7 @@ const QByteArray DelayUnitsProp::PropName = DelayUnitsProp::Name.toUtf8();
 
 class RepeatProp : public property::message::PropBase<unsigned long long>
 {
-    typedef property::message::PropBase<unsigned long long> Base;
+    using Base = property::message::PropBase<unsigned long long>;
 public:
     RepeatProp() : Base(Name, PropName) {}
 private:
@@ -115,7 +117,7 @@ const QByteArray RepeatProp::PropName = RepeatProp::Name.toUtf8();
 
 class RepeatUnitsProp : public property::message::PropBase<QString>
 {
-    typedef property::message::PropBase<QString> Base;
+    using Base = property::message::PropBase<QString>;
 public:
     RepeatUnitsProp() : Base(Name, PropName) {}
 private:
@@ -128,7 +130,7 @@ const QByteArray RepeatUnitsProp::PropName = RepeatUnitsProp::Name.toUtf8();
 
 class RepeatCountProp : public property::message::PropBase<unsigned>
 {
-    typedef property::message::PropBase<unsigned> Base;
+    using Base = property::message::PropBase<unsigned>;
 public:
     RepeatCountProp() : Base(Name, PropName) {}
 private:
@@ -141,7 +143,7 @@ const QByteArray RepeatCountProp::PropName = RepeatCountProp::Name.toUtf8();
 
 class CommentProp : public property::message::PropBase<QString>
 {
-    typedef property::message::PropBase<QString> Base;
+    using Base = property::message::PropBase<QString>;
 public:
     CommentProp() : Base(Name, PropName) {}
 private:
@@ -152,10 +154,9 @@ private:
 const QString CommentProp::Name("comment");
 const QByteArray CommentProp::PropName = CommentProp::Name.toUtf8();
 
-
 class TimestampProp : public property::message::PropBase<unsigned long long>
 {
-    typedef property::message::PropBase<unsigned long long> Base;
+    using Base = property::message::PropBase<unsigned long long>;
 public:
     TimestampProp() : Base(Name, PropName) {}
 private:
@@ -168,7 +169,7 @@ const QByteArray TimestampProp::PropName = TimestampProp::Name.toUtf8();
 
 class TypeProp : public property::message::PropBase<unsigned>
 {
-    typedef property::message::PropBase<unsigned> Base;
+    using Base = property::message::PropBase<unsigned>;
 public:
     TypeProp() : Base(Name, PropName) {}
 private:
@@ -181,7 +182,7 @@ const QByteArray TypeProp::PropName = TypeProp::Name.toUtf8();
 
 class ExtraPropsProp : public property::message::PropBase<QVariantMap>
 {
-    typedef property::message::PropBase<QVariantMap> Base;
+    using Base = property::message::PropBase<QVariantMap>;
 public:
     ExtraPropsProp() : Base(Name, PropName) {}
 private:

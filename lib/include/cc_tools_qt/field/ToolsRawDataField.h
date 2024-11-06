@@ -33,8 +33,7 @@ namespace field
 class CC_TOOLS_API ToolsRawDataField : public ToolsField
 {
 public:
-
-    typedef std::unique_ptr<ToolsRawDataField> ActPtr;
+    using ActPtr = std::unique_ptr<ToolsRawDataField>;
 
     ToolsRawDataField();
     virtual ~ToolsRawDataField() noexcept;

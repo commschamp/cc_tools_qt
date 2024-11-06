@@ -30,7 +30,7 @@ namespace cc_tools_qt
 /// @details Extends comms::Message as well as provided interface class, while
 ///     passing required options to the latter.
 /// @tparam TMessageBase Name of the interface class defined for custom
-///     protocol. Expected to inherit (or typedef) from @b comms::Message
+///     protocol. Expected to inherit from (or be type alias of) @b comms::Message
 ///     and have the following definition:
 ///     @code
 ///     template <typename... TOptions>

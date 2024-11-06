@@ -40,7 +40,7 @@ template <typename TValue>
 class PropBase
 {
 public:
-    typedef TValue ValueType;
+    using ValueType = TValue;
 
     PropBase(const QString& name, const QByteArray& propName)
       : m_name(name),
@@ -97,9 +97,9 @@ private:
 
 class CC_TOOLS_API Type : public PropBase<unsigned>
 {
-    typedef PropBase<unsigned> Base;
+    using Base = PropBase<unsigned>;
 public:
-    typedef ToolsMessage::Type ValueType;
+    using ValueType = ToolsMessage::Type;
 
     Type() : Base(Name, PropName) {}
 
@@ -122,7 +122,7 @@ private:
 
 class CC_TOOLS_API MsgIdx : public PropBase<unsigned>
 {
-    typedef PropBase<unsigned> Base;
+    using Base = PropBase<unsigned>;
 public:
     MsgIdx() : Base(Name, PropName) {}
 
@@ -134,7 +134,7 @@ private:
 
 class CC_TOOLS_API Timestamp : public PropBase<unsigned long long>
 {
-    typedef PropBase<unsigned long long> Base;
+    using Base = PropBase<unsigned long long>;
 public:
     Timestamp() : Base(Name, PropName) {}
 
@@ -145,7 +145,7 @@ private:
 
 class CC_TOOLS_API ProtocolName : public PropBase<QString>
 {
-    typedef PropBase<QString> Base;
+    using Base = PropBase<QString>;
 public:
     ProtocolName() : Base(Name, PropName) {}
 
@@ -156,7 +156,7 @@ private:
 
 class CC_TOOLS_API TransportMsg : public PropBase<ToolsMessagePtr>
 {
-    typedef PropBase<ToolsMessagePtr> Base;
+    using Base = PropBase<ToolsMessagePtr>;
 public:
     TransportMsg() : Base(Name, PropName) {}
 
@@ -167,7 +167,7 @@ private:
 
 class CC_TOOLS_API RawDataMsg : public PropBase<ToolsMessagePtr>
 {
-    typedef PropBase<ToolsMessagePtr> Base;
+    using Base = PropBase<ToolsMessagePtr>;
 public:
     RawDataMsg() : Base(Name, PropName) {}
 
@@ -178,7 +178,7 @@ private:
 
 class CC_TOOLS_API ExtraInfoMsg : public PropBase<ToolsMessagePtr>
 {
-    typedef PropBase<ToolsMessagePtr> Base;
+    using Base = PropBase<ToolsMessagePtr>;
 public:
     ExtraInfoMsg() : Base(Name, PropName) {}
 
@@ -189,7 +189,7 @@ private:
 
 class CC_TOOLS_API ExtraInfo : public PropBase<QVariantMap>
 {
-    typedef PropBase<QVariantMap> Base;
+    using Base = PropBase<QVariantMap>;
 public:
     ExtraInfo() : Base(Name, PropName) {}
 
@@ -200,7 +200,7 @@ private:
 
 class CC_TOOLS_API ForceExtraInfoExistence : public PropBase<bool>
 {
-    typedef PropBase<bool> Base;
+    using Base = PropBase<bool>;
 public:
     ForceExtraInfoExistence() : Base(Name, PropName) {}
 
@@ -212,7 +212,7 @@ private:
 
 class CC_TOOLS_API Delay : public PropBase<unsigned long long>
 {
-    typedef PropBase<unsigned long long> Base;
+    using Base = PropBase<unsigned long long>;
 public:
     Delay() : Base(Name, PropName) {}
 
@@ -223,7 +223,7 @@ private:
 
 class CC_TOOLS_API DelayUnits : public PropBase<QString>
 {
-    typedef PropBase<QString> Base;
+    using Base = PropBase<QString>;
 public:
     DelayUnits() : Base(Name, PropName) {}
 
@@ -235,7 +235,7 @@ private:
 
 class CC_TOOLS_API RepeatDuration : public PropBase<unsigned long long>
 {
-    typedef PropBase<unsigned long long> Base;
+    using Base = PropBase<unsigned long long>;
 public:
     RepeatDuration() : Base(Name, PropName) {}
 
@@ -246,7 +246,7 @@ private:
 
 class CC_TOOLS_API RepeatDurationUnits : public PropBase<QString>
 {
-    typedef PropBase<QString> Base;
+    using Base = PropBase<QString>;
 public:
     RepeatDurationUnits() : Base(Name, PropName) {}
 
@@ -257,7 +257,7 @@ private:
 
 class CC_TOOLS_API RepeatCount : public PropBase<unsigned>
 {
-    typedef PropBase<unsigned> Base;
+    using Base = PropBase<unsigned>;
 public:
     RepeatCount() : Base(Name, PropName) {}
 
@@ -268,19 +268,18 @@ private:
 
 class CC_TOOLS_API ScrollPos : public PropBase<int>
 {
-    typedef PropBase<int> Base;
+    using Base = PropBase<int>;
 public:
     ScrollPos() : Base(Name, PropName) {}
 
 private:
     static const QString Name;
     static const QByteArray PropName;
-
 };
 
 class CC_TOOLS_API Comment : public PropBase<QString>
 {
-    typedef PropBase<QString> Base;
+    using Base = PropBase<QString>;
 public:
     Comment() : Base(Name, PropName) {}
 

@@ -84,7 +84,7 @@ private:
     class SubfieldsCreateHelper
     {
     public:
-        typedef std::function <void (ToolsFieldPtr)> WrapperDispatchFunc;
+        using WrapperDispatchFunc = std::function <void (ToolsFieldPtr)>;
         SubfieldsCreateHelper(WrapperDispatchFunc&& dispatchOp)
           : m_dispatchOp(std::move(dispatchOp))
         {

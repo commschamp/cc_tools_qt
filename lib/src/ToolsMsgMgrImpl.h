@@ -85,8 +85,8 @@ public:
     }
 
 private:
-    typedef unsigned long long MsgNumberType;
-    typedef std::vector<ToolsFilterPtr> FiltersList;
+    using MsgNumberType = unsigned long long;
+    using FiltersList = std::vector<ToolsFilterPtr>;
 
     void socketDataReceived(ToolsDataInfoPtr dataInfoPtr);
     void updateInternalId(ToolsMessage& msg);

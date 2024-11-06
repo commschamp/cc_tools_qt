@@ -39,8 +39,8 @@ public:
     using Mode = typename Base::Mode;
     using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
-
-    typedef TField Field;
+    using Field = TField;
+    
     explicit ToolsOptionalFieldImpl(Field& fieldRef)
       : Base(fieldRef)
     {

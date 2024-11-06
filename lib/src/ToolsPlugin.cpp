@@ -26,7 +26,7 @@ namespace
 template <typename TFunc>
 auto invokeCreationFunc(TFunc&& func) -> decltype(func())
 {
-    typedef decltype(func()) RetType;
+    using RetType = decltype(func());
 
     if (!func) {
         return RetType();
