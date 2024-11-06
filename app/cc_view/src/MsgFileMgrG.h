@@ -19,13 +19,13 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsStaticSingleton.h"
-#include "cc_tools_qt/MsgFileMgr.h"
+#include "cc_tools_qt/ToolsMsgFileMgr.h"
 
 namespace cc_tools_qt
 {
 
-using MsgFileMgrG = ToolsStaticSingleton<MsgFileMgr>;
+using MsgFileMgrG = ToolsStaticSingleton<ToolsMsgFileMgr>;
 
 }  // namespace cc_tools_qt
 
-extern template class cc_tools_qt::ToolsStaticSingleton<cc_tools_qt::MsgFileMgr>;
+extern template class cc_tools_qt::ToolsStaticSingleton<cc_tools_qt::ToolsMsgFileMgr>;

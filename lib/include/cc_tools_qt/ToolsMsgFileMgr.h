@@ -33,11 +33,10 @@
 namespace cc_tools_qt
 {
 
-class CC_TOOLS_API MsgFileMgr
+class CC_TOOLS_API ToolsMsgFileMgr
 {
 public:
-
-    typedef ToolsProtocol::MessagesList MessagesList;
+    using MessagesList = ToolsProtocol::MessagesList;
 
     enum class Type
     {
@@ -45,13 +44,13 @@ public:
         Send
     };
 
-    MsgFileMgr();
-    ~MsgFileMgr() noexcept;
-    MsgFileMgr(const MsgFileMgr&);
-    MsgFileMgr(MsgFileMgr&&);
+    ToolsMsgFileMgr();
+    ~ToolsMsgFileMgr() noexcept;
+    ToolsMsgFileMgr(const ToolsMsgFileMgr&);
+    ToolsMsgFileMgr(ToolsMsgFileMgr&&);
 
-    MsgFileMgr& operator=(const MsgFileMgr&);
-    MsgFileMgr& operator=(MsgFileMgr&&);
+    ToolsMsgFileMgr& operator=(const ToolsMsgFileMgr&);
+    ToolsMsgFileMgr& operator=(ToolsMsgFileMgr&&);
 
 
     const QString& getLastFile() const;
@@ -60,7 +59,7 @@ public:
     MessagesList load(Type type, const QString& filename, ToolsProtocol& protocol);
     bool save(Type type, const QString& filename, const MessagesList& msgs);
 
-    typedef std::shared_ptr<QFile> FileSaveHandler;
+    using FileSaveHandler = std::shared_ptr<QFile>;
     static FileSaveHandler startRecvSave(const QString& filename);
     static void addToRecvSave(FileSaveHandler handler, const ToolsMessage& msg, bool flush = false);
     static void flushRecvFile(FileSaveHandler handler);

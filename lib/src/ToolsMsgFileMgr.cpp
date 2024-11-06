@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/MsgFileMgr.h"
+#include "cc_tools_qt/ToolsMsgFileMgr.h"
 
 #include <cassert>
 #include <algorithm>
@@ -364,7 +364,7 @@ QVariantMap convertRecvMsg(const ToolsMessage& msg)
 }
 
 QVariantList convertRecvMsgList(
-    const MsgFileMgr::MessagesList& allMsgs)
+    const ToolsMsgFileMgr::MessagesList& allMsgs)
 {
     QVariantList convertedList;
     for (auto& msg : allMsgs) {
@@ -384,11 +384,11 @@ QVariantList convertRecvMsgList(
     return convertedList;
 }
 
-MsgFileMgr::MessagesList convertRecvMsgList(
+ToolsMsgFileMgr::MessagesList convertRecvMsgList(
     const QVariantList& msgs,
     ToolsProtocol& protocol)
 {
-    MsgFileMgr::MessagesList convertedList;
+    ToolsMsgFileMgr::MessagesList convertedList;
 
     for (auto& msgMapVar : msgs) {
         auto msg = createMsgObjectFrom(msgMapVar, protocol);
@@ -418,7 +418,7 @@ MsgFileMgr::MessagesList convertRecvMsgList(
 }
 
 QVariantList convertSendMsgList(
-    const MsgFileMgr::MessagesList& allMsgs)
+    const ToolsMsgFileMgr::MessagesList& allMsgs)
 {
     QVariantList convertedList;
     for (auto& msg : allMsgs) {
@@ -454,11 +454,11 @@ QVariantList convertSendMsgList(
     return convertedList;
 }
 
-MsgFileMgr::MessagesList convertSendMsgList(
+ToolsMsgFileMgr::MessagesList convertSendMsgList(
     const QVariantList& msgs,
     ToolsProtocol& protocol)
 {
-    MsgFileMgr::MessagesList convertedList;
+    ToolsMsgFileMgr::MessagesList convertedList;
     unsigned long long prevTimestamp = 0;
 
     for (auto& msgMapVar : msgs) {
@@ -518,22 +518,22 @@ MsgFileMgr::MessagesList convertSendMsgList(
 }
 
 QVariantList convertMsgList(
-    MsgFileMgr::Type type,
-    const MsgFileMgr::MessagesList& allMsgs)
+    ToolsMsgFileMgr::Type type,
+    const ToolsMsgFileMgr::MessagesList& allMsgs)
 {
-    if (type == MsgFileMgr::Type::Recv) {
+    if (type == ToolsMsgFileMgr::Type::Recv) {
         return convertRecvMsgList(allMsgs);
     }
 
     return convertSendMsgList(allMsgs);
 }
 
-MsgFileMgr::MessagesList convertMsgList(
-    MsgFileMgr::Type type,
+ToolsMsgFileMgr::MessagesList convertMsgList(
+    ToolsMsgFileMgr::Type type,
     const QVariantList& msgs,
     ToolsProtocol& protocol)
 {
-    if (type == MsgFileMgr::Type::Recv) {
+    if (type == ToolsMsgFileMgr::Type::Recv) {
         return convertRecvMsgList(msgs, protocol);
     }
 
@@ -542,19 +542,19 @@ MsgFileMgr::MessagesList convertMsgList(
 
 }  // namespace
 
-MsgFileMgr::MsgFileMgr() = default;
-MsgFileMgr::~MsgFileMgr() noexcept = default;
-MsgFileMgr::MsgFileMgr(const MsgFileMgr&) = default;
-MsgFileMgr::MsgFileMgr(MsgFileMgr&&) = default;
-MsgFileMgr& MsgFileMgr::operator=(const MsgFileMgr&) = default;
-MsgFileMgr& MsgFileMgr::operator=(MsgFileMgr&&) = default;
+ToolsMsgFileMgr::ToolsMsgFileMgr() = default;
+ToolsMsgFileMgr::~ToolsMsgFileMgr() noexcept = default;
+ToolsMsgFileMgr::ToolsMsgFileMgr(const ToolsMsgFileMgr&) = default;
+ToolsMsgFileMgr::ToolsMsgFileMgr(ToolsMsgFileMgr&&) = default;
+ToolsMsgFileMgr& ToolsMsgFileMgr::operator=(const ToolsMsgFileMgr&) = default;
+ToolsMsgFileMgr& ToolsMsgFileMgr::operator=(ToolsMsgFileMgr&&) = default;
 
-const QString& MsgFileMgr::getLastFile() const
+const QString& ToolsMsgFileMgr::getLastFile() const
 {
     return m_lastFile;
 }
 
-MsgFileMgr::MessagesList MsgFileMgr::load(
+ToolsMsgFileMgr::MessagesList ToolsMsgFileMgr::load(
     Type type,
     const QString& filename,
     ToolsProtocol& protocol)
@@ -591,7 +591,7 @@ MsgFileMgr::MessagesList MsgFileMgr::load(
     return allMsgs;
 }
 
-bool MsgFileMgr::save(Type type, const QString& filename, const MessagesList& msgs)
+bool ToolsMsgFileMgr::save(Type type, const QString& filename, const MessagesList& msgs)
 {
     QString filenameTmp(filename);
     while (true) {
@@ -629,13 +629,13 @@ bool MsgFileMgr::save(Type type, const QString& filename, const MessagesList& ms
     return true;
 }
 
-const QString& MsgFileMgr::getFilesFilter()
+const QString& ToolsMsgFileMgr::getFilesFilter()
 {
     static const QString Str(QObject::tr("All Files (*)"));
     return Str;
 }
 
-MsgFileMgr::FileSaveHandler MsgFileMgr::startRecvSave(const QString& filename)
+ToolsMsgFileMgr::FileSaveHandler ToolsMsgFileMgr::startRecvSave(const QString& filename)
 {
     auto handler = std::unique_ptr<QFile>(new QFile(filename));
     if (!handler->open(QIODevice::WriteOnly)) {
@@ -654,7 +654,7 @@ MsgFileMgr::FileSaveHandler MsgFileMgr::startRecvSave(const QString& filename)
             });
 }
 
-void MsgFileMgr::addToRecvSave(
+void ToolsMsgFileMgr::addToRecvSave(
     FileSaveHandler handler,
     const ToolsMessage& msg,
     bool flush)
@@ -689,7 +689,7 @@ void MsgFileMgr::addToRecvSave(
     }
 }
 
-void MsgFileMgr::flushRecvFile(FileSaveHandler handler)
+void ToolsMsgFileMgr::flushRecvFile(FileSaveHandler handler)
 {
     assert(handler);
     handler->flush();

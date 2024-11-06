@@ -145,7 +145,7 @@ void SendMsgListWidget::msgMovedImpl(int idx)
 
 void SendMsgListWidget::loadMessagesImpl(const QString& filename, ToolsProtocol& protocol)
 {
-    auto msgs = MsgFileMgrG::instanceRef().load(MsgFileMgr::Type::Send, filename, protocol);
+    auto msgs = MsgFileMgrG::instanceRef().load(ToolsMsgFileMgr::Type::Send, filename, protocol);
     for (auto& m : msgs) {
         addMessage(m);
     }
@@ -154,7 +154,7 @@ void SendMsgListWidget::loadMessagesImpl(const QString& filename, ToolsProtocol&
 
 void SendMsgListWidget::saveMessagesImpl(const QString& filename)
 {
-    MsgFileMgrG::instanceRef().save(MsgFileMgr::Type::Send, filename, allMsgs());
+    MsgFileMgrG::instanceRef().save(ToolsMsgFileMgr::Type::Send, filename, allMsgs());
 }
 
 } // namespace cc_tools_qt

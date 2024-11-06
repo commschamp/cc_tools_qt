@@ -17,5 +17,5 @@
 
 #include "MsgFileMgrG.h"
 
-template class cc_tools_qt::ToolsStaticSingleton<cc_tools_qt::MsgFileMgr>;
+template class cc_tools_qt::ToolsStaticSingleton<cc_tools_qt::ToolsMsgFileMgr>;
 

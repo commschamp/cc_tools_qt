@@ -109,7 +109,7 @@ QString RecvMsgListWidget::getTitleImpl() const
 
 void RecvMsgListWidget::saveMessagesImpl(const QString& filename)
 {
-    MsgFileMgrG::instanceRef().save(MsgFileMgr::Type::Recv, filename, allMsgs());
+    MsgFileMgrG::instanceRef().save(ToolsMsgFileMgr::Type::Recv, filename, allMsgs());
 }
 
 QString RecvMsgListWidget::getTitlePrefix()

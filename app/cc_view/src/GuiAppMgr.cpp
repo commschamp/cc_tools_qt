@@ -429,7 +429,7 @@ bool GuiAppMgr::recvListEmpty() const
 void GuiAppMgr::recvLoadMsgsFromFile(const QString& filename)
 {
     auto& msgMgr = MsgMgrG::instanceRef();
-    auto msgs = MsgFileMgrG::instanceRef().load(MsgFileMgr::Type::Recv, filename, *msgMgr.getProtocol());
+    auto msgs = MsgFileMgrG::instanceRef().load(ToolsMsgFileMgr::Type::Recv, filename, *msgMgr.getProtocol());
 
     clearRecvList(false);
     msgMgr.deleteAllMsgs();
