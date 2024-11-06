@@ -15,39 +15,40 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/MsgSendMgr.h"
 
-#include "MsgSendMgrImpl.h"
+#pragma once
+
+#include <functional>
+
+#include "cc_tools_qt/ToolsApi.h"
+#include "cc_tools_qt/ToolsMessage.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 namespace cc_tools_qt
 {
 
-MsgSendMgr::MsgSendMgr()
-  : m_impl(new MsgSendMgrImpl())
+class ToolsMsgSendMgrImpl;
+class CC_TOOLS_API ToolsMsgSendMgr
 {
-}
+public:
+    using MessagesList = ToolsProtocol::MessagesList;
+    using SendMsgsCallbackFunc = std::function<void (MessagesList&&)>;
+    using SendCompleteCallbackFunc = std::function<void ()>;
 
-MsgSendMgr::~MsgSendMgr() noexcept = default;
+    ToolsMsgSendMgr();
+    ~ToolsMsgSendMgr() noexcept;
 
-void MsgSendMgr::setSendMsgsCallbackFunc(SendMsgsCallbackFunc&& func)
-{
-    m_impl->setSendMsgsCallbackFunc(std::move(func));
-}
+    void setSendMsgsCallbackFunc(SendMsgsCallbackFunc&& func);
+    void setSendCompeteCallbackFunc(SendCompleteCallbackFunc&& func);
 
-void MsgSendMgr::setSendCompeteCallbackFunc(SendCompleteCallbackFunc&& func)
-{
-    m_impl->setSendCompleteCallbackFunc(std::move(func));
-}
+    void start(ToolsProtocolPtr protocol, const MessagesList& msgs);
 
-void MsgSendMgr::start(ToolsProtocolPtr protocol, const MessagesList& msgs)
-{
-    m_impl->start(std::move(protocol), msgs);
-}
+    void stop();
 
-void MsgSendMgr::stop()
-{
-    m_impl->stop();
-}
+private:
+    std::unique_ptr<ToolsMsgSendMgrImpl> m_impl;
+};
 
 }  // namespace cc_tools_qt
+
 

@@ -22,22 +22,22 @@
 #include <QtCore/QObject>
 #include <QtCore/QTimer>
 
-#include "cc_tools_qt/MsgSendMgr.h"
+#include "cc_tools_qt/ToolsMsgSendMgr.h"
 #include "cc_tools_qt/ToolsProtocol.h"
 
 namespace cc_tools_qt
 {
 
-class MsgSendMgrImpl : public QObject
+class ToolsMsgSendMgrImpl : public QObject
 {
     Q_OBJECT
 public:
-    typedef MsgSendMgr::MessagesList MessagesList;
-    typedef MsgSendMgr::SendMsgsCallbackFunc SendMsgsCallbackFunc;
-    typedef MsgSendMgr::SendCompleteCallbackFunc SendCompleteCallbackFunc;
+    using MessagesList = ToolsMsgSendMgr::MessagesList;
+    using SendMsgsCallbackFunc = ToolsMsgSendMgr::SendMsgsCallbackFunc;
+    using SendCompleteCallbackFunc = ToolsMsgSendMgr::SendCompleteCallbackFunc;
 
-    MsgSendMgrImpl();
-    ~MsgSendMgrImpl() noexcept;
+    ToolsMsgSendMgrImpl();
+    ~ToolsMsgSendMgrImpl() noexcept;
 
     template <typename TFunc>
     void setSendMsgsCallbackFunc(TFunc&& func)

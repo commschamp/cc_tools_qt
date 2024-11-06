@@ -27,7 +27,7 @@
 
 #include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/ToolsPluginMgr.h"
-#include "cc_tools_qt/MsgSendMgr.h"
+#include "cc_tools_qt/ToolsMsgSendMgr.h"
 #include "cc_tools_qt/ToolsProtocol.h"
 
 #include "ActionWrap.h"
@@ -260,7 +260,7 @@ private /*data*/:
     ToolsMessagePtr m_pendingDisplayMsg;
     bool m_pendingDisplayWaitInProgress = false;
 
-    MsgSendMgr m_sendMgr;
+    ToolsMsgSendMgr m_sendMgr;
 
     FilteredMessages m_filteredMessages;
 

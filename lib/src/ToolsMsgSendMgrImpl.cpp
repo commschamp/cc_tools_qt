@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "MsgSendMgrImpl.h"
+#include "ToolsMsgSendMgrImpl.h"
 
 #include <cassert>
 
@@ -24,7 +24,7 @@
 namespace cc_tools_qt
 {
 
-MsgSendMgrImpl::MsgSendMgrImpl()
+ToolsMsgSendMgrImpl::ToolsMsgSendMgrImpl()
   : m_timer(this)
 {
     connect(
@@ -32,9 +32,9 @@ MsgSendMgrImpl::MsgSendMgrImpl()
         this, SLOT(sendPendingAndWait()));
 }
 
-MsgSendMgrImpl::~MsgSendMgrImpl() noexcept = default;
+ToolsMsgSendMgrImpl::~ToolsMsgSendMgrImpl() noexcept = default;
 
-void MsgSendMgrImpl::start(ToolsProtocolPtr protocol, const MessagesList& msgs)
+void ToolsMsgSendMgrImpl::start(ToolsProtocolPtr protocol, const MessagesList& msgs)
 {
     [[maybe_unused]] static constexpr bool The_previous_sending_must_be_stopped_first = false;
     assert(m_msgsToSend.empty() || The_previous_sending_must_be_stopped_first);
@@ -59,14 +59,14 @@ void MsgSendMgrImpl::start(ToolsProtocolPtr protocol, const MessagesList& msgs)
     sendPendingAndWait();
 }
 
-void MsgSendMgrImpl::stop()
+void ToolsMsgSendMgrImpl::stop()
 {
     m_timer.stop();
     m_protocol.reset();
     m_msgsToSend.clear();
 }
 
-void MsgSendMgrImpl::sendPendingAndWait()
+void ToolsMsgSendMgrImpl::sendPendingAndWait()
 {
     m_timer.stop();
     auto iter = m_msgsToSend.begin();

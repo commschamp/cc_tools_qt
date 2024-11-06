@@ -16,8 +16,6 @@ function (lib_tools)
         field/ToolsUnsignedLongField.cpp
         field/ToolsVariantField.cpp
         property/message.cpp
-        MsgSendMgr.cpp
-        MsgSendMgrImpl.cpp
         ToolsConfigMgr.cpp
         ToolsDataInfo.cpp
         ToolsField.cpp
@@ -29,6 +27,8 @@ function (lib_tools)
         ToolsMsgFileMgr.cpp
         ToolsMsgMgr.cpp
         ToolsMsgMgrImpl.cpp
+        ToolsMsgSendMgr.cpp
+        ToolsMsgSendMgrImpl.cpp
         ToolsPlugin.cpp
         ToolsPluginMgr.cpp
         ToolsPluginMgrImpl.cpp
