@@ -16,8 +16,6 @@ function (lib_tools)
         field/ToolsUnsignedLongField.cpp
         field/ToolsVariantField.cpp
         ConfigMgr.cpp
-        PluginMgr.cpp
-        PluginMgrImpl.cpp
         MsgFileMgr.cpp
         MsgSendMgr.cpp
         MsgSendMgrImpl.cpp
@@ -31,6 +29,8 @@ function (lib_tools)
         ToolsMsgMgr.cpp
         ToolsMsgMgrImpl.cpp
         ToolsPlugin.cpp
+        ToolsPluginMgr.cpp
+        ToolsPluginMgrImpl.cpp
         ToolsProtocol.cpp
         ToolsSocket.cpp
         property/message.cpp

@@ -154,7 +154,7 @@ void MainWindowWidget::updateSendMsgDialog(
 
 void MainWindowWidget::pluginsEditDialog()
 {
-    PluginMgr::ListOfPluginInfos selectedPlugins;
+    ToolsPluginMgr::ListOfPluginInfos selectedPlugins;
     PluginConfigDialog dialog(selectedPlugins, this);
     auto result = dialog.exec();
     if (result != QDialog::Accepted) {

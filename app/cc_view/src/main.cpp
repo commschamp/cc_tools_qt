@@ -45,7 +45,7 @@ void metaTypesRegisterAll()
     qRegisterMetaType<cc::ToolsMessagePtr>();
     qRegisterMetaType<cc::ToolsProtocolPtr>();
     qRegisterMetaType<cc::GuiAppMgr::ActionPtr>();
-    qRegisterMetaType<cc::PluginMgr::PluginInfoPtr>();
+    qRegisterMetaType<cc::ToolsPluginMgr::PluginInfoPtr>();
     qRegisterMetaType<cc::ToolsDataInfoPtr>();
 }
 

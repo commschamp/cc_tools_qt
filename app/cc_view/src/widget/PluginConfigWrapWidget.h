@@ -19,7 +19,7 @@
 
 #include <QtWidgets/QWidget>
 
-#include "cc_tools_qt/PluginMgr.h"
+#include "cc_tools_qt/ToolsPluginMgr.h"
 
 #include "ui_PluginConfigWrapWidget.h"
 
@@ -31,8 +31,8 @@ class PluginConfigWrapWidget: public QWidget
     using Base = QWidget;
 
 public:
-    using Type = PluginMgr::PluginInfo::Type;
-    using PluginInfoPtr = PluginMgr::PluginInfoPtr;
+    using Type = ToolsPluginMgr::PluginInfo::Type;
+    using PluginInfoPtr = ToolsPluginMgr::PluginInfoPtr;
     PluginConfigWrapWidget(PluginInfoPtr pluginInfo, QWidget* configWidget, QWidget* parentObj = nullptr);
     ~PluginConfigWrapWidget();
 

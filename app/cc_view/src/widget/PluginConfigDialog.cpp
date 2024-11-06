@@ -625,7 +625,7 @@ void PluginConfigDialog::refreshAvailable()
 
 void PluginConfigDialog::refreshAvailablePlugins()
 {
-    typedef PluginMgr::PluginInfo::Type PluginType;
+    typedef ToolsPluginMgr::PluginInfo::Type PluginType;
 
     auto filterStr = m_availSearchLineEdit->text();
 
@@ -635,7 +635,7 @@ void PluginConfigDialog::refreshAvailablePlugins()
             assert(availableList != nullptr);
             assert(selectedList != nullptr);
 
-            PluginMgr::PluginInfoPtr curInfo;
+            ToolsPluginMgr::PluginInfoPtr curInfo;
             auto* curItem = availableList->currentItem();
             if (curItem != nullptr) {
                 curInfo = getPluginInfo(curItem);
@@ -729,7 +729,7 @@ void PluginConfigDialog::refreshSelectedPlugins()
 void PluginConfigDialog::refreshSelectedPlugins(
     const ListOfPluginInfos& infos)
 {
-    typedef PluginMgr::PluginInfo::Type PluginType;
+    typedef ToolsPluginMgr::PluginInfo::Type PluginType;
     auto refreshListFunc =
         [&infos](PluginsListWidget* list, PluginType type)
         {
@@ -864,8 +864,8 @@ PluginConfigDialog::PluginInfoPtr PluginConfigDialog::getPluginInfo(
     assert(item != nullptr);
     auto pluginInfoPtrVar = item->data(Qt::UserRole);
     assert(pluginInfoPtrVar.isValid());
-    assert(pluginInfoPtrVar.canConvert<PluginMgr::PluginInfoPtr>());
-    return pluginInfoPtrVar.value<PluginMgr::PluginInfoPtr>();
+    assert(pluginInfoPtrVar.canConvert<PluginInfoPtr>());
+    return pluginInfoPtrVar.value<PluginInfoPtr>();
 }
 
 PluginConfigDialog::ListOfPluginInfos PluginConfigDialog::getSelectedPlugins() const

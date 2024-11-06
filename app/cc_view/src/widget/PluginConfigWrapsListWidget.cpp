@@ -104,7 +104,7 @@ void PluginConfigWrapsListWidget::removeAll()
 
 void PluginConfigWrapsListWidget::moveTop(PluginInfoPtr pluginInfo)
 {
-    if (pluginInfo->getType() != PluginMgr::PluginInfo::Type::Filter) {
+    if (pluginInfo->getType() != ToolsPluginMgr::PluginInfo::Type::Filter) {
         return;
     }
 
@@ -120,7 +120,7 @@ void PluginConfigWrapsListWidget::moveTop(PluginInfoPtr pluginInfo)
 
 void PluginConfigWrapsListWidget::moveBottom(PluginInfoPtr pluginInfo)
 {
-    if (pluginInfo->getType() != PluginMgr::PluginInfo::Type::Filter) {
+    if (pluginInfo->getType() != ToolsPluginMgr::PluginInfo::Type::Filter) {
         return;
     }
 
@@ -135,7 +135,7 @@ void PluginConfigWrapsListWidget::moveBottom(PluginInfoPtr pluginInfo)
 
 void PluginConfigWrapsListWidget::moveUp(PluginInfoPtr pluginInfo)
 {
-    if (pluginInfo->getType() != PluginMgr::PluginInfo::Type::Filter) {
+    if (pluginInfo->getType() != ToolsPluginMgr::PluginInfo::Type::Filter) {
         return;
     }
 
@@ -150,7 +150,7 @@ void PluginConfigWrapsListWidget::moveUp(PluginInfoPtr pluginInfo)
 
 void PluginConfigWrapsListWidget::moveDown(PluginInfoPtr pluginInfo)
 {
-    if (pluginInfo->getType() != PluginMgr::PluginInfo::Type::Filter) {
+    if (pluginInfo->getType() != ToolsPluginMgr::PluginInfo::Type::Filter) {
         return;
     }
 
@@ -184,7 +184,7 @@ int PluginConfigWrapsListWidget::findWidgetIdx(PluginInfoPtr pluginInfo) const
 int PluginConfigWrapsListWidget::getTopFilterIdx() const
 {
     auto iter = std::lower_bound(
-        m_widgets.begin(), m_widgets.end(), PluginMgr::PluginInfo::Type::Filter,
+        m_widgets.begin(), m_widgets.end(), ToolsPluginMgr::PluginInfo::Type::Filter,
         [](auto& w, auto t)
         {
             return w->getType() < t;
@@ -196,7 +196,7 @@ int PluginConfigWrapsListWidget::getTopFilterIdx() const
 int PluginConfigWrapsListWidget::getBottomFilterIdx() const
 {
     auto iter = std::upper_bound(
-        m_widgets.begin(), m_widgets.end(), PluginMgr::PluginInfo::Type::Filter,
+        m_widgets.begin(), m_widgets.end(), ToolsPluginMgr::PluginInfo::Type::Filter,
         [](auto t, auto& w)
         {
             return t < w->getType();

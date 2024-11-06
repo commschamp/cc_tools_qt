@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "PluginMgrImpl.h"
+#include "ToolsPluginMgrImpl.h"
 
 #include <cassert>
 #include <algorithm>
@@ -78,7 +78,7 @@ ToolsPlugin* getPlugin(QPluginLoader& loader)
     return plugin;
 }
 
-PluginMgrImpl::PluginInfo::Type parseType(const QString& val)
+ToolsPluginMgrImpl::PluginInfo::Type parseType(const QString& val)
 {
     static const QString Values[] = {
         QString(),
@@ -88,22 +88,22 @@ PluginMgrImpl::PluginInfo::Type parseType(const QString& val)
     };
 
     static_assert(
-        std::extent<decltype(Values)>::value == static_cast<std::size_t>(PluginMgrImpl::PluginInfo::Type::NumOfValues),
+        std::extent<decltype(Values)>::value == static_cast<std::size_t>(ToolsPluginMgrImpl::PluginInfo::Type::NumOfValues),
         "The Values array must be adjusted.");
 
     auto iter = std::find(std::begin(Values), std::end(Values), val);
     if (iter == std::end(Values)) {
-        return PluginMgrImpl::PluginInfo::Type::Invalid;
+        return ToolsPluginMgrImpl::PluginInfo::Type::Invalid;
     }
 
-    return static_cast<PluginMgrImpl::PluginInfo::Type>(std::distance(std::begin(Values), iter));
+    return static_cast<ToolsPluginMgrImpl::PluginInfo::Type>(std::distance(std::begin(Values), iter));
 }
 
 }  // namespace
 
-PluginMgrImpl::PluginMgrImpl() = default;
+ToolsPluginMgrImpl::ToolsPluginMgrImpl() = default;
 
-PluginMgrImpl::~PluginMgrImpl() noexcept
+ToolsPluginMgrImpl::~ToolsPluginMgrImpl() noexcept
 {
     for (auto& pluginInfoPtr : m_plugins) {
         assert(pluginInfoPtr);
@@ -114,12 +114,12 @@ PluginMgrImpl::~PluginMgrImpl() noexcept
     }
 }
 
-void PluginMgrImpl::setPluginsDir(const QString& pluginDir)
+void ToolsPluginMgrImpl::setPluginsDir(const QString& pluginDir)
 {
     m_pluginDir = pluginDir;
 }
 
-const PluginMgrImpl::ListOfPluginInfos& PluginMgrImpl::getAvailablePlugins()
+const ToolsPluginMgrImpl::ListOfPluginInfos& ToolsPluginMgrImpl::getAvailablePlugins()
 {
     if (!m_plugins.empty()) {
         return m_plugins;
@@ -155,17 +155,17 @@ const PluginMgrImpl::ListOfPluginInfos& PluginMgrImpl::getAvailablePlugins()
     return m_plugins;
 }
 
-const PluginMgrImpl::ListOfPluginInfos& PluginMgrImpl::getAppliedPlugins() const
+const ToolsPluginMgrImpl::ListOfPluginInfos& ToolsPluginMgrImpl::getAppliedPlugins() const
 {
     return m_appliedPlugins;
 }
 
-void PluginMgrImpl::setAppliedPlugins(const ListOfPluginInfos& plugins)
+void ToolsPluginMgrImpl::setAppliedPlugins(const ListOfPluginInfos& plugins)
 {
     m_appliedPlugins = plugins;
 }
 
-PluginMgrImpl::ListOfPluginInfos PluginMgrImpl::loadPluginsFromConfig(
+ToolsPluginMgrImpl::ListOfPluginInfos ToolsPluginMgrImpl::loadPluginsFromConfig(
     const QVariantMap& config)
 {
     ListOfPluginInfos pluginInfos;
@@ -210,7 +210,7 @@ PluginMgrImpl::ListOfPluginInfos PluginMgrImpl::loadPluginsFromConfig(
     return pluginInfos;
 }
 
-PluginMgrImpl::ListOfPluginInfos PluginMgrImpl::loadPluginsFromConfigFile(
+ToolsPluginMgrImpl::ListOfPluginInfos ToolsPluginMgrImpl::loadPluginsFromConfigFile(
     const QString& filename)
 {
     auto config = m_configMgr.loadConfig(filename);
@@ -221,7 +221,7 @@ PluginMgrImpl::ListOfPluginInfos PluginMgrImpl::loadPluginsFromConfigFile(
     return loadPluginsFromConfig(config);
 }
 
-bool PluginMgrImpl::savePluginsToConfigFile(
+bool ToolsPluginMgrImpl::savePluginsToConfigFile(
     const ListOfPluginInfos& infos,
     const QString& filename)
 {
@@ -229,24 +229,24 @@ bool PluginMgrImpl::savePluginsToConfigFile(
     return m_configMgr.saveConfig(filename, config);
 }
 
-ToolsPlugin* PluginMgrImpl::loadPlugin(const PluginInfo& info)
+ToolsPlugin* ToolsPluginMgrImpl::loadPlugin(const PluginInfo& info)
 {
     return getPlugin(*info.m_loader);
 }
 
-bool PluginMgrImpl::hasAppliedPlugins() const
+bool ToolsPluginMgrImpl::hasAppliedPlugins() const
 {
     return !m_appliedPlugins.empty();
 }
 
-bool PluginMgrImpl::needsReload(const ListOfPluginInfos& infos) const
+bool ToolsPluginMgrImpl::needsReload(const ListOfPluginInfos& infos) const
 {
     assert(!infos.empty());
     return (!m_appliedPlugins.empty()) &&
            (m_appliedPlugins != infos);
 }
 
-bool PluginMgrImpl::isProtocolChanging(const ListOfPluginInfos& infos) const
+bool ToolsPluginMgrImpl::isProtocolChanging(const ListOfPluginInfos& infos) const
 {
     auto findProtocolFunc =
         [](const ListOfPluginInfos& l) -> PluginInfoPtr
@@ -255,7 +255,7 @@ bool PluginMgrImpl::isProtocolChanging(const ListOfPluginInfos& infos) const
                 std::find_if(l.rbegin(), l.rend(),
                     [](const PluginInfoPtr& ptr) -> bool
                     {
-                        return ptr->getType() == PluginMgr::PluginInfo::Type::Protocol;
+                        return ptr->getType() == ToolsPluginMgr::PluginInfo::Type::Protocol;
                     });
 
             if (iter == l.rend()) {
@@ -270,7 +270,7 @@ bool PluginMgrImpl::isProtocolChanging(const ListOfPluginInfos& infos) const
     return newProtocol != appliedProtocol;
 }
 
-void PluginMgrImpl::unloadApplied()
+void ToolsPluginMgrImpl::unloadApplied()
 {
     for (auto& pluginInfo : m_appliedPlugins) {
         assert(pluginInfo);
@@ -281,7 +281,7 @@ void PluginMgrImpl::unloadApplied()
     m_appliedPlugins.clear();
 }
 
-bool PluginMgrImpl::unloadAppliedPlugin(const PluginInfo& info)
+bool ToolsPluginMgrImpl::unloadAppliedPlugin(const PluginInfo& info)
 {
     auto iter =
         std::find_if(
@@ -305,7 +305,7 @@ bool PluginMgrImpl::unloadAppliedPlugin(const PluginInfo& info)
     return true;
 }
 
-QVariantMap PluginMgrImpl::getConfigForPlugins(
+QVariantMap ToolsPluginMgrImpl::getConfigForPlugins(
     const ListOfPluginInfos& infos)
 {
     QVariantMap config;
@@ -325,17 +325,17 @@ QVariantMap PluginMgrImpl::getConfigForPlugins(
     return config;
 }
 
-const QString& PluginMgrImpl::getLastFile() const
+const QString& ToolsPluginMgrImpl::getLastFile() const
 {
     return m_configMgr.getLastFile();
 }
 
-const QString& PluginMgrImpl::getFilesFilter()
+const QString& ToolsPluginMgrImpl::getFilesFilter()
 {
     return ConfigMgr::getFilesFilter();
 }
 
-PluginMgrImpl::PluginInfoPtr PluginMgrImpl::readPluginInfo(const QString& filename)
+ToolsPluginMgrImpl::PluginInfoPtr ToolsPluginMgrImpl::readPluginInfo(const QString& filename)
 {
     PluginInfoPtr ptr;
 

@@ -32,17 +32,17 @@
 namespace cc_tools_qt
 {
 
-class PluginMgrImpl;
-class CC_TOOLS_API PluginMgr
+class ToolsPluginMgrImpl;
+class CC_TOOLS_API ToolsPluginMgr
 {
 public:
 
-    typedef std::shared_ptr<QPluginLoader> PluginLoaderPtr;
+    using PluginLoaderPtr = std::shared_ptr<QPluginLoader>;
 
     class PluginInfo
     {
-        friend class PluginMgr;
-        friend class PluginMgrImpl;
+        friend class ToolsPluginMgr;
+        friend class ToolsPluginMgrImpl;
 
     public:
         enum class Type
@@ -85,11 +85,11 @@ public:
         bool m_applied = false;
     };
 
-    typedef std::shared_ptr<PluginInfo> PluginInfoPtr;
-    typedef std::list<PluginInfoPtr> ListOfPluginInfos;
+    using PluginInfoPtr = std::shared_ptr<PluginInfo>;
+    using ListOfPluginInfos = std::list<PluginInfoPtr>;
 
-    PluginMgr();
-    ~PluginMgr() noexcept;
+    ToolsPluginMgr();
+    ~ToolsPluginMgr() noexcept;
 
     void setPluginsDir(const QString& pluginDir);
     const ListOfPluginInfos& getAvailablePlugins();
@@ -109,10 +109,10 @@ public:
     static const QString& getFilesFilter();
 
 private:
-    std::unique_ptr<PluginMgrImpl> m_impl;
+    std::unique_ptr<ToolsPluginMgrImpl> m_impl;
 };
 
 }  // namespace cc_tools_qt
 
-Q_DECLARE_METATYPE(cc_tools_qt::PluginMgr::PluginInfoPtr);
+Q_DECLARE_METATYPE(cc_tools_qt::ToolsPluginMgr::PluginInfoPtr);
 

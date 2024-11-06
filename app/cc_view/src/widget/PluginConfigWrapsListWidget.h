@@ -22,7 +22,7 @@
 
 #include <QtWidgets/QWidget>
 
-#include "cc_tools_qt/PluginMgr.h"
+#include "cc_tools_qt/ToolsPluginMgr.h"
 
 #include "PluginConfigWrapWidget.h"
 
@@ -34,7 +34,7 @@ class PluginConfigWrapsListWidget: public QWidget
     using Base = QWidget;
 
 public:
-    using PluginInfoPtr = PluginMgr::PluginInfoPtr;
+    using PluginInfoPtr = ToolsPluginMgr::PluginInfoPtr;
     explicit PluginConfigWrapsListWidget(QWidget* parentObj = nullptr);
     ~PluginConfigWrapsListWidget();
 

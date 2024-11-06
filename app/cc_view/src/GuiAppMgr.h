@@ -26,7 +26,7 @@
 #include <QtWidgets/QWidget>
 
 #include "cc_tools_qt/ToolsMessage.h"
-#include "cc_tools_qt/PluginMgr.h"
+#include "cc_tools_qt/ToolsPluginMgr.h"
 #include "cc_tools_qt/MsgSendMgr.h"
 #include "cc_tools_qt/ToolsProtocol.h"
 
@@ -64,7 +64,7 @@ public:
 
     using MsgType = ToolsMsgMgr::MsgType;
     using ActionPtr = std::shared_ptr<QAction>;
-    using ListOfPluginInfos = PluginMgr::ListOfPluginInfos;
+    using ListOfPluginInfos = ToolsPluginMgr::ListOfPluginInfos;
     using MessagesList = ToolsProtocol::MessagesList;
     using FilteredMessages = std::vector<QString>;
 

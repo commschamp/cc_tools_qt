@@ -599,7 +599,7 @@ bool GuiAppMgr::applyNewPlugins(const ListOfPluginInfos& plugins)
         auto& availablePlugins = pluginMgr.getAvailablePlugins();
         std::copy_if(
             availablePlugins.begin(), availablePlugins.end(), std::back_inserter(pluginsToUnload),
-            [&plugins](const PluginMgr::PluginInfoPtr& ptr) -> bool
+            [&plugins](const ToolsPluginMgr::PluginInfoPtr& ptr) -> bool
             {
                 auto iter =
                     std::find(plugins.begin(), plugins.end(), ptr);

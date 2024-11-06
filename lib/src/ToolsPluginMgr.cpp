@@ -15,103 +15,103 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/PluginMgr.h"
+#include "cc_tools_qt/ToolsPluginMgr.h"
 
-#include "PluginMgrImpl.h"
+#include "ToolsPluginMgrImpl.h"
 
 namespace cc_tools_qt
 {
 
-PluginMgr::PluginMgr()
-  : m_impl(new PluginMgrImpl())
+ToolsPluginMgr::ToolsPluginMgr()
+  : m_impl(new ToolsPluginMgrImpl())
 {
 }
 
-PluginMgr::~PluginMgr() noexcept = default;
+ToolsPluginMgr::~ToolsPluginMgr() noexcept = default;
 
-void PluginMgr::setPluginsDir(const QString& pluginDir)
+void ToolsPluginMgr::setPluginsDir(const QString& pluginDir)
 {
     m_impl->setPluginsDir(pluginDir);
 }
 
-const PluginMgr::ListOfPluginInfos& PluginMgr::getAvailablePlugins()
+const ToolsPluginMgr::ListOfPluginInfos& ToolsPluginMgr::getAvailablePlugins()
 {
     return m_impl->getAvailablePlugins();
 }
 
-const PluginMgr::ListOfPluginInfos& PluginMgr::getAppliedPlugins() const
+const ToolsPluginMgr::ListOfPluginInfos& ToolsPluginMgr::getAppliedPlugins() const
 {
     return m_impl->getAppliedPlugins();
 }
 
-void PluginMgr::setAppliedPlugins(const ListOfPluginInfos& plugins)
+void ToolsPluginMgr::setAppliedPlugins(const ListOfPluginInfos& plugins)
 {
     m_impl->setAppliedPlugins(plugins);
 }
 
-PluginMgr::ListOfPluginInfos PluginMgr::loadPluginsFromConfig(
+ToolsPluginMgr::ListOfPluginInfos ToolsPluginMgr::loadPluginsFromConfig(
     const QVariantMap& config)
 {
     return m_impl->loadPluginsFromConfig(config);
 }
 
-PluginMgr::ListOfPluginInfos PluginMgr::loadPluginsFromConfigFile(
+ToolsPluginMgr::ListOfPluginInfos ToolsPluginMgr::loadPluginsFromConfigFile(
     const QString& filename)
 {
     return m_impl->loadPluginsFromConfigFile(filename);
 }
 
-bool PluginMgr::savePluginsToConfigFile(
+bool ToolsPluginMgr::savePluginsToConfigFile(
     const ListOfPluginInfos& infos,
     const QString& filename)
 {
     return m_impl->savePluginsToConfigFile(infos, filename);
 }
 
-ToolsPlugin* PluginMgr::loadPlugin(const PluginInfo& info)
+ToolsPlugin* ToolsPluginMgr::loadPlugin(const PluginInfo& info)
 {
     return m_impl->loadPlugin(info);
 }
 
-bool PluginMgr::hasAppliedPlugins() const
+bool ToolsPluginMgr::hasAppliedPlugins() const
 {
     return m_impl->hasAppliedPlugins();
 }
 
-bool PluginMgr::needsReload(const ListOfPluginInfos& infos) const
+bool ToolsPluginMgr::needsReload(const ListOfPluginInfos& infos) const
 {
     return m_impl->needsReload(infos);
 }
 
-bool PluginMgr::isProtocolChanging(const ListOfPluginInfos& infos) const
+bool ToolsPluginMgr::isProtocolChanging(const ListOfPluginInfos& infos) const
 {
     return m_impl->isProtocolChanging(infos);
 }
 
-void PluginMgr::unloadApplied()
+void ToolsPluginMgr::unloadApplied()
 {
     m_impl->unloadApplied();
 }
 
-bool PluginMgr::unloadAppliedPlugin(const PluginInfo& info)
+bool ToolsPluginMgr::unloadAppliedPlugin(const PluginInfo& info)
 {
     return m_impl->unloadAppliedPlugin(info);
 }
 
-QVariantMap PluginMgr::getConfigForPlugins(
+QVariantMap ToolsPluginMgr::getConfigForPlugins(
     const ListOfPluginInfos& infos)
 {
-    return PluginMgrImpl::getConfigForPlugins(infos);
+    return ToolsPluginMgrImpl::getConfigForPlugins(infos);
 }
 
-const QString& PluginMgr::getLastFile() const
+const QString& ToolsPluginMgr::getLastFile() const
 {
     return m_impl->getLastFile();
 }
 
-const QString& PluginMgr::getFilesFilter()
+const QString& ToolsPluginMgr::getFilesFilter()
 {
-    return PluginMgrImpl::getFilesFilter();
+    return ToolsPluginMgrImpl::getFilesFilter();
 }
 
 }  // namespace cc_tools_qt

@@ -28,24 +28,24 @@
 #include <QtCore/QPluginLoader>
 
 #include "cc_tools_qt/ToolsPlugin.h"
-#include "cc_tools_qt/PluginMgr.h"
+#include "cc_tools_qt/ToolsPluginMgr.h"
 #include "cc_tools_qt/ConfigMgr.h"
 
 
 namespace cc_tools_qt
 {
 
-class PluginMgrImpl
+class ToolsPluginMgrImpl
 {
 public:
 
-    typedef PluginMgr::PluginLoaderPtr PluginLoaderPtr;
-    typedef PluginMgr::PluginInfo PluginInfo;
-    typedef PluginMgr::PluginInfoPtr PluginInfoPtr;
-    typedef PluginMgr::ListOfPluginInfos ListOfPluginInfos;
+    using PluginLoaderPtr = ToolsPluginMgr::PluginLoaderPtr;
+    using PluginInfo = ToolsPluginMgr::PluginInfo;
+    using PluginInfoPtr = ToolsPluginMgr::PluginInfoPtr;
+    using ListOfPluginInfos = ToolsPluginMgr::ListOfPluginInfos;
 
-    PluginMgrImpl();
-    ~PluginMgrImpl() noexcept;
+    ToolsPluginMgrImpl();
+    ~ToolsPluginMgrImpl() noexcept;
 
     void setPluginsDir(const QString& pluginDir);
     const ListOfPluginInfos& getAvailablePlugins();
@@ -65,7 +65,7 @@ public:
     static const QString& getFilesFilter();
 
 private:
-    typedef std::list<PluginLoaderPtr> PluginLoadersList;
+    using PluginLoadersList = std::list<PluginLoaderPtr>;
 
     PluginInfoPtr readPluginInfo(const QString& filename);
 

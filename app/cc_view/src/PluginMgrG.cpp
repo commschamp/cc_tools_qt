@@ -17,5 +17,5 @@
 
 #include "PluginMgrG.h"
 
-template class cc_tools_qt::ToolsStaticSingleton<cc_tools_qt::PluginMgr>;
+template class cc_tools_qt::ToolsStaticSingleton<cc_tools_qt::ToolsPluginMgr>;
 
