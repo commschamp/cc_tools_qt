@@ -15,10 +15,11 @@ function (lib_tools)
         field/ToolsUnknownField.cpp
         field/ToolsUnsignedLongField.cpp
         field/ToolsVariantField.cpp
-        ConfigMgr.cpp
+        property/message.cpp
         MsgFileMgr.cpp
         MsgSendMgr.cpp
         MsgSendMgrImpl.cpp
+        ToolsConfigMgr.cpp
         ToolsDataInfo.cpp
         ToolsField.cpp
         ToolsFieldHandler.cpp
@@ -33,7 +34,6 @@ function (lib_tools)
         ToolsPluginMgrImpl.cpp
         ToolsProtocol.cpp
         ToolsSocket.cpp
-        property/message.cpp
     )
     
     add_library(${name} SHARED ${src})

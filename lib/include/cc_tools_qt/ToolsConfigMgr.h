@@ -29,12 +29,12 @@
 namespace cc_tools_qt
 {
 
-class CC_TOOLS_API ConfigMgr
+class CC_TOOLS_API ToolsConfigMgr
 {
 public:
 
-    ConfigMgr();
-    ~ConfigMgr() noexcept;
+    ToolsConfigMgr();
+    ~ToolsConfigMgr() noexcept;
 
     const QString& getLastFile() const;
     static const QString& getFilesFilter();

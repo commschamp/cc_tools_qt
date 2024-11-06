@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_tools_qt/ConfigMgr.h"
+#include "cc_tools_qt/ToolsConfigMgr.h"
 
 #include <cassert>
 #include <iostream>
@@ -28,26 +28,26 @@
 namespace cc_tools_qt
 {
 
-ConfigMgr::ConfigMgr() = default;
-ConfigMgr::~ConfigMgr() noexcept = default;
+ToolsConfigMgr::ToolsConfigMgr() = default;
+ToolsConfigMgr::~ToolsConfigMgr() noexcept = default;
 
-const QString& ConfigMgr::getLastFile() const
+const QString& ToolsConfigMgr::getLastFile() const
 {
     return m_lastConfigFile;
 }
 
-const QString& ConfigMgr::getFilesFilter()
+const QString& ToolsConfigMgr::getFilesFilter()
 {
     static const QString Str(QObject::tr("Config Files (*.cfg);;All Files (*)"));
     return Str;
 }
 
-QVariantMap ConfigMgr::loadConfig(const QString& filename)
+QVariantMap ToolsConfigMgr::loadConfig(const QString& filename)
 {
     return loadConfig(filename, true);
 }
 
-QVariantMap ConfigMgr::loadConfig(const QString& filename, bool updateAsLast)
+QVariantMap ToolsConfigMgr::loadConfig(const QString& filename, bool updateAsLast)
 {
     QVariantMap loadedConfig;
     do {
@@ -82,12 +82,12 @@ QVariantMap ConfigMgr::loadConfig(const QString& filename, bool updateAsLast)
     return loadedConfig;
 }
 
-bool ConfigMgr::saveConfig(const QString& filename, const QVariantMap& config)
+bool ToolsConfigMgr::saveConfig(const QString& filename, const QVariantMap& config)
 {
     return saveConfig(filename, config, true);
 }
 
-bool ConfigMgr::saveConfig(
+bool ToolsConfigMgr::saveConfig(
     const QString& filename,
     const QVariantMap& config,
     bool updateAsLast)

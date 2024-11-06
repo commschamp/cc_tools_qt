@@ -332,7 +332,7 @@ const QString& ToolsPluginMgrImpl::getLastFile() const
 
 const QString& ToolsPluginMgrImpl::getFilesFilter()
 {
-    return ConfigMgr::getFilesFilter();
+    return ToolsConfigMgr::getFilesFilter();
 }
 
 ToolsPluginMgrImpl::PluginInfoPtr ToolsPluginMgrImpl::readPluginInfo(const QString& filename)

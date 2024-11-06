@@ -29,7 +29,7 @@
 
 #include "cc_tools_qt/ToolsPlugin.h"
 #include "cc_tools_qt/ToolsPluginMgr.h"
-#include "cc_tools_qt/ConfigMgr.h"
+#include "cc_tools_qt/ToolsConfigMgr.h"
 
 
 namespace cc_tools_qt
@@ -72,7 +72,7 @@ private:
     QString m_pluginDir;
     ListOfPluginInfos m_plugins;
     ListOfPluginInfos m_appliedPlugins;
-    ConfigMgr m_configMgr;
+    ToolsConfigMgr m_configMgr;
 };
 
 }  // namespace cc_tools_qt
