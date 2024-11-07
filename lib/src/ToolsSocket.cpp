@@ -87,9 +87,7 @@ bool ToolsSocket::isRunning() const
 bool ToolsSocket::socketConnect()
 {
     m_state->m_connected = socketConnectImpl();
-    if (m_connectionStatusReportCallback) {
-        m_connectionStatusReportCallback(m_state->m_connected);
-    }    
+    emit sigConnectionStatusReport(m_state->m_connected);
     return m_state->m_connected;
 }
 
@@ -97,9 +95,7 @@ void ToolsSocket::socketDisconnect()
 {
     socketDisconnectImpl();
     m_state->m_connected = false;
-    if (m_connectionStatusReportCallback) {
-        m_connectionStatusReportCallback(false);
-    }      
+    emit sigConnectionStatusReport(m_state->m_connected);
 }
 
 bool ToolsSocket::isSocketConnected() const
@@ -174,7 +170,7 @@ void ToolsSocket::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap&
 
 void ToolsSocket::reportDataReceived(ToolsDataInfoPtr dataPtr)
 {
-    if ((!m_state->m_running) || (!m_dataReceivedCallback)) {
+    if (!m_state->m_running) {
         return;
     }
 
@@ -192,31 +188,25 @@ void ToolsSocket::reportDataReceived(ToolsDataInfoPtr dataPtr)
         std::cout << std::endl;
     }
 
-    m_dataReceivedCallback(std::move(dataPtr));
+    emit sigDataReceivedReport(std::move(dataPtr));
 }
 
 void ToolsSocket::reportError(const QString& msg)
 {
-    if (m_state->m_running && m_errorReportCallback) {
-        m_errorReportCallback(msg);
+    if (m_state->m_running) {
+        emit sigErrorReport(msg);
     }
 }
 
 void ToolsSocket::reportDisconnected()
 {
     m_state->m_connected = false;
-    if (m_state->m_running && m_connectionStatusReportCallback) {
-        m_connectionStatusReportCallback(false);
-    }
+    emit sigConnectionStatusReport(false);
 }
 
 void ToolsSocket::reportInterPluginConfig(const QVariantMap& props)
 {
     emit sigInterPluginConfigReport(props);
-    
-    if (m_interPluginConfigReportCallback) {
-        m_interPluginConfigReportCallback(props);
-    }
 }
 
 unsigned long long ToolsSocket::currTimestamp()

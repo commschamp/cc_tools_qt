@@ -18,15 +18,18 @@
 
 #pragma once
 
-#include <vector>
-
 #include "cc_tools_qt/ToolsMsgMgr.h"
+
+#include <QtCore/QObject>
+
+#include <vector>
 
 namespace cc_tools_qt
 {
 
-class ToolsMsgMgrImpl
+class ToolsMsgMgrImpl : public QObject
 {
+    Q_OBJECT
 public:
     using MessagesList = ToolsMsgMgr::MessagesList;
     using MsgType = ToolsMsgMgr::MsgType;
@@ -84,11 +87,15 @@ public:
         m_socketConnectionStatusReportCallback = std::forward<TFunc>(func);
     }
 
+private slots:
+    void socketErrorReport(const QString& msg);
+    void socketConnectionReport(bool connected);
+    void socketDataReceived(ToolsDataInfoPtr dataInfoPtr);
+
 private:
     using MsgNumberType = unsigned long long;
     using FiltersList = std::vector<ToolsFilterPtr>;
 
-    void socketDataReceived(ToolsDataInfoPtr dataInfoPtr);
     void updateInternalId(ToolsMessage& msg);
     void reportMsgAdded(ToolsMessagePtr msg);
     void reportError(const QString& error);

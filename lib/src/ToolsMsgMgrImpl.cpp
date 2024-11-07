@@ -266,42 +266,25 @@ void ToolsMsgMgrImpl::addMsgs(const MessagesList& msgs, bool reportAdded)
 
 void ToolsMsgMgrImpl::setSocket(ToolsSocketPtr socket)
 {
-    if (m_socket) {
-        m_socket->setDataReceivedCallback(nullptr);
-        m_socket->setErrorReportCallback(nullptr);
-        m_socket->setConnectionStatusReportCallback(nullptr);
-    }
-
     if (!socket) {
         m_socket.reset();
         return;
     }
 
-    socket->setDataReceivedCallback(
-        [this](ToolsDataInfoPtr dataPtr)
-        {
-            socketDataReceived(std::move(dataPtr));
-        });
+    connect(
+        socket.get(), &ToolsSocket::sigDataReceivedReport,
+        this, &ToolsMsgMgrImpl::socketDataReceived
+    );        
 
-    socket->setErrorReportCallback(
-        [this](const QString& msg)
-        {
-            reportError(msg);
-        });
+    connect(
+        socket.get(), &ToolsSocket::sigErrorReport,
+        this, &ToolsMsgMgrImpl::socketErrorReport
+    );        
 
-    socket->setConnectionStatusReportCallback(
-        [this](bool connected)
-        {
-            for (auto& filter : m_filters) {
-                filter->socketConnectionReport(connected);
-            }
-
-            if (m_protocol) {
-                m_protocol->socketConnectionReport(connected);
-            }
-            
-            reportSocketConnectionStatus(connected);
-        });
+    connect(
+        socket.get(), &ToolsSocket::sigConnectionStatusReport,
+        this, &ToolsMsgMgrImpl::socketConnectionReport
+    );
 
     m_socket = std::move(socket);
 }
@@ -384,8 +367,38 @@ void ToolsMsgMgrImpl::addFilter(ToolsFilterPtr filter)
     m_filters.push_back(std::move(filter));
 }
 
+void ToolsMsgMgrImpl::socketErrorReport(const QString& msg)
+{
+    if (m_socket.get() != sender()) {
+        return;
+    }
+
+    reportError(msg);
+}
+
+void ToolsMsgMgrImpl::socketConnectionReport(bool connected)
+{
+    if (m_socket.get() != sender()) {
+        return;
+    }
+
+    for (auto& filter : m_filters) {
+        filter->socketConnectionReport(connected);
+    }
+
+    if (m_protocol) {
+        m_protocol->socketConnectionReport(connected);
+    }
+    
+    reportSocketConnectionStatus(connected);
+}
+
 void ToolsMsgMgrImpl::socketDataReceived(ToolsDataInfoPtr dataInfoPtr)
 {
+    if (m_socket.get() != sender()) {
+        return;
+    }
+
     if ((!m_recvEnabled) || !(m_protocol) || (!dataInfoPtr)) {
         return;
     }

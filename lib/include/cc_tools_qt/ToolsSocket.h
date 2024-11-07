@@ -112,55 +112,14 @@ public:
     /// @param[in] props Properties map.
     void applyInterPluginConfig(const QVariantMap& props);       
 
-    /// @brief Callback to report incoming data.
-    using DataReceivedCallback = std::function<void (ToolsDataInfoPtr)>;
-
-    /// @brief Set callback to report incoming data
-    /// @details The callback must have the same signature as @ref DataReceivedCallback.
-    template <typename TFunc>
-    void setDataReceivedCallback(TFunc&& func)
-    {
-        m_dataReceivedCallback = std::forward<TFunc>(func);
-    }
-
-    /// @brief Callback to report errors
-    using ErrorReportCallback = std::function<void (const QString& msg)>;
-
-    /// @brief Set callback to report errors
-    /// @details The callback must have the same signature as @ref ErrorReportCallback
-    template <typename TFunc>
-    void setErrorReportCallback(TFunc&& func)
-    {
-        m_errorReportCallback = std::forward<TFunc>(func);
-    }
-
-    /// @brief Callback to report socket connection status
-    using ConnectionStatusReportCallback = std::function <void (bool)>;
-
-    /// @brief Set callback to report socket connection
-    /// @details The callback must have the same signature as @ref ConnectionStatusReportCallback.
-    template <typename TFunc>
-    void setConnectionStatusReportCallback(TFunc&& func)
-    {
-        m_connectionStatusReportCallback = std::forward<TFunc>(func);
-    }  
-
-    /// @brief Callback to report inter-plugin configuration updates
-    using InterPluginConfigReportCallback = std::function <void (const QVariantMap&)>;
-
-    /// @brief Set callback to report inter-plugin configuration.
-    /// @details The callback must have the same signature as @ref InterPluginConfigReportCallback.
-    template <typename TFunc>
-    void setInterPluginConfigReportCallback(TFunc&& func)
-    {
-        m_interPluginConfigReportCallback = std::forward<TFunc>(func);
-    }  
-
     /// @brief Set debug output level
     /// @param[in] level Debug level. If @b 0, debug output is disabled
     void setDebugOutputLevel(unsigned level = 0U);
 
 signals:
+    void sigDataReceivedReport(ToolsDataInfoPtr data);
+    void sigErrorReport(const QString& msg);
+    void sigConnectionStatusReport(bool connected);
     void sigInterPluginConfigReport(const QVariantMap& props)    ;
 
 protected:
@@ -240,11 +199,6 @@ protected:
 private:
     struct InnerState;
     std::unique_ptr<InnerState> m_state;
-
-    DataReceivedCallback m_dataReceivedCallback;
-    ErrorReportCallback m_errorReportCallback;
-    ConnectionStatusReportCallback m_connectionStatusReportCallback;
-    InterPluginConfigReportCallback m_interPluginConfigReportCallback;
 };
 
 /// @brief Pointer to @ref ToolsSocket object.
