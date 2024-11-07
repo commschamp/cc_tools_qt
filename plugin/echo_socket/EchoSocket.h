@@ -30,7 +30,7 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-class EchoSocket : public QObject, public cc_tools_qt::ToolsSocket
+class EchoSocket : public cc_tools_qt::ToolsSocket
 {
     Q_OBJECT
 

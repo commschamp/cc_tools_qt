@@ -26,7 +26,6 @@
 namespace cc_tools_qt
 {
 
-
 namespace 
 {
 
@@ -50,43 +49,54 @@ std::string dataToStr(const ToolsDataInfo::DataSeq& data)
 
 } // namespace 
 
-ToolsSocket::ToolsSocket() = default;
+struct ToolsSocket::InnerState
+{
+    unsigned m_debugLevel = 0U;
+    bool m_running = false;
+    bool m_connected = false;
+};
+
+ToolsSocket::ToolsSocket() :
+    m_state(std::make_unique<InnerState>())
+{
+}
+
 ToolsSocket::~ToolsSocket() noexcept = default;
 
 bool ToolsSocket::start()
 {
-    m_running = startImpl();
-    return m_running;
+    m_state->m_running = startImpl();
+    return m_state->m_running;
 }
 
 void ToolsSocket::stop()
 {
-    if (m_connected) {
+    if (m_state->m_connected) {
         socketDisconnect();
         reportDisconnected();
     }
-    m_running = false;
+    m_state->m_running = false;
     stopImpl();
 }
 
 bool ToolsSocket::isRunning() const
 {
-    return m_running;
+    return m_state->m_running;
 }
 
 bool ToolsSocket::socketConnect()
 {
-    m_connected = socketConnectImpl();
+    m_state->m_connected = socketConnectImpl();
     if (m_connectionStatusReportCallback) {
-        m_connectionStatusReportCallback(m_connected);
+        m_connectionStatusReportCallback(m_state->m_connected);
     }    
-    return m_connected;
+    return m_state->m_connected;
 }
 
 void ToolsSocket::socketDisconnect()
 {
     socketDisconnectImpl();
-    m_connected = false;
+    m_state->m_connected = false;
     if (m_connectionStatusReportCallback) {
         m_connectionStatusReportCallback(false);
     }      
@@ -94,7 +104,7 @@ void ToolsSocket::socketDisconnect()
 
 bool ToolsSocket::isSocketConnected() const
 {
-    return m_connected;
+    return m_state->m_connected;
 }
 
 void ToolsSocket::sendData(ToolsDataInfoPtr dataPtr)
@@ -107,11 +117,11 @@ void ToolsSocket::sendData(ToolsDataInfoPtr dataPtr)
         dataPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
     }
 
-    if (1U < m_debugLevel) {
+    if (1U < m_state->m_debugLevel) {
         auto sinceEpoch = dataPtr->m_timestamp.time_since_epoch();
         auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
         std::cout << '[' << milliseconds << "] " << debugPrefix() << " --> " << dataPtr->m_data.size() << " bytes"; 
-        if (2U < m_debugLevel) {
+        if (2U < m_state->m_debugLevel) {
             std::cout << " | " << dataToStr(dataPtr->m_data);
         }
         std::cout << std::endl;
@@ -132,7 +142,7 @@ void ToolsSocket::applyInterPluginConfig(const QVariantMap& props)
 
 void ToolsSocket::setDebugOutputLevel(unsigned level)
 {
-    m_debugLevel = level;
+    m_state->m_debugLevel = level;
 }
 
 bool ToolsSocket::startImpl()
@@ -164,7 +174,7 @@ void ToolsSocket::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap&
 
 void ToolsSocket::reportDataReceived(ToolsDataInfoPtr dataPtr)
 {
-    if ((!m_running) || (!m_dataReceivedCallback)) {
+    if ((!m_state->m_running) || (!m_dataReceivedCallback)) {
         return;
     }
 
@@ -172,11 +182,11 @@ void ToolsSocket::reportDataReceived(ToolsDataInfoPtr dataPtr)
         dataPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
     }
 
-    if (1U <= m_debugLevel) {
+    if (1U <= m_state->m_debugLevel) {
         auto sinceEpoch = dataPtr->m_timestamp.time_since_epoch();
         auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
         std::cout << '[' << milliseconds << "] " << debugPrefix() << " <-- " << dataPtr->m_data.size() << " bytes"; 
-        if (2U <= m_debugLevel) {
+        if (2U <= m_state->m_debugLevel) {
             std::cout << " | " << dataToStr(dataPtr->m_data);
         }
         std::cout << std::endl;
@@ -187,21 +197,23 @@ void ToolsSocket::reportDataReceived(ToolsDataInfoPtr dataPtr)
 
 void ToolsSocket::reportError(const QString& msg)
 {
-    if (m_running && m_errorReportCallback) {
+    if (m_state->m_running && m_errorReportCallback) {
         m_errorReportCallback(msg);
     }
 }
 
 void ToolsSocket::reportDisconnected()
 {
-    m_connected = false;
-    if (m_running && m_connectionStatusReportCallback) {
+    m_state->m_connected = false;
+    if (m_state->m_running && m_connectionStatusReportCallback) {
         m_connectionStatusReportCallback(false);
     }
 }
 
 void ToolsSocket::reportInterPluginConfig(const QVariantMap& props)
 {
+    emit sigInterPluginConfigReport(props);
+    
     if (m_interPluginConfigReportCallback) {
         m_interPluginConfigReportCallback(props);
     }
@@ -218,7 +230,7 @@ unsigned long long ToolsSocket::currTimestamp()
 
 unsigned ToolsSocket::getDebugOutputLevel() const
 {
-    return m_debugLevel;
+    return m_state->m_debugLevel;
 }
 
 }  // namespace cc_tools_qt

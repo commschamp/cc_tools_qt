@@ -35,7 +35,7 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-class UdpProxySocket : public QObject, public cc_tools_qt::ToolsSocket
+class UdpProxySocket : public cc_tools_qt::ToolsSocket
 {
     Q_OBJECT
     using Base = cc_tools_qt::ToolsSocket;

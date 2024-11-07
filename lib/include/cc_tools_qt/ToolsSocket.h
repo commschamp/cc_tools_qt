@@ -21,10 +21,12 @@
 #include "cc_tools_qt/ToolsApi.h"
 #include "cc_tools_qt/ToolsDataInfo.h"
 
+#include <QtCore/QObject>
 #include <QtCore/QString>
 
 #include <cstdint>
 #include <cstddef>
+#include <memory>
 #include <vector>
 #include <functional>
 
@@ -35,8 +37,9 @@ namespace cc_tools_qt
 /// @details It is used by @b CommsChampion @b Tools to drive low level
 ///     I/O operations.
 /// @headerfile cc_tools_qt/ToolsSocket.h
-class CC_TOOLS_API ToolsSocket
+class CC_TOOLS_API ToolsSocket : public QObject
 {
+    Q_OBJECT
 public:
     /// @brief Available socket connection properties values.
     enum ConnectionProperty
@@ -157,6 +160,9 @@ public:
     /// @param[in] level Debug level. If @b 0, debug output is disabled
     void setDebugOutputLevel(unsigned level = 0U);
 
+signals:
+    void sigInterPluginConfigReport(const QVariantMap& props)    ;
+
 protected:
     /// @brief Polymorphic start functionality implementation.
     /// @details Invoked by start() and default implementation does nothing.
@@ -232,14 +238,13 @@ protected:
     unsigned getDebugOutputLevel() const;
 
 private:
+    struct InnerState;
+    std::unique_ptr<InnerState> m_state;
+
     DataReceivedCallback m_dataReceivedCallback;
     ErrorReportCallback m_errorReportCallback;
     ConnectionStatusReportCallback m_connectionStatusReportCallback;
     InterPluginConfigReportCallback m_interPluginConfigReportCallback;
-
-    unsigned m_debugLevel = 0U;
-    bool m_running = false;
-    bool m_connected = false;
 };
 
 /// @brief Pointer to @ref ToolsSocket object.

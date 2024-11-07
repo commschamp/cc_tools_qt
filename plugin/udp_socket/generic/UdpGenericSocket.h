@@ -36,7 +36,7 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-class UdpGenericSocket : public QObject, public cc_tools_qt::ToolsSocket
+class UdpGenericSocket : public cc_tools_qt::ToolsSocket
 {
     Q_OBJECT
     using Base = cc_tools_qt::ToolsSocket;

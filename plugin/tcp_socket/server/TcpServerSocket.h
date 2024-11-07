@@ -37,7 +37,7 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-class TcpServerSocket : public QObject, public cc_tools_qt::ToolsSocket
+class TcpServerSocket : public cc_tools_qt::ToolsSocket
 {
     Q_OBJECT
     using Base = cc_tools_qt::ToolsSocket;

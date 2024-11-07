@@ -34,8 +34,7 @@ namespace plugin
 namespace serial_socket
 {
 
-class SerialSocket : public QObject,
-                     public cc_tools_qt::ToolsSocket
+class SerialSocket : public cc_tools_qt::ToolsSocket
 {
     Q_OBJECT
     using Base = cc_tools_qt::ToolsSocket;
