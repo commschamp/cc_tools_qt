@@ -67,7 +67,9 @@ struct StringsFields
             comms::option::SequenceTerminationFieldSuffix<
                 comms::field::IntValue<
                     demo::FieldBase,
-                    std::uint8_t
+                    std::uint8_t,
+                    comms::option::def::FailOnInvalid<>,
+                    comms::option::def::ValidNumValue<0>
                 >
             >
         >
