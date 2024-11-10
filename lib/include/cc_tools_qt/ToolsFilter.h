@@ -21,8 +21,9 @@
 #include "cc_tools_qt/ToolsApi.h"
 #include "cc_tools_qt/ToolsDataInfo.h"
 
-#include <QtCore/QString>
+#include <QtCore/QObject>
 #include <QtCore/QList>
+#include <QtCore/QString>
 
 #include <cstdint>
 #include <cstddef>
@@ -36,8 +37,9 @@ namespace cc_tools_qt
 /// @details The filter can be used to implement encryption / decryption of
 ///     the data, and/or additional transport layer.
 /// @headerfile cc_tools_qt/ToolsFilter.h
-class CC_TOOLS_API ToolsFilter
+class CC_TOOLS_API ToolsFilter : public QObject
 {
+    Q_OBJECT
 public:
     /// @brief Constructor
     ToolsFilter();
@@ -88,44 +90,14 @@ public:
     /// @param[in] props Properties map.
     void applyInterPluginConfig(const QVariantMap& props);     
 
-    /// @brief Type of callback to report outgoing data.
-    using DataToSendCallback = std::function<void (ToolsDataInfoPtr)>;
-
-    /// @brief Set callback to report outgoing data.
-    /// @details The filter is allowed to generate outgoing data independently
-    ///     The provided callback is used to request its send.
-    ///     The callback must have the same signature as @ref DataToSendCallback
-    template <typename TFunc>
-    void setDataToSendCallback(TFunc&& func)
-    {
-        m_dataToSendCallback = std::forward<TFunc>(func);
-    }
-
-    /// @brief Type of callback to report errors
-    using ErrorReportCallback = std::function<void (const QString& msg)>;
-
-    /// @brief Set callback to report errors
-    /// @details The callback must have the same signature as @ref ErrorReportCallback
-    template <typename TFunc>
-    void setErrorReportCallback(TFunc&& func)
-    {
-        m_errorReportCallback = std::forward<TFunc>(func);
-    }
-
-    /// @brief Callback to report inter-plugin configuration updates
-    using InterPluginConfigReportCallback = std::function <void (const QVariantMap&)>;
-
-    /// @brief Set callback to report inter-plugin configuration.
-    /// @details The callback must have the same signature as @ref InterPluginConfigReportCallback.
-    template <typename TFunc>
-    void setInterPluginConfigReportCallback(TFunc&& func)
-    {
-        m_interPluginConfigReportCallback = std::forward<TFunc>(func);
-    }     
-
     /// @brief Set debug output level
     /// @param[in] level Debug level. If @b 0, debug output is disabled
     void setDebugOutputLevel(unsigned level = 0U);    
+
+signals:
+    void sigDataToSendReport(ToolsDataInfoPtr data);
+    void sigErrorReport(const QString& msg);
+    void sigInterPluginConfigReport(const QVariantMap& props);    
 
 protected:
     /// @brief Polymorphic start functionality implementation.
@@ -190,10 +162,8 @@ protected:
     unsigned getDebugOutputLevel() const;
 
 private:
-    DataToSendCallback m_dataToSendCallback;
-    ErrorReportCallback m_errorReportCallback;
-    InterPluginConfigReportCallback m_interPluginConfigReportCallback;
-    unsigned m_debugLevel = 0U;
+    struct InnerState;
+    std::unique_ptr<InnerState> m_state;
 };
 
 /// @brief Pointer to @ref ToolsFilter object.

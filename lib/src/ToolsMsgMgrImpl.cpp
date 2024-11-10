@@ -320,49 +320,15 @@ void ToolsMsgMgrImpl::addFilter(ToolsFilterPtr filter)
         return;
     }
 
-    auto filterIdx = m_filters.size();
-    filter->setDataToSendCallback(
-        [this, filterIdx](ToolsDataInfoPtr dataPtr)
-        {
-            if (!dataPtr) {
-                return;
-            }
+    connect(
+        filter.get(), &ToolsFilter::sigDataToSendReport,
+        this, &ToolsMsgMgrImpl::filterDataToSendReport
+    );
 
-            assert(filterIdx < m_filters.size());
-            auto revIdx = m_filters.size() - filterIdx;
-
-            QList<ToolsDataInfoPtr> data;
-            data.append(std::move(dataPtr));
-            for (auto iter = m_filters.rbegin() + static_cast<std::intmax_t>(revIdx); iter != m_filters.rend(); ++iter) {
-
-                if (data.isEmpty()) {
-                    break;
-                }
-
-                auto nextFilter = *iter;
-
-                QList<ToolsDataInfoPtr> dataTmp;
-                for (auto& d : data) {
-                    dataTmp.append(nextFilter->sendData(d));
-                }
-
-                data.swap(dataTmp);
-            }
-
-            if (!m_socket) {
-                return;
-            }
-
-            for (auto& d : data) {
-                m_socket->sendData(std::move(d));
-            }
-        });
-
-    filter->setErrorReportCallback(
-        [this](const QString& msg)
-        {
-            reportError(msg);
-        });
+    connect(
+        filter.get(), &ToolsFilter::sigErrorReport,
+        this, &ToolsMsgMgrImpl::filterErrorReport
+    );
 
     m_filters.push_back(std::move(filter));
 }
@@ -456,6 +422,73 @@ void ToolsMsgMgrImpl::socketDataReceived(ToolsDataInfoPtr dataInfoPtr)
     }
 
     m_allMsgs.splice(m_allMsgs.end(), std::move(msgsList));
+}
+
+void ToolsMsgMgrImpl::filterErrorReport(const QString& msg)
+{
+    auto iter = 
+        std::find_if(
+            m_filters.begin() ,m_filters.end(),
+            [sndr = sender()](auto& f)
+            {
+                return f.get() == sndr;
+            });
+
+    if (iter == m_filters.end()) {
+        return;
+    }
+
+    reportError(msg);
+}
+
+void ToolsMsgMgrImpl::filterDataToSendReport(ToolsDataInfoPtr dataInfoPtr)
+{
+    if (!dataInfoPtr) {
+        return;
+    }
+
+    auto senderIter = 
+        std::find_if(
+            m_filters.begin() ,m_filters.end(),
+            [sndr = sender()](auto& f)
+            {
+                return f.get() == sndr;
+            });
+
+    if (senderIter == m_filters.end()) {
+        return;
+    }
+
+    auto filterIdx = static_cast<unsigned>(std::distance(m_filters.begin(), senderIter));
+
+    assert(filterIdx < m_filters.size());
+    auto revIdx = m_filters.size() - filterIdx;
+
+    QList<ToolsDataInfoPtr> data;
+    data.append(std::move(dataInfoPtr));
+    for (auto iter = m_filters.rbegin() + static_cast<std::intmax_t>(revIdx); iter != m_filters.rend(); ++iter) {
+
+        if (data.isEmpty()) {
+            break;
+        }
+
+        auto nextFilter = *iter;
+
+        QList<ToolsDataInfoPtr> dataTmp;
+        for (auto& d : data) {
+            dataTmp.append(nextFilter->sendData(d));
+        }
+
+        data.swap(dataTmp);
+    }
+
+    if (!m_socket) {
+        return;
+    }
+
+    for (auto& d : data) {
+        m_socket->sendData(std::move(d));
+    }
 }
 
 void ToolsMsgMgrImpl::updateInternalId(ToolsMessage& msg)

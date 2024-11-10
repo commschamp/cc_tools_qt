@@ -38,6 +38,7 @@ function (lib_tools)
 
     qt_wrap_cpp(
         moc
+        include/cc_tools_qt/ToolsFilter.h
         include/cc_tools_qt/ToolsSocket.h
     )
     

@@ -91,6 +91,8 @@ private slots:
     void socketErrorReport(const QString& msg);
     void socketConnectionReport(bool connected);
     void socketDataReceived(ToolsDataInfoPtr dataInfoPtr);
+    void filterErrorReport(const QString& msg);
+    void filterDataToSendReport(ToolsDataInfoPtr dataInfoPtr);
 
 private:
     using MsgNumberType = unsigned long long;

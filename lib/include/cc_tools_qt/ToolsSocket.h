@@ -120,7 +120,7 @@ signals:
     void sigDataReceivedReport(ToolsDataInfoPtr data);
     void sigErrorReport(const QString& msg);
     void sigConnectionStatusReport(bool connected);
-    void sigInterPluginConfigReport(const QVariantMap& props)    ;
+    void sigInterPluginConfigReport(const QVariantMap& props);
 
 protected:
     /// @brief Polymorphic start functionality implementation.
