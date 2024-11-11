@@ -291,25 +291,16 @@ void ToolsMsgMgrImpl::setSocket(ToolsSocketPtr socket)
 
 void ToolsMsgMgrImpl::setProtocol(ToolsProtocolPtr protocol)
 {
-    if (m_protocol) {
-        m_protocol->setErrorReportCallback(nullptr);
-        m_protocol->setSendMessageRequestCallback(nullptr);
-    }
-
     assert(protocol);
-    protocol->setErrorReportCallback(
-        [this](const QString& str)
-        {
-            reportError(str);
-        });
+    connect(
+        protocol.get(), &ToolsProtocol::sigErrorReport,
+        this, &ToolsMsgMgrImpl::protocolErrorReport
+    );      
 
-    protocol->setSendMessageRequestCallback(
-        [this](ToolsMessagePtr msg)
-        {
-            MessagesList msgsList;
-            msgsList.push_back(std::move(msg));
-            sendMsgs(std::move(msgsList));
-        });
+    connect(
+        protocol.get(), &ToolsProtocol::sigSendMessageReport,
+        this, &ToolsMsgMgrImpl::protocolSendMessageReport
+    );  
 
     m_protocol = std::move(protocol);
 }
@@ -489,6 +480,26 @@ void ToolsMsgMgrImpl::filterDataToSendReport(ToolsDataInfoPtr dataInfoPtr)
     for (auto& d : data) {
         m_socket->sendData(std::move(d));
     }
+}
+
+void ToolsMsgMgrImpl::protocolErrorReport(const QString& msg)
+{
+    if (m_protocol.get() != sender()) {
+        return;
+    }
+
+    reportError(msg);
+}
+
+void ToolsMsgMgrImpl::protocolSendMessageReport(ToolsMessagePtr msg)
+{
+    if (m_protocol.get() != sender()) {
+        return;
+    }
+
+    MessagesList msgsList;
+    msgsList.push_back(std::move(msg));
+    sendMsgs(std::move(msgsList));
 }
 
 void ToolsMsgMgrImpl::updateInternalId(ToolsMessage& msg)

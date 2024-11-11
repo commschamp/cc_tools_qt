@@ -23,6 +23,7 @@
 #include "cc_tools_qt/ToolsFrame.h"
 #include "cc_tools_qt/ToolsMessage.h"
 
+#include <QtCore/QObject>
 #include <QtCore/QMetaType>
 #include <QtCore/QString>
 
@@ -39,8 +40,9 @@ namespace cc_tools_qt
 ///     protocol messages.
 /// @headerfile cc_tools_qt/ToolsProtocol.h
 
-class CC_TOOLS_API ToolsProtocol
+class CC_TOOLS_API ToolsProtocol : public QObject
 {
+    Q_OBJECT
 public:
     /// @brief List of messages
     using MessagesList = ToolsFrame::MessagesList;
@@ -129,38 +131,10 @@ public:
     /// @param[in] level Debug level. If @b 0, debug output is disabled
     void setDebugOutputLevel(unsigned level = 0U);     
 
-    /// @brief Type of callback to report errors
-    using ErrorReportCallback = std::function<void (const QString& msg)>;
-
-    /// @brief Set callback to report errors
-    /// @details The callback must have the same signature as @ref ErrorReportCallback
-    template <typename TFunc>
-    void setErrorReportCallback(TFunc&& func)
-    {
-        m_errorReportCallback = std::forward<TFunc>(func);
-    }     
-
-    /// @brief Type of callback to request message being sent initiated by the plugin itself
-    using SendMessageRequestCallback = std::function<void (ToolsMessagePtr)>;
-
-    /// @brief Set the callback to allow request of extra messages to be sent out
-    /// @details The callback must have the same signature as @ref SendMessageRequestCallback
-    template <typename TFunc>
-    void setSendMessageRequestCallback(TFunc&& func)
-    {
-        m_sendMessageRequestCallback = std::forward<TFunc>(func);
-    }
-
-    /// @brief Callback to report inter-plugin configuration updates
-    using InterPluginConfigReportCallback = std::function <void (const QVariantMap&)>;
-
-    /// @brief Set callback to report inter-plugin configuration.
-    /// @details The callback must have the same signature as @ref InterPluginConfigReportCallback.
-    template <typename TFunc>
-    void setInterPluginConfigReportCallback(TFunc&& func)
-    {
-        m_interPluginConfigReportCallback = std::forward<TFunc>(func);
-    }    
+signals:
+    void sigSendMessageReport(ToolsMessagePtr msg);
+    void sigErrorReport(const QString& str);
+    void sigInterPluginConfigReport(const QVariantMap& props);    
 
 protected:
     explicit ToolsProtocol(ToolsFramePtr frame);
@@ -250,11 +224,8 @@ protected:
     static bool getForceExtraInfoExistenceFromMessageProperties(const ToolsMessage& msg);
 
 private:
-    ToolsFramePtr m_frame;
-    ErrorReportCallback m_errorReportCallback;
-    SendMessageRequestCallback m_sendMessageRequestCallback;
-    InterPluginConfigReportCallback m_interPluginConfigReportCallback;
-    unsigned m_debugLevel = 0U;
+    struct InnerState;
+    std::unique_ptr<InnerState> m_state;
 };
 
 /// @brief Pointer to @ref Protocol object.

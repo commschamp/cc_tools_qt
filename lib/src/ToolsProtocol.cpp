@@ -53,7 +53,12 @@ std::string dataToStr(const ToolsDataInfo::DataSeq& data)
 }
 
 } // namespace 
-    
+
+struct ToolsProtocol::InnerState
+{
+    ToolsFramePtr m_frame;
+    unsigned m_debugLevel = 0U;
+};
 
 ToolsProtocol::~ToolsProtocol() noexcept = default;
 
@@ -68,7 +73,7 @@ ToolsProtocol::MessagesList ToolsProtocol::read(
 {
     unsigned long long milliseconds = 0U;
 
-    if (1U <= m_debugLevel) {
+    if (1U <= m_state->m_debugLevel) {
         auto timestamp = dataInfo.m_timestamp;
         if (timestamp == ToolsDataInfo::Timestamp()) {
             timestamp = ToolsDataInfo::TimestampClock::now();
@@ -77,19 +82,19 @@ ToolsProtocol::MessagesList ToolsProtocol::read(
         auto sinceEpoch = timestamp.time_since_epoch();
         milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
         std::cout << '[' << milliseconds << "] " << debugPrefix() << " <-- " << dataInfo.m_data.size() << " bytes";
-        if (2U <= m_debugLevel) {
+        if (2U <= m_state->m_debugLevel) {
             std::cout << " | " << dataToStr(dataInfo.m_data);
         }
         std::cout << std::endl;
     }
 
-    assert(m_frame);
-    auto messages = m_frame->readData(dataInfo, final);
+    assert(m_state->m_frame);
+    auto messages = m_state->m_frame->readData(dataInfo, final);
     for (auto& m : messages) {
         setNameToMessageProperties(*m);
     }
 
-    if (1U <= m_debugLevel) {
+    if (1U <= m_state->m_debugLevel) {
         for (auto& msgPtr : messages) {
             std::cout << '[' << milliseconds << "] " << msgPtr->name() << " <-- " << debugPrefix() << std::endl;
         }
@@ -101,7 +106,7 @@ ToolsProtocol::MessagesList ToolsProtocol::read(
 ToolsDataInfoPtr ToolsProtocol::write(ToolsMessage& msg)
 {
     unsigned long long milliseconds = property::message::ToolsMsgTimestamp().getFrom(msg);;
-    if (1U <= m_debugLevel) {
+    if (1U <= m_state->m_debugLevel) {
         if (milliseconds == 0) {
             auto timestamp = ToolsDataInfo::TimestampClock::now();
             auto sinceEpoch = timestamp.time_since_epoch();
@@ -131,11 +136,11 @@ ToolsDataInfoPtr ToolsProtocol::write(ToolsMessage& msg)
     assert(dataInfo);
 
     dataInfo->m_timestamp = ToolsDataInfo::TimestampClock::now();
-    dataInfo->m_data = msg.encodeFramed(*m_frame);
+    dataInfo->m_data = msg.encodeFramed(*m_state->m_frame);
     dataInfo->m_extraProperties = getExtraInfoFromMessageProperties(msg);
-    if (1U <= m_debugLevel) {
+    if (1U <= m_state->m_debugLevel) {
         std::cout << '[' << milliseconds << "] " << debugPrefix() << " --> " << dataInfo->m_data.size() << " bytes";
-        if (2U <= m_debugLevel) {
+        if (2U <= m_state->m_debugLevel) {
             std::cout << " | " << dataToStr(dataInfo->m_data);
         }
         std::cout << std::endl;
@@ -146,8 +151,8 @@ ToolsDataInfoPtr ToolsProtocol::write(ToolsMessage& msg)
 
 ToolsProtocol::MessagesList ToolsProtocol::createAllMessages()
 {
-    assert(m_frame);
-    auto allMsgs = m_frame->createAllMessages();
+    assert(m_state->m_frame);
+    auto allMsgs = m_state->m_frame->createAllMessages();
     QString prevId;
     unsigned prevIdx = 0U;
     for (auto& msgPtr : allMsgs) {
@@ -170,8 +175,8 @@ ToolsProtocol::MessagesList ToolsProtocol::createAllMessages()
 
 ToolsMessagePtr ToolsProtocol::createMessage(const QString& idAsString, unsigned idx)
 {
-    assert(m_frame);
-    auto msgPtr = m_frame->createMessage(idAsString, idx);
+    assert(m_state->m_frame);
+    auto msgPtr = m_state->m_frame->createMessage(idAsString, idx);
     if (msgPtr) {
         property::message::ToolsMsgIdx().setTo(idx, *msgPtr);
     }
@@ -182,8 +187,8 @@ ToolsProtocol::UpdateStatus ToolsProtocol::updateMessage(ToolsMessage& msg)
 {
     if (!msg.idAsString().isEmpty()) {
         bool refreshed = msg.refreshMsg();
-        assert(m_frame);
-        m_frame->updateMessage(msg);
+        assert(m_state->m_frame);
+        m_state->m_frame->updateMessage(msg);
         if (refreshed) {
             return UpdateStatus::Changed;
         }
@@ -201,8 +206,8 @@ ToolsProtocol::UpdateStatus ToolsProtocol::updateMessage(ToolsMessage& msg)
         return UpdateStatus::NoChange;
     }
 
-    assert(m_frame);
-    auto infoMsg = m_frame->createExtraInfoMessage();
+    assert(m_state->m_frame);
+    auto infoMsg = m_state->m_frame->createExtraInfoMessage();
     if (!infoMsg) {
         [[maybe_unused]] static constexpr bool Info_must_be_created = false;
         assert(Info_must_be_created);        
@@ -235,8 +240,8 @@ ToolsMessagePtr ToolsProtocol::cloneMessage(const ToolsMessage& msg)
             clonedMsg = createInvalidMessage(data);
         }
         else {
-            assert(m_frame);
-            clonedMsg = m_frame->createInvalidMessage();
+            assert(m_state->m_frame);
+            clonedMsg = m_state->m_frame->createInvalidMessage();
             setNameToMessageProperties(*clonedMsg);
         }
 
@@ -264,8 +269,8 @@ ToolsMessagePtr ToolsProtocol::cloneMessage(const ToolsMessage& msg)
 
 ToolsMessagePtr ToolsProtocol::createInvalidMessage(const MsgDataSeq& data)
 {
-    assert(m_frame);
-    auto rawDataMsg = m_frame->createRawDataMessage();
+    assert(m_state->m_frame);
+    auto rawDataMsg = m_state->m_frame->createRawDataMessage();
     if (!rawDataMsg) {
         return ToolsMessagePtr();
     }
@@ -274,7 +279,7 @@ ToolsMessagePtr ToolsProtocol::createInvalidMessage(const MsgDataSeq& data)
         return ToolsMessagePtr();
     }
 
-    auto invalidMsg = m_frame->createInvalidMessage();
+    auto invalidMsg = m_state->m_frame->createInvalidMessage();
     if (!invalidMsg) {
         return invalidMsg;
     }
@@ -306,12 +311,13 @@ void ToolsProtocol::applyInterPluginConfig(const QVariantMap& props)
 
 void ToolsProtocol::setDebugOutputLevel(unsigned level)
 {
-    m_debugLevel = level;
+    m_state->m_debugLevel = level;
 }
 
 ToolsProtocol::ToolsProtocol(ToolsFramePtr frame) :
-    m_frame(std::move(frame))
+    m_state(std::make_unique<InnerState>())
 {
+    m_state->m_frame = std::move(frame);
 }
 
 void ToolsProtocol::socketConnectionReportImpl([[maybe_unused]] bool connected)
@@ -337,28 +343,22 @@ void ToolsProtocol::setNameToMessageProperties(ToolsMessage& msg)
 
 void ToolsProtocol::reportError(const QString& str)
 {
-    if (m_errorReportCallback) {
-        m_errorReportCallback(str);
-    }
+    emit sigErrorReport(str);
 }
 
 void ToolsProtocol::sendMessageRequest(ToolsMessagePtr msg)
 {
-    if (m_sendMessageRequestCallback) {
-        m_sendMessageRequestCallback(std::move(msg));
-    }
+    emit sigSendMessageReport(std::move(msg));
 }
 
 void ToolsProtocol::reportInterPluginConfig(const QVariantMap& props)
 {
-    if (m_interPluginConfigReportCallback) {
-        m_interPluginConfigReportCallback(props);
-    }
+    emit sigInterPluginConfigReport(props);
 }
 
 unsigned ToolsProtocol::getDebugOutputLevel() const
 {
-    return m_debugLevel;
+    return m_state->m_debugLevel;
 }
 
 void ToolsProtocol::setTransportToMessageProperties(ToolsMessagePtr transportMsg, ToolsMessage& msg)

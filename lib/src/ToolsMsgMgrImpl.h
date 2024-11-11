@@ -93,6 +93,8 @@ private slots:
     void socketDataReceived(ToolsDataInfoPtr dataInfoPtr);
     void filterErrorReport(const QString& msg);
     void filterDataToSendReport(ToolsDataInfoPtr dataInfoPtr);
+    void protocolErrorReport(const QString& msg);
+    void protocolSendMessageReport(ToolsMessagePtr msg);
 
 private:
     using MsgNumberType = unsigned long long;
