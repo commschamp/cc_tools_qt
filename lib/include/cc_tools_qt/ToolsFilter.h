@@ -28,7 +28,6 @@
 #include <cstdint>
 #include <cstddef>
 #include <vector>
-#include <functional>
 
 namespace cc_tools_qt
 {

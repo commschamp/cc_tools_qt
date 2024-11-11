@@ -44,7 +44,10 @@ void PluginConfigWrapsListWidget::addPluginConfig(PluginInfoPtr pluginInfo)
     }
 
     assert(std::find(m_loadedPlugins.begin(), m_loadedPlugins.end(), plugin) == m_loadedPlugins.end());
-    plugin->setInterPluginConfigReportCallback(
+    disconnect(plugin, &ToolsPlugin::sigInterPluginConfigReport, this, nullptr);
+    connect(
+        plugin, &ToolsPlugin::sigInterPluginConfigReport,
+        this, 
         [this, plugin](const QVariantMap& props)
         {
             for (auto* p : m_loadedPlugins) {

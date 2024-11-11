@@ -37,17 +37,24 @@ auto invokeCreationFunc(TFunc&& func) -> decltype(func())
 
 }  // namespace
 
+struct ToolsPlugin::InnerState
+{
+    ToolsPlugin::Type m_type = ToolsPlugin::Type_NumOfValues;
+    unsigned m_debugOutputLevel = 0U;
+};
+
 ToolsPlugin::ToolsPlugin(Type type) :
-    m_type(type)
+    m_state(std::make_unique<InnerState>())
 {
     assert(type < Type_NumOfValues);
+    m_state->m_type = type;
 }
 
 ToolsPlugin::~ToolsPlugin() noexcept = default;
 
 ToolsPlugin::Type ToolsPlugin::type() const
 {
-    return m_type;
+    return m_state->m_type;
 }
 
 void ToolsPlugin::getCurrentConfig(QVariantMap& config)
@@ -69,42 +76,55 @@ void ToolsPlugin::reconfigure(const QVariantMap& config)
 
 ToolsSocketPtr ToolsPlugin::createSocket()
 {
-    if (m_type != Type_Socket) {
+    if (m_state->m_type != Type_Socket) {
         return ToolsSocketPtr();
     }
 
     auto socketPtr = createSocketImpl();
     assert(socketPtr); // Must override
     if (socketPtr) {
-        socketPtr->setDebugOutputLevel(m_debugOutputLevel);
+        socketPtr->setDebugOutputLevel(m_state->m_debugOutputLevel);
+        connect(
+            socketPtr.get(), &ToolsSocket::sigInterPluginConfigReport,
+            this, &ToolsPlugin::sigInterPluginConfigReport
+        );
     }
     return socketPtr;
 }
 
 ToolsFilterPtr ToolsPlugin::createFilter()
 {
-    if (m_type != Type_Filter) {
+    if (m_state->m_type != Type_Filter) {
         return ToolsFilterPtr();
     }
 
     auto filterPtr = createFilterImpl();
     assert(filterPtr);
     if (filterPtr) {
-        filterPtr->setDebugOutputLevel(m_debugOutputLevel);
+        filterPtr->setDebugOutputLevel(m_state->m_debugOutputLevel);
+        connect(
+            filterPtr.get(), &ToolsFilter::sigInterPluginConfigReport,
+            this, &ToolsPlugin::sigInterPluginConfigReport
+        );
+
     }
     return filterPtr;
 }
 
 ToolsProtocolPtr ToolsPlugin::createProtocol()
 {
-    if (m_type != Type_Protocol) {
+    if (m_state->m_type != Type_Protocol) {
         return ToolsProtocolPtr();
     }
 
     auto protocolPtr = createProtocolImpl();
     assert(protocolPtr);
     if (protocolPtr) {
-        protocolPtr->setDebugOutputLevel(m_debugOutputLevel);
+        protocolPtr->setDebugOutputLevel(m_state->m_debugOutputLevel);
+        connect(
+            protocolPtr.get(), &ToolsProtocol::sigInterPluginConfigReport,
+            this, &ToolsPlugin::sigInterPluginConfigReport
+        );
     }
 
     return protocolPtr;
@@ -125,14 +145,9 @@ void ToolsPlugin::applyInterPluginConfig(const QVariantMap& props)
     applyInterPluginConfigImpl(props);
 }
 
-void ToolsPlugin::setInterPluginConfigReportCallback(InterPluginConfigReportCallback&& func)
-{
-    m_interPluginConfigReportCallback = std::move(func);
-}    
-
 void ToolsPlugin::setDebugOutputLevel(unsigned level)
 {
-    m_debugOutputLevel = level;
+    m_state->m_debugOutputLevel = level;
 }
 
 void ToolsPlugin::getCurrentConfigImpl([[maybe_unused]] QVariantMap& config)
@@ -170,13 +185,6 @@ QWidget* ToolsPlugin::createConfigurationWidgetImpl()
 ToolsPlugin::ListOfGuiActions ToolsPlugin::createGuiActionsImpl()
 {
     return ListOfGuiActions();
-}
-
-void ToolsPlugin::reportInterPluginConfig(const QVariantMap& props)
-{
-    if (m_interPluginConfigReportCallback) {
-        m_interPluginConfigReportCallback(props);
-    }
 }
 
 }  // namespace cc_tools_qt

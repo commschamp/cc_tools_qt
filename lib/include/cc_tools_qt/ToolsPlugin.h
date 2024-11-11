@@ -28,6 +28,8 @@
 #include <QtCore/QtPlugin>
 #include <QtCore/QVariantMap>
 
+#include <memory>
+
 class QAction;
 class QWidget;
 
@@ -38,6 +40,7 @@ namespace cc_tools_qt
 /// @headerfile cc_tools_qt/ToolsPlugin.h
 class CC_TOOLS_API ToolsPlugin : public QObject
 {
+    Q_OBJECT
 public:
     enum Type : unsigned
     {
@@ -94,7 +97,6 @@ public:
     /// @return Allocated protocol object
     ToolsProtocolPtr createProtocol();
 
-
     /// @brief Create a widget to perform plugin configuration in GUI application.
     /// @details Sometimes there is a need to provide a way to configure the
     ///     plugin. A GUI application will call this function to retrieve a widget
@@ -123,15 +125,12 @@ public:
     /// @param[in] props Properties map.
     void applyInterPluginConfig(const QVariantMap& props);  
         
-    /// @brief Callback to report inter-plugin configuration updates
-    using InterPluginConfigReportCallback = std::function <void (const QVariantMap&)>;
-
-    /// @brief Set callback to report inter-plugin configuration.
-    void setInterPluginConfigReportCallback(InterPluginConfigReportCallback&& func);
-
     /// @brief Set debug output level
     /// @param[in] level Debug level. If @b 0, debug output is disabled
     void setDebugOutputLevel(unsigned level = 0U);
+
+signals:
+    void sigInterPluginConfigReport(const QVariantMap& props);    
 
 protected:
     /// @brief Polymorphic call to retrieve current configuration
@@ -159,18 +158,9 @@ protected:
     virtual QWidget* createConfigurationWidgetImpl();
     virtual ListOfGuiActions createGuiActionsImpl();
 
-    /// @brief Report inter-plugin configuration.
-    /// @details Sometimes configuration of one plugin may influence configuration of another.
-    ///     Use this function to report inter-plugin configuration properties.
-    ///     When invoked all other plugins are expected to get their respecitve 
-    ///     @ref applyInterPluginConfig() functions invoked.
-    /// @param[in] props Reported properties.
-    void reportInterPluginConfig(const QVariantMap& props);       
-
 private:
-    Type m_type = Type_NumOfValues;
-    InterPluginConfigReportCallback m_interPluginConfigReportCallback;
-    unsigned m_debugOutputLevel = 0U;
+    struct InnerState;
+    std::unique_ptr<InnerState> m_state;
 };
 
 }  // namespace cc_tools_qt

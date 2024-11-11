@@ -28,7 +28,6 @@
 #include <cstddef>
 #include <memory>
 #include <vector>
-#include <functional>
 
 namespace cc_tools_qt
 {
