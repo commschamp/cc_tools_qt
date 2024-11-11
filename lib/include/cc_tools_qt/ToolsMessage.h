@@ -111,6 +111,8 @@ public:
 
 protected:
 
+    ToolsMessage();
+
     /// @brief Polymorphic name retrieval functionality.
     /// @details Invoked by name().
     virtual const char* nameImpl() const = 0;

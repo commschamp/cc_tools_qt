@@ -18,12 +18,36 @@
 
 #include "cc_tools_qt/ToolsMessage.h"
 
+#include "cc_tools_qt/ToolsStaticSingleton.h"
+
 #include <QtCore/QVariant>
 
 #include <cassert>
 
 namespace cc_tools_qt
 {
+
+namespace 
+{
+
+struct MetaTypesRegistrator
+{
+    MetaTypesRegistrator()
+    {
+        qRegisterMetaType<ToolsMessagePtr>();
+        qRegisterMetaType<ToolsMessagesList>();
+        qRegisterMetaType<ToolsMessage::DataSeq>();
+        qRegisterMetaType<ToolsMessage::Type>();
+    }
+};
+
+void registerMetaTypesIfNeeded()
+{
+    [[maybe_unused]] static const MetaTypesRegistrator Registrator;
+}
+
+} // namespace 
+    
 
 ToolsMessage::~ToolsMessage() noexcept = default;
 
@@ -99,6 +123,11 @@ ToolsMessage::FieldsList ToolsMessage::transportFields()
 ToolsMessage::FieldsList ToolsMessage::payloadFields()
 {
     return payloadFieldsImpl();
+}
+
+ToolsMessage::ToolsMessage()
+{
+    registerMetaTypesIfNeeded();
 }
 
 QString ToolsMessage::idAsStringImpl() const

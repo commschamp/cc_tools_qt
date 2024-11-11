@@ -34,6 +34,19 @@ namespace cc_tools_qt
 namespace 
 {
 
+struct MetaTypesRegistrator
+{
+    MetaTypesRegistrator()
+    {
+        qRegisterMetaType<ToolsProtocolPtr>();
+    }
+};
+
+void registerMetaTypesIfNeeded()
+{
+    [[maybe_unused]] static const MetaTypesRegistrator Registrator;
+}    
+
 const std::string& debugPrefix()
 {
     static const std::string Str("(protocol)");
@@ -318,6 +331,7 @@ ToolsProtocol::ToolsProtocol(ToolsFramePtr frame) :
     m_state(std::make_unique<InnerState>())
 {
     m_state->m_frame = std::move(frame);
+    registerMetaTypesIfNeeded();
 }
 
 void ToolsProtocol::socketConnectionReportImpl([[maybe_unused]] bool connected)

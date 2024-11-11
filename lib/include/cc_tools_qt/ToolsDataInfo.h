@@ -47,6 +47,7 @@ struct ToolsDataInfo
     /// @brief Type of extra properties storage
     using PropertiesMap = QVariantMap;
 
+    ToolsDataInfo();
     Timestamp m_timestamp; ///< Timestamp when data has been received / sent
     DataSeq m_data; ///< Actual raw data
     PropertiesMap m_extraProperties; ///< Extra properties that can be used by

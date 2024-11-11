@@ -22,9 +22,29 @@
 namespace cc_tools_qt
 {
 
+namespace 
+{
+
+struct MetaTypesRegistrator
+{
+    MetaTypesRegistrator()
+    {
+        qRegisterMetaType<ToolsPluginMgr::PluginInfoPtr>();
+    }
+};
+
+void registerMetaTypesIfNeeded()
+{
+    [[maybe_unused]] static const MetaTypesRegistrator Registrator;
+}  
+
+} // namespace 
+    
+
 ToolsPluginMgr::ToolsPluginMgr()
   : m_impl(new ToolsPluginMgrImpl())
 {
+    registerMetaTypesIfNeeded();
 }
 
 ToolsPluginMgr::~ToolsPluginMgr() noexcept = default;

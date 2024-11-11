@@ -17,6 +17,30 @@
 namespace cc_tools_qt
 {
 
+namespace 
+{
+
+struct MetaTypesRegistrator
+{
+    MetaTypesRegistrator()
+    {
+        qRegisterMetaType<ToolsDataInfoPtr>();
+    }
+};
+
+void registerMetaTypesIfNeeded()
+{
+    [[maybe_unused]] static const MetaTypesRegistrator Registrator;
+}
+
+} // namespace 
+    
+
+ToolsDataInfo::ToolsDataInfo()
+{
+    registerMetaTypesIfNeeded();
+}    
+
 CC_TOOLS_API ToolsDataInfoPtr makeDataInfo()
 {
     return ToolsDataInfoPtr(new ToolsDataInfo());
