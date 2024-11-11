@@ -67,7 +67,7 @@ const QString& ToolsProtocol::name() const
     return nameImpl();
 }
 
-ToolsProtocol::MessagesList ToolsProtocol::read(
+ToolsMessagesList ToolsProtocol::read(
     const ToolsDataInfo& dataInfo,
     bool final)
 {
@@ -149,7 +149,7 @@ ToolsDataInfoPtr ToolsProtocol::write(ToolsMessage& msg)
     return dataInfo;    
 }
 
-ToolsProtocol::MessagesList ToolsProtocol::createAllMessages()
+ToolsMessagesList ToolsProtocol::createAllMessages()
 {
     assert(m_state->m_frame);
     auto allMsgs = m_state->m_frame->createAllMessages();

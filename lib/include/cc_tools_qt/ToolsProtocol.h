@@ -44,9 +44,6 @@ class CC_TOOLS_API ToolsProtocol : public QObject
 {
     Q_OBJECT
 public:
-    /// @brief List of messages
-    using MessagesList = ToolsFrame::MessagesList;
-
     /// @brief List of raw data buffers
     using DataInfosList = std::list<ToolsDataInfoPtr>;
 
@@ -72,7 +69,7 @@ public:
     /// @param[in] dataInfo Received data information
     /// @param[in] final Final input indication, if @b true no more data is expected
     /// @return List of created messages
-    MessagesList read(const ToolsDataInfo& dataInfo, bool final = false);
+    ToolsMessagesList read(const ToolsDataInfo& dataInfo, bool final = false);
 
     /// @brief Serialse message.
     /// @details Invokes @ref writeImpl().
@@ -83,7 +80,7 @@ public:
 
     /// @brief Create all messages supported by the protocol.
     /// @details Invokes @ref createAllMessagesImpl().
-    MessagesList createAllMessages();
+    ToolsMessagesList createAllMessages();
 
     /// @brief Create message object given string representation of the message ID.
     /// @details Invokes @ref createMessageImpl().

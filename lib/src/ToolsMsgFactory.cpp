@@ -80,10 +80,10 @@ ToolsMessagePtr ToolsMsgFactory::createMessage(const qlonglong id, unsigned idx)
     return (*iter)->clone();
 }
 
-ToolsMsgFactory::MessagesList ToolsMsgFactory::createAllMessages()
+ToolsMessagesList ToolsMsgFactory::createAllMessages()
 {
     createDefaultMessagesIfNeeded();
-    MessagesList result;
+    ToolsMessagesList result;
     for (auto& m : m_defaultMsgs) {
         assert(m);
         result.push_back(m->clone());

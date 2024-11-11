@@ -130,7 +130,7 @@ void MainWindowWidget::newSendMsgDialog(ToolsProtocolPtr protocol)
 
 void MainWindowWidget::sendRawMsgDialog(ToolsProtocolPtr protocol)
 {
-    RawHexDataDialog::MessagesList msgs;
+    ToolsMessagesList msgs;
     RawHexDataDialog dialog(msgs, std::move(protocol), this);
     dialog.exec();
     for (auto& msgPtr : msgs) {

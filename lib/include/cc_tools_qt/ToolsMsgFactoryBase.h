@@ -33,8 +33,8 @@ namespace details
 class TupleMsgFactoryHelper
 {
 public:    
-    using MessagesList = std::vector<ToolsMessagePtr>;
-    TupleMsgFactoryHelper(MessagesList& msgs) : m_msgs(msgs) {}
+    using MessagesListInternal = std::vector<ToolsMessagePtr>;
+    TupleMsgFactoryHelper(MessagesListInternal& msgs) : m_msgs(msgs) {}
 
     template <typename TMsg>
     void operator()()
@@ -42,13 +42,13 @@ public:
         m_msgs.push_back(cc_tools_qt::ToolsMessagePtr(new TMsg));
     }
 
-    MessagesList& msgs()
+    MessagesListInternal& msgs()
     {
         return m_msgs;
     }
 
 private:
-    MessagesList& m_msgs;
+    MessagesListInternal& m_msgs;
 };
 
 }  // namespace details

@@ -67,7 +67,7 @@ void RecvMsgListWidget::msgClickedImpl(ToolsMessagePtr msg, int idx)
     GuiAppMgr::instance()->recvMsgClicked(msg, idx);
 }
 
-void RecvMsgListWidget::msgListClearedImpl(MessagesList&& msgs)
+void RecvMsgListWidget::msgListClearedImpl(ToolsMessagesList&& msgs)
 {
     GuiAppMgr::instance()->deleteMessages(std::move(msgs));
 }

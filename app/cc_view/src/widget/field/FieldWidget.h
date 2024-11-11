@@ -72,25 +72,25 @@ protected:
     static void setSerialisedInputMask(QLineEdit& line, int minWidth, int maxWidth);
     static void setSerialisedInputMask(QLineEdit& line, int width);
     static void updateValue(QLineEdit& line, const QString& value);
-    static void updateSerValue(QPlainTextEdit& text, const ToolsField& wrapper);
+    static void updateSerValue(QPlainTextEdit& text, const ToolsField& field);
 
     using PostRefreshFunc = std::function<void ()>;
-    template <typename TWrapper>
+    template <typename TField>
     void handleNumericSerialisedValueUpdate(
         const QString& value,
-        TWrapper& wrapper,
+        TField& field,
         PostRefreshFunc&& postRefreshFunc = PostRefreshFunc())
     {
         assert(isEditEnabled());
         do {
             if ((static_cast<std::size_t>(value.size()) & 0x1U) == 0) {
-               wrapper.setSerialisedString(value);
+               field.setSerialisedString(value);
                break;
             }
 
             QString valueCpy(value);
             valueCpy.append(QChar('0'));
-            wrapper.setSerialisedString(valueCpy);
+            field.setSerialisedString(valueCpy);
         } while (false);
         refresh();
         if (postRefreshFunc) {

@@ -30,7 +30,7 @@ public:
 
 protected:
     virtual void msgClickedImpl(ToolsMessagePtr msg, int idx) override;
-    virtual void msgListClearedImpl(MessagesList&& msgs) override;
+    virtual void msgListClearedImpl(ToolsMessagesList&& msgs) override;
     virtual QString msgPrefixImpl(const ToolsMessage& msg) const override;
     virtual const QString& msgTooltipImpl() const override;
     virtual Qt::GlobalColor getItemColourImpl(MsgType type, bool valid) const override;

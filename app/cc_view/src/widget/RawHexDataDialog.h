@@ -33,9 +33,8 @@ class RawHexDataDialog : public QDialog
     Q_OBJECT
     using Base = QDialog;
 public:
-    typedef ToolsProtocol::MessagesList MessagesList;
     RawHexDataDialog(
-        MessagesList& msgs,
+        ToolsMessagesList& msgs,
         ToolsProtocolPtr protocol,
         QWidget* parentObj = nullptr);
     ~RawHexDataDialog() noexcept;
@@ -46,7 +45,7 @@ private slots:
     void reset();
 
 private:
-    MessagesList& m_msgs;
+    ToolsMessagesList& m_msgs;
     ToolsProtocolPtr m_protocol;
     Ui::RawHexDataDialog m_ui;
 };

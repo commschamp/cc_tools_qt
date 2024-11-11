@@ -34,7 +34,7 @@ ToolsMsgSendMgrImpl::ToolsMsgSendMgrImpl()
 
 ToolsMsgSendMgrImpl::~ToolsMsgSendMgrImpl() noexcept = default;
 
-void ToolsMsgSendMgrImpl::start(ToolsProtocolPtr protocol, const MessagesList& msgs)
+void ToolsMsgSendMgrImpl::start(ToolsProtocolPtr protocol, const ToolsMessagesList& msgs)
 {
     [[maybe_unused]] static constexpr bool The_previous_sending_must_be_stopped_first = false;
     assert(m_msgsToSend.empty() || The_previous_sending_must_be_stopped_first);

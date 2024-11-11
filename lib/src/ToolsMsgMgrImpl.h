@@ -31,7 +31,6 @@ class ToolsMsgMgrImpl : public QObject
 {
     Q_OBJECT
 public:
-    using MessagesList = ToolsMsgMgr::MessagesList;
     using MsgType = ToolsMsgMgr::MsgType;
 
     ToolsMsgMgrImpl();
@@ -46,20 +45,20 @@ public:
     void setRecvEnabled(bool enabled);
 
     void deleteMsg(ToolsMessagePtr msg);
-    void deleteMsgs(const MessagesList& msgs);
+    void deleteMsgs(const ToolsMessagesList& msgs);
     void deleteAllMsgs()
     {
         m_allMsgs.clear();
     }
 
-    void sendMsgs(MessagesList&& msgs);
+    void sendMsgs(ToolsMessagesList&& msgs);
 
-    const MessagesList& getAllMsgs() const
+    const ToolsMessagesList& getAllMsgs() const
     {
         return m_allMsgs;
     }
 
-    void addMsgs(const MessagesList& msgs, bool reportAdded);
+    void addMsgs(const ToolsMessagesList& msgs, bool reportAdded);
 
     void setSocket(ToolsSocketPtr socket);
     void setProtocol(ToolsProtocolPtr protocol);
@@ -105,7 +104,7 @@ private:
     void reportError(const QString& error);
     void reportSocketConnectionStatus(bool connected);
 
-    MessagesList m_allMsgs;
+    ToolsMessagesList m_allMsgs;
     bool m_recvEnabled = false;
 
     ToolsSocketPtr m_socket;

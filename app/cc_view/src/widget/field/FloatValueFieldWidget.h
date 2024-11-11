@@ -54,8 +54,8 @@ private slots:
 private:
     using SpecialInfo = QPair<QString, double>;
     using SpecialsList = QList<SpecialInfo>;
-    using WrapperType = FieldPtr::element_type;
-    using UnderlyingType = WrapperType::UnderlyingType;
+    using FieldType = FieldPtr::element_type;
+    using UnderlyingType = FieldType::UnderlyingType;
 
     void updateSpinBoxValueRange();
     void updateType();

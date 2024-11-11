@@ -36,8 +36,6 @@ namespace cc_tools_qt
 class CC_TOOLS_API ToolsMsgFileMgr
 {
 public:
-    using MessagesList = ToolsProtocol::MessagesList;
-
     enum class Type
     {
         Recv,
@@ -56,8 +54,8 @@ public:
     const QString& getLastFile() const;
     static const QString& getFilesFilter();
 
-    MessagesList load(Type type, const QString& filename, ToolsProtocol& protocol);
-    bool save(Type type, const QString& filename, const MessagesList& msgs);
+    ToolsMessagesList load(Type type, const QString& filename, ToolsProtocol& protocol);
+    bool save(Type type, const QString& filename, const ToolsMessagesList& msgs);
 
     using FileSaveHandler = std::shared_ptr<QFile>;
     static FileSaveHandler startRecvSave(const QString& filename);

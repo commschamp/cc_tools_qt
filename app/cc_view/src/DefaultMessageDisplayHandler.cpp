@@ -82,10 +82,10 @@ public:
 
     virtual void handle(field::ToolsBitfieldField& field) override
     {
-        auto& membersWrappers = field.getMembers();
+        auto& members = field.getMembers();
         std::vector<FieldWidgetPtr> membersWidgets;
-        membersWidgets.reserve(membersWrappers.size());
-        for (auto& mem : membersWrappers) {
+        membersWidgets.reserve(members.size());
+        for (auto& mem : members) {
             mem->dispatch(*this);
             membersWidgets.push_back(getWidget());
         }
@@ -100,7 +100,7 @@ public:
 
     virtual void handle(field::ToolsOptionalField& field) override
     {
-        field.getFieldWrapper().dispatch(*this);
+        field.getField().dispatch(*this);
         auto wrappedWidget = getWidget();
 
         std::unique_ptr<OptionalFieldWidget> widget(new OptionalFieldWidget(field.actClone(), m_parent));
@@ -138,12 +138,12 @@ public:
             {
                 std::vector<FieldWidgetPtr> allFieldsWidgets;
                 WidgetCreator otherCreator;
-                auto& memWrappers = fieldParam.getMembers();
-                allFieldsWidgets.reserve(memWrappers.size());
-                assert(memWrappers.size() == fieldParam.size());
+                auto& members = fieldParam.getMembers();
+                allFieldsWidgets.reserve(members.size());
+                assert(members.size() == fieldParam.size());
 
-                for (auto& memWrap : memWrappers) {
-                    memWrap->dispatch(otherCreator);
+                for (auto& mem : members) {
+                    mem->dispatch(otherCreator);
                     allFieldsWidgets.push_back(otherCreator.getWidget());
                 }
 

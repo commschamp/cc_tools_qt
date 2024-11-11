@@ -44,18 +44,18 @@ protected:
     using Field = TField;
     using ValueType = typename Field::ValueType;
 
-    static_assert(sizeof(ValueType) <= sizeof(UnderlyingType), "This wrapper cannot handle provided field.");
+    static_assert(sizeof(ValueType) <= sizeof(UnderlyingType), "This class cannot handle provided field.");
 //    static_assert(
 //        std::is_signed<ValueType>::value == std::is_signed<UnderlyingType>::value ||
 //            (sizeof(ValueType) < sizeof(UnderlyingType)),
-//        "This wrapper cannot handle provided field.");
+//        "This class cannot handle provided field.");
 
     explicit ToolsNumericFieldImpl(Field& fieldRef)
       : Base(fieldRef)
     {
         static_assert(
             std::is_base_of_v<ToolsNumericFieldBase<UnderlyingType>, ToolsNumericFieldImpl<TBase, TField>>,
-            "Must inherit from NumericValueWrapper");
+            "Must inherit from ToolsNumericFieldImpl");
     }
 
     ToolsNumericFieldImpl(const ToolsNumericFieldImpl&) = default;

@@ -30,13 +30,11 @@ namespace cc_tools_qt
 class CC_TOOLS_API ToolsMsgFactory
 {
 public:
-    using MessagesList = std::list<ToolsMessagePtr>;
-
     virtual ~ToolsMsgFactory();
 
     ToolsMessagePtr createMessage(const QString& idAsString, unsigned idx = 0);
     ToolsMessagePtr createMessage(const qlonglong id, unsigned idx = 0);
-    MessagesList createAllMessages();
+    ToolsMessagesList createAllMessages();
 
 protected:
     using MessagesListInternal = std::vector<ToolsMessagePtr>;

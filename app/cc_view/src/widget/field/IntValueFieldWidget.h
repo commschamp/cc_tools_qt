@@ -45,8 +45,8 @@ protected:
     virtual void nameSuffixUpdatedImpl() override;
 
 private:
-    using WrapperType = FieldPtr::element_type;
-    using UnderlyingType = WrapperType::UnderlyingType;
+    using FieldType = FieldPtr::element_type;
+    using UnderlyingType = FieldType::UnderlyingType;
 
     FieldPtr m_fieldPtr;
     std::unique_ptr<FieldWidget> m_childWidget;

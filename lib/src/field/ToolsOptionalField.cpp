@@ -38,29 +38,29 @@ void ToolsOptionalField::setMode(Mode mode)
     setModeImpl(mode);
 }
 
-bool ToolsOptionalField::hasFieldWrapper() const
+bool ToolsOptionalField::hasField() const
 {
     auto& members = getMembers();
     return !members.empty();
 }
 
-ToolsField& ToolsOptionalField::getFieldWrapper()
+ToolsField& ToolsOptionalField::getField()
 {
     auto& members = getMembers();
     assert(!members.empty());
-    assert(hasFieldWrapper());
+    assert(hasField());
     return *members.front();
 }
 
-const ToolsField& ToolsOptionalField::getFieldWrapper() const
+const ToolsField& ToolsOptionalField::getField() const
 {
     auto& members = getMembers();
     assert(!members.empty());
-    assert(hasFieldWrapper());
+    assert(hasField());
     return *members.front();
 }
 
-void ToolsOptionalField::setFieldWrapper(ToolsFieldPtr fieldPtr)
+void ToolsOptionalField::setField(ToolsFieldPtr fieldPtr)
 {
     assert(fieldPtr);
     Members mems;

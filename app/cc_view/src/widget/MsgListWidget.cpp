@@ -166,7 +166,7 @@ void MsgListWidget::clearSelection()
 
 void MsgListWidget::clearList(bool reportDeleted)
 {
-    MessagesList msgsList;
+    ToolsMessagesList msgsList;
     if (reportDeleted) {
         auto count = m_ui.m_listWidget->count();
         for (auto idx = 0; idx < count; ++idx) {
@@ -281,7 +281,7 @@ void MsgListWidget::msgDoubleClickedImpl([[maybe_unused]] ToolsMessagePtr msg, [
 {
 }
 
-void MsgListWidget::msgListClearedImpl([[maybe_unused]] MessagesList&& msgs)
+void MsgListWidget::msgListClearedImpl([[maybe_unused]] ToolsMessagesList&& msgs)
 {
 }
 
@@ -330,9 +330,9 @@ ToolsMessagePtr MsgListWidget::currentMsg() const
     return getMsgFromItem(item);
 }
 
-MsgListWidget::MessagesList MsgListWidget::allMsgs() const
+ToolsMessagesList MsgListWidget::allMsgs() const
 {
-    MessagesList allMsgsList;
+    ToolsMessagesList allMsgsList;
     for (auto idx = 0; idx < m_ui.m_listWidget->count(); ++idx) {
         auto* item = m_ui.m_listWidget->item(idx);
         auto msgPtr = getMsgFromItem(item);

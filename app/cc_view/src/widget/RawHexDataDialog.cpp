@@ -32,7 +32,7 @@ namespace cc_tools_qt
 {
 
 RawHexDataDialog::RawHexDataDialog(
-    MessagesList& msgs,
+    ToolsMessagesList& msgs,
     ToolsProtocolPtr protocol,
     QWidget* parentObj)
   : Base(parentObj),

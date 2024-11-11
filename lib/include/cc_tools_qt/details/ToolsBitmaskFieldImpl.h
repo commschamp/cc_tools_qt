@@ -44,7 +44,7 @@ class ToolsBitmaskFieldImpl : public ToolsNumericFieldImpl<cc_tools_qt::field::T
 
     using ValueType = typename Field::ValueType;
     using MaskType = typename Base::UnderlyingType;
-    static_assert(sizeof(ValueType) <= sizeof(MaskType), "This wrapper cannot handle provided field.");
+    static_assert(sizeof(ValueType) <= sizeof(MaskType), "This class cannot handle provided field.");
 
 public:
     using Ptr = typename Base::Ptr;

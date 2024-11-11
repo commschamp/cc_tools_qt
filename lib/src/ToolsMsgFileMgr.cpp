@@ -292,7 +292,7 @@ QVariantMap convertRecvMsg(const ToolsMessage& msg)
 }
 
 QVariantList convertRecvMsgList(
-    const ToolsMsgFileMgr::MessagesList& allMsgs)
+    const ToolsMessagesList& allMsgs)
 {
     QVariantList convertedList;
     for (auto& msg : allMsgs) {
@@ -312,11 +312,11 @@ QVariantList convertRecvMsgList(
     return convertedList;
 }
 
-ToolsMsgFileMgr::MessagesList convertRecvMsgList(
+ToolsMessagesList convertRecvMsgList(
     const QVariantList& msgs,
     ToolsProtocol& protocol)
 {
-    ToolsMsgFileMgr::MessagesList convertedList;
+    ToolsMessagesList convertedList;
 
     for (auto& msgMapVar : msgs) {
         auto msg = createMsgObjectFrom(msgMapVar, protocol);
@@ -346,7 +346,7 @@ ToolsMsgFileMgr::MessagesList convertRecvMsgList(
 }
 
 QVariantList convertSendMsgList(
-    const ToolsMsgFileMgr::MessagesList& allMsgs)
+    const ToolsMessagesList& allMsgs)
 {
     QVariantList convertedList;
     for (auto& msg : allMsgs) {
@@ -382,11 +382,11 @@ QVariantList convertSendMsgList(
     return convertedList;
 }
 
-ToolsMsgFileMgr::MessagesList convertSendMsgList(
+ToolsMessagesList convertSendMsgList(
     const QVariantList& msgs,
     ToolsProtocol& protocol)
 {
-    ToolsMsgFileMgr::MessagesList convertedList;
+    ToolsMessagesList convertedList;
     unsigned long long prevTimestamp = 0;
 
     for (auto& msgMapVar : msgs) {
@@ -447,7 +447,7 @@ ToolsMsgFileMgr::MessagesList convertSendMsgList(
 
 QVariantList convertMsgList(
     ToolsMsgFileMgr::Type type,
-    const ToolsMsgFileMgr::MessagesList& allMsgs)
+    const ToolsMessagesList& allMsgs)
 {
     if (type == ToolsMsgFileMgr::Type::Recv) {
         return convertRecvMsgList(allMsgs);
@@ -456,7 +456,7 @@ QVariantList convertMsgList(
     return convertSendMsgList(allMsgs);
 }
 
-ToolsMsgFileMgr::MessagesList convertMsgList(
+ToolsMessagesList convertMsgList(
     ToolsMsgFileMgr::Type type,
     const QVariantList& msgs,
     ToolsProtocol& protocol)
@@ -482,12 +482,12 @@ const QString& ToolsMsgFileMgr::getLastFile() const
     return m_lastFile;
 }
 
-ToolsMsgFileMgr::MessagesList ToolsMsgFileMgr::load(
+ToolsMessagesList ToolsMsgFileMgr::load(
     Type type,
     const QString& filename,
     ToolsProtocol& protocol)
 {
-    MessagesList allMsgs;
+    ToolsMessagesList allMsgs;
     do {
         QFile msgsFile(filename);
         if (!msgsFile.open(QIODevice::ReadOnly)) {
@@ -519,7 +519,7 @@ ToolsMsgFileMgr::MessagesList ToolsMsgFileMgr::load(
     return allMsgs;
 }
 
-bool ToolsMsgFileMgr::save(Type type, const QString& filename, const MessagesList& msgs)
+bool ToolsMsgFileMgr::save(Type type, const QString& filename, const ToolsMessagesList& msgs)
 {
     QString filenameTmp(filename);
     while (true) {

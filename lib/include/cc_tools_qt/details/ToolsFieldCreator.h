@@ -84,8 +84,8 @@ private:
     class SubfieldsCreateHelper
     {
     public:
-        using WrapperDispatchFunc = std::function <void (ToolsFieldPtr)>;
-        SubfieldsCreateHelper(WrapperDispatchFunc&& dispatchOp)
+        using FieldCreateFunc = std::function <void (ToolsFieldPtr)>;
+        SubfieldsCreateHelper(FieldCreateFunc&& dispatchOp)
           : m_dispatchOp(std::move(dispatchOp))
         {
         }
@@ -105,7 +105,7 @@ private:
         }
 
     private:
-        WrapperDispatchFunc m_dispatchOp;
+        FieldCreateFunc m_dispatchOp;
     };
 
 
@@ -172,9 +172,9 @@ private:
         comms::util::tupleForEach(
             memberFields,
             SubfieldsCreateHelper(
-                [&subFields](ToolsFieldPtr fieldWrapper)
+                [&subFields](ToolsFieldPtr fieldParam)
                 {
-                    subFields.push_back(std::move(fieldWrapper));
+                    subFields.push_back(std::move(fieldParam));
                 }));
 
         toolsField->setMembers(std::move(subFields));
@@ -186,8 +186,8 @@ private:
     {
         auto toolsField = makeOptionalField(field);
         auto& wrappedField = field.field();
-        auto fieldWrapper = createField(wrappedField);
-        toolsField->setFieldWrapper(std::move(fieldWrapper));
+        auto wrappedToolsField = createField(wrappedField);
+        toolsField->setField(std::move(wrappedToolsField));
         return toolsField;
     }
 
@@ -260,9 +260,9 @@ private:
                 if (field.currentFieldValid()) {
                     field.currentFieldExec(
                         SubfieldsCreateHelper(
-                            [&ptr](ToolsFieldPtr fieldWrapper) noexcept
+                            [&ptr](ToolsFieldPtr wrappedToolsField) noexcept
                             {
-                                ptr = std::move(fieldWrapper);
+                                ptr = std::move(wrappedToolsField);
                             }));
                 }
                 return ptr;
@@ -271,9 +271,9 @@ private:
         if (field.currentFieldValid()) {
             field.currentFieldExec(
                 SubfieldsCreateHelper(
-                    [&toolsField](ToolsFieldPtr fieldWrapper)
+                    [&toolsField](ToolsFieldPtr wrappedToolsField)
                     {
-                        toolsField->setCurrent(std::move(fieldWrapper));
+                        toolsField->setCurrent(std::move(wrappedToolsField));
                     }));
         }
         else {

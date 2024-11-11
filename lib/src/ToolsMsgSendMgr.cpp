@@ -39,7 +39,7 @@ void ToolsMsgSendMgr::setSendCompeteCallbackFunc(SendCompleteCallbackFunc&& func
     m_impl->setSendCompleteCallbackFunc(std::move(func));
 }
 
-void ToolsMsgSendMgr::start(ToolsProtocolPtr protocol, const MessagesList& msgs)
+void ToolsMsgSendMgr::start(ToolsProtocolPtr protocol, const ToolsMessagesList& msgs)
 {
     m_impl->start(std::move(protocol), msgs);
 }

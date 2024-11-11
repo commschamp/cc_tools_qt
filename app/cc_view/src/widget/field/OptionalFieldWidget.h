@@ -53,8 +53,8 @@ private slots:
     void availabilityChanged(int state);
 
 private:
-    using WrapperType = FieldPtr::element_type;
-    typedef WrapperType::Mode Mode;
+    using FieldType = FieldPtr::element_type;
+    typedef FieldType::Mode Mode;
 
     void refreshInternal();
     void refreshField();

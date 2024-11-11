@@ -126,7 +126,7 @@ void SendMsgListWidget::stateChangedImpl(int state)
     if (m_state == State::SendingSingle) {
         auto msg = currentMsg();
         assert(msg);
-        MessagesList allMsgsList;
+        ToolsMessagesList allMsgsList;
         allMsgsList.push_back(std::move(msg));
         GuiAppMgr::instanceRef().sendMessages(std::move(allMsgsList));
         return;

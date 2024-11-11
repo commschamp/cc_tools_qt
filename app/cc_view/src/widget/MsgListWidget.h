@@ -40,7 +40,6 @@ class MsgListWidget : public QWidget
     using Base = QWidget;
 public:
     typedef GuiAppMgr::MsgType MsgType;
-    typedef GuiAppMgr::MessagesList MessagesList;
 
     MsgListWidget(
         const QString& title,
@@ -68,7 +67,7 @@ protected slots:
 protected:
     virtual void msgClickedImpl(ToolsMessagePtr msg, int idx);
     virtual void msgDoubleClickedImpl(ToolsMessagePtr msg, int idx);
-    virtual void msgListClearedImpl(MessagesList&& msgsList);
+    virtual void msgListClearedImpl(ToolsMessagesList&& msgsList);
     virtual QString msgPrefixImpl(const ToolsMessage& msg) const;
     virtual const QString& msgTooltipImpl() const;
     virtual void stateChangedImpl(int state);
@@ -79,7 +78,7 @@ protected:
     virtual void saveMessagesImpl(const QString& filename);
 
     ToolsMessagePtr currentMsg() const;
-    MessagesList allMsgs() const;
+    ToolsMessagesList allMsgs() const;
 
 private slots:
     void itemClicked(QListWidgetItem* item);

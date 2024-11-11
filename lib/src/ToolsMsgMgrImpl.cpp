@@ -124,7 +124,7 @@ void ToolsMsgMgrImpl::setRecvEnabled(bool enabled)
     m_recvEnabled = enabled;
 }
 
-void ToolsMsgMgrImpl::deleteMsgs(const MessagesList& msgs)
+void ToolsMsgMgrImpl::deleteMsgs(const ToolsMessagesList& msgs)
 {
     auto listIter = msgs.begin();
     auto storedIter = m_allMsgs.begin();
@@ -171,7 +171,7 @@ void ToolsMsgMgrImpl::deleteMsg(ToolsMessagePtr msg)
     m_allMsgs.erase(iter);
 }
 
-void ToolsMsgMgrImpl::sendMsgs(MessagesList&& msgs)
+void ToolsMsgMgrImpl::sendMsgs(ToolsMessagesList&& msgs)
 {
     if (msgs.empty() || (!m_socket) || (!m_protocol)) {
         return;
@@ -236,7 +236,7 @@ void ToolsMsgMgrImpl::sendMsgs(MessagesList&& msgs)
     }
 }
 
-void ToolsMsgMgrImpl::addMsgs(const MessagesList& msgs, bool reportAdded)
+void ToolsMsgMgrImpl::addMsgs(const ToolsMessagesList& msgs, bool reportAdded)
 {
     for (auto& m : msgs) {
         if (!m) {
@@ -381,7 +381,7 @@ void ToolsMsgMgrImpl::socketDataReceived(ToolsDataInfoPtr dataInfoPtr)
         return;
     }
 
-    MessagesList msgsList;
+    ToolsMessagesList msgsList;
     while (!data.isEmpty()) {
         auto nextDataPtr = data.front();
         data.pop_front();
@@ -497,7 +497,7 @@ void ToolsMsgMgrImpl::protocolSendMessageReport(ToolsMessagePtr msg)
         return;
     }
 
-    MessagesList msgsList;
+    ToolsMessagesList msgsList;
     msgsList.push_back(std::move(msg));
     sendMsgs(std::move(msgsList));
 }

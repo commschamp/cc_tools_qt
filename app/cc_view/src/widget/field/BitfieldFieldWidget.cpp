@@ -105,12 +105,12 @@ void BitfieldFieldWidget::memberFieldUpdated()
     auto senderIter = std::find(m_members.begin(), m_members.end(), qobject_cast<FieldWidget*>(sender()));
     assert(senderIter != m_members.end());
     auto idx = static_cast<unsigned>(std::distance(m_members.begin(), senderIter));
-    auto& memWrappers = m_fieldPtr->getMembers();
-    assert(idx < memWrappers.size());
-    auto& memWrapPtr = memWrappers[idx];
-    if (!memWrapPtr->canWrite()) {
-        memWrapPtr->reset();
-        assert(memWrapPtr->canWrite());
+    auto& members = m_fieldPtr->getMembers();
+    assert(idx < members.size());
+    auto& memFieldPtr = members[idx];
+    if (!memFieldPtr->canWrite()) {
+        memFieldPtr->reset();
+        assert(memFieldPtr->canWrite());
         (*senderIter)->refresh();
     }
 

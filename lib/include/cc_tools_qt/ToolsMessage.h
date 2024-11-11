@@ -28,6 +28,7 @@
 #include <QtCore/QVariantMap>
 
 #include <cstdint>
+#include <list>
 #include <memory>
 #include <vector>
 
@@ -158,9 +159,11 @@ protected:
 
 /// @brief Smart pointer to @ref ToolsMessage
 using ToolsMessagePtr = ToolsMessage::Ptr;
+using ToolsMessagesList = std::list<ToolsMessagePtr>;
 
 }  // namespace cc_tools_qt
 
 Q_DECLARE_METATYPE(cc_tools_qt::ToolsMessagePtr);
+Q_DECLARE_METATYPE(cc_tools_qt::ToolsMessagesList);
 Q_DECLARE_METATYPE(cc_tools_qt::ToolsMessage::DataSeq);
 Q_DECLARE_METATYPE(cc_tools_qt::ToolsMessage::Type);

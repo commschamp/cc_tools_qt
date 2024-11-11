@@ -31,8 +31,7 @@ class ToolsMsgSendMgrImpl;
 class CC_TOOLS_API ToolsMsgSendMgr
 {
 public:
-    using MessagesList = ToolsProtocol::MessagesList;
-    using SendMsgsCallbackFunc = std::function<void (MessagesList&&)>;
+    using SendMsgsCallbackFunc = std::function<void (ToolsMessagesList&&)>;
     using SendCompleteCallbackFunc = std::function<void ()>;
 
     ToolsMsgSendMgr();
@@ -41,7 +40,7 @@ public:
     void setSendMsgsCallbackFunc(SendMsgsCallbackFunc&& func);
     void setSendCompeteCallbackFunc(SendCompleteCallbackFunc&& func);
 
-    void start(ToolsProtocolPtr protocol, const MessagesList& msgs);
+    void start(ToolsProtocolPtr protocol, const ToolsMessagesList& msgs);
 
     void stop();
 

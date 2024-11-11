@@ -36,7 +36,6 @@ class ToolsMsgMgrImpl;
 class CC_TOOLS_API ToolsMsgMgr
 {
 public:
-    using MessagesList = ToolsProtocol::MessagesList;
     using MsgType = ToolsMessage::Type;
 
     ToolsMsgMgr();
@@ -51,13 +50,13 @@ public:
     void setRecvEnabled(bool enabled);
 
     void deleteMsg(ToolsMessagePtr msg);
-    void deleteMsgs(const MessagesList& msgs);
+    void deleteMsgs(const ToolsMessagesList& msgs);
     void deleteAllMsgs();
 
-    void sendMsgs(MessagesList&& msgs);
+    void sendMsgs(ToolsMessagesList&& msgs);
 
-    const MessagesList& getAllMsgs() const;
-    void addMsgs(const MessagesList& msgs, bool reportAdded = true);
+    const ToolsMessagesList& getAllMsgs() const;
+    void addMsgs(const ToolsMessagesList& msgs, bool reportAdded = true);
 
     void setSocket(ToolsSocketPtr socket);
     void setProtocol(ToolsProtocolPtr protocol);

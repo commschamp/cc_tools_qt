@@ -53,8 +53,8 @@ private slots:
 private:
     using SpecialInfo = QPair<QString, long long>;
     using SpecialsList = QList<SpecialInfo>;
-    using WrapperType = FieldPtr::element_type;
-    using UnderlyingType = WrapperType::UnderlyingType;
+    using FieldType = FieldPtr::element_type;
+    using UnderlyingType = FieldType::UnderlyingType;
 
     bool createSpecialsWidget(const SpecialsList& specials);
 

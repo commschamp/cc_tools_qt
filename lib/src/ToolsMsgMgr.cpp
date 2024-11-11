@@ -65,7 +65,7 @@ void ToolsMsgMgr::deleteMsg(ToolsMessagePtr msg)
     m_impl->deleteMsg(std::move(msg));
 }
 
-void ToolsMsgMgr::deleteMsgs(const MessagesList& msgs)
+void ToolsMsgMgr::deleteMsgs(const ToolsMessagesList& msgs)
 {
     m_impl->deleteMsgs(msgs);
 }
@@ -75,17 +75,17 @@ void ToolsMsgMgr::deleteAllMsgs()
     m_impl->deleteAllMsgs();
 }
 
-void ToolsMsgMgr::sendMsgs(MessagesList&& msgs)
+void ToolsMsgMgr::sendMsgs(ToolsMessagesList&& msgs)
 {
     m_impl->sendMsgs(std::move(msgs));
 }
 
-const ToolsMsgMgr::MessagesList& ToolsMsgMgr::getAllMsgs() const
+const ToolsMessagesList& ToolsMsgMgr::getAllMsgs() const
 {
     return m_impl->getAllMsgs();
 }
 
-void ToolsMsgMgr::addMsgs(const MessagesList& msgs, bool reportAdded)
+void ToolsMsgMgr::addMsgs(const ToolsMessagesList& msgs, bool reportAdded)
 {
     m_impl->addMsgs(msgs, reportAdded);
 }

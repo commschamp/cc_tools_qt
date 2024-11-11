@@ -31,27 +31,25 @@ namespace cc_tools_qt
 class CC_TOOLS_API ToolsFrame
 {
 public:
-    using MessagesList = std::list<ToolsMessagePtr>;
-
     virtual ~ToolsFrame();
 
-    MessagesList readData(const ToolsDataInfo& dataInfo, bool final);
+    ToolsMessagesList readData(const ToolsDataInfo& dataInfo, bool final);
     void updateMessage(ToolsMessage& msg);
     ToolsMessagePtr createInvalidMessage();
     ToolsMessagePtr createRawDataMessage();
     ToolsMessagePtr createExtraInfoMessage();
-    MessagesList createAllMessages();
+    ToolsMessagesList createAllMessages();
     ToolsMessagePtr createMessage(const QString& idAsString, unsigned idx);
 
 protected:
     ToolsFrame() = default;
 
-    virtual MessagesList readDataImpl(const ToolsDataInfo& dataInfo, bool final) = 0;
+    virtual ToolsMessagesList readDataImpl(const ToolsDataInfo& dataInfo, bool final) = 0;
     virtual void updateMessageImpl(ToolsMessage& msg) = 0;
     virtual ToolsMessagePtr createInvalidMessageImpl() = 0;
     virtual ToolsMessagePtr createRawDataMessageImpl() = 0;
     virtual ToolsMessagePtr createExtraInfoMessageImpl() = 0;
-    virtual MessagesList createAllMessagesImpl() = 0;
+    virtual ToolsMessagesList createAllMessagesImpl() = 0;
     virtual ToolsMessagePtr createMessageImpl(const QString& idAsString, unsigned idx) = 0;
 };
 

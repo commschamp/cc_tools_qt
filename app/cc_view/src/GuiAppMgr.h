@@ -65,7 +65,6 @@ public:
     using MsgType = ToolsMsgMgr::MsgType;
     using ActionPtr = std::shared_ptr<QAction>;
     using ListOfPluginInfos = ToolsPluginMgr::ListOfPluginInfos;
-    using MessagesList = ToolsProtocol::MessagesList;
     using FilteredMessages = std::vector<QString>;
 
     enum class ActivityState
@@ -101,10 +100,10 @@ public:
     bool sendListEmpty() const;
     void sendLoadMsgsFromFile(bool clear, const QString& filename);
     void sendSaveMsgsToFile(const QString& filename);
-    void sendUpdateList(const MessagesList& msgs);
+    void sendUpdateList(const ToolsMessagesList& msgs);
 
-    void deleteMessages(MessagesList&& msgs);
-    void sendMessages(MessagesList&& msgs);
+    void deleteMessages(ToolsMessagesList&& msgs);
+    void sendMessages(ToolsMessagesList&& msgs);
 
     static ActivityState getActivityState();
     bool applyNewPlugins(const ListOfPluginInfos& plugins);

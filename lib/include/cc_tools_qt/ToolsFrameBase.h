@@ -40,7 +40,6 @@ class ToolsFrameBase : public ToolsFrameCommon<TMsgBase>
 {
     using Base = ToolsFrameCommon<TMsgBase>;
 public:
-    using MessagesList = typename Base::MessagesList;
     using ProtMsgBase = typename Base::ProtMsgBase;
     using DataSeq = typename Base::DataSeq;
 
@@ -59,12 +58,12 @@ public:
     ToolsFrameBase() = default;
 
 protected:
-    virtual MessagesList readDataImpl(const ToolsDataInfo& dataInfo, bool final) override
+    virtual ToolsMessagesList readDataImpl(const ToolsDataInfo& dataInfo, bool final) override
     {
         m_inData.reserve(m_inData.size() + dataInfo.m_data.size());
         m_inData.insert(m_inData.end(), dataInfo.m_data.begin(), dataInfo.m_data.end());
 
-        MessagesList allMsgs;
+        ToolsMessagesList allMsgs;
         std::size_t consumed = 0U;
 
         auto checkGarbageFunc =
@@ -214,7 +213,7 @@ protected:
         return ToolsMessagePtr(new ExtraInfoMsg());
     }
 
-    virtual MessagesList createAllMessagesImpl() override
+    virtual ToolsMessagesList createAllMessagesImpl() override
     {
         return m_factory.createAllMessages();
     }

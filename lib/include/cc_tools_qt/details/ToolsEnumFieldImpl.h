@@ -44,9 +44,9 @@ class ToolsEnumFieldImpl : public ToolsNumericFieldImpl<cc_tools_qt::field::Tool
 
     using ValueType = typename Field::ValueType;
     using UnderlyingType = typename Base::UnderlyingType;
-    static_assert(sizeof(ValueType) <= sizeof(UnderlyingType), "This wrapper cannot handle provided field.");
+    static_assert(sizeof(ValueType) <= sizeof(UnderlyingType), "This class cannot handle provided field.");
 //    static_assert(std::is_signed<ValueType>::value || (sizeof(ValueType) < sizeof(UnderlyingType)),
-//        "This wrapper cannot handle provided field.");
+//        "This class cannot handle provided field.");
 
 public:
     using ValueInfosList = typename Base::ValueInfosList;

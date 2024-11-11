@@ -17,13 +17,13 @@
 
 #pragma once
 
-#include <memory>
+#include "cc_tools_qt/ToolsMsgSendMgr.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QTimer>
 
-#include "cc_tools_qt/ToolsMsgSendMgr.h"
-#include "cc_tools_qt/ToolsProtocol.h"
+#include <memory>
 
 namespace cc_tools_qt
 {
@@ -32,7 +32,6 @@ class ToolsMsgSendMgrImpl : public QObject
 {
     Q_OBJECT
 public:
-    using MessagesList = ToolsMsgSendMgr::MessagesList;
     using SendMsgsCallbackFunc = ToolsMsgSendMgr::SendMsgsCallbackFunc;
     using SendCompleteCallbackFunc = ToolsMsgSendMgr::SendCompleteCallbackFunc;
 
@@ -51,7 +50,7 @@ public:
         m_sendCompleteCallback = std::forward<TFunc>(func);
     }
 
-    void start(ToolsProtocolPtr protocol, const MessagesList& msgs);
+    void start(ToolsProtocolPtr protocol, const ToolsMessagesList& msgs);
 
     void stop();
 
@@ -62,7 +61,7 @@ private:
     SendMsgsCallbackFunc m_sendCallback;
     SendCompleteCallbackFunc m_sendCompleteCallback;
     ToolsProtocolPtr m_protocol;
-    MessagesList m_msgsToSend;
+    ToolsMessagesList m_msgsToSend;
     QTimer m_timer;
 };
 

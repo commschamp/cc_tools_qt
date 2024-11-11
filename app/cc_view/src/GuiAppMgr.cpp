@@ -508,7 +508,7 @@ void GuiAppMgr::sendSaveMsgsToFile(const QString& filename)
     emit sigSendSaveMsgs(filename);
 }
 
-void GuiAppMgr::sendUpdateList(const MessagesList& msgs)
+void GuiAppMgr::sendUpdateList(const ToolsMessagesList& msgs)
 {
     decltype(m_clickedMsg) clickedMsg;
     if (m_selType == SelectionType::Send) {
@@ -534,7 +534,7 @@ void GuiAppMgr::sendUpdateList(const MessagesList& msgs)
     }
 }
 
-void GuiAppMgr::deleteMessages(MessagesList&& msgs)
+void GuiAppMgr::deleteMessages(ToolsMessagesList&& msgs)
 {
     auto& msgMgr = MsgMgrG::instanceRef();
     if (msgMgr.getAllMsgs().size() == msgs.size()) {
@@ -545,7 +545,7 @@ void GuiAppMgr::deleteMessages(MessagesList&& msgs)
     msgMgr.deleteMsgs(msgs);
 }
 
-void GuiAppMgr::sendMessages(MessagesList&& msgs)
+void GuiAppMgr::sendMessages(ToolsMessagesList&& msgs)
 {
     m_sendMgr.start(MsgMgrG::instanceRef().getProtocol(), std::move(msgs));
 }
@@ -701,7 +701,7 @@ GuiAppMgr::GuiAppMgr(QObject* parentObj)
         this, SLOT(pendingDisplayTimeout()));
 
     m_sendMgr.setSendMsgsCallbackFunc(
-        [](MessagesList&& msgsToSend)
+        [](ToolsMessagesList&& msgsToSend)
         {
             MsgMgrG::instanceRef().sendMsgs(std::move(msgsToSend));
         });

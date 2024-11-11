@@ -57,8 +57,6 @@ private slots:
     void memberComboUpdated(int value);
 
 private:
-    using WrapperType = FieldPtr::element_type;
-
     void refreshInternal();
     void refreshMember();
     void updateIndexDisplay();

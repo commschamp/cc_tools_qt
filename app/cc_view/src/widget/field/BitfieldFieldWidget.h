@@ -53,8 +53,6 @@ private slots:
     void memberFieldUpdated();
 
 private:
-    using WrapperType = FieldPtr::element_type;
-
     void refreshInternal();
     void refreshMembers();
 

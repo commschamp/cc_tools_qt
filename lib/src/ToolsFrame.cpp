@@ -27,7 +27,7 @@ namespace cc_tools_qt
 
 ToolsFrame::~ToolsFrame() = default;
 
-ToolsFrame::MessagesList ToolsFrame::readData(const ToolsDataInfo& dataInfo, bool final)
+ToolsMessagesList ToolsFrame::readData(const ToolsDataInfo& dataInfo, bool final)
 {
     return readDataImpl(dataInfo, final);
 }
@@ -52,7 +52,7 @@ ToolsMessagePtr ToolsFrame::createExtraInfoMessage()
     return createExtraInfoMessageImpl();
 }
 
-ToolsFrame::MessagesList ToolsFrame::createAllMessages()
+ToolsMessagesList ToolsFrame::createAllMessages()
 {
     return createAllMessagesImpl();
 }

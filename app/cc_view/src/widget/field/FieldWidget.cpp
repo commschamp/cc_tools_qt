@@ -136,10 +136,10 @@ void FieldWidget::updateValue(QLineEdit& line, const QString& value)
 
 void FieldWidget::updateSerValue(
     QPlainTextEdit& text,
-    const ToolsField& wrapper)
+    const ToolsField& field)
 {
     QString serValueStr;
-    auto serValue = wrapper.getSerialisedValue();
+    auto serValue = field.getSerialisedValue();
 
     for (auto byte : serValue) {
         if (!serValueStr.isEmpty()) {

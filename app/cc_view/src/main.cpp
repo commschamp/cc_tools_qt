@@ -43,6 +43,7 @@ const QString DebugOptStr("debug");
 void metaTypesRegisterAll()
 {
     qRegisterMetaType<cc::ToolsMessagePtr>();
+    qRegisterMetaType<cc::ToolsMessagesList>();
     qRegisterMetaType<cc::ToolsProtocolPtr>();
     qRegisterMetaType<cc::GuiAppMgr::ActionPtr>();
     qRegisterMetaType<cc::ToolsPluginMgr::PluginInfoPtr>();

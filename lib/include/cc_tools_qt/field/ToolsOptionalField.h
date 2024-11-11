@@ -44,13 +44,13 @@ public:
 
     void setMode(Mode mode);
 
-    bool hasFieldWrapper() const;
+    bool hasField() const;
 
-    ToolsField& getFieldWrapper();
+    ToolsField& getField();
 
-    const ToolsField& getFieldWrapper() const;
+    const ToolsField& getField() const;
 
-    void setFieldWrapper(ToolsFieldPtr fieldPtr);
+    void setField(ToolsFieldPtr fieldPtr);
 
     ActPtr actClone();
 
