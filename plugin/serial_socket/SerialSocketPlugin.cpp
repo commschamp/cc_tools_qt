@@ -17,11 +17,11 @@
 
 #include "SerialSocketPlugin.h"
 
-#include <memory>
-#include <cassert>
-
 #include "SerialSocket.h"
 #include "SerialSocketConfigWidget.h"
+
+#include <memory>
+#include <cassert>
 
 namespace cc_tools_qt
 {

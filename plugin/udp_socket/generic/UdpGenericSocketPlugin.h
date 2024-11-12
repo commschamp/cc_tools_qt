@@ -18,11 +18,11 @@
 
 #pragma once
 
-#include <memory>
+#include "UdpGenericSocket.h"
 
 #include "cc_tools_qt/ToolsPlugin.h"
 
-#include "UdpGenericSocket.h"
+#include <memory>
 
 namespace cc_tools_qt
 {

@@ -17,11 +17,11 @@
 
 #pragma once
 
-#include <memory>
+#include "cc_tools_qt/ToolsSocket.h"
 
 #include <QtNetwork/QUdpSocket>
 
-#include "cc_tools_qt/ToolsSocket.h"
+#include <memory>
 
 #ifdef CC_TOOLS_QT_DEFAULT_NETWORK_PORT
 #define UDP_PROXY_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT    
@@ -92,7 +92,6 @@ private slots:
     void remoteSocketDisconnected();
     void readFromRemoteSocket();
     void remoteSocketErrorOccurred(QAbstractSocket::SocketError err);
-
 
 private:
     using SocketPtr = std::unique_ptr<QUdpSocket>;

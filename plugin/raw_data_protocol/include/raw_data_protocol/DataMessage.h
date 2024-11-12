@@ -61,13 +61,14 @@ class DataMessage : public
         comms::option::HasName
     >
 {
-    typedef comms::MessageBase<
-        TMsgBase,
-        comms::option::StaticNumIdImpl<0>,
-        comms::option::FieldsImpl<typename DataMessageFields<typename TMsgBase::Field>::All>,
-        comms::option::MsgType<DataMessage<TMsgBase, TOptions...>>,
-        comms::option::HasName
-    > Base;
+    using Base = 
+        comms::MessageBase<
+            TMsgBase,
+            comms::option::StaticNumIdImpl<0>,
+            comms::option::FieldsImpl<typename DataMessageFields<typename TMsgBase::Field>::All>,
+            comms::option::MsgType<DataMessage<TMsgBase, TOptions...>>,
+            comms::option::HasName
+        >;
 public:
 
     DataMessage() = default;

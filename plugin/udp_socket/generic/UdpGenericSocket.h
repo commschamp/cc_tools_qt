@@ -17,18 +17,15 @@
 
 #pragma once
 
-#include <list>
+#include "cc_tools_qt/ToolsSocket.h"
 
 #include <QtNetwork/QUdpSocket>
-
-#include "cc_tools_qt/ToolsSocket.h"
 
 #ifdef CC_TOOLS_QT_DEFAULT_NETWORK_PORT
 #define UDP_GENERIC_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT    
 #else
 #define UDP_GENERIC_DEFAULT_PORT 20000
 #endif
-
 
 namespace cc_tools_qt
 {
@@ -42,7 +39,7 @@ class UdpGenericSocket : public cc_tools_qt::ToolsSocket
     using Base = cc_tools_qt::ToolsSocket;
 
 public:
-    typedef unsigned short PortType;
+    using PortType = unsigned short;
 
     UdpGenericSocket();
     ~UdpGenericSocket() noexcept;

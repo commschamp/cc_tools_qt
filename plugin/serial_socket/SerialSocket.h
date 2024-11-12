@@ -17,13 +17,10 @@
 
 #pragma once
 
-#include <list>
+#include "cc_tools_qt/ToolsSocket.h"
 
 #include <QtSerialPort/QSerialPort>
 #include <QtCore/QString>
-
-#include "cc_tools_qt/ToolsSocket.h"
-
 
 namespace cc_tools_qt
 {
@@ -40,12 +37,11 @@ class SerialSocket : public cc_tools_qt::ToolsSocket
     using Base = cc_tools_qt::ToolsSocket;
 
 public:
-
-    typedef qint32 Baud;
-    typedef QSerialPort::DataBits DataBits;
-    typedef QSerialPort::Parity Parity;
-    typedef QSerialPort::StopBits StopBits;
-    typedef QSerialPort::FlowControl FlowControl;
+    using Baud = qint32;
+    using DataBits = QSerialPort::DataBits;
+    using Parity = QSerialPort::Parity;
+    using StopBits = QSerialPort::StopBits;
+    using FlowControl = QSerialPort::FlowControl;
 
     SerialSocket();
     ~SerialSocket() noexcept;

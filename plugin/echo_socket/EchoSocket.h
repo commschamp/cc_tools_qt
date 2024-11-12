@@ -51,8 +51,7 @@ private:
     bool m_timerActive = false;
 };
 
-inline
-ToolsSocketPtr makeEchoSocket()
+inline ToolsSocketPtr makeEchoSocket()
 {
     return ToolsSocketPtr(new EchoSocket());
 }

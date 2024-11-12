@@ -17,10 +17,10 @@
 
 #include "SslClientSocketPlugin.h"
 
-#include <memory>
-#include <cassert>
-
 #include "SslClientSocketConfigWidget.h"
+
+#include <cassert>
+#include <memory>
 
 namespace cc_tools_qt
 {

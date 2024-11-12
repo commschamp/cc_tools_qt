@@ -17,11 +17,11 @@
 
 #include "TcpServerSocketPlugin.h"
 
-#include <memory>
-#include <cassert>
-
 #include "TcpServerSocket.h"
 #include "TcpServerSocketConfigWidget.h"
+
+#include <cassert>
+#include <memory>
 
 namespace cc_tools_qt
 {

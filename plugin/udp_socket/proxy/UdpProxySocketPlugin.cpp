@@ -17,10 +17,10 @@
 
 #include "UdpProxySocketPlugin.h"
 
-#include <memory>
-#include <cassert>
-
 #include "UdpProxySocketConfigWidget.h"
+
+#include <cassert>
+#include <memory>
 
 namespace cc_tools_qt
 {

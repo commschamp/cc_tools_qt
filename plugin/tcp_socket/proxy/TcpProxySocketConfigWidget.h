@@ -18,10 +18,11 @@
 
 #pragma once
 
-#include <QtWidgets/QWidget>
 #include "ui_TcpProxySocketConfigWidget.h"
 
 #include "TcpProxySocket.h"
+
+#include <QtWidgets/QWidget>
 
 namespace cc_tools_qt
 {

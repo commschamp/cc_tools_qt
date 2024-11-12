@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
+#include "TcpClientSocket.h"
 
 #include <QtCore/QtGlobal>
 #include <QtNetwork/QHostAddress>
 
-#include "TcpClientSocket.h"
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -78,16 +78,9 @@ TcpClientSocket::TcpClientSocket()
     connect(
         &m_socket, &QTcpSocket::readyRead,
         this, &TcpClientSocket::readFromSocket);
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
     connect(
         &m_socket, &QTcpSocket::errorOccurred,
         this, &TcpClientSocket::socketErrorOccurred);
-#else // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-    connect(
-        &m_socket, SIGNAL(error(QAbstractSocket::SocketError)),
-        this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));
-#endif        
 }
 
 TcpClientSocket::~TcpClientSocket() noexcept
@@ -237,7 +230,6 @@ void TcpClientSocket::socketErrorOccurred([[maybe_unused]] QAbstractSocket::Sock
         reportDisconnected();
     }
 }
-
 
 } // namespace plugin
 

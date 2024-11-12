@@ -28,8 +28,8 @@ ToolsMsgSendMgrImpl::ToolsMsgSendMgrImpl()
   : m_timer(this)
 {
     connect(
-        &m_timer, SIGNAL(timeout()),
-        this, SLOT(sendPendingAndWait()));
+        &m_timer, &QTimer::timeout,
+        this, &ToolsMsgSendMgrImpl::sendPendingAndWait);
 }
 
 ToolsMsgSendMgrImpl::~ToolsMsgSendMgrImpl() noexcept = default;

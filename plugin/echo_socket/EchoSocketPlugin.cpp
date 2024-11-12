@@ -17,10 +17,10 @@
 
 #include "EchoSocketPlugin.h"
 
+#include "EchoSocket.h"
+
 #include <memory>
 #include <cassert>
-
-#include "EchoSocket.h"
 
 namespace cc_tools_qt
 {

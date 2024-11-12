@@ -17,12 +17,12 @@
 
 #include "SerialSocketConfigWidget.h"
 
+#include <QtSerialPort/QSerialPortInfo>
+
 #include <cassert>
 #include <type_traits>
 #include <algorithm>
 #include <iterator>
-
-#include <QtSerialPort/QSerialPortInfo>
 
 namespace cc_tools_qt
 {

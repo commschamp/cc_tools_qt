@@ -18,10 +18,11 @@
 
 #pragma once
 
-#include <QtWidgets/QWidget>
 #include "ui_UdpGenericSocketConfigWidget.h"
 
 #include "UdpGenericSocket.h"
+
+#include <QtWidgets/QWidget>
 
 namespace cc_tools_qt
 {
@@ -32,9 +33,9 @@ namespace plugin
 class UdpGenericSocketConfigWidget : public QWidget
 {
     Q_OBJECT
-    typedef QWidget Base;
+    using Base = QWidget;
 public:
-    typedef UdpGenericSocket::PortType PortType;
+    using PortType = UdpGenericSocket::PortType;
 
     explicit UdpGenericSocketConfigWidget(
         UdpGenericSocket& socket,

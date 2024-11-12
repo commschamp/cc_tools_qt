@@ -15,13 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
 #include "SerialSocket.h"
 
 #include <QtCore/QtGlobal>
 #include <QtSerialPort/QSerialPortInfo>
 
 #include <algorithm>
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -46,15 +46,9 @@ SerialSocket::SerialSocket()
         m_name = firstDev->systemLocation();
     }
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0) 
     connect(
         &m_serial, &QSerialPort::errorOccurred,
         this, &SerialSocket::errorOccurred);
-#else // #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0) 
-    connect(
-        &m_serial, SIGNAL(error(QSerialPort::SerialPortError)),
-        this, SLOT(errorOccurred(QSerialPort::SerialPortError)));
-#endif // #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)         
 
     connect(
         &m_serial, &QSerialPort::readyRead,

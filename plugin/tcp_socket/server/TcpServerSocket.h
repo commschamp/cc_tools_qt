@@ -17,12 +17,12 @@
 
 #pragma once
 
-#include <list>
+#include "cc_tools_qt/ToolsSocket.h"
 
 #include <QtNetwork/QTcpServer>
 #include <QtNetwork/QTcpSocket>
 
-#include "cc_tools_qt/ToolsSocket.h"
+#include <list>
 
 #ifdef CC_TOOLS_QT_DEFAULT_NETWORK_PORT
 #define TCP_SERVER_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT    
@@ -43,7 +43,7 @@ class TcpServerSocket : public cc_tools_qt::ToolsSocket
     using Base = cc_tools_qt::ToolsSocket;
 
 public:
-    typedef unsigned short PortType;
+    using PortType = unsigned short;
 
     TcpServerSocket();
     ~TcpServerSocket() noexcept;

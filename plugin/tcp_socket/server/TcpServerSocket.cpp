@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
+#include "TcpServerSocket.h"
 
 #include <QtCore/QtGlobal>
 #include <QtNetwork/QHostAddress>
 
-#include "TcpServerSocket.h"
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -184,16 +184,9 @@ void TcpServerSocket::newConnection()
     connect(
         newConnSocket, &QTcpSocket::readyRead,
         this, &TcpServerSocket::readFromSocket);
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)  
     connect(
         newConnSocket, &QTcpSocket::errorOccurred,
         this, &TcpServerSocket::socketErrorOccurred);      
-#else // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)                
-    connect(
-        newConnSocket, SIGNAL(error(QAbstractSocket::SocketError)),
-        this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));
-#endif // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)                
 }
 
 void TcpServerSocket::connectionTerminated()

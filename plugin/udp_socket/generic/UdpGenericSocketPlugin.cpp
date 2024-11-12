@@ -17,10 +17,10 @@
 
 #include "UdpGenericSocketPlugin.h"
 
-#include <memory>
-#include <cassert>
-
 #include "UdpGenericSocketConfigWidget.h"
+
+#include <cassert>
+#include <memory>
 
 namespace cc_tools_qt
 {

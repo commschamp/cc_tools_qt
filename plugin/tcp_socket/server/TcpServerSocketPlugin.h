@@ -18,11 +18,11 @@
 
 #pragma once
 
-#include <memory>
+#include "TcpServerSocket.h"
 
 #include "cc_tools_qt/ToolsPlugin.h"
 
-#include "TcpServerSocket.h"
+#include <memory>
 
 namespace cc_tools_qt
 {
@@ -50,7 +50,6 @@ protected:
     virtual QWidget* createConfigurationWidgetImpl() override;
 
 private:
-
     void createSocketIfNeeded();
 
     std::shared_ptr<TcpServerSocket> m_socket;

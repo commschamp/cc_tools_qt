@@ -17,19 +17,20 @@
 
 #pragma once
 
-#include <list>
+#include "cc_tools_qt/ToolsSocket.h"
 
 #include <QtNetwork/QTcpServer>
 #include <QtNetwork/QTcpSocket>
 
-#include "cc_tools_qt/ToolsSocket.h"
+#include <list>
+#include <memory>
+#include <utility>
 
 #ifdef CC_TOOLS_QT_DEFAULT_NETWORK_PORT
 #define TCP_PROXY_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT    
 #else
 #define TCP_PROXY_DEFAULT_PORT 20000    
 #endif
-
 
 namespace cc_tools_qt
 {

@@ -17,10 +17,10 @@
 
 #include "NullSocketPlugin.h"
 
+#include "NullSocket.h"
+
 #include <memory>
 #include <cassert>
-
-#include "NullSocket.h"
 
 namespace cc_tools_qt
 {

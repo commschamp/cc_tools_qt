@@ -17,13 +17,12 @@
 
 #include "SslClientSocket.h"
 
-#include <algorithm>
-#include <cassert>
-#include <iterator>
-
 #include <QtNetwork/QHostAddress>
 #include <QtNetwork/QSslConfiguration>
 
+#include <algorithm>
+#include <cassert>
+#include <iterator>
 
 namespace cc_tools_qt
 {
@@ -94,8 +93,8 @@ SslClientSocket::SslClientSocket()
         this, &SslClientSocket::socketErrorOccurred);
 
     connect(
-        &m_socket, SIGNAL(sslErrors(const QList<QSslError>&)),
-        this, SLOT(sslErrorsOccurred(const QList<QSslError>&)));        
+        &m_socket, qOverload<const QList<QSslError>&>(&QSslSocket::sslErrors),
+        this, &SslClientSocket::sslErrorsOccurred);        
 }
 
 SslClientSocket::~SslClientSocket() noexcept

@@ -18,11 +18,11 @@
 
 #pragma once
 
-#include <memory>
+#include "SslClientSocket.h"
 
 #include "cc_tools_qt/ToolsPlugin.h"
 
-#include "SslClientSocket.h"
+#include <memory>
 
 namespace cc_tools_qt
 {

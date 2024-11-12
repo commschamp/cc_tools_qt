@@ -18,11 +18,12 @@
 
 #pragma once
 
-#include <memory>
+#include "SerialSocket.h"
 
 #include "cc_tools_qt/ToolsPlugin.h"
 
-#include "SerialSocket.h"
+#include <memory>
+
 
 namespace cc_tools_qt
 {

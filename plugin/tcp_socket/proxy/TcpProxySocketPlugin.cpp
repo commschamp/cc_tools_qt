@@ -17,11 +17,11 @@
 
 #include "TcpProxySocketPlugin.h"
 
-#include <memory>
-#include <cassert>
-
 #include "TcpProxySocket.h"
 #include "TcpProxySocketConfigWidget.h"
+
+#include <cassert>
+#include <memory>
 
 namespace cc_tools_qt
 {

@@ -18,11 +18,11 @@
 
 #pragma once
 
-#include <memory>
+#include "UdpProxySocket.h"
 
 #include "cc_tools_qt/ToolsPlugin.h"
 
-#include "UdpProxySocket.h"
+#include <memory>
 
 namespace cc_tools_qt
 {

@@ -37,8 +37,7 @@ protected:
     virtual unsigned connectionPropertiesImpl() const override;
 };
 
-inline
-ToolsSocketPtr makeNullSocket()
+inline ToolsSocketPtr makeNullSocket()
 {
     return ToolsSocketPtr(new NullSocket());
 }

@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
+#include "TcpProxySocket.h"
 
 #include <QtCore/QtGlobal>
 #include <QtNetwork/QHostAddress>
 
-#include "TcpProxySocket.h"
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -30,7 +30,6 @@ namespace plugin
 
 namespace
 {
-
 
 const QString& tcpFromProp()
 {
@@ -231,16 +230,9 @@ void TcpProxySocket::newConnection()
     connect(
         newConnSocket, &QTcpSocket::disconnected,
         this, &TcpProxySocket::clientConnectionTerminated);
-        
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     connect(
         newConnSocket, &QTcpSocket::errorOccurred,
         this, &TcpProxySocket::socketErrorOccurred);
-#else // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
-    connect(
-        newConnSocket, SIGNAL(error(QAbstractSocket::SocketError)),
-        this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));
-#endif // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
 
     ConnectionSocketPtr connectionSocket(new QTcpSocket);
     connect(
@@ -253,15 +245,9 @@ void TcpProxySocket::newConnection()
         connectionSocket.get(), &QTcpSocket::readyRead,
         this, &TcpProxySocket::readFromConnectionSocket);
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     connect(
         connectionSocket.get(), &QTcpSocket::errorOccurred,
         this, &TcpProxySocket::socketErrorOccurred);
-#else // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
-    connect(
-        connectionSocket.get(), SIGNAL(error(QAbstractSocket::SocketError)),
-        this, SLOT(socketErrorOccurred(QAbstractSocket::SocketError)));
-#endif        
 
     if (m_remoteHost.isEmpty()) {
         m_remoteHost = QHostAddress(QHostAddress::LocalHost).toString();

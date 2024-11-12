@@ -18,10 +18,12 @@
 
 #pragma once
 
-#include <QtWidgets/QWidget>
+#include "SslClientSocket.h"
+
 #include "ui_SslClientSocketConfigWidget.h"
 
-#include "SslClientSocket.h"
+#include <QtWidgets/QWidget>
+
 
 namespace cc_tools_qt
 {
@@ -32,9 +34,9 @@ namespace plugin
 class SslClientSocketConfigWidget : public QWidget
 {
     Q_OBJECT
-    typedef QWidget Base;
+    using Base = QWidget;
 public:
-    typedef SslClientSocket::PortType PortType;
+    using PortType = SslClientSocket::PortType;
 
     explicit SslClientSocketConfigWidget(
         SslClientSocket& socket,

@@ -17,11 +17,9 @@
 
 #pragma once
 
-#include <list>
+#include "cc_tools_qt/ToolsSocket.h"
 
 #include <QtNetwork/QTcpSocket>
-
-#include "cc_tools_qt/ToolsSocket.h"
 
 #ifdef CC_TOOLS_QT_DEFAULT_NETWORK_PORT
 #define TCP_CLIENT_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT    
