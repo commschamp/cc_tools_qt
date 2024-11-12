@@ -25,6 +25,7 @@
 
 #include "cc_tools_qt/field/ToolsBundleField.h"
 #include "FieldWidget.h"
+#include "ui_BundleFieldWidget.h"
 
 namespace cc_tools_qt
 {
@@ -55,10 +56,8 @@ private slots:
     void memberFieldUpdated();
 
 private:
-
+    Ui::BundleFieldWidget m_ui;
     FieldPtr m_fieldPtr;
-    QVBoxLayout* m_membersLayout = nullptr;
-    QLabel* m_label = nullptr;
     std::vector<FieldWidget*> m_members;
 };
 

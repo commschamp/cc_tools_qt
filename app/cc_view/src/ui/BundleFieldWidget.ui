@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>BitfieldFieldWidget</class>
- <widget class="QWidget" name="BitfieldFieldWidget">
+ <class>BundleFieldWidget</class>
+ <widget class="QWidget" name="BundleFieldWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,9 +11,9 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Bitfield Field</string>
+   <string>Bundle Field</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,0,1">
+  <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -46,7 +46,7 @@
         <item>
          <widget class="QLabel" name="m_nameLabel">
           <property name="text">
-           <string>Bitfield</string>
+           <string>Bundle</string>
           </property>
          </widget>
         </item>
@@ -72,61 +72,6 @@
         </property>
         <layout class="QVBoxLayout" name="m_membersLayout"/>
        </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="Line" name="m_sepLine">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QWidget" name="m_serValueWidget" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QLabel" name="m_serFrontLabel">
-        <property name="text">
-         <string>(0x</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="m_serValueLineEdit"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="m_serBackLabel">
-        <property name="text">
-         <string>)</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>95</width>
-          <height>22</height>
-         </size>
-        </property>
-       </spacer>
       </item>
      </layout>
     </widget>

@@ -31,14 +31,11 @@ BundleFieldWidget::BundleFieldWidget(
     FieldPtr fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_fieldPtr(std::move(fieldPtr)),
-    m_membersLayout(new QVBoxLayout),
-    m_label(new QLabel)
+    m_fieldPtr(std::move(fieldPtr))
 {
-    m_label->hide();
-    m_membersLayout->addWidget(m_label);
-    setLayout(m_membersLayout);
-    setNameLabelWidget(m_label);
+    m_ui.setupUi(this);
+    setNameLabelWidget(m_ui.m_nameLabel);
+    setValueWidget(m_ui.m_valueWidget);
 
     commonConstruct();
 }
@@ -49,16 +46,16 @@ void BundleFieldWidget::addMemberField(FieldWidget* memberFieldWidget)
 {
     m_members.push_back(memberFieldWidget);
 
-    if (1 < m_membersLayout->count()) {
+    if (0 < m_ui.m_membersLayout->count()) {
         auto* line = new QFrame(this);
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
 
-        m_membersLayout->addWidget(line);
+        m_ui.m_membersLayout->addWidget(line);
     }
 
-    m_membersLayout->addWidget(memberFieldWidget);
-    assert(static_cast<std::size_t>(m_membersLayout->count()) == (m_members.size() * 2));
+    m_ui.m_membersLayout->addWidget(memberFieldWidget);
+    assert(static_cast<std::size_t>(m_ui.m_membersLayout->count()) == ((m_members.size() * 2) - 1));
 
     connect(
         memberFieldWidget, SIGNAL(sigFieldUpdated()),

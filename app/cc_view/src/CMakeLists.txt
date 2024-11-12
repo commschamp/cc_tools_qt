@@ -74,6 +74,7 @@ function (bin_cc_view)
         ui/EnumValueFieldWidget.ui
         ui/StringFieldWidget.ui
         ui/BitfieldFieldWidget.ui
+        ui/BundleFieldWidget.ui
         ui/OptionalFieldWidget.ui
         ui/ArrayListRawDataFieldWidget.ui
         ui/ArrayListFieldWidget.ui
