@@ -19,8 +19,6 @@
 
 #include "comms/comms.h"
 
-namespace cc = cc_tools_qt;
-
 namespace demo
 {
 

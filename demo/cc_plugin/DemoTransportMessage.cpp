@@ -21,8 +21,6 @@
 
 #include <cassert>
 
-namespace cc = cc_tools_qt;
-
 namespace demo
 {
 
