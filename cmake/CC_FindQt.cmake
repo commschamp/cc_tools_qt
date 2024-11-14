@@ -12,7 +12,7 @@ macro (cc_find_qt_major)
         add_library(Qt::Core ALIAS Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}::Core)
     endif ()
 
-    if (NOT TARGET Qt::Widgets)
+    if ((NOT TARGET Qt::Widgets) AND (TARGET Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}::Widgets))
         set_target_properties(Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}::Widgets PROPERTIES IMPORTED_GLOBAL TRUE)
         add_library(Qt::Widgets ALIAS Qt${CC_TOOLS_QT_MAJOR_QT_VERSION}::Widgets)
     endif ()    
