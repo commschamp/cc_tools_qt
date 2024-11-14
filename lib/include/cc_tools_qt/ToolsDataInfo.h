@@ -33,7 +33,7 @@ namespace cc_tools_qt
 
 /// @brief Information about incomming or outdoing data
 /// @headerfile "cc_tools_qt/ToolsDataInfo.h"
-struct ToolsDataInfo
+struct CC_TOOLS_API ToolsDataInfo
 {
     /// @brief Type of clock used for timestamping
     using TimestampClock = std::chrono::high_resolution_clock;
