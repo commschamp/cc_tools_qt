@@ -324,20 +324,17 @@ void MessageUpdateDialog::msgUpdated()
     bool forceUpdate = (status == ToolsProtocol::UpdateStatus::Changed);
     assert(m_msgDisplayWidget);
 
-    m_msgDisplayWidget->displayMessage(std::move(msg), forceUpdate);
-    return;
-
     // Direct invocation of m_msgDisplayWidget->displayMessage(std::move(msg))
     // in place here causes SIGSEGV. No idea why.
 
-    // QMetaObject::invokeMethod(
-    //     this,
-    //     [this, msgParam = std::move(msg, forceUpdate)]()
-    //     {
-    //         displayMessagePostponed(std::move(msgParam), forceUpdate);
-    //     },
-    //     Qt::QueuedConnection
-    // );
+    QMetaObject::invokeMethod(
+        this,
+        [this, msgParam = msg, forceUpdate]()
+        {
+            displayMessagePostponed(std::move(msgParam), forceUpdate);
+        },
+        Qt::QueuedConnection
+    );
 }
 
 void MessageUpdateDialog::newItemSelected()

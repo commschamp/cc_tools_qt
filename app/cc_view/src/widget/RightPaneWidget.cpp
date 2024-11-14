@@ -59,6 +59,7 @@ void RightPaneWidget::displayMessage(ToolsMessagePtr msg)
 
 void RightPaneWidget::displayMessagePostponed(ToolsMessagePtr msg, bool force)
 {
+    assert(m_displayWidget != nullptr);
     m_displayWidget->displayMessage(msg, force);
 }
 
@@ -73,10 +74,12 @@ void RightPaneWidget::msgUpdated()
     // in place here causes SIGSEGV. No idea why.
     QMetaObject::invokeMethod(
         this,
-        "displayMessagePostponed",
-        Qt::QueuedConnection,
-        Q_ARG(cc_tools_qt::ToolsMessagePtr, m_displayedMsg),
-        Q_ARG(bool, forceUpdate));    
+        [this, msgParam = m_displayedMsg, forceUpdate]()
+        {
+            displayMessagePostponed(std::move(msgParam), forceUpdate);
+        },
+        Qt::QueuedConnection
+    );    
 }
 
 }  // namespace cc_tools_qt

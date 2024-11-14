@@ -92,12 +92,12 @@ std::unique_ptr<QFrame> DefaultMessageWidget::createFieldSeparator()
     return line;
 }
 
-void DefaultMessageWidget::connectFieldSignals(FieldWidget* field)
+void DefaultMessageWidget::connectFieldSignals(FieldWidget* fieldWidget)
 {
-    assert(field != nullptr);
-    connect(this, SIGNAL(sigRefreshFields()), field, SLOT(refresh()));
-    connect(this, SIGNAL(sigSetEditEnabled(bool)), field, SLOT(setEditEnabled(bool)));
-    connect(field, SIGNAL(sigFieldUpdated()), this, SIGNAL(sigMsgUpdated()));
+    assert(fieldWidget != nullptr);
+    connect(this, SIGNAL(sigRefreshFields()), fieldWidget, SLOT(refresh()));
+    connect(this, SIGNAL(sigSetEditEnabled(bool)), fieldWidget, SLOT(setEditEnabled(bool)));
+    connect(fieldWidget, SIGNAL(sigFieldUpdated()), this, SIGNAL(sigMsgUpdated()));
 }
 
 }  // namespace cc_tools_qt

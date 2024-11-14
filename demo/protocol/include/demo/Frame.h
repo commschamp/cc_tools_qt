@@ -130,7 +130,7 @@ public:
 
     static const char* name()
     {
-        return "field4";
+        return "ID";
     }      
 
     static const char* valueName(ValueType val)
