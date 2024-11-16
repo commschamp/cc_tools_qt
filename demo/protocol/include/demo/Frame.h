@@ -235,7 +235,7 @@ using StackBase =
 ///     type of the payload field for "caching" read/write operations.
 template <
     typename TMsgBase,
-    typename TMessages = demo::AllMessages<TMsgBase>,
+    typename TMessages = demo::AllMessages<TMsgBase, demo::DefaultOptions>,
     typename TMsgAllocOptions = comms::option::EmptyOption,
     typename TDataFieldStorageOptions = comms::option::EmptyOption >
 class Frame : public StackBase<TMsgBase, TMessages, TMsgAllocOptions, TDataFieldStorageOptions>

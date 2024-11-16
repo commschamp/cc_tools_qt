@@ -47,13 +47,12 @@ using RawDataProtocolTransportMessageFields =
         raw_data_protocol::DataField<>
     >;
 
-template <typename TProtMsgBase, typename... TOptions>
+template <typename TProtMsgBase, typename TOpt>
 class RawDataProtocolPortTransportMessage : public
     cc_tools_qt::ToolsTransportProtMessageBase<
         TProtMsgBase,
         RawDataProtocolTransportMessageFields<TProtMsgBase>,
-        RawDataProtocolPortTransportMessage<TProtMsgBase, TOptions...>,
-        TOptions...
+        RawDataProtocolPortTransportMessage<TProtMsgBase, TOpt>
     >
 {
 };

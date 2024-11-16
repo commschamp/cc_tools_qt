@@ -50,10 +50,12 @@ public:
     /// @brief Data sequence type
     using DataSeq = typename TBase::DataSeq;
 
-    using ProtMsgBase = ToolsProtMsgInterface<TBase::template ProtMsgBase>;
+    using ProtInterface = typename TBase::ProtInterface;
+
+    using ProtOptions = typename TBase::ProtOptions;
 
     /// @brief Protocol definition message type
-    using ProtMsg = TProtMsg<ProtMsgBase>;
+    using ProtMsg = TProtMsg<ProtInterface, ProtOptions>;
 
     using FieldsList = typename Base::FieldsList;
 
@@ -207,7 +209,7 @@ protected:
 
     virtual void assignProtMessageImpl(void* protMsg) override
     {
-        auto* protMsgBase = reinterpret_cast<ProtMsgBase*>(protMsg);
+        auto* protMsgBase = reinterpret_cast<ProtInterface*>(protMsg);
         auto* actProtMsg = static_cast<ProtMsg*>(protMsgBase);
         m_msg = std::move(*actProtMsg);
     }

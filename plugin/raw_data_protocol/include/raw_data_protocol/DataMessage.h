@@ -51,13 +51,13 @@ struct DataMessageFields
     >;
 };
 
-template <typename TMsgBase, typename... TOptions>
+template <typename TMsgBase, typename TOpt>
 class DataMessage : public
     comms::MessageBase<
         TMsgBase,
         comms::option::StaticNumIdImpl<0>,
         comms::option::FieldsImpl<typename DataMessageFields<typename TMsgBase::Field>::All>,
-        comms::option::MsgType<DataMessage<TMsgBase, TOptions...>>,
+        comms::option::MsgType<DataMessage<TMsgBase, TOpt>>,
         comms::option::HasName
     >
 {
@@ -66,7 +66,7 @@ class DataMessage : public
             TMsgBase,
             comms::option::StaticNumIdImpl<0>,
             comms::option::FieldsImpl<typename DataMessageFields<typename TMsgBase::Field>::All>,
-            comms::option::MsgType<DataMessage<TMsgBase, TOptions...>>,
+            comms::option::MsgType<DataMessage<TMsgBase, TOpt>>,
             comms::option::HasName
         >;
 public:

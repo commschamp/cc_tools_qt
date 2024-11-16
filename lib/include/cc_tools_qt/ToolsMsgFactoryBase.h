@@ -56,6 +56,9 @@ private:
 template <typename TAllMessages>
 class ToolsMsgFactoryBase : public ToolsMsgFactory
 {
+public: 
+    using AllMessages = TAllMessages;
+    
 protected:
     virtual MessagesListInternal createAllMessagesImpl() override
     {

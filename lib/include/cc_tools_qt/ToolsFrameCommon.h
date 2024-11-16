@@ -19,7 +19,6 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsFrame.h"
-#include "cc_tools_qt/ToolsProtMsgInterface.h"
 
 namespace cc_tools_qt
 {
@@ -28,10 +27,10 @@ template <typename TMsgBase>
 class ToolsFrameCommon : public ToolsFrame
 {
 public:
-    using ProtMsgBase = ToolsProtMsgInterface<TMsgBase::template ProtMsgBase>;
+    using ProtInterface = typename TMsgBase::ProtInterface;
     using DataSeq = typename TMsgBase::DataSeq;
 
-    DataSeq writeProtMsg(const ProtMsgBase& msg)
+    DataSeq writeProtMsg(const ProtInterface& msg)
     {
         return writeProtMsgImpl(msg);
     } 
@@ -39,7 +38,7 @@ public:
 protected:
     ToolsFrameCommon() = default;
 
-    virtual DataSeq writeProtMsgImpl(const ProtMsgBase& msg) = 0;
+    virtual DataSeq writeProtMsgImpl(const ProtInterface& msg) = 0;
 };
 
 }  // namespace cc_tools_qt

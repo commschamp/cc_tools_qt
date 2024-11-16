@@ -36,18 +36,18 @@
 namespace demo
 {
 
-template <typename TMsgBase>
+template <typename TMsgBase, typename TOpt>
 using AllMessages = std::tuple<
-    demo::message::IntValues<TMsgBase>,
-    demo::message::EnumValues<TMsgBase>,
-    demo::message::BitmaskValues<TMsgBase>,
-    demo::message::Bitfields<TMsgBase>,
-    demo::message::Strings<TMsgBase>,
-    demo::message::Lists<TMsgBase>,
-    demo::message::Optionals<TMsgBase>,
-    demo::message::FloatValues<TMsgBase>,
-    demo::message::Variants<TMsgBase>,
-    demo::message::Bundles<TMsgBase>
+    demo::message::IntValues<TMsgBase, TOpt>,
+    demo::message::EnumValues<TMsgBase, TOpt>,
+    demo::message::BitmaskValues<TMsgBase, TOpt>,
+    demo::message::Bitfields<TMsgBase, TOpt>,
+    demo::message::Strings<TMsgBase, TOpt>,
+    demo::message::Lists<TMsgBase, TOpt>,
+    demo::message::Optionals<TMsgBase, TOpt>,
+    demo::message::FloatValues<TMsgBase, TOpt>,
+    demo::message::Variants<TMsgBase, TOpt>,
+    demo::message::Bundles<TMsgBase, TOpt>
 >;
 
 }  // namespace demo

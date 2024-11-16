@@ -35,12 +35,12 @@
 namespace cc_tools_qt
 {
 
-template <typename TMsgBase, template<typename...> class TProtFrame, typename TMsgFactory, typename TTransportMsg>
+template <typename TMsgBase, class TProtFrame, typename TMsgFactory, typename TTransportMsg>
 class ToolsFrameBase : public ToolsFrameCommon<TMsgBase>
 {
     using Base = ToolsFrameCommon<TMsgBase>;
 public:
-    using ProtMsgBase = typename Base::ProtMsgBase;
+    using ProtInterface = typename Base::ProtInterface;
     using DataSeq = typename Base::DataSeq;
 
     using TransportMsg = TTransportMsg;
@@ -53,7 +53,7 @@ public:
     /// @brief Type of "Extra Info ToolsMessage"
     using ExtraInfoMsg = ToolsExtraInfoMessage<TMsgBase>;
 
-    using ProtFrame = TProtFrame<ProtMsgBase>;
+    using ProtFrame = TProtFrame;
 
     ToolsFrameBase() = default;
 
@@ -81,7 +81,7 @@ protected:
 
 
         using ProtMsgPtr = typename ProtFrame::MsgPtr;
-        using ReadIter = typename ProtMsgBase::ReadIterator;
+        using ReadIter = typename ProtInterface::ReadIterator;
         while (consumed < m_inData.size()) {
             ProtMsgPtr msgPtr;
 
@@ -223,7 +223,7 @@ protected:
         return m_factory.createMessage(idAsString, idx);
     }
 
-    virtual DataSeq writeProtMsgImpl(const ProtMsgBase& msg) override
+    virtual DataSeq writeProtMsgImpl(const ProtInterface& msg) override
     {
         DataSeq data;
         data.reserve(m_frame.length(msg));

@@ -19,8 +19,10 @@
 #pragma once
 
 #include "demo/DemoMessage.h"
+#include "demo/DefaultOptions.h"
 
 #include "cc_tools_qt/ToolsMessage.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 
 namespace demo
 {
@@ -31,8 +33,9 @@ namespace cc_plugin
 class DemoMessage : public cc_tools_qt::ToolsMessage
 {
 public:
-    template <typename... TOptions>
-    using ProtMsgBase = demo::DemoMessage<TOptions...>;
+    using ProtInterface = cc_tools_qt::ToolsProtMsgInterface<demo::DemoMessage>;
+
+    using ProtOptions = demo::DefaultOptions;
 
     DemoMessage();
     virtual ~DemoMessage() noexcept;

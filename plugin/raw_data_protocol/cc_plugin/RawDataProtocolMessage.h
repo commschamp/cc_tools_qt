@@ -19,8 +19,10 @@
 #pragma once
 
 #include "raw_data_protocol/Message.h"
+#include "raw_data_protocol/DefaultOptions.h"
 
 #include "cc_tools_qt/ToolsMessage.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 
 namespace cc_tools_qt
 {
@@ -37,8 +39,9 @@ namespace cc_plugin
 class RawDataProtocolMessage : public cc_tools_qt::ToolsMessage
 {
 public:
-    template <typename... TOptions>
-    using ProtMsgBase = raw_data_protocol::Message<TOptions...>;
+    using ProtInterface = cc_tools_qt::ToolsProtMsgInterface<raw_data_protocol::Message>;
+
+    using ProtOptions = raw_data_protocol::DefaultOptions;
 
 protected:
 

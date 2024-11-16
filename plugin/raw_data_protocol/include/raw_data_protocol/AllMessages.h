@@ -34,10 +34,10 @@ namespace plugin
 namespace raw_data_protocol
 {
 
-template <typename TMsgBase>
+template <typename TMsgBase, typename TOpt>
 using AllMessages = 
     std::tuple<
-        DataMessage<TMsgBase>
+        DataMessage<TMsgBase, TOpt>
     >;
 
 }  // namespace raw_data_protocol

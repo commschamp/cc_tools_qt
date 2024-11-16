@@ -23,6 +23,7 @@
 
 #include "raw_data_protocol/AllMessages.h"
 #include "raw_data_protocol/Message.h"
+#include "raw_data_protocol/DefaultOptions.h"
 
 #include "comms/field/IntValue.h"
 #include "comms/protocol/MsgDataLayer.h"
@@ -65,18 +66,14 @@ public:
 
 template <
     typename TMsgBase,
-    typename TAllMessages = raw_data_protocol::AllMessages<TMsgBase>,
-    typename TMsgAllocOptions = comms::option::EmptyOption,
-    typename TDataFieldStorageOptions = comms::option::EmptyOption>
+    typename TAllMessages = raw_data_protocol::AllMessages<TMsgBase, raw_data_protocol::DefaultOptions>
+>
 using Frame =
         comms::protocol::MsgIdLayer<
             IdField<typename TMsgBase::Field>,
             TMsgBase,
             TAllMessages,
-            comms::protocol::MsgDataLayer<
-                TDataFieldStorageOptions
-            >,
-            TMsgAllocOptions
+            comms::protocol::MsgDataLayer<>
         >;
 
 }  // namespace raw_data_protocol

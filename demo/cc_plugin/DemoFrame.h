@@ -32,7 +32,13 @@ namespace demo
 namespace cc_plugin
 {
 
-using DemoFrame = cc_tools_qt::ToolsFrameBase<DemoMessage, demo::Frame, DemoMsgFactory, DemoTransportMessage>;
+using DemoFrame = 
+    cc_tools_qt::ToolsFrameBase<
+        DemoMessage, 
+        demo::Frame<DemoMessage::ProtInterface>, 
+        DemoMsgFactory, 
+        DemoTransportMessage
+    >;
 
 }  // namespace cc_plugin
 
