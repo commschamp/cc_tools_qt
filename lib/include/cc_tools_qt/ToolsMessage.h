@@ -45,7 +45,7 @@ class CC_TOOLS_API ToolsMessage : public QObject
     using Base = QObject;
 public:
     /// @brief Pointer to message object
-    using Ptr = std::shared_ptr<ToolsMessage>;
+    using Ptr = std::unique_ptr<ToolsMessage>;
 
     /// @brief Type for sequence of raw bytes
     using DataSeq = std::vector<std::uint8_t>;
@@ -160,7 +160,7 @@ protected:
 };
 
 /// @brief Smart pointer to @ref ToolsMessage
-using ToolsMessagePtr = ToolsMessage::Ptr;
+using ToolsMessagePtr = std::shared_ptr<ToolsMessage>;
 using ToolsMessagesList = std::list<ToolsMessagePtr>;
 
 }  // namespace cc_tools_qt
