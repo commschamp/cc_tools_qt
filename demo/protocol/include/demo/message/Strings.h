@@ -44,6 +44,7 @@ struct StringsFields
         comms::field::String<
             demo::FieldBase,
             typename TOpt::message::StringsFields::field1,
+            comms::option::def::HasName,
             comms::option::SequenceSizeFieldPrefix<
                 comms::field::IntValue<
                     demo::FieldBase,
@@ -64,6 +65,7 @@ struct StringsFields
         comms::field::String<
             demo::FieldBase,
             typename TOpt::message::StringsFields::field2,
+            comms::option::def::HasName,
             comms::option::SequenceTerminationFieldSuffix<
                 comms::field::IntValue<
                     demo::FieldBase,
@@ -86,7 +88,8 @@ struct StringsFields
         comms::field::String<
             demo::FieldBase,
             typename TOpt::message::StringsFields::field3,
-            comms::option::SequenceFixedSize<6>
+            comms::option::SequenceFixedSize<6>,
+            comms::option::def::HasName
         >
     {
     public:

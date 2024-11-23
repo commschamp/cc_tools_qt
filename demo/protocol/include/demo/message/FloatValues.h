@@ -43,14 +43,16 @@ struct FloatValuesFields
         comms::field::FloatValue<
             demo::FieldBase,
             float,
-            typename TOpt::message::FloatValuesFields::field1
+            typename TOpt::message::FloatValuesFields::field1,
+            comms::option::def::HasName
         >
     {
         using Base = 
             comms::field::FloatValue<
                 demo::FieldBase,
                 float,
-                typename TOpt::message::FloatValuesFields::field1
+                typename TOpt::message::FloatValuesFields::field1,
+                comms::option::def::HasName
             >;        
     public:
         using ValueType = typename Base::ValueType;
@@ -91,14 +93,16 @@ struct FloatValuesFields
         comms::field::FloatValue<
             demo::FieldBase,
             double,
-            typename TOpt::message::FloatValuesFields::field2
+            typename TOpt::message::FloatValuesFields::field2,
+            comms::option::def::HasName
         >
     {
         using Base = 
             comms::field::FloatValue<
                 demo::FieldBase,
                 double,
-                typename TOpt::message::FloatValuesFields::field2
+                typename TOpt::message::FloatValuesFields::field2,
+                comms::option::def::HasName
             >;
     public:
         using ValueType = typename Base::ValueType;
@@ -140,7 +144,8 @@ struct FloatValuesFields
             demo::FieldBase,
             std::uint8_t,
             typename TOpt::message::FloatValuesFields::field3,
-            comms::option::ScalingRatio<1, 100>
+            comms::option::ScalingRatio<1, 100>,
+            comms::option::def::HasName
         >
     {
         using Base = 
@@ -148,7 +153,8 @@ struct FloatValuesFields
                 demo::FieldBase,
                 std::uint8_t,
                 typename TOpt::message::FloatValuesFields::field3,
-                comms::option::ScalingRatio<1, 100>
+                comms::option::ScalingRatio<1, 100>,
+                comms::option::def::HasName
             >;
     public:
         using ValueType = typename Base::ValueType;
@@ -189,7 +195,8 @@ struct FloatValuesFields
             std::int64_t,
             typename TOpt::message::FloatValuesFields::field4,
             comms::option::ScalingRatio<1, 100000000000>,
-            comms::option::FixedLength<5>
+            comms::option::FixedLength<5>,
+            comms::option::def::HasName
         >
     {
     public:

@@ -34,7 +34,8 @@ struct DataMessageFields
     class data : public
         comms::field::ArrayList<
             TFieldBase,
-            std::uint8_t
+            std::uint8_t,
+            comms::option::HasName
         >
     {
     public:

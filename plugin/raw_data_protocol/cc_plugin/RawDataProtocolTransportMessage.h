@@ -44,7 +44,7 @@ template <typename TProtMsgBase>
 using RawDataProtocolTransportMessageFields =
     std::tuple<
         raw_data_protocol::IdField<typename TProtMsgBase::Field>,
-        raw_data_protocol::DataField<>
+        raw_data_protocol::DataField<typename TProtMsgBase::Field>
     >;
 
 template <typename TProtMsgBase, typename TOpt>

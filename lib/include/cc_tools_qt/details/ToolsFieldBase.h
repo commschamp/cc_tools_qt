@@ -42,9 +42,6 @@ class ToolsFieldBase : public TBase
 {
     using Base = TBase;
 
-    struct HasPrefixSuffixTag {};
-    struct NoPrefixSuffixTag {};
-
 public:
     using SerialisedSeq = typename Base::SerialisedSeq;
     using Ptr = typename Base::Ptr;
@@ -62,6 +59,7 @@ protected:
 
     virtual const char* nameImpl() const override
     {
+        static_assert(Field::hasName(), "The field class is expected use comms::option::def::HasName and define name() function.");
         return m_field.name();
     }
 
@@ -157,6 +155,9 @@ protected:
     }
 
 private:
+    struct HasPrefixSuffixTag {};
+    struct NoPrefixSuffixTag {};
+
     template <typename T, bool TIsCollection>
     struct CollectionPrefixDetect
     {

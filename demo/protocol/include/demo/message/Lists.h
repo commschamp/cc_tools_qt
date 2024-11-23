@@ -51,7 +51,8 @@ struct ListsFields
                     demo::FieldBase,
                     std::uint16_t
                 >
-            >
+            >,
+            comms::option::def::HasName
         >
     {
     public:
@@ -67,6 +68,7 @@ struct ListsFields
             demo::FieldBase,
             std::uint8_t,
             typename TOpt::message::ListsFields::field2,
+            comms::option::def::HasName,
             comms::option::SequenceSerLengthFieldPrefix<
                 comms::field::IntValue<
                     demo::FieldBase,
@@ -87,7 +89,8 @@ struct ListsFields
         comms::field::IntValue<
             demo::FieldBase,
             std::int16_t,
-            typename TOpt::message::ListsFields::field3Element
+            typename TOpt::message::ListsFields::field3Element,
+            comms::option::def::HasName
         >
     {
     public:
@@ -108,7 +111,8 @@ struct ListsFields
             demo::FieldBase,
             field3Element,
             typename TOpt::message::ListsFields::field3,
-            comms::option::SequenceFixedSize<3>
+            comms::option::SequenceFixedSize<3>,
+            comms::option::def::HasName
         >
     {
     public:
@@ -123,7 +127,8 @@ struct ListsFields
         comms::field::IntValue<
             demo::FieldBase,
             std::uint16_t,
-            typename TOpt::message::ListsFields::field4Element
+            typename TOpt::message::ListsFields::field4Element,
+            comms::option::def::HasName
         >
     {
     public:
@@ -145,6 +150,7 @@ struct ListsFields
             demo::FieldBase,
             field4Element,
             typename TOpt::message::ListsFields::field4,
+            comms::option::def::HasName,
             comms::option::SequenceSerLengthFieldPrefix<
                 comms::field::IntValue<
                     demo::FieldBase,
@@ -168,7 +174,8 @@ struct ListsFields
             comms::field::IntValue<
                 demo::FieldBase,
                 std::uint16_t,
-                typename TOpt::message::ListsFields::field5Members::mem1
+                typename TOpt::message::ListsFields::field5Members::mem1,
+                comms::option::def::HasName
             >
         {
         public:
@@ -188,7 +195,8 @@ struct ListsFields
             comms::field::IntValue<
                 demo::FieldBase,
                 std::int8_t,
-                typename TOpt::message::ListsFields::field5Members::mem2
+                typename TOpt::message::ListsFields::field5Members::mem2,
+                comms::option::def::HasName
             >
         {
         public:
@@ -209,6 +217,7 @@ struct ListsFields
             comms::field::String<
                 demo::FieldBase,
                 typename TOpt::message::ListsFields::field5Members::mem3,
+                comms::option::def::HasName,
                 comms::option::SequenceSizeFieldPrefix<
                     comms::field::IntValue<
                         demo::FieldBase,
@@ -235,7 +244,8 @@ struct ListsFields
                 typename field5Members::mem2,
                 typename field5Members::mem3
             >,
-            typename TOpt::message::ListsFields::field5Element
+            typename TOpt::message::ListsFields::field5Element,
+            comms::option::def::HasName
         >
     {
     public:
@@ -262,6 +272,7 @@ struct ListsFields
             demo::FieldBase,
             field5Element,
             typename TOpt::message::ListsFields::field5,
+            comms::option::def::HasName,
             comms::option::SequenceSerLengthFieldPrefix<
                 comms::field::IntValue<
                     demo::FieldBase,

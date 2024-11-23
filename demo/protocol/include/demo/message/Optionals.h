@@ -44,7 +44,8 @@ struct OptionalsFields
             demo::FieldBase,
             typename TOpt::message::OptionalsFields::field1,
             comms::option::FixedLength<1>,
-            comms::option::BitmaskReservedBits<0xfc, 0>
+            comms::option::BitmaskReservedBits<0xfc, 0>,
+            comms::option::def::HasName
         >
     {
     public:        
@@ -82,7 +83,8 @@ struct OptionalsFields
         class field2Field : public
             comms::field::IntValue<
                 demo::FieldBase,
-                std::uint16_t
+                std::uint16_t,
+                comms::option::def::HasName
             >
         {
         public:   
@@ -104,7 +106,8 @@ struct OptionalsFields
         comms::field::Optional<
             typename field2Members::field2Field,
             typename TOpt::message::OptionalsFields::field2,
-            comms::option::OptionalMissingByDefault
+            comms::option::OptionalMissingByDefault,
+            comms::option::def::HasName
         >
     {
     public:
@@ -124,7 +127,8 @@ struct OptionalsFields
                         demo::FieldBase,
                         std::uint8_t
                     >
-                >
+                >,
+                comms::option::def::HasName
             >
         {
         public:   
@@ -146,7 +150,8 @@ struct OptionalsFields
         comms::field::Optional<
             typename field3Members::field3Field,
             typename TOpt::message::OptionalsFields::field3,
-            comms::option::OptionalMissingByDefault
+            comms::option::OptionalMissingByDefault,
+            comms::option::def::HasName
         >
     {
     public:            
@@ -161,7 +166,8 @@ struct OptionalsFields
         class field4Field : public
             comms::field::IntValue<
                 demo::FieldBase,
-                std::int16_t
+                std::int16_t,
+                comms::option::def::HasName
             >
         {
         public:  
@@ -186,7 +192,8 @@ struct OptionalsFields
         comms::field::Optional<
             typename field4Members::field4Field,
             comms::option::ExistsByDefault,
-            comms::option::ExistsSinceVersion<1>
+            comms::option::ExistsSinceVersion<1>,
+            comms::option::def::HasName
         >
     {
     public:            

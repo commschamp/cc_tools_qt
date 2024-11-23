@@ -44,7 +44,8 @@ struct BundlesFields
             comms::field::IntValue<
                 demo::FieldBase,
                 std::uint8_t,
-                typename TOpt::message::BundlesFields::field1_mem1
+                typename TOpt::message::BundlesFields::field1_mem1,
+                comms::option::def::HasName
             >
     {
     public:
@@ -64,7 +65,8 @@ struct BundlesFields
         comms::field::String<
             demo::FieldBase,
             typename TOpt::message::BundlesFields::field1_mem2,
-            comms::option::def::SequenceFixedSize<8>
+            comms::option::def::SequenceFixedSize<8>,
+            comms::option::def::HasName
         >
     {
     public:
@@ -83,7 +85,8 @@ struct BundlesFields
                 field1_mem2
             >,
             comms::option::def::RemLengthMemberField<0>,
-            typename TOpt::message::BundlesFields::field1
+            typename TOpt::message::BundlesFields::field1,
+            comms::option::def::HasName
         >
     {
         using Base = 
@@ -94,7 +97,8 @@ struct BundlesFields
                     field1_mem2
                 >,
                 comms::option::def::RemLengthMemberField<0>,
-                typename TOpt::message::BundlesFields::field1
+                typename TOpt::message::BundlesFields::field1,
+                comms::option::def::HasName
             >;            
 
     public:
@@ -112,7 +116,8 @@ struct BundlesFields
             comms::field::IntValue<
                 demo::FieldBase,
                 std::uint8_t,
-                typename TOpt::message::BundlesFields::field2_mem1
+                typename TOpt::message::BundlesFields::field2_mem1,
+                comms::option::def::HasName
             >
     {
     public:
@@ -133,7 +138,8 @@ struct BundlesFields
             demo::FieldBase,
             std::uint8_t,
             typename TOpt::message::BundlesFields::field2_mem2,
-            comms::option::def::SequenceFixedSize<8>
+            comms::option::def::SequenceFixedSize<8>,
+            comms::option::def::HasName
         >
     {
     public:
@@ -152,7 +158,8 @@ struct BundlesFields
                 field2_mem2
             >,
             comms::option::def::RemLengthMemberField<0>,
-            typename TOpt::message::BundlesFields::field2
+            typename TOpt::message::BundlesFields::field2,
+            comms::option::def::HasName
         >
     {
         using Base = 
@@ -163,7 +170,8 @@ struct BundlesFields
                     field2_mem2
                 >,
                 comms::option::def::RemLengthMemberField<0>,
-                typename TOpt::message::BundlesFields::field2
+                typename TOpt::message::BundlesFields::field2,
+                comms::option::def::HasName
             >;            
 
     public:

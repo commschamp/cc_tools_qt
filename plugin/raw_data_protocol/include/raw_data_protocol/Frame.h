@@ -26,6 +26,7 @@
 #include "raw_data_protocol/DefaultOptions.h"
 
 #include "comms/field/IntValue.h"
+#include "comms/field/ArrayList.h"
 #include "comms/protocol/MsgDataLayer.h"
 #include "comms/protocol/MsgIdLayer.h"
 #include "comms/options.h"
@@ -40,7 +41,13 @@ namespace raw_data_protocol
 {
 
 template <typename TField, typename... TOptions>
-class IdField : public comms::field::IntValue<TField, std::uint8_t, comms::option::def::EmptySerialization>
+class IdField : public 
+    comms::field::IntValue<
+        TField, 
+        std::uint8_t, 
+        TOptions...,
+        comms::option::def::EmptySerialization,
+        comms::option::def::HasName>
 {
 public:
     static constexpr bool hasSpecials()
@@ -54,8 +61,13 @@ public:
     }
 };
 
-template <typename... TOptions>
-class DataField : public comms::protocol::MsgDataLayer<TOptions...>::Field
+template <typename TField, typename... TOptions>
+class DataField : public 
+    comms::field::ArrayList<
+        TField,
+        std::uint8_t,
+        TOptions...,
+        comms::option::def::HasName>
 {
 public:    
     static const char* name()
@@ -73,7 +85,7 @@ using Frame =
             IdField<typename TMsgBase::Field>,
             TMsgBase,
             TAllMessages,
-            comms::protocol::MsgDataLayer<>
+            comms::protocol::MsgDataLayer<comms::option::def::FieldType<DataField<typename TMsgBase::Field>>>
         >;
 
 }  // namespace raw_data_protocol

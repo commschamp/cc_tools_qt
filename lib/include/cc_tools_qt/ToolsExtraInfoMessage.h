@@ -39,8 +39,17 @@ namespace details
 {
 
 template <typename TFieldBase>
-class ToolsExtraInfoMessageData : public comms::field::String<TFieldBase>
+class ToolsExtraInfoMessageData : public 
+    comms::field::String<
+        TFieldBase,
+        comms::option::def::HasName
+    >
 {
+    using Base = 
+        comms::field::String<
+            TFieldBase,
+            comms::option::def::HasName
+        >;        
 public:    
     static const char* name()
     {
@@ -49,8 +58,6 @@ public:
 
     bool valid() const
     {
-        using Base = comms::field::String<TFieldBase>;
-
         auto& val = Base::value();
         if (val.empty()) {
             return true;

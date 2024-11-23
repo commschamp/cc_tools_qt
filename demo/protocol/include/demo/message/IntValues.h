@@ -47,7 +47,8 @@ struct IntValuesFields
             demo::FieldBase,
             std::uint16_t,
             typename TOpt::message::IntValuesFields::field1,
-            comms::option::ValidNumValueRange<0, 10>
+            comms::option::ValidNumValueRange<0, 10>,
+            comms::option::def::HasName
         >
     {
         using Base = 
@@ -55,7 +56,8 @@ struct IntValuesFields
                 demo::FieldBase,
                 std::uint16_t,
                 typename TOpt::message::IntValuesFields::field1,
-                comms::option::ValidNumValueRange<0, 10>
+                comms::option::ValidNumValueRange<0, 10>,
+                comms::option::def::HasName
             >;
     public:
         using ValueType = typename Base::ValueType;
@@ -90,7 +92,8 @@ struct IntValuesFields
             demo::FieldBase,
             std::int32_t,
             typename TOpt::message::IntValuesFields::field2,
-            comms::option::FixedLength<3>
+            comms::option::FixedLength<3>,
+            comms::option::def::HasName
         >
     {
     public:
@@ -111,7 +114,8 @@ struct IntValuesFields
             demo::FieldBase,
             std::uint32_t,
             typename TOpt::message::IntValuesFields::field3,
-            comms::option::VarLength<1, 4>
+            comms::option::VarLength<1, 4>,
+            comms::option::def::HasName
         >
     {
         using Base =
@@ -119,7 +123,8 @@ struct IntValuesFields
                 demo::FieldBase,
                 std::uint32_t,
                 typename TOpt::message::IntValuesFields::field3,
-                comms::option::VarLength<1, 4>
+                comms::option::VarLength<1, 4>,
+                comms::option::def::HasName
             >;
     public:
         using ValueType = typename Base::ValueType;
@@ -159,7 +164,8 @@ struct IntValuesFields
             comms::option::FixedLength<1>,
             comms::option::NumValueSerOffset<-2000>,
             comms::option::DefaultNumValue<2016>,
-            comms::option::ValidNumValueRange<2000, 2255>
+            comms::option::ValidNumValueRange<2000, 2255>,
+            comms::option::def::HasName
         >
     {
     public:
@@ -181,7 +187,8 @@ struct IntValuesFields
             std::int64_t,
             typename TOpt::message::IntValuesFields::field5,
             comms::option::FixedLength<6>,
-            comms::option::ValidNumValueRange<static_cast<std::int64_t>(0xffff800000000000), 0x7fffffffffff>
+            comms::option::ValidNumValueRange<static_cast<std::int64_t>(0xffff800000000000), 0x7fffffffffff>,
+            comms::option::def::HasName
         >
     {
         using Base =
@@ -190,7 +197,8 @@ struct IntValuesFields
             std::int64_t,
             typename TOpt::message::IntValuesFields::field5,
             comms::option::FixedLength<6>,
-            comms::option::ValidNumValueRange<static_cast<std::int64_t>(0xffff800000000000), 0x7fffffffffff>
+            comms::option::ValidNumValueRange<static_cast<std::int64_t>(0xffff800000000000), 0x7fffffffffff>,
+            comms::option::def::HasName
         >;
 
     public:
@@ -225,7 +233,8 @@ struct IntValuesFields
         comms::field::IntValue<
             demo::FieldBase,
             std::uint64_t,
-            typename TOpt::message::IntValuesFields::field6
+            typename TOpt::message::IntValuesFields::field6,
+            comms::option::def::HasName
         >
     {
     public:

@@ -40,7 +40,8 @@ class VersionField : public
         comms::Field<ProtocolEndian>,
         std::uint8_t,
         comms::option::DefaultNumValue<1>,
-        comms::option::ValidNumValueRange<0, 1>
+        comms::option::ValidNumValueRange<0, 1>,
+        comms::option::def::HasName
     >
 {
 public:

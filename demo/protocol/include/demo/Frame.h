@@ -38,8 +38,9 @@ class SyncField : public
     comms::field::IntValue<
         FieldBase,
         std::uint16_t,
-        comms::option::DefaultNumValue<0xabcd>,
-        comms::option::ValidNumValueRange<0xabcd, 0xabcd>
+        comms::option::def::DefaultNumValue<0xabcd>,
+        comms::option::def::ValidNumValueRange<0xabcd, 0xabcd>,
+        comms::option::def::HasName
     >
 {
 public:
@@ -58,7 +59,8 @@ public:
 class ChecksumField : public
     comms::field::IntValue<
         FieldBase,
-        std::uint16_t
+        std::uint16_t,
+        comms::option::def::HasName
     >
 {
 public:
@@ -79,7 +81,8 @@ class LengthField : public
         FieldBase,
         std::uint16_t,
         comms::option::def::NumValueSerOffset<sizeof(std::uint16_t)>,
-        comms::option::def::DisplayOffset<sizeof(std::uint16_t)>
+        comms::option::def::DisplayOffset<sizeof(std::uint16_t)>,
+        comms::option::def::HasName
     >
 {
 public:
@@ -99,14 +102,16 @@ class MsgIdField : public
     comms::field::EnumValue<
         FieldBase,
         MsgId,
-        comms::option::ValidNumValueRange<0, MsgId_NumOfValues - 1>
+        comms::option::def::ValidNumValueRange<0, MsgId_NumOfValues - 1>,
+        comms::option::def::HasName
     >
 {
     using Base = 
         comms::field::EnumValue<
             FieldBase,
             MsgId,
-            comms::option::ValidNumValueRange<0, MsgId_NumOfValues - 1>
+            comms::option::def::ValidNumValueRange<0, MsgId_NumOfValues - 1>,
+            comms::option::def::HasName
         >;    
 public:
     using ValueType = typename Base::ValueType;
@@ -165,7 +170,13 @@ public:
 
 /// @brief Field representing full message payload.
 template <typename... TOptions>
-class DataField : public comms::protocol::MsgDataLayer<TOptions...>::Field
+class DataField : public 
+    comms::field::ArrayList<
+        FieldBase,
+        std::uint8_t,
+        TOptions...,
+        comms::option::def::HasName
+    >
 {
 public:
     static const char* name()
@@ -179,8 +190,7 @@ public:
 template <
     typename TMsgBase,
     typename TMessages,
-    typename TMsgAllocOptions = comms::option::EmptyOption,
-    typename TDataFieldStorageOptions = comms::option::EmptyOption >
+    typename TMsgAllocOptions = comms::option::EmptyOption>
 using StackBase =
     comms::protocol::SyncPrefixLayer<
         SyncField,
@@ -197,7 +207,7 @@ using StackBase =
                         VersionField,
                         DemoMessage<>::TransportFieldIdx_version,
                         comms::protocol::MsgDataLayer<
-                            TDataFieldStorageOptions
+                            comms::option::def::FieldType<DataField<>>
                         >
                     >,
                     TMsgAllocOptions
@@ -236,11 +246,10 @@ using StackBase =
 template <
     typename TMsgBase,
     typename TMessages = demo::AllMessages<TMsgBase, demo::DefaultOptions>,
-    typename TMsgAllocOptions = comms::option::EmptyOption,
-    typename TDataFieldStorageOptions = comms::option::EmptyOption >
-class Frame : public StackBase<TMsgBase, TMessages, TMsgAllocOptions, TDataFieldStorageOptions>
+    typename TMsgAllocOptions = comms::option::EmptyOption>
+class Frame : public StackBase<TMsgBase, TMessages, TMsgAllocOptions>
 {
-    using Base = StackBase<TMsgBase, TMessages, TMsgAllocOptions, TDataFieldStorageOptions>;
+    using Base = StackBase<TMsgBase, TMessages, TMsgAllocOptions>;
 public:
     COMMS_PROTOCOL_LAYERS_ACCESS(payload, version, id, size, checksum, sync);
 };

@@ -45,9 +45,10 @@ struct BitfieldsFields
         comms::field::BitmaskValue<
             demo::FieldBase,
             typename TOpt::message::BitfieldsFields::field1_bitmask,
-            comms::option::FixedLength<1>,
-            comms::option::FixedBitLength<4>,
-            comms::option::BitmaskReservedBits<0xf8, 0>
+            comms::option::def::FixedLength<1>,
+            comms::option::def::FixedBitLength<4>,
+            comms::option::def::BitmaskReservedBits<0xf8, 0>,
+            comms::option::def::HasName
         >
     {
         /// @brief Provide names for internal bits.
@@ -95,8 +96,9 @@ struct BitfieldsFields
             demo::FieldBase,
             Field1Enum,
             typename TOpt::message::BitfieldsFields::field1_enum,
-            comms::option::ValidNumValueRange<static_cast<int>(0), static_cast<int>(Field1Enum::NumOfValues) - 1>,
-            comms::option::FixedBitLength<2>
+            comms::option::def::ValidNumValueRange<static_cast<int>(0), static_cast<int>(Field1Enum::NumOfValues) - 1>,
+            comms::option::def::FixedBitLength<2>,
+            comms::option::def::HasName
         >
     {
         using Base = 
@@ -104,8 +106,9 @@ struct BitfieldsFields
                 demo::FieldBase,
                 Field1Enum,
                 typename TOpt::message::BitfieldsFields::field1_enum,
-                comms::option::ValidNumValueRange<static_cast<int>(0), static_cast<int>(Field1Enum::NumOfValues) - 1>,
-                comms::option::FixedBitLength<2>
+                comms::option::def::ValidNumValueRange<static_cast<int>(0), static_cast<int>(Field1Enum::NumOfValues) - 1>,
+                comms::option::def::FixedBitLength<2>,
+                comms::option::def::HasName
             >;        
     public:
         using ValueType = typename Base::ValueType;
@@ -162,8 +165,9 @@ struct BitfieldsFields
             demo::FieldBase,
             std::uint8_t,
             typename TOpt::message::BitfieldsFields::field1_int1,
-            comms::option::FixedBitLength<6>,
-            comms::option::ValidNumValueRange<0, 0x3f>
+            comms::option::def::FixedBitLength<6>,
+            comms::option::def::ValidNumValueRange<0, 0x3f>,
+            comms::option::def::HasName
         >
     {
     public:  
@@ -184,8 +188,9 @@ struct BitfieldsFields
             demo::FieldBase,
             std::uint8_t,
             typename TOpt::message::BitfieldsFields::field1_int2,
-            comms::option::FixedBitLength<4>,
-            comms::option::ValidNumValueRange<0, 0xf>
+            comms::option::def::FixedBitLength<4>,
+            comms::option::def::ValidNumValueRange<0, 0xf>,
+            comms::option::def::HasName
         >
     {
     public:    
@@ -210,7 +215,8 @@ struct BitfieldsFields
                 field1_enum,
                 field1_int1,
                 field1_int2
-            >
+            >,
+            comms::option::def::HasName
         >
     {
         using Base =
@@ -221,7 +227,8 @@ struct BitfieldsFields
                     field1_enum,
                     field1_int1,
                     field1_int2
-                >
+                >,
+                comms::option::def::HasName
             >;
     public:
         /// @brief Allow access to internal fields.

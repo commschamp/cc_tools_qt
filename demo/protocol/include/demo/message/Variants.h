@@ -56,7 +56,8 @@ struct VariantsFields
             comms::option::def::DefaultNumValue<static_cast<int>(TId)>,
             comms::option::def::ValidNumValueRange<static_cast<int>(TId), static_cast<int>(TId)>,
             comms::option::def::FailOnInvalid<>,
-            comms::option::def::FixedValue
+            comms::option::def::FixedValue,
+            comms::option::def::HasName
         >
     {
         using Base = 
@@ -66,7 +67,8 @@ struct VariantsFields
                 comms::option::def::DefaultNumValue<static_cast<int>(TId)>,
                 comms::option::def::ValidNumValueRange<static_cast<int>(TId), static_cast<int>(TId)>,
                 comms::option::def::FailOnInvalid<>,
-                comms::option::def::FixedValue
+                comms::option::def::FixedValue,
+                comms::option::def::HasName
             >;                
     public:   
         using ValueType = typename Base::ValueType;
@@ -120,7 +122,9 @@ struct VariantsFields
     class lengthField : public
         comms::field::IntValue<
             demo::FieldBase,
-            std::uint8_t>
+            std::uint8_t,
+            comms::option::def::HasName
+        >
     {
     public:
         static constexpr bool hasSpecials()
@@ -139,7 +143,8 @@ struct VariantsFields
         class Value : public 
             comms::field::IntValue<
                 demo::FieldBase,
-                std::uint8_t
+                std::uint8_t,
+                comms::option::def::HasName
             >
         {
         public:
@@ -165,7 +170,8 @@ struct VariantsFields
                 varIdField<VarId::Elem1>,
                 typename field1_var1Members::Value
             >,
-            typename TOpt::message::VariantsFields::field1_var1
+            typename TOpt::message::VariantsFields::field1_var1,
+            comms::option::def::HasName
         >
     {
         using Base =
@@ -175,7 +181,8 @@ struct VariantsFields
                     varIdField<VarId::Elem1>,
                     typename field1_var1Members::Value
                 >,
-                typename TOpt::message::VariantsFields::field1_var1
+                typename TOpt::message::VariantsFields::field1_var1,
+                comms::option::def::HasName
             >;
     public:
         /// @brief Allow access to internal fields.
@@ -198,7 +205,8 @@ struct VariantsFields
         class Value : public 
             comms::field::IntValue<
                 demo::FieldBase,
-                std::uint32_t
+                std::uint32_t,
+                comms::option::def::HasName
             >
         {
         public:
@@ -224,7 +232,8 @@ struct VariantsFields
                 varIdField<VarId::Elem2>,
                 typename field1_var2Members::Value
             >,
-            typename TOpt::message::VariantsFields::field1_var2
+            typename TOpt::message::VariantsFields::field1_var2,
+            comms::option::def::HasName
         >
     {
         using Base =
@@ -234,7 +243,8 @@ struct VariantsFields
                     varIdField<VarId::Elem2>,
                     typename field1_var2Members::Value
                 >,
-                typename TOpt::message::VariantsFields::field1_var2
+                typename TOpt::message::VariantsFields::field1_var2,
+                comms::option::def::HasName
             >;
     public:
         /// @brief Allow access to internal fields.
@@ -257,6 +267,7 @@ struct VariantsFields
         class Value : public 
             comms::field::String<
                 demo::FieldBase,
+                comms::option::def::HasName,
                 comms::option::SequenceSizeFieldPrefix<
                     comms::field::IntValue<
                         demo::FieldBase,
@@ -288,7 +299,8 @@ struct VariantsFields
                 varIdField<VarId::Elem3>,
                 typename field1_var3Members::Value
             >,
-            typename TOpt::message::VariantsFields::field1_var3
+            typename TOpt::message::VariantsFields::field1_var3,
+            comms::option::def::HasName
         >
     {
         using Base =
@@ -298,7 +310,8 @@ struct VariantsFields
                     varIdField<VarId::Elem3>,
                     typename field1_var3Members::Value
                 >,
-                typename TOpt::message::VariantsFields::field1_var3
+                typename TOpt::message::VariantsFields::field1_var3,
+                comms::option::def::HasName
             >;
     public:
         /// @brief Allow access to internal fields.
@@ -329,7 +342,8 @@ struct VariantsFields
                 field1_var2,
                 field1_var3
             >,
-            typename TOpt::message::VariantsFields::field1
+            typename TOpt::message::VariantsFields::field1,
+            comms::option::def::HasName
         >
     {
         using Base =
@@ -340,7 +354,8 @@ struct VariantsFields
                     field1_var2,
                     field1_var3
                 >,
-                typename TOpt::message::VariantsFields::field1
+                typename TOpt::message::VariantsFields::field1,
+                comms::option::def::HasName
             >;
     public:
         using MemberNameInfo = const char*;
@@ -390,7 +405,8 @@ struct VariantsFields
         class Value : public 
             comms::field::IntValue<
                 demo::FieldBase,
-                std::uint8_t
+                std::uint8_t,
+                comms::option::def::HasName
             >
         {
         public:
@@ -418,7 +434,8 @@ struct VariantsFields
                 typename field2_var1Members::Value
             >,
             typename TOpt::message::VariantsFields::field2_var1,
-            comms::option::def::RemLengthMemberField<1>
+            comms::option::def::RemLengthMemberField<1>,
+            comms::option::def::HasName
         >
     {
         using Base =
@@ -430,7 +447,8 @@ struct VariantsFields
                     typename field2_var1Members::Value
                 >,
                 typename TOpt::message::VariantsFields::field2_var1,
-                comms::option::def::RemLengthMemberField<1>
+                comms::option::def::RemLengthMemberField<1>,
+                comms::option::def::HasName
             >;
     public:
         /// @brief Allow access to internal fields.
@@ -454,7 +472,8 @@ struct VariantsFields
         class Value : public 
             comms::field::IntValue<
                 demo::FieldBase,
-                std::uint32_t
+                std::uint32_t,
+                comms::option::def::HasName
             >
         {
         public:
@@ -482,7 +501,8 @@ struct VariantsFields
                 typename field2_var2Members::Value
             >,
             typename TOpt::message::VariantsFields::field2_var2,
-            comms::option::def::RemLengthMemberField<1>
+            comms::option::def::RemLengthMemberField<1>,
+            comms::option::def::HasName
         >
     {
         using Base =
@@ -494,7 +514,8 @@ struct VariantsFields
                     typename field2_var2Members::Value
                 >,
                 typename TOpt::message::VariantsFields::field2_var2,
-                comms::option::def::RemLengthMemberField<1>
+                comms::option::def::RemLengthMemberField<1>,
+                comms::option::def::HasName
             >;
     public:
         /// @brief Allow access to internal fields.
@@ -516,7 +537,7 @@ struct VariantsFields
     struct field2_var3Members
     {
         class Value : public 
-            comms::field::String<demo::FieldBase>
+            comms::field::String<demo::FieldBase, comms::option::def::HasName>
         {
         public:
             static const char* name()
@@ -537,7 +558,8 @@ struct VariantsFields
                 lengthField,
                 typename field2_var3Members::Value
             >,
-            comms::option::def::RemLengthMemberField<1>
+            comms::option::def::RemLengthMemberField<1>,
+            comms::option::def::HasName
         >
     {
         using Base =
@@ -548,7 +570,8 @@ struct VariantsFields
                     lengthField,
                     typename field2_var3Members::Value
                 >,
-                comms::option::def::RemLengthMemberField<1>
+                comms::option::def::RemLengthMemberField<1>,
+                comms::option::def::HasName
             >;
     public:
         /// @brief Allow access to internal fields.
@@ -580,7 +603,8 @@ struct VariantsFields
                 field2_var2,
                 field2_var3
             >,
-            typename TOpt::message::VariantsFields::field2
+            typename TOpt::message::VariantsFields::field2,
+            comms::option::def::HasName
         >
     {
         using Base =
@@ -591,7 +615,8 @@ struct VariantsFields
                     field2_var2,
                     field2_var3
                 >,
-                typename TOpt::message::VariantsFields::field2
+                typename TOpt::message::VariantsFields::field2,
+                comms::option::def::HasName
             >;
     public:
         using MemberNameInfo = const char*;

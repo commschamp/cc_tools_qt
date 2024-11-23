@@ -45,8 +45,9 @@ struct BitmaskValuesFields
         comms::field::BitmaskValue<
             demo::FieldBase,
             typename TOpt::message::BitmaskValuesFields::field1,
-            comms::option::FixedLength<1>,
-            comms::option::BitmaskReservedBits<0xe0, 0>
+            comms::option::def::FixedLength<1>,
+            comms::option::def::BitmaskReservedBits<0xe0, 0>,
+            comms::option::def::HasName
         >
     {
     public:        
@@ -89,8 +90,9 @@ struct BitmaskValuesFields
         comms::field::BitmaskValue<
             demo::FieldBase,
             typename TOpt::message::BitmaskValuesFields::field2,
-            comms::option::FixedLength<2>,
-            comms::option::BitmaskReservedBits<0xfcf6, 0>
+            comms::option::def::FixedLength<2>,
+            comms::option::def::BitmaskReservedBits<0xfcf6, 0>,
+            comms::option::def::HasName
         >
     {
     public:        
