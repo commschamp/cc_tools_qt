@@ -5,7 +5,7 @@ on:
     branches:
       - '**'
     tags-ignore:
-      - '**
+      - '**'
 
 env:
   COMMS_TAG: develop
