@@ -45,7 +45,7 @@ void metaTypesRegisterAll()
 
 void initSingletons()
 {
-    static_cast<void>(cc_tools_qt::ToolsPluginMgrG::instanceRef());
+    static_cast<void>(cc_tools_qt::PluginMgrG::instanceRef());
     static_cast<void>(cc_tools_qt::MsgMgrG::instanceRef());
     static_cast<void>(cc_tools_qt::GuiAppMgr::instance());
 }
@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
     }
     app.addLibraryPath(pluginsDir);
 
-    auto& pluginMgr = cc_tools_qt::ToolsPluginMgrG::instanceRef();
+    auto& pluginMgr = cc_tools_qt::PluginMgrG::instanceRef();
     pluginMgr.setPluginsDir(pluginsDir);
 
     auto& guiAppMgr = cc_tools_qt::GuiAppMgr::instanceRef();
