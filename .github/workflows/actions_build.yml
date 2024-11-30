@@ -127,7 +127,7 @@ jobs:
       if: ${{matrix.type == 'Debug' && matrix.cc_ver == '14' && matrix.qt_ver == '5' && matrix.cpp == '17'}}
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: make doc_comms    
+      run: make doc_cc_tools_qt
 
 
   build_clang_ubuntu_22_04:
