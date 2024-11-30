@@ -65,37 +65,31 @@ public:
     const QString& name() const;
 
     /// @brief Read the received data input.
-    /// @details Invokes @ref readImpl().
     /// @param[in] dataInfo Received data information
     /// @param[in] final Final input indication, if @b true no more data is expected
     /// @return List of created messages
     ToolsMessagesList read(const ToolsDataInfo& dataInfo, bool final = false);
 
-    /// @brief Serialse message.
-    /// @details Invokes @ref writeImpl().
+    /// @brief Serialise message.
     /// @param[in] msg Reference to message object, passed by non-const reference
     ///     to allow update of the message properties.
     /// @return Serialised data.
     ToolsDataInfoPtr write(ToolsMessage& msg);
 
     /// @brief Create all messages supported by the protocol.
-    /// @details Invokes @ref createAllMessagesImpl().
     ToolsMessagesList createAllMessages();
 
     /// @brief Create message object given string representation of the message ID.
-    /// @details Invokes @ref createMessageImpl().
     /// @param[in] idAsString String representation of the message ID.
     /// @param[in] idx Index of the message type within the range of message types
     ///     with the same ID.
     ToolsMessagePtr createMessage(const QString& idAsString, unsigned idx = 0);
 
     /// @brief Update (or refresh) message contents
-    /// @details Invokes @ref updateMessageImpl().
     /// @return Status of the update.
     UpdateStatus updateMessage(ToolsMessage& msg);
 
     /// @brief Clone the message object
-    /// @details Invokes @ref cloneMessageImpl().
     /// @return Pointer to newly created message with the same contents
     ToolsMessagePtr cloneMessage(const ToolsMessage& msg);
 
@@ -129,8 +123,16 @@ public:
     void setDebugOutputLevel(unsigned level = 0U);     
 
 signals:
+    /// @brief Signal used to report new protocol message to be sent out
+    /// @param[in] msg Pointer to message object
     void sigSendMessageReport(ToolsMessagePtr msg);
+
+    /// @brief Signal used to report error
+    /// @param[in] str Error message.
     void sigErrorReport(const QString& str);
+
+    /// @brief Signal to report inter-plugin configuration
+    /// @param[in] props Configuration properties.    
     void sigInterPluginConfigReport(const QVariantMap& props);    
 
 protected:
@@ -166,15 +168,15 @@ protected:
 
     /// @brief Report operation error.
     /// @details This function is expected to be invoked by the derived class,
-    ///     when some error is detected. This function will invoke
-    ///     callback set by @ref setErrorReportCallback().
+    ///     when some error is detected. This function will emit
+    ///     @ref sigErrorReport() signal.
     /// @param[in] str Error string.
     void reportError(const QString& str);  
 
     /// @brief Request a protocol message to be sent out.
     /// @details This function is expected to be invoked by the derived class,
     ///     when an extra message needs to be sent out. This function will invoke
-    ///     callback set by @ref setSendMessageRequestCallback().
+    ///     emit @ref sigSendMessageReport() signal.
     /// @param[in] msg Pointer to the message object.
     void sendMessageRequest(ToolsMessagePtr msg);  
 
@@ -182,7 +184,8 @@ protected:
     /// @details Sometimes configuration of one plugin may influence configuration of another.
     ///     Use this function to report inter-plugin configuration properties.
     ///     When invoked all other plugins are expected to get their respecitve 
-    ///     @ref applyInterPluginConfig() functions invoked.
+    ///     @ref applyInterPluginConfig() functions invoked.@n
+    ///     Emits @ref sigInterPluginConfigReport() signal.
     /// @param[in] props Reported properties.
     void reportInterPluginConfig(const QVariantMap& props);      
 
@@ -225,7 +228,7 @@ private:
     std::unique_ptr<InnerState> m_state;
 };
 
-/// @brief Pointer to @ref Protocol object.
+/// @brief Pointer to @ref ToolsProtocol object.
 using ToolsProtocolPtr = std::shared_ptr<ToolsProtocol>;
 
 }  // namespace cc_tools_qt

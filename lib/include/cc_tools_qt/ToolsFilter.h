@@ -94,8 +94,16 @@ public:
     void setDebugOutputLevel(unsigned level = 0U);    
 
 signals:
+    /// @brief Signal used to report extra data to send
+    /// @param[in] data Data to send.
     void sigDataToSendReport(ToolsDataInfoPtr data);
+
+    /// @brief Signal used to report error
+    /// @param[in] msg Error message.
     void sigErrorReport(const QString& msg);
+    
+    /// @brief Signal to report inter-plugin configuration
+    /// @param[in] props Configuration properties.    
     void sigInterPluginConfigReport(const QVariantMap& props);    
 
 protected:
@@ -141,8 +149,8 @@ protected:
 
     /// @brief Report operation error.
     /// @details This function is expected to be invoked by the derived class,
-    ///     when some error is detected. This function will invoke
-    ///     callback set by @ref setErrorReportCallback().
+    ///     when some error is detected. This function will emit
+    ///     @ref sigErrorReport() signal.
     /// @param[in] msg Error message.
     void reportError(const QString& msg);
 
@@ -150,7 +158,8 @@ protected:
     /// @details Sometimes configuration of one plugin may influence configuration of another.
     ///     Use this function to report inter-plugin configuration properties.
     ///     When invoked all other plugins are expected to get their respecitve 
-    ///     @ref applyInterPluginConfig() functions invoked.
+    ///     @ref applyInterPluginConfig() functions invoked.@n
+    ///     Emits @ref sigInterPluginConfigReport() signal.
     /// @param[in] props Reported properties.
     void reportInterPluginConfig(const QVariantMap& props);    
 

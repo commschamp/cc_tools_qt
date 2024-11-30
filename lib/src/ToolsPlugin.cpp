@@ -187,6 +187,11 @@ ToolsPlugin::ListOfGuiActions ToolsPlugin::createGuiActionsImpl()
     return ListOfGuiActions();
 }
 
+void ToolsPlugin::reportInterPluginConfig(const QVariantMap& props)
+{
+    emit sigInterPluginConfigReport(props);
+}
+
 }  // namespace cc_tools_qt
 
 

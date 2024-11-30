@@ -3,17 +3,17 @@
 /// This project uses
 /// <a href="http://doc.qt.io/qt-5/qtplugin.html">Qt Infrastructure</a>
 /// to define and load plugins. The custom plugin definition shared object needs
-/// to contain its own @b Plugin class that inherits from cc_tools_qt::Plugin and
+/// to contain its own @b Plugin class that inherits from @ref cc_tools_qt::ToolsPlugin and
 /// uses various Qt macros to describe itself. As an example please take
 /// a look at
 /// <a href="https://github.com/commschamp/cc_tools_qt/blob/master/plugin/echo_socket/EchoSocketPlugin.h">EchoSocketPlugin.h</a> 
 /// from this project.
 /// @code
-/// class EchoSocketPlugin : public cc_tools_qt::Plugin
+/// class EchoSocketPlugin : public cc_tools_qt::ToolsPlugin
 /// {
 ///     Q_OBJECT
 ///     Q_PLUGIN_METADATA(IID "cc.EchoSocketPlugin" FILE "echo_socket.json")
-///     Q_INTERFACES(cc_tools_qt::Plugin)
+///     Q_INTERFACES(cc_tools_qt::ToolsPlugin)
 ///     ...
 /// };
 /// @endcode
@@ -44,7 +44,7 @@
 /// }
 /// @endcode
 /// The plugin definition class must also contain explicit declaration of implementing
-/// cc_tools_qt::Plugin interface using
+/// cc_tools_qt::ToolsPlugin interface using
 /// <a href="http://doc.qt.io/qt-5/qobject.html#Q_INTERFACES">Q_INTERFACES()</a>
 /// macro.
 ///
@@ -70,27 +70,29 @@
 /// by filling the given @b QVariantMap object as well as retrieve and apply the new
 /// configuration from it.
 ///
-/// The cc_tools_qt::Plugin class is implemented using  
-/// <a href="https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Non-Virtual_Interface">Non-Virtual Interface Idiom</a>
-/// It's non-virtual public interface is used by the driving application. The
+/// The cc_tools_qt::ToolsPlugin class is implemented using
+/// <a href="https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Non-Virtual_Interface">Non-Virtual Interface Idiom</a>.
+/// Its non-virtual public interface is used by the driving application. The
 /// inheriting class needs to implement virtual @b *Impl() functions to override
 /// the default behaviour.
 ///
-/// The cc_tools_qt::Plugin class defines the following virtual functions
+/// The @ref cc_tools_qt::ToolsPlugin class defines the following virtual functions
 /// that are used for getting / setting the plugin's configuration.
 /// @code
 /// namespace cc_tools_qt
 /// {
-/// class Plugin : public QObject
+///
+/// class Plugin : public cc_tools_qt::ToolsPlugin
 /// {
 ///     ...
 /// protected:
 ///     // Retrieve current configuration
-///     virtual void getCurrentConfigImpl(QVariantMap& config);
+///     virtual void getCurrentConfigImpl(QVariantMap& config) override;
 ///
 ///     // Apply new configuration
-///     virtual void reconfigureImpl(const QVariantMap& config);
+///     virtual void reconfigureImpl(const QVariantMap& config) override;
 /// };
+///
 /// } // namespace cc_tools_qt
 /// @endcode
 /// If the custom plugin being implemented requires external configuration,
@@ -149,124 +151,7 @@
 /// }
 /// @endcode
 ///
-/// @section page_plugin_properties Plugin Properties
-/// In addition to explained above configuration, the plugin is expected to 
-/// apply extra properties which will allow the running application to use
-/// it properly. The cc_tools_qt::Plugin class provides an access to
-/// cc_tools_qt::PluginProperties object, which is stored as its data member.
-/// @code
-/// namespace cc_tools_qt
-/// {
-/// class Plugin : public QObject
-/// {
-///     ...
-/// protected:
-///     // Get access to properties object
-///     PluginProperties& pluginProperties();
-/// 
-/// private:
-///     PluginProperties m_props;
-/// };
-/// }  // namespace cc_tools_qt
-/// @endcode
-/// The deriving @b Plugin class is expected to grab a hold on the properties
-/// object and apply its relevant properties.
-/// @code
-/// class MyPlugin : public cc_tools_qt::Plugin
-/// {
-///     ...
-/// public:
-///     MyPlugin()
-///     {
-///         pluginProperties()
-///             .setSocketCreateFunc(
-///                 [this]() -> cc_tools_qt::SocketPtr
-///                 {
-///                     ...
-///                 })
-///             .setConfigWidgetCreateFunc(
-///                 [this]() -> QWidget*
-///                 {
-///                     ...
-///                 });
-///     }
-///     ...
-/// };
-/// @endcode
-/// Let's take a look at available properties one by one.
-///
-/// @subsection page_plugin_properties_socket Socket Allocation Callback
-/// The @b Socket plugin (see @ref page_socket_plugin) is expected to be able
-/// to create and return cc_tools_qt::ToolsSocket object when requested. However, it is up to
-/// the application to decide when. As the result, the actual plugin class 
-/// needs to provide a callback to be called when new cc_tools_qt::ToolsSocket
-/// object is required. It is done using call to 
-/// cc_tools_qt::PluginProperties::setSocketCreateFunc().
-/// @code
-/// class MySocketPlugin : public cc_tools_qt::Plugin
-/// {
-///     ...
-/// public:
-///     MySocketPlugin()
-///     {
-///         pluginProperties()
-///             .setSocketCreateFunc(
-///                 [this]() -> cc_tools_qt::SocketPtr
-///                 {
-///                     ...
-///                 });
-///     }
-///     ...
-/// };
-/// @endcode
-///
-/// @subsection page_plugin_properties_protocol Protocol Allocation Callback
-/// The @b Protocol plugin (see @ref page_protocol_plugin) is expected to be able
-/// to create and return cc_tools_qt::ToolsProtocol object when requested. However, it is up to
-/// the application to decide when. As the result, the actual plugin class 
-/// needs to provide a callback to be called when new cc_tools_qt::ToolsProtocol
-/// object is required. It is done using call to 
-/// cc_tools_qt::PluginProperties::setProtocolCreateFunc().
-/// @code
-/// class MyProtocolPlugin : public cc_tools_qt::Plugin
-/// {
-///     ...
-/// public:
-///     MyProtocolPlugin()
-///     {
-///         pluginProperties()
-///             .setProtocolCreateFunc(
-///                 [this]() -> cc_tools_qt::ToolsProtocolPtr
-///                 {
-///                     ...
-///                 });
-///     }
-///     ...
-/// };
-/// @endcode
-///
-/// @subsection page_plugin_properties_filter Filter Allocation Callback
-/// The @b Filter plugin (see @ref page_filter_plugin) is expected to be able
-/// to create and return cc_tools_qt::Filter object when requested. However, it is up to
-/// the application to decide when. As the result, the actual plugin class 
-/// needs to provide a callback to be called when new cc_tools_qt::Filter
-/// object is required. It is done using call to 
-/// cc_tools_qt::PluginProperties::setFiltersCreateFunc().
-/// @code
-/// class MyFilterPlugin : public cc_tools_qt::Plugin
-/// {
-///     ...
-/// public:
-///     MyFilterPlugin()
-///     {
-///         pluginProperties()
-///             .setFiltersCreateFunc(...);
-///     }
-///     ...
-/// };
-/// @endcode
-/// 
-/// @subsection page_plugin_properties_config_widget Configuration Widget
+/// @subsection page_plugin_config_widget Configuration Widget
 /// As was mentioned earlier, the plugin may require some configuration. The
 /// command line application will receive required parameters via command line
 /// arguments. The GUI application, on the other hand, must provide a convenient 
@@ -277,49 +162,44 @@
 /// applications, both GUI and command-line ones. As the result, the developed
 /// plugin is expected to be able to create and return a widget object, which will be
 /// displayed by the GUI application at some stage. If plugin requires configuration
-/// it should also provide a callback to allow creation of such widget.
-/// Use cc_tools_qt::PluginProperties::setConfigWidgetCreateFunc() function
-/// to set the callback.
+/// it should also override @ref cc_tools_qt::ToolsPlugin::createConfigurationWidgetImpl() "createConfigurationWidgetImpl()"
+/// virtual member function.
 /// @code
-/// class MyPlugin : public cc_tools_qt::Plugin
+/// class MyPlugin : public cc_tools_qt::ToolsPlugin
 /// {
 ///     ...
-/// public:
-///     MyPlugin()
+/// protected:
+///     virtual QWidget* createConfigurationWidgetImpl() override
 ///     {
-///         pluginProperties()
-///             .setConfigWidgetCreateFunc(
-///                 [this]() -> QWidget*
-///                 {
-///                     return new MyConfigWidget(...);
-///                 });
+///         return new MyConfigWidget(...);
 ///     }
-///     ...
 /// };
 /// @endcode
-/// @b NOTE, that the callback returns dynamically allocated widget object,
+/// @b NOTE, that the member function returns dynamically allocated widget object,
 /// which will be @b owned by the running application. The plugin does @b NOT need
 /// to store the pointer and delete it later.
 /// 
-/// @subsection page_plugin_properties_gui_actions GUI Actions
+/// @subsection page_plugin_gui_actions GUI Actions
 /// For user's convenience, the plugin may also create multiple 
 /// <a href="http://doc.qt.io/qt-5/qaction.html">QAction</a> objects.
 /// This objects will be inserted into main toolbar of the GUI application allowing
 /// users to perform quick updates / notifications to the running plugins.
-/// Use cc_tools_qt::PluginProperties::setGuiActionsCreateFunc() function
-/// to set the callback.
+/// To provide such functionality override @ref cc_tools_qt::ToolsPlugin::createGuiActionsImpl() "createGuiActionsImpl()" function;
 /// @code
-/// class MyPlugin : public cc_tools_qt::Plugin
+/// class MyPlugin : public cc_tools_qt::ToolsPlugin
 /// {
 ///     ...
-/// public:
-///     MyPlugin()
+/// protected:
+///     virtual ListOfGuiActions createGuiActionsImpl() override
 ///     {
-///         pluginProperties()
-///             .setGuiActionsCreateFunc(...);
+///         return
+///             ListOfGuiActions{
+///                 new QAction(...),
+///                 new QAction(...)
+///             };
 ///     }
-///     ...
 /// };
 /// @endcode
-/// 
+/// Similar to the configuration widget the action objects are owned by the running application,
+/// no need to delete them explicitly.
 

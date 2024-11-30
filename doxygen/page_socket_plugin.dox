@@ -29,8 +29,8 @@
 ///     ...
 /// };
 /// @endcode
-/// The cc_tools_qt::ToolsSocket class is implemented using  
-/// <a href="https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Non-Virtual_Interface">Non-Virtual Interface Idiom</a>
+/// The cc_tools_qt::ToolsSocket class is implemented using
+/// <a href="https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Non-Virtual_Interface">Non-Virtual Interface Idiom</a>.
 /// It's non-virtual public interface is used by the driving application. The
 /// inheriting class needs to implement virtual @b *Impl() functions to override
 /// the default behaviour.
@@ -61,7 +61,8 @@
 /// cc_tools_qt::ToolsSocket::reportDisconnected() member function to report it
 /// to the running application. The latter will report it to the user.
 /// 
-/// @b NOTE, that during requested disconnection (inside overriden @b socketDisconnectImpl())
+/// @b NOTE, that during requested disconnection (inside overriden
+/// @ref cc_tools_qt::ToolsSocket::socketDisconnectImpl() "socketDisconnectImpl()")
 /// the socket class must NOT report the disconnection using the decribed above
 /// function. It should be used only to report @b unsolicited one.
 ///
@@ -74,14 +75,14 @@
 /// the updates to the main thread using the same signal/slot facility.
 ///
 /// When new data arrival is detected, the @b socket object needs to report it 
-/// using inherited cc_tools_qt::ToolsSocket::reportDataReceived() function. Note,
+/// using inherited @ref cc_tools_qt::ToolsSocket::reportDataReceived() function. Note,
 /// that the latter receives single parameter of type cc_tools_qt::ToolsDataInfoPtr.
 /// It is @b std::shared_ptr to cc_tools_qt::ToolsDataInfo. Please use 
 /// cc_tools_qt::makeDataInfo() function to allocate one. The cc_tools_qt::ToolsDataInfo
 /// contains three data members:
-/// @li @b m_timestamp - timestamp when data is received
-/// @li @b m_data - raw bytes data
-/// @li @b m_extraProperties - optional extra information about the data.
+/// @li @ref cc_tools_qt::ToolsDataInfo::m_timestamp "m_timestamp" - timestamp when data is received
+/// @li @ref cc_tools_qt::ToolsDataInfo::m_data "m_data" - raw bytes data
+/// @li @ref cc_tools_qt::ToolsDataInfo::m_extraProperties "m_extraProperties" - optional extra information about the data.
 /// 
 /// @code
 /// class MySocket : public ...
@@ -98,9 +99,10 @@
 /// };
 /// @endcode
 /// @b NOTE, that the assignment of the @b m_timestamp value can be omitted. If no
-/// value has been set, the inherited @b reportDataReceived() function will assign
+/// value has been set, the inherited @ref cc_tools_qt::ToolsSocket::reportDataReceived() "reportDataReceived()" function will assign
 /// the value returned by call to `cc_tools_qt::ToolsDataInfo::TimestampClock::now()` prior
 /// to invoking the callback to report the data to the application.
+/// Another options is to use @ref cc_tools_qt::makeDataInfoTimed() instead of @ref cc_tools_qt::makeDataInfo().
 ///
 /// Also note, that there is @b m_extraProperties data member which can contain
 /// any extra information about the data. For example, the IP address and port 
@@ -111,7 +113,7 @@
 /// 
 /// @subsection page_socket_plugin_data_send Sending Data
 /// The socket object receives requests to send outgoing data using call to
-/// overridden virtual @b sendDataImpl() (see cc_tools_qt::ToolsSocket::sendDataImpl()).
+/// overridden virtual @ref cc_tools_qt::ToolsSocket::sendDataImpl() "sendDataImpl()".
 /// @code
 /// class MySocket : public ...
 /// {
@@ -122,8 +124,8 @@
 ///     }
 /// };
 /// @endcode
-/// Note, that the parameter to the function is the same std::shared_ptr to
-/// cc_tools_qt::ToolsDataInfo. In addition to raw data bytes in may also contain
+/// Note, that the parameter to the function is the same @b std::shared_ptr to
+/// @ref cc_tools_qt::ToolsDataInfo. In addition to raw data bytes in may also contain
 /// extra properties. Depending on the socket, these properties can be used by the
 /// other plugins (@b filters and/or @b protocol) to provide extra information on
 /// how the data needs to be sent. For example, it can specify whether 
@@ -139,30 +141,29 @@
 /// Please read the @ref page_plugin page first to understand the way the 
 /// plugins are defined.
 ///
-/// The @b socket plugin must provide a callback to allocate the 
-/// @b Socket object (the one that is derived from cc_tools_qt::ToolsSocket).
+/// The @b socket plugin must specify its type as @ref cc_tools_qt::ToolsPlugin::Type_Socket "Type_Socket" and override
+/// @ref cc_tools_qt::ToolsPlugin::createSocketImpl() "createSocketImpl()" virtual member function.
 /// @code
-/// class EchoSocketPlugin : public cc_tools_qt::Plugin
+/// class EchoSocketPlugin : public cc_tools_qt::ToolsPlugin
 /// {
 ///     Q_OBJECT
 ///     Q_PLUGIN_METADATA(IID "cc.EchoSocketPlugin" FILE "echo_socket.json")
-///     Q_INTERFACES(cc_tools_qt::Plugin)
+///     Q_INTERFACES(cc_tools_qt::ToolsPlugin)
+///
+///     using Base = cc_tools_qt::ToolsPlugin;
 ///
 /// public:
-///     EchoSocketPlugin()
+///     EchoSocketPlugin() : Base(Type_Socket) {}
+///     ...
+/// protected:
+///     virtual cc_tools_qt::ToolsSocketPtr createSocketImpl() override
 ///     {
-///         pluginProperties()
-///             .setSocketCreateFunc(
-///                 [this]()
-///                 {
-///                     return makeEchoSocket();
-///                 });
+///          return makeEchoSocket();
 ///     }
-///             
 ///     ...
 /// };
 /// @endcode
 /// If the socket requires configuration, please also provide a callback which
-/// creates the widget when invoked (see @ref page_plugin_properties_config_widget).
+/// creates the widget when invoked (see @ref page_plugin_config_widget).
 
 

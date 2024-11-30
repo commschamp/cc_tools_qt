@@ -50,8 +50,7 @@ struct CC_TOOLS_API ToolsDataInfo
     ToolsDataInfo();
     Timestamp m_timestamp; ///< Timestamp when data has been received / sent
     DataSeq m_data; ///< Actual raw data
-    PropertiesMap m_extraProperties; ///< Extra properties that can be used by
-                                     /// other componets
+    PropertiesMap m_extraProperties; ///< Extra properties that can be used by other componets
 };
 
 /// @brief Pointer to @ref ToolsDataInfo

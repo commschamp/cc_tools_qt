@@ -34,10 +34,10 @@ namespace cc_tools_qt
 
 /// @brief Base class for @b TransportMessage definition in @b protocol
 ///     plugin.
-/// @tparam TProtMsg TODO
+/// @tparam TBase Base class that this class is expected to inherit. Expected to be @ref cc_tools_qt::ToolsMessage or derivative.
+/// @tparam TProtMsg Message class defined using @b comms::MessageBase class.
 /// @tparam TActualMsg Type of the actual message class inheriting from this one
-/// @tparam TBase Base class that this class is expected to inherit. Expected to be cc_tools_qt::ToolsMessage or derivative.
-/// @headerfile cc_tools_qt/ToolTransportMessageBase.h
+/// @headerfile cc_tools_qt/ToolsTransportMessageBase.h
 template <typename TBase, template<typename...> class TProtMsg, typename TActualMsg>
 class ToolsTransportMessageBase : public
     cc_tools_qt::ToolsMessageBase<

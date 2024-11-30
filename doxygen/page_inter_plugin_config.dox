@@ -5,11 +5,11 @@
 /// up to the plugins to interpret the values stored in the map.
 ///
 /// @section page_inter_plugin_config_recv Receiving Inter-Plugin Configuration Request
-/// The plugin class is expected to extend the @ref cc_tools_qt::Plugin and override
-/// the @ref cc_tools_qt::Plugin::applyInterPluginConfigImpl() "applyInterPluginConfigImpl()"
+/// The plugin class is expected to extend the @ref cc_tools_qt::ToolsPlugin and override
+/// the @ref cc_tools_qt::ToolsPlugin::applyInterPluginConfigImpl() "applyInterPluginConfigImpl()"
 /// member function.
 /// @code
-/// class MyFilterPlugin : public cc_tools_qt::Plugin
+/// class MyFilterPlugin : public cc_tools_qt::ToolsPlugin
 /// {
 ///     ...
 /// protected:
@@ -28,10 +28,10 @@
 /// };
 /// @endcode
 ///
-/// In case the plugin configuration is handled inside the class extending the
-/// @ref cc_tools_qt::ToolsSocket "socket", @ref cc_tools_qt::Filter "filter", or @ref cc_tools_qt::ToolsProtocol "protocol",
+/// In most cases the plugin configuration is handled inside the class extending the
+/// @ref cc_tools_qt::ToolsSocket "socket", @ref cc_tools_qt::ToolsFilter "filter", or @ref cc_tools_qt::ToolsProtocol "protocol",
 /// then such class can override its @ref cc_tools_qt::ToolsSocket::applyInterPluginConfigImpl() "applyInterPluginConfigImpl()"
-/// member function while the plugin's @ref cc_tools_qt::Plugin::applyInterPluginConfigImpl() "applyInterPluginConfigImpl()"
+/// member function while the plugin's @ref cc_tools_qt::ToolsPlugin::applyInterPluginConfigImpl() "applyInterPluginConfigImpl()"
 /// one can redirect the request.
 /// @code
 /// class MySocket : public cc_tools_qt::ToolsSocket
@@ -52,7 +52,7 @@
 ///     ...
 /// };
 ///
-/// class MyFilterPlugin : public cc_tools_qt::Plugin
+/// class MySocketPlugin : public cc_tools_qt::ToolsPlugin
 /// {
 ///
 /// public:
@@ -69,11 +69,11 @@
 /// @endcode
 ///
 /// @section page_inter_plugin_config_send Sending Inter-Plugin Configuration Request
-/// The @ref cc_tools_qt::Plugin "plugin" class can invoke inheirted
-/// @ref cc_tools_qt::Plugin::reportInterPluginConfig() "reportInterPluginConfig()"
+/// The @ref cc_tools_qt::ToolsPlugin "plugin" class can invoke inheirted
+/// @ref cc_tools_qt::ToolsPlugin::reportInterPluginConfig() "reportInterPluginConfig()"
 /// member function to report populated inter-plugin configuration.
 /// @code
-/// class MyFilterPlugin : public cc_tools_qt::Plugin
+/// class MyFilterPlugin : public cc_tools_qt::ToolsPlugin
 /// {
 ///     ...
 /// private:
@@ -88,11 +88,10 @@
 /// @endcode
 ///
 /// In case the inter-plugin configuration event is initiated inside the class extending the
-/// @ref cc_tools_qt::ToolsSocket "socket", @ref cc_tools_qt::Filter "filter", or @ref cc_tools_qt::ToolsProtocol "protocol",
-/// then such class can use inherited @ref cc_tools_qt::ToolsSocket::reportInterPluginConfig() member function
-/// while the plugin class can set appropriate callback and use the inherited
-/// @ref cc_tools_qt::Plugin::reportInterPluginConfig() "reportInterPluginConfig()" to propagate
-/// the inter-plugin configuration request.
+/// @ref cc_tools_qt::ToolsSocket "socket", @ref cc_tools_qt::ToolsFilter "filter", or @ref cc_tools_qt::ToolsProtocol "protocol",
+/// then such class can use inherited @ref cc_tools_qt::ToolsSocket::reportInterPluginConfig() member function.
+/// The @ref cc_tools_qt::ToolsPlugin "plugin" class will connect the signals and emit its own
+/// @ref cc_tools_qt::ToolsPlugin::sigInterPluginConfigReport() "sigInterPluginConfigReport()".
 /// @code
 /// class MySocket : public cc_tools_qt::ToolsSocket
 /// {
@@ -105,21 +104,6 @@
 ///         prop["some_other_prop"] = QVariant::fromValue(123);
 ///         reportInterPluginConfig(props);
 ///     }
-/// };
-///
-/// class MyFilterPlugin : public cc_tools_qt::Plugin
-/// {
-///
-/// public:
-///     MyFilterPlugin() : m_socket(new MySocket)
-///     {
-///         m_socket->setInterPluginConfigReportCallback(
-///             [this](const QVariantMap& props)
-///             {
-///                 reportInterPluginConfig(props);
-///             });
-///     }
-///
 /// };
 /// @endcode
 ///

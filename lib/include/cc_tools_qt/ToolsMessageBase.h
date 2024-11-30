@@ -37,10 +37,10 @@ namespace cc_tools_qt
 
 /// @brief Helper class used to define protocol message class
 ///     in <b>CommsChampion Tools</b> plugin environment.
-/// @tparam TProtMsg Type of the message class used for the plugin.
+/// @tparam TBase Base class that this class is expected to inherit. Expected to be @ref cc_tools_qt::ToolsMessage or derivative.
+/// @tparam TProtMsg Type of the protocol message defined using @b comms::MessageBase class.
 /// @tparam TActualMsg Type of the actual message class inheriting from this one
-/// @tparam TBase Base class that this class is expected to inherit. Expected to be cc_tools_qt::ToolsMessage or derivative.
-/// @headerfile cc_tools_qt/ToolMessageBase.h
+/// @headerfile cc_tools_qt/ToolsMessageBase.h
 template <typename TBase, template<typename...> class TProtMsg, typename TActualMsg>
 class ToolsMessageBase : public TBase
 {

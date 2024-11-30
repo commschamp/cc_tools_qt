@@ -42,12 +42,14 @@ class CC_TOOLS_API ToolsPlugin : public QObject
 {
     Q_OBJECT
 public:
+
+    /// @brief Type of the plugin
     enum Type : unsigned
     {
-        Type_Socket,
-        Type_Filter,
-        Type_Protocol,
-        Type_NumOfValues
+        Type_Socket, ///< Socket
+        Type_Filter, ///< Filter
+        Type_Protocol, ///< Protocol
+        Type_NumOfValues ///< Upper limit to enum values
     };
 
     /// @brief List of GUI action buttons
@@ -83,17 +85,19 @@ public:
 
     /// @brief Create socket
     /// @details This function will be called if it is @b socket plugin. It
-    ///     will invoke socket creation callback function assigned by the
-    ///     derived class to pluginProperties().
+    ///     will invoke @ref createSocketImpl() if assigned type is @ref Type_Socket.
     /// @return Allocated socket object
     ToolsSocketPtr createSocket();
 
+    /// @brief Create filter
+    /// @details This function will be called if it is @b filter plugin. It
+    ///     will invoke @ref createFilterImpl() if assigned type is @ref Type_Filter.
+    /// @return Allocated filter object
     ToolsFilterPtr createFilter();
 
     /// @brief Create protocol
     /// @details This function will be called if it is @b protocol plugin. It
-    ///     will invoke protocol creation callback function assigned by the
-    ///     derived class to pluginProperties().
+    ///     will invoke @ref createProtocolImpl() if assigned type is @ref Type_Protocol.
     /// @return Allocated protocol object
     ToolsProtocolPtr createProtocol();
 
@@ -103,7 +107,8 @@ public:
     ///     which will control the configuration. The returned widged is
     ///     expected to be dynamically allocated and will be owned by the
     ///     GUI application, i.e. the plugin doesn't need to perform any
-    ///     delete operation on it.
+    ///     delete operation on it.@n
+    ///     The function will invoke @ref createConfigurationWidgetImpl().
     /// @return Dynamically allocated widget object
     QWidget* createConfigurationWidget();    
 
@@ -114,7 +119,8 @@ public:
     ///     @b QAction objects, which will appear to the main toolbar of the
     ///     GUI application. Note, that the main application will @b own the
     ///     allocated @b QAction objects and will delete them later. The plugin
-    ///     doesn't need to do it explicityly.
+    ///     doesn't need to do it explicityly.@n
+    ///     The function will invoke @ref createGuiActionsImpl().
     /// @return List of GUI QAction objects.
     ListOfGuiActions createGuiActions();
 
@@ -130,6 +136,8 @@ public:
     void setDebugOutputLevel(unsigned level = 0U);
 
 signals:
+    /// @brief Signal reporting inter-plugin configuration request
+    /// @param[in] props Configuration properties.
     void sigInterPluginConfigReport(const QVariantMap& props);    
 
 protected:
@@ -152,11 +160,37 @@ protected:
     /// @param[in] props Properties map.
     virtual void applyInterPluginConfigImpl(const QVariantMap& props);       
 
+    /// @brief Create socket object
+    /// @details Expected to be overriden by the derived class.
+    /// @return By default returns empty pointer.
     virtual ToolsSocketPtr createSocketImpl();
+
+    /// @brief Create filter object
+    /// @details Expected to be overriden by the derived class.
+    /// @return By default returns empty pointer.    
     virtual ToolsFilterPtr createFilterImpl();
+
+    /// @brief Create protocol object
+    /// @details Expected to be overriden by the derived class.
+    /// @return By default returns empty pointer.     
     virtual ToolsProtocolPtr createProtocolImpl();
+
+    /// @brief Create configuration widget
+    /// @return If not overriden returns @b nullptr.
     virtual QWidget* createConfigurationWidgetImpl();
+
+    /// @brief Create GUI actions.
+    /// @return If not overriden returns empty list.
     virtual ListOfGuiActions createGuiActionsImpl();
+
+    /// @brief Report inter-plugin configuration.
+    /// @details Sometimes configuration of one plugin may influence configuration of another.
+    ///     Use this function to report inter-plugin configuration properties.
+    ///     When invoked all other plugins are expected to get their respecitve 
+    ///     @ref applyInterPluginConfig() functions invoked.@n
+    ///     Emits @ref sigInterPluginConfigReport() signal.
+    /// @param[in] props Reported properties.
+    void reportInterPluginConfig(const QVariantMap& props);    
 
 private:
     struct InnerState;
