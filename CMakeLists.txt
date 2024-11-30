@@ -114,38 +114,6 @@ cc_msvc_force_warn_opt("/W4")
 
 #######################################################################
 
-find_package (Doxygen)
-if (DOXYGEN_FOUND)
-    set (doc_output_dir "${DOC_INSTALL_DIR}/cc_tools_qt")
-    set (output_file "${CMAKE_CURRENT_BINARY_DIR}/doxygen.conf")    
-
-    set (out_dir_match_str "OUTPUT_DIRECTORY[^\n]*")
-    set (out_dir_replacement_str "OUTPUT_DIRECTORY = ${doc_output_dir}")
-
-    set (config_file "${CMAKE_CURRENT_SOURCE_DIR}/doxygen/doxygen.conf")
-    file (READ ${config_file} config_text)
-    string (REGEX REPLACE "${out_dir_match_str}" "${out_dir_replacement_str}" modified_config_text "${config_text}")
-
-    if (UNIX)
-        set (dia_path_match_str "DIA_PATH[^\n]*")
-        set (dia_path_replacement_str "DIA_PATH = ${PROJECT_SOURCE_DIR}/script")
-        string (REGEX REPLACE "${dia_path_match_str}" "${dia_path_replacement_str}" modified_config_text "${modified_config_text}")
-    endif ()
-
-    file (WRITE "${output_file}" "${modified_config_text}")
-
-    add_custom_target ("doc_cc_tools_qt"
-            COMMAND ${CMAKE_COMMAND} -E make_directory ${doc_output_dir}
-            COMMAND ${DOXYGEN_EXECUTABLE} ${output_file}
-            COMMAND ${CMAKE_COMMAND} -DDOC_OUTPUT_DIR="${doc_output_dir}" -P 
-                            ${LibComms_DIR}/CC_DocCleanupScript.cmake
-            COMMAND ${CMAKE_COMMAND} -E copy_directory 
-                    ${CMAKE_CURRENT_SOURCE_DIR}/doxygen/image ${doc_output_dir}/html/image
-            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-endif ()
-
-#######################################################################
-
 if (CC_TOOLS_QT_INSTALL_LIBRARY_HEADERS)
     set (LIB_CC_TOOLS_QT_CMAKE_FILES
         ${PROJECT_SOURCE_DIR}/cmake/cc_tools_qtConfig.cmake
