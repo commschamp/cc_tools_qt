@@ -144,7 +144,14 @@ protected:
 
     virtual void setDisplayValueImpl(UnderlyingType value) override
     {
-        Base::field().setDisplayValue(value);
+        using Tag = 
+            std::conditional_t<
+                Field::hasFixedValue(),
+                NoFeatureTag,
+                HasFeatureTag
+            >;
+
+        setDisplayValueInternal(value, Tag());
     }    
 
 private:
@@ -208,7 +215,19 @@ private:
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
         assert(Must_not_be_called);
         return 0.0;
+    }    
+
+    void setDisplayValueInternal(UnderlyingType value, HasFeatureTag)
+    {
+        Base::field().setDisplayValue(value);
+    }   
+
+    void setDisplayValueInternal([[maybe_unused]] UnderlyingType value, NoFeatureTag)
+    {
+        [[maybe_unused]] static constexpr bool Must_not_be_called = false;
+        assert(Must_not_be_called);
     }      
+
 };
 
 template <typename TField>
