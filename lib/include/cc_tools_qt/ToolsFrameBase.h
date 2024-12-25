@@ -31,6 +31,7 @@
 #include <algorithm>
 #include <cassert>
 #include <iterator>
+#include <iostream>
 
 namespace cc_tools_qt
 {
@@ -249,6 +250,10 @@ private:
     {
         ToolsMessagePtr transportMsg(new TransportMsg);
         if (!transportMsg->decodeData(data)) {
+            std::cerr << "ERROR: Failed to decode transport message: " << std::hex;
+            std::copy(data.begin(), data.end(), std::ostream_iterator<unsigned>(std::cerr, " "));
+            std::cerr << std::dec << std::endl;
+
             [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
             assert(Must_not_be_happen);                
         }
@@ -260,6 +265,10 @@ private:
     {
         ToolsMessagePtr rawDataMsg(new RawDataMsg);
         if (!rawDataMsg->decodeData(data)) {
+            std::cerr << "ERROR: Failed to decode raw data message: " << std::hex;
+            std::copy(data.begin(), data.end(), std::ostream_iterator<unsigned>(std::cerr, " "));
+            std::cerr << std::dec << std::endl;
+
             [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
             assert(Must_not_be_happen); 
         }    
@@ -271,12 +280,15 @@ private:
     {
         ToolsMessagePtr extraInfoMsg(new ExtraInfoMsg);
         if (!extraInfoMsg->decodeData(jsonRawBytes)) {
+            std::cerr << "ERROR: Failed to decode extra info:\n";
+            std::copy(jsonRawBytes.begin(), jsonRawBytes.end(), std::ostream_iterator<char>(std::cerr, " "));
+            std::cerr << std::endl;
+
             [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
             assert(Must_not_be_happen); 
         }
 
         property::message::ToolsMsgExtraInfoMsg().setTo(std::move(extraInfoMsg), msg);        
-  
     }     
 
     ProtFrame m_frame;
