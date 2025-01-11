@@ -1,3 +1,6 @@
+//
+// Copyright 2024 - 2025 (C). Alex Robenko. All rights reserved.
+//
 
 // This file is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
