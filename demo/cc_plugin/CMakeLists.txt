@@ -32,12 +32,12 @@ function (cc_plugin_demo)
     )
     
     add_library (${name} MODULE ${src})
-    target_link_libraries(${name} PRIVATE cc::cc_tools_qt)
+    target_link_libraries(${name} PRIVATE cc::demo cc::cc_tools_qt)
 
-    target_compile_options(${name} PRIVATE
-        $<$<CXX_COMPILER_ID:GNU>:-Wno-old-style-cast>
-        $<$<CXX_COMPILER_ID:Clang>:-Wno-old-style-cast>
-    )      
+    target_include_directories(${name} 
+        PRIVATE
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    )    
     
     install (
         TARGETS ${name}
@@ -47,10 +47,6 @@ endfunction()
 
 ######################################################################
 
-include_directories(
-    ${PROJECT_SOURCE_DIR}/lib/include)
 
 cc_plugin_demo ()
 
-FILE(GLOB_RECURSE headers "*.h")
-add_custom_target(demo.cc_plugin_headers SOURCES ${headers})

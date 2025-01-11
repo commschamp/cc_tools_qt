@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -64,14 +64,14 @@ MainWindowWidget::MainWindowWidget(QWidget* parentObj)
 
     auto* guiAppMgr = GuiAppMgr::instance();
     connect(
-        guiAppMgr, SIGNAL(sigNewSendMsgDialog(ProtocolPtr)),
-        this, SLOT(newSendMsgDialog(ProtocolPtr)));
+        guiAppMgr, SIGNAL(sigNewSendMsgDialog(ToolsProtocolPtr)),
+        this, SLOT(newSendMsgDialog(ToolsProtocolPtr)));
     connect(
-        guiAppMgr, SIGNAL(sigSendRawMsgDialog(ProtocolPtr)),
-        this, SLOT(sendRawMsgDialog(ProtocolPtr)));
+        guiAppMgr, SIGNAL(sigSendRawMsgDialog(ToolsProtocolPtr)),
+        this, SLOT(sendRawMsgDialog(ToolsProtocolPtr)));
     connect(
-        guiAppMgr, SIGNAL(sigUpdateSendMsgDialog(MessagePtr, ProtocolPtr)),
-        this, SLOT(updateSendMsgDialog(MessagePtr, ProtocolPtr)));
+        guiAppMgr, SIGNAL(sigUpdateSendMsgDialog(ToolsMessagePtr, ToolsProtocolPtr)),
+        this, SLOT(updateSendMsgDialog(ToolsMessagePtr, ToolsProtocolPtr)));
     connect(
         guiAppMgr, SIGNAL(sigPluginsEditDialog()),
         this, SLOT(pluginsEditDialog()));
@@ -100,8 +100,8 @@ MainWindowWidget::MainWindowWidget(QWidget* parentObj)
         guiAppMgr, SIGNAL(sigSaveSendMsgsDialog()),
         this, SLOT(saveSendMsgsDialog()));
     connect(
-        guiAppMgr, SIGNAL(sigMsgCommentDialog(MessagePtr)),
-        this, SLOT(msgCommentDialog(MessagePtr)));
+        guiAppMgr, SIGNAL(sigMsgCommentDialog(ToolsMessagePtr)),
+        this, SLOT(msgCommentDialog(ToolsMessagePtr)));
     connect(
         m_ui.m_actionQuit, SIGNAL(triggered()),
         this, SLOT(close()));
@@ -109,8 +109,8 @@ MainWindowWidget::MainWindowWidget(QWidget* parentObj)
         m_ui.m_actionAbout, SIGNAL(triggered()),
         this, SLOT(aboutInfo()));
     connect(
-        guiAppMgr, SIGNAL(sigRecvFilterDialog(ProtocolPtr)),
-        this, SLOT(recvFilterDialog(ProtocolPtr)));        
+        guiAppMgr, SIGNAL(sigRecvFilterDialog(ToolsProtocolPtr)),
+        this, SLOT(recvFilterDialog(ToolsProtocolPtr)));        
 }
 
 MainWindowWidget::~MainWindowWidget() noexcept
@@ -118,9 +118,9 @@ MainWindowWidget::~MainWindowWidget() noexcept
     clearCustomToolbarActions();
 }
 
-void MainWindowWidget::newSendMsgDialog(ProtocolPtr protocol)
+void MainWindowWidget::newSendMsgDialog(ToolsProtocolPtr protocol)
 {
-    MessagePtr msg;
+    ToolsMessagePtr msg;
     MessageUpdateDialog dialog(msg, std::move(protocol), this);
     dialog.exec();
     if (msg) {
@@ -128,20 +128,20 @@ void MainWindowWidget::newSendMsgDialog(ProtocolPtr protocol)
     }
 }
 
-void MainWindowWidget::sendRawMsgDialog(ProtocolPtr protocol)
+void MainWindowWidget::sendRawMsgDialog(ToolsProtocolPtr protocol)
 {
-    RawHexDataDialog::MessagesList msgs;
+    ToolsMessagesList msgs;
     RawHexDataDialog dialog(msgs, std::move(protocol), this);
     dialog.exec();
     for (auto& msgPtr : msgs) {
-        property::message::RepeatCount().setTo(1, *msgPtr);
+        property::message::ToolsMsgRepeatCount().setTo(1, *msgPtr);
         GuiAppMgr::instance()->sendAddNewMessage(std::move(msgPtr));
     }
 }
 
 void MainWindowWidget::updateSendMsgDialog(
-    MessagePtr msg,
-    ProtocolPtr protocol)
+    ToolsMessagePtr msg,
+    ToolsProtocolPtr protocol)
 {
     assert(msg);
     MessageUpdateDialog dialog(msg, std::move(protocol), this);
@@ -154,7 +154,7 @@ void MainWindowWidget::updateSendMsgDialog(
 
 void MainWindowWidget::pluginsEditDialog()
 {
-    PluginMgr::ListOfPluginInfos selectedPlugins;
+    ToolsPluginMgr::ListOfPluginInfos selectedPlugins;
     PluginConfigDialog dialog(selectedPlugins, this);
     auto result = dialog.exec();
     if (result != QDialog::Accepted) {
@@ -254,7 +254,7 @@ void MainWindowWidget::saveSendMsgsDialog()
     GuiAppMgr::instance()->sendSaveMsgsToFile(filename);
 }
 
-void MainWindowWidget::msgCommentDialog(MessagePtr msg)
+void MainWindowWidget::msgCommentDialog(ToolsMessagePtr msg)
 {
     assert(msg);
     MsgCommentDialog dialog(msg, this);
@@ -281,7 +281,7 @@ void MainWindowWidget::aboutInfo()
     QMessageBox::information(this, tr("About"), AboutTxt);
 }
 
-void MainWindowWidget::recvFilterDialog(ProtocolPtr protocol)
+void MainWindowWidget::recvFilterDialog(ToolsProtocolPtr protocol)
 {
     auto* guiAppMgr = GuiAppMgr::instance();
     GuiAppMgr::FilteredMessages hiddenMessages = guiAppMgr->getFilteredMessages();

@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -24,13 +24,15 @@ namespace cc_tools_qt
 {
 
 UnknownValueFieldWidget::UnknownValueFieldWidget(
-    field_wrapper::UnknownValueWrapperPtr&& wrapper,
+    field::ToolsUnknownFieldPtr&& fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
+
+    commonConstruct();
 
     connect(m_ui.m_serValueLineEdit, SIGNAL(textChanged(const QString&)),
             this, SLOT(serialisedValueUpdated(const QString&)));
@@ -40,19 +42,25 @@ UnknownValueFieldWidget::UnknownValueFieldWidget(
 
 UnknownValueFieldWidget::~UnknownValueFieldWidget() noexcept = default;
 
+ToolsField& UnknownValueFieldWidget::fieldImpl()
+{
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
+}
+
 void UnknownValueFieldWidget::refreshImpl()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     auto curText = m_ui.m_serValueLineEdit->text();
-    auto serString = m_wrapper->getSerialisedString();
+    auto serString = m_fieldPtr->getSerialisedString();
     if (curText != serString) {
 
         assert(m_ui.m_serValueLineEdit != nullptr);
-        setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_wrapper->width());
+        setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->width());
         m_ui.m_serValueLineEdit->setText(serString);
     }
 
-    setFieldValid(m_wrapper->valid());
+    setFieldValid(m_fieldPtr->valid());
 }
 
 void UnknownValueFieldWidget::editEnabledUpdatedImpl()
@@ -70,8 +78,8 @@ void UnknownValueFieldWidget::serialisedValueUpdated(const QString& value)
         valueCopy.append(QChar('0'));
     }
 
-    if (m_wrapper->setSerialisedString(valueCopy)) {
-        assert(m_wrapper->canWrite());
+    if (m_fieldPtr->setSerialisedString(valueCopy)) {
+        assert(m_fieldPtr->canWrite());
         refresh();
         emitFieldUpdated();
     }

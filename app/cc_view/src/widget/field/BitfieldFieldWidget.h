@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 
 #include <vector>
 
-#include "cc_tools_qt/field_wrapper/BitfieldWrapper.h"
+#include "cc_tools_qt/field/ToolsBitfieldField.h"
 #include "FieldWidget.h"
 
 #include "ui_BitfieldFieldWidget.h"
@@ -33,10 +33,10 @@ class BitfieldFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::BitfieldWrapperPtr;
+    using FieldPtr = field::ToolsBitfieldFieldPtr;
 
     explicit BitfieldFieldWidget(
-        WrapperPtr&& wrapper,
+        FieldPtr&& fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~BitfieldFieldWidget() noexcept;
@@ -44,23 +44,20 @@ public:
     void addMemberField(FieldWidget* memberFieldWidget);
 
 protected:
+    virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private slots:
     void serialisedValueUpdated(const QString& value);
     void memberFieldUpdated();
 
 private:
-    using WrapperType = WrapperPtr::element_type;
-    using UnderlyingType = WrapperType::UnderlyingType;
-
     void refreshInternal();
     void refreshMembers();
 
     Ui::BitfieldFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     std::vector<FieldWidget*> m_members;
 };
 

@@ -1,5 +1,5 @@
 //
-// Copyright 2017 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2017 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,17 +22,17 @@
 #include <limits>
 #include <cmath>
 
-#include "cc_tools_qt/property/field.h"
 #include "SpecialValueWidget.h"
 
 namespace cc_tools_qt
 {
 
 UnsignedLongLongIntValueFieldWidget::UnsignedLongLongIntValueFieldWidget(
-    WrapperPtr wrapper,
+    FieldPtr fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr)),
+    m_decimals(m_fieldPtr->scaledDecimals())
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
@@ -41,7 +41,10 @@ UnsignedLongLongIntValueFieldWidget::UnsignedLongLongIntValueFieldWidget(
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
     assert(m_ui.m_serValueLineEdit != nullptr);
-    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_wrapper->minWidth(), m_wrapper->maxWidth());
+    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
+    createSpecialsWidget(m_fieldPtr->specials());
+
+    commonConstruct();
 
     refresh();
 
@@ -55,27 +58,33 @@ UnsignedLongLongIntValueFieldWidget::UnsignedLongLongIntValueFieldWidget(
 
 UnsignedLongLongIntValueFieldWidget::~UnsignedLongLongIntValueFieldWidget() noexcept = default;
 
+ToolsField& UnsignedLongLongIntValueFieldWidget::fieldImpl()
+{
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
+}
+
 void UnsignedLongLongIntValueFieldWidget::refreshImpl()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_ui.m_serValueLineEdit != nullptr);
-    updateValue(*m_ui.m_serValueLineEdit, m_wrapper->getSerialisedString());
+    updateValue(*m_ui.m_serValueLineEdit, m_fieldPtr->getSerialisedString());
 
-    auto value = m_wrapper->getValue();
+    auto value = m_fieldPtr->getDisplayValue();
     assert(m_ui.m_valueLineEdit);
     auto valueTxt =
             QString("%1")
                 .arg(adjustRealToDisplayed(value), 0, 'f', m_decimals, QChar('0'));
     m_ui.m_valueLineEdit->setText(valueTxt);
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     setValidityStyleSheet(*m_ui.m_nameLabel, valid);
     setValidityStyleSheet(*m_ui.m_serFrontLabel, valid);
     setValidityStyleSheet(*m_ui.m_serValueLineEdit, valid);
     setValidityStyleSheet(*m_ui.m_serBackLabel, valid);
 
     if (m_specialsWidget != nullptr) {
-        m_specialsWidget->setIntValue(static_cast<long long>(m_wrapper->getValue()));
+        m_specialsWidget->setIntValue(static_cast<long long>(m_fieldPtr->getValue()));
     }
 }
 
@@ -86,35 +95,26 @@ void UnsignedLongLongIntValueFieldWidget::editEnabledUpdatedImpl()
     m_ui.m_serValueLineEdit->setReadOnly(readonly);
 }
 
-void UnsignedLongLongIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::IntValue parsedProps(props);
-    m_offset = parsedProps.displayOffset();
-    m_decimals = parsedProps.scaledDecimals();
-    auto& specials = parsedProps.specials();
-    createSpecialsWidget(specials);
-    refresh();
-}
-
 void UnsignedLongLongIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
-    handleNumericSerialisedValueUpdate(value, *m_wrapper);
+    handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
 }
 
 void UnsignedLongLongIntValueFieldWidget::valueUpdated(const QString& value)
 {
-    auto adjustedValue = adjustDisplayedToReal(getDisplayedValue(value));
-    if (adjustedValue == m_wrapper->getValue()) {
+    auto adjustedValue = static_cast<UnderlyingType>(adjustDisplayedToReal(getDisplayedValue(value)));
+    if (adjustedValue == m_fieldPtr->getDisplayValue()) {
         return;
     }
 
     assert(isEditEnabled());
-    auto oldValue = m_wrapper->getValue();
-    m_wrapper->setValue(adjustedValue);
-    assert(m_wrapper->getValue() == adjustedValue);
-    if (!m_wrapper->canWrite()) {
-        m_wrapper->setValue(oldValue);
+    auto oldValue = m_fieldPtr->getDisplayValue();
+    m_fieldPtr->setDisplayValue(adjustedValue);
+    assert(m_fieldPtr->getDisplayValue() == adjustedValue);
+    if (!m_fieldPtr->canWrite()) {
+        m_fieldPtr->setDisplayValue(oldValue);
     }
+    
     refresh();
     emitFieldUpdated();
 }
@@ -126,7 +126,7 @@ void UnsignedLongLongIntValueFieldWidget::specialSelected(long long value)
         return;
     }
 
-    m_wrapper->setValue(static_cast<unsigned long long>(value));
+    m_fieldPtr->setValue(static_cast<unsigned long long>(value));
     refresh();
 }
 
@@ -137,13 +137,13 @@ UnsignedLongLongIntValueFieldWidget::adjustDisplayedToReal(DisplayedType val)
     if (0 < m_decimals) {
         uVal = static_cast<decltype(uVal)>(val * std::pow(10, m_decimals));
     }
-    return static_cast<UnderlyingType>(uVal - static_cast<std::size_t>(m_offset));
+    return static_cast<UnderlyingType>(uVal);
 }
 
 UnsignedLongLongIntValueFieldWidget::DisplayedType
 UnsignedLongLongIntValueFieldWidget::adjustRealToDisplayed(UnderlyingType val)
 {
-    auto dVal = static_cast<DisplayedType>(val + static_cast<std::size_t>(m_offset));
+    auto dVal = static_cast<DisplayedType>(val);
     if (0 < m_decimals) {
         dVal /= std::pow(10, m_decimals);
     }
@@ -166,7 +166,12 @@ bool UnsignedLongLongIntValueFieldWidget::createSpecialsWidget(const SpecialsLis
         return false;
     }
 
-    m_specialsWidget = new SpecialValueWidget(specials);
+    SpecialValueWidget::IntValueInfosList adjSpecials;
+    for (auto& s : specials) {
+        adjSpecials.append(qMakePair(s.first, static_cast<long long>(s.second)));
+    }
+
+    m_specialsWidget = new SpecialValueWidget(adjSpecials);
     connect(
         m_specialsWidget, SIGNAL(sigIntValueChanged(long long)),
         this, SLOT(specialSelected(long long)));

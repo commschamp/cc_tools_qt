@@ -20,8 +20,8 @@
 
 #include <memory>
 
-#include "cc_tools_qt/Plugin.h"
-#include "cc_tools_qt/Socket.h"
+#include "cc_tools_qt/ToolsPlugin.h"
+#include "cc_tools_qt/ToolsSocket.h"
 
 namespace cc_tools_qt
 {
@@ -29,18 +29,23 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-class NullSocketPlugin : public cc_tools_qt::Plugin
+class NullSocketPlugin : public cc_tools_qt::ToolsPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "cc.NullSocketPlugin" FILE "null_socket.json")
-    Q_INTERFACES(cc_tools_qt::Plugin)
+    Q_INTERFACES(cc_tools_qt::ToolsPlugin)
+
+    using Base = cc_tools_qt::ToolsPlugin;
 
 public:
     NullSocketPlugin();
     ~NullSocketPlugin() noexcept;
 
+protected:
+    virtual ToolsSocketPtr createSocketImpl() override;    
+    
 private:
-    cc_tools_qt::SocketPtr m_socket;
+    ToolsSocketPtr m_socket;
 };
 
 }  // namespace plugin

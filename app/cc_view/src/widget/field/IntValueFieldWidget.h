@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 
 #include <memory>
 
-#include "cc_tools_qt/field_wrapper/IntValueWrapper.h"
+#include "cc_tools_qt/field/ToolsIntField.h"
 #include "FieldWidget.h"
 
 namespace cc_tools_qt
@@ -30,24 +30,25 @@ class IntValueFieldWidget : public FieldWidget
 {
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::IntValueWrapperPtr;
+    using FieldPtr = field::ToolsIntFieldPtr;
 
     explicit IntValueFieldWidget(
-        WrapperPtr wrapper,
+        FieldPtr fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~IntValueFieldWidget() noexcept;
 
 protected:
+    virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
+    virtual void nameSuffixUpdatedImpl() override;
 
 private:
-    using WrapperType = WrapperPtr::element_type;
-    using UnderlyingType = WrapperType::UnderlyingType;
+    using FieldType = FieldPtr::element_type;
+    using UnderlyingType = FieldType::UnderlyingType;
 
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     std::unique_ptr<FieldWidget> m_childWidget;
 };
 

@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -21,7 +21,8 @@
 
 #include <QtWidgets/QApplication>
 
-#include "cc_tools_qt/field_wrapper/FieldWrapperHandler.h"
+#include "cc_tools_qt/ToolsField.h"
+#include "cc_tools_qt/ToolsFieldHandler.h"
 #include "widget/field/IntValueFieldWidget.h"
 #include "widget/field/UnsignedLongLongIntValueFieldWidget.h"
 #include "widget/field/BitmaskValueFieldWidget.h"
@@ -42,10 +43,9 @@ namespace cc_tools_qt
 namespace
 {
 
-class WidgetCreator : public field_wrapper::FieldWrapperHandler
+class WidgetCreator : public ToolsFieldHandler
 {
 public:
-    typedef field_wrapper::FieldWrapperPtr FieldWrapperPtr;
 
     WidgetCreator()
     {
@@ -55,42 +55,42 @@ public:
         }
     }
 
-    virtual void handle(field_wrapper::IntValueWrapper& wrapper) override
+    virtual void handle(field::ToolsIntField& field) override
     {
-        m_widget.reset(new IntValueFieldWidget(wrapper.clone(), m_parent));
+        m_widget.reset(new IntValueFieldWidget(field.actClone(), m_parent));
     }
 
-    virtual void handle(field_wrapper::UnsignedLongValueWrapper& wrapper) override
+    virtual void handle(field::ToolsUnsignedLongField& field) override
     {
-        m_widget.reset(new UnsignedLongLongIntValueFieldWidget(wrapper.clone(), m_parent));
+        m_widget.reset(new UnsignedLongLongIntValueFieldWidget(field.actClone(), m_parent));
     }
 
-    virtual void handle(field_wrapper::BitmaskValueWrapper& wrapper) override
+    virtual void handle(field::ToolsBitmaskField& field) override
     {
-        m_widget.reset(new BitmaskValueFieldWidget(wrapper.clone(), m_parent));
+        m_widget.reset(new BitmaskValueFieldWidget(field.actClone(), m_parent));
     }
 
-    virtual void handle(field_wrapper::EnumValueWrapper& wrapper) override
+    virtual void handle(field::ToolsEnumField& field) override
     {
-        m_widget.reset(new EnumValueFieldWidget(wrapper.clone(), m_parent));
+        m_widget.reset(new EnumValueFieldWidget(field.actClone(), m_parent));
     }
 
-    virtual void handle(field_wrapper::StringWrapper& wrapper) override
+    virtual void handle(field::ToolsStringField& field) override
     {
-        m_widget.reset(new StringFieldWidget(wrapper.clone(), m_parent));
+        m_widget.reset(new StringFieldWidget(field.actClone(), m_parent));
     }
 
-    virtual void handle(field_wrapper::BitfieldWrapper& wrapper) override
+    virtual void handle(field::ToolsBitfieldField& field) override
     {
-        auto& membersWrappers = wrapper.getMembers();
+        auto& members = field.getMembers();
         std::vector<FieldWidgetPtr> membersWidgets;
-        membersWidgets.reserve(membersWrappers.size());
-        for (auto& mem : membersWrappers) {
+        membersWidgets.reserve(members.size());
+        for (auto& mem : members) {
             mem->dispatch(*this);
             membersWidgets.push_back(getWidget());
         }
 
-        std::unique_ptr<BitfieldFieldWidget> widget(new BitfieldFieldWidget(wrapper.clone(), m_parent));
+        std::unique_ptr<BitfieldFieldWidget> widget(new BitfieldFieldWidget(field.actClone(), m_parent));
         for (auto& memWidget : membersWidgets) {
             widget->addMemberField(memWidget.release());
         }
@@ -98,27 +98,27 @@ public:
         m_widget = std::move(widget);
     }
 
-    virtual void handle(field_wrapper::OptionalWrapper& wrapper) override
+    virtual void handle(field::ToolsOptionalField& field) override
     {
-        wrapper.getFieldWrapper().dispatch(*this);
+        field.getField().dispatch(*this);
         auto wrappedWidget = getWidget();
 
-        std::unique_ptr<OptionalFieldWidget> widget(new OptionalFieldWidget(wrapper.clone(), m_parent));
+        std::unique_ptr<OptionalFieldWidget> widget(new OptionalFieldWidget(field.actClone(), m_parent));
         widget->setField(wrappedWidget.release());
         m_widget = std::move(widget);
     }
 
-    virtual void handle(field_wrapper::BundleWrapper& wrapper) override
+    virtual void handle(field::ToolsBundleField& field) override
     {
-        auto& membersWrappers = wrapper.getMembers();
+        auto& memberFields = field.getMembers();
         std::vector<FieldWidgetPtr> membersWidgets;
-        membersWidgets.reserve(membersWrappers.size());
-        for (auto& mem : membersWrappers) {
+        membersWidgets.reserve(memberFields.size());
+        for (auto& mem : memberFields) {
             mem->dispatch(*this);
             membersWidgets.push_back(getWidget());
         }
 
-        std::unique_ptr<BundleFieldWidget> widget(new BundleFieldWidget(wrapper.clone(), m_parent));
+        std::unique_ptr<BundleFieldWidget> widget(new BundleFieldWidget(field.actClone(), m_parent));
         for (auto& memWidget : membersWidgets) {
             widget->addMemberField(memWidget.release());
         }
@@ -126,44 +126,44 @@ public:
         m_widget = std::move(widget);
     }
 
-    virtual void handle(field_wrapper::ArrayListRawDataWrapper& wrapper) override
+    virtual void handle(field::ToolsRawDataField& field) override
     {
-        m_widget.reset(new ArrayListRawDataFieldWidget(wrapper.clone(), m_parent));
+        m_widget.reset(new ArrayListRawDataFieldWidget(field.actClone(), m_parent));
     }
 
-    virtual void handle(field_wrapper::ArrayListWrapper& wrapper) override
+    virtual void handle(field::ToolsArrayListField& field) override
     {
         auto createMembersWidgetsFunc =
-            [](field_wrapper::ArrayListWrapper& wrap) -> std::vector<FieldWidgetPtr>
+            [](field::ToolsArrayListField& fieldParam) -> std::vector<FieldWidgetPtr>
             {
                 std::vector<FieldWidgetPtr> allFieldsWidgets;
                 WidgetCreator otherCreator;
-                auto& memWrappers = wrap.getMembers();
-                allFieldsWidgets.reserve(memWrappers.size());
-                assert(memWrappers.size() == wrap.size());
+                auto& members = fieldParam.getMembers();
+                allFieldsWidgets.reserve(members.size());
+                assert(members.size() == fieldParam.size());
 
-                for (auto& memWrap : memWrappers) {
-                    memWrap->dispatch(otherCreator);
+                for (auto& mem : members) {
+                    mem->dispatch(otherCreator);
                     allFieldsWidgets.push_back(otherCreator.getWidget());
                 }
 
-                assert(allFieldsWidgets.size() == wrap.size());
+                assert(allFieldsWidgets.size() == fieldParam.size());
                 return allFieldsWidgets;
             };
 
-        assert(wrapper.size() == wrapper.getMembers().size());
-        m_widget.reset(new ArrayListFieldWidget(wrapper.clone(), std::move(createMembersWidgetsFunc), m_parent));
+        assert(field.size() == field.getMembers().size());
+        m_widget.reset(new ArrayListFieldWidget(field.actClone(), std::move(createMembersWidgetsFunc), m_parent));
     }
 
-    virtual void handle(field_wrapper::FloatValueWrapper& wrapper) override
+    virtual void handle(field::ToolsFloatField& field) override
     {
-        m_widget.reset(new FloatValueFieldWidget(wrapper.clone(), m_parent));
+        m_widget.reset(new FloatValueFieldWidget(field.actClone(), m_parent));
     }
 
-    virtual void handle(field_wrapper::VariantWrapper& wrapper) override
+    virtual void handle(field::ToolsVariantField& field) override
     {
         auto createMemberWidgetsFunc =
-            [](field_wrapper::FieldWrapper& wrap) -> FieldWidgetPtr
+            [](ToolsField& wrap) -> FieldWidgetPtr
             {
                 WidgetCreator otherCreator;
                 wrap.dispatch(otherCreator);
@@ -171,15 +171,15 @@ public:
             };
 
         FieldWidgetPtr memberWidget;
-        auto& memberWrapper = wrapper.getCurrent();
-        if (memberWrapper) {
-            memberWrapper->dispatch(*this);
+        auto* memberFieldPtr = field.getCurrent();
+        if (memberFieldPtr != nullptr) {
+            memberFieldPtr->dispatch(*this);
             memberWidget = getWidget();
         }
 
         std::unique_ptr<VariantFieldWidget> widget(
                     new VariantFieldWidget(
-                        wrapper.clone(),
+                        field.actClone(),
                         createMemberWidgetsFunc,
                         m_parent));
         if (memberWidget) {
@@ -189,15 +189,15 @@ public:
         m_widget = std::move(widget);
     }
 
-    virtual void handle(field_wrapper::UnknownValueWrapper& wrapper) override
+    virtual void handle(field::ToolsUnknownField& field) override
     {
-        m_widget.reset(new UnknownValueFieldWidget(wrapper.clone(), m_parent));
+        m_widget.reset(new UnknownValueFieldWidget(field.actClone(), m_parent));
     }
 
-    virtual void handle([[maybe_unused]] field_wrapper::FieldWrapper& wrapper) override
+    virtual void handle([[maybe_unused]] ToolsField& field) override
     {
-        [[maybe_unused]] static constexpr bool Unexpected_wrapper = false;
-        assert(Unexpected_wrapper);
+        [[maybe_unused]] static constexpr bool Unexpected_field = false;
+        assert(Unexpected_field);
     }
 
     FieldWidgetPtr getWidget()
@@ -217,35 +217,27 @@ private:
 
 DefaultMessageDisplayHandler::~DefaultMessageDisplayHandler() noexcept = default;
 
-DefaultMessageDisplayHandler::MsgWidgetPtr DefaultMessageDisplayHandler::getMsgWidget()
+DefaultMessageDisplayHandler::MsgWidgetPtr DefaultMessageDisplayHandler::getMsgWidget(ToolsMessage& msg)
 {
-    return std::move(m_widget);
-}
+    auto widget = std::make_unique<DefaultMessageWidget>(msg);
 
-void DefaultMessageDisplayHandler::beginMsgHandlingImpl(
-    Message& msg)
-{
-    m_widget.reset(new DefaultMessageWidget(msg));
-}
+    auto transportFields = msg.transportFields();
+    for (auto& f : transportFields) {
+        WidgetCreator creator;
+        f->dispatch(creator);
+        auto fieldWidget = creator.getWidget();
+        widget->addExtraTransportFieldWidget(fieldWidget.release());        
+    }
 
-void DefaultMessageDisplayHandler::addExtraTransportFieldImpl(FieldWrapperPtr wrapper)
-{
-    assert(m_widget);
-    WidgetCreator creator;
-    wrapper->dispatch(creator);
-    auto fieldWidget = creator.getWidget();
-    fieldWidget->hide();
-    m_widget->addExtraTransportFieldWidget(fieldWidget.release());
-}
+    auto fields = msg.payloadFields();
+    for (auto& f : fields) {
+        WidgetCreator creator;
+        f->dispatch(creator);
+        auto fieldWidget = creator.getWidget();
+        widget->addFieldWidget(fieldWidget.release());        
+    }
 
-void DefaultMessageDisplayHandler::addFieldImpl(FieldWrapperPtr wrapper)
-{
-    assert(m_widget);
-    WidgetCreator creator;
-    wrapper->dispatch(creator);
-    auto fieldWidget = creator.getWidget();
-    fieldWidget->hide();
-    m_widget->addFieldWidget(fieldWidget.release());
+    return widget;
 }
 
 }  // namespace cc_tools_qt

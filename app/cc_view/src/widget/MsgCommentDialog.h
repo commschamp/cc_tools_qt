@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 
 #include "ui_MsgCommentDialog.h"
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 
 namespace cc_tools_qt
 {
@@ -33,7 +33,7 @@ class MsgCommentDialog : public QDialog
     using Base = QDialog;
 public:
     MsgCommentDialog(
-        MessagePtr msg,
+        ToolsMessagePtr msg,
         QWidget* parentObj = nullptr);
 
 private slots:
@@ -41,7 +41,7 @@ private slots:
 
 private:
     Ui::MsgCommentDialog m_ui;
-    MessagePtr m_msg;
+    ToolsMessagePtr m_msg;
 };
 
 }  // namespace cc_tools_qt

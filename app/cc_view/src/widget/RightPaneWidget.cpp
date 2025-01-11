@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -17,6 +17,8 @@
 
 #include "RightPaneWidget.h"
 
+#include "cc_tools_qt/property/message.h"
+
 #include <QtWidgets/QVBoxLayout>
 
 #include "DefaultMessageDisplayWidget.h"
@@ -33,10 +35,10 @@ RightPaneWidget::RightPaneWidget(QWidget* parentObj)
     m_displayWidget->setEditEnabled(false);
 
     auto* guiAppMgr = GuiAppMgr::instance();
-    connect(guiAppMgr, SIGNAL(sigDisplayMsg(MessagePtr)),
-            m_displayWidget, SLOT(displayMessage(MessagePtr)));
-    connect(guiAppMgr, SIGNAL(sigDisplayMsg(MessagePtr)),
-            this, SLOT(displayMessage(MessagePtr)));            
+    connect(guiAppMgr, SIGNAL(sigDisplayMsg(ToolsMessagePtr)),
+            m_displayWidget, SLOT(displayMessage(ToolsMessagePtr)));
+    connect(guiAppMgr, SIGNAL(sigDisplayMsg(ToolsMessagePtr)),
+            this, SLOT(displayMessage(ToolsMessagePtr)));            
     connect(guiAppMgr, SIGNAL(sigClearDisplayedMsg()),
             m_displayWidget, SLOT(clear()));
     connect(m_displayWidget, SIGNAL(sigMsgUpdated()),
@@ -46,17 +48,18 @@ RightPaneWidget::RightPaneWidget(QWidget* parentObj)
     setLayout(paneLayout);
 }
 
-void RightPaneWidget::displayMessage(MessagePtr msg)
+void RightPaneWidget::displayMessage(ToolsMessagePtr msg)
 {
     // Enable edit of the messages that haven't been sent or received yet, 
     // i.e. reside in the send area.
     m_displayedMsg = msg;
-    auto type = property::message::Type().getFrom(*msg);
-    m_displayWidget->setEditEnabled(type == Message::Type::Invalid);
+    auto type = static_cast<ToolsMessage::Type>(cc_tools_qt::property::message::ToolsMsgType().getFrom(*msg));
+    m_displayWidget->setEditEnabled(type == ToolsMessage::Type::Invalid);
 }
 
-void RightPaneWidget::displayMessagePostponed(MessagePtr msg, bool force)
+void RightPaneWidget::displayMessagePostponed(ToolsMessagePtr msg, bool force)
 {
+    assert(m_displayWidget != nullptr);
     m_displayWidget->displayMessage(msg, force);
 }
 
@@ -65,16 +68,18 @@ void RightPaneWidget::msgUpdated()
     auto& msgMgr = MsgMgrG::instanceRef();
     auto protocol = msgMgr.getProtocol();
     auto status = protocol->updateMessage(*m_displayedMsg);
-    bool forceUpdate = (status == Protocol::UpdateStatus::Changed);
+    bool forceUpdate = (status == ToolsProtocol::UpdateStatus::Changed);
 
     // Direct invocation of displayMessage(std::move(msg))
     // in place here causes SIGSEGV. No idea why.
     QMetaObject::invokeMethod(
         this,
-        "displayMessagePostponed",
-        Qt::QueuedConnection,
-        Q_ARG(cc_tools_qt::MessagePtr, m_displayedMsg),
-        Q_ARG(bool, forceUpdate));    
+        [this, msgParam = m_displayedMsg, forceUpdate]()
+        {
+            displayMessagePostponed(std::move(msgParam), forceUpdate);
+        },
+        Qt::QueuedConnection
+    );    
 }
 
 }  // namespace cc_tools_qt

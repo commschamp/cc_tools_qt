@@ -18,11 +18,11 @@
 
 #pragma once
 
-#include <list>
+#include "cc_tools_qt/ToolsSocket.h"
 
 #include <QtCore/QTimer>
 
-#include "cc_tools_qt/Socket.h"
+#include <list>
 
 namespace cc_tools_qt
 {
@@ -30,7 +30,7 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-class EchoSocket : public QObject, public Socket
+class EchoSocket : public cc_tools_qt::ToolsSocket
 {
     Q_OBJECT
 
@@ -39,7 +39,7 @@ public:
     ~EchoSocket() noexcept;
 
 protected:
-    virtual void sendDataImpl(DataInfoPtr dataPtr) override;
+    virtual void sendDataImpl(ToolsDataInfoPtr dataPtr) override;
     virtual unsigned connectionPropertiesImpl() const override;
 
 private slots:
@@ -47,14 +47,13 @@ private slots:
 
 private:
     QTimer m_timer;
-    std::list<DataInfoPtr> m_pendingData;
+    std::list<ToolsDataInfoPtr> m_pendingData;
     bool m_timerActive = false;
 };
 
-inline
-SocketPtr makeEchoSocket()
+inline ToolsSocketPtr makeEchoSocket()
 {
-    return SocketPtr(new EchoSocket());
+    return ToolsSocketPtr(new EchoSocket());
 }
 
 } // namespace plugin

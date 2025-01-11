@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 #include "ui_PluginConfigDialog.h"
 
-#include "cc_tools_qt/PluginMgr.h"
+#include "cc_tools_qt/ToolsPluginMgr.h"
 #include "PluginsListWidget.h"
 #include "ActionWrap.h"
 #include "PluginConfigWrapsListWidget.h"
@@ -37,8 +37,8 @@ class PluginConfigDialog: public QDialog
     using Base = QDialog;
 
 public:
-    typedef PluginMgr::ListOfPluginInfos ListOfPluginInfos;
-    typedef PluginMgr::PluginInfoPtr PluginInfoPtr;
+    typedef ToolsPluginMgr::ListOfPluginInfos ListOfPluginInfos;
+    typedef ToolsPluginMgr::PluginInfoPtr PluginInfoPtr;
     PluginConfigDialog(ListOfPluginInfos& outputInfos, QWidget* parentObj = nullptr);
     virtual void accept();
 

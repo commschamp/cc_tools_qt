@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -21,17 +21,16 @@
 #include <cassert>
 #include <limits>
 
-#include "cc_tools_qt/property/field.h"
 #include "SpecialValueWidget.h"
 
 namespace cc_tools_qt
 {
 
 ShortIntValueFieldWidget::ShortIntValueFieldWidget(
-    WrapperPtr wrapper,
+    FieldPtr fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
@@ -40,11 +39,14 @@ ShortIntValueFieldWidget::ShortIntValueFieldWidget(
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
     assert(m_ui.m_serValueLineEdit != nullptr);
-    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_wrapper->minWidth(), m_wrapper->maxWidth());
+    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
+    createSpecialsWidget(m_fieldPtr->specials());
 
     m_ui.m_valueSpinBox->setRange(
-        static_cast<int>(m_wrapper->minValue()), 
-        static_cast<int>(m_wrapper->maxValue()));
+        static_cast<int>(m_fieldPtr->minValue()), 
+        static_cast<int>(m_fieldPtr->maxValue()));
+
+    commonConstruct();        
 
     connect(m_ui.m_valueSpinBox, SIGNAL(valueChanged(int)),
             this, SLOT(valueUpdated(int)));
@@ -57,26 +59,32 @@ ShortIntValueFieldWidget::ShortIntValueFieldWidget(
 
 ShortIntValueFieldWidget::~ShortIntValueFieldWidget() noexcept = default;
 
+ToolsField& ShortIntValueFieldWidget::fieldImpl()
+{
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
+}
+
 void ShortIntValueFieldWidget::refreshImpl()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_ui.m_serValueLineEdit != nullptr);
-    updateValue(*m_ui.m_serValueLineEdit, m_wrapper->getSerialisedString());
+    updateValue(*m_ui.m_serValueLineEdit, m_fieldPtr->getSerialisedString());
 
-    auto value = adjustRealToDisplayed(static_cast<int>(m_wrapper->getValue()));
+    auto value = static_cast<int>(m_fieldPtr->getDisplayValue());
     assert(m_ui.m_valueSpinBox);
     if (m_ui.m_valueSpinBox->value() != value) {
         m_ui.m_valueSpinBox->setValue(value);
     }
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     setValidityStyleSheet(*m_ui.m_nameLabel, valid);
     setValidityStyleSheet(*m_ui.m_serFrontLabel, valid);
     setValidityStyleSheet(*m_ui.m_serValueLineEdit, valid);
     setValidityStyleSheet(*m_ui.m_serBackLabel, valid);
 
     if (m_specialsWidget != nullptr) {
-        m_specialsWidget->setIntValue(m_wrapper->getValue());
+        m_specialsWidget->setIntValue(m_fieldPtr->getValue());
     }
 }
 
@@ -87,43 +95,22 @@ void ShortIntValueFieldWidget::editEnabledUpdatedImpl()
     m_ui.m_serValueLineEdit->setReadOnly(readonly);
 }
 
-void ShortIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::IntValue actProps(props);
-
-    auto offset =
-        static_cast<decltype(m_offset)>(actProps.displayOffset());
-
-    bool needRefresh = false;
-    if (m_offset != offset) {
-        m_offset = offset;
-        needRefresh = true;
-    }
-
-    auto& specials = actProps.specials();
-    needRefresh = createSpecialsWidget(specials) || needRefresh;
-
-    if (needRefresh) {
-        refresh();
-    }
-}
-
 void ShortIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
-    handleNumericSerialisedValueUpdate(value, *m_wrapper);
+    handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
 }
 
 void ShortIntValueFieldWidget::valueUpdated(int value)
 {
-    if (value == adjustRealToDisplayed(static_cast<int>(m_wrapper->getValue()))) {
+    if (value == static_cast<int>(m_fieldPtr->getDisplayValue())) {
         return;
     }
 
     assert(isEditEnabled());
-    m_wrapper->setValue(adjustDisplayedToReal(value));
-    if (!m_wrapper->canWrite()) {
-        m_wrapper->reset();
-        assert(m_wrapper->canWrite());
+    m_fieldPtr->setDisplayValue(value);
+    if (!m_fieldPtr->canWrite()) {
+        m_fieldPtr->reset();
+        assert(m_fieldPtr->canWrite());
     }
     refresh();
     emitFieldUpdated();
@@ -136,17 +123,8 @@ void ShortIntValueFieldWidget::specialSelected(long long value)
         return;
     }
 
-    valueUpdated(adjustRealToDisplayed(static_cast<int>(value)));
-}
-
-int ShortIntValueFieldWidget::adjustDisplayedToReal(int val)
-{
-    return val - m_offset;
-}
-
-int ShortIntValueFieldWidget::adjustRealToDisplayed(int val)
-{
-    return val + m_offset;
+    m_fieldPtr->setValue(value);
+    refresh();
 }
 
 bool ShortIntValueFieldWidget::createSpecialsWidget(const SpecialsList& specials)

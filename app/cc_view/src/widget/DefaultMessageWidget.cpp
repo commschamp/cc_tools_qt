@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ namespace cc_tools_qt
 {
 
 DefaultMessageWidget::DefaultMessageWidget(
-    Message& msg,
+    ToolsMessage& msg,
     QWidget* parentObj)
   : Base(parentObj),
     m_msg(msg),
@@ -48,17 +48,6 @@ void DefaultMessageWidget::addExtraTransportFieldWidget(FieldWidget* field)
         return;
     }
 
-    auto& props = m_msg.extraTransportFieldsProperties();
-    if (static_cast<decltype(m_curExtraTransportFieldIdx)>(props.size()) <= m_curExtraTransportFieldIdx) {
-        return;
-    }
-
-    auto& propsMapVar = props.at(static_cast<int>(m_curExtraTransportFieldIdx));
-    if (propsMapVar.isValid() && propsMapVar.canConvert<QVariantMap>()) {
-        auto propsMap = propsMapVar.value<QVariantMap>();
-        field->updateProperties(propsMap);
-    }
-
     if (m_curExtraTransportFieldIdx != 0) {
         m_layout->insertWidget(m_layout->count() - 1, createFieldSeparator().release());
     }
@@ -74,15 +63,6 @@ void DefaultMessageWidget::addFieldWidget(FieldWidget* field)
         [[maybe_unused]] static constexpr bool Field_object_should_be_provided = false;
         assert(Field_object_should_be_provided);
         return;
-    }
-
-    auto& props = m_msg.fieldsProperties();
-    if (m_curFieldIdx < static_cast<decltype(m_curFieldIdx)>(props.size())) {
-        auto& propsMapVar = props.at(static_cast<int>(m_curFieldIdx));
-        if (propsMapVar.isValid() && propsMapVar.canConvert<QVariantMap>()) {
-            auto propsMap = propsMapVar.value<QVariantMap>();
-            field->updateProperties(propsMap);
-        }
     }
 
     if ((m_curFieldIdx != 0) || (m_curExtraTransportFieldIdx != 0)) {
@@ -112,12 +92,12 @@ std::unique_ptr<QFrame> DefaultMessageWidget::createFieldSeparator()
     return line;
 }
 
-void DefaultMessageWidget::connectFieldSignals(FieldWidget* field)
+void DefaultMessageWidget::connectFieldSignals(FieldWidget* fieldWidget)
 {
-    assert(field != nullptr);
-    connect(this, SIGNAL(sigRefreshFields()), field, SLOT(refresh()));
-    connect(this, SIGNAL(sigSetEditEnabled(bool)), field, SLOT(setEditEnabled(bool)));
-    connect(field, SIGNAL(sigFieldUpdated()), this, SIGNAL(sigMsgUpdated()));
+    assert(fieldWidget != nullptr);
+    connect(this, SIGNAL(sigRefreshFields()), fieldWidget, SLOT(refresh()));
+    connect(this, SIGNAL(sigSetEditEnabled(bool)), fieldWidget, SLOT(setEditEnabled(bool)));
+    connect(fieldWidget, SIGNAL(sigFieldUpdated()), this, SIGNAL(sigMsgUpdated()));
 }
 
 }  // namespace cc_tools_qt

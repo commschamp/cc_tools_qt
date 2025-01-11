@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,14 +18,13 @@
 
 #pragma once
 
-#include <cassert>
+#include "cc_tools_qt/ToolsApi.h"
+#include "cc_tools_qt/ToolsMessage.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
 #include <QtCore/QVariantMap>
 
-#include "cc_tools_qt/Api.h"
-#include "cc_tools_qt/Message.h"
 
 namespace cc_tools_qt
 {
@@ -37,14 +36,13 @@ namespace message
 {
 
 template <typename TValue>
-class PropBase
+class ToolsMsgPropBase
 {
 public:
-    typedef TValue ValueType;
+    using ValueType = TValue;
 
-    PropBase(const QString& name, const QByteArray& propName)
-      : m_name(name),
-        m_propName(propName)
+    ToolsMsgPropBase(const char* propName)
+      : m_propName(propName)
     {
     }
 
@@ -58,13 +56,14 @@ public:
     template <typename U>
     void setTo(U&& val, QVariantMap& map) const
     {
-        map.insert(m_name, QVariant::fromValue(std::forward<U>(val)));
-        assert(map.value(m_name).template canConvert<ValueType>());
+        QString name(m_propName);
+        map.insert(name, QVariant::fromValue(std::forward<U>(val)));
+        assert(map.value(name).template canConvert<ValueType>());
     }
 
     ValueType getFrom(const QObject& obj, const ValueType& defaultVal = ValueType()) const
     {
-        auto var = obj.property(m_propName.constData());
+        auto var = obj.property(m_propName);
         if ((!var.isValid()) || (!var.template canConvert<ValueType>())) {
             return defaultVal;
         }
@@ -74,7 +73,8 @@ public:
 
     ValueType getFrom(const QVariantMap& map, const ValueType& defaultVal = ValueType()) const
     {
-        auto var = map.value(m_name);
+        QString name(m_propName);
+        auto var = map.value(name);
         if ((!var.isValid()) || (!var.template canConvert<ValueType>())) {
             return defaultVal;
         }
@@ -91,17 +91,16 @@ public:
     }
 
 private:
-    const QString& m_name;
-    const QByteArray& m_propName;
+    const char* m_propName = nullptr;
 };
 
-class CC_API Type : public PropBase<unsigned>
+class CC_TOOLS_API ToolsMsgType : public ToolsMsgPropBase<unsigned>
 {
-    typedef PropBase<unsigned> Base;
+    using Base = ToolsMsgPropBase<unsigned>;
 public:
-    typedef Message::Type ValueType;
+    using ValueType = ToolsMessage::Type;
 
-    Type() : Base(Name, PropName) {}
+    ToolsMsgType();
 
     template <typename TTo>
     void setTo(ValueType val, TTo&& to)
@@ -113,181 +112,112 @@ public:
     ValueType getFrom(TFrom&& from)
     {
         return static_cast<ValueType>(Base::getFrom(std::forward<TFrom>(from)));
-    }
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    }    
 };
 
-class CC_API MsgIdx : public PropBase<unsigned>
+class CC_TOOLS_API ToolsMsgIdx : public ToolsMsgPropBase<unsigned>
 {
-    typedef PropBase<unsigned> Base;
+    using Base = ToolsMsgPropBase<unsigned>;
 public:
-    MsgIdx() : Base(Name, PropName) {}
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    ToolsMsgIdx();
 };
 
-
-class CC_API Timestamp : public PropBase<unsigned long long>
+class CC_TOOLS_API ToolsMsgTimestamp : public ToolsMsgPropBase<unsigned long long>
 {
-    typedef PropBase<unsigned long long> Base;
+    using Base = ToolsMsgPropBase<unsigned long long>;
 public:
-    Timestamp() : Base(Name, PropName) {}
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    ToolsMsgTimestamp();
 };
 
-class CC_API ProtocolName : public PropBase<QString>
+class CC_TOOLS_API ToolsMsgProtocolName : public ToolsMsgPropBase<QString>
 {
-    typedef PropBase<QString> Base;
+    using Base = ToolsMsgPropBase<QString>;
 public:
-    ProtocolName() : Base(Name, PropName) {}
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    ToolsMsgProtocolName();
 };
 
-class CC_API TransportMsg : public PropBase<MessagePtr>
+class CC_TOOLS_API ToolsMsgTransportMsg : public ToolsMsgPropBase<ToolsMessagePtr>
 {
-    typedef PropBase<MessagePtr> Base;
+    using Base = ToolsMsgPropBase<ToolsMessagePtr>;
 public:
-    TransportMsg() : Base(Name, PropName) {}
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    ToolsMsgTransportMsg();
 };
 
-class CC_API RawDataMsg : public PropBase<MessagePtr>
+class CC_TOOLS_API ToolsMsgRawDataMsg : public ToolsMsgPropBase<ToolsMessagePtr>
 {
-    typedef PropBase<MessagePtr> Base;
+    using Base = ToolsMsgPropBase<ToolsMessagePtr>;
 public:
-    RawDataMsg() : Base(Name, PropName) {}
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    ToolsMsgRawDataMsg();
 };
 
-class CC_API ExtraInfoMsg : public PropBase<MessagePtr>
+class CC_TOOLS_API ToolsMsgExtraInfoMsg : public ToolsMsgPropBase<ToolsMessagePtr>
 {
-    typedef PropBase<MessagePtr> Base;
+    using Base = ToolsMsgPropBase<ToolsMessagePtr>;
 public:
-    ExtraInfoMsg() : Base(Name, PropName) {}
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    ToolsMsgExtraInfoMsg();
 };
 
-class CC_API ExtraInfo : public PropBase<QVariantMap>
+class CC_TOOLS_API ToolsMsgExtraInfo : public ToolsMsgPropBase<QVariantMap>
 {
-    typedef PropBase<QVariantMap> Base;
+    using Base = ToolsMsgPropBase<QVariantMap>;
 public:
-    ExtraInfo() : Base(Name, PropName) {}
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    ToolsMsgExtraInfo();
 };
 
-class CC_API ForceExtraInfoExistence : public PropBase<bool>
+class CC_TOOLS_API ToolsMsgForceExtraInfoExistence : public ToolsMsgPropBase<bool>
 {
-    typedef PropBase<bool> Base;
+    using Base = ToolsMsgPropBase<bool>;
 public:
-    ForceExtraInfoExistence() : Base(Name, PropName) {}
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    ToolsMsgForceExtraInfoExistence();
 };
 
-
-class CC_API Delay : public PropBase<unsigned long long>
+class CC_TOOLS_API ToolsMsgDelay : public ToolsMsgPropBase<unsigned long long>
 {
-    typedef PropBase<unsigned long long> Base;
+    using Base = ToolsMsgPropBase<unsigned long long>;
 public:
-    Delay() : Base(Name, PropName) {}
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    ToolsMsgDelay();
 };
 
-class CC_API DelayUnits : public PropBase<QString>
+class CC_TOOLS_API ToolsMsgDelayUnits : public ToolsMsgPropBase<QString>
 {
-    typedef PropBase<QString> Base;
+    using Base = ToolsMsgPropBase<QString>;
 public:
-    DelayUnits() : Base(Name, PropName) {}
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    ToolsMsgDelayUnits();
 };
 
-
-class CC_API RepeatDuration : public PropBase<unsigned long long>
+class CC_TOOLS_API ToolsMsgRepeatDuration : public ToolsMsgPropBase<unsigned long long>
 {
-    typedef PropBase<unsigned long long> Base;
+    using Base = ToolsMsgPropBase<unsigned long long>;
 public:
-    RepeatDuration() : Base(Name, PropName) {}
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    ToolsMsgRepeatDuration();
 };
 
-class CC_API RepeatDurationUnits : public PropBase<QString>
+class CC_TOOLS_API ToolsMsgRepeatDurationUnits : public ToolsMsgPropBase<QString>
 {
-    typedef PropBase<QString> Base;
+    using Base = ToolsMsgPropBase<QString>;
 public:
-    RepeatDurationUnits() : Base(Name, PropName) {}
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    ToolsMsgRepeatDurationUnits();
 };
 
-class CC_API RepeatCount : public PropBase<unsigned>
+class CC_TOOLS_API ToolsMsgRepeatCount : public ToolsMsgPropBase<unsigned>
 {
-    typedef PropBase<unsigned> Base;
+    using Base = ToolsMsgPropBase<unsigned>;
 public:
-    RepeatCount() : Base(Name, PropName) {}
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
+    ToolsMsgRepeatCount();
 };
 
-class CC_API ScrollPos : public PropBase<int>
+class CC_TOOLS_API ToolsMsgScrollPos : public ToolsMsgPropBase<int>
 {
-    typedef PropBase<int> Base;
+    using Base = ToolsMsgPropBase<int>;
 public:
-    ScrollPos() : Base(Name, PropName) {}
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
-
+    ToolsMsgScrollPos();
 };
 
-class CC_API Comment : public PropBase<QString>
+class CC_TOOLS_API ToolsMsgComment : public ToolsMsgPropBase<QString>
 {
-    typedef PropBase<QString> Base;
+    using Base = ToolsMsgPropBase<QString>;
 public:
-    Comment() : Base(Name, PropName) {}
-
-private:
-    static const QString Name;
-    static const QByteArray PropName;
-
+    ToolsMsgComment();
 };
 
 }  // namespace message

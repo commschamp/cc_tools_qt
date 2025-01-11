@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 
 #include "ui_MessagesFilterDialog.h"
 
-#include "cc_tools_qt/Protocol.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 #include "GuiAppMgr.h"
 
 namespace cc_tools_qt
@@ -37,7 +37,7 @@ public:
 
     MessagesFilterDialog(
         FilteredMessages& filteredMessages,
-        ProtocolPtr protocol,
+        ToolsProtocolPtr protocol,
         QWidget* parentObj = nullptr);
 
 private slots:

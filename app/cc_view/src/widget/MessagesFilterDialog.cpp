@@ -1,5 +1,5 @@
 //
-// Copyright 2023 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2023 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -32,7 +32,7 @@ namespace
 
 MessagesFilterDialog::MessagesFilterDialog(
     FilteredMessages& filteredMessages,
-    ProtocolPtr protocol,
+    ToolsProtocolPtr protocol,
     QWidget* parentObj)
   : Base(parentObj),
     m_filteredMessages(filteredMessages),

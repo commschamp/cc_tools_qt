@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,8 +22,6 @@
 
 #include <QtWidgets/QVBoxLayout>
 
-#include "cc_tools_qt/property/field.h"
-
 #include "ShortIntValueFieldWidget.h"
 #include "LongIntValueFieldWidget.h"
 #include "LongLongIntValueFieldWidget.h"
@@ -32,58 +30,34 @@
 namespace cc_tools_qt
 {
 
-IntValueFieldWidget::IntValueFieldWidget(WrapperPtr wrapper, QWidget* parentObj)
+IntValueFieldWidget::IntValueFieldWidget(FieldPtr fieldPtr, QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
-}
-
-IntValueFieldWidget::~IntValueFieldWidget() noexcept
-{
-    m_childWidget.release();
-}
-
-void IntValueFieldWidget::refreshImpl()
-{
-    assert((!m_wrapper) || (m_wrapper->canWrite()));
-    if (m_childWidget) {
-        m_childWidget->refresh();
-    }
-}
-
-void IntValueFieldWidget::editEnabledUpdatedImpl()
-{
-    if (m_childWidget) {
-        m_childWidget->setEditEnabled(isEditEnabled());
-    }
-}
-
-void IntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    assert(m_wrapper);
+    assert(m_fieldPtr);
     assert(!m_childWidget);
     do {
-        if (property::field::IntValue(props).hasScaledDecimals()) {
-            m_childWidget.reset(new ScaledIntValueFieldWidget(std::move(m_wrapper)));
+        if (m_fieldPtr->hasScaledDecimals()) {
+            m_childWidget.reset(new ScaledIntValueFieldWidget(std::move(m_fieldPtr)));
             break;
         }
 
-        std::size_t valTypeSize = m_wrapper->valueTypeSize();
-        bool isSigned = m_wrapper->isSigned();
+        std::size_t valTypeSize = m_fieldPtr->valueTypeSize();
+        bool isSigned = m_fieldPtr->isSigned();
         if ((valTypeSize < sizeof(int)) ||
              ((valTypeSize == sizeof(int) && isSigned))) {
-            m_childWidget.reset(new ShortIntValueFieldWidget(std::move(m_wrapper)));
+            m_childWidget.reset(new ShortIntValueFieldWidget(std::move(m_fieldPtr)));
             break;
         }
 
         if (valTypeSize <= sizeof(unsigned)) {
-            m_childWidget.reset(new LongIntValueFieldWidget(std::move(m_wrapper)));
+            m_childWidget.reset(new LongIntValueFieldWidget(std::move(m_fieldPtr)));
             break;
         }
 
         if ((valTypeSize < sizeof(long long int)) ||
              ((valTypeSize == sizeof(long long int) && isSigned))) {
-            m_childWidget.reset(new LongLongIntValueFieldWidget(std::move(m_wrapper)));
+            m_childWidget.reset(new LongLongIntValueFieldWidget(std::move(m_fieldPtr)));
             break;
         }
 
@@ -99,12 +73,44 @@ void IntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
     childLayout->setContentsMargins(0, 0, 0, 0);
     childLayout->setSpacing(0);
     setLayout(childLayout);
-    m_childWidget->updateProperties(props);
     m_childWidget->setEditEnabled(isEditEnabled());
 
     connect(
         m_childWidget.get(), SIGNAL(sigFieldUpdated()),
-        this, SIGNAL(sigFieldUpdated()));
+        this, SIGNAL(sigFieldUpdated()));   
+}
+
+IntValueFieldWidget::~IntValueFieldWidget() noexcept
+{
+    m_childWidget.release();
+}
+
+ToolsField& IntValueFieldWidget::fieldImpl()
+{
+    assert(m_childWidget != nullptr);
+    return m_childWidget->field();
+}
+
+void IntValueFieldWidget::refreshImpl()
+{
+    assert((!m_fieldPtr) || (m_fieldPtr->canWrite()));
+    if (m_childWidget) {
+        m_childWidget->refresh();
+    }
+}
+
+void IntValueFieldWidget::editEnabledUpdatedImpl()
+{
+    if (m_childWidget) {
+        m_childWidget->setEditEnabled(isEditEnabled());
+    }
+}
+
+void IntValueFieldWidget::nameSuffixUpdatedImpl()
+{
+    if (m_childWidget) {
+        m_childWidget->setNameSuffix(getNameSuffix());
+    }
 }
 
 }  // namespace cc_tools_qt

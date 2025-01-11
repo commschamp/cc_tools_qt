@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -17,5 +17,5 @@
 
 #include "PluginMgrG.h"
 
-template class cc_tools_qt::StaticSingleton<cc_tools_qt::PluginMgr>;
+template class cc_tools_qt::ToolsStaticSingleton<cc_tools_qt::ToolsPluginMgr>;
 

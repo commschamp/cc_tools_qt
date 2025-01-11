@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 
 #include <vector>
 
-#include "cc_tools_qt/field_wrapper/OptionalWrapper.h"
+#include "cc_tools_qt/field/ToolsOptionalField.h"
 #include "FieldWidget.h"
 
 #include "ui_OptionalFieldWidget.h"
@@ -33,10 +33,10 @@ class OptionalFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::OptionalWrapperPtr;
+    using FieldPtr = field::ToolsOptionalFieldPtr;
 
     explicit OptionalFieldWidget(
-        WrapperPtr wrapper,
+        FieldPtr fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~OptionalFieldWidget() noexcept;
@@ -44,17 +44,17 @@ public:
     void setField(FieldWidget* fieldWidget);
 
 protected:
+    virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private slots:
     void fieldUpdated();
     void availabilityChanged(int state);
 
 private:
-    using WrapperType = WrapperPtr::element_type;
-    typedef WrapperType::Mode Mode;
+    using FieldType = FieldPtr::element_type;
+    typedef FieldType::Mode Mode;
 
     void refreshInternal();
     void refreshField();
@@ -62,7 +62,7 @@ private:
     void hideSpacer();
 
     Ui::OptionalFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     FieldWidget* m_field = nullptr;
 };
 

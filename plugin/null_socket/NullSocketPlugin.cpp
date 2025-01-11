@@ -17,10 +17,10 @@
 
 #include "NullSocketPlugin.h"
 
+#include "NullSocket.h"
+
 #include <memory>
 #include <cassert>
-
-#include "NullSocket.h"
 
 namespace cc_tools_qt
 {
@@ -28,17 +28,18 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-NullSocketPlugin::NullSocketPlugin()
+NullSocketPlugin::NullSocketPlugin() :
+    Base(Type_Socket)
 {
-    pluginProperties()
-        .setSocketCreateFunc(
-            []()
-            {
-                return makeNullSocket();
-            });
 }
 
 NullSocketPlugin::~NullSocketPlugin() noexcept = default;
+
+ToolsSocketPtr NullSocketPlugin::createSocketImpl()
+{
+    return makeNullSocket();
+}
+
 
 }  // namespace plugin
 

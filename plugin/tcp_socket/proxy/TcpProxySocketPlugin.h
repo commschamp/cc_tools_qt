@@ -18,11 +18,11 @@
 
 #pragma once
 
-#include <memory>
-
-#include "cc_tools_qt/Plugin.h"
-
 #include "TcpProxySocket.h"
+
+#include "cc_tools_qt/ToolsPlugin.h"
+
+#include <memory>
 
 namespace cc_tools_qt
 {
@@ -31,22 +31,26 @@ namespace plugin
 {
 
 
-class TcpProxySocketPlugin : public cc_tools_qt::Plugin
+class TcpProxySocketPlugin : public cc_tools_qt::ToolsPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "cc.TcpProxySocketPlugin" FILE "tcp_proxy_socket.json")
-    Q_INTERFACES(cc_tools_qt::Plugin)
+    Q_INTERFACES(cc_tools_qt::ToolsPlugin)
+
+    using Base = cc_tools_qt::ToolsPlugin;
 
 public:
     TcpProxySocketPlugin();
     ~TcpProxySocketPlugin() noexcept;
 
+protected:
     virtual void getCurrentConfigImpl(QVariantMap& config) override;
     virtual void reconfigureImpl(const QVariantMap& config) override;
     virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;       
+    virtual ToolsSocketPtr createSocketImpl() override;    
+    virtual QWidget* createConfigurationWidgetImpl() override;
 
 private:
-
     void createSocketIfNeeded();
 
     std::shared_ptr<TcpProxySocket> m_socket;

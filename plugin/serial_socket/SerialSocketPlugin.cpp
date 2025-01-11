@@ -17,11 +17,11 @@
 
 #include "SerialSocketPlugin.h"
 
-#include <memory>
-#include <cassert>
-
 #include "SerialSocket.h"
 #include "SerialSocketConfigWidget.h"
+
+#include <memory>
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -45,21 +45,9 @@ const QString FlowControlSubKey("flow");
 
 }  // namespace
 
-SerialSocketPlugin::SerialSocketPlugin()
+SerialSocketPlugin::SerialSocketPlugin() :
+    Base(Type_Socket)
 {
-    pluginProperties()
-        .setSocketCreateFunc(
-            [this]()
-            {
-                createSocketIfNeeded();
-                return m_socket;
-            })
-        .setConfigWidgetCreateFunc(
-            [this]()
-            {
-                createSocketIfNeeded();
-                return new SerialSocketConfigWidget(*m_socket);
-            });
 }
 
 SerialSocketPlugin::~SerialSocketPlugin() noexcept = default;
@@ -134,6 +122,18 @@ void SerialSocketPlugin::reconfigureImpl(const QVariantMap& config)
             m_socket->flowControl() = flow;
         }
     }
+}
+
+ToolsSocketPtr SerialSocketPlugin::createSocketImpl()
+{
+    createSocketIfNeeded();
+    return m_socket;
+}
+
+QWidget* SerialSocketPlugin::createConfigurationWidgetImpl()
+{
+    createSocketIfNeeded();
+    return new SerialSocketConfigWidget(*m_socket);
 }
 
 void SerialSocketPlugin::createSocketIfNeeded()

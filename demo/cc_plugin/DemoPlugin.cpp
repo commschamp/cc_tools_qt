@@ -19,25 +19,23 @@
 #include "DemoPlugin.h"
 #include "DemoProtocol.h"
 
-namespace cc = cc_tools_qt;
-
 namespace demo
 {
 
 namespace cc_plugin
 {
 
-DemoPlugin::DemoPlugin()
+DemoPlugin::DemoPlugin() :
+    Base(Type_Protocol)
 {
-    pluginProperties()
-        .setProtocolCreateFunc(
-            []()
-            {
-                return cc::ProtocolPtr(new DemoProtocol());
-            });
 }
 
 DemoPlugin::~DemoPlugin() noexcept = default;
+
+cc_tools_qt::ToolsProtocolPtr DemoPlugin::createProtocolImpl()
+{
+    return cc_tools_qt::ToolsProtocolPtr(new DemoProtocol());
+}
 
 }  // namespace cc_plugin
 

@@ -44,7 +44,10 @@ void PluginConfigWrapsListWidget::addPluginConfig(PluginInfoPtr pluginInfo)
     }
 
     assert(std::find(m_loadedPlugins.begin(), m_loadedPlugins.end(), plugin) == m_loadedPlugins.end());
-    plugin->setInterPluginConfigReportCallback(
+    disconnect(plugin, &ToolsPlugin::sigInterPluginConfigReport, this, nullptr);
+    connect(
+        plugin, &ToolsPlugin::sigInterPluginConfigReport,
+        this, 
         [this, plugin](const QVariantMap& props)
         {
             for (auto* p : m_loadedPlugins) {
@@ -58,7 +61,7 @@ void PluginConfigWrapsListWidget::addPluginConfig(PluginInfoPtr pluginInfo)
 
     m_loadedPlugins.push_back(plugin);
 
-    auto* configWidget = plugin->createConfiguarionWidget();
+    auto* configWidget = plugin->createConfigurationWidget();
     if (configWidget == nullptr) {
         return;
     }
@@ -104,7 +107,7 @@ void PluginConfigWrapsListWidget::removeAll()
 
 void PluginConfigWrapsListWidget::moveTop(PluginInfoPtr pluginInfo)
 {
-    if (pluginInfo->getType() != PluginMgr::PluginInfo::Type::Filter) {
+    if (pluginInfo->getType() != ToolsPluginMgr::PluginInfo::Type::Filter) {
         return;
     }
 
@@ -120,7 +123,7 @@ void PluginConfigWrapsListWidget::moveTop(PluginInfoPtr pluginInfo)
 
 void PluginConfigWrapsListWidget::moveBottom(PluginInfoPtr pluginInfo)
 {
-    if (pluginInfo->getType() != PluginMgr::PluginInfo::Type::Filter) {
+    if (pluginInfo->getType() != ToolsPluginMgr::PluginInfo::Type::Filter) {
         return;
     }
 
@@ -135,7 +138,7 @@ void PluginConfigWrapsListWidget::moveBottom(PluginInfoPtr pluginInfo)
 
 void PluginConfigWrapsListWidget::moveUp(PluginInfoPtr pluginInfo)
 {
-    if (pluginInfo->getType() != PluginMgr::PluginInfo::Type::Filter) {
+    if (pluginInfo->getType() != ToolsPluginMgr::PluginInfo::Type::Filter) {
         return;
     }
 
@@ -150,7 +153,7 @@ void PluginConfigWrapsListWidget::moveUp(PluginInfoPtr pluginInfo)
 
 void PluginConfigWrapsListWidget::moveDown(PluginInfoPtr pluginInfo)
 {
-    if (pluginInfo->getType() != PluginMgr::PluginInfo::Type::Filter) {
+    if (pluginInfo->getType() != ToolsPluginMgr::PluginInfo::Type::Filter) {
         return;
     }
 
@@ -184,7 +187,7 @@ int PluginConfigWrapsListWidget::findWidgetIdx(PluginInfoPtr pluginInfo) const
 int PluginConfigWrapsListWidget::getTopFilterIdx() const
 {
     auto iter = std::lower_bound(
-        m_widgets.begin(), m_widgets.end(), PluginMgr::PluginInfo::Type::Filter,
+        m_widgets.begin(), m_widgets.end(), ToolsPluginMgr::PluginInfo::Type::Filter,
         [](auto& w, auto t)
         {
             return w->getType() < t;
@@ -196,7 +199,7 @@ int PluginConfigWrapsListWidget::getTopFilterIdx() const
 int PluginConfigWrapsListWidget::getBottomFilterIdx() const
 {
     auto iter = std::upper_bound(
-        m_widgets.begin(), m_widgets.end(), PluginMgr::PluginInfo::Type::Filter,
+        m_widgets.begin(), m_widgets.end(), ToolsPluginMgr::PluginInfo::Type::Filter,
         [](auto t, auto& w)
         {
             return t < w->getType();

@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>283</width>
-    <height>29</height>
+    <width>263</width>
+    <height>65</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Bitmask Value Field</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,0,1">
+  <layout class="QHBoxLayout" name="horizontalLayout_3">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -28,10 +28,7 @@
    </property>
    <item>
     <widget class="QWidget" name="m_valueWidget" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <property name="spacing">
-       <number>6</number>
-      </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -47,18 +44,11 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
-           <widget class="QLabel" name="m_nameLabel">
-            <property name="text">
-             <string>Bits:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="m_checkboxesLayout"/>
-          </item>
-         </layout>
+         <widget class="QLabel" name="m_nameLabel">
+          <property name="text">
+           <string>Bits:</string>
+          </property>
+         </widget>
         </item>
         <item>
          <spacer name="horizontalSpacer">
@@ -74,6 +64,14 @@
          </spacer>
         </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="m_checkboxesGroupBox">
+        <property name="title">
+         <string/>
+        </property>
+        <layout class="QVBoxLayout" name="m_checkboxesLayout"/>
+       </widget>
       </item>
      </layout>
     </widget>

@@ -18,9 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
-#include "cc_plugin/RawDataProtocolStack.h"
-#include "cc_plugin/RawDataProtocolTransportMessage.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 namespace cc_tools_qt
 {
@@ -34,18 +32,11 @@ namespace raw_data_protocol
 namespace cc_plugin
 {
 
-class RawDataProtocol : public
-    cc_tools_qt::ProtocolBase<
-        cc_plugin::RawDataProtocolStack,
-        cc_plugin::RawDataProtocolTransportMessage
-    >
+class RawDataProtocol : public cc_tools_qt::ToolsProtocol
 {
-    typedef cc_tools_qt::ProtocolBase<
-        cc_plugin::RawDataProtocolStack,
-        cc_plugin::RawDataProtocolTransportMessage
-    > Base;
+    using Base = cc_tools_qt::ToolsProtocol;
 public:
-    RawDataProtocol() = default;
+    RawDataProtocol();
     virtual ~RawDataProtocol() noexcept;
 
 protected:

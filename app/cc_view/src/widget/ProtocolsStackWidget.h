@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 
 #include "ui_ProtocolsStackWidget.h"
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 
 namespace cc_tools_qt
 {
@@ -35,20 +35,20 @@ public:
     ProtocolsStackWidget(QWidget* parentObj = nullptr);
     ~ProtocolsStackWidget() noexcept;
 
-    void displayMessage(MessagePtr msg, bool force);
+    void displayMessage(ToolsMessagePtr msg, bool force);
     void clear();
     bool isAppMessageSelected();
     bool isExtraInfoSelected();
 
 signals:
-    void sigMessageSelected(MessagePtr msg, bool editEnabled);
+    void sigMessageSelected(ToolsMessagePtr msg, bool editEnabled);
 
 private slots:
     void newItemSelected();
 
 private:
     void reportMessageSelected(QTreeWidgetItem* item);
-    static MessagePtr msgFromItem(QTreeWidgetItem* item);
+    static ToolsMessagePtr msgFromItem(QTreeWidgetItem* item);
 
     Ui::ProtocolsStackWidget m_ui;
 };

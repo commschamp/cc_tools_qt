@@ -17,11 +17,11 @@
 
 #pragma once
 
-#include <memory>
+#include "cc_tools_qt/ToolsSocket.h"
 
 #include <QtNetwork/QUdpSocket>
 
-#include "cc_tools_qt/Socket.h"
+#include <memory>
 
 #ifdef CC_TOOLS_QT_DEFAULT_NETWORK_PORT
 #define UDP_PROXY_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT    
@@ -35,10 +35,10 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-class UdpProxySocket : public QObject, public cc_tools_qt::Socket
+class UdpProxySocket : public cc_tools_qt::ToolsSocket
 {
     Q_OBJECT
-    using Base = cc_tools_qt::Socket;
+    using Base = cc_tools_qt::ToolsSocket;
 
 public:
     typedef unsigned short PortType;
@@ -82,7 +82,7 @@ signals:
 protected:
     virtual bool socketConnectImpl() override;
     virtual void socketDisconnectImpl() override;
-    virtual void sendDataImpl(DataInfoPtr dataPtr) override;
+    virtual void sendDataImpl(ToolsDataInfoPtr dataPtr) override;
     virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;     
 
 private slots:
@@ -92,7 +92,6 @@ private slots:
     void remoteSocketDisconnected();
     void readFromRemoteSocket();
     void remoteSocketErrorOccurred(QAbstractSocket::SocketError err);
-
 
 private:
     using SocketPtr = std::unique_ptr<QUdpSocket>;

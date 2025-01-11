@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/field_wrapper/EnumValueWrapper.h"
+#include "cc_tools_qt/field/ToolsEnumField.h"
 #include "FieldWidget.h"
 
 #include "ui_EnumValueFieldWidget.h"
@@ -31,30 +31,31 @@ class EnumValueFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::EnumValueWrapperPtr;
+    using FieldPtr = field::ToolsEnumFieldPtr;
 
     explicit EnumValueFieldWidget(
-        WrapperPtr&& wrapper,
+        FieldPtr&& fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~EnumValueFieldWidget() noexcept;
 
 protected:
+    virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private slots:
     void serialisedValueUpdated(const QString& value);
     void valueUpdated(int idx);
 
 private:
-    using WrapperType = WrapperPtr::element_type;
-    using UnderlyingType = WrapperType::UnderlyingType;
+    using FieldType = FieldPtr::element_type;
+    using UnderlyingType = FieldType::UnderlyingType;
+
+    void populateComboBox();
 
     Ui::EnumValueFieldWidget m_ui;
-    WrapperPtr m_wrapper;
-    bool m_signalsConnected = false;
+    FieldPtr m_fieldPtr;
     int m_idxOffset = 0;
 };
 

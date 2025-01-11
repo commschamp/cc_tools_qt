@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/Socket.h"
+#include "cc_tools_qt/ToolsSocket.h"
 
 namespace cc_tools_qt
 {
@@ -26,21 +26,20 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-class NullSocket : public Socket
+class NullSocket : public cc_tools_qt::ToolsSocket
 {
 public:
     NullSocket();
     ~NullSocket() noexcept;
 
 protected:
-    virtual void sendDataImpl(DataInfoPtr dataPtr) override;
+    virtual void sendDataImpl(ToolsDataInfoPtr dataPtr) override;
     virtual unsigned connectionPropertiesImpl() const override;
 };
 
-inline
-SocketPtr makeNullSocket()
+inline ToolsSocketPtr makeNullSocket()
 {
-    return SocketPtr(new NullSocket());
+    return ToolsSocketPtr(new NullSocket());
 }
 
 } // namespace plugin

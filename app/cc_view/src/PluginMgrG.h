@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,14 +18,14 @@
 
 #pragma once
 
-#include "cc_tools_qt/StaticSingleton.h"
-#include "cc_tools_qt/PluginMgr.h"
+#include "cc_tools_qt/ToolsStaticSingleton.h"
+#include "cc_tools_qt/ToolsPluginMgr.h"
 
 namespace cc_tools_qt
 {
 
-using PluginMgrG = StaticSingleton<PluginMgr>;
+using PluginMgrG = ToolsStaticSingleton<ToolsPluginMgr>;
 
 }  // namespace cc_tools_qt
 
-extern template class cc_tools_qt::StaticSingleton<cc_tools_qt::PluginMgr>;
+extern template class cc_tools_qt::ToolsStaticSingleton<cc_tools_qt::ToolsPluginMgr>;

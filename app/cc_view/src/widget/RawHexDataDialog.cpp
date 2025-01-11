@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -32,8 +32,8 @@ namespace cc_tools_qt
 {
 
 RawHexDataDialog::RawHexDataDialog(
-    MessagesList& msgs,
-    ProtocolPtr protocol,
+    ToolsMessagesList& msgs,
+    ToolsProtocolPtr protocol,
     QWidget* parentObj)
   : Base(parentObj),
     m_msgs(msgs),
@@ -102,8 +102,8 @@ void RawHexDataDialog::accept()
 {
     auto str = m_ui.m_rawDataText->toPlainText();
 
-    DataInfo dataInfo;
-    dataInfo.m_timestamp = DataInfo::TimestampClock::now();
+    ToolsDataInfo dataInfo;
+    dataInfo.m_timestamp = ToolsDataInfo::TimestampClock::now();
     dataInfo.m_data.reserve(static_cast<std::size_t>(str.size() / 2));
 
     QString numStr;
@@ -111,7 +111,7 @@ void RawHexDataDialog::accept()
         [&dataInfo, &numStr]()
         {
             bool ok = false;
-            auto byte = static_cast<DataInfo::DataSeq::value_type>(numStr.toUInt(&ok, 16));
+            auto byte = static_cast<ToolsDataInfo::DataSeq::value_type>(numStr.toUInt(&ok, 16));
             assert(ok);
             dataInfo.m_data.push_back(byte);
             numStr.clear();

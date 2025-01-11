@@ -17,11 +17,9 @@
 
 #pragma once
 
-#include <list>
+#include "cc_tools_qt/ToolsSocket.h"
 
 #include <QtNetwork/QUdpSocket>
-
-#include "cc_tools_qt/Socket.h"
 
 #ifdef CC_TOOLS_QT_DEFAULT_NETWORK_PORT
 #define UDP_GENERIC_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT    
@@ -29,20 +27,19 @@
 #define UDP_GENERIC_DEFAULT_PORT 20000
 #endif
 
-
 namespace cc_tools_qt
 {
 
 namespace plugin
 {
 
-class UdpGenericSocket : public QObject, public cc_tools_qt::Socket
+class UdpGenericSocket : public cc_tools_qt::ToolsSocket
 {
     Q_OBJECT
-    using Base = cc_tools_qt::Socket;
+    using Base = cc_tools_qt::ToolsSocket;
 
 public:
-    typedef unsigned short PortType;
+    using PortType = unsigned short;
 
     UdpGenericSocket();
     ~UdpGenericSocket() noexcept;
@@ -93,7 +90,7 @@ signals:
 protected:
     virtual bool socketConnectImpl() override;
     virtual void socketDisconnectImpl() override;
-    virtual void sendDataImpl(DataInfoPtr dataPtr) override;
+    virtual void sendDataImpl(ToolsDataInfoPtr dataPtr) override;
     virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;     
 
 private slots:

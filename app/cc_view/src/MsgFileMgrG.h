@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,14 +18,14 @@
 
 #pragma once
 
-#include "cc_tools_qt/StaticSingleton.h"
-#include "cc_tools_qt/MsgFileMgr.h"
+#include "cc_tools_qt/ToolsStaticSingleton.h"
+#include "cc_tools_qt/ToolsMsgFileMgr.h"
 
 namespace cc_tools_qt
 {
 
-using MsgFileMgrG = StaticSingleton<MsgFileMgr>;
+using MsgFileMgrG = ToolsStaticSingleton<ToolsMsgFileMgr>;
 
 }  // namespace cc_tools_qt
 
-extern template class cc_tools_qt::StaticSingleton<cc_tools_qt::MsgFileMgr>;
+extern template class cc_tools_qt::ToolsStaticSingleton<cc_tools_qt::ToolsMsgFileMgr>;

@@ -1,0 +1,9 @@
+/// @page page_protocol_plugin Developing Custom Protocol Plugin
+/// @tableofcontents
+/// At this stage manual implmentation of the protocol plugin is not recommended.
+/// The @b commsdsl2tools_qt code generator from the
+/// <a href="https://github.com/commschamp/commsdsl">commsdsl</a> project
+/// generates all the necessary classes.
+///
+
+

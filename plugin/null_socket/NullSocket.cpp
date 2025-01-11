@@ -29,7 +29,7 @@ NullSocket::NullSocket() = default;
 NullSocket::~NullSocket() noexcept = default;
 
 
-void NullSocket::sendDataImpl([[maybe_unused]] DataInfoPtr dataPtr)
+void NullSocket::sendDataImpl([[maybe_unused]] ToolsDataInfoPtr dataPtr)
 {
 }
 

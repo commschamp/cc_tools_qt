@@ -15,11 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-
 #include "Bundles.h"
 
-namespace cc = cc_tools_qt;
+#include <cassert>
 
 namespace demo
 {
@@ -30,96 +28,11 @@ namespace cc_plugin
 namespace message
 {
 
-namespace
-{
-
-using BundlesFields = demo::message::BundlesFields<>;
-
-QVariantMap createProps_field1_mem1()
-{
-    using Field = BundlesFields::field1_mem1;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .name("length");
-    return props.asMap();
-}
-
-QVariantMap createProps_field1_mem2()
-{
-    using Field = BundlesFields::field1_mem2;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .name("str");
-    return props.asMap();
-}
-
-QVariantMap createProps_field1()
-{
-    using Field = BundlesFields::field1;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .name("field1")
-            .serialisedHidden()
-            .add(createProps_field1_mem1())
-            .add(createProps_field1_mem2());
-    assert(props.members().size() == Field::FieldIdx_numOfValues);
-    return props.asMap();
-}
-
-QVariantMap createProps_field2_mem1()
-{
-    using Field = BundlesFields::field2_mem1;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .name("length");
-    return props.asMap();
-}
-
-QVariantMap createProps_field2_mem2()
-{
-    using Field = BundlesFields::field2_mem2;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .name("data");
-    return props.asMap();
-}
-
-QVariantMap createProps_field2()
-{
-    using Field = BundlesFields::field2;
-    auto props =
-        cc::property::field::ForField<Field>()
-            .name("field2")
-            .serialisedHidden()
-            .add(createProps_field2_mem1())
-            .add(createProps_field2_mem2());
-    assert(props.members().size() == Field::FieldIdx_numOfValues);
-    return props.asMap();
-}
-
-QVariantList createFieldsProperties()
-{
-    QVariantList props;
-    props.append(createProps_field1());
-    props.append(createProps_field2());
-
-    assert(props.size() == Bundles::FieldIdx_numOfValues);
-    return props;
-}
-
-}  // namespace
-
 Bundles::Bundles() = default;
 Bundles::~Bundles() noexcept = default;
 
 Bundles& Bundles::operator=(const Bundles&) = default;
 Bundles& Bundles::operator=(Bundles&&) = default;
-
-const QVariantList& Bundles::fieldsPropertiesImpl() const
-{
-    static const auto Props = createFieldsProperties();
-    return Props;
-}
 
 }  // namespace message
 

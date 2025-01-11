@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -38,11 +38,11 @@ SendMsgListWidget::SendMsgListWidget(QWidget* parentObj)
     auto* guiMgr = GuiAppMgr::instance();
     assert(guiMgr != nullptr);
     connect(
-        guiMgr, SIGNAL(sigAddSendMsg(MessagePtr)),
-        this, SLOT(addMessage(MessagePtr)));
+        guiMgr, SIGNAL(sigAddSendMsg(ToolsMessagePtr)),
+        this, SLOT(addMessage(ToolsMessagePtr)));
     connect(
-        guiMgr, SIGNAL(sigSendMsgUpdated(MessagePtr)),
-        this, SLOT(updateCurrentMessage(MessagePtr)));
+        guiMgr, SIGNAL(sigSendMsgUpdated(ToolsMessagePtr)),
+        this, SLOT(updateCurrentMessage(ToolsMessagePtr)));
     connect(
         guiMgr, SIGNAL(sigSendDeleteSelectedMsg()),
         this, SLOT(deleteCurrentMessage()));
@@ -68,8 +68,8 @@ SendMsgListWidget::SendMsgListWidget(QWidget* parentObj)
         guiMgr, SIGNAL(sigSendMoveSelectedBottom()),
         this, SLOT(moveSelectedBottom()));
     connect(
-        guiMgr, SIGNAL(sigSendLoadMsgs(bool, const QString&, ProtocolPtr)),
-        this, SLOT(loadMessages(bool, const QString&, ProtocolPtr)));
+        guiMgr, SIGNAL(sigSendLoadMsgs(bool, const QString&, ToolsProtocolPtr)),
+        this, SLOT(loadMessages(bool, const QString&, ToolsProtocolPtr)));
     connect(
         guiMgr, SIGNAL(sigSendSaveMsgs(const QString&)),
         this, SLOT(saveMessages(const QString&)));
@@ -78,12 +78,12 @@ SendMsgListWidget::SendMsgListWidget(QWidget* parentObj)
         this, SLOT(selectMsg(int)));
 }
 
-void SendMsgListWidget::msgClickedImpl(MessagePtr msg, int idx)
+void SendMsgListWidget::msgClickedImpl(ToolsMessagePtr msg, int idx)
 {
     GuiAppMgr::instance()->sendMsgClicked(std::move(msg), idx);
 }
 
-void SendMsgListWidget::msgDoubleClickedImpl(MessagePtr msg, int idx)
+void SendMsgListWidget::msgDoubleClickedImpl(ToolsMessagePtr msg, int idx)
 {
     if (m_state != State::Idle) {
         return;
@@ -91,13 +91,13 @@ void SendMsgListWidget::msgDoubleClickedImpl(MessagePtr msg, int idx)
     GuiAppMgr::instance()->sendMsgDoubleClicked(std::move(msg), idx);
 }
 
-QString SendMsgListWidget::msgPrefixImpl(const Message& msg) const
+QString SendMsgListWidget::msgPrefixImpl(const ToolsMessage& msg) const
 {
     QString str;
     do {
-        auto delay = property::message::Delay().getFrom(msg);
-        auto repeatDur = property::message::RepeatDuration().getFrom(msg);
-        auto repeatCount = property::message::RepeatCount().getFrom(msg, 1U);
+        auto delay = property::message::ToolsMsgDelay().getFrom(msg);
+        auto repeatDur = property::message::ToolsMsgRepeatDuration().getFrom(msg);
+        auto repeatCount = property::message::ToolsMsgRepeatCount().getFrom(msg, 1U);
 
         str =
             QString("(%1:%2:%3)").
@@ -126,7 +126,7 @@ void SendMsgListWidget::stateChangedImpl(int state)
     if (m_state == State::SendingSingle) {
         auto msg = currentMsg();
         assert(msg);
-        MessagesList allMsgsList;
+        ToolsMessagesList allMsgsList;
         allMsgsList.push_back(std::move(msg));
         GuiAppMgr::instanceRef().sendMessages(std::move(allMsgsList));
         return;
@@ -143,9 +143,9 @@ void SendMsgListWidget::msgMovedImpl(int idx)
     GuiAppMgr::instanceRef().sendSelectedMsgMoved(idx);
 }
 
-void SendMsgListWidget::loadMessagesImpl(const QString& filename, Protocol& protocol)
+void SendMsgListWidget::loadMessagesImpl(const QString& filename, ToolsProtocol& protocol)
 {
-    auto msgs = MsgFileMgrG::instanceRef().load(MsgFileMgr::Type::Send, filename, protocol);
+    auto msgs = MsgFileMgrG::instanceRef().load(ToolsMsgFileMgr::Type::Send, filename, protocol);
     for (auto& m : msgs) {
         addMessage(m);
     }
@@ -154,7 +154,7 @@ void SendMsgListWidget::loadMessagesImpl(const QString& filename, Protocol& prot
 
 void SendMsgListWidget::saveMessagesImpl(const QString& filename)
 {
-    MsgFileMgrG::instanceRef().save(MsgFileMgr::Type::Send, filename, allMsgs());
+    MsgFileMgrG::instanceRef().save(ToolsMsgFileMgr::Type::Send, filename, allMsgs());
 }
 
 } // namespace cc_tools_qt

@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -23,22 +23,22 @@
 
 #include <QtWidgets/QCheckBox>
 
-#include "cc_tools_qt/property/field.h"
-
 namespace cc_tools_qt
 {
 
 OptionalFieldWidget::OptionalFieldWidget(
-    WrapperPtr wrapper,
+    FieldPtr fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
 
-    if (m_wrapper->getMode() == Mode::Tentative) {
-        m_wrapper->setMode(Mode::Missing);
+    commonConstruct();
+
+    if (m_fieldPtr->getMode() == Mode::Tentative) {
+        m_fieldPtr->setMode(Mode::Missing);
     }
 
     connect(m_ui.m_optCheckBox, SIGNAL(stateChanged(int)),
@@ -62,6 +62,12 @@ void OptionalFieldWidget::setField(FieldWidget* fieldWidget)
         this, SLOT(fieldUpdated()));
 }
 
+ToolsField& OptionalFieldWidget::fieldImpl()
+{
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
+}
+
 void OptionalFieldWidget::refreshImpl()
 {
     refreshInternal();
@@ -74,24 +80,11 @@ void OptionalFieldWidget::editEnabledUpdatedImpl()
     m_field->setEditEnabled(isEditEnabled());
 }
 
-void OptionalFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::Optional optProps(props);
-    auto& fieldPropsMap = optProps.field();
-    assert(m_field);
-    m_field->updateProperties(fieldPropsMap);
-    refreshInternal();
-
-    bool uncheckable = optProps.isUncheckable();
-    m_ui.m_optCheckBox->setHidden(uncheckable);
-    m_ui.m_optSep->setHidden(uncheckable);
-}
-
 void OptionalFieldWidget::fieldUpdated()
 {
-    if (!m_wrapper->canWrite()) {
-        m_wrapper->reset();
-        assert(m_wrapper->canWrite());
+    if (!m_fieldPtr->canWrite()) {
+        m_fieldPtr->reset();
+        assert(m_fieldPtr->canWrite());
         refreshField();
     }
     refreshInternal();
@@ -108,7 +101,7 @@ void OptionalFieldWidget::availabilityChanged(int state)
         mode = Mode::Exists;
     }
 
-    if (mode == m_wrapper->getMode()) {
+    if (mode == m_fieldPtr->getMode()) {
         return;
     }
 
@@ -117,16 +110,16 @@ void OptionalFieldWidget::availabilityChanged(int state)
         return;
     }
 
-    m_wrapper->setMode(mode);
+    m_fieldPtr->setMode(mode);
     refresh();
     emitFieldUpdated();
 }
 
 void OptionalFieldWidget::refreshInternal()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_field);
-    auto mode = m_wrapper->getMode();
+    auto mode = m_fieldPtr->getMode();
     if (mode == Mode::Exists) {
         m_ui.m_optCheckBox->setCheckState(Qt::Checked);
         m_ui.m_nameLabel->hide();

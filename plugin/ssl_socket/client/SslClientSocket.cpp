@@ -17,13 +17,12 @@
 
 #include "SslClientSocket.h"
 
-#include <algorithm>
-#include <cassert>
-#include <iterator>
-
 #include <QtNetwork/QHostAddress>
 #include <QtNetwork/QSslConfiguration>
 
+#include <algorithm>
+#include <cassert>
+#include <iterator>
 
 namespace cc_tools_qt
 {
@@ -94,8 +93,8 @@ SslClientSocket::SslClientSocket()
         this, &SslClientSocket::socketErrorOccurred);
 
     connect(
-        &m_socket, SIGNAL(sslErrors(const QList<QSslError>&)),
-        this, SLOT(sslErrorsOccurred(const QList<QSslError>&)));        
+        &m_socket, qOverload<const QList<QSslError>&>(&QSslSocket::sslErrors),
+        this, &SslClientSocket::sslErrorsOccurred);        
 }
 
 SslClientSocket::~SslClientSocket() noexcept
@@ -169,7 +168,7 @@ void SslClientSocket::socketDisconnectImpl()
     m_socket.blockSignals(false);
 }
 
-void SslClientSocket::sendDataImpl(DataInfoPtr dataPtr)
+void SslClientSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
 {
     assert(dataPtr);
     m_socket.write(
@@ -246,7 +245,7 @@ void SslClientSocket::readFromSocket()
     assert(socket != nullptr);
 
     auto dataPtr = makeDataInfo();
-    dataPtr->m_timestamp = DataInfo::TimestampClock::now();
+    dataPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
 
     auto dataSize = socket->bytesAvailable();
     dataPtr->m_data.resize(static_cast<std::size_t>(dataSize));

@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -20,8 +20,6 @@
 #include <algorithm>
 #include <cassert>
 
-#include "cc_tools_qt/property/field.h"
-
 namespace cc_tools_qt
 {
 
@@ -35,6 +33,7 @@ ArrayListElementWidget::ArrayListElementWidget(
     m_ui.m_layout->addWidget(fieldWidget);
 
     updateUi();
+
     connect(
         m_fieldWidget, SIGNAL(sigFieldUpdated()),
         this, SIGNAL(sigFieldUpdated()));
@@ -63,12 +62,6 @@ void ArrayListElementWidget::setDeletable(bool deletable)
     updateUi();
 }
 
-void ArrayListElementWidget::updateProperties(const QVariantMap& props)
-{
-    assert(m_fieldWidget != nullptr);
-    m_fieldWidget->updateProperties(props);
-}
-
 void ArrayListElementWidget::setNameSuffix(const QString& value)
 {
     assert(m_fieldWidget != nullptr);
@@ -83,11 +76,11 @@ void ArrayListElementWidget::updateUi()
 }
 
 ArrayListFieldWidget::ArrayListFieldWidget(
-    WrapperPtr wrapper,
+    FieldPtr fieldPtr,
     CreateMissingDataFieldsFunc&& updateFunc,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper)),
+    m_fieldPtr(std::move(fieldPtr)),
     m_createMissingDataFieldsCallback(std::move(updateFunc))
 {
     m_ui.setupUi(this);
@@ -96,7 +89,9 @@ ArrayListFieldWidget::ArrayListFieldWidget(
     setSeparatorWidget(m_ui.m_sepLine);
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
-    assert(m_wrapper->canWrite());
+    commonConstruct();
+
+    assert(m_fieldPtr->canWrite());
     refreshInternal();
     addMissingFields();
 
@@ -109,6 +104,12 @@ ArrayListFieldWidget::ArrayListFieldWidget(
 
 ArrayListFieldWidget::~ArrayListFieldWidget() noexcept = default;
 
+ToolsField& ArrayListFieldWidget::fieldImpl()
+{
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
+}
+
 void ArrayListFieldWidget::refreshImpl()
 {
     while (!m_elements.empty()) {
@@ -117,16 +118,15 @@ void ArrayListFieldWidget::refreshImpl()
         m_elements.pop_back();
     }
 
-    if (m_wrapper->hasFixedSize()) {
-        m_wrapper->adjustFixedSize();
+    if (m_fieldPtr->hasFixedSize()) {
+        m_fieldPtr->adjustFixedSize();
     }
 
-    m_wrapper->refreshMembers();
+    m_fieldPtr->refreshMembers();
 
     refreshInternal();
     addMissingFields();
-    updatePrefixField();
-    assert(m_elements.size() == m_wrapper->size());
+    assert(m_elements.size() == m_fieldPtr->size());
 }
 
 void ArrayListFieldWidget::editEnabledUpdatedImpl()
@@ -137,51 +137,22 @@ void ArrayListFieldWidget::editEnabledUpdatedImpl()
     updateUi();
 }
 
-void ArrayListFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::ArrayList arrayListProps(props);
-    m_ui.m_prefixNameLabel->setText(arrayListProps.prefixName());
-    m_prefixVisible = arrayListProps.isPrefixVisible();
-    m_appendIndexToElementName = arrayListProps.isIndexAppendedToElementName();
-    updatePrefixField();
-    auto& elementsProps = arrayListProps.elements();
-
-    m_elemProperties.clear();
-    m_elemProperties.reserve(static_cast<std::size_t>(elementsProps.size()));
-    m_elemProperties.assign(elementsProps.begin(), elementsProps.end());
-
-    if (m_elemProperties.empty()) {
-        return;
-    }
-
-    std::size_t idx = 0;
-    for (std::size_t elemIdx = 0U; elemIdx < m_elements.size(); ++elemIdx) {
-        auto* elem = m_elements[elemIdx];
-        if (m_appendIndexToElementName) {
-            elem->setNameSuffix(QString(" %1").arg(elemIdx));
-        }
-
-        elem->updateProperties(m_elemProperties[idx]);
-        idx = ((idx + 1) % m_elemProperties.size());
-    }
-}
-
 void ArrayListFieldWidget::dataFieldUpdated()
 {
-    if (!m_wrapper->canWrite()) {
+    if (!m_fieldPtr->canWrite()) {
         auto senderIter = std::find(m_elements.begin(), m_elements.end(), qobject_cast<ArrayListElementWidget*>(sender()));
         assert(senderIter != m_elements.end());
         auto idx = static_cast<unsigned>(std::distance(m_elements.begin(), senderIter));
-        auto& memWrappers = m_wrapper->getMembers();
-        assert(idx < memWrappers.size());
-        auto& memWrapPtr = memWrappers[idx];
+        auto& memFields = m_fieldPtr->getMembers();
+        assert(idx < memFields.size());
+        auto& memWrapPtr = memFields[idx];
         if (!memWrapPtr->canWrite()) {
             memWrapPtr->reset();
             assert(memWrapPtr->canWrite());
             (*senderIter)->refresh();
         }
 
-        if (!m_wrapper->canWrite()) {
+        if (!m_fieldPtr->canWrite()) {
             memWrapPtr->reset();
             assert(memWrapPtr->canWrite());
             (*senderIter)->refresh();
@@ -189,15 +160,14 @@ void ArrayListFieldWidget::dataFieldUpdated()
     }
 
     refreshInternal();
-    updatePrefixField();
     emitFieldUpdated();
 }
 
 void ArrayListFieldWidget::addNewField()
 {
-    m_wrapper->addField();
+    m_fieldPtr->addField();
     refreshImpl();
-    assert(m_elements.size() == m_wrapper->size());
+    assert(m_elements.size() == m_fieldPtr->size());
     emitFieldUpdated();
 }
 
@@ -213,11 +183,11 @@ void ArrayListFieldWidget::removeField()
 
     auto idx = static_cast<int>(std::distance(m_elements.begin(), iter));
 
-    m_wrapper->removeField(idx);
+    m_fieldPtr->removeField(idx);
 
     refreshImpl();
 
-    assert(m_elements.size() == m_wrapper->size());
+    assert(m_elements.size() == m_fieldPtr->size());
     assert(m_elements.size() == static_cast<unsigned>(m_ui.m_membersLayout->count()));
 
     emitFieldUpdated();
@@ -225,40 +195,30 @@ void ArrayListFieldWidget::removeField()
 
 void ArrayListFieldWidget::addDataField(FieldWidget* dataFieldWidget)
 {
-    if (m_appendIndexToElementName) {
-        dataFieldWidget->setNameSuffix(QString(" %1").arg(m_elements.size()));
-    }
-
-    auto* wrapperWidget = new ArrayListElementWidget(dataFieldWidget);
-    wrapperWidget->setEditEnabled(isEditEnabled());
-    wrapperWidget->setDeletable(!m_wrapper->hasFixedSize());
-
-    if (!m_elemProperties.empty()) {
-        auto elemPropsIdx = m_elements.size() % m_elemProperties.size();
-        assert(elemPropsIdx < m_elemProperties.size());
-        auto& elemProps = m_elemProperties[elemPropsIdx];
-        wrapperWidget->updateProperties(elemProps);
-    }
+    dataFieldWidget->setNameSuffix(QString(" %1").arg(m_elements.size()));
+    auto* fieldPtrWidget = new ArrayListElementWidget(dataFieldWidget);
+    fieldPtrWidget->setEditEnabled(isEditEnabled());
+    fieldPtrWidget->setDeletable(!m_fieldPtr->hasFixedSize());
 
     connect(
-        wrapperWidget, SIGNAL(sigFieldUpdated()),
+        fieldPtrWidget, SIGNAL(sigFieldUpdated()),
         this, SLOT(dataFieldUpdated()));
 
     connect(
-        wrapperWidget, SIGNAL(sigRemoveRequested()),
+        fieldPtrWidget, SIGNAL(sigRemoveRequested()),
         this, SLOT(removeField()));
 
-    m_elements.push_back(wrapperWidget);
-    m_ui.m_membersLayout->addWidget(wrapperWidget);
+    m_elements.push_back(fieldPtrWidget);
+    m_ui.m_membersLayout->addWidget(fieldPtrWidget);
 }
 
 void ArrayListFieldWidget::refreshInternal()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_ui.m_serValuePlainTextEdit != nullptr);
-    updateSerValue(*m_ui.m_serValuePlainTextEdit, *m_wrapper);
+    updateSerValue(*m_ui.m_serValuePlainTextEdit, *m_fieldPtr);
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     setValidityStyleSheet(*m_ui.m_nameLabel, valid);
     setValidityStyleSheet(*m_ui.m_serFrontLabel, valid);
     setValidityStyleSheet(*m_ui.m_serValuePlainTextEdit, valid);
@@ -267,10 +227,9 @@ void ArrayListFieldWidget::refreshInternal()
 
 void ArrayListFieldWidget::updateUi()
 {
-    bool addButtonVisible = isEditEnabled() && (!m_wrapper->hasFixedSize());
+    bool addButtonVisible = isEditEnabled() && (!m_fieldPtr->hasFixedSize());
     m_ui.m_addSepLine->setVisible(addButtonVisible);
     m_ui.m_addFieldPushButton->setVisible(addButtonVisible);
-    updatePrefixField();
 }
 
 void ArrayListFieldWidget::addMissingFields()
@@ -282,30 +241,13 @@ void ArrayListFieldWidget::addMissingFields()
     }
 
     assert(m_elements.empty());
-    auto fieldWidgets = m_createMissingDataFieldsCallback(*m_wrapper);
+    auto fieldWidgets = m_createMissingDataFieldsCallback(*m_fieldPtr);
     for (auto& fieldWidgetPtr : fieldWidgets) {
         addDataField(fieldWidgetPtr.release());
     }
 
-    assert(m_elements.size() == m_wrapper->size());
+    assert(m_elements.size() == m_fieldPtr->size());
     assert(m_elements.size() == static_cast<unsigned>(m_ui.m_membersLayout->count()));
-}
-
-void ArrayListFieldWidget::updatePrefixField()
-{
-    if (!m_prefixVisible) {
-        m_ui.m_prefixFieldWidget->hide();
-        return;
-    }
-
-    auto info = m_wrapper->getPrefixFieldInfo();
-    m_ui.m_prefixValueSpinBox->setValue(info.first);
-    QString serText;
-    for (auto byte : info.second) {
-        serText.append(QString("%1").arg(static_cast<unsigned>(byte), 2, 16, QChar('0')));
-    }
-    m_ui.m_prefixSerValueLineEdit->setText(serText);
-    m_ui.m_prefixFieldWidget->show();
 }
 
 }  // namespace cc_tools_qt

@@ -17,10 +17,10 @@
 
 #include "UdpGenericSocketPlugin.h"
 
-#include <memory>
-#include <cassert>
-
 #include "UdpGenericSocketConfigWidget.h"
+
+#include <cassert>
+#include <memory>
 
 namespace cc_tools_qt
 {
@@ -39,21 +39,9 @@ const QString BroadcastMaskSubKey("broadcast_prop");
 
 }  // namespace
 
-UdpGenericSocketPlugin::UdpGenericSocketPlugin()
+UdpGenericSocketPlugin::UdpGenericSocketPlugin() :
+    Base(Type_Socket)
 {
-    pluginProperties()
-        .setSocketCreateFunc(
-            [this]() -> SocketPtr
-            {
-                createSocketIfNeeded();
-                return m_socket;
-            })
-        .setConfigWidgetCreateFunc(
-            [this]() -> QWidget*
-            {
-                createSocketIfNeeded();
-                return new UdpGenericSocketConfigWidget(*m_socket);
-            });
 }
 
 UdpGenericSocketPlugin::~UdpGenericSocketPlugin() noexcept = default;
@@ -111,6 +99,18 @@ void UdpGenericSocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props
 {
     createSocketIfNeeded();
     m_socket->applyInterPluginConfig(props);
+}
+
+ToolsSocketPtr UdpGenericSocketPlugin::createSocketImpl()
+{
+    createSocketIfNeeded();
+    return m_socket;
+}
+
+QWidget* UdpGenericSocketPlugin::createConfigurationWidgetImpl()
+{
+    createSocketIfNeeded();
+    return new UdpGenericSocketConfigWidget(*m_socket);
 }
 
 void UdpGenericSocketPlugin::createSocketIfNeeded()

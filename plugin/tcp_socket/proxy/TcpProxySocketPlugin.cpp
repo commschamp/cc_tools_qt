@@ -17,11 +17,11 @@
 
 #include "TcpProxySocketPlugin.h"
 
-#include <memory>
-#include <cassert>
-
 #include "TcpProxySocket.h"
 #include "TcpProxySocketConfigWidget.h"
+
+#include <cassert>
+#include <memory>
 
 namespace cc_tools_qt
 {
@@ -39,21 +39,9 @@ const QString RemotePortSubKey("remote_port");
 
 }  // namespace
 
-TcpProxySocketPlugin::TcpProxySocketPlugin()
+TcpProxySocketPlugin::TcpProxySocketPlugin() :
+    Base(Type_Socket)
 {
-    pluginProperties()
-        .setSocketCreateFunc(
-            [this]()
-            {
-                createSocketIfNeeded();
-                return m_socket;
-            })
-        .setConfigWidgetCreateFunc(
-            [this]()
-            {
-                createSocketIfNeeded();
-                return new TcpProxySocketConfigWidget(*m_socket);
-            });
 }
 
 TcpProxySocketPlugin::~TcpProxySocketPlugin() noexcept = default;
@@ -108,6 +96,18 @@ void TcpProxySocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props)
 {
     createSocketIfNeeded();
     m_socket->applyInterPluginConfig(props);
+}
+
+ToolsSocketPtr TcpProxySocketPlugin::createSocketImpl()
+{
+    createSocketIfNeeded();
+    return m_socket;
+}
+
+QWidget* TcpProxySocketPlugin::createConfigurationWidgetImpl()
+{
+    createSocketIfNeeded();
+    return new TcpProxySocketConfigWidget(*m_socket);
 }
 
 void TcpProxySocketPlugin::createSocketIfNeeded()

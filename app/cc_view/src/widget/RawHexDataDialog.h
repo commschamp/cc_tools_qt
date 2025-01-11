@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 
 #include "ui_RawHexDataDialog.h"
 
-#include "cc_tools_qt/Protocol.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 
 namespace cc_tools_qt
@@ -33,10 +33,9 @@ class RawHexDataDialog : public QDialog
     Q_OBJECT
     using Base = QDialog;
 public:
-    typedef Protocol::MessagesList MessagesList;
     RawHexDataDialog(
-        MessagesList& msgs,
-        ProtocolPtr protocol,
+        ToolsMessagesList& msgs,
+        ToolsProtocolPtr protocol,
         QWidget* parentObj = nullptr);
     ~RawHexDataDialog() noexcept;
 
@@ -46,8 +45,8 @@ private slots:
     void reset();
 
 private:
-    MessagesList& m_msgs;
-    ProtocolPtr m_protocol;
+    ToolsMessagesList& m_msgs;
+    ToolsProtocolPtr m_protocol;
     Ui::RawHexDataDialog m_ui;
 };
 

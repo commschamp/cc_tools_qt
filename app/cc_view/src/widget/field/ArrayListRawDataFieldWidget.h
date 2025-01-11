@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/field_wrapper/ArrayListRawDataWrapper.h"
+#include "cc_tools_qt/field/ToolsRawDataField.h"
 #include "FieldWidget.h"
 
 #include "ui_ArrayListRawDataFieldWidget.h"
@@ -31,15 +31,16 @@ class ArrayListRawDataFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::ArrayListRawDataWrapperPtr;
+    using FieldPtr = field::ToolsRawDataFieldPtr;
 
     explicit ArrayListRawDataFieldWidget(
-        WrapperPtr&& wrapper,
+        FieldPtr&& fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~ArrayListRawDataFieldWidget() noexcept;
 
 protected:
+    virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
 
@@ -50,7 +51,7 @@ private slots:
 private:
 
     Ui::ArrayListRawDataFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
 };
 
 

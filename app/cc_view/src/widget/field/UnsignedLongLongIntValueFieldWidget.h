@@ -1,5 +1,5 @@
 //
-// Copyright 2017 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2017 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/field_wrapper/UnsignedLongValueWrapper.h"
+#include "cc_tools_qt/field/ToolsUnsignedLongField.h"
 #include "FieldWidget.h"
 
 #include "ui_UnsignedLongLongIntValueFieldWidget.h"
@@ -32,18 +32,18 @@ class UnsignedLongLongIntValueFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::UnsignedLongValueWrapperPtr;
+    using FieldPtr = field::ToolsUnsignedLongFieldPtr;
 
     explicit UnsignedLongLongIntValueFieldWidget(
-        WrapperPtr wrapper,
+        FieldPtr fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~UnsignedLongLongIntValueFieldWidget() noexcept;
 
 protected:
+    virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private slots:
     void serialisedValueUpdated(const QString& value);
@@ -51,10 +51,9 @@ private slots:
     void specialSelected(long long value);
 
 private:
-    using SpecialInfo = QPair<QString, long long>;
-    using SpecialsList = QList<SpecialInfo>;
-    using WrapperType = WrapperPtr::element_type;
-    using UnderlyingType = WrapperType::UnderlyingType;
+    using SpecialsList = field::ToolsUnsignedLongField::SpecialsList;
+    using FieldType = FieldPtr::element_type;
+    using UnderlyingType = FieldType::UnderlyingType;
     typedef double DisplayedType;
     UnderlyingType adjustDisplayedToReal(DisplayedType val);
     DisplayedType adjustRealToDisplayed(UnderlyingType val);
@@ -62,8 +61,7 @@ private:
     bool createSpecialsWidget(const SpecialsList& specials);
 
     Ui::UnsignedLongLongIntValueFieldWidget m_ui;
-    WrapperPtr m_wrapper;
-    long long m_offset = 0;
+    FieldPtr m_fieldPtr;
     int m_decimals = 0;
     SpecialValueWidget* m_specialsWidget = nullptr;
 };

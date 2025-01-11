@@ -17,13 +17,10 @@
 
 #pragma once
 
-#include <list>
+#include "cc_tools_qt/ToolsSocket.h"
 
 #include <QtSerialPort/QSerialPort>
 #include <QtCore/QString>
-
-#include "cc_tools_qt/Socket.h"
-
 
 namespace cc_tools_qt
 {
@@ -34,19 +31,17 @@ namespace plugin
 namespace serial_socket
 {
 
-class SerialSocket : public QObject,
-                     public cc_tools_qt::Socket
+class SerialSocket : public cc_tools_qt::ToolsSocket
 {
     Q_OBJECT
-    using Base = cc_tools_qt::Socket;
+    using Base = cc_tools_qt::ToolsSocket;
 
 public:
-
-    typedef qint32 Baud;
-    typedef QSerialPort::DataBits DataBits;
-    typedef QSerialPort::Parity Parity;
-    typedef QSerialPort::StopBits StopBits;
-    typedef QSerialPort::FlowControl FlowControl;
+    using Baud = qint32;
+    using DataBits = QSerialPort::DataBits;
+    using Parity = QSerialPort::Parity;
+    using StopBits = QSerialPort::StopBits;
+    using FlowControl = QSerialPort::FlowControl;
 
     SerialSocket();
     ~SerialSocket() noexcept;
@@ -84,7 +79,7 @@ public:
 protected:
     virtual bool socketConnectImpl() override;
     virtual void socketDisconnectImpl() override;
-    virtual void sendDataImpl(DataInfoPtr dataPtr) override;
+    virtual void sendDataImpl(ToolsDataInfoPtr dataPtr) override;
 
 private slots:
     void performRead();

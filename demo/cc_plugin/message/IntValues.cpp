@@ -15,11 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-
 #include "IntValues.h"
 
-namespace cc = cc_tools_qt;
+#include <cassert>
 
 namespace demo
 {
@@ -30,53 +28,11 @@ namespace cc_plugin
 namespace message
 {
 
-namespace
-{
-
-using IntValuesFields = demo::message::IntValuesFields<>;
-
-QVariantList createFieldsProperties()
-{
-    QVariantList props;
-    props.append(
-        cc::property::field::ForField<IntValuesFields::field1>()
-            .name("field1")
-            .addSpecial("S1", 1)
-            .addSpecial("S2", 5)
-            .asMap());
-    props.append(cc::property::field::ForField<IntValuesFields::field2>().name("field2").asMap());
-    props.append(
-        cc::property::field::ForField<IntValuesFields::field3>()
-            .name("field3")
-            .addSpecial("S1", 100)
-            .addSpecial("S2", 500)
-            .asMap());
-    props.append(cc::property::field::ForField<IntValuesFields::field4>().name("field4").asMap());
-    props.append(
-        cc::property::field::ForField<IntValuesFields::field5>()
-            .name("field5")
-            .addSpecial("S1", 0xffffff)
-            .addSpecial("S2", (long long)0xffffffffffff)
-            .asMap());
-    props.append(cc::property::field::ForField<IntValuesFields::field6>().name("field6").asMap());
-
-    assert(props.size() == IntValues::FieldIdx_numOfValues);
-    return props;
-}
-
-}  // namespace
-
 IntValues::IntValues() = default;
 IntValues::~IntValues() noexcept = default;
 
 IntValues& IntValues::operator=(const IntValues&) = default;
 IntValues& IntValues::operator=(IntValues&&) = default;
-
-const QVariantList& IntValues::fieldsPropertiesImpl() const
-{
-    static const auto Props = createFieldsProperties();
-    return Props;
-}
 
 }  // namespace message
 

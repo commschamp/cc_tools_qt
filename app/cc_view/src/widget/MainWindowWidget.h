@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 
 #include "ui_MainWindowWidget.h"
 
-#include "cc_tools_qt/Protocol.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 #include "GuiAppMgr.h"
 
@@ -45,9 +45,9 @@ public:
     ~MainWindowWidget() noexcept;
 
 private slots:
-    void newSendMsgDialog(ProtocolPtr protocol);
-    void sendRawMsgDialog(ProtocolPtr protocol);
-    void updateSendMsgDialog(MessagePtr msg, ProtocolPtr protocol);
+    void newSendMsgDialog(ToolsProtocolPtr protocol);
+    void sendRawMsgDialog(ToolsProtocolPtr protocol);
+    void updateSendMsgDialog(ToolsMessagePtr msg, ToolsProtocolPtr protocol);
     void pluginsEditDialog();
     void displayErrorMsg(const QString& msg);
     void addMainToolbarAction(ActionPtr action);
@@ -57,9 +57,9 @@ private slots:
     void saveRecvMsgsDialog();
     void loadSendMsgsDialog(bool askForClear);
     void saveSendMsgsDialog();
-    void msgCommentDialog(MessagePtr msg);
+    void msgCommentDialog(ToolsMessagePtr msg);
     void aboutInfo();
-    void recvFilterDialog(ProtocolPtr protocol);
+    void recvFilterDialog(ToolsProtocolPtr protocol);
 
 private:
     void clearCustomToolbarActions();

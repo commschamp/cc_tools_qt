@@ -15,11 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-
 #include "Strings.h"
 
-namespace cc = cc_tools_qt;
+#include <cassert>
 
 namespace demo
 {
@@ -30,35 +28,11 @@ namespace cc_plugin
 namespace message
 {
 
-namespace
-{
-
-using StringsFields = demo::message::StringsFields<>;
-
-QVariantList createFieldsProperties()
-{
-    QVariantList props;
-    props.append(cc::property::field::ForField<StringsFields::field1>().name("field1").asMap());
-    props.append(cc::property::field::ForField<StringsFields::field2>().name("field2").asMap());
-    props.append(cc::property::field::ForField<StringsFields::field3>().name("field3").asMap());
-
-    assert(props.size() == Strings::FieldIdx_numOfValues);
-    return props;
-}
-
-}  // namespace
-
 Strings::Strings() = default;
 Strings::~Strings() noexcept = default;
 
 Strings& Strings::operator=(const Strings&) = default;
 Strings& Strings::operator=(Strings&&) = default;
-
-const QVariantList& Strings::fieldsPropertiesImpl() const
-{
-    static const auto Props = createFieldsProperties();
-    return Props;
-}
 
 }  // namespace message
 

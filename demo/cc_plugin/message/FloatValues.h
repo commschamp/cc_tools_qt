@@ -18,9 +18,11 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
+#include "cc_tools_qt/ToolsMessageBase.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "demo/message/FloatValues.h"
-#include "cc_plugin/DemoMessage.h"
+#include "demo/DemoMessage.h"
+#include "DemoMessage.h"
 
 namespace demo
 {
@@ -32,21 +34,19 @@ namespace message
 {
 
 class FloatValues : public
-    cc_tools_qt::ProtocolMessageBase<
-        demo::message::FloatValues<demo::cc_plugin::DemoMessage>,
-        FloatValues>
+    cc_tools_qt::ToolsMessageBase<
+        demo::cc_plugin::DemoMessage,
+        demo::message::FloatValues,
+        demo::cc_plugin::message::FloatValues>
 {
 public:
     FloatValues();
-    FloatValues(const FloatValues&) = delete;
-    FloatValues(FloatValues&&) = delete;
+    FloatValues(const FloatValues&) = default;
+    FloatValues(FloatValues&&) = default;
     virtual ~FloatValues() noexcept;
 
     FloatValues& operator=(const FloatValues&);
     FloatValues& operator=(FloatValues&&);
-
-protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
 };
 
 }  // namespace message

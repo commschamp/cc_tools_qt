@@ -17,10 +17,10 @@
 
 #include "SslClientSocketPlugin.h"
 
-#include <memory>
-#include <cassert>
-
 #include "SslClientSocketConfigWidget.h"
+
+#include <cassert>
+#include <memory>
 
 namespace cc_tools_qt
 {
@@ -50,21 +50,9 @@ const QString PrivFormatSubKey("priv_format");
 
 }  // namespace
 
-SslClientSocketPlugin::SslClientSocketPlugin()
+SslClientSocketPlugin::SslClientSocketPlugin() :
+    Base(Type_Socket)
 {
-    pluginProperties()
-        .setSocketCreateFunc(
-            [this]()
-            {
-                createSocketIfNeeded();
-                return m_socket;
-            })
-        .setConfigWidgetCreateFunc(
-            [this]()
-            {
-                createSocketIfNeeded();
-                return new SslClientSocketConfigWidget(*m_socket);
-            });
 }
 
 SslClientSocketPlugin::~SslClientSocketPlugin() noexcept = default;
@@ -192,6 +180,18 @@ void SslClientSocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props)
 {
     createSocketIfNeeded();
     m_socket->applyInterPluginConfig(props);
+}
+
+ToolsSocketPtr SslClientSocketPlugin::createSocketImpl()
+{
+    createSocketIfNeeded();
+    return m_socket;
+}
+
+QWidget* SslClientSocketPlugin::createConfigurationWidgetImpl()
+{
+    createSocketIfNeeded();
+    return new SslClientSocketConfigWidget(*m_socket);
 }
 
 void SslClientSocketPlugin::createSocketIfNeeded()

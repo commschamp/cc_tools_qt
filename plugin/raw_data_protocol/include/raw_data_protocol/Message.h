@@ -32,7 +32,7 @@ namespace raw_data_protocol
 {
 
 template <typename... TOptions>
-class MessageT : public
+class Message : public
     comms::Message<
         TOptions...,
         comms::option::BigEndian,
@@ -41,12 +41,12 @@ class MessageT : public
 {
 public:
 
-    MessageT() = default;
-    MessageT(const MessageT&) = default;
-    MessageT(MessageT&&) = default;
-    virtual ~MessageT() = default;
-    MessageT& operator=(const MessageT&) = default;
-    MessageT& operator=(MessageT&&) = default;
+    Message() = default;
+    Message(const Message&) = default;
+    Message(Message&&) = default;
+    virtual ~Message() = default;
+    Message& operator=(const Message&) = default;
+    Message& operator=(Message&&) = default;
 };
 
 }  // namespace raw_data_protocol

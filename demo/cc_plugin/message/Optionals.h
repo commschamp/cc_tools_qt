@@ -18,9 +18,11 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
+#include "cc_tools_qt/ToolsMessageBase.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "demo/message/Optionals.h"
-#include "cc_plugin/DemoMessage.h"
+#include "demo/DemoMessage.h"
+#include "DemoMessage.h"
 
 namespace demo
 {
@@ -32,21 +34,19 @@ namespace message
 {
 
 class Optionals : public
-    cc_tools_qt::ProtocolMessageBase<
-        demo::message::Optionals<demo::cc_plugin::DemoMessage>,
-        Optionals>
+    cc_tools_qt::ToolsMessageBase<
+        demo::cc_plugin::DemoMessage,
+        demo::message::Optionals,
+        demo::cc_plugin::message::Optionals>
 {
 public:
     Optionals();
-    Optionals(const Optionals&) = delete;
-    Optionals(Optionals&&) = delete;
+    Optionals(const Optionals&) = default;
+    Optionals(Optionals&&) = default;
     virtual ~Optionals() noexcept;
 
     Optionals& operator=(const Optionals&);
     Optionals& operator=(Optionals&&);
-
-protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
 };
 
 }  // namespace message

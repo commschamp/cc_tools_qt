@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -38,8 +38,8 @@ DefaultMessageDisplayWidget::DefaultMessageDisplayWidget(QWidget* parentObj)
     m_protocolsDetailsWidget(new ProtocolsStackWidget())
 {
     connect(
-        m_protocolsDetailsWidget, SIGNAL(sigMessageSelected(MessagePtr, bool)),
-        this, SLOT(msgSelectedInProtocol(MessagePtr, bool)));
+        m_protocolsDetailsWidget, SIGNAL(sigMessageSelected(ToolsMessagePtr, bool)),
+        this, SLOT(msgSelectedInProtocol(ToolsMessagePtr, bool)));
 
     connect(
         m_msgDetailsWidget, SIGNAL(sigMsgUpdated()),
@@ -57,7 +57,7 @@ DefaultMessageDisplayWidget::DefaultMessageDisplayWidget(QWidget* parentObj)
 }
 
 void DefaultMessageDisplayWidget::displayMessageImpl(
-    MessagePtr msg,
+    ToolsMessagePtr msg,
     bool force)
 {
     assert(msg);
@@ -86,7 +86,7 @@ void DefaultMessageDisplayWidget::refreshImpl()
 }
 
 void DefaultMessageDisplayWidget::msgSelectedInProtocol(
-    MessagePtr msg,
+    ToolsMessagePtr msg,
     bool editEnabled)
 {
     assert(msg);
@@ -106,14 +106,14 @@ void DefaultMessageDisplayWidget::msgUpdated()
         return;
     }
 
-    auto extraInfoMsg = property::message::ExtraInfoMsg().getFrom(*m_displayedMsg);
+    auto extraInfoMsg = property::message::ToolsMsgExtraInfoMsg().getFrom(*m_displayedMsg);
     if ((!extraInfoMsg) || (!extraInfoMsg->isValid())) {
         return;
     }
 
     auto extraData = extraInfoMsg->encodeData();
     if (extraData.empty()) {
-        property::message::ExtraInfo().setTo(QVariantMap(), *m_displayedMsg);
+        property::message::ToolsMsgExtraInfo().setTo(QVariantMap(), *m_displayedMsg);
         return;
     }
 
@@ -122,7 +122,7 @@ void DefaultMessageDisplayWidget::msgUpdated()
             QByteArray(
                 reinterpret_cast<const char*>(&extraData[0]),
                 static_cast<int>(extraData.size())));
-    property::message::ExtraInfo().setTo(doc.object().toVariantMap(), *m_displayedMsg);    
+    property::message::ToolsMsgExtraInfo().setTo(doc.object().toVariantMap(), *m_displayedMsg);    
 }
 
 }  // namespace cc_tools_qt

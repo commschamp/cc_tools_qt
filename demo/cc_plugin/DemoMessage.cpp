@@ -17,9 +17,9 @@
 
 #include "DemoMessage.h"
 
-#include <cassert>
+#include "demo/DemoMessage.h"
 
-namespace cc = cc_tools_qt;
+#include <cassert>
 
 namespace demo
 {
@@ -27,36 +27,12 @@ namespace demo
 namespace cc_plugin
 {
 
-namespace
-{
-
-static QVariantList createFieldsProperties()
-{
-    QVariantList props;
-    props.append(cc::property::field::IntValue().name("Version").serialisedHidden().hiddenWhenReadOnly().asMap());
-
-    assert(props.size() == demo::DemoMessage<>::TransportFieldIdx_numOfValues);
-    return props;
-}
-
-} // namespace
-
 DemoMessage::DemoMessage() = default;
 DemoMessage::~DemoMessage() noexcept = default;
 
-const QVariantList& DemoMessage::extraTransportFieldsPropertiesImpl() const
-{
-    if (getId() != demo::MsgId_Optionals) {
-        return Base::extraTransportFieldsPropertiesImpl();
-    }
-
-    static const QVariantList Props = createFieldsProperties();
-    return Props;
-}
-
 QString DemoMessage::idAsStringImpl() const
 {
-    return QString("0x%1").arg(getId(), 2, 16, QChar('0'));
+    return QString("0x%1").arg(numericIdImpl(), 2, 16, QChar('0'));
 }
 
 } // namespace cc_plugin

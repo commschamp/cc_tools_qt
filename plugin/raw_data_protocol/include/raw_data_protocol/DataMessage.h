@@ -31,11 +31,19 @@ namespace raw_data_protocol
 template <typename TFieldBase>
 struct DataMessageFields
 {
-    using data =
+    class data : public
         comms::field::ArrayList<
             TFieldBase,
-            std::uint8_t
-        >;
+            std::uint8_t,
+            comms::option::HasName
+        >
+    {
+    public:
+        static const char* name()
+        {
+            return "data";
+        }        
+    };
 
 
     /// @brief All the fields bundled in std::tuple.
@@ -44,31 +52,25 @@ struct DataMessageFields
     >;
 };
 
-template <typename TMsgBase>
+template <typename TMsgBase, typename TOpt>
 class DataMessage : public
     comms::MessageBase<
         TMsgBase,
         comms::option::StaticNumIdImpl<0>,
         comms::option::FieldsImpl<typename DataMessageFields<typename TMsgBase::Field>::All>,
-        comms::option::MsgType<DataMessage<TMsgBase> >
+        comms::option::MsgType<DataMessage<TMsgBase, TOpt>>,
+        comms::option::HasName
     >
 {
-    typedef comms::MessageBase<
-        TMsgBase,
-        comms::option::StaticNumIdImpl<0>,
-        comms::option::FieldsImpl<typename DataMessageFields<typename TMsgBase::Field>::All>,
-        comms::option::MsgType<DataMessage<TMsgBase> >
-    > Base;
+    using Base = 
+        comms::MessageBase<
+            TMsgBase,
+            comms::option::StaticNumIdImpl<0>,
+            comms::option::FieldsImpl<typename DataMessageFields<typename TMsgBase::Field>::All>,
+            comms::option::MsgType<DataMessage<TMsgBase, TOpt>>,
+            comms::option::HasName
+        >;
 public:
-
-    enum FieldIdx
-    {
-        FieldIdx_data,
-        FieldIdx_numOfValues
-    };
-
-    static_assert(std::tuple_size<typename Base::AllFields>::value == FieldIdx_numOfValues,
-        "Number of fields is incorrect");
 
     DataMessage() = default;
     DataMessage(const DataMessage&) = default;
@@ -76,6 +78,13 @@ public:
     ~DataMessage() {}
     DataMessage& operator=(const DataMessage&) = default;
     DataMessage& operator=(DataMessage&&) = default;
+
+    COMMS_MSG_FIELDS_NAMES(data);
+
+    static const char* doName()
+    {
+        return "Raw Data";
+    }    
 };
 
 }  // namespace raw_data_protocol

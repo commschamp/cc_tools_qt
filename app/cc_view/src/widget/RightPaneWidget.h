@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -33,13 +33,13 @@ public:
     RightPaneWidget(QWidget* parentObj = nullptr);
 
 private slots:
-    void displayMessage(MessagePtr msg);    
-    void displayMessagePostponed(cc_tools_qt::MessagePtr msg, bool force);    
+    void displayMessage(ToolsMessagePtr msg);    
+    void displayMessagePostponed(cc_tools_qt::ToolsMessagePtr msg, bool force);    
     void msgUpdated();
 
 private:
     MessageDisplayWidget* m_displayWidget = nullptr;  
-    MessagePtr m_displayedMsg;
+    ToolsMessagePtr m_displayedMsg;
 };
 
 }  // namespace cc_tools_qt

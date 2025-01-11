@@ -15,13 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-#include <iostream>
+#include "UdpProxySocket.h"
 
 #include <QtCore/QtGlobal>
 #include <QtNetwork/QHostAddress>
 
-#include "UdpProxySocket.h"
+#include <cassert>
+#include <iostream>
 
 namespace cc_tools_qt
 {
@@ -141,7 +141,7 @@ void UdpProxySocket::socketDisconnectImpl()
     m_running = false;
 }
 
-void UdpProxySocket::sendDataImpl(DataInfoPtr dataPtr)
+void UdpProxySocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
 {
     if (!m_running) {
         return;
@@ -251,7 +251,7 @@ void UdpProxySocket::readFromListenSocket()
         quint16 senderPort;
 
         auto dataPtr = makeDataInfo();
-        dataPtr->m_timestamp = DataInfo::TimestampClock::now();
+        dataPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
         dataPtr->m_data.resize(static_cast<std::size_t>(m_listenSocket->pendingDatagramSize()));
         m_listenSocket->readDatagram(
             reinterpret_cast<char*>(&dataPtr->m_data[0]),
@@ -318,7 +318,7 @@ void UdpProxySocket::readFromRemoteSocket()
         quint16 senderPort;
 
         auto dataPtr = makeDataInfo();
-        dataPtr->m_timestamp = DataInfo::TimestampClock::now();
+        dataPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
         dataPtr->m_data.resize(static_cast<std::size_t>(m_remoteSocket->pendingDatagramSize()));
         m_remoteSocket->readDatagram(
             reinterpret_cast<char*>(&dataPtr->m_data[0]),
@@ -366,17 +366,9 @@ bool UdpProxySocket::createListenSocket()
     connect(
         m_listenSocket.get(), &QUdpSocket::readyRead,
         this, &UdpProxySocket::readFromListenSocket);
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
     connect(
         m_listenSocket.get(), &QUdpSocket::errorOccurred,
         this, &UdpProxySocket::listenSocketErrorOccurred);  
-
-#else // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
-    connect(
-        m_listenSocket.get(), SIGNAL(error(QAbstractSocket::SocketError)),
-        this, SLOT(listenSocketErrorOccurred(QAbstractSocket::SocketError)));        
-#endif // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0) 
 
     if (!m_listenSocket->bind(QHostAddress::AnyIPv4, m_localPort)) {
         reportError("Failed to bind UDP socket to port " + QString("%1").arg(m_localPort));
@@ -405,17 +397,9 @@ void UdpProxySocket::createRemoteSocketIfNeeded()
     connect(
         m_remoteSocket.get(), &QUdpSocket::readyRead,
         this, &UdpProxySocket::readFromRemoteSocket);
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
     connect(
         m_remoteSocket.get(), &QUdpSocket::errorOccurred,
         this, &UdpProxySocket::remoteSocketErrorOccurred);  
-
-#else // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)        
-    connect(
-        m_remoteSocket.get(), SIGNAL(error(QAbstractSocket::SocketError)),
-        this, SLOT(remoteSocketErrorOccurred(QAbstractSocket::SocketError)));        
-#endif // #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0) 
 
     m_remoteSocket->connectToHost(m_host, m_port);
     if (!m_remoteSocket->waitForConnected(1000)) {

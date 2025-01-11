@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -25,16 +25,18 @@ namespace cc_tools_qt
 {
 
 ArrayListRawDataFieldWidget::ArrayListRawDataFieldWidget(
-    WrapperPtr&& wrapper,
+    FieldPtr&& fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
     setValueWidget(m_ui.m_valueWidget);
     setSeparatorWidget(m_ui.m_sepLine);
     setSerialisedValueWidget(m_ui.m_serValueWidget);
+
+    commonConstruct();
 
     refresh();
 
@@ -49,13 +51,19 @@ ArrayListRawDataFieldWidget::ArrayListRawDataFieldWidget(
 
 ArrayListRawDataFieldWidget::~ArrayListRawDataFieldWidget() noexcept = default;
 
+ToolsField& ArrayListRawDataFieldWidget::fieldImpl()
+{
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
+}
+
 void ArrayListRawDataFieldWidget::refreshImpl()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_ui.m_serValuePlainTextEdit != nullptr);
-    updateSerValue(*m_ui.m_serValuePlainTextEdit, *m_wrapper);
+    updateSerValue(*m_ui.m_serValuePlainTextEdit, *m_fieldPtr);
 
-    auto value = m_wrapper->getValue();
+    auto value = m_fieldPtr->getValue();
     bool valueUpdateNeeded = false;
     do {
         auto str = m_ui.m_valuePlainTextEdit->toPlainText().toLower();
@@ -81,14 +89,14 @@ void ArrayListRawDataFieldWidget::refreshImpl()
         m_ui.m_valuePlainTextEdit->setTextCursor(curs);
     }
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     setValidityStyleSheet(*m_ui.m_nameLabel, valid);
     setValidityStyleSheet(*m_ui.m_serFrontLabel, valid);
     setValidityStyleSheet(*m_ui.m_valuePlainTextEdit, valid);
     setValidityStyleSheet(*m_ui.m_serValuePlainTextEdit, valid);
     setValidityStyleSheet(*m_ui.m_serBackLabel, valid);
 
-    m_ui.m_showAllWidget->setVisible(m_wrapper->isTruncated());
+    m_ui.m_showAllWidget->setVisible(m_fieldPtr->isTruncated());
 }
 
 void ArrayListRawDataFieldWidget::editEnabledUpdatedImpl()
@@ -99,8 +107,8 @@ void ArrayListRawDataFieldWidget::editEnabledUpdatedImpl()
         return;
     }
 
-    bool refreshNeeded = m_wrapper->isTruncated();
-    m_wrapper->setForcedShowAll(true);
+    bool refreshNeeded = m_fieldPtr->isTruncated();
+    m_fieldPtr->setForcedShowAll(true);
     if (refreshNeeded) {
         refresh();
     }
@@ -111,10 +119,10 @@ void ArrayListRawDataFieldWidget::valueChanged()
     auto str = m_ui.m_valuePlainTextEdit->toPlainText();
 
     auto maxLen = std::numeric_limits<int>::max();
-    if (m_wrapper->maxSize() < (maxLen / 2)) {
-        maxLen = m_wrapper->maxSize() * 2;
+    if (m_fieldPtr->maxSize() < (maxLen / 2)) {
+        maxLen = m_fieldPtr->maxSize() * 2;
     }
-    auto minLen = m_wrapper->minSize() * 2;
+    auto minLen = m_fieldPtr->minSize() * 2;
 
     assert(0 <= maxLen);
     assert(0 <= minLen);
@@ -128,20 +136,20 @@ void ArrayListRawDataFieldWidget::valueChanged()
         str.append('0');
     }
 
-    auto oldValue = m_wrapper->getValue();
-    m_wrapper->setValue(str);
-    if (!m_wrapper->canWrite()) {
-        m_wrapper->setValue(oldValue);
+    auto oldValue = m_fieldPtr->getValue();
+    m_fieldPtr->setValue(str);
+    if (!m_fieldPtr->canWrite()) {
+        m_fieldPtr->setValue(oldValue);
     }
 
-    m_wrapper->setForcedShowAll(true);
+    m_fieldPtr->setForcedShowAll(true);
     refresh();
     emitFieldUpdated();
 }
 
 void ArrayListRawDataFieldWidget::showAllPressed()
 {
-    m_wrapper->setForcedShowAll(true);
+    m_fieldPtr->setForcedShowAll(true);
     refresh();
 }
 

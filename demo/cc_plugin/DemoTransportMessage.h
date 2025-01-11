@@ -18,9 +18,10 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
-#include "cc_plugin/DemoMessage.h"
-#include "cc_plugin/DemoStack.h"
+#include "cc_tools_qt/ToolsTransportMessageBase.h"
+#include "demo/DemoMessage.h"
+#include "DemoTransportProtMessage.h"
+#include "DemoMessage.h"
 
 namespace demo
 {
@@ -28,41 +29,15 @@ namespace demo
 namespace cc_plugin
 {
 
-using DemoTransportMessageFields =
-    std::tuple<
-        demo::SyncField,
-        demo::LengthField,
-        demo::MsgIdField,
-        demo::VersionField,
-        demo::DataField<>,
-        demo::ChecksumField
-    >;
-
-
 class DemoTransportMessage : public
-    cc_tools_qt::TransportMessageBase<
-        cc_plugin::DemoMessage,
-        DemoTransportMessageFields
+    cc_tools_qt::ToolsTransportMessageBase<
+        demo::cc_plugin::DemoMessage,
+        DemoTransportProtMessage,
+        DemoTransportMessage
     >
 {
-public:
-    enum FieldIdx
-    {
-        FieldIdx_Sync,
-        FieldIdx_Len,
-        FieldIdx_Id,
-        FieldIdx_Version,
-        FieldIdx_Payload,
-        FieldIdx_Checksum,
-        FieldIdx_NumOfValues
-    };
-
-    static_assert(FieldIdx_NumOfValues == std::tuple_size<DemoTransportMessageFields>::value,
-            "Wrong indices");
-
 protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
-    virtual comms::ErrorStatus readImpl(ReadIterator& iter, std::size_t size) override;
+    virtual qlonglong numericIdImpl() const override;
 };
 
 }  // namespace cc_plugin

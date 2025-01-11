@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -25,18 +25,18 @@ namespace cc_tools_qt
 {
 
 MsgCommentDialog::MsgCommentDialog(
-    MessagePtr msg,
+    ToolsMessagePtr msg,
     QWidget* parentObj)
   : Base(parentObj),
     m_msg(std::move(msg))
 {
     m_ui.setupUi(this);
-    m_ui.m_commentLineEdit->setText(property::message::Comment().getFrom(*m_msg));
+    m_ui.m_commentLineEdit->setText(property::message::ToolsMsgComment().getFrom(*m_msg));
 }
 
 void MsgCommentDialog::accept()
 {
-    property::message::Comment().setTo(m_ui.m_commentLineEdit->text(), *m_msg);
+    property::message::ToolsMsgComment().setTo(m_ui.m_commentLineEdit->text(), *m_msg);
     Base::accept();
 }
 

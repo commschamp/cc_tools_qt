@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -19,11 +19,11 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cmath>
 #include <limits>
 
 #include <QtCore/QTimer>
 
-#include "cc_tools_qt/property/field.h"
 #include "SpecialValueWidget.h"
 
 namespace cc_tools_qt
@@ -46,10 +46,10 @@ enum ValueType
 }  // namespace
 
 FloatValueFieldWidget::FloatValueFieldWidget(
-    WrapperPtr wrapper,
+    FieldPtr fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
@@ -58,8 +58,17 @@ FloatValueFieldWidget::FloatValueFieldWidget(
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
     assert(m_ui.m_serValueLineEdit != nullptr);
-    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_wrapper->minWidth(), m_wrapper->maxWidth());
-    m_ui.m_valueSpinBox->setDecimals(DefaultDecimals);
+    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
+
+    auto decimals = m_fieldPtr->decimals();
+    if (decimals == 0) {
+        decimals = DefaultDecimals;
+    }
+    m_ui.m_valueSpinBox->setDecimals(decimals);    
+
+    createSpecialsWidget(m_fieldPtr->specials());
+
+    commonConstruct();
 
     refresh();
 
@@ -76,33 +85,39 @@ FloatValueFieldWidget::FloatValueFieldWidget(
 
 FloatValueFieldWidget::~FloatValueFieldWidget() noexcept = default;
 
+ToolsField& FloatValueFieldWidget::fieldImpl()
+{
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
+}
+
 void FloatValueFieldWidget::refreshImpl()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_ui.m_serValueLineEdit != nullptr);
-    updateValue(*m_ui.m_serValueLineEdit, m_wrapper->getSerialisedString());
+    updateValue(*m_ui.m_serValueLineEdit, m_fieldPtr->getSerialisedString());
 
     updateType();
 
     if (getTypeIndex() == ValueType_val) {
         updateSpinBoxValueRange();
-        auto value = m_wrapper->getValue();
+        auto value = m_fieldPtr->getValue();
         assert(m_ui.m_valueSpinBox);
         if (m_ui.m_valueSpinBox->value() != value) {
             m_ui.m_valueSpinBox->setValue(value);
         }
 
-        m_oldValue = m_wrapper->getValue();
+        m_oldValue = m_fieldPtr->getValue();
     }
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     setValidityStyleSheet(*m_ui.m_nameLabel, valid);
     setValidityStyleSheet(*m_ui.m_serFrontLabel, valid);
     setValidityStyleSheet(*m_ui.m_serValueLineEdit, valid);
     setValidityStyleSheet(*m_ui.m_serBackLabel, valid);
 
     if (m_specialsWidget != nullptr) {
-        m_specialsWidget->setFpValue(m_wrapper->getValue(), m_wrapper->getEpsilon());
+        m_specialsWidget->setFpValue(m_fieldPtr->getValue(), m_fieldPtr->getEpsilon());
     }
 
 }
@@ -114,39 +129,22 @@ void FloatValueFieldWidget::editEnabledUpdatedImpl()
     m_ui.m_serValueLineEdit->setReadOnly(readonly);
 }
 
-void FloatValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::FloatValue actProps(props);
-    auto decimals = actProps.decimals();
-    if (decimals == 0) {
-        decimals = DefaultDecimals;
-    }
-    m_ui.m_valueSpinBox->setDecimals(decimals);
-
-    auto& specials = actProps.specials();
-    bool needRefresh = createSpecialsWidget(specials);
-
-    if (needRefresh) {
-        refresh();
-    }
-}
-
 void FloatValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
-    handleNumericSerialisedValueUpdate(value, *m_wrapper);
+    handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
 }
 
 void FloatValueFieldWidget::valueUpdated(double value)
 {
-    if ((std::isnan(value) && std::isnan(m_wrapper->getValue())) ||
-        (value == m_wrapper->getValue())) {
+    if ((std::isnan(value) && std::isnan(m_fieldPtr->getValue())) ||
+        (value == m_fieldPtr->getValue())) {
         return;
     }
 
     assert(isEditEnabled());
-    m_wrapper->setValue(value);
-    if (!m_wrapper->canWrite()) {
-        m_wrapper->reset();
+    m_fieldPtr->setValue(value);
+    if (!m_fieldPtr->canWrite()) {
+        m_fieldPtr->reset();
     }
     refresh();
     emitFieldUpdated();
@@ -167,21 +165,21 @@ void FloatValueFieldWidget::typeUpdated(int value)
 
         updated = true;
         if (value == ValueType_nan) {
-            m_wrapper->setNan();
+            m_fieldPtr->setNan();
             break;
         }
 
         if (value == ValueType_inf) {
-            m_wrapper->setInf();
+            m_fieldPtr->setInf();
             break;
         }
 
         if (value == ValueType_minusInf) {
-            m_wrapper->setMinusInf();
+            m_fieldPtr->setMinusInf();
             break;
         }
 
-        m_wrapper->setValue(m_oldValue);
+        m_fieldPtr->setValue(m_oldValue);
     } while (false);
 
     refresh();
@@ -203,7 +201,7 @@ void FloatValueFieldWidget::specialSelected(double value)
 
 void FloatValueFieldWidget::updateSpinBoxValueRange()
 {
-    auto value = m_wrapper->getValue();
+    auto value = m_fieldPtr->getValue();
     auto maxValue = value * 100;
     auto minValue = -value;
     do {
@@ -238,15 +236,15 @@ void FloatValueFieldWidget::updateType()
 
 int FloatValueFieldWidget::getTypeIndex()
 {
-    if (m_wrapper->isNan()) {
+    if (m_fieldPtr->isNan()) {
         return ValueType_nan;
     }
 
-    if (m_wrapper->isInf()) {
+    if (m_fieldPtr->isInf()) {
         return ValueType_inf;
     }
 
-    if (m_wrapper->isMinusInf()) {
+    if (m_fieldPtr->isMinusInf()) {
         return ValueType_minusInf;
     }
 

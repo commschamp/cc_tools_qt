@@ -1,5 +1,5 @@
 //
-// Copyright 2017 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2017 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -19,8 +19,6 @@
 
 #include <cassert>
 
-#include "cc_tools_qt/property/field.h"
-
 namespace cc_tools_qt
 {
 
@@ -33,22 +31,25 @@ const int MemberNamesStartIndex = 2;
 } // namespace
 
 VariantFieldWidget::VariantFieldWidget(
-    WrapperPtr&& wrapper,
+    FieldPtr&& fieldPtr,
     CreateMemberFieldWidgetFunc&& func,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper)),
+    m_fieldPtr(std::move(fieldPtr)),
     m_createFunc(std::move(func))
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
     setValueWidget(m_ui.m_valueWidget);
     setSeparatorWidget(m_ui.m_sepLine);
-    setSerialisedValueWidget(m_ui.m_serValueWidget);\
+    setSerialisedValueWidget(m_ui.m_serValueWidget);
 
-    m_ui.m_idxSpinBox->setMaximum(m_wrapper->getMembersCount() - 1);
+    m_ui.m_idxSpinBox->setMaximum(m_fieldPtr->getMembersCount() - 1);
+    fillMemberCombo();
     updateIndexValue();
     updateMemberCombo();
+
+    commonConstruct();
 
     connect(
         m_ui.m_idxSpinBox, SIGNAL(valueChanged(int)),
@@ -79,6 +80,12 @@ void VariantFieldWidget::setMemberField(FieldWidget* memberFieldWidget)
         this, SLOT(memberFieldUpdated()));
 }
 
+ToolsField& VariantFieldWidget::fieldImpl()
+{
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
+}
+
 void VariantFieldWidget::refreshImpl()
 {
     refreshInternal();
@@ -96,53 +103,11 @@ void VariantFieldWidget::editEnabledUpdatedImpl()
     updateIndexDisplay();
 }
 
-void VariantFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::Variant variantProps(props);
-    m_membersProps = variantProps.members();
-    updateMemberProps();
-
-    m_indexHidden = variantProps.isIndexHidden();
-
-    using MemberInfosList = std::vector<std::pair<QString, int> >;
-    MemberInfosList membersInfo;
-    membersInfo.reserve(static_cast<unsigned>(m_membersProps.size()));
-    for (int idx = 0; idx < m_membersProps.size(); ++idx) {
-        property::field::Common commonProps(m_membersProps[idx]);
-        auto& memName = commonProps.name();
-        if (memName.isEmpty()) {
-            continue;
-        }
-
-        membersInfo.push_back(std::make_pair(memName, idx));
-    } 
-
-    std::sort(
-        membersInfo.begin(), membersInfo.end(),
-        [](MemberInfosList::const_reference elem1, MemberInfosList::const_reference elem2)
-        {
-            return elem1.first < elem2.first;
-        });
-
-    m_ui.m_memberComboBox->blockSignals(true);
-    m_ui.m_memberComboBox->clear(); 
-    m_ui.m_memberComboBox->addItem(InvalidMemberComboText, QVariant(-1));
-    m_ui.m_memberComboBox->insertSeparator(1);
-
-    for (auto& i : membersInfo) {
-        m_ui.m_memberComboBox->addItem(i.first, QVariant(i.second));
-    }
-    m_ui.m_memberComboBox->blockSignals(false);
-       
-    updateIndexDisplay();
-    updateMemberCombo();
-}
-
 void VariantFieldWidget::memberFieldUpdated()
 {
-    if (!m_wrapper->canWrite()) {
-        m_wrapper->reset();
-        assert(m_wrapper->canWrite());
+    if (!m_fieldPtr->canWrite()) {
+        m_fieldPtr->reset();
+        assert(m_fieldPtr->canWrite());
     }
 
     refreshInternal();
@@ -152,15 +117,15 @@ void VariantFieldWidget::memberFieldUpdated()
 void VariantFieldWidget::indexUpdated(int value)
 {
     assert(isEditEnabled());
-    if (value == m_wrapper->getCurrentIndex()) {
+    if (value == m_fieldPtr->getCurrentIndex()) {
         return;
     }
 
     destroyMemberWidget();
 
     if (0 <= value) {
-        m_wrapper->setCurrentIndex(value);
-        m_wrapper->updateCurrent();
+        m_fieldPtr->setCurrentIndex(value);
+        m_fieldPtr->updateCurrent();
         createMemberWidget();
     }
 
@@ -176,7 +141,7 @@ void VariantFieldWidget::memberComboUpdated(int value)
         return;
     }
 
-    if ((value < MemberNamesStartIndex) && (m_wrapper->getCurrentIndex() < 0)) {
+    if ((value < MemberNamesStartIndex) && (m_fieldPtr->getCurrentIndex() < 0)) {
         return;
     }
 
@@ -186,8 +151,8 @@ void VariantFieldWidget::memberComboUpdated(int value)
         auto dataVar = m_ui.m_memberComboBox->itemData(value, Qt::UserRole);
         assert(dataVar.isValid() && dataVar.canConvert<int>());
         int memIdx = dataVar.value<int>();
-        m_wrapper->setCurrentIndex(memIdx);
-        m_wrapper->updateCurrent();
+        m_fieldPtr->setCurrentIndex(memIdx);
+        m_fieldPtr->updateCurrent();
         createMemberWidget();
     }
 
@@ -198,11 +163,11 @@ void VariantFieldWidget::memberComboUpdated(int value)
 
 void VariantFieldWidget::refreshInternal()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_ui.m_serValuePlainTextEdit != nullptr);
-    updateSerValue(*m_ui.m_serValuePlainTextEdit, *m_wrapper);
+    updateSerValue(*m_ui.m_serValuePlainTextEdit, *m_fieldPtr);
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     setValidityStyleSheet(*m_ui.m_serFrontLabel, valid);
     setValidityStyleSheet(*m_ui.m_serValuePlainTextEdit, valid);
     setValidityStyleSheet(*m_ui.m_serBackLabel, valid);
@@ -213,19 +178,6 @@ void VariantFieldWidget::refreshMember()
     if (m_member != nullptr) {
         m_member->refresh();
     }
-}
-
-void VariantFieldWidget::updateMemberProps()
-{
-    if (m_member == nullptr) {
-        return;
-    }
-
-    if (m_membersProps.size() <= m_wrapper->getCurrentIndex()) {
-        return;
-    }
-
-    m_member->updateProperties(m_membersProps[m_wrapper->getCurrentIndex()]);
 }
 
 void VariantFieldWidget::updateIndexDisplay()
@@ -240,16 +192,15 @@ void VariantFieldWidget::updateIndexDisplay()
         m_ui.m_idxSpinBox->setButtonSymbols(QSpinBox::UpDownArrows);
     }
 
-    bool hidden = readOnly && m_indexHidden;
-    m_ui.m_idxWidget->setHidden(hidden);
+    m_ui.m_idxWidget->setHidden(readOnly);
 
-    bool idxWidgetHidden = hidden && (m_ui.m_nameLabel->isHidden());
+    bool idxWidgetHidden = readOnly && (m_ui.m_nameLabel->isHidden());
     m_ui.m_infoWidget->setHidden(idxWidgetHidden);
 }
 
 void VariantFieldWidget::updateIndexValue()
 {
-    auto memIdx = m_wrapper->getCurrentIndex();
+    auto memIdx = m_fieldPtr->getCurrentIndex();
     m_ui.m_idxSpinBox->blockSignals(true);
     m_ui.m_idxSpinBox->setValue(memIdx);
     m_ui.m_idxSpinBox->blockSignals(false);
@@ -257,7 +208,7 @@ void VariantFieldWidget::updateIndexValue()
 
 void VariantFieldWidget::updateMemberCombo()
 {
-    auto memIdx = m_wrapper->getCurrentIndex();
+    auto memIdx = m_fieldPtr->getCurrentIndex();
     m_ui.m_memberComboBox->blockSignals(true);
     bool foundValid = false;
     for (int comboIdx = MemberNamesStartIndex; comboIdx < m_ui.m_memberComboBox->count(); ++comboIdx) {
@@ -285,22 +236,54 @@ void VariantFieldWidget::destroyMemberWidget()
 {
     delete m_member;
     m_member = nullptr;
-    m_wrapper->setCurrent(field_wrapper::FieldWrapperPtr());
-    m_wrapper->setCurrentIndex(-1);
+    m_fieldPtr->setCurrent(ToolsFieldPtr());
+    m_fieldPtr->setCurrentIndex(-1);
 }
 
 void VariantFieldWidget::createMemberWidget()
 {
-    assert(m_wrapper->getCurrent());
+    assert(m_fieldPtr->getCurrent());
     assert(m_createFunc);
-    auto fieldWidget = m_createFunc(*m_wrapper->getCurrent());
+    auto fieldWidget = m_createFunc(*m_fieldPtr->getCurrent());
     m_member = fieldWidget.release();
     m_ui.m_membersLayout->addWidget(m_member);
-    updateMemberProps();
 
     connect(
         m_member, SIGNAL(sigFieldUpdated()),
         this, SLOT(memberFieldUpdated()));
+}
+
+void VariantFieldWidget::fillMemberCombo()
+{
+    auto membersNames = m_fieldPtr->membersNames();
+    using MemberInfosList = std::vector<std::pair<QString, int> >;
+    MemberInfosList membersInfo;
+    membersInfo.reserve(static_cast<unsigned>(membersNames.size()));
+    for (auto idx = 0; idx < membersNames.size(); ++idx) {
+        auto& memName = membersNames[idx];
+        if (memName.isEmpty()) {
+            continue;
+        }
+
+        membersInfo.push_back(std::make_pair(memName, idx));
+    } 
+
+    std::sort(
+        membersInfo.begin(), membersInfo.end(),
+        [](MemberInfosList::const_reference elem1, MemberInfosList::const_reference elem2)
+        {
+            return elem1.first < elem2.first;
+        });
+
+    m_ui.m_memberComboBox->blockSignals(true);
+    m_ui.m_memberComboBox->clear(); 
+    m_ui.m_memberComboBox->addItem(InvalidMemberComboText, QVariant(-1));
+    m_ui.m_memberComboBox->insertSeparator(1);
+
+    for (auto& i : membersInfo) {
+        m_ui.m_memberComboBox->addItem(i.first, QVariant(i.second));
+    }
+    m_ui.m_memberComboBox->blockSignals(false);
 }
 
 }  // namespace cc_tools_qt

@@ -29,14 +29,14 @@ EchoSocket::EchoSocket()
 {
     m_timer.setSingleShot(true);
     connect(
-        &m_timer, SIGNAL(timeout()),
-        this, SLOT(sendDataPostponed()),
+        &m_timer, &QTimer::timeout,
+        this, &EchoSocket::sendDataPostponed,
         Qt::QueuedConnection);
 }
 
 EchoSocket::~EchoSocket() noexcept = default;
 
-void EchoSocket::sendDataImpl(DataInfoPtr dataPtr)
+void EchoSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
 {
     m_pendingData.push_back(std::move(dataPtr));
     if (m_timerActive) {
@@ -62,7 +62,7 @@ void EchoSocket::sendDataPostponed()
         auto inDataPtr = makeDataInfo();
         inDataPtr->m_data = dataPtr->m_data;
         inDataPtr->m_extraProperties = dataPtr->m_extraProperties;
-        inDataPtr->m_timestamp = DataInfo::TimestampClock::now();
+        inDataPtr->m_timestamp = ToolsDataInfo::TimestampClock::now();
         reportDataReceived(std::move(inDataPtr));
     }
 }

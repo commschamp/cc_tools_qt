@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 #include <QtCore/QVariant>
 #include <QtCore/QDateTime>
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/property/message.h"
 #include "GuiAppMgr.h"
 
@@ -61,11 +61,11 @@ MsgListWidget::MsgListWidget(
     auto* guiMgr = GuiAppMgr::instance();
     assert(guiMgr != nullptr);
     connect(
-        guiMgr, SIGNAL(sigMsgCommentUpdated(MessagePtr)),
-        this, SLOT(msgCommentUpdated(MessagePtr)));
+        guiMgr, SIGNAL(sigMsgCommentUpdated(ToolsMessagePtr)),
+        this, SLOT(msgCommentUpdated(ToolsMessagePtr)));
 }
 
-void MsgListWidget::addMessage(MessagePtr msg)
+void MsgListWidget::addMessage(ToolsMessagePtr msg)
 {
     assert(msg);
     m_ui.m_listWidget->addItem(getMsgNameText(msg));
@@ -74,7 +74,7 @@ void MsgListWidget::addMessage(MessagePtr msg)
 
     bool valid = msg->isValid();
 
-    auto type = property::message::Type().getFrom(*msg);
+    auto type = property::message::ToolsMsgType().getFrom(*msg);
     if ((type != MsgType::Invalid) && (!msg->idAsString().isEmpty())) {
         item->setForeground(getItemColourImpl(type, valid));
     }
@@ -100,7 +100,7 @@ void MsgListWidget::addMessage(MessagePtr msg)
     updateTitle();
 }
 
-void MsgListWidget::updateCurrentMessage(MessagePtr msg)
+void MsgListWidget::updateCurrentMessage(ToolsMessagePtr msg)
 {
     auto* item = m_ui.m_listWidget->currentItem();
     if (item == nullptr) {
@@ -122,7 +122,7 @@ void MsgListWidget::updateCurrentMessage(MessagePtr msg)
 
     bool valid = msg->isValid();
 
-    auto type = property::message::Type().getFrom(*msg);
+    auto type = property::message::ToolsMsgType().getFrom(*msg);
     if (type != MsgType::Invalid) {
         item->setForeground(getItemColourImpl(type, valid));
     }
@@ -166,7 +166,7 @@ void MsgListWidget::clearSelection()
 
 void MsgListWidget::clearList(bool reportDeleted)
 {
-    MessagesList msgsList;
+    ToolsMessagesList msgsList;
     if (reportDeleted) {
         auto count = m_ui.m_listWidget->count();
         for (auto idx = 0; idx < count; ++idx) {
@@ -251,7 +251,7 @@ void MsgListWidget::titleNeedsUpdate()
 void MsgListWidget::loadMessages(
     bool clearExisting,
     const QString& filename,
-    ProtocolPtr protocol)
+    ToolsProtocolPtr protocol)
 {
     if (clearExisting) {
         clearList();
@@ -273,19 +273,19 @@ void MsgListWidget::selectMsg(int idx)
     m_ui.m_listWidget->blockSignals(false);
 }
 
-void MsgListWidget::msgClickedImpl([[maybe_unused]] MessagePtr msg, [[maybe_unused]] int idx)
+void MsgListWidget::msgClickedImpl([[maybe_unused]] ToolsMessagePtr msg, [[maybe_unused]] int idx)
 {
 }
 
-void MsgListWidget::msgDoubleClickedImpl([[maybe_unused]] MessagePtr msg, [[maybe_unused]] int idx)
+void MsgListWidget::msgDoubleClickedImpl([[maybe_unused]] ToolsMessagePtr msg, [[maybe_unused]] int idx)
 {
 }
 
-void MsgListWidget::msgListClearedImpl([[maybe_unused]] MessagesList&& msgs)
+void MsgListWidget::msgListClearedImpl([[maybe_unused]] ToolsMessagesList&& msgs)
 {
 }
 
-QString MsgListWidget::msgPrefixImpl([[maybe_unused]] const Message& msg) const
+QString MsgListWidget::msgPrefixImpl([[maybe_unused]] const ToolsMessage& msg) const
 {
     return QString();
 }
@@ -315,7 +315,7 @@ QString MsgListWidget::getTitleImpl() const
     return QString();
 }
 
-void MsgListWidget::loadMessagesImpl([[maybe_unused]] const QString& filename, [[maybe_unused]] Protocol& protocol)
+void MsgListWidget::loadMessagesImpl([[maybe_unused]] const QString& filename, [[maybe_unused]] ToolsProtocol& protocol)
 {
 }
 
@@ -323,16 +323,16 @@ void MsgListWidget::saveMessagesImpl([[maybe_unused]] const QString& filename)
 {
 }
 
-MessagePtr MsgListWidget::currentMsg() const
+ToolsMessagePtr MsgListWidget::currentMsg() const
 {
     auto* item = m_ui.m_listWidget->currentItem();
     assert(item != nullptr);
     return getMsgFromItem(item);
 }
 
-MsgListWidget::MessagesList MsgListWidget::allMsgs() const
+ToolsMessagesList MsgListWidget::allMsgs() const
 {
-    MessagesList allMsgsList;
+    ToolsMessagesList allMsgsList;
     for (auto idx = 0; idx < m_ui.m_listWidget->count(); ++idx) {
         auto* item = m_ui.m_listWidget->item(idx);
         auto msgPtr = getMsgFromItem(item);
@@ -377,7 +377,7 @@ void MsgListWidget::itemDoubleClicked(QListWidgetItem* item)
         m_ui.m_listWidget->row(item));
 }
 
-void MsgListWidget::msgCommentUpdated(MessagePtr msg)
+void MsgListWidget::msgCommentUpdated(ToolsMessagePtr msg)
 {
     assert(msg);
     auto item = m_ui.m_listWidget->currentItem();
@@ -390,14 +390,14 @@ void MsgListWidget::msgCommentUpdated(MessagePtr msg)
     }
 }
 
-MessagePtr MsgListWidget::getMsgFromItem(QListWidgetItem* item) const
+ToolsMessagePtr MsgListWidget::getMsgFromItem(QListWidgetItem* item) const
 {
     auto var = item->data(Qt::UserRole);
-    assert(var.canConvert<MessagePtr>());
-    return var.value<MessagePtr>();
+    assert(var.canConvert<ToolsMessagePtr>());
+    return var.value<ToolsMessagePtr>();
 }
 
-QString MsgListWidget::getMsgNameText(MessagePtr msg)
+QString MsgListWidget::getMsgNameText(ToolsMessagePtr msg)
 {
     assert(msg);
     auto itemStr = msgPrefixImpl(*msg);
@@ -406,7 +406,7 @@ QString MsgListWidget::getMsgNameText(MessagePtr msg)
     }
     itemStr.append(msg->name());
 
-    auto comment = property::message::Comment().getFrom(*msg);
+    auto comment = property::message::ToolsMsgComment().getFrom(*msg);
     if (!comment.isEmpty()) {
         itemStr.append(" (" + comment + ")");
     }

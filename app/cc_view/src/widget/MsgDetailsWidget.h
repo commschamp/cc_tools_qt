@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 #include "ui_MsgDetailsWidget.h"
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 #include "DefaultMessageDisplayHandler.h"
 
 namespace cc_tools_qt
@@ -38,8 +38,8 @@ public:
 
 public slots:
     void setEditEnabled(bool enabled);
-    void displayMessage(MessagePtr msg);
-    void updateTitle(MessagePtr msg);
+    void displayMessage(ToolsMessagePtr msg);
+    void updateTitle(ToolsMessagePtr msg);
     void clear();
     void refresh();
 
@@ -54,7 +54,7 @@ private:
     Ui::MsgDetailsWidget m_ui;
     DefaultMessageDisplayHandler m_msgDisplayHandler;
     MessageWidget* m_displayedMsgWidget = nullptr;
-    MessagePtr m_displayedMsg;
+    ToolsMessagePtr m_displayedMsg;
     bool m_editEnabled = true;
 };
 

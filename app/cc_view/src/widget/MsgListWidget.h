@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -24,15 +24,15 @@
 
 #include "ui_MsgListWidget.h"
 
-#include "cc_tools_qt/Message.h"
-#include "cc_tools_qt/Protocol.h"
+#include "cc_tools_qt/ToolsMessage.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 
 #include "GuiAppMgr.h"
 
 namespace cc_tools_qt
 {
 
-class Message;
+class ToolsMessage;
 
 class MsgListWidget : public QWidget
 {
@@ -40,7 +40,6 @@ class MsgListWidget : public QWidget
     using Base = QWidget;
 public:
     typedef GuiAppMgr::MsgType MsgType;
-    typedef GuiAppMgr::MessagesList MessagesList;
 
     MsgListWidget(
         const QString& title,
@@ -48,8 +47,8 @@ public:
         QWidget* parentObj = nullptr);
 
 protected slots:
-    void addMessage(MessagePtr msg);
-    void updateCurrentMessage(MessagePtr msg);
+    void addMessage(ToolsMessagePtr msg);
+    void updateCurrentMessage(ToolsMessagePtr msg);
     void deleteCurrentMessage();
     void selectOnAdd(bool enabled);
     void clearSelection();
@@ -61,35 +60,35 @@ protected slots:
     void moveSelectedDown();
     void moveSelectedBottom();
     void titleNeedsUpdate();
-    void loadMessages(bool clearExisting, const QString& filename, ProtocolPtr protocol);
+    void loadMessages(bool clearExisting, const QString& filename, ToolsProtocolPtr protocol);
     void saveMessages(const QString& filename);
     void selectMsg(int idx);
 
 protected:
-    virtual void msgClickedImpl(MessagePtr msg, int idx);
-    virtual void msgDoubleClickedImpl(MessagePtr msg, int idx);
-    virtual void msgListClearedImpl(MessagesList&& msgsList);
-    virtual QString msgPrefixImpl(const Message& msg) const;
+    virtual void msgClickedImpl(ToolsMessagePtr msg, int idx);
+    virtual void msgDoubleClickedImpl(ToolsMessagePtr msg, int idx);
+    virtual void msgListClearedImpl(ToolsMessagesList&& msgsList);
+    virtual QString msgPrefixImpl(const ToolsMessage& msg) const;
     virtual const QString& msgTooltipImpl() const;
     virtual void stateChangedImpl(int state);
     virtual Qt::GlobalColor getItemColourImpl(MsgType type, bool valid) const;
     virtual void msgMovedImpl(int idx);
     virtual QString getTitleImpl() const;
-    virtual void loadMessagesImpl(const QString& filename, Protocol& protocol);
+    virtual void loadMessagesImpl(const QString& filename, ToolsProtocol& protocol);
     virtual void saveMessagesImpl(const QString& filename);
 
-    MessagePtr currentMsg() const;
-    MessagesList allMsgs() const;
+    ToolsMessagePtr currentMsg() const;
+    ToolsMessagesList allMsgs() const;
 
 private slots:
     void itemClicked(QListWidgetItem* item);
     void currentItemChanged(QListWidgetItem* current, QListWidgetItem* prev);
     void itemDoubleClicked(QListWidgetItem* item);
-    void msgCommentUpdated(MessagePtr msg);
+    void msgCommentUpdated(ToolsMessagePtr msg);
 
 private:
-    MessagePtr getMsgFromItem(QListWidgetItem* item) const;
-    QString getMsgNameText(MessagePtr msg);
+    ToolsMessagePtr getMsgFromItem(QListWidgetItem* item) const;
+    QString getMsgNameText(ToolsMessagePtr msg);
     Qt::GlobalColor defaultItemColour(bool valid) const;
     void moveItem(int fromRow, int toRow);
     void updateTitle();

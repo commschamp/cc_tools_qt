@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -25,8 +25,7 @@
 #include <QtCore/QVariantMap>
 #include <QtWidgets/QWidget>
 
-#include "cc_tools_qt/property/field.h"
-#include "cc_tools_qt/field_wrapper/FieldWrapper.h"
+#include "cc_tools_qt/ToolsField.h"
 
 class QLineEdit;
 class QLabel;
@@ -44,20 +43,21 @@ public:
     FieldWidget(QWidget* parentObj = nullptr);
     ~FieldWidget() noexcept = default;
 
-    void setNameSuffix(const QString& value)
-    {
-        m_nameSuffix = value;
-    }
+    void setNameSuffix(const QString& value);
 
     const QString& getNameSuffix() const
     {
         return m_nameSuffix;
     }
 
+    ToolsField& field()
+    {
+        return fieldImpl();
+    }
+
 public slots:
     void refresh();
     void setEditEnabled(bool enabled);
-    void updateProperties(const QVariantMap& props);
 
 signals:
     void sigFieldUpdated();
@@ -72,25 +72,25 @@ protected:
     static void setSerialisedInputMask(QLineEdit& line, int minWidth, int maxWidth);
     static void setSerialisedInputMask(QLineEdit& line, int width);
     static void updateValue(QLineEdit& line, const QString& value);
-    static void updateSerValue(QPlainTextEdit& text, const field_wrapper::FieldWrapper& wrapper);
+    static void updateSerValue(QPlainTextEdit& text, const ToolsField& field);
 
     using PostRefreshFunc = std::function<void ()>;
-    template <typename TWrapper>
+    template <typename TField>
     void handleNumericSerialisedValueUpdate(
         const QString& value,
-        TWrapper& wrapper,
+        TField& field,
         PostRefreshFunc&& postRefreshFunc = PostRefreshFunc())
     {
         assert(isEditEnabled());
         do {
             if ((static_cast<std::size_t>(value.size()) & 0x1U) == 0) {
-               wrapper.setSerialisedString(value);
+               field.setSerialisedString(value);
                break;
             }
 
             QString valueCpy(value);
             valueCpy.append(QChar('0'));
-            wrapper.setSerialisedString(valueCpy);
+            field.setSerialisedString(valueCpy);
         } while (false);
         refresh();
         if (postRefreshFunc) {
@@ -119,18 +119,20 @@ protected:
         m_serValueWidget = widget;
     }
 
+    void commonConstruct();
+
+    virtual ToolsField& fieldImpl() = 0;
     virtual void refreshImpl() = 0;
     virtual void editEnabledUpdatedImpl();
-    virtual void updatePropertiesImpl(const QVariantMap& props);
+    virtual void nameSuffixUpdatedImpl();
 
 private:
-    void performUiElementsVisibilityCheck(const property::field::Common& props);
-    void performUiReadOnlyCheck(const property::field::Common& props);
-    void performNameLabelUpdate(const property::field::Common& props);
-
+    void performNameLabelUpdate();
+    void performSerVisibilityUpdate();
+    void performReadOnlyUpdate();
+    
     bool m_forcedReadOnly = false;
     bool m_editEnabled = true;
-    bool m_hiddenWhenReadOnly = false;
     QLabel* m_nameLabel = nullptr;
     QWidget* m_valueWidget = nullptr;
     QWidget* m_sepWidget = nullptr;

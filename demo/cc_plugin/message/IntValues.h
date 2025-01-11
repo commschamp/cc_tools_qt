@@ -18,9 +18,11 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
+#include "cc_tools_qt/ToolsMessageBase.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "demo/message/IntValues.h"
-#include "cc_plugin/DemoMessage.h"
+#include "demo/DemoMessage.h"
+#include "DemoMessage.h"
 
 namespace demo
 {
@@ -31,22 +33,20 @@ namespace cc_plugin
 namespace message
 {
 
-class IntValues : public
-    cc_tools_qt::ProtocolMessageBase<
-        demo::message::IntValues<demo::cc_plugin::DemoMessage>,
-        IntValues>
+class IntValues : public 
+    cc_tools_qt::ToolsMessageBase<
+        demo::cc_plugin::DemoMessage,
+        demo::message::IntValues,
+        demo::cc_plugin::message::IntValues>
 {
 public:
     IntValues();
-    IntValues(const IntValues&) = delete;
-    IntValues(IntValues&&) = delete;
+    IntValues(const IntValues&) = default;
+    IntValues(IntValues&&) = default;
     virtual ~IntValues() noexcept;
 
     IntValues& operator=(const IntValues&);
     IntValues& operator=(IntValues&&);
-
-protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
 };
 
 }  // namespace message

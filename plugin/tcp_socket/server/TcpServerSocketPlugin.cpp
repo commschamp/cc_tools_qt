@@ -17,11 +17,11 @@
 
 #include "TcpServerSocketPlugin.h"
 
-#include <memory>
-#include <cassert>
-
 #include "TcpServerSocket.h"
 #include "TcpServerSocketConfigWidget.h"
+
+#include <cassert>
+#include <memory>
 
 namespace cc_tools_qt
 {
@@ -37,21 +37,9 @@ const QString PortSubKey("port");
 
 }  // namespace
 
-TcpServerSocketPlugin::TcpServerSocketPlugin()
+TcpServerSocketPlugin::TcpServerSocketPlugin() :
+    Base(Type_Socket)
 {
-    pluginProperties()
-        .setSocketCreateFunc(
-            [this]()
-            {
-                createSocketIfNeeded();
-                return m_socket;
-            })
-        .setConfigWidgetCreateFunc(
-            [this]()
-            {
-                createSocketIfNeeded();
-                return new TcpServerSocketConfigWidget(*m_socket);
-            });
 }
 
 TcpServerSocketPlugin::~TcpServerSocketPlugin() noexcept = default;
@@ -90,6 +78,18 @@ void TcpServerSocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props)
 {
     createSocketIfNeeded();
     m_socket->applyInterPluginConfig(props);
+}
+
+ToolsSocketPtr TcpServerSocketPlugin::createSocketImpl()
+{
+    createSocketIfNeeded();
+    return m_socket;
+}
+
+QWidget* TcpServerSocketPlugin::createConfigurationWidgetImpl()
+{
+    createSocketIfNeeded();
+    return new TcpServerSocketConfigWidget(*m_socket);
 }
 
 void TcpServerSocketPlugin::createSocketIfNeeded()

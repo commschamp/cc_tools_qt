@@ -17,11 +17,9 @@
 
 #include "DemoTransportMessage.h"
 
-#include <cassert>
-
 #include <QtCore/QVariantMap>
 
-namespace cc = cc_tools_qt;
+#include <cassert>
 
 namespace demo
 {
@@ -29,79 +27,10 @@ namespace demo
 namespace cc_plugin
 {
 
-namespace
+qlonglong DemoTransportMessage::numericIdImpl() const 
 {
-
-QVariantMap createMsgIdProperties()
-{
-    static const char* Names[] = {
-        "IntValues",
-        "EnumValues",
-        "BitmaskValues",
-        "Bitfields",
-        "Strings",
-        "Lists",
-        "Optionals",
-        "FloatValues",
-        "Variants",
-        "Bundles",
-    };
-
-    static const auto NamesCount = std::extent<decltype(Names)>::value;
-    static_assert(NamesCount == demo::MsgId_NumOfValues, "Not all messages are added");
-
-    cc::property::field::ForField<MsgIdField> props;
-    props.name("ID");
-
-    QVariantList enumValues;
-    for (auto name : Names) {
-        props.add(name);
-    }
-
-    assert(props.values().size() == demo::MsgId_NumOfValues);
-    return props.asMap();
+    return static_cast<qlonglong>(msg().field_id().value());
 }
-
-QVariantList createFieldsProperties()
-{
-    QVariantList props;
-    props.append(cc::property::field::ForField<demo::SyncField>().name("SYNC").asMap());
-    props.append(
-        cc::property::field::ForField<demo::LengthField>()
-            .name("LENGTH")
-            .displayOffset(2)
-            .asMap());
-    props.append(createMsgIdProperties());
-    props.append(cc::property::field::ForField<demo::VersionField>().name("VERSION").asMap());
-    props.append(cc::property::field::ForField<demo::DataField<> >().name("PAYLOAD").asMap());
-    props.append(cc::property::field::ForField<demo::ChecksumField>().name("CHECKSUM").asMap());
-    assert(props.size() == DemoTransportMessage::FieldIdx_NumOfValues);
-    return props;
-}
-
-}  // namespace
-
-const QVariantList& DemoTransportMessage::fieldsPropertiesImpl() const
-{
-    static const auto Props = createFieldsProperties();
-    return Props;
-}
-
-comms::ErrorStatus DemoTransportMessage::readImpl(ReadIterator& iter, std::size_t size)
-{
-    static const auto ChecksumLen =
-        sizeof(demo::ChecksumField::ValueType);
-
-    size -= ChecksumLen;
-    auto es = doReadUntilAndUpdateLen<FieldIdx_Checksum>(iter, size);
-    if (es == comms::ErrorStatus::Success) {
-        size += ChecksumLen;
-        es = doReadFrom<FieldIdx_Checksum>(iter, size);
-    }
-
-    return es;
-}
-
 
 }  // namespace cc_plugin
 

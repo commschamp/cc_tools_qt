@@ -18,9 +18,11 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
+#include "cc_tools_qt/ToolsMessageBase.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "demo/message/BitmaskValues.h"
-#include "cc_plugin/DemoMessage.h"
+#include "demo/DemoMessage.h"
+#include "DemoMessage.h"
 
 namespace demo
 {
@@ -32,21 +34,19 @@ namespace message
 {
 
 class BitmaskValues : public
-    cc_tools_qt::ProtocolMessageBase<
-        demo::message::BitmaskValues<demo::cc_plugin::DemoMessage>,
-        BitmaskValues>
+    cc_tools_qt::ToolsMessageBase<
+        demo::cc_plugin::DemoMessage,
+        demo::message::BitmaskValues,
+        demo::cc_plugin::message::BitmaskValues>
 {
 public:
     BitmaskValues();
-    BitmaskValues(const BitmaskValues&) = delete;
-    BitmaskValues(BitmaskValues&&) = delete;
+    BitmaskValues(const BitmaskValues&) = default;
+    BitmaskValues(BitmaskValues&&) = default;
     virtual ~BitmaskValues() noexcept;
 
     BitmaskValues& operator=(const BitmaskValues&);
     BitmaskValues& operator=(BitmaskValues&&);
-
-protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
 };
 
 }  // namespace message

@@ -18,9 +18,10 @@
 
 #pragma once
 
+#include "cc_tools_qt/ToolsPlugin.h"
+
 #include <QtCore/QObject>
 #include <QtCore/QtPlugin>
-#include "cc_tools_qt/cc_tools_qt.h"
 
 namespace demo
 {
@@ -28,15 +29,20 @@ namespace demo
 namespace cc_plugin
 {
 
-class DemoPlugin : public cc_tools_qt::Plugin
+class DemoPlugin : public cc_tools_qt::ToolsPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "cc.DemoProtocol" FILE "demo.json")
-    Q_INTERFACES(cc_tools_qt::Plugin)
+    Q_INTERFACES(cc_tools_qt::ToolsPlugin)
+
+    using Base = cc_tools_qt::ToolsPlugin;
 
 public:
     DemoPlugin();
     ~DemoPlugin() noexcept;
+
+protected:
+    virtual cc_tools_qt::ToolsProtocolPtr createProtocolImpl() override;        
 };
 
 }  // namespace cc_plugin

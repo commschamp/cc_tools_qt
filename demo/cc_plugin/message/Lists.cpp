@@ -15,11 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-
 #include "Lists.h"
 
-namespace cc = cc_tools_qt;
+#include <cassert>
 
 namespace demo
 {
@@ -30,81 +28,11 @@ namespace cc_plugin
 namespace message
 {
 
-namespace
-{
-
-using ListsFields = demo::message::ListsFields<>;
-
-QVariantMap createField3Properties()
-{
-    using Field3 = ListsFields::field3;
-    cc::property::field::ForField<Field3> props;
-    props.name("field3").appendIndexToElementName();
-    props.add(
-        cc::property::field::IntValue()
-            .name("element")
-            .serialisedHidden()
-            .asMap());
-    return props.asMap();
-}
-
-QVariantMap createField4Properties()
-{
-    return
-        cc::property::field::ForField<ListsFields::field4>()
-            .name("field4")
-            .appendIndexToElementName()
-            .add(cc::property::field::IntValue().name("element").serialisedHidden().asMap())
-            .asMap();
-}
-
-QVariantMap createField5Properties()
-{
-    return
-        cc::property::field::ForField<ListsFields::field5>()
-            .name("field5")
-            .appendIndexToElementName()
-            .add(
-                cc::property::field::ForField<ListsFields::field5::ValueType::value_type>()
-                    .name("element")
-                    .add(cc::property::field::IntValue().name("member1").serialisedHidden().asMap())
-                    .add(cc::property::field::IntValue().name("member2").serialisedHidden().asMap())
-                    .add(cc::property::field::String().name("memeber3").serialisedHidden().asMap())
-                    .serialisedHidden()
-                    .asMap())
-//            .serialisedHidden()
-//            .showPrefix()
-//            .prefixName("length")
-            .asMap();
-}
-
-
-QVariantList createFieldsProperties()
-{
-    QVariantList props;
-    props.append(cc::property::field::ForField<ListsFields::field1>().name("field1").asMap());
-    props.append(cc::property::field::ForField<ListsFields::field2>().name("field2").asMap());
-    props.append(createField3Properties());
-    props.append(createField4Properties());
-    props.append(createField5Properties());
-
-    assert(props.size() == Lists::FieldIdx_numOfValues);
-    return props;
-}
-
-}  // namespace
-
 Lists::Lists() = default;
 Lists::~Lists() noexcept = default;
 
 Lists& Lists::operator=(const Lists&) = default;
 Lists& Lists::operator=(Lists&&) = default;
-
-const QVariantList& Lists::fieldsPropertiesImpl() const
-{
-    static const auto Props = createFieldsProperties();
-    return Props;
-}
 
 }  // namespace message
 

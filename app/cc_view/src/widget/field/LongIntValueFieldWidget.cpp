@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,17 +22,16 @@
 #include <limits>
 #include <cmath>
 
-#include "cc_tools_qt/property/field.h"
 #include "SpecialValueWidget.h"
 
 namespace cc_tools_qt
 {
 
 LongIntValueFieldWidget::LongIntValueFieldWidget(
-    WrapperPtr wrapper,
+    FieldPtr fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
@@ -41,12 +40,15 @@ LongIntValueFieldWidget::LongIntValueFieldWidget(
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
     assert(m_ui.m_serValueLineEdit != nullptr);
-    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_wrapper->minWidth(), m_wrapper->maxWidth());
+    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
+    createSpecialsWidget(m_fieldPtr->specials());
 
     m_ui.m_valueSpinBox->setRange(
-        static_cast<double>(m_wrapper->minValue()),
-        static_cast<double>(m_wrapper->maxValue()));
+        static_cast<double>(m_fieldPtr->minValue()),
+        static_cast<double>(m_fieldPtr->maxValue()));
     m_ui.m_valueSpinBox->setDecimals(0);
+
+    commonConstruct();
 
     connect(m_ui.m_valueSpinBox, SIGNAL(valueChanged(double)),
             this, SLOT(valueUpdated(double)));
@@ -59,26 +61,32 @@ LongIntValueFieldWidget::LongIntValueFieldWidget(
 
 LongIntValueFieldWidget::~LongIntValueFieldWidget() noexcept = default;
 
+ToolsField& LongIntValueFieldWidget::fieldImpl()
+{
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
+}
+
 void LongIntValueFieldWidget::refreshImpl()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_ui.m_serValueLineEdit != nullptr);
-    updateValue(*m_ui.m_serValueLineEdit, m_wrapper->getSerialisedString());
+    updateValue(*m_ui.m_serValueLineEdit, m_fieldPtr->getSerialisedString());
 
-    auto value = m_wrapper->getValue();
+    auto value = static_cast<double>(m_fieldPtr->getDisplayValue());
     assert(m_ui.m_valueSpinBox);
-    if (adjustDisplayedToReal(m_ui.m_valueSpinBox->value()) != value) {
-        m_ui.m_valueSpinBox->setValue(adjustRealToDisplayed(value));
+    if (m_ui.m_valueSpinBox->value() != value) {
+        m_ui.m_valueSpinBox->setValue(value);
     }
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     setValidityStyleSheet(*m_ui.m_nameLabel, valid);
     setValidityStyleSheet(*m_ui.m_serFrontLabel, valid);
     setValidityStyleSheet(*m_ui.m_serValueLineEdit, valid);
     setValidityStyleSheet(*m_ui.m_serBackLabel, valid);
 
     if (m_specialsWidget != nullptr) {
-        m_specialsWidget->setIntValue(m_wrapper->getValue());
+        m_specialsWidget->setIntValue(m_fieldPtr->getValue());
     }
 }
 
@@ -89,44 +97,23 @@ void LongIntValueFieldWidget::editEnabledUpdatedImpl()
     m_ui.m_serValueLineEdit->setReadOnly(readonly);
 }
 
-void LongIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::IntValue actProps(props);
-
-    auto offset =
-        static_cast<decltype(m_offset)>(actProps.displayOffset());
-
-    bool needRefresh = false;
-    if (std::numeric_limits<double>::epsilon() < std::fabs(m_offset - offset)) {
-        m_offset = offset;
-        needRefresh = true;
-    }
-
-    auto& specials = actProps.specials();
-    needRefresh = createSpecialsWidget(specials) || needRefresh;
-
-    if (needRefresh) {
-        refresh();
-    }
-}
-
 void LongIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
-    handleNumericSerialisedValueUpdate(value, *m_wrapper);
+    handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
 }
 
 void LongIntValueFieldWidget::valueUpdated(double value)
 {
-    auto adjustedValue = adjustDisplayedToReal(value);
-    if (adjustedValue == m_wrapper->getValue()) {
+    auto adjustedValue = static_cast<long long>(value);
+    if (adjustedValue == m_fieldPtr->getDisplayValue()) {
         return;
     }
 
     assert(isEditEnabled());
-    m_wrapper->setValue(adjustedValue);
-    if (!m_wrapper->canWrite()) {
-        m_wrapper->reset();
-        assert(m_wrapper->canWrite());
+    m_fieldPtr->setDisplayValue(adjustedValue);
+    if (!m_fieldPtr->canWrite()) {
+        m_fieldPtr->reset();
+        assert(m_fieldPtr->canWrite());
     }
     refresh();
     emitFieldUpdated();
@@ -139,18 +126,8 @@ void LongIntValueFieldWidget::specialSelected(long long value)
         return;
     }
 
-    valueUpdated(adjustRealToDisplayed(static_cast<UnderlyingType>(value)));
-}
-
-LongIntValueFieldWidget::UnderlyingType
-LongIntValueFieldWidget::adjustDisplayedToReal(double val)
-{
-    return static_cast<UnderlyingType>(val - m_offset);
-}
-
-double LongIntValueFieldWidget::adjustRealToDisplayed(UnderlyingType val)
-{
-    return static_cast<double>(val) + m_offset;
+    m_fieldPtr->setDisplayValue(value);
+    refresh();
 }
 
 bool LongIntValueFieldWidget::createSpecialsWidget(const SpecialsList& specials)

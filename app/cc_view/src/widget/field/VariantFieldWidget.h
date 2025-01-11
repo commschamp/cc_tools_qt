@@ -1,5 +1,5 @@
 //
-// Copyright 2017 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2017 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 
 #include <functional>
 
-#include "cc_tools_qt/field_wrapper/VariantWrapper.h"
+#include "cc_tools_qt/field/ToolsVariantField.h"
 #include "FieldWidget.h"
 
 #include "ui_VariantFieldWidget.h"
@@ -33,12 +33,12 @@ class VariantFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::VariantWrapperPtr;
+    using FieldPtr = field::ToolsVariantFieldPtr;
     using CreateMemberFieldWidgetFunc =
-        std::function<FieldWidgetPtr (field_wrapper::FieldWrapper&)>;
+        std::function<FieldWidgetPtr (ToolsField&)>;
 
     explicit VariantFieldWidget(
-        WrapperPtr&& wrapper,
+        FieldPtr&& fieldPtr,
         CreateMemberFieldWidgetFunc&& func,
         QWidget* parentObj = nullptr);
 
@@ -47,9 +47,9 @@ public:
     void setMemberField(FieldWidget* memberFieldWidget);
 
 protected:
+    virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private slots:
     void memberFieldUpdated();
@@ -57,23 +57,19 @@ private slots:
     void memberComboUpdated(int value);
 
 private:
-    using WrapperType = WrapperPtr::element_type;
-
     void refreshInternal();
     void refreshMember();
-    void updateMemberProps();
     void updateIndexDisplay();
     void updateIndexValue();
     void updateMemberCombo();
     void destroyMemberWidget();
     void createMemberWidget();
+    void fillMemberCombo();
 
     Ui::VariantFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     FieldWidget* m_member = nullptr;
-    QList<QVariantMap> m_membersProps;
     CreateMemberFieldWidgetFunc m_createFunc;
-    bool m_indexHidden = false;
 };
 
 

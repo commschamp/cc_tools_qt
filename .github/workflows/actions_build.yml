@@ -1,9 +1,14 @@
 name: Github Actions Build
 
-on: [push]
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
 
 env:
-  COMMS_TAG: v5.2.7
+  COMMS_TAG: v5.3
 
 jobs:
 
@@ -12,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        type: [Debug, Release, MinSizeRel]
+        type: [Debug, Release]
         cc_ver: [9, 10, 11, 12]
         cpp: [17, 20]
         qt_ver: [5, 6]
@@ -65,7 +70,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        type: [Debug, Release, MinSizeRel]
+        type: [Debug, Release]
         cc_ver: [13, 14]
         cpp: [17, 20, 23]
         qt_ver: [5, 6]
@@ -80,7 +85,9 @@ jobs:
       run: sudo apt-get update --fix-missing    
       
     - name: Install Packages
-      run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}} doxygen dia
+      run: |
+        sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev \
+          gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}} doxygen dia
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build      
@@ -117,16 +124,18 @@ jobs:
         VERBOSE: 1 
 
     - name: Documentation
+      if: ${{matrix.type == 'Debug' && matrix.cc_ver == '14' && matrix.qt_ver == '5' && matrix.cpp == '17'}}
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: make doc_cc_tools_qt                   
-      
+      run: make doc_cc_tools_qt
+
+
   build_clang_ubuntu_22_04:
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
-        type: [Debug, Release, MinSizeRel]
+        type: [Debug, Release]
         cc_ver: [11, 12, 13, 14, 15]
         cpp: [17, 20]
         qt_ver: [5, 6]
@@ -188,7 +197,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        type: [Debug, Release, MinSizeRel]
+        type: [Debug, Release]
         cc_ver: [16, 17, 18]
         cpp: [17, 20, 23]
         qt_ver: [5, 6]
@@ -205,7 +214,7 @@ jobs:
       run: sudo apt-get update --fix-missing    
       
     - name: Install Packages
-      run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev clang-${{matrix.cc_ver}} doxygen dia
+      run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev clang-${{matrix.cc_ver}}
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build      
@@ -240,18 +249,14 @@ jobs:
       run: cmake --build . --config ${{matrix.type}} --target install
       env:
         VERBOSE: 1   
-
-    - name: Documentation
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: make doc_cc_tools_qt          
+   
     
   build_msvc_2019:
     runs-on: windows-2019
     strategy:
       fail-fast: false
       matrix:
-        type: [Debug, Release, MinSizeRel]
+        type: [Debug, Release]
         arch: [x64]
         cpp: [17]
         qt_ver: [5, 6]

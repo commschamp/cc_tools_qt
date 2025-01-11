@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -29,13 +29,13 @@ public:
     SendMsgListWidget(QWidget* parentObj = nullptr);
 
 protected:
-    virtual void msgClickedImpl(MessagePtr msg, int idx) override;
-    virtual void msgDoubleClickedImpl(MessagePtr msg, int idx) override;
-    virtual QString msgPrefixImpl(const Message& msg) const override;
+    virtual void msgClickedImpl(ToolsMessagePtr msg, int idx) override;
+    virtual void msgDoubleClickedImpl(ToolsMessagePtr msg, int idx) override;
+    virtual QString msgPrefixImpl(const ToolsMessage& msg) const override;
     virtual const QString& msgTooltipImpl() const override;
     virtual void stateChangedImpl(int state) override;
     virtual void msgMovedImpl(int idx) override;
-    virtual void loadMessagesImpl(const QString& filename, Protocol& protocol) override;
+    virtual void loadMessagesImpl(const QString& filename, ToolsProtocol& protocol) override;
     virtual void saveMessagesImpl(const QString& filename) override;
 
 private:

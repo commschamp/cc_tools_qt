@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -23,15 +23,12 @@
 #include <QtCore/QCommandLineParser>
 #include <QtCore/QStringList>
 
-#include "cc_tools_qt/cc_tools_qt.h"
 #include "PluginMgrG.h"
 #include "GuiAppMgr.h"
 
 #include "widget/MainWindowWidget.h"
 #include "icon.h"
 #include "dir.h"
-
-namespace cc = cc_tools_qt;
 
 namespace
 {
@@ -43,18 +40,14 @@ const QString DebugOptStr("debug");
 
 void metaTypesRegisterAll()
 {
-    qRegisterMetaType<cc::MessagePtr>();
-    qRegisterMetaType<cc::ProtocolPtr>();
-    qRegisterMetaType<cc::GuiAppMgr::ActionPtr>();
-    qRegisterMetaType<cc::PluginMgr::PluginInfoPtr>();
-    qRegisterMetaType<cc::DataInfoPtr>();
+    qRegisterMetaType<cc_tools_qt::GuiAppMgr::ActionPtr>();
 }
 
 void initSingletons()
 {
-    static_cast<void>(cc::PluginMgrG::instanceRef());
-    static_cast<void>(cc::MsgMgrG::instanceRef());
-    static_cast<void>(cc::GuiAppMgr::instance());
+    static_cast<void>(cc_tools_qt::PluginMgrG::instanceRef());
+    static_cast<void>(cc_tools_qt::MsgMgrG::instanceRef());
+    static_cast<void>(cc_tools_qt::GuiAppMgr::instance());
 }
 
 void prepareCommandLineOptions(QCommandLineParser& parser)
@@ -104,21 +97,21 @@ int main(int argc, char *argv[])
     prepareCommandLineOptions(parser);
     parser.process(app);
 
-    cc::MainWindowWidget window;
-    window.setWindowIcon(cc::icon::appIcon());
+    cc_tools_qt::MainWindowWidget window;
+    window.setWindowIcon(cc_tools_qt::icon::appIcon());
     window.showMaximized();
 
-    auto pluginsDir = cc::getPluginsDir();
+    auto pluginsDir = cc_tools_qt::getPluginsDir();
     if (pluginsDir.isEmpty()) {
         std::cerr << "ERROR: Failed to find plugins directory!" << std::endl;
         return -1;
     }
     app.addLibraryPath(pluginsDir);
 
-    auto& pluginMgr = cc::PluginMgrG::instanceRef();
+    auto& pluginMgr = cc_tools_qt::PluginMgrG::instanceRef();
     pluginMgr.setPluginsDir(pluginsDir);
 
-    auto& guiAppMgr = cc::GuiAppMgr::instanceRef();
+    auto& guiAppMgr = cc_tools_qt::GuiAppMgr::instanceRef();
     guiAppMgr.setDebugOutputLevel(parser.value(DebugOptStr).toUInt());
     do {
         if (parser.isSet(CleanOptStr) && guiAppMgr.startClean()) {
@@ -140,7 +133,7 @@ int main(int argc, char *argv[])
         &app, &QCoreApplication::aboutToQuit,
         []()
         {
-            cc::MsgMgrG::instanceRef().deleteAllMsgs();
+            cc_tools_qt::MsgMgrG::instanceRef().deleteAllMsgs();
         });
 
     auto retval = app.exec();

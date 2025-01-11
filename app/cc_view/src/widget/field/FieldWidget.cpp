@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -55,6 +55,13 @@ FieldWidget::FieldWidget(QWidget* parentObj)
 {
 }
 
+void FieldWidget::setNameSuffix(const QString& value)
+{
+    m_nameSuffix = value;
+    performNameLabelUpdate();
+    nameSuffixUpdatedImpl();
+}
+
 void FieldWidget::refresh()
 {
     refreshImpl();
@@ -63,20 +70,7 @@ void FieldWidget::refresh()
 void FieldWidget::setEditEnabled(bool enabled)
 {
     m_editEnabled = enabled;
-    if ((!m_editEnabled) && (m_hiddenWhenReadOnly) && (!isHidden())) {
-        setHidden(true);
-    }
     editEnabledUpdatedImpl();
-}
-
-void FieldWidget::updateProperties(const QVariantMap& props)
-{
-    property::field::Common commonProps(props);
-    m_hiddenWhenReadOnly = commonProps.isHiddenWhenReadOnly();
-    performNameLabelUpdate(commonProps);
-    updatePropertiesImpl(props);
-    performUiElementsVisibilityCheck(commonProps);
-    performUiReadOnlyCheck(commonProps);
 }
 
 void FieldWidget::emitFieldUpdated()
@@ -142,10 +136,10 @@ void FieldWidget::updateValue(QLineEdit& line, const QString& value)
 
 void FieldWidget::updateSerValue(
     QPlainTextEdit& text,
-    const field_wrapper::FieldWrapper& wrapper)
+    const ToolsField& field)
 {
     QString serValueStr;
-    auto serValue = wrapper.getSerialisedValue();
+    auto serValue = field.getSerialisedValue();
 
     for (auto byte : serValue) {
         if (!serValueStr.isEmpty()) {
@@ -157,59 +151,30 @@ void FieldWidget::updateSerValue(
     text.setPlainText(serValueStr);
 }
 
+void FieldWidget::commonConstruct()
+{
+    performNameLabelUpdate();
+    performSerVisibilityUpdate();
+    performReadOnlyUpdate();
+}
+
 void FieldWidget::editEnabledUpdatedImpl()
 {
 }
 
-void FieldWidget::updatePropertiesImpl([[maybe_unused]] const QVariantMap& props)
+void FieldWidget::nameSuffixUpdatedImpl()
 {
 }
 
-void FieldWidget::performUiElementsVisibilityCheck(const property::field::Common& props)
-{
-    auto allHidden =
-        (props.isHidden()) ||
-        (props.isReadOnly() && props.isHiddenWhenReadOnly());
-    setHidden(allHidden);
-    if (allHidden) {
-        return;
-    }
-
-    if ((m_valueWidget == nullptr) &&
-        (m_sepWidget == nullptr) &&
-        (m_serValueWidget == nullptr)) {
-        return;
-    }
-
-    auto setWidgetHiddenFunc =
-        [](QWidget* widget, bool hidden)
-        {
-            if (widget != nullptr) {
-                widget->setHidden(hidden);
-            }
-        };
-
-    auto serHidden = props.isSerialisedHidden();
-    setWidgetHiddenFunc(m_sepWidget, serHidden);
-    setWidgetHiddenFunc(m_serValueWidget, serHidden);
-}
-
-void FieldWidget::performUiReadOnlyCheck(const property::field::Common& props)
-{
-    auto readOnly = props.isReadOnly();
-    if (m_forcedReadOnly != readOnly) {
-        m_forcedReadOnly = readOnly;
-        editEnabledUpdatedImpl();
-    }
-}
-
-void FieldWidget::performNameLabelUpdate(const property::field::Common& props)
+void FieldWidget::performNameLabelUpdate()
 {
     if (m_nameLabel == nullptr) {
         return;
     }
 
-    auto str = props.name();
+    auto& f = fieldImpl();
+
+    QString str = f.name();
     if (str.isEmpty()) {
         m_nameLabel->hide();
         return;
@@ -222,6 +187,31 @@ void FieldWidget::performNameLabelUpdate(const property::field::Common& props)
     str.append(':');
     m_nameLabel->setText(str);
     m_nameLabel->show();
+}
+
+void FieldWidget::performSerVisibilityUpdate()
+{
+    auto setWidgetHiddenFunc =
+        [](QWidget* widget, bool hidden)
+        {
+            if (widget != nullptr) {
+                widget->setHidden(hidden);
+            }
+        };
+            
+    auto& f = fieldImpl();
+    bool serHidden = f.isHiddenSerialization();
+    setWidgetHiddenFunc(m_sepWidget, serHidden);
+    setWidgetHiddenFunc(m_serValueWidget, serHidden);    
+}
+
+void FieldWidget::performReadOnlyUpdate()
+{
+    auto readOnly = fieldImpl().isReadOnly();
+    if (m_forcedReadOnly != readOnly) {
+        m_forcedReadOnly = readOnly;
+        editEnabledUpdatedImpl();
+    }
 }
 
 }  // namespace cc_tools_qt

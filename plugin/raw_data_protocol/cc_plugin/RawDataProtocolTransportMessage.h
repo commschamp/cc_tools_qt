@@ -18,9 +18,12 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
-#include "cc_plugin/RawDataProtocolMessage.h"
-#include "cc_plugin/RawDataProtocolStack.h"
+#include "RawDataProtocolMessage.h"
+
+#include "raw_data_protocol/Frame.h"
+
+#include "cc_tools_qt/ToolsTransportMessageBase.h"
+#include "cc_tools_qt/ToolsTransportProtMessageBase.h"
 
 namespace cc_tools_qt
 {
@@ -37,33 +40,32 @@ namespace cc_plugin
 namespace details
 {
 
+template <typename TProtMsgBase>
 using RawDataProtocolTransportMessageFields =
     std::tuple<
-        comms::field::IntValue<cc_plugin::RawDataProtocolStack::Message::Field, std::uint8_t, comms::option::def::EmptySerialization>,
-        raw_data_protocol::DataField<>
+        raw_data_protocol::IdField<typename TProtMsgBase::Field>,
+        raw_data_protocol::DataField<typename TProtMsgBase::Field>
     >;
+
+template <typename TProtMsgBase, typename TOpt>
+class RawDataProtocolPortTransportMessage : public
+    cc_tools_qt::ToolsTransportProtMessageBase<
+        TProtMsgBase,
+        RawDataProtocolTransportMessageFields<TProtMsgBase>,
+        RawDataProtocolPortTransportMessage<TProtMsgBase, TOpt>
+    >
+{
+};
 
 }  // namespace details
 
 class RawDataProtocolTransportMessage : public
-    cc_tools_qt::TransportMessageBase<
-        cc_plugin::RawDataProtocolStack::Message,
-        details::RawDataProtocolTransportMessageFields>
+    cc_tools_qt::ToolsTransportMessageBase<
+        RawDataProtocolMessage,
+        details::RawDataProtocolPortTransportMessage,
+        RawDataProtocolTransportMessage
+    >
 {
-    typedef cc_tools_qt::TransportMessageBase<
-        cc_plugin::RawDataProtocolStack::Message,
-        details::RawDataProtocolTransportMessageFields> Base;
-public:
-    enum FieldIdx
-    {
-        FieldIdx_NoId,
-        FieldIdx_Payload,
-        FieldIdx_NumOfValues
-    };
-
-protected:
-    virtual const QVariantList& fieldsPropertiesImpl() const override;
-
 };
 
 }  // namespace cc_plugin

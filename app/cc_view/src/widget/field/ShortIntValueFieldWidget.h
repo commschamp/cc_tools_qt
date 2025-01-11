@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/field_wrapper/IntValueWrapper.h"
+#include "cc_tools_qt/field/ToolsIntField.h"
 #include "FieldWidget.h"
 
 #include "ui_ShortIntValueFieldWidget.h"
@@ -33,18 +33,18 @@ class ShortIntValueFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::IntValueWrapperPtr;
+    using FieldPtr = field::ToolsIntFieldPtr;
 
     explicit ShortIntValueFieldWidget(
-        WrapperPtr wrapper,
+        FieldPtr fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~ShortIntValueFieldWidget() noexcept;
 
 protected:
+    virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private slots:
     void serialisedValueUpdated(const QString& value);
@@ -55,15 +55,12 @@ private:
     using SpecialInfo = QPair<QString, long long>;
     using SpecialsList = QList<SpecialInfo>;
 
-    using WrapperType = WrapperPtr::element_type;
-    using UnderlyingType = WrapperType::UnderlyingType;
-    int adjustDisplayedToReal(int val);
-    int adjustRealToDisplayed(int val);
+    using FieldType = FieldPtr::element_type;
+    using UnderlyingType = FieldType::UnderlyingType;
     bool createSpecialsWidget(const SpecialsList& specials);
 
     Ui::ShortIntValueFieldWidget m_ui;
-    WrapperPtr m_wrapper;
-    int m_offset = 0;
+    FieldPtr m_fieldPtr;
     SpecialValueWidget* m_specialsWidget = nullptr;
 };
 

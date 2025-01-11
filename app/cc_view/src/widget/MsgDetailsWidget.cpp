@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -72,11 +72,10 @@ void MsgDetailsWidget::setEditEnabled(bool enabled)
     }
 }
 
-void MsgDetailsWidget::displayMessage(MessagePtr msg)
+void MsgDetailsWidget::displayMessage(ToolsMessagePtr msg)
 {
     assert(msg);
-    msg->dispatch(m_msgDisplayHandler);
-    auto msgWidget = m_msgDisplayHandler.getMsgWidget();
+    auto msgWidget = m_msgDisplayHandler.getMsgWidget(*msg);
     assert(msgWidget);
     msgWidget->setEditEnabled(m_editEnabled);
 
@@ -97,12 +96,12 @@ void MsgDetailsWidget::displayMessage(MessagePtr msg)
     m_displayedMsgWidget->show();
     scrollBar->blockSignals(false);
 
-    auto scrollValue = property::message::ScrollPos().getFrom(*msg);
+    auto scrollValue = property::message::ToolsMsgScrollPos().getFrom(*msg);
     scrollBar->setValue(scrollValue);
     m_displayedMsg = std::move(msg);
 }
 
-void MsgDetailsWidget::updateTitle(MessagePtr msg)
+void MsgDetailsWidget::updateTitle(ToolsMessagePtr msg)
 {
     auto title = getTitlePrefix();
     title.append(": ");
@@ -141,7 +140,7 @@ void MsgDetailsWidget::widgetScrolled(int value)
         return;
     }
 
-    property::message::ScrollPos().setTo(value, *m_displayedMsg);
+    property::message::ToolsMsgScrollPos().setTo(value, *m_displayedMsg);
 }
 
 void MsgDetailsWidget::msgUpdated()

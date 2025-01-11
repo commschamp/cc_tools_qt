@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -23,8 +23,9 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QLabel>
 
-#include "cc_tools_qt/field_wrapper/BundleWrapper.h"
+#include "cc_tools_qt/field/ToolsBundleField.h"
 #include "FieldWidget.h"
+#include "ui_BundleFieldWidget.h"
 
 namespace cc_tools_qt
 {
@@ -35,11 +36,11 @@ class BundleFieldWidget : public FieldWidget
     typedef FieldWidget Base;
 public:
 
-    using Wrapper = field_wrapper::BundleWrapper;
-    using WrapperPtr = Wrapper::Ptr;
+    using Field = field::ToolsBundleField;
+    using FieldPtr = field::ToolsBundleFieldPtr;
 
     explicit BundleFieldWidget(
-        WrapperPtr wrapper,
+        FieldPtr fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~BundleFieldWidget() noexcept;
@@ -47,18 +48,16 @@ public:
     void addMemberField(FieldWidget* memberFieldWidget);
 
 protected:
+    virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private slots:
     void memberFieldUpdated();
 
 private:
-
-    WrapperPtr m_wrapper;
-    QVBoxLayout* m_membersLayout = nullptr;
-    QLabel* m_label = nullptr;
+    Ui::BundleFieldWidget m_ui;
+    FieldPtr m_fieldPtr;
     std::vector<FieldWidget*> m_members;
 };
 

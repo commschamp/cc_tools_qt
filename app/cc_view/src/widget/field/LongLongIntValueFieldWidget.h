@@ -1,5 +1,5 @@
 //
-// Copyright 2017 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2017 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/field_wrapper/IntValueWrapper.h"
+#include "cc_tools_qt/field/ToolsIntField.h"
 #include "FieldWidget.h"
 
 #include "ui_LongLongIntValueFieldWidget.h"
@@ -32,18 +32,18 @@ class LongLongIntValueFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::IntValueWrapperPtr;
+    using FieldPtr = field::ToolsIntFieldPtr;
 
     explicit LongLongIntValueFieldWidget(
-        WrapperPtr wrapper,
+        FieldPtr fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~LongLongIntValueFieldWidget() noexcept;
 
 protected:
+    virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private slots:
     void serialisedValueUpdated(const QString& value);
@@ -53,17 +53,14 @@ private slots:
 private:
     using SpecialInfo = QPair<QString, long long>;
     using SpecialsList = QList<SpecialInfo>;
-    using WrapperType = WrapperPtr::element_type;
-    using UnderlyingType = WrapperType::UnderlyingType;
+    using FieldType = FieldPtr::element_type;
+    using UnderlyingType = FieldType::UnderlyingType;
     typedef long long int DisplayedType;
-    UnderlyingType adjustDisplayedToReal(DisplayedType val);
-    DisplayedType adjustRealToDisplayed(UnderlyingType val);
     static DisplayedType getDisplayedValue(const QString& value);
     bool createSpecialsWidget(const SpecialsList& specials);
 
     Ui::LongLongIntValueFieldWidget m_ui;
-    WrapperPtr m_wrapper;
-    DisplayedType m_offset = 0;
+    FieldPtr m_fieldPtr;
     SpecialValueWidget* m_specialsWidget = nullptr;
 };
 

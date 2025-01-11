@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 #include "ui_ArrayListElementWidget.h"
 #include "ui_ArrayListFieldWidget.h"
 
-#include "cc_tools_qt/field_wrapper/ArrayListWrapper.h"
+#include "cc_tools_qt/field/ToolsArrayListField.h"
 #include "FieldWidget.h"
 
 namespace cc_tools_qt
@@ -45,7 +45,6 @@ public:
     void refresh();
     void setEditEnabled(bool enabled);
     void setDeletable(bool deletable);
-    void updateProperties(const QVariantMap& props);
     void setNameSuffix(const QString& value);
 
 signals:
@@ -66,12 +65,12 @@ class ArrayListFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using Wrapper = field_wrapper::ArrayListWrapper;
-    using WrapperPtr = Wrapper::Ptr;
-    typedef std::function<std::vector<FieldWidgetPtr> (Wrapper&)> CreateMissingDataFieldsFunc;
+    using Field = field::ToolsArrayListField;
+    using FieldPtr = field::ToolsArrayListFieldPtr;
+    typedef std::function<std::vector<FieldWidgetPtr> (Field&)> CreateMissingDataFieldsFunc;
 
     explicit ArrayListFieldWidget(
-        WrapperPtr wrapper,
+        FieldPtr fieldPtr,
         CreateMissingDataFieldsFunc&& updateFunc,
         QWidget* parentObj = nullptr);
 
@@ -85,9 +84,9 @@ public:
     }
 
 protected:
+    virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private slots:
     void dataFieldUpdated();
@@ -100,15 +99,11 @@ private:
     void refreshInternal();
     void updateUi();
     void addMissingFields();
-    void updatePrefixField();
 
     Ui::ArrayListFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     std::vector<ArrayListElementWidget*> m_elements;
     CreateMissingDataFieldsFunc m_createMissingDataFieldsCallback;
-    std::vector<QVariantMap> m_elemProperties;
-    bool m_prefixVisible = false;
-    bool m_appendIndexToElementName = false;
 };
 
 }  // namespace cc_tools_qt

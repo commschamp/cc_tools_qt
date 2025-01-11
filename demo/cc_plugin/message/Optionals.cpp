@@ -15,11 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
-
 #include "Optionals.h"
 
-namespace cc = cc_tools_qt;
+#include <cassert>
 
 namespace demo
 {
@@ -30,90 +28,11 @@ namespace cc_plugin
 namespace message
 {
 
-namespace
-{
-
-using OptionalsFields = demo::message::OptionalsFields<>;
-
-QVariantMap createField1Properties()
-{
-    using Field = OptionalsFields::field1;
-    cc::property::field::ForField<Field> props;
-    props.name("field1")
-         .add("enable_field2")
-         .add("enable_field3");
-
-    assert(props.bits().size() == Field::BitIdx_numOfValues);
-    return props.asMap();
-}
-
-QVariantMap createField2Properties()
-{
-    static const char* Name = "field2";
-    return
-        cc::property::field::ForField<OptionalsFields::field2>()
-            .name(Name)
-            .field(
-                cc::property::field::ForField<OptionalsFields::field2::Field>()
-                    .name(Name)
-                    .asMap())
-            .uncheckable()
-            .asMap();
-}
-
-QVariantMap createField3Properties()
-{
-    static const char* Name = "field3";
-    return
-        cc::property::field::ForField<OptionalsFields::field3>()
-            .name(Name)
-            .field(
-                cc::property::field::ForField<OptionalsFields::field3::Field>()
-                    .name(Name)
-                    .asMap())
-            .uncheckable()
-            .asMap();
-}
-
-QVariantMap createField4Properties()
-{
-    static const char* Name = "field4";
-    return
-        cc::property::field::ForField<OptionalsFields::field4>()
-            .name(Name)
-            .field(
-                cc::property::field::ForField<OptionalsFields::field4::Field>()
-                    .name(Name)
-                    .asMap())
-            .uncheckable()
-            .asMap();
-}
-
-QVariantList createFieldsProperties()
-{
-    QVariantList props;
-    props.append(createField1Properties());
-    props.append(createField2Properties());
-    props.append(createField3Properties());
-    props.append(createField4Properties());
-
-    assert(props.size() == Optionals::FieldIdx_numOfValues);
-    return props;
-}
-
-}  // namespace
-
 Optionals::Optionals() = default;
 Optionals::~Optionals() noexcept = default;
 
 Optionals& Optionals::operator=(const Optionals&) = default;
 Optionals& Optionals::operator=(Optionals&&) = default;
-
-const QVariantList& Optionals::fieldsPropertiesImpl() const
-{
-    static const auto Props = createFieldsProperties();
-    return Props;
-}
 
 }  // namespace message
 

@@ -17,10 +17,10 @@
 
 #include "UdpProxySocketPlugin.h"
 
-#include <memory>
-#include <cassert>
-
 #include "UdpProxySocketConfigWidget.h"
+
+#include <cassert>
+#include <memory>
 
 namespace cc_tools_qt
 {
@@ -38,21 +38,9 @@ const QString LocalPortSubKey("local_port");
 
 }  // namespace
 
-UdpProxySocketPlugin::UdpProxySocketPlugin()
+UdpProxySocketPlugin::UdpProxySocketPlugin() :
+    Base(Type_Socket)
 {
-    pluginProperties()
-        .setSocketCreateFunc(
-            [this]() -> SocketPtr
-            {
-                createSocketIfNeeded();
-                return m_socket;
-            })
-        .setConfigWidgetCreateFunc(
-            [this]() -> QWidget*
-            {
-                createSocketIfNeeded();
-                return new UdpProxySocketConfigWidget(*m_socket);
-            });
 }
 
 UdpProxySocketPlugin::~UdpProxySocketPlugin() noexcept = default;
@@ -103,6 +91,18 @@ void UdpProxySocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props)
 {
     createSocketIfNeeded();
     m_socket->applyInterPluginConfig(props);
+}
+
+ToolsSocketPtr UdpProxySocketPlugin::createSocketImpl()
+{
+    createSocketIfNeeded();
+    return m_socket;
+}
+
+QWidget* UdpProxySocketPlugin::createConfigurationWidgetImpl()
+{
+    createSocketIfNeeded();
+    return new UdpProxySocketConfigWidget(*m_socket);
 }
 
 void UdpProxySocketPlugin::createSocketIfNeeded()

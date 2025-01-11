@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -39,8 +39,8 @@ RecvMsgListWidget::RecvMsgListWidget(QWidget* parentObj)
     selectOnAdd(guiMgr->recvMsgListSelectOnAddEnabled());
 
     connect(
-        guiMgr, SIGNAL(sigAddRecvMsg(MessagePtr)),
-        this, SLOT(addMessage(MessagePtr)));
+        guiMgr, SIGNAL(sigAddRecvMsg(ToolsMessagePtr)),
+        this, SLOT(addMessage(ToolsMessagePtr)));
     connect(
         guiMgr, SIGNAL(sigRecvMsgListSelectOnAddEnabled(bool)),
         this, SLOT(selectOnAdd(bool)));
@@ -62,19 +62,19 @@ RecvMsgListWidget::RecvMsgListWidget(QWidget* parentObj)
 
 }
 
-void RecvMsgListWidget::msgClickedImpl(MessagePtr msg, int idx)
+void RecvMsgListWidget::msgClickedImpl(ToolsMessagePtr msg, int idx)
 {
     GuiAppMgr::instance()->recvMsgClicked(msg, idx);
 }
 
-void RecvMsgListWidget::msgListClearedImpl(MessagesList&& msgs)
+void RecvMsgListWidget::msgListClearedImpl(ToolsMessagesList&& msgs)
 {
     GuiAppMgr::instance()->deleteMessages(std::move(msgs));
 }
 
-QString RecvMsgListWidget::msgPrefixImpl(const Message& msg) const
+QString RecvMsgListWidget::msgPrefixImpl(const ToolsMessage& msg) const
 {
-    auto timestamp = property::message::Timestamp().getFrom(msg);
+    auto timestamp = property::message::ToolsMsgTimestamp().getFrom(msg);
     if (timestamp == 0U) {
         return QString();
     }
@@ -109,7 +109,7 @@ QString RecvMsgListWidget::getTitleImpl() const
 
 void RecvMsgListWidget::saveMessagesImpl(const QString& filename)
 {
-    MsgFileMgrG::instanceRef().save(MsgFileMgr::Type::Recv, filename, allMsgs());
+    MsgFileMgrG::instanceRef().save(ToolsMsgFileMgr::Type::Recv, filename, allMsgs());
 }
 
 QString RecvMsgListWidget::getTitlePrefix()

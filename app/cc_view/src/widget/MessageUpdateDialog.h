@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 
 #include "ui_MessageUpdateDialog.h"
 
-#include "cc_tools_qt/Protocol.h"
+#include "cc_tools_qt/ToolsProtocol.h"
 #include "MessageDisplayWidget.h"
 
 namespace cc_tools_qt
@@ -34,14 +34,14 @@ class MessageUpdateDialog : public QDialog
     using Base = QDialog;
 public:
     MessageUpdateDialog(
-        MessagePtr& msg,
-        ProtocolPtr protocol,
+        ToolsMessagePtr& msg,
+        ToolsProtocolPtr protocol,
         QWidget* parentObj = nullptr);
 
 private slots:
     void msgUpdated();
     void newItemSelected();
-    void displayMessagePostponed(cc_tools_qt::MessagePtr msg, bool force);
+    void displayMessagePostponed(ToolsMessagePtr msg, bool force);
     void refreshDisplayedList(const QString& searchText);
     void refreshDelayInfo(int checkboxValue);
     void delayUpdated(int value);
@@ -53,12 +53,12 @@ private slots:
     void reset();
 
 private:
-    MessagePtr getMsgFromItem(QListWidgetItem* item);
+    ToolsMessagePtr getMsgFromItem(QListWidgetItem* item);
     void refreshButtons();
 
-    MessagePtr& m_msg;
-    ProtocolPtr m_protocol;
-    Protocol::MessagesList m_allMsgs;
+    ToolsMessagePtr& m_msg;
+    ToolsProtocolPtr m_protocol;
+    ToolsMessagesList m_allMsgs;
     MessageDisplayWidget* m_msgDisplayWidget = nullptr;
     Ui::MessageUpdateDialog m_ui;
     int m_prevDelay = DisabledDelayValue + 1;

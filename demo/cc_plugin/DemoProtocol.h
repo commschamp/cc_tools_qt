@@ -18,9 +18,13 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
-#include "cc_plugin/DemoStack.h"
-#include "cc_plugin/DemoTransportMessage.h"
+// #include "DemoStack.h"
+#include "DemoFrame.h"
+#include "DemoMessage.h"
+#include "DemoMsgFactory.h"
+#include "DemoTransportMessage.h"
+
+#include "cc_tools_qt/ToolsProtocol.h"
 
 namespace demo
 {
@@ -28,14 +32,11 @@ namespace demo
 namespace cc_plugin
 {
 
-class DemoProtocol : public
-    cc_tools_qt::ProtocolBase<
-        cc_plugin::DemoStack,
-        DemoTransportMessage
-    >
+class DemoProtocol : public cc_tools_qt::ToolsProtocol
 {
+    using Base = cc_tools_qt::ToolsProtocol;
 public:
-    DemoProtocol() = default;
+    DemoProtocol() : Base(std::make_unique<DemoFrame>()) {};
     virtual ~DemoProtocol() noexcept;
 
 protected:

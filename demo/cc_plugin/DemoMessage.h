@@ -18,8 +18,11 @@
 
 #pragma once
 
-#include "cc_tools_qt/cc_tools_qt.h"
 #include "demo/DemoMessage.h"
+#include "demo/DefaultOptions.h"
+
+#include "cc_tools_qt/ToolsMessage.h"
+#include "cc_tools_qt/ToolsProtMsgInterface.h"
 
 namespace demo
 {
@@ -27,16 +30,18 @@ namespace demo
 namespace cc_plugin
 {
 
-class DemoMessage : public cc_tools_qt::MessageBase<demo::DemoMessage>
+class DemoMessage : public cc_tools_qt::ToolsMessage
 {
-    using Base = cc_tools_qt::MessageBase<demo::DemoMessage>;
 public:
+    using ProtInterface = cc_tools_qt::ToolsProtMsgInterface<demo::DemoMessage>;
+
+    using ProtOptions = demo::DefaultOptions;
+
     DemoMessage();
     virtual ~DemoMessage() noexcept;
 
 protected:
 
-    virtual const QVariantList& extraTransportFieldsPropertiesImpl() const override;
     virtual QString idAsStringImpl() const override;
 };
 

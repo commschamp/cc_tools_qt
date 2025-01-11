@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -25,32 +25,20 @@
 
 #include "comms/comms.h"
 
-#include "cc_tools_qt/Message.h"
-#include "cc_tools_qt/MessageHandler.h"
+#include "cc_tools_qt/ToolsMessage.h"
 #include "widget/DefaultMessageWidget.h"
 
 namespace cc_tools_qt
 {
 
-class DefaultMessageDisplayHandler : public MessageHandler
+class DefaultMessageDisplayHandler
 {
 public:
     using MsgWidgetPtr = std::unique_ptr<MessageWidget>;
 
     ~DefaultMessageDisplayHandler() noexcept;
 
-    MsgWidgetPtr getMsgWidget();
-
-protected:
-
-    virtual void beginMsgHandlingImpl(Message& msg) override;
-    virtual void addExtraTransportFieldImpl(FieldWrapperPtr wrapper) override;
-    virtual void addFieldImpl(FieldWrapperPtr wrapper) override;
-
-private:
-
-    using DefaultMsgWidgetPtr = std::unique_ptr<DefaultMessageWidget>;
-    DefaultMsgWidgetPtr m_widget;
+    static MsgWidgetPtr getMsgWidget(ToolsMessage& msg);
 };
 
 }  // namespace cc_tools_qt

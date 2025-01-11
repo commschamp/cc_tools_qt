@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 
 #include <QtWidgets/QWidget>
 
-#include "cc_tools_qt/Message.h"
+#include "cc_tools_qt/ToolsMessage.h"
 
 namespace cc_tools_qt
 {
@@ -37,7 +37,7 @@ public:
 
 public slots:
 
-    void displayMessage(MessagePtr msg, bool force = false)
+    void displayMessage(ToolsMessagePtr msg, bool force = false)
     {
         displayMessageImpl(msg, force);
     }
@@ -61,7 +61,7 @@ signals:
     void sigMsgUpdated();
 
 protected:
-    virtual void displayMessageImpl(MessagePtr msg, bool force) = 0;
+    virtual void displayMessageImpl(ToolsMessagePtr msg, bool force) = 0;
     virtual void setEditEnabledImpl(bool enabled) = 0;
     virtual void clearImpl() = 0;
     virtual void refreshImpl() = 0;

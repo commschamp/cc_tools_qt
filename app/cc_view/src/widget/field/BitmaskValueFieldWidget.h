@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 
 #include <vector>
 
-#include "cc_tools_qt/field_wrapper/BitmaskValueWrapper.h"
+#include "cc_tools_qt/field/ToolsBitmaskField.h"
 #include "FieldWidget.h"
 
 #include "ui_BitmaskValueFieldWidget.h"
@@ -34,29 +34,28 @@ class BitmaskValueFieldWidget : public FieldWidget
     Q_OBJECT
     typedef FieldWidget Base;
 public:
-    using WrapperPtr = field_wrapper::BitmaskValueWrapperPtr;
+    using FieldPtr = field::ToolsBitmaskFieldPtr;
 
     explicit BitmaskValueFieldWidget(
-        WrapperPtr&& wrapper,
+        FieldPtr&& fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~BitmaskValueFieldWidget() noexcept;
 
 protected:
+    virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
-    virtual void updatePropertiesImpl(const QVariantMap& props) override;
 
 private slots:
     void serialisedValueUpdated(const QString& value);
     void checkBoxUpdated(int value);
 
 private:
-    using WrapperType = WrapperPtr::element_type;
-    using UnderlyingType = WrapperType::UnderlyingType;
+    void prepareCheckboxes();
 
     Ui::BitmaskValueFieldWidget m_ui;
-    WrapperPtr m_wrapper;
+    FieldPtr m_fieldPtr;
     std::vector<QCheckBox*> m_checkboxes;
 };
 

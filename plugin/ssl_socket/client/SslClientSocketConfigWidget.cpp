@@ -17,13 +17,13 @@
 
 #include "SslClientSocketConfigWidget.h"
 
-#include <vector>
-#include <utility>
+#include "comms/CompileControl.h"
 
 #include <QtGlobal>
 #include <QtWidgets/QFileDialog>
 
-#include "comms/CompileControl.h"
+#include <vector>
+#include <utility>
 
 namespace cc_tools_qt
 {
@@ -154,72 +154,72 @@ SslClientSocketConfigWidget::SslClientSocketConfigWidget(
         this, &SslClientSocketConfigWidget::hostValueChanged);
 
     connect(
-        m_ui.m_portSpinBox, SIGNAL(valueChanged(int)),
-        this, SLOT(portValueChanged(int)));
+        m_ui.m_portSpinBox, qOverload<int>(&QSpinBox::valueChanged),
+        this, &SslClientSocketConfigWidget::portValueChanged);
 
     connect(
         m_ui.m_caDirLineEdit, &QLineEdit::textChanged,
         this, &SslClientSocketConfigWidget::caDirValueChanged);  
 
     connect(
-        m_ui.m_caDirToolButton, SIGNAL(clicked()),
-        this, SLOT(caDirSelectClicked()));
+        m_ui.m_caDirToolButton, &QToolButton::clicked,
+        this, &SslClientSocketConfigWidget::caDirSelectClicked);
 
     connect(
-        m_ui.m_caDirFormatComboBox,  SIGNAL(currentIndexChanged(int)),
-        this, SLOT(caDirFormatIndexChanged(int)));     
+        m_ui.m_caDirFormatComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &SslClientSocketConfigWidget::caDirFormatIndexChanged);     
 
     connect(
         m_ui.m_caFileLineEdit, &QLineEdit::textChanged,
         this, &SslClientSocketConfigWidget::caFileValueChanged);  
 
     connect(
-        m_ui.m_caFileToolButton, SIGNAL(clicked()),
-        this, SLOT(caFileSelectClicked()));
+        m_ui.m_caFileToolButton, &QToolButton::clicked,
+        this, &SslClientSocketConfigWidget::caFileSelectClicked);
 
     connect(
-        m_ui.m_caFileFormatComboBox,  SIGNAL(currentIndexChanged(int)),
-        this, SLOT(caFileFormatIndexChanged(int)));         
+        m_ui.m_caFileFormatComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &SslClientSocketConfigWidget::caFileFormatIndexChanged);         
 
     connect(
-        m_ui.m_verifyHostComboBox,  SIGNAL(currentIndexChanged(int)),
-        this, SLOT(verifyHostIndexChanged(int)));     
+        m_ui.m_verifyHostComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &SslClientSocketConfigWidget::verifyHostIndexChanged);     
 
     connect(
         m_ui.m_verifyNameLineEdit, &QLineEdit::textChanged,
         this, &SslClientSocketConfigWidget::verifyNameValueChanged);          
 
     connect(
-        m_ui.m_protocolComboBox,  SIGNAL(currentIndexChanged(int)),
-        this, SLOT(sslProtocolIndexChanged(int)));                   
+        m_ui.m_protocolComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &SslClientSocketConfigWidget::sslProtocolIndexChanged);                   
 
     connect(
         m_ui.m_certLineEdit,  &QLineEdit::textChanged,
         this, &SslClientSocketConfigWidget::certValueChanged);
 
     connect(
-        m_ui.m_certToolButton, SIGNAL(clicked()),
-        this, SLOT(certSelectClicked()));         
+        m_ui.m_certToolButton, &QToolButton::clicked,
+        this, &SslClientSocketConfigWidget::certSelectClicked);
 
     connect(
-        m_ui.m_certFormatComboBox,  SIGNAL(currentIndexChanged(int)),
-        this, SLOT(certFormatIndexChanged(int)));     
+        m_ui.m_certFormatComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &SslClientSocketConfigWidget::certFormatIndexChanged);
 
     connect(
         m_ui.m_privKeyLineEdit,  &QLineEdit::textChanged,
         this, &SslClientSocketConfigWidget::privKeyValueChanged);
 
     connect(
-        m_ui.m_privKeyToolButton, SIGNAL(clicked()),
-        this, SLOT(privKeySelectClicked()));        
+        m_ui.m_privKeyToolButton, &QToolButton::clicked,
+        this, &SslClientSocketConfigWidget::privKeySelectClicked);
 
     connect(
-        m_ui.m_privKeyAlgComboBox,  SIGNAL(currentIndexChanged(int)),
-        this, SLOT(privKeyAlgIndexChanged(int)));             
+        m_ui.m_privKeyAlgComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &SslClientSocketConfigWidget::privKeyAlgIndexChanged);
 
     connect(
-        m_ui.m_privKeyFormatComboBox,  SIGNAL(currentIndexChanged(int)),
-        this, SLOT(privKeyFormatIndexChanged(int)));
+        m_ui.m_privKeyFormatComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &SslClientSocketConfigWidget::privKeyFormatIndexChanged);
 
     connect(
         m_ui.m_privKeyPassLineEdit,  &QLineEdit::textChanged,

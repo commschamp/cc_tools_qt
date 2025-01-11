@@ -1,5 +1,5 @@
 //
-// Copyright 2018 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2018 - 2025 (C). Alex Robenko. All rights reserved.
 //
 // This file is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,13 +22,13 @@
 #include "comms/version.h"
 
 /// @brief Major verion of the library
-#define CC_TOOLS_QT_MAJOR_VERSION 5U
+#define CC_TOOLS_QT_MAJOR_VERSION 6U
 
 /// @brief Minor verion of the library
-#define CC_TOOLS_QT_MINOR_VERSION 3U
+#define CC_TOOLS_QT_MINOR_VERSION 0U
 
 /// @brief Patch level of the library
-#define CC_TOOLS_QT_PATCH_VERSION 3U
+#define CC_TOOLS_QT_PATCH_VERSION 0U
 
 /// @brief Macro to create numeric version as single unsigned number
 #define CC_TOOLS_QT_MAKE_VERSION(major_, minor_, patch_) \
@@ -77,7 +77,7 @@ constexpr unsigned version()
     return CC_TOOLS_QT_VERSION;
 }
 
-static_assert(COMMS_MAKE_VERSION(5, 2, 7) <= comms::version(),
+static_assert(COMMS_MAKE_VERSION(5, 3, 0) <= comms::version(),
     "The version of COMMS library is too old");
 
 } // namespace cc_tools_qt

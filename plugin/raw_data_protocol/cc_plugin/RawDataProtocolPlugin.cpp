@@ -19,8 +19,6 @@
 #include "RawDataProtocolPlugin.h"
 #include "RawDataProtocol.h"
 
-namespace cc = cc_tools_qt;
-
 namespace cc_tools_qt
 {
 
@@ -33,17 +31,17 @@ namespace raw_data_protocol
 namespace cc_plugin
 {
 
-RawDataProtocolPlugin::RawDataProtocolPlugin()
+RawDataProtocolPlugin::RawDataProtocolPlugin() :
+    Base(Type_Protocol)
 {
-    pluginProperties()
-        .setProtocolCreateFunc(
-            []()
-            {
-                return cc::ProtocolPtr(new RawDataProtocol());
-            });
 }
 
 RawDataProtocolPlugin::~RawDataProtocolPlugin() noexcept = default;
+
+ToolsProtocolPtr RawDataProtocolPlugin::createProtocolImpl()
+{
+    return cc_tools_qt::ToolsProtocolPtr(new RawDataProtocol());
+}
 
 }  // namespace cc_plugin
 

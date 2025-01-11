@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "cc_tools_qt/field_wrapper/UnknownValueWrapper.h"
+#include "cc_tools_qt/field/ToolsUnknownField.h"
 #include "FieldWidget.h"
 
 #include "ui_UnknownValueFieldWidget.h"
@@ -32,12 +32,13 @@ class UnknownValueFieldWidget : public FieldWidget
     typedef FieldWidget Base;
 public:
     explicit UnknownValueFieldWidget(
-        field_wrapper::UnknownValueWrapperPtr&& wrapper,
+        field::ToolsUnknownFieldPtr&& fieldPtr,
         QWidget* parentObj = nullptr);
 
     ~UnknownValueFieldWidget() noexcept;
 
 protected:
+    virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
 
@@ -48,7 +49,7 @@ private:
     void setFieldValid(bool valid);
 
     Ui::UnknownValueFieldWidget m_ui;
-    field_wrapper::UnknownValueWrapperPtr m_wrapper;
+    field::ToolsUnknownFieldPtr m_fieldPtr;
 };
 
 

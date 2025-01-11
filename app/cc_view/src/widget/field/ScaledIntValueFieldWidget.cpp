@@ -1,5 +1,5 @@
 //
-// Copyright 2014 - 2024 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -22,24 +22,16 @@
 #include <limits>
 #include <cmath>
 
-#include "cc_tools_qt/property/field.h"
 #include "SpecialValueWidget.h"
 
 namespace cc_tools_qt
 {
 
-namespace
-{
-
-const int DefaultInitialDecimals = 6;
-
-} // namespace
-
 ScaledIntValueFieldWidget::ScaledIntValueFieldWidget(
-    WrapperPtr wrapper,
+    FieldPtr fieldPtr,
     QWidget* parentObj)
   : Base(parentObj),
-    m_wrapper(std::move(wrapper))
+    m_fieldPtr(std::move(fieldPtr))
 {
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
@@ -48,12 +40,19 @@ ScaledIntValueFieldWidget::ScaledIntValueFieldWidget(
     setSerialisedValueWidget(m_ui.m_serValueWidget);
 
     assert(m_ui.m_serValueLineEdit != nullptr);
-    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_wrapper->minWidth(), m_wrapper->maxWidth());
+    setSerialisedInputMask(*m_ui.m_serValueLineEdit, m_fieldPtr->minWidth(), m_fieldPtr->maxWidth());
+    createSpecialsWidget(m_fieldPtr->specials());
 
     m_ui.m_valueSpinBox->setRange(
-        m_wrapper->scaleValue(m_wrapper->minValue()),
-        m_wrapper->scaleValue(m_wrapper->maxValue()));
-    m_ui.m_valueSpinBox->setDecimals(DefaultInitialDecimals);
+        m_fieldPtr->scaleValue(m_fieldPtr->minValue()),
+        m_fieldPtr->scaleValue(m_fieldPtr->maxValue()));
+
+    auto decimals = m_fieldPtr->scaledDecimals();
+    if (0 < decimals) {
+        m_ui.m_valueSpinBox->setDecimals(decimals);
+    } 
+
+    commonConstruct();
 
     refresh();
 
@@ -66,26 +65,32 @@ ScaledIntValueFieldWidget::ScaledIntValueFieldWidget(
 
 ScaledIntValueFieldWidget::~ScaledIntValueFieldWidget() noexcept = default;
 
+ToolsField& ScaledIntValueFieldWidget::fieldImpl()
+{
+    assert(m_fieldPtr);
+    return *m_fieldPtr;
+}
+
 void ScaledIntValueFieldWidget::refreshImpl()
 {
-    assert(m_wrapper->canWrite());
+    assert(m_fieldPtr->canWrite());
     assert(m_ui.m_serValueLineEdit != nullptr);
-    updateValue(*m_ui.m_serValueLineEdit, m_wrapper->getSerialisedString());
+    updateValue(*m_ui.m_serValueLineEdit, m_fieldPtr->getSerialisedString());
 
-    auto value = m_wrapper->getScaled();
+    auto value = m_fieldPtr->getScaled();
     assert(m_ui.m_valueSpinBox);
     if (m_ui.m_valueSpinBox->value() != value) {
         m_ui.m_valueSpinBox->setValue(value);
     }
 
-    bool valid = m_wrapper->valid();
+    bool valid = m_fieldPtr->valid();
     setValidityStyleSheet(*m_ui.m_nameLabel, valid);
     setValidityStyleSheet(*m_ui.m_serFrontLabel, valid);
     setValidityStyleSheet(*m_ui.m_serValueLineEdit, valid);
     setValidityStyleSheet(*m_ui.m_serBackLabel, valid);
 
     if (m_specialsWidget != nullptr) {
-        m_specialsWidget->setIntValue(m_wrapper->getValue());
+        m_specialsWidget->setIntValue(m_fieldPtr->getValue());
     }
 }
 
@@ -96,32 +101,12 @@ void ScaledIntValueFieldWidget::editEnabledUpdatedImpl()
     m_ui.m_serValueLineEdit->setReadOnly(readonly);
 }
 
-void ScaledIntValueFieldWidget::updatePropertiesImpl(const QVariantMap& props)
-{
-    property::field::IntValue actProps(props);
-
-    auto decimals = property::field::IntValue(props).scaledDecimals();
-
-    if (0 < decimals) {
-        m_ui.m_valueSpinBox->setDecimals(decimals);
-    }
-    else {
-        [[maybe_unused]] static constexpr bool Should_not_happen = false;
-        assert(Should_not_happen);  
-        m_ui.m_valueSpinBox->setDecimals(0);
-    }
-
-    auto& specials = actProps.specials();
-    createSpecialsWidget(specials);
-    refresh();
-}
-
 void ScaledIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 {
     m_ui.m_valueSpinBox->blockSignals(true);
     handleNumericSerialisedValueUpdate(
         value,
-        *m_wrapper,
+        *m_fieldPtr,
         [this]() noexcept
         {
             m_ui.m_valueSpinBox->blockSignals(false);
@@ -130,15 +115,15 @@ void ScaledIntValueFieldWidget::serialisedValueUpdated(const QString& value)
 
 void ScaledIntValueFieldWidget::valueUpdated(double value)
 {
-    if (std::abs(value - m_wrapper->getScaled()) < std::numeric_limits<double>::epsilon()) {
+    if (std::abs(value - m_fieldPtr->getScaled()) < std::numeric_limits<double>::epsilon()) {
         return;
     }
 
     assert(isEditEnabled());
-    m_wrapper->setScaled(value);
-    if (!m_wrapper->canWrite()) {
-        m_wrapper->reset();
-        assert(m_wrapper->canWrite());
+    m_fieldPtr->setScaled(value);
+    if (!m_fieldPtr->canWrite()) {
+        m_fieldPtr->reset();
+        assert(m_fieldPtr->canWrite());
     }
 
     refresh();
@@ -152,7 +137,7 @@ void ScaledIntValueFieldWidget::specialSelected(long long value)
         return;
     }
 
-    m_wrapper->setValue(static_cast<UnderlyingType>(value));
+    m_fieldPtr->setValue(static_cast<UnderlyingType>(value));
     refresh();
 }
 
