@@ -350,26 +350,6 @@ void ToolsProtocol::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMa
 {
 }
 
-void ToolsProtocol::setNameToMessageProperties(ToolsMessage& msg)
-{
-    property::message::ToolsMsgProtocolName().setTo(name(), msg);
-}
-
-void ToolsProtocol::reportError(const QString& str)
-{
-    emit sigErrorReport(str);
-}
-
-void ToolsProtocol::sendMessageRequest(ToolsMessagePtr msg)
-{
-    emit sigSendMessageReport(std::move(msg));
-}
-
-void ToolsProtocol::reportInterPluginConfig(const QVariantMap& props)
-{
-    emit sigInterPluginConfigReport(props);
-}
-
 unsigned ToolsProtocol::getDebugOutputLevel() const
 {
     return m_state->m_debugLevel;
@@ -428,6 +408,25 @@ bool ToolsProtocol::getForceExtraInfoExistenceFromMessageProperties(const ToolsM
     return property::message::ToolsMsgForceExtraInfoExistence().getFrom(msg);
 }
 
+void ToolsProtocol::setNameToMessageProperties(ToolsMessage& msg)
+{
+    property::message::ToolsMsgProtocolName().setTo(name(), msg);
+}
+
+void ToolsProtocol::reportError(const QString& str)
+{
+    emit sigErrorReport(str);
+}
+
+void ToolsProtocol::sendMessageRequest(ToolsMessagePtr msg)
+{
+    emit sigSendMessageReport(std::move(msg));
+}
+
+void ToolsProtocol::reportInterPluginConfig(const QVariantMap& props)
+{
+    emit sigInterPluginConfigReport(props);
+}
 
 }  // namespace cc_tools_qt
 

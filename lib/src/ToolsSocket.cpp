@@ -168,6 +168,20 @@ void ToolsSocket::applyInterPluginConfigImpl([[maybe_unused]] const QVariantMap&
 {
 }
 
+unsigned long long ToolsSocket::currTimestamp()
+{
+    auto timestamp = std::chrono::high_resolution_clock::now();
+    auto sinceEpoch = timestamp.time_since_epoch();
+    auto milliseconds =
+        std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+    return milliseconds;
+}
+
+unsigned ToolsSocket::getDebugOutputLevel() const
+{
+    return m_state->m_debugLevel;
+}
+
 void ToolsSocket::reportDataReceived(ToolsDataInfoPtr dataPtr)
 {
     if (!m_state->m_running) {
@@ -207,20 +221,6 @@ void ToolsSocket::reportDisconnected()
 void ToolsSocket::reportInterPluginConfig(const QVariantMap& props)
 {
     emit sigInterPluginConfigReport(props);
-}
-
-unsigned long long ToolsSocket::currTimestamp()
-{
-    auto timestamp = std::chrono::high_resolution_clock::now();
-    auto sinceEpoch = timestamp.time_since_epoch();
-    auto milliseconds =
-        std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
-    return milliseconds;
-}
-
-unsigned ToolsSocket::getDebugOutputLevel() const
-{
-    return m_state->m_debugLevel;
 }
 
 }  // namespace cc_tools_qt
