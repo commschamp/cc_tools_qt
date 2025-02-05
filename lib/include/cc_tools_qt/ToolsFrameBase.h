@@ -19,7 +19,6 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsExtraInfoMessage.h"
-#include "cc_tools_qt/ToolsFrameCommon.h"
 #include "cc_tools_qt/ToolsInvalidMessage.h"
 #include "cc_tools_qt/ToolsRawDataMessage.h"
 #include "cc_tools_qt/property/message.h"

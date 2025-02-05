@@ -19,7 +19,7 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsField.h"
-#include "cc_tools_qt/ToolsFrameCommon.h"
+#include "cc_tools_qt/ToolsFrame.h"
 #include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "cc_tools_qt/details/ToolsFieldCreator.h"
