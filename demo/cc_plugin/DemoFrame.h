@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2016 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2025 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -18,13 +18,7 @@
 
 #pragma once
 
-#include "DemoMessage.h"
-#include "DemoMsgFactory.h"
-#include "DemoTransportMessage.h"
-
-#include "demo/Frame.h"
-
-#include "cc_tools_qt/ToolsFrameBase.h"
+#include "cc_tools_qt/ToolsFrame.h"
 
 namespace demo
 {
@@ -32,13 +26,26 @@ namespace demo
 namespace cc_plugin
 {
 
-using DemoFrame = 
-    cc_tools_qt::ToolsFrameBase<
-        DemoMessage, 
-        demo::Frame<DemoMessage::ProtInterface>, 
-        DemoMsgFactory, 
-        DemoTransportMessage
-    >;
+class DemoFrameImpl;
+class DemoFrame : public  cc_tools_qt::ToolsFrame
+{
+public:
+    DemoFrame();
+    virtual ~DemoFrame();
+
+protected:
+    virtual cc_tools_qt::ToolsMessagesList readDataImpl(const cc_tools_qt::ToolsDataInfo& dataInfo, bool final) override;
+    virtual void updateMessageImpl(cc_tools_qt::ToolsMessage& msg) override;
+    virtual cc_tools_qt::ToolsMessagePtr createInvalidMessageImpl() override;
+    virtual cc_tools_qt::ToolsMessagePtr createRawDataMessageImpl() override;
+    virtual cc_tools_qt::ToolsMessagePtr createExtraInfoMessageImpl() override;
+    virtual cc_tools_qt::ToolsMessagesList createAllMessagesImpl() override;
+    virtual cc_tools_qt::ToolsMessagePtr createMessageImpl(const QString& idAsString, unsigned idx) override;
+    virtual DataSeq writeProtMsgImpl(const void* protInterface) override;
+
+private:
+    std::unique_ptr<DemoFrameImpl> m_pImpl;
+};
 
 }  // namespace cc_plugin
 

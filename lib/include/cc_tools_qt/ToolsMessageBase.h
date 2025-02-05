@@ -216,8 +216,7 @@ protected:
 
     virtual DataSeq encodeFramedImpl(ToolsFrame& frame) const override
     {
-        auto& castedFrame = static_cast<ToolsFrameCommon<TBase>&>(frame);
-        return castedFrame.writeProtMsg(m_msg);
+        return frame.writeProtMsg(&m_msg);
     }
 
     virtual FieldsList transportFieldsImpl() override
