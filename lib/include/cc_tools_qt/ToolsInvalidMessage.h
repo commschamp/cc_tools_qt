@@ -82,6 +82,11 @@ protected:
         return false;
     }
 
+    virtual qlonglong numericIdImpl() const override
+    {
+        return 0;
+    }
+
     virtual void resetImpl() override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
