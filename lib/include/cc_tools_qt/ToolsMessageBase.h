@@ -19,7 +19,7 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsField.h"
-#include "cc_tools_qt/ToolsFrameCommon.h"
+#include "cc_tools_qt/ToolsFrame.h"
 #include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/ToolsProtMsgInterface.h"
 #include "cc_tools_qt/details/ToolsFieldCreator.h"
@@ -216,8 +216,7 @@ protected:
 
     virtual DataSeq encodeFramedImpl(ToolsFrame& frame) const override
     {
-        auto& castedFrame = static_cast<ToolsFrameCommon<TBase>&>(frame);
-        return castedFrame.writeProtMsg(m_msg);
+        return frame.writeProtMsg(&m_msg);
     }
 
     virtual FieldsList transportFieldsImpl() override

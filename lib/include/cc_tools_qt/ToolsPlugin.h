@@ -183,6 +183,7 @@ protected:
     /// @return If not overriden returns empty list.
     virtual ListOfGuiActions createGuiActionsImpl();
 
+protected slots:
     /// @brief Report inter-plugin configuration.
     /// @details Sometimes configuration of one plugin may influence configuration of another.
     ///     Use this function to report inter-plugin configuration properties.

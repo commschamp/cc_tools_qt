@@ -171,6 +171,13 @@ protected:
     /// @param[in] props Properties map.
     virtual void applyInterPluginConfigImpl(const QVariantMap& props);     
 
+    /// @brief Get current timestamp
+    static unsigned long long currTimestamp();
+
+    /// @brief Get current debug output level
+    unsigned getDebugOutputLevel() const;    
+
+protected slots:
     /// @brief Report new data has been received.
     /// @details This function needs to be invoked by the derived class when
     ///     new data has been received from the I/O link. This function
@@ -200,12 +207,6 @@ protected:
     ///     Emits @ref sigInterPluginConfigReport() signal.
     /// @param[in] props Reported properties.
     void reportInterPluginConfig(const QVariantMap& props);
-
-    /// @brief Get current timestamp
-    static unsigned long long currTimestamp();
-
-    /// @brief Get current debug output level
-    unsigned getDebugOutputLevel() const;
 
 private:
     struct InnerState;

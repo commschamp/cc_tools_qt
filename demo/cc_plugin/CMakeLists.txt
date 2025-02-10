@@ -14,11 +14,12 @@ function (cc_plugin_demo)
     
     
     set (src
+        DemoFrame.cpp
+        DemoMessage.cpp
         DemoPlugin.h
         DemoPlugin.cpp
         DemoProtocol.cpp
         DemoTransportMessage.cpp
-        DemoMessage.cpp
         message/IntValues.cpp
         message/EnumValues.cpp
         message/BitmaskValues.cpp

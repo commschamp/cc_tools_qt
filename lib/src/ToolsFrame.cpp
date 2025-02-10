@@ -62,5 +62,10 @@ ToolsMessagePtr ToolsFrame::createMessage(const QString& idAsString, unsigned id
     return createMessageImpl(idAsString, idx);
 }
 
+ToolsFrame::DataSeq ToolsFrame::writeProtMsg(const void* protInterface)
+{
+    return writeProtMsgImpl(protInterface);
+}
+
 }  // namespace cc_tools_qt
 

@@ -17,6 +17,8 @@
 
 #include "cc_tools_qt/ToolsPlugin.h"
 
+#include <QtCore/QMetaMethod>
+
 namespace cc_tools_qt
 {
 
@@ -84,10 +86,13 @@ ToolsSocketPtr ToolsPlugin::createSocket()
     assert(socketPtr); // Must override
     if (socketPtr) {
         socketPtr->setDebugOutputLevel(m_state->m_debugOutputLevel);
-        connect(
-            socketPtr.get(), &ToolsSocket::sigInterPluginConfigReport,
-            this, &ToolsPlugin::sigInterPluginConfigReport
-        );
+        static const QMetaMethod interPluginSignal = QMetaMethod::fromSignal(&ToolsSocket::sigInterPluginConfigReport);
+        if (!isSignalConnected(interPluginSignal)) {
+            connect(
+                socketPtr.get(), &ToolsSocket::sigInterPluginConfigReport,
+                this, &ToolsPlugin::sigInterPluginConfigReport
+            );
+        }
     }
     return socketPtr;
 }
@@ -102,11 +107,13 @@ ToolsFilterPtr ToolsPlugin::createFilter()
     assert(filterPtr);
     if (filterPtr) {
         filterPtr->setDebugOutputLevel(m_state->m_debugOutputLevel);
-        connect(
-            filterPtr.get(), &ToolsFilter::sigInterPluginConfigReport,
-            this, &ToolsPlugin::sigInterPluginConfigReport
-        );
-
+        static const QMetaMethod interPluginSignal = QMetaMethod::fromSignal(&ToolsFilter::sigInterPluginConfigReport);
+        if (!isSignalConnected(interPluginSignal)) {
+            connect(
+                filterPtr.get(), &ToolsFilter::sigInterPluginConfigReport,
+                this, &ToolsPlugin::sigInterPluginConfigReport
+            );
+        }
     }
     return filterPtr;
 }
@@ -121,10 +128,13 @@ ToolsProtocolPtr ToolsPlugin::createProtocol()
     assert(protocolPtr);
     if (protocolPtr) {
         protocolPtr->setDebugOutputLevel(m_state->m_debugOutputLevel);
-        connect(
-            protocolPtr.get(), &ToolsProtocol::sigInterPluginConfigReport,
-            this, &ToolsPlugin::sigInterPluginConfigReport
-        );
+        static const QMetaMethod interPluginSignal = QMetaMethod::fromSignal(&ToolsProtocol::sigInterPluginConfigReport);
+        if (!isSignalConnected(interPluginSignal)) {
+            connect(
+                protocolPtr.get(), &ToolsProtocol::sigInterPluginConfigReport,
+                this, &ToolsPlugin::sigInterPluginConfigReport
+            );
+        }
     }
 
     return protocolPtr;

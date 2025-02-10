@@ -31,6 +31,8 @@ namespace cc_tools_qt
 class CC_TOOLS_API ToolsFrame
 {
 public:
+    using DataSeq = ToolsMessage::DataSeq;
+
     virtual ~ToolsFrame();
 
     ToolsMessagesList readData(const ToolsDataInfo& dataInfo, bool final);
@@ -40,6 +42,7 @@ public:
     ToolsMessagePtr createExtraInfoMessage();
     ToolsMessagesList createAllMessages();
     ToolsMessagePtr createMessage(const QString& idAsString, unsigned idx);
+    DataSeq writeProtMsg(const void* protInterface);
 
 protected:
     ToolsFrame() = default;
@@ -51,6 +54,7 @@ protected:
     virtual ToolsMessagePtr createExtraInfoMessageImpl() = 0;
     virtual ToolsMessagesList createAllMessagesImpl() = 0;
     virtual ToolsMessagePtr createMessageImpl(const QString& idAsString, unsigned idx) = 0;
+    virtual DataSeq writeProtMsgImpl(const void* protInterface) = 0;
 };
 
 using ToolsFramePtr = std::unique_ptr<ToolsFrame>;

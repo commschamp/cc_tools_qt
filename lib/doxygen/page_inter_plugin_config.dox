@@ -90,7 +90,7 @@
 /// In case the inter-plugin configuration event is initiated inside the class extending the
 /// @ref cc_tools_qt::ToolsSocket "socket", @ref cc_tools_qt::ToolsFilter "filter", or @ref cc_tools_qt::ToolsProtocol "protocol",
 /// then such class can use inherited @ref cc_tools_qt::ToolsSocket::reportInterPluginConfig() member function.
-/// The @ref cc_tools_qt::ToolsPlugin "plugin" class will connect the signals and emit its own
+/// The @ref cc_tools_qt::ToolsPlugin "plugin" class will connect the signals automatically and emit its own
 /// @ref cc_tools_qt::ToolsPlugin::sigInterPluginConfigReport() "sigInterPluginConfigReport()".
 /// @code
 /// class MySocket : public cc_tools_qt::ToolsSocket
@@ -107,3 +107,50 @@
 /// };
 /// @endcode
 ///
+/// @b HOWEVER, depending on the implementation of the actual plugin, the
+/// @ref cc_tools_qt::ToolsSocket "socket", @ref cc_tools_qt::ToolsFilter "filter", or @ref cc_tools_qt::ToolsProtocol "protocol" objects
+/// may be created before the the @ref cc_tools_qt::ToolsPlugin calls appropriate
+/// @ref cc_tools_qt::ToolsPlugin::createSocketImpl() "createSocketImpl()", @ref cc_tools_qt::ToolsPlugin::createFilterImpl() "createFilterImpl()",
+/// or @ref cc_tools_qt::ToolsPlugin::createProtocolImpl() "createProtocolImpl()" to get hold on the appropriate object, and may require an
+/// ability to still initiate inter-plugin configuration. In such case the the actual plugin is expected to explicitly connect appropriate signal:
+/// @code
+/// class MySocketPlugin : public cc_tools_qt::ToolsPlugin
+/// {
+///     ...
+/// protected:
+///     virtual ToolsSocketPtr createSocketImpl()
+///     {
+///         createSocketIfNeeded();
+///         return m_socket;
+///     }
+///
+///     virtual QWidget* createConfigurationWidgetImpl()
+///     {
+///         createSocketIfNeeded();
+///         auto widget = ... // Create widget and connect its signals
+///         return widget;
+///     }
+///
+/// private:
+///     void createSocketIfNeeded()
+///     {
+///         if (m_socket) {
+///             return;
+///         }
+///
+///         m_socket.reset(new MySocket);
+///         connect(
+///             m_socket.get(), &cc_tools_qt::ToolsSocket::sigInterPluginConfigReport,
+///             this, &cc_tools_qt::ToolsPlugin::reportInterPluginConfig
+///         );
+///     }
+///
+/// private
+///     std::shared_ptr<MySocket> m_socket;
+/// };
+/// @endcode
+///
+/// Note that the automatic connection of the @ref cc_tools_qt::ToolsSocket::sigInterPluginConfigReport,
+/// @ref cc_tools_qt::ToolsFilter::sigInterPluginConfigReport, @ref cc_tools_qt::ToolsProtocol::sigInterPluginConfigReport signals to the
+/// @ref cc_tools_qt::ToolsPlugin::sigInterPluginConfigReport signal mentioned earlier
+/// happens @b ONLY when the deriving plugin class does @b NOT perform such a connection (to avoid duplication).

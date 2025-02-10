@@ -33,16 +33,15 @@ namespace cc_tools_qt
 namespace details
 {
 
-template <typename TMsgBase, typename...>
+template <typename TMsgBase, typename... TOpts>
 class ToolInvalidMessageImpl : public
     comms::MessageBase<
         TMsgBase,
-        comms::option::NoIdImpl,
-        comms::option::FieldsImpl<std::tuple<> >,
-        comms::option::MsgType<ToolInvalidMessageImpl<TMsgBase> >
+        comms::option::def::NoIdImpl,
+        comms::option::def::ZeroFieldsImpl,
+        comms::option::def::MsgType<ToolInvalidMessageImpl<TMsgBase, TOpts...>>
     >
 {
-
 };
 
 }  // namespace details
@@ -62,6 +61,7 @@ class ToolsInvalidMessage : public
             ToolsInvalidMessage<TBase>
         >;
 public:
+    using DataSeq = typename Base::DataSeq;
     using FieldsList = typename Base::FieldsList;
     virtual ~ToolsInvalidMessage() noexcept = default;
 
@@ -82,6 +82,11 @@ protected:
         return false;
     }
 
+    virtual qlonglong numericIdImpl() const override
+    {
+        return 0;
+    }
+
     virtual void resetImpl() override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
@@ -94,6 +99,34 @@ protected:
         assert(Must_not_be_called); 
         return false;
     }
+
+    virtual DataSeq encodeDataImpl() const override
+    {
+        ToolsMessagePtr rawDataMsg = property::message::ToolsMsgRawDataMsg().getFrom(*this);
+        if (!rawDataMsg) {
+            assert(false);
+            return DataSeq();
+        }
+
+        return rawDataMsg->encodeData();
+    }    
+
+    virtual DataSeq encodeFramedImpl([[maybe_unused]] ToolsFrame& frame) const override
+    {
+        return encodeDataImpl();
+    }    
+
+    virtual typename Base::Ptr cloneImpl() const override
+    {
+        ToolsMessagePtr rawDataMsg = property::message::ToolsMsgRawDataMsg().getFrom(*this);
+        auto ptr = Base::cloneImpl();
+        if (ptr && rawDataMsg) {
+            ToolsMessagePtr p = rawDataMsg->clone();
+            property::message::ToolsMsgRawDataMsg().setTo(std::move(p), *ptr);   
+        }
+
+        return ptr;
+    }    
 
     virtual FieldsList transportFieldsImpl() override
     {

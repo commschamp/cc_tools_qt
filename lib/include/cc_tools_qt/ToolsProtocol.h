@@ -162,33 +162,6 @@ protected:
     /// @param[in] props Properties map.
     virtual void applyInterPluginConfigImpl(const QVariantMap& props);      
 
-    /// @brief Helper function to assign protocol name to message properties.
-    /// @details Expected to be used by the derived class.
-    void setNameToMessageProperties(ToolsMessage& msg);
-
-    /// @brief Report operation error.
-    /// @details This function is expected to be invoked by the derived class,
-    ///     when some error is detected. This function will emit
-    ///     @ref sigErrorReport() signal.
-    /// @param[in] str Error string.
-    void reportError(const QString& str);  
-
-    /// @brief Request a protocol message to be sent out.
-    /// @details This function is expected to be invoked by the derived class,
-    ///     when an extra message needs to be sent out. This function will invoke
-    ///     emit @ref sigSendMessageReport() signal.
-    /// @param[in] msg Pointer to the message object.
-    void sendMessageRequest(ToolsMessagePtr msg);  
-
-    /// @brief Report inter-plugin configuration.
-    /// @details Sometimes configuration of one plugin may influence configuration of another.
-    ///     Use this function to report inter-plugin configuration properties.
-    ///     When invoked all other plugins are expected to get their respecitve 
-    ///     @ref applyInterPluginConfig() functions invoked.@n
-    ///     Emits @ref sigInterPluginConfigReport() signal.
-    /// @param[in] props Reported properties.
-    void reportInterPluginConfig(const QVariantMap& props);      
-
     /// @brief Get current debug output level
     unsigned getDebugOutputLevel() const;    
 
@@ -222,6 +195,34 @@ protected:
 
     /// @brief Helper function to check whether "extra info" existence is force.
     static bool getForceExtraInfoExistenceFromMessageProperties(const ToolsMessage& msg);
+
+protected slots:
+    /// @brief Helper function to assign protocol name to message properties.
+    /// @details Expected to be used by the derived class.
+    void setNameToMessageProperties(ToolsMessage& msg);
+
+    /// @brief Report operation error.
+    /// @details This function is expected to be invoked by the derived class,
+    ///     when some error is detected. This function will emit
+    ///     @ref sigErrorReport() signal.
+    /// @param[in] str Error string.
+    void reportError(const QString& str);  
+
+    /// @brief Request a protocol message to be sent out.
+    /// @details This function is expected to be invoked by the derived class,
+    ///     when an extra message needs to be sent out. This function will invoke
+    ///     emit @ref sigSendMessageReport() signal.
+    /// @param[in] msg Pointer to the message object.
+    void sendMessageRequest(ToolsMessagePtr msg);  
+
+    /// @brief Report inter-plugin configuration.
+    /// @details Sometimes configuration of one plugin may influence configuration of another.
+    ///     Use this function to report inter-plugin configuration properties.
+    ///     When invoked all other plugins are expected to get their respecitve 
+    ///     @ref applyInterPluginConfig() functions invoked.@n
+    ///     Emits @ref sigInterPluginConfigReport() signal.
+    /// @param[in] props Reported properties.
+    void reportInterPluginConfig(const QVariantMap& props);     
 
 private:
     struct InnerState;

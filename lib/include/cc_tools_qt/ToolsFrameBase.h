@@ -19,7 +19,6 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsExtraInfoMessage.h"
-#include "cc_tools_qt/ToolsFrameCommon.h"
 #include "cc_tools_qt/ToolsInvalidMessage.h"
 #include "cc_tools_qt/ToolsRawDataMessage.h"
 #include "cc_tools_qt/property/message.h"
@@ -37,11 +36,11 @@ namespace cc_tools_qt
 {
 
 template <typename TMsgBase, class TProtFrame, typename TMsgFactory, typename TTransportMsg>
-class ToolsFrameBase : public ToolsFrameCommon<TMsgBase>
+class ToolsFrameBase : public ToolsFrame
 {
-    using Base = ToolsFrameCommon<TMsgBase>;
+    using Base = ToolsFrame;
 public:
-    using ProtInterface = typename Base::ProtInterface;
+    using ProtInterface = typename TMsgBase::ProtInterface;
     using DataSeq = typename Base::DataSeq;
 
     using TransportMsg = TTransportMsg;
@@ -224,8 +223,10 @@ protected:
         return m_factory.createMessage(idAsString, idx);
     }
 
-    virtual DataSeq writeProtMsgImpl(const ProtInterface& msg) override
+    virtual DataSeq writeProtMsgImpl(const void* protInterface) override
     {
+        assert(protInterface != nullptr);
+        auto& msg = *(reinterpret_cast<const ProtInterface*>(protInterface));
         DataSeq data;
         data.reserve(m_frame.length(msg));
 

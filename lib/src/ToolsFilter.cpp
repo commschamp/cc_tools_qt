@@ -180,6 +180,20 @@ const char* ToolsFilter::debugNameImpl() const
     return "filter";
 }
 
+unsigned long long ToolsFilter::currTimestamp()
+{
+    auto timestamp = std::chrono::high_resolution_clock::now();
+    auto sinceEpoch = timestamp.time_since_epoch();
+    auto milliseconds =
+        std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+    return milliseconds;
+}
+
+unsigned ToolsFilter::getDebugOutputLevel() const
+{
+    return m_state->m_debugLevel;
+}
+
 void ToolsFilter::reportDataToSend(ToolsDataInfoPtr dataPtr)
 {
     if (0U < m_state->m_debugLevel) {
@@ -208,20 +222,6 @@ void ToolsFilter::reportError(const QString& msg)
 void ToolsFilter::reportInterPluginConfig(const QVariantMap& props)
 {
     emit sigInterPluginConfigReport(props);
-}
-
-unsigned long long ToolsFilter::currTimestamp()
-{
-    auto timestamp = std::chrono::high_resolution_clock::now();
-    auto sinceEpoch = timestamp.time_since_epoch();
-    auto milliseconds =
-        std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
-    return milliseconds;
-}
-
-unsigned ToolsFilter::getDebugOutputLevel() const
-{
-    return m_state->m_debugLevel;
 }
 
 }  // namespace cc_tools_qt
