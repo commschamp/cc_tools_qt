@@ -97,8 +97,8 @@ protected:
                     msgPtr,
                     readIter,
                     remLen,
-                    comms::protocol::msgId(msgId),
-                    comms::protocol::msgIndex(idx));
+                    comms::frame::msgId(msgId),
+                    comms::frame::msgIndex(idx));
 
             if (es == comms::ErrorStatus::NotEnoughData) {
                 break;

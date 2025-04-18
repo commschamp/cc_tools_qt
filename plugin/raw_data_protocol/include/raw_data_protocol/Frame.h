@@ -27,8 +27,8 @@
 
 #include "comms/field/IntValue.h"
 #include "comms/field/ArrayList.h"
-#include "comms/protocol/MsgDataLayer.h"
-#include "comms/protocol/MsgIdLayer.h"
+#include "comms/frame/MsgDataLayer.h"
+#include "comms/frame/MsgIdLayer.h"
 #include "comms/options.h"
 
 namespace cc_tools_qt
@@ -81,11 +81,11 @@ template <
     typename TAllMessages = raw_data_protocol::AllMessages<TMsgBase, raw_data_protocol::DefaultOptions>
 >
 using Frame =
-        comms::protocol::MsgIdLayer<
+        comms::frame::MsgIdLayer<
             IdField<typename TMsgBase::Field>,
             TMsgBase,
             TAllMessages,
-            comms::protocol::MsgDataLayer<comms::option::def::FieldType<DataField<typename TMsgBase::Field>>>
+            comms::frame::MsgDataLayer<comms::option::def::FieldType<DataField<typename TMsgBase::Field>>>
         >;
 
 }  // namespace raw_data_protocol
