@@ -192,21 +192,21 @@ template <
     typename TMessages,
     typename TMsgAllocOptions = comms::option::EmptyOption>
 using StackBase =
-    comms::protocol::SyncPrefixLayer<
+    comms::frame::SyncPrefixLayer<
         SyncField,
-        comms::protocol::ChecksumLayer<
+        comms::frame::ChecksumLayer<
             ChecksumField,
-            comms::protocol::checksum::BasicSum<std::uint16_t>,
-            comms::protocol::MsgSizeLayer<
+            comms::frame::checksum::BasicSum<std::uint16_t>,
+            comms::frame::MsgSizeLayer<
                 LengthField,
-                comms::protocol::MsgIdLayer<
+                comms::frame::MsgIdLayer<
                     MsgIdField,
                     TMsgBase,
                     TMessages,
-                    comms::protocol::TransportValueLayer<
+                    comms::frame::TransportValueLayer<
                         VersionField,
                         DemoMessage<>::TransportFieldIdx_version,
-                        comms::protocol::MsgDataLayer<
+                        comms::frame::MsgDataLayer<
                             comms::option::def::FieldType<DataField<>>
                         >
                     >,
@@ -224,7 +224,7 @@ using StackBase =
 ///     information. See <b>Protocol Stack Tutorial</b>
 ///     page in @b COMMS library tutorial for more information.@n
 ///     The outermost layer is
-///     @b comms::protocol::SyncPrefixLayer.
+///     @b comms::frame::SyncPrefixLayer.
 ///     Please see its documentation for public interface description.
 /// @tparam TMsgBase Interface class for all the messages, expected to be some
 ///     variant of demo::MessageT class with options.
@@ -233,14 +233,14 @@ using StackBase =
 ///     The types of the messages must be bundled in
 ///     <a href="http://en.cppreference.com/w/cpp/utility/tuple">std::tuple</a>.
 /// @tparam TMsgAllocOptions Template parameter(s) passed as options to
-///     @b comms::protocol::MsgIdLayer
+///     @b comms::frame::MsgIdLayer
 ///     protocol layer in @b COMMS library. They are used to specify whether
 ///     dynamic memory allocation is allowed or "in place" allocation for
 ///     message objects must be implemented. It is expected to be either
 ///     single @b COMMS library option or multiple options bundled in
 ///     <a href="http://en.cppreference.com/w/cpp/utility/tuple">std::tuple</a>.
 /// @tparam TDataFieldStorageOptions Extra parameter(s) that are passed
-///     to @b comms::protocol::MsgDataLayer rotocol layer in @b COMMS library.
+///     to @b comms::frame::MsgDataLayer rotocol layer in @b COMMS library.
 ///     It may be used to choose storage
 ///     type of the payload field for "caching" read/write operations.
 template <
