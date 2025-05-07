@@ -18,16 +18,17 @@
 
 #pragma once
 
-#include <memory>
-#include <list>
-#include <array>
+#include "cc_tools_qt/ToolsApi.h"
+#include "cc_tools_qt/ToolsPlugin.h"
+#include "cc_tools_qt/version.h"
 
 #include <QtCore/QString>
 #include <QtCore/QVariantMap>
 #include <QtCore/QPluginLoader>
 
-#include "cc_tools_qt/ToolsApi.h"
-#include "cc_tools_qt/ToolsPlugin.h"
+#include <memory>
+#include <list>
+#include <array>
 
 namespace cc_tools_qt
 {

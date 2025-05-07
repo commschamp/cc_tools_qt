@@ -22,6 +22,7 @@
 #include "cc_tools_qt/ToolsFilter.h"
 #include "cc_tools_qt/ToolsProtocol.h"
 #include "cc_tools_qt/ToolsSocket.h"
+#include "cc_tools_qt/version.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QList>

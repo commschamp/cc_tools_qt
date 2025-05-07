@@ -23,6 +23,7 @@
 #include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/ToolsProtocol.h"
 #include "cc_tools_qt/ToolsSocket.h"
+#include "cc_tools_qt/version.h"
 
 #include <memory>
 #include <list>
