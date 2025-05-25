@@ -75,6 +75,13 @@ public:
             return m_type;
         }
 
+        const QString& getVersion() const
+        {
+            return m_version;
+        }        
+
+        QString getNameWithVersion() const;
+
     private:
         PluginInfo() = default;
 
@@ -82,6 +89,7 @@ public:
         QString m_iid;
         QString m_name;
         QString m_desc;
+        QString m_version;
         Type m_type = Type::Invalid;
         bool m_applied = false;
     };

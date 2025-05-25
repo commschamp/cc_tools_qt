@@ -193,7 +193,7 @@ void PluginConfigDialog::addClicked()
     auto* selectedListWidget = getSelectedListForAvailable(m_currentAvailableList);
     assert(selectedListWidget != nullptr);
 
-    selectedListWidget->addItem(pluginInfoPtr->getName(), pluginInfoPtr->getDescription());
+    selectedListWidget->addItem(pluginInfoPtr->getNameWithVersion(), pluginInfoPtr->getDescription());
     auto* selectedItem = selectedListWidget->item(selectedListWidget->count() - 1);
 
     selectedItem->setData(
@@ -645,11 +645,11 @@ void PluginConfigDialog::refreshAvailablePlugins()
             auto& availablePlugins = PluginMgrG::instanceRef().getAvailablePlugins();
 
             for (auto& pluginInfoPtr : availablePlugins) {
-                auto& name = pluginInfoPtr->getName();
-
                 if (pluginInfoPtr->getType() != type) {
                     continue;
                 }
+
+                auto name = pluginInfoPtr->getNameWithVersion();
 
                 if ((!filterStr.isEmpty()) &&
                     (!name.contains(filterStr, Qt::CaseInsensitive))) {
@@ -741,9 +741,7 @@ void PluginConfigDialog::refreshSelectedPlugins(
                     continue;
                 }
 
-                auto& name = pluginInfoPtr->getName();
-                auto& desc = pluginInfoPtr->getDescription();
-                list->addItem(name, desc);
+                list->addItem(pluginInfoPtr->getNameWithVersion(), pluginInfoPtr->getDescription());
                 auto* item = list->item(list->count() - 1);
 
                 item->setData(

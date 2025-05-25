@@ -42,6 +42,7 @@ const QString MetaDataMetaKey("MetaData");
 const QString NameMetaKey("name");
 const QString DescMetaKey("desc");
 const QString TypeMetaKey("type");
+const QString VersionMetaKey("version");
 
 struct PluginLoaderDeleter
 {
@@ -394,6 +395,8 @@ ToolsPluginMgrImpl::PluginInfoPtr ToolsPluginMgrImpl::readPluginInfo(const QStri
 
         auto typeJsonVal = extraMetaObj.value(TypeMetaKey);
         ptr->m_type = parseType(typeJsonVal.toString().toLower());
+
+        ptr->m_version = extraMetaObj.value(VersionMetaKey).toString();
 
     } while (false);
     return ptr;
