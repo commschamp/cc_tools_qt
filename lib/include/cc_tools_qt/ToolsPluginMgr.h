@@ -40,7 +40,7 @@ public:
 
     using PluginLoaderPtr = std::shared_ptr<QPluginLoader>;
 
-    class PluginInfo
+    class CC_TOOLS_API PluginInfo
     {
         friend class ToolsPluginMgr;
         friend class ToolsPluginMgrImpl;
