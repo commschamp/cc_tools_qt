@@ -20,6 +20,7 @@
 
 #include "cc_tools_qt/ToolsMessageBase.h"
 #include "cc_tools_qt/ToolsProtMsgInterface.h"
+#include "cc_tools_qt/version.h"
 
 #include "comms/field/String.h"
 

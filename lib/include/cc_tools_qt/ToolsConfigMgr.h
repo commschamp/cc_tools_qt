@@ -18,13 +18,16 @@
 
 #pragma once
 
-#include <utility>
-#include <list>
+#include "cc_tools_qt/ToolsApi.h"
+#include "cc_tools_qt/version.h"
 
 #include <QtCore/QString>
 #include <QtCore/QVariantMap>
 
-#include "cc_tools_qt/ToolsApi.h"
+#include <list>
+#include <utility>
+
+
 
 namespace cc_tools_qt
 {

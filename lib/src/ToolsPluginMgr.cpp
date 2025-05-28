@@ -40,6 +40,14 @@ void registerMetaTypesIfNeeded()
 
 } // namespace 
     
+QString ToolsPluginMgr::PluginInfo::getNameWithVersion() const
+{
+    if (getVersion().isEmpty()) {
+        return getName();
+    }
+
+    return getName() + " (" + getVersion() + ")";
+}
 
 ToolsPluginMgr::ToolsPluginMgr()
   : m_impl(new ToolsPluginMgrImpl())

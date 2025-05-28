@@ -251,7 +251,7 @@ class Frame : public StackBase<TMsgBase, TMessages, TMsgAllocOptions>
 {
     using Base = StackBase<TMsgBase, TMessages, TMsgAllocOptions>;
 public:
-    COMMS_PROTOCOL_LAYERS_ACCESS(payload, version, id, size, checksum, sync);
+    COMMS_FRAME_LAYERS_ACCESS(payload, version, id, size, checksum, sync);
 };
 
 }  // namespace demo

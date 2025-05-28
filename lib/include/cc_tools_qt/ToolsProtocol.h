@@ -22,6 +22,7 @@
 #include "cc_tools_qt/ToolsDataInfo.h"
 #include "cc_tools_qt/ToolsFrame.h"
 #include "cc_tools_qt/ToolsMessage.h"
+#include "cc_tools_qt/version.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QMetaType>

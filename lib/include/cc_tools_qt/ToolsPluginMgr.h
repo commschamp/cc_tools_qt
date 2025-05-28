@@ -18,16 +18,17 @@
 
 #pragma once
 
-#include <memory>
-#include <list>
-#include <array>
+#include "cc_tools_qt/ToolsApi.h"
+#include "cc_tools_qt/ToolsPlugin.h"
+#include "cc_tools_qt/version.h"
 
 #include <QtCore/QString>
 #include <QtCore/QVariantMap>
 #include <QtCore/QPluginLoader>
 
-#include "cc_tools_qt/ToolsApi.h"
-#include "cc_tools_qt/ToolsPlugin.h"
+#include <memory>
+#include <list>
+#include <array>
 
 namespace cc_tools_qt
 {
@@ -39,7 +40,7 @@ public:
 
     using PluginLoaderPtr = std::shared_ptr<QPluginLoader>;
 
-    class PluginInfo
+    class CC_TOOLS_API PluginInfo
     {
         friend class ToolsPluginMgr;
         friend class ToolsPluginMgrImpl;
@@ -74,6 +75,13 @@ public:
             return m_type;
         }
 
+        const QString& getVersion() const
+        {
+            return m_version;
+        }        
+
+        QString getNameWithVersion() const;
+
     private:
         PluginInfo() = default;
 
@@ -81,6 +89,7 @@ public:
         QString m_iid;
         QString m_name;
         QString m_desc;
+        QString m_version;
         Type m_type = Type::Invalid;
         bool m_applied = false;
     };

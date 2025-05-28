@@ -19,6 +19,7 @@
 #pragma once
 
 #include "cc_tools_qt/ToolsApi.h"
+#include "cc_tools_qt/version.h"
 
 #include <QtCore/QVariant>
 #include <QtCore/QVariantMap>
