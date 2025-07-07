@@ -244,6 +244,16 @@ ToolsProtocol::UpdateStatus ToolsProtocol::updateMessage(ToolsMessage& msg)
 
 ToolsMessagePtr ToolsProtocol::cloneMessage(const ToolsMessage& msg)
 {
+    auto copyCommonProperties = 
+        [](const ToolsMessage& src, ToolsMessage& dst) {
+            property::message::ToolsMsgDelay().copyFromTo(src, dst);
+            property::message::ToolsMsgDelayUnits().copyFromTo(src, dst);
+            property::message::ToolsMsgRepeatDuration().copyFromTo(src, dst);
+            property::message::ToolsMsgRepeatDurationUnits().copyFromTo(src, dst);
+            property::message::ToolsMsgRepeatCount().copyFromTo(src, dst);
+            property::message::ToolsMsgComment().copyFromTo(src, dst);
+        };
+
     if (msg.idAsString().isEmpty()) {
         ToolsMessagePtr clonedMsg;
 
@@ -262,6 +272,7 @@ ToolsMessagePtr ToolsProtocol::cloneMessage(const ToolsMessage& msg)
             return clonedMsg;
         }
 
+        copyCommonProperties(msg, *clonedMsg);
         auto extraInfoMap = getExtraInfoFromMessageProperties(msg);
         if (!extraInfoMap.isEmpty()) {
             setExtraInfoToMessageProperties(extraInfoMap, *clonedMsg);
@@ -273,6 +284,7 @@ ToolsMessagePtr ToolsProtocol::cloneMessage(const ToolsMessage& msg)
 
     auto clonedMsg = msg.clone();
     if (clonedMsg) {
+        copyCommonProperties(msg, *clonedMsg);
         setNameToMessageProperties(*clonedMsg);
         updateMessage(*clonedMsg);
         property::message::ToolsMsgExtraInfo().copyFromTo(msg, *clonedMsg);
