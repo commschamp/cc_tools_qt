@@ -250,7 +250,7 @@ jobs:
       env:
         VERBOSE: 1   
 
-   build_msvc_2022:
+  build_msvc_2022:
     runs-on: windows-2022
     strategy:
       fail-fast: false
@@ -309,7 +309,7 @@ jobs:
       env:
         VERBOSE: 1 
 
-   build_msvc_2025:
+  build_msvc_2025:
     runs-on: windows-2025
     strategy:
       fail-fast: false
