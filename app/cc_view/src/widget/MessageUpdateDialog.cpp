@@ -244,8 +244,7 @@ MessageUpdateDialog::MessageUpdateDialog(
             m_ui.m_repeatCheckBox->setCheckState(Qt::Checked);
         }
 
-        auto repeatCount = static_cast<int>(
-            property::message::ToolsMsgRepeatCount().getFrom(*m_msg), 1U);
+        auto repeatCount = static_cast<int>(property::message::ToolsMsgRepeatCount().getFrom(*m_msg));
         if (repeatCount != 0) {
             m_prevRepeatCount = repeatCount;
         }
