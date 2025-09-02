@@ -69,6 +69,7 @@ void RightPaneWidget::msgUpdated()
     auto protocol = msgMgr.getProtocol();
     auto status = protocol->updateMessage(*m_displayedMsg);
     bool forceUpdate = (status == ToolsProtocol::UpdateStatus::Changed);
+    GuiAppMgr::instance()->sendUpdateMessage(m_displayedMsg);
 
     // Direct invocation of displayMessage(std::move(msg))
     // in place here causes SIGSEGV. No idea why.
