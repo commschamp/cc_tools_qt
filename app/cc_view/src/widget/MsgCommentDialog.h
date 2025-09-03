@@ -18,11 +18,11 @@
 
 #pragma once
 
-#include <QtWidgets/QDialog>
-
 #include "ui_MsgCommentDialog.h"
 
 #include "cc_tools_qt/ToolsMessage.h"
+
+#include <QtWidgets/QDialog>
 
 namespace cc_tools_qt
 {

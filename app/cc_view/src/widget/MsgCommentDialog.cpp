@@ -18,8 +18,9 @@
 
 #include "MsgCommentDialog.h"
 
-#include <cassert>
 #include "cc_tools_qt/property/message.h"
+
+#include <cassert>
 
 namespace cc_tools_qt
 {

@@ -17,27 +17,28 @@
 
 #include "MainWindowWidget.h"
 
-#include <cassert>
-
-#include <QtWidgets/QSplitter>
-#include <QtWidgets/QFileDialog>
-#include <QtWidgets/QMessageBox>
-#include <QtGui/QIcon>
-#include <QtGui/QKeySequence>
+#include "GuiAppMgr.h"
+#include "LeftPaneWidget.h"
+#include "MainToolbar.h"
+#include "MessagesFilterDialog.h"
+#include "MessageUpdateDialog.h"
+#include "MsgCommentDialog.h"
+#include "MsgFileMgrG.h"
+#include "PluginConfigDialog.h"
+#include "RawHexDataDialog.h"
+#include "RightPaneWidget.h"
+#include "ShortcutWrap.h"
+#include "icon.h"
 
 #include "cc_tools_qt/property/message.h"
-#include "LeftPaneWidget.h"
-#include "RightPaneWidget.h"
-#include "MessageUpdateDialog.h"
-#include "MessagesFilterDialog.h"
-#include "RawHexDataDialog.h"
-#include "PluginConfigDialog.h"
-#include "GuiAppMgr.h"
-#include "MsgFileMgrG.h"
-#include "icon.h"
-#include "MainToolbar.h"
-#include "MsgCommentDialog.h"
-#include "ShortcutWrap.h"
+
+#include <QtGui/QIcon>
+#include <QtGui/QKeySequence>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QSplitter>
+
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -64,53 +65,53 @@ MainWindowWidget::MainWindowWidget(QWidget* parentObj)
 
     auto* guiAppMgr = GuiAppMgr::instance();
     connect(
-        guiAppMgr, SIGNAL(sigNewSendMsgDialog(ToolsProtocolPtr)),
-        this, SLOT(newSendMsgDialog(ToolsProtocolPtr)));
+        guiAppMgr, &GuiAppMgr::sigNewSendMsgDialog,
+        this, &MainWindowWidget::newSendMsgDialog);
     connect(
-        guiAppMgr, SIGNAL(sigSendRawMsgDialog(ToolsProtocolPtr)),
-        this, SLOT(sendRawMsgDialog(ToolsProtocolPtr)));
+        guiAppMgr, &GuiAppMgr::sigSendRawMsgDialog,
+        this, &MainWindowWidget::sendRawMsgDialog);
     connect(
-        guiAppMgr, SIGNAL(sigUpdateSendMsgDialog(ToolsMessagePtr, ToolsProtocolPtr)),
-        this, SLOT(updateSendMsgDialog(ToolsMessagePtr, ToolsProtocolPtr)));
+        guiAppMgr, &GuiAppMgr::sigUpdateSendMsgDialog,
+        this, &MainWindowWidget::updateSendMsgDialog);
     connect(
-        guiAppMgr, SIGNAL(sigPluginsEditDialog()),
-        this, SLOT(pluginsEditDialog()));
+        guiAppMgr, &GuiAppMgr::sigPluginsEditDialog,
+        this, &MainWindowWidget::pluginsEditDialog);
     connect(
-        guiAppMgr, SIGNAL(sigErrorReported(const QString&)),
-        this, SLOT(displayErrorMsg(const QString&)));
+        guiAppMgr, &GuiAppMgr::sigErrorReported,
+        this, &MainWindowWidget::displayErrorMsg);
     connect(
-        guiAppMgr, SIGNAL(sigAddMainToolbarAction(ActionPtr)),
-        this, SLOT(addMainToolbarAction(ActionPtr)));
+        guiAppMgr, &GuiAppMgr::sigAddMainToolbarAction,
+        this, &MainWindowWidget::addMainToolbarAction);
     connect(
-        guiAppMgr, SIGNAL(sigClearAllMainToolbarActions()),
-        this, SLOT(clearAllMainToolbarActions()));
+        guiAppMgr, &GuiAppMgr::sigClearAllMainToolbarActions,
+        this, &MainWindowWidget::clearAllMainToolbarActions);
     connect(
-        guiAppMgr, SIGNAL(sigActivityStateChanged(int)),
-        this, SLOT(activeStateChanged(int)));
+        guiAppMgr, &GuiAppMgr::sigActivityStateChanged,
+        this, &MainWindowWidget::activeStateChanged);
     connect(
-        guiAppMgr, SIGNAL(sigLoadRecvMsgsDialog()),
-        this, SLOT(loadRecvMsgsDialog()));
+        guiAppMgr, &GuiAppMgr::sigLoadRecvMsgsDialog,
+        this, &MainWindowWidget::loadRecvMsgsDialog);
     connect(
-        guiAppMgr, SIGNAL(sigSaveRecvMsgsDialog()),
-        this, SLOT(saveRecvMsgsDialog()));
+        guiAppMgr, &GuiAppMgr::sigSaveRecvMsgsDialog,
+        this, &MainWindowWidget::saveRecvMsgsDialog);
     connect(
-        guiAppMgr, SIGNAL(sigLoadSendMsgsDialog(bool)),
-        this, SLOT(loadSendMsgsDialog(bool)));
+        guiAppMgr, &GuiAppMgr::sigLoadSendMsgsDialog,
+        this, &MainWindowWidget::loadSendMsgsDialog);
     connect(
-        guiAppMgr, SIGNAL(sigSaveSendMsgsDialog()),
-        this, SLOT(saveSendMsgsDialog()));
+        guiAppMgr, &GuiAppMgr::sigSaveSendMsgsDialog,
+        this, &MainWindowWidget::saveSendMsgsDialog);
     connect(
-        guiAppMgr, SIGNAL(sigMsgCommentDialog(ToolsMessagePtr)),
-        this, SLOT(msgCommentDialog(ToolsMessagePtr)));
+        guiAppMgr, &GuiAppMgr::sigMsgCommentDialog,
+        this, &MainWindowWidget::msgCommentDialog);
     connect(
-        m_ui.m_actionQuit, SIGNAL(triggered()),
-        this, SLOT(close()));
+        guiAppMgr, &GuiAppMgr::sigRecvFilterDialog,
+        this, &MainWindowWidget::recvFilterDialog);        
     connect(
-        m_ui.m_actionAbout, SIGNAL(triggered()),
-        this, SLOT(aboutInfo()));
+        m_ui.m_actionQuit, &QAction::triggered,
+        this, &MainWindowWidget::close);
     connect(
-        guiAppMgr, SIGNAL(sigRecvFilterDialog(ToolsProtocolPtr)),
-        this, SLOT(recvFilterDialog(ToolsProtocolPtr)));        
+        m_ui.m_actionAbout, &QAction::triggered,
+        this, &MainWindowWidget::aboutInfo);
 }
 
 MainWindowWidget::~MainWindowWidget() noexcept

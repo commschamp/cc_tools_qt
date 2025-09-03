@@ -17,14 +17,14 @@
 
 #pragma once
 
-#include <memory>
-
-#include <QtWidgets/QWidget>
-
+#include "DefaultMessageDisplayHandler.h"
 #include "ui_MsgDetailsWidget.h"
 
 #include "cc_tools_qt/ToolsMessage.h"
-#include "DefaultMessageDisplayHandler.h"
+
+#include <QtWidgets/QWidget>
+
+#include <memory>
 
 namespace cc_tools_qt
 {

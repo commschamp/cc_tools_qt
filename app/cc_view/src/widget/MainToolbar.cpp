@@ -27,22 +27,23 @@ namespace cc_tools_qt
 MainToolbar::MainToolbar()
 {
     auto* config = addAction(icon::pluginEdit(), "Manage and configure plugins");
+    auto* appMgr = GuiAppMgr::instance();
     QObject::connect(
-        config, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(pluginsEditClicked()));
+        config, &QAction::triggered,
+        appMgr, &GuiAppMgr::pluginsEditClicked);
     ShortcutMgr::instanceRef().updateShortcut(*config, ShortcutMgr::Key_Plugins);
 
     m_socketConnect = addAction(icon::connect(), "Connect socket");
     QObject::connect(
-        m_socketConnect, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(connectSocketClicked()));
+        m_socketConnect, &QAction::triggered,
+        appMgr, &GuiAppMgr::connectSocketClicked);
     m_socketConnect->setEnabled(false);
     ShortcutMgr::instanceRef().updateShortcut(*m_socketConnect, ShortcutMgr::Key_Connect);
 
     m_socketDisconnect = addAction(icon::disconnect(), "Disconnect socket");
     QObject::connect(
-        m_socketDisconnect, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(disconnectSocketClicked()));
+        m_socketDisconnect, &QAction::triggered,
+        appMgr, &GuiAppMgr::disconnectSocketClicked);
     ShortcutMgr::instanceRef().updateShortcut(*m_socketDisconnect, ShortcutMgr::Key_Disconnect);
 
     m_socketDisconnect->setVisible(false);
@@ -50,12 +51,12 @@ MainToolbar::MainToolbar()
     addSeparator();
 
     QObject::connect(
-        GuiAppMgr::instance(), SIGNAL(sigSocketConnected(bool)),
-        this, SLOT(socketConnected(bool)));
+        appMgr, &GuiAppMgr::sigSocketConnected,
+        this, &MainToolbar::socketConnected);
 
     QObject::connect(
-        GuiAppMgr::instance(), SIGNAL(sigSocketConnectEnabled(bool)),
-        this, SLOT(socketConnectEnabled(bool)));
+        appMgr, &GuiAppMgr::sigSocketConnectEnabled,
+        this, &MainToolbar::socketConnectEnabled);
 }
 
 void MainToolbar::socketConnected(bool connected)

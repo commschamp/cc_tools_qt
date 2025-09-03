@@ -17,13 +17,14 @@
 
 #include "MsgDetailsWidget.h"
 
-#include <cassert>
+#include "GuiAppMgr.h"
+
+#include "cc_tools_qt/property/message.h"
 
 #include <QtWidgets/QScrollBar>
 #include <QtWidgets/QWidget>
 
-#include "cc_tools_qt/property/message.h"
-#include "GuiAppMgr.h"
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -60,8 +61,8 @@ MsgDetailsWidget::MsgDetailsWidget(QWidget* parentObj)
     auto* scrollBar = m_ui.m_scrollArea->verticalScrollBar();
     assert(scrollBar != nullptr);
     connect(
-        scrollBar, SIGNAL(valueChanged(int)),
-        this, SLOT(widgetScrolled(int)));
+        scrollBar, &QScrollBar::valueChanged,
+        this, &MsgDetailsWidget::widgetScrolled);
 }
 
 void MsgDetailsWidget::setEditEnabled(bool enabled)
@@ -80,12 +81,12 @@ void MsgDetailsWidget::displayMessage(ToolsMessagePtr msg)
     msgWidget->setEditEnabled(m_editEnabled);
 
     connect(
-        msgWidget.get(), SIGNAL(sigMsgUpdated()),
-        this, SIGNAL(sigMsgUpdated()));
+        msgWidget.get(), &MessageWidget::sigMsgUpdated,
+        this, &MsgDetailsWidget::sigMsgUpdated);
 
     connect(
-        msgWidget.get(), SIGNAL(sigMsgUpdated()),
-        this, SLOT(msgUpdated()));        
+        msgWidget.get(), &MessageWidget::sigMsgUpdated,
+        this, &MsgDetailsWidget::msgUpdated);
 
     m_displayedMsgWidget = msgWidget.get();
 

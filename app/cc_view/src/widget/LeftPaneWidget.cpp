@@ -17,10 +17,10 @@
 
 #include "LeftPaneWidget.h"
 
-#include <QtWidgets/QLabel>
-
 #include "RecvMsgListWidget.h"
 #include "SendMsgListWidget.h"
+
+#include <QtWidgets/QLabel>
 
 namespace cc_tools_qt
 {

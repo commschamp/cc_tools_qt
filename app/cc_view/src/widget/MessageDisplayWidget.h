@@ -18,9 +18,9 @@
 
 #pragma once
 
-#include <QtWidgets/QWidget>
-
 #include "cc_tools_qt/ToolsMessage.h"
+
+#include <QtWidgets/QWidget>
 
 namespace cc_tools_qt
 {
@@ -36,7 +36,6 @@ public:
     }
 
 public slots:
-
     void displayMessage(ToolsMessagePtr msg, bool force = false)
     {
         displayMessageImpl(msg, force);

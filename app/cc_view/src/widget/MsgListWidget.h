@@ -18,16 +18,15 @@
 
 #pragma once
 
-#include <QtWidgets/QWidget>
-#include <QtCore/QString>
-#include <QtCore/qnamespace.h>
-
+#include "GuiAppMgr.h"
 #include "ui_MsgListWidget.h"
 
 #include "cc_tools_qt/ToolsMessage.h"
 #include "cc_tools_qt/ToolsProtocol.h"
 
-#include "GuiAppMgr.h"
+#include <QtCore/QString>
+#include <QtCore/qnamespace.h>
+#include <QtWidgets/QWidget>
 
 namespace cc_tools_qt
 {

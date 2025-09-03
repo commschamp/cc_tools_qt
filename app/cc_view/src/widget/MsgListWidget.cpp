@@ -17,14 +17,15 @@
 
 #include "MsgListWidget.h"
 
-#include <cassert>
+#include "GuiAppMgr.h"
+
+#include "cc_tools_qt/ToolsMessage.h"
+#include "cc_tools_qt/property/message.h"
 
 #include <QtCore/QVariant>
 #include <QtCore/QDateTime>
 
-#include "cc_tools_qt/ToolsMessage.h"
-#include "cc_tools_qt/property/message.h"
-#include "GuiAppMgr.h"
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -49,20 +50,20 @@ MsgListWidget::MsgListWidget(
 
     m_ui.m_listWidget->setUniformItemSizes(true);
     connect(
-        m_ui.m_listWidget, SIGNAL(itemClicked(QListWidgetItem*)),
-        this, SLOT(itemClicked(QListWidgetItem*)));
+        m_ui.m_listWidget, &QListWidget::itemClicked,
+        this, &MsgListWidget::itemClicked);
     connect(
-        m_ui.m_listWidget, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)),
-        this, SLOT(currentItemChanged(QListWidgetItem*, QListWidgetItem*)));
+        m_ui.m_listWidget, &QListWidget::currentItemChanged,
+        this, &MsgListWidget::currentItemChanged);
     connect(
-        m_ui.m_listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-        this, SLOT(itemDoubleClicked(QListWidgetItem*)));
+        m_ui.m_listWidget, &QListWidget::itemDoubleClicked,
+        this, &MsgListWidget::itemDoubleClicked);
 
     auto* guiMgr = GuiAppMgr::instance();
     assert(guiMgr != nullptr);
     connect(
-        guiMgr, SIGNAL(sigMsgCommentUpdated(ToolsMessagePtr)),
-        this, SLOT(msgCommentUpdated(ToolsMessagePtr)));
+        guiMgr, &GuiAppMgr::sigMsgCommentUpdated,
+        this, &MsgListWidget::msgCommentUpdated);
 }
 
 void MsgListWidget::addMessage(ToolsMessagePtr msg)
