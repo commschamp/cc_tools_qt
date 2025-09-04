@@ -65,4 +65,3 @@ void TcpServerSocketConfigWidget::portValueChanged(int value)
 
 }  // namespace cc_tools_qt
 
-

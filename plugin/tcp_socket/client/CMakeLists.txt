@@ -29,7 +29,6 @@ function (plugin_tcp_client_socket)
         TcpClientSocketConfigWidget.ui
     )
 
-
     set (src
         TcpClientSocket.cpp
         TcpClientSocketPlugin.h

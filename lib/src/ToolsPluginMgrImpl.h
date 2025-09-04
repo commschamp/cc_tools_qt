@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include <memory>
@@ -30,7 +29,6 @@
 #include "cc_tools_qt/ToolsPlugin.h"
 #include "cc_tools_qt/ToolsPluginMgr.h"
 #include "cc_tools_qt/ToolsConfigMgr.h"
-
 
 namespace cc_tools_qt
 {
@@ -76,5 +74,4 @@ private:
 };
 
 }  // namespace cc_tools_qt
-
 

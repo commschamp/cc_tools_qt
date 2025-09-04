@@ -546,7 +546,6 @@ void PluginConfigDialog::createAvailableLists()
         m_availableSocketsWidget, &PluginsListWidget::itemDoubleClicked,
         this, &PluginConfigDialog::availSocketPluginDoubleClicked);
 
-
     addHorLine(*listsLayout);
     std::unique_ptr<PluginsListWidget> filterPlugins(new PluginsListWidget("Filter"));
     m_availableFiltersWidget = filterPlugins.get();
@@ -588,7 +587,6 @@ void PluginConfigDialog::createSelectedLists()
         m_selectedSocketsWidget, &PluginsListWidget::itemClicked,
         this, &PluginConfigDialog::selectedSocketPluginClicked);
 
-
     addVerLine(*listsLayout);
     std::unique_ptr<PluginsListWidget> filterPlugins(new PluginsListWidget("Filter"));
     m_selectedFiltersWidget = filterPlugins.get();
@@ -596,7 +594,6 @@ void PluginConfigDialog::createSelectedLists()
     connect(
         m_selectedFiltersWidget, &PluginsListWidget::itemClicked,
         this, &PluginConfigDialog::selectedFilterPluginClicked);
-
 
     addVerLine(*listsLayout);
     std::unique_ptr<PluginsListWidget> protocolPlugins(new PluginsListWidget("Protocol"));

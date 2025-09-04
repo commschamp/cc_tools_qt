@@ -126,7 +126,6 @@ const KeyAlgorithmMap& keyAlgorithmMap()
 
 } // namespace
 
-
 SslClientSocketConfigWidget::SslClientSocketConfigWidget(
     SslClientSocket& socket,
     QWidget* parentObj)
@@ -395,5 +394,4 @@ void SslClientSocketConfigWidget::privKeyShowHideClicked(bool checked)
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
 

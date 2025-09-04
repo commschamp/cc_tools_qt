@@ -371,7 +371,6 @@ QVariantList convertSendMsgList(
             CommentProp().setTo(comment, msgInfoMap);
         }
 
-
         auto extraInfo = property::message::ToolsMsgExtraInfo().getFrom(*msg);
         if (!extraInfo.isEmpty()) {
             ExtraPropsProp().setTo(std::move(extraInfo), msgInfoMap);
@@ -623,5 +622,4 @@ void ToolsMsgFileMgr::flushRecvFile(FileSaveHandler handler)
     handler->flush();
 }
 }  // namespace cc_tools_qt
-
 

@@ -82,4 +82,3 @@ void ToolsOptionalField::dispatchImpl(ToolsFieldHandler& handler)
 
 }  // namespace cc_tools_qt
 
-

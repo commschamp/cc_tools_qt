@@ -187,4 +187,3 @@ bool UnsignedLongLongIntValueFieldWidget::createSpecialsWidget(const SpecialsLis
 
 }  // namespace cc_tools_qt
 
-

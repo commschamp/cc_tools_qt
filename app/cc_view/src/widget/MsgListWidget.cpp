@@ -145,7 +145,6 @@ void MsgListWidget::deleteCurrentMessage()
     delete item; // will remove from the list
     m_ui.m_listWidget->blockSignals(false);
 
-
     updateTitle();
 
     auto* nextItem = m_ui.m_listWidget->currentItem();
@@ -447,7 +446,5 @@ void MsgListWidget::processClick(QListWidgetItem* item)
         m_ui.m_listWidget->row(item));
 }
 
-
 }  // namespace cc_tools_qt
-
 

@@ -99,4 +99,3 @@ void UnknownValueFieldWidget::setFieldValid(bool valid)
 
 }  // namespace cc_tools_qt
 
-

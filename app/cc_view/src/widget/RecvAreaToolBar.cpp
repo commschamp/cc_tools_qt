@@ -51,7 +51,6 @@ QAction* createLoadButton(QToolBar& bar)
     return action;
 }
 
-
 QAction* createSaveButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::save(), "Save Messages");
@@ -405,7 +404,6 @@ bool RecvAreaToolBar::listEmpty() const
 {
     return 0 == m_listTotal;
 }
-
 
 }  // namespace cc_tools_qt
 

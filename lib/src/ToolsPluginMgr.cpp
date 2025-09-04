@@ -144,4 +144,3 @@ const QString& ToolsPluginMgr::getFilesFilter()
 
 }  // namespace cc_tools_qt
 
-

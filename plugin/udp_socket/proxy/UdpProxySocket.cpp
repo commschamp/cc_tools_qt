@@ -82,7 +82,6 @@ const QString& networkLocalPortProp()
 
 }  // namespace
 
-
 UdpProxySocket::UdpProxySocket()
 {
 }
@@ -153,7 +152,6 @@ void UdpProxySocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
         m_listenSocket->localAddress().toString() + ':' +
                     QString("%1").arg(m_listenSocket->localPort());
     dataPtr->m_extraProperties.insert(udpFromProp(), from);
-
 
     assert(m_listenSocket);
     if (!m_listenSocket->isOpen()) {

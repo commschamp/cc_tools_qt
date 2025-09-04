@@ -97,4 +97,3 @@ void RightPaneWidget::msgUpdated()
 
 }  // namespace cc_tools_qt
 
-

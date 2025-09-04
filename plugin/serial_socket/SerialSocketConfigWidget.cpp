@@ -286,4 +286,3 @@ void SerialSocketConfigWidget::refreshDeviceConfigComboSignalsBlocked()
 
 }  // namespace cc_tools_qt
 
-

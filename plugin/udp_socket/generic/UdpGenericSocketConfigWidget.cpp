@@ -104,4 +104,3 @@ void UdpGenericSocketConfigWidget::broadcastMaskValueChanged(const QString& valu
 
 }  // namespace cc_tools_qt
 
-

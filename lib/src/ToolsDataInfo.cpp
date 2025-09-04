@@ -38,7 +38,6 @@ void registerMetaTypesIfNeeded()
 
 } // namespace
 
-
 ToolsDataInfo::ToolsDataInfo()
 {
     registerMetaTypesIfNeeded();

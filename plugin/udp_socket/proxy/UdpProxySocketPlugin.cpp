@@ -116,4 +116,3 @@ void UdpProxySocketPlugin::createSocketIfNeeded()
 
 }  // namespace cc_tools_qt
 
-

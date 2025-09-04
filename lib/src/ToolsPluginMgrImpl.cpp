@@ -404,4 +404,3 @@ ToolsPluginMgrImpl::PluginInfoPtr ToolsPluginMgrImpl::readPluginInfo(const QStri
 
 }  // namespace cc_tools_qt
 
-

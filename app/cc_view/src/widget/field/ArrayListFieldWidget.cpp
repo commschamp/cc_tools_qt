@@ -252,4 +252,3 @@ void ArrayListFieldWidget::addMissingFields()
 
 }  // namespace cc_tools_qt
 
-

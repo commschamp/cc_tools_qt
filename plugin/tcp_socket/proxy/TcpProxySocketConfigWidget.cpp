@@ -92,4 +92,3 @@ void TcpProxySocketConfigWidget::remotePortValueChanged(int value)
 
 }  // namespace cc_tools_qt
 
-

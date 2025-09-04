@@ -41,7 +41,6 @@ StringFieldWidget::StringFieldWidget(
         m_ui.m_valuePlainTextEdit, &QPlainTextEdit::textChanged,
         this, &StringFieldWidget::stringChanged);
 
-
     refresh();
 }
 
@@ -100,5 +99,4 @@ void StringFieldWidget::stringChanged()
 }
 
 }  // namespace cc_tools_qt
-
 

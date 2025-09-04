@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "MsgCommentDialog.h"
 
 #include "cc_tools_qt/property/message.h"
@@ -42,5 +41,4 @@ void MsgCommentDialog::accept()
 }
 
 }  // namespace cc_tools_qt
-
 

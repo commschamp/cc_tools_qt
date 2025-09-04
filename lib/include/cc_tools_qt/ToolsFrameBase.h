@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/ToolsExtraInfoMessage.h"
@@ -78,7 +77,6 @@ protected:
                 allMsgs.push_back(std::move(invalidMsgPtr));
                 m_garbage.clear();
             };
-
 
         using ProtMsgPtr = typename ProtFrame::MsgPtr;
         using ReadIter = typename ProtInterface::ReadIterator;
@@ -299,5 +297,4 @@ private:
 };
 
 }  // namespace cc_tools_qt
-
 

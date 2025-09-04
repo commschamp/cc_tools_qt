@@ -72,7 +72,6 @@ void SpecialValueWidget::setIntValue(long long value)
             continue;
         }
 
-
         m_ui.m_specialComboBox->setCurrentIndex(idx);
         foundValue = true;
         break;
@@ -95,7 +94,6 @@ void SpecialValueWidget::setFpValue(double value, double cmpEpsilon)
         if (!valueVar.isValid()) {
             continue;
         }
-
 
         assert(valueVar.canConvert<double>());
         auto storedValue = valueVar.value<double>();
@@ -135,7 +133,6 @@ void SpecialValueWidget::setFpValue(double value, double cmpEpsilon)
             continue;
         }
 
-
         m_ui.m_specialComboBox->setCurrentIndex(idx);
         foundValue = true;
         break;
@@ -147,7 +144,6 @@ void SpecialValueWidget::setFpValue(double value, double cmpEpsilon)
 
     m_ui.m_specialComboBox->blockSignals(false);
 }
-
 
 void SpecialValueWidget::itemSelected([[maybe_unused]] int idx)
 {
@@ -170,5 +166,4 @@ void SpecialValueWidget::itemSelected([[maybe_unused]] int idx)
 }
 
 }  // namespace cc_tools_qt
-
 

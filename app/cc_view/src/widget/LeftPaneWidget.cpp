@@ -35,4 +35,3 @@ LeftPaneWidget::LeftPaneWidget(QWidget* parentObj)
 
 }  // namespace cc_tools_qt
 
-

@@ -155,4 +155,3 @@ void ArrayListRawDataFieldWidget::showAllPressed()
 
 }  // namespace cc_tools_qt
 
-

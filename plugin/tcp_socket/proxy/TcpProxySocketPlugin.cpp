@@ -121,4 +121,3 @@ void TcpProxySocketPlugin::createSocketIfNeeded()
 
 }  // namespace cc_tools_qt
 
-

@@ -166,4 +166,3 @@ bool ScaledIntValueFieldWidget::createSpecialsWidget(const SpecialsList& special
 
 }  // namespace cc_tools_qt
 
-

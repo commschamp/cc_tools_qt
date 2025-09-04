@@ -31,7 +31,6 @@ namespace plugin
 namespace
 {
 
-
 const QString& tcpFromProp()
 {
     static const QString Str("tcp.from");

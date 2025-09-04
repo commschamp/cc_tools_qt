@@ -102,4 +102,3 @@ void DefaultMessageWidget::connectFieldSignals(FieldWidget* fieldWidget)
 
 }  // namespace cc_tools_qt
 
-

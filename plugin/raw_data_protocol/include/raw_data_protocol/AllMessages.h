@@ -46,5 +46,3 @@ using AllMessages =
 
 }  // namespace cc_tools_qt
 
-
-

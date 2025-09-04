@@ -276,4 +276,3 @@ bool FloatValueFieldWidget::createSpecialsWidget(const SpecialsList& specials)
 
 }  // namespace cc_tools_qt
 
-

@@ -442,4 +442,3 @@ void ToolsProtocol::reportInterPluginConfig(const QVariantMap& props)
 
 }  // namespace cc_tools_qt
 
-

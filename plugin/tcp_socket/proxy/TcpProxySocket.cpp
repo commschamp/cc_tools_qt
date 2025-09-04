@@ -449,7 +449,6 @@ void TcpProxySocket::performReadWrite(QTcpSocket& readFromSocket, QTcpSocket& wr
         writeToSocket.peerAddress().toString() + ':' +
                     QString("%1").arg(writeToSocket.peerPort());
 
-
     dataPtr->m_extraProperties.insert(tcpFromProp(), from);
     dataPtr->m_extraProperties.insert(tcpToProp(), to);
 

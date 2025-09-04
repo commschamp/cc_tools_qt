@@ -28,7 +28,6 @@
 #include <cassert>
 #include <chrono>
 
-
 namespace cc_tools_qt
 {
 
@@ -82,7 +81,6 @@ QString RecvMsgListWidget::msgPrefixImpl(const ToolsMessage& msg) const
 
     return QString("[%1]").arg(timestamp, 1, 10, QChar('0'));
 }
-
 
 const QString& RecvMsgListWidget::msgTooltipImpl() const
 {

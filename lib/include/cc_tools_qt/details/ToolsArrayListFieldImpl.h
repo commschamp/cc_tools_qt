@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/details/ToolsFieldBase.h"
@@ -179,7 +178,6 @@ private:
     struct HasFeatureTag {};
     struct NoFeatureTag {};
 
-
     void adjustFixedSizeInternal(HasVarSizeTag)
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
@@ -261,7 +259,6 @@ private:
     WrapFieldCallbackFunc m_wrapFieldFunc;
 };
 
-
 template <typename TField>
 auto makeArrayListField(TField& field)
 {
@@ -271,6 +268,4 @@ auto makeArrayListField(TField& field)
 }  // namespace details
 
 }  // namespace cc_tools_qt
-
-
 

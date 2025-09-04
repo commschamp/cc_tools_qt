@@ -124,4 +124,3 @@ void UdpGenericSocketPlugin::createSocketIfNeeded()
 
 }  // namespace cc_tools_qt
 
-

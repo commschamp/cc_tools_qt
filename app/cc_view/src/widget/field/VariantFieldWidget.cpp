@@ -288,4 +288,3 @@ void VariantFieldWidget::fillMemberCombo()
 
 }  // namespace cc_tools_qt
 
-

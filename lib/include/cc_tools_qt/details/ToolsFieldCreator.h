@@ -17,7 +17,6 @@
 
 #pragma once
 
-
 #include <memory>
 
 #include "comms/comms.h"
@@ -107,7 +106,6 @@ private:
     private:
         FieldCreateFunc m_dispatchOp;
     };
-
 
     template <typename TField>
     static ToolsFieldPtr createFieldInternal(TField& field, IntValueTag)
@@ -296,8 +294,4 @@ private:
 }  // namespace details
 
 }  // namespace cc_tools_qt
-
-
-
-
 

@@ -209,4 +209,3 @@ ToolsMessagePtr ProtocolsStackWidget::msgFromItem(QTreeWidgetItem* item)
 
 }  // namespace cc_tools_qt
 
-

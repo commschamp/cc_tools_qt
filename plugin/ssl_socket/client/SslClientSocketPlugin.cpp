@@ -47,7 +47,6 @@ const QString PrivFileSubKey("priv");
 const QString PrivAlgSubKey("priv_alg");
 const QString PrivFormatSubKey("priv_format");
 
-
 }  // namespace
 
 SslClientSocketPlugin::SslClientSocketPlugin() :
@@ -204,5 +203,4 @@ void SslClientSocketPlugin::createSocketIfNeeded()
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
 

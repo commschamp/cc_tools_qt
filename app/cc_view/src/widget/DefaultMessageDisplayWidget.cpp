@@ -127,4 +127,3 @@ void DefaultMessageDisplayWidget::msgUpdated()
 
 }  // namespace cc_tools_qt
 
-

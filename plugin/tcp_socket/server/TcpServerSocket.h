@@ -30,7 +30,6 @@
 #define TCP_SERVER_DEFAULT_PORT 20000
 #endif
 
-
 namespace cc_tools_qt
 {
 

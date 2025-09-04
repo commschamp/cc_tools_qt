@@ -103,4 +103,3 @@ void TcpServerSocketPlugin::createSocketIfNeeded()
 
 }  // namespace cc_tools_qt
 
-

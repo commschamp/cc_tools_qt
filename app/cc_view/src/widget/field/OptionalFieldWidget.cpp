@@ -158,7 +158,5 @@ void OptionalFieldWidget::hideSpacer()
     m_ui.m_optSpacer->changeSize(0, 0, QSizePolicy::Minimum, QSizePolicy::Minimum);
 }
 
-
 }  // namespace cc_tools_qt
-
 

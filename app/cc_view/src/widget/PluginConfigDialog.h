@@ -55,7 +55,6 @@ private slots:
     void selectedFilterPluginClicked(QListWidgetItem* item);
     void selectedProtocolPluginClicked(QListWidgetItem* item);
 
-
     void addClicked();
     void searchTextChanged(const QString& text);
     void searchClearClicked();

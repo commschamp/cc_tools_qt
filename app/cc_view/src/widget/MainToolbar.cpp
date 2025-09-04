@@ -73,4 +73,3 @@ void MainToolbar::socketConnectEnabled(bool enabled)
 
 }  // namespace cc_tools_qt
 
-

@@ -12,7 +12,6 @@ function (plugin_serial_socket)
         return()
     endif ()
 
-
     set (meta_file "${CMAKE_CURRENT_SOURCE_DIR}/serial_socket.json")
     set (stamp_file "${CMAKE_CURRENT_BINARY_DIR}/server_refresh_stamp.txt")
 

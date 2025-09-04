@@ -224,7 +224,6 @@ SendAreaToolBar::SendAreaToolBar(QWidget* parentObj)
         guiAppMgr, &GuiAppMgr::sigActivityStateChanged,
         this, &SendAreaToolBar::activeStateChanged);
 
-
     refresh();
 }
 

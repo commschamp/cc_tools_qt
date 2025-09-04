@@ -102,4 +102,3 @@ void BundleFieldWidget::memberFieldUpdated()
 
 }  // namespace cc_tools_qt
 
-

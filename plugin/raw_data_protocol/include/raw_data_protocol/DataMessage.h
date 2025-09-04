@@ -45,7 +45,6 @@ struct DataMessageFields
         }
     };
 
-
     /// @brief All the fields bundled in std::tuple.
     using All = std::tuple<
         data
@@ -92,5 +91,4 @@ public:
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
 

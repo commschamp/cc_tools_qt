@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "MessageUpdateDialog.h"
 
 #include "DefaultMessageDisplayWidget.h"
@@ -198,7 +197,6 @@ MessageUpdateDialog::MessageUpdateDialog(
            ++msgIdxTmp;
         }
     }
-
 
     m_msgDisplayWidget->setEditEnabled(true);
 
@@ -558,5 +556,4 @@ void MessageUpdateDialog::refreshButtons()
 }
 
 }  // namespace cc_tools_qt
-
 

@@ -12,7 +12,6 @@ function (cc_plugin_raw_data_protocol)
             COMMAND ${CMAKE_COMMAND} -E touch ${stamp_file})
     endif ()
 
-
     set (src
         RawDataProtocolPlugin.h
         RawDataProtocolPlugin.cpp

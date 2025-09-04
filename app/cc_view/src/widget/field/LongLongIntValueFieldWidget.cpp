@@ -176,4 +176,3 @@ bool LongLongIntValueFieldWidget::createSpecialsWidget(const SpecialsList& speci
 
 }  // namespace cc_tools_qt
 
-

@@ -138,5 +138,3 @@ endif ()
 
 lib_tools()
 
-
-

@@ -156,4 +156,3 @@ void BitmaskValueFieldWidget::prepareCheckboxes()
 
 }  // namespace cc_tools_qt
 
-

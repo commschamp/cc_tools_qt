@@ -103,4 +103,3 @@ void ToolsIntField::setDisplayValue(UnderlyingType value)
 
 }  // namespace cc_tools_qt
 
-

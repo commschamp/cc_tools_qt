@@ -94,7 +94,6 @@ void BitfieldFieldWidget::editEnabledUpdatedImpl()
     }
 }
 
-
 void BitfieldFieldWidget::serialisedValueUpdated(const QString& value)
 {
     handleNumericSerialisedValueUpdate(value, *m_fieldPtr);
@@ -144,5 +143,4 @@ void BitfieldFieldWidget::refreshMembers()
 }
 
 }  // namespace cc_tools_qt
-
 

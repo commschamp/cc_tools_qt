@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include <QtWidgets/QWidget>
@@ -48,5 +47,4 @@ protected:
 };
 
 }  // namespace cc_tools_qt
-
 

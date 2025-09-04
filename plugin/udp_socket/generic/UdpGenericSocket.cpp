@@ -132,7 +132,6 @@ const QString& networkBroadcastRadiusProp()
 
 }  // namespace
 
-
 UdpGenericSocket::UdpGenericSocket()
 {
     connect(

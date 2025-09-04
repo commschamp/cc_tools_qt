@@ -205,13 +205,10 @@ public:
         return std::move(m_widget);
     }
 
-
 private:
     FieldWidgetPtr m_widget;
     QWidget* m_parent = nullptr;
 };
-
-
 
 }  // namespace
 
@@ -241,5 +238,4 @@ DefaultMessageDisplayHandler::MsgWidgetPtr DefaultMessageDisplayHandler::getMsgW
 }
 
 }  // namespace cc_tools_qt
-
 

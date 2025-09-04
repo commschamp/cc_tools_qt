@@ -224,4 +224,3 @@ void EnumValueFieldWidget::populateComboBox()
 
 }  // namespace cc_tools_qt
 
-

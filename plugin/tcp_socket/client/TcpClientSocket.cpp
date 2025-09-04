@@ -69,7 +69,6 @@ const QString& networkPortProp()
 
 }  // namespace
 
-
 TcpClientSocket::TcpClientSocket()
 {
     connect(
@@ -141,7 +140,6 @@ void TcpClientSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
     QString to =
         m_socket.peerAddress().toString() + ':' +
                     QString("%1").arg(m_socket.peerPort());
-
 
     dataPtr->m_extraProperties.insert(tcpFromProp(), from);
     dataPtr->m_extraProperties.insert(tcpToProp(), to);

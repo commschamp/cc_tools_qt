@@ -77,7 +77,6 @@ const QString& networkPortProp()
 
 }  // namespace
 
-
 SslClientSocket::SslClientSocket()
 {
     connect(
@@ -181,7 +180,6 @@ void SslClientSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
     QString to =
         m_socket.peerAddress().toString() + ':' +
                     QString("%1").arg(m_socket.peerPort());
-
 
     dataPtr->m_extraProperties.insert(sslFromProp(), from);
     dataPtr->m_extraProperties.insert(sslToProp(), to);

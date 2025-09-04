@@ -95,4 +95,3 @@ void PluginsListWidget::insertItem(int row, QListWidgetItem* itemPtr)
 
 }  // namespace cc_tools_qt
 
-
