@@ -18,10 +18,10 @@
 
 #pragma once
 
-#include "cc_tools_qt/field/ToolsStringField.h"
 #include "FieldWidget.h"
-
 #include "ui_StringFieldWidget.h"
+
+#include "cc_tools_qt/field/ToolsStringField.h"
 
 namespace cc_tools_qt
 {

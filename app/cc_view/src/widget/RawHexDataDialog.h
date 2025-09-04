@@ -18,12 +18,11 @@
 
 #pragma once
 
-#include <QtWidgets/QDialog>
-
 #include "ui_RawHexDataDialog.h"
 
 #include "cc_tools_qt/ToolsProtocol.h"
 
+#include <QtWidgets/QDialog>
 
 namespace cc_tools_qt
 {

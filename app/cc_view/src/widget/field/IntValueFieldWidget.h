@@ -18,10 +18,11 @@
 
 #pragma once
 
-#include <memory>
+#include "FieldWidget.h"
 
 #include "cc_tools_qt/field/ToolsIntField.h"
-#include "FieldWidget.h"
+
+#include <memory>
 
 namespace cc_tools_qt
 {

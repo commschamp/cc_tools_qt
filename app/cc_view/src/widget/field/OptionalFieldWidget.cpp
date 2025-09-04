@@ -17,11 +17,11 @@
 
 #include "OptionalFieldWidget.h"
 
+#include <QtWidgets/QCheckBox>
+
 #include <algorithm>
 #include <cassert>
 #include <type_traits>
-
-#include <QtWidgets/QCheckBox>
 
 namespace cc_tools_qt
 {
@@ -41,8 +41,9 @@ OptionalFieldWidget::OptionalFieldWidget(
         m_fieldPtr->setMode(Mode::Missing);
     }
 
-    connect(m_ui.m_optCheckBox, SIGNAL(stateChanged(int)),
-            this, SLOT(availabilityChanged(int)));
+    connect(
+        m_ui.m_optCheckBox, &QCheckBox::stateChanged,
+        this, &OptionalFieldWidget::availabilityChanged);
 }
 
 OptionalFieldWidget::~OptionalFieldWidget() noexcept = default;
@@ -58,8 +59,8 @@ void OptionalFieldWidget::setField(FieldWidget* fieldWidget)
     refreshInternal();
 
     connect(
-        fieldWidget, SIGNAL(sigFieldUpdated()),
-        this, SLOT(fieldUpdated()));
+        fieldWidget, &FieldWidget::sigFieldUpdated,
+        this, &OptionalFieldWidget::fieldUpdated);
 }
 
 ToolsField& OptionalFieldWidget::fieldImpl()

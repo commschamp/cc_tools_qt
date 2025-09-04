@@ -18,11 +18,11 @@
 
 #pragma once
 
-#include <QtWidgets/QWidget>
-
 #include "ui_ProtocolsStackWidget.h"
 
 #include "cc_tools_qt/ToolsMessage.h"
+
+#include <QtWidgets/QWidget>
 
 namespace cc_tools_qt
 {

@@ -18,15 +18,15 @@
 
 #include "FieldWidget.h"
 
-#include <string>
-#include <algorithm>
-#include <iterator>
-#include <cassert>
-
-#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QSpinBox>
+
+#include <algorithm>
+#include <cassert>
+#include <iterator>
+#include <string>
 
 namespace cc_tools_qt
 {

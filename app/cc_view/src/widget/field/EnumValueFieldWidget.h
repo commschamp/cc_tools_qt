@@ -18,10 +18,10 @@
 
 #pragma once
 
-#include "cc_tools_qt/field/ToolsEnumField.h"
 #include "FieldWidget.h"
-
 #include "ui_EnumValueFieldWidget.h"
+
+#include "cc_tools_qt/field/ToolsEnumField.h"
 
 namespace cc_tools_qt
 {

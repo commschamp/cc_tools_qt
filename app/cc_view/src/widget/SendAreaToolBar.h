@@ -18,10 +18,10 @@
 
 #pragma once
 
-#include <QtWidgets/QToolBar>
-
-#include "GuiAppMgr.h"
 #include "ActionWrap.h"
+#include "GuiAppMgr.h"
+
+#include <QtWidgets/QToolBar>
 
 namespace cc_tools_qt
 {

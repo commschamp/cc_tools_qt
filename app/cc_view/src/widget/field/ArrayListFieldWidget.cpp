@@ -35,12 +35,12 @@ ArrayListElementWidget::ArrayListElementWidget(
     updateUi();
 
     connect(
-        m_fieldWidget, SIGNAL(sigFieldUpdated()),
-        this, SIGNAL(sigFieldUpdated()));
+        m_fieldWidget, &FieldWidget::sigFieldUpdated,
+        this, &ArrayListElementWidget::sigFieldUpdated);
 
     connect(
-        m_ui.m_removePushButton, SIGNAL(clicked()),
-        this, SIGNAL(sigRemoveRequested()));
+        m_ui.m_removePushButton, &QPushButton::clicked,
+        this, &ArrayListElementWidget::sigRemoveRequested);
 
 }
 
@@ -98,8 +98,8 @@ ArrayListFieldWidget::ArrayListFieldWidget(
     updateUi();
 
     connect(
-        m_ui.m_addFieldPushButton, SIGNAL(clicked()),
-        this, SLOT(addNewField()));
+        m_ui.m_addFieldPushButton, &QPushButton::clicked,
+        this, &ArrayListFieldWidget::addNewField);
 }
 
 ArrayListFieldWidget::~ArrayListFieldWidget() noexcept = default;
@@ -201,12 +201,12 @@ void ArrayListFieldWidget::addDataField(FieldWidget* dataFieldWidget)
     fieldPtrWidget->setDeletable(!m_fieldPtr->hasFixedSize());
 
     connect(
-        fieldPtrWidget, SIGNAL(sigFieldUpdated()),
-        this, SLOT(dataFieldUpdated()));
+        fieldPtrWidget, &ArrayListElementWidget::sigFieldUpdated,
+        this, &ArrayListFieldWidget::dataFieldUpdated);
 
     connect(
-        fieldPtrWidget, SIGNAL(sigRemoveRequested()),
-        this, SLOT(removeField()));
+        fieldPtrWidget, &ArrayListElementWidget::sigRemoveRequested,
+        this, &ArrayListFieldWidget::removeField);
 
     m_elements.push_back(fieldPtrWidget);
     m_ui.m_membersLayout->addWidget(fieldPtrWidget);

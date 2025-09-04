@@ -18,12 +18,12 @@
 
 #pragma once
 
-#include <vector>
+#include "FieldWidget.h"
+#include "ui_BitmaskValueFieldWidget.h"
 
 #include "cc_tools_qt/field/ToolsBitmaskField.h"
-#include "FieldWidget.h"
 
-#include "ui_BitmaskValueFieldWidget.h"
+#include <vector>
 
 class QCheckBox;
 namespace cc_tools_qt

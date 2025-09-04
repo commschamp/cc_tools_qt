@@ -18,12 +18,12 @@
 
 #pragma once
 
-#include <vector>
+#include "FieldWidget.h"
+#include "ui_BitfieldFieldWidget.h"
 
 #include "cc_tools_qt/field/ToolsBitfieldField.h"
-#include "FieldWidget.h"
 
-#include "ui_BitfieldFieldWidget.h"
+#include <vector>
 
 namespace cc_tools_qt
 {

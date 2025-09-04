@@ -18,16 +18,17 @@
 
 #pragma once
 
-#include <functional>
-#include <vector>
-
-#include <QtCore/QVariantMap>
+#include "FieldWidget.h"
 
 #include "ui_ArrayListElementWidget.h"
 #include "ui_ArrayListFieldWidget.h"
 
 #include "cc_tools_qt/field/ToolsArrayListField.h"
-#include "FieldWidget.h"
+
+#include <QtCore/QVariantMap>
+
+#include <functional>
+#include <vector>
 
 namespace cc_tools_qt
 {

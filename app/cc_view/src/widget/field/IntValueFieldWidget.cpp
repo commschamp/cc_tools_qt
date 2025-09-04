@@ -18,14 +18,14 @@
 
 #include "IntValueFieldWidget.h"
 
-#include <cassert>
-
-#include <QtWidgets/QVBoxLayout>
-
-#include "ShortIntValueFieldWidget.h"
 #include "LongIntValueFieldWidget.h"
 #include "LongLongIntValueFieldWidget.h"
 #include "ScaledIntValueFieldWidget.h"
+#include "ShortIntValueFieldWidget.h"
+
+#include <QtWidgets/QVBoxLayout>
+
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -76,8 +76,8 @@ IntValueFieldWidget::IntValueFieldWidget(FieldPtr fieldPtr, QWidget* parentObj)
     m_childWidget->setEditEnabled(isEditEnabled());
 
     connect(
-        m_childWidget.get(), SIGNAL(sigFieldUpdated()),
-        this, SIGNAL(sigFieldUpdated()));   
+        m_childWidget.get(), &FieldWidget::sigFieldUpdated,
+        this, &IntValueFieldWidget::sigFieldUpdated);
 }
 
 IntValueFieldWidget::~IntValueFieldWidget() noexcept

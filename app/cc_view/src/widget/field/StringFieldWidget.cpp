@@ -38,8 +38,8 @@ StringFieldWidget::StringFieldWidget(
     commonConstruct();
 
     connect(
-        m_ui.m_valuePlainTextEdit, SIGNAL(textChanged()),
-        this, SLOT(stringChanged()));
+        m_ui.m_valuePlainTextEdit, &QPlainTextEdit::textChanged,
+        this, &StringFieldWidget::stringChanged);
 
 
     refresh();

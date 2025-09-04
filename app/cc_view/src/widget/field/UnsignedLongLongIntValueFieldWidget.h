@@ -18,10 +18,10 @@
 
 #pragma once
 
-#include "cc_tools_qt/field/ToolsUnsignedLongField.h"
 #include "FieldWidget.h"
-
 #include "ui_UnsignedLongLongIntValueFieldWidget.h"
+
+#include "cc_tools_qt/field/ToolsUnsignedLongField.h"
 
 namespace cc_tools_qt
 {
@@ -65,7 +65,6 @@ private:
     int m_decimals = 0;
     SpecialValueWidget* m_specialsWidget = nullptr;
 };
-
 
 }  // namespace cc_tools_qt
 

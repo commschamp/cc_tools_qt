@@ -697,8 +697,8 @@ GuiAppMgr::GuiAppMgr(QObject* parentObj)
     m_pendingDisplayTimer.setSingleShot(true);
 
     connect(
-        &m_pendingDisplayTimer, SIGNAL(timeout()),
-        this, SLOT(pendingDisplayTimeout()));
+        &m_pendingDisplayTimer, &QTimer::timeout,
+        this, &GuiAppMgr::pendingDisplayTimeout);
 
     m_sendMgr.setSendMsgsCallbackFunc(
         [](ToolsMessagesList&& msgsToSend)

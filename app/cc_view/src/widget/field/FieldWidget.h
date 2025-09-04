@@ -18,14 +18,14 @@
 
 #pragma once
 
-#include <cassert>
-#include <memory>
-#include <functional>
+#include "cc_tools_qt/ToolsField.h"
 
 #include <QtCore/QVariantMap>
 #include <QtWidgets/QWidget>
 
-#include "cc_tools_qt/ToolsField.h"
+#include <cassert>
+#include <functional>
+#include <memory>
 
 class QLineEdit;
 class QLabel;

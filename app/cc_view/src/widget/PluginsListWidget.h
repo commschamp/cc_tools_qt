@@ -18,10 +18,10 @@
 
 #pragma once
 
-#include <QtWidgets/QWidget>
-#include <QtWidgets/QListWidgetItem>
-
 #include "ui_PluginsListWidget.h"
+
+#include <QtWidgets/QListWidgetItem>
+#include <QtWidgets/QWidget>
 
 namespace cc_tools_qt
 {

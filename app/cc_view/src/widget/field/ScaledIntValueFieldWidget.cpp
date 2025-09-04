@@ -17,12 +17,12 @@
 
 #include "ScaledIntValueFieldWidget.h"
 
+#include "SpecialValueWidget.h"
+
 #include <algorithm>
 #include <cassert>
-#include <limits>
 #include <cmath>
-
-#include "SpecialValueWidget.h"
+#include <limits>
 
 namespace cc_tools_qt
 {
@@ -56,11 +56,13 @@ ScaledIntValueFieldWidget::ScaledIntValueFieldWidget(
 
     refresh();
 
-    connect(m_ui.m_valueSpinBox, SIGNAL(valueChanged(double)),
-            this, SLOT(valueUpdated(double)));
+    connect(
+        m_ui.m_valueSpinBox, qOverload<double>(&QDoubleSpinBox::valueChanged),
+        this, &ScaledIntValueFieldWidget::valueUpdated);
 
-    connect(m_ui.m_serValueLineEdit, SIGNAL(textEdited(const QString&)),
-            this, SLOT(serialisedValueUpdated(const QString&)));
+    connect(
+        m_ui.m_serValueLineEdit, &QLineEdit::textEdited,
+        this, &ScaledIntValueFieldWidget::serialisedValueUpdated);
 }
 
 ScaledIntValueFieldWidget::~ScaledIntValueFieldWidget() noexcept = default;
@@ -151,15 +153,14 @@ bool ScaledIntValueFieldWidget::createSpecialsWidget(const SpecialsList& special
 
     m_specialsWidget = new SpecialValueWidget(specials);
     connect(
-        m_specialsWidget, SIGNAL(sigIntValueChanged(long long)),
-        this, SLOT(specialSelected(long long)));
+        m_specialsWidget, &SpecialValueWidget::sigIntValueChanged,
+        this, &ScaledIntValueFieldWidget::specialSelected);
 
     connect(
-        m_specialsWidget, SIGNAL(sigRefreshReq()),
-        this, SLOT(refresh()));
+        m_specialsWidget, &SpecialValueWidget::sigRefreshReq,
+        this, &ScaledIntValueFieldWidget::refresh);
 
     m_ui.m_valueWidgetLayout->insertWidget(m_ui.m_valueWidgetLayout->count() - 1, m_specialsWidget);
-
     return true;
 }
 

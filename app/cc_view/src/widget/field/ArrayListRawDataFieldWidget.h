@@ -18,10 +18,10 @@
 
 #pragma once
 
-#include "cc_tools_qt/field/ToolsRawDataField.h"
 #include "FieldWidget.h"
-
 #include "ui_ArrayListRawDataFieldWidget.h"
+
+#include "cc_tools_qt/field/ToolsRawDataField.h"
 
 namespace cc_tools_qt
 {

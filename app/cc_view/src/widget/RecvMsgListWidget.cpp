@@ -17,15 +17,17 @@
 
 #include "RecvMsgListWidget.h"
 
-#include <cassert>
-#include <chrono>
+#include "GuiAppMgr.h"
+#include "MsgFileMgrG.h"
+#include "RecvAreaToolBar.h"
+
+#include "cc_tools_qt/property/message.h"
 
 #include <QtWidgets/QVBoxLayout>
 
-#include "cc_tools_qt/property/message.h"
-#include "RecvAreaToolBar.h"
-#include "GuiAppMgr.h"
-#include "MsgFileMgrG.h"
+#include <cassert>
+#include <chrono>
+
 
 namespace cc_tools_qt
 {
@@ -39,27 +41,26 @@ RecvMsgListWidget::RecvMsgListWidget(QWidget* parentObj)
     selectOnAdd(guiMgr->recvMsgListSelectOnAddEnabled());
 
     connect(
-        guiMgr, SIGNAL(sigAddRecvMsg(ToolsMessagePtr)),
-        this, SLOT(addMessage(ToolsMessagePtr)));
+        guiMgr, &GuiAppMgr::sigAddRecvMsg,
+        this, &RecvMsgListWidget::addMessage);
     connect(
-        guiMgr, SIGNAL(sigRecvMsgListSelectOnAddEnabled(bool)),
-        this, SLOT(selectOnAdd(bool)));
+        guiMgr, &GuiAppMgr::sigRecvMsgListSelectOnAddEnabled,
+        this, &RecvMsgListWidget::selectOnAdd);
     connect(
-        guiMgr, SIGNAL(sigRecvMsgListClearSelection()),
-        this, SLOT(clearSelection()));
+        guiMgr, &GuiAppMgr::sigRecvMsgListClearSelection,
+        this, &RecvMsgListWidget::clearSelection);
     connect(
-        guiMgr, SIGNAL(sigRecvDeleteSelectedMsg()),
-        this, SLOT(deleteCurrentMessage()));
+        guiMgr, &GuiAppMgr::sigRecvDeleteSelectedMsg,
+        this, &RecvMsgListWidget::deleteCurrentMessage);
     connect(
-        guiMgr, SIGNAL(sigRecvClear(bool)),
-        this, SLOT(clearList(bool)));
+        guiMgr, &GuiAppMgr::sigRecvClear,
+        this, qOverload<bool>(&RecvMsgListWidget::clearList));
     connect(
-        guiMgr, SIGNAL(sigRecvListTitleNeedsUpdate()),
-        this, SLOT(titleNeedsUpdate()));
+        guiMgr, &GuiAppMgr::sigRecvListTitleNeedsUpdate,
+        this, &RecvMsgListWidget::titleNeedsUpdate);
     connect(
-        guiMgr, SIGNAL(sigRecvSaveMsgs(const QString&)),
-        this, SLOT(saveMessages(const QString&)));
-
+        guiMgr, &GuiAppMgr::sigRecvSaveMsgs,
+        this, &RecvMsgListWidget::saveMessages);
 }
 
 void RecvMsgListWidget::msgClickedImpl(ToolsMessagePtr msg, int idx)

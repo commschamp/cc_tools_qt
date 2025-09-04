@@ -18,12 +18,12 @@
 
 #pragma once
 
-#include <functional>
-#include <array>
+#include "GuiAppMgr.h"
 
 #include <QtWidgets/QToolBar>
 
-#include "GuiAppMgr.h"
+#include <array>
+#include <functional>
 
 class QAction;
 

@@ -53,11 +53,13 @@ EnumValueFieldWidget::EnumValueFieldWidget(
 
     refresh();
 
-    connect(m_ui.m_valueComboBox, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(valueUpdated(int)));
+    connect(
+        m_ui.m_valueComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &EnumValueFieldWidget::valueUpdated);
 
-    connect(m_ui.m_serValueLineEdit, SIGNAL(textEdited(const QString&)),
-            this, SLOT(serialisedValueUpdated(const QString&)));    
+    connect(
+        m_ui.m_serValueLineEdit, &QLineEdit::textEdited,
+        this, &EnumValueFieldWidget::serialisedValueUpdated);
 }
 
 EnumValueFieldWidget::~EnumValueFieldWidget() noexcept = default;

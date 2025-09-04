@@ -18,9 +18,9 @@
 
 #pragma once
 
-#include <QtWidgets/QWidget>
-
 #include "MessageDisplayWidget.h"
+
+#include <QtWidgets/QWidget>
 
 namespace cc_tools_qt
 {

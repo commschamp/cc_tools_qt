@@ -32,8 +32,8 @@ void SpecialValueWidget::commonSetup(const T& infos)
     }
 
     connect(
-        m_ui.m_specialComboBox, SIGNAL(currentIndexChanged(int)),
-        this, SLOT(itemSelected(int)));
+        m_ui.m_specialComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &SpecialValueWidget::itemSelected);
 }
 
 SpecialValueWidget::SpecialValueWidget(

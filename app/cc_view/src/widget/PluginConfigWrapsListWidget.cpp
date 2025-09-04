@@ -17,11 +17,11 @@
 
 #include "PluginConfigWrapsListWidget.h"
 
+#include "PluginMgrG.h"
+
 #include <algorithm>
 #include <cassert>
 #include <iterator>
-
-#include "PluginMgrG.h"
 
 namespace cc_tools_qt
 {

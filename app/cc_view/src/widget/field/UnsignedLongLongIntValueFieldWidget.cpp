@@ -17,12 +17,12 @@
 
 #include "UnsignedLongLongIntValueFieldWidget.h"
 
+#include "SpecialValueWidget.h"
+
 #include <algorithm>
 #include <cassert>
-#include <limits>
 #include <cmath>
-
-#include "SpecialValueWidget.h"
+#include <limits>
 
 namespace cc_tools_qt
 {
@@ -48,12 +48,13 @@ UnsignedLongLongIntValueFieldWidget::UnsignedLongLongIntValueFieldWidget(
 
     refresh();
 
-    connect(m_ui.m_valueLineEdit, SIGNAL(textEdited(const QString&)),
-            this, SLOT(valueUpdated(const QString&)));
+    connect(
+        m_ui.m_valueLineEdit, &QLineEdit::textEdited,
+        this, &UnsignedLongLongIntValueFieldWidget::valueUpdated);
 
-    connect(m_ui.m_serValueLineEdit, SIGNAL(textEdited(const QString&)),
-            this, SLOT(serialisedValueUpdated(const QString&)));
-
+    connect(
+        m_ui.m_serValueLineEdit, &QLineEdit::textEdited,
+        this, &UnsignedLongLongIntValueFieldWidget::serialisedValueUpdated);
 }
 
 UnsignedLongLongIntValueFieldWidget::~UnsignedLongLongIntValueFieldWidget() noexcept = default;
@@ -173,15 +174,14 @@ bool UnsignedLongLongIntValueFieldWidget::createSpecialsWidget(const SpecialsLis
 
     m_specialsWidget = new SpecialValueWidget(adjSpecials);
     connect(
-        m_specialsWidget, SIGNAL(sigIntValueChanged(long long)),
-        this, SLOT(specialSelected(long long)));
+        m_specialsWidget, &SpecialValueWidget::sigIntValueChanged,
+        this, &UnsignedLongLongIntValueFieldWidget::specialSelected);
 
     connect(
-        m_specialsWidget, SIGNAL(sigRefreshReq()),
-        this, SLOT(refresh()));
+        m_specialsWidget, &SpecialValueWidget::sigRefreshReq,
+        this, &UnsignedLongLongIntValueFieldWidget::refresh);
 
     m_ui.m_valueWidgetLayout->insertWidget(m_ui.m_valueWidgetLayout->count(), m_specialsWidget);
-
     return true;
 }
 

@@ -18,12 +18,12 @@
 
 #pragma once
 
-#include <functional>
+#include "FieldWidget.h"
+#include "ui_VariantFieldWidget.h"
 
 #include "cc_tools_qt/field/ToolsVariantField.h"
-#include "FieldWidget.h"
 
-#include "ui_VariantFieldWidget.h"
+#include <functional>
 
 namespace cc_tools_qt
 {

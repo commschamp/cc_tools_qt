@@ -17,12 +17,12 @@
 
 #include "BundleFieldWidget.h"
 
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QFrame>
+
 #include <algorithm>
 #include <cassert>
 #include <type_traits>
-
-#include <QtWidgets/QCheckBox>
-#include <QtWidgets/QFrame>
 
 namespace cc_tools_qt
 {
@@ -58,8 +58,8 @@ void BundleFieldWidget::addMemberField(FieldWidget* memberFieldWidget)
     assert(static_cast<std::size_t>(m_ui.m_membersLayout->count()) == ((m_members.size() * 2) - 1));
 
     connect(
-        memberFieldWidget, SIGNAL(sigFieldUpdated()),
-        this, SLOT(memberFieldUpdated()));
+        memberFieldWidget, &FieldWidget::sigFieldUpdated,
+        this, &BundleFieldWidget::memberFieldUpdated);
 }
 
 ToolsField& BundleFieldWidget::fieldImpl()

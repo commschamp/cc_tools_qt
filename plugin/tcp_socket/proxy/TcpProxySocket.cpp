@@ -327,8 +327,8 @@ void TcpProxySocket::connectionSocketConnected()
     assert(iter->first != nullptr);
 
     connect(
-        iter->first, SIGNAL(readyRead()),
-        this, SLOT(readFromClientSocket()));
+        iter->first, &QTcpSocket::readyRead,
+        this, &TcpProxySocket::readFromClientSocket);
 
     if (0 < iter->first->bytesAvailable()) {
         assert(iter->second);

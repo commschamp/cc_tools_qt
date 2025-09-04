@@ -17,9 +17,9 @@
 
 #include "ProtocolsStackWidget.h"
 
-#include <cassert>
-
 #include "cc_tools_qt/property/message.h"
+
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -37,8 +37,9 @@ ProtocolsStackWidget::ProtocolsStackWidget(QWidget* parentObj)
 {
     m_ui.setupUi(this);
 
-    connect(m_ui.m_protocolsTreeWidget, SIGNAL(itemSelectionChanged()),
-            this, SLOT(newItemSelected()));
+    connect(
+        m_ui.m_protocolsTreeWidget, &QTreeWidget::itemSelectionChanged,
+        this, &ProtocolsStackWidget::newItemSelected);
 }
 
 ProtocolsStackWidget::~ProtocolsStackWidget() noexcept = default;

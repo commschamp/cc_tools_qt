@@ -17,14 +17,14 @@
 
 #pragma once
 
-#include <memory>
-#include <vector>
-
-#include <QtWidgets/QWidget>
+#include "PluginConfigWrapWidget.h"
 
 #include "cc_tools_qt/ToolsPluginMgr.h"
 
-#include "PluginConfigWrapWidget.h"
+#include <QtWidgets/QWidget>
+
+#include <memory>
+#include <vector>
 
 namespace cc_tools_qt
 {

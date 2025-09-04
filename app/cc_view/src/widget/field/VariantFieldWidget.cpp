@@ -52,12 +52,12 @@ VariantFieldWidget::VariantFieldWidget(
     commonConstruct();
 
     connect(
-        m_ui.m_idxSpinBox, SIGNAL(valueChanged(int)),
-        this, SLOT(indexUpdated(int)));
+        m_ui.m_idxSpinBox, qOverload<int>(&QSpinBox::valueChanged),
+        this, &VariantFieldWidget::indexUpdated);
 
     connect(
-        m_ui.m_memberComboBox, SIGNAL(currentIndexChanged(int)),
-        this, SLOT(memberComboUpdated(int)));        
+        m_ui.m_memberComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &VariantFieldWidget::memberComboUpdated);
 }
 
 VariantFieldWidget::~VariantFieldWidget() noexcept = default;
@@ -76,8 +76,8 @@ void VariantFieldWidget::setMemberField(FieldWidget* memberFieldWidget)
     refreshInternal();
 
     connect(
-        m_member, SIGNAL(sigFieldUpdated()),
-        this, SLOT(memberFieldUpdated()));
+        m_member, &FieldWidget::sigFieldUpdated,
+        this, &VariantFieldWidget::memberFieldUpdated);
 }
 
 ToolsField& VariantFieldWidget::fieldImpl()
@@ -249,8 +249,8 @@ void VariantFieldWidget::createMemberWidget()
     m_ui.m_membersLayout->addWidget(m_member);
 
     connect(
-        m_member, SIGNAL(sigFieldUpdated()),
-        this, SLOT(memberFieldUpdated()));
+        m_member, &FieldWidget::sigFieldUpdated,
+        this, &VariantFieldWidget::memberFieldUpdated);
 }
 
 void VariantFieldWidget::fillMemberCombo()

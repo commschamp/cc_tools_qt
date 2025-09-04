@@ -18,11 +18,11 @@
 
 #pragma once
 
-#include <QWidget>
+#include "ui_SpecialValueWidget.h"
+
 #include <QtCore/QList>
 #include <QtCore/QPair>
-
-#include "ui_SpecialValueWidget.h"
+#include <QtWidgets/QWidget>
 
 namespace cc_tools_qt
 {

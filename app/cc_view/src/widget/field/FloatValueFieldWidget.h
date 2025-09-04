@@ -18,10 +18,10 @@
 
 #pragma once
 
-#include "cc_tools_qt/field/ToolsFloatField.h"
 #include "FieldWidget.h"
-
 #include "ui_FloatValueFieldWidget.h"
+
+#include "cc_tools_qt/field/ToolsFloatField.h"
 
 namespace cc_tools_qt
 {

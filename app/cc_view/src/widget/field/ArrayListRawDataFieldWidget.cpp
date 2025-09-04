@@ -41,12 +41,12 @@ ArrayListRawDataFieldWidget::ArrayListRawDataFieldWidget(
     refresh();
 
     connect(
-        m_ui.m_valuePlainTextEdit, SIGNAL(textChanged()),
-        this, SLOT(valueChanged()));
+        m_ui.m_valuePlainTextEdit, &QPlainTextEdit::textChanged,
+        this, &ArrayListRawDataFieldWidget::valueChanged);
 
     connect(
-        m_ui.m_showAllPushButton, SIGNAL(clicked()),
-        this, SLOT(showAllPressed()));
+        m_ui.m_showAllPushButton, &QPushButton::clicked,
+        this, &ArrayListRawDataFieldWidget::showAllPressed);
 }
 
 ArrayListRawDataFieldWidget::~ArrayListRawDataFieldWidget() noexcept = default;
