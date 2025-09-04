@@ -26,14 +26,14 @@
 namespace cc_tools_qt
 {
 
-namespace 
+namespace
 {
 
 const std::string& debugPrefix()
 {
     static const std::string Str("(socket)");
     return Str;
-}    
+}
 
 std::string dataToStr(const ToolsDataInfo::DataSeq& data)
 {
@@ -47,7 +47,7 @@ std::string dataToStr(const ToolsDataInfo::DataSeq& data)
     return stream.str();
 }
 
-} // namespace 
+} // namespace
 
 struct ToolsSocket::InnerState
 {
@@ -116,7 +116,7 @@ void ToolsSocket::sendData(ToolsDataInfoPtr dataPtr)
     if (1U < m_state->m_debugLevel) {
         auto sinceEpoch = dataPtr->m_timestamp.time_since_epoch();
         auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
-        std::cout << '[' << milliseconds << "] " << debugPrefix() << " --> " << dataPtr->m_data.size() << " bytes"; 
+        std::cout << '[' << milliseconds << "] " << debugPrefix() << " --> " << dataPtr->m_data.size() << " bytes";
         if (2U < m_state->m_debugLevel) {
             std::cout << " | " << dataToStr(dataPtr->m_data);
         }
@@ -195,7 +195,7 @@ void ToolsSocket::reportDataReceived(ToolsDataInfoPtr dataPtr)
     if (1U <= m_state->m_debugLevel) {
         auto sinceEpoch = dataPtr->m_timestamp.time_since_epoch();
         auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
-        std::cout << '[' << milliseconds << "] " << debugPrefix() << " <-- " << dataPtr->m_data.size() << " bytes"; 
+        std::cout << '[' << milliseconds << "] " << debugPrefix() << " <-- " << dataPtr->m_data.size() << " bytes";
         if (2U <= m_state->m_debugLevel) {
             std::cout << " | " << dataToStr(dataPtr->m_data);
         }

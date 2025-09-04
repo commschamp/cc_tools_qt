@@ -229,7 +229,7 @@ void VariantFieldWidget::updateMemberCombo()
         m_ui.m_memberComboBox->setCurrentIndex(0); // Set unknown
     }
 
-    m_ui.m_memberComboBox->blockSignals(false);    
+    m_ui.m_memberComboBox->blockSignals(false);
 }
 
 void VariantFieldWidget::destroyMemberWidget()
@@ -266,7 +266,7 @@ void VariantFieldWidget::fillMemberCombo()
         }
 
         membersInfo.push_back(std::make_pair(memName, idx));
-    } 
+    }
 
     std::sort(
         membersInfo.begin(), membersInfo.end(),
@@ -276,7 +276,7 @@ void VariantFieldWidget::fillMemberCombo()
         });
 
     m_ui.m_memberComboBox->blockSignals(true);
-    m_ui.m_memberComboBox->clear(); 
+    m_ui.m_memberComboBox->clear();
     m_ui.m_memberComboBox->addItem(InvalidMemberComboText, QVariant(-1));
     m_ui.m_memberComboBox->insertSeparator(1);
 

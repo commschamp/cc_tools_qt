@@ -78,7 +78,7 @@ public:
         const QString& getVersion() const
         {
             return m_version;
-        }        
+        }
 
         QString getNameWithVersion() const;
 

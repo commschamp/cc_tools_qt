@@ -64,24 +64,24 @@ public:
     };
 
     ~ShortcutMgr() noexcept;
-    
+
     QKeySequence getKeySeq(Key k) const;
-    
+
     static ShortcutMgr* instance();
     static ShortcutMgr& instanceRef();
 
     void updateShortcut(QAction& action, ShortcutMgr::Key key);
-    
+
 signals:
-    void sigKeysUpdated();    
-    
-private: 
+    void sigKeysUpdated();
+
+private:
     using KeyMap = std::array<QKeySequence, Key_NumOfValues>;
 
-    ShortcutMgr();  
-    
+    ShortcutMgr();
+
     void createInitialMap();
-    
+
     KeyMap m_map;
 };
 

@@ -122,7 +122,7 @@ void DefaultMessageDisplayWidget::msgUpdated()
             QByteArray(
                 reinterpret_cast<const char*>(&extraData[0]),
                 static_cast<int>(extraData.size())));
-    property::message::ToolsMsgExtraInfo().setTo(doc.object().toVariantMap(), *m_displayedMsg);    
+    property::message::ToolsMsgExtraInfo().setTo(doc.object().toVariantMap(), *m_displayedMsg);
 }
 
 }  // namespace cc_tools_qt

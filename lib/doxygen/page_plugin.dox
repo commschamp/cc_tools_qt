@@ -6,7 +6,7 @@
 /// to contain its own @b Plugin class that inherits from @ref cc_tools_qt::ToolsPlugin and
 /// uses various Qt macros to describe itself. As an example please take
 /// a look at
-/// <a href="https://github.com/commschamp/cc_tools_qt/blob/master/plugin/echo_socket/EchoSocketPlugin.h">EchoSocketPlugin.h</a> 
+/// <a href="https://github.com/commschamp/cc_tools_qt/blob/master/plugin/echo_socket/EchoSocketPlugin.h">EchoSocketPlugin.h</a>
 /// from this project.
 /// @code
 /// class EchoSocketPlugin : public cc_tools_qt::ToolsPlugin
@@ -17,21 +17,21 @@
 ///     ...
 /// };
 /// @endcode
-/// It must contain 
-/// <a href="http://doc.qt.io/qt-5/qtplugin.html#Q_PLUGIN_METADATA">Q_PLUGIN_METADATA()</a> 
+/// It must contain
+/// <a href="http://doc.qt.io/qt-5/qtplugin.html#Q_PLUGIN_METADATA">Q_PLUGIN_METADATA()</a>
 /// macro with unique ID of the plugin and
 /// name of the file that contains a detailed plugin description. The file contents
-/// are expected to be a valid 
+/// are expected to be a valid
 /// <a href="https://www.w3schools.com/js/js_json_objects.asp">JSON object</a> with
 /// three values:
 /// @li @b name - Short, human readable name of the plugin
 /// @li @b desc - Multi line description of the plugin. The value is expected to
-///     be <a href="https://www.w3schools.com/js/js_json_arrays.asp">JSON array</a> 
+///     be <a href="https://www.w3schools.com/js/js_json_arrays.asp">JSON array</a>
 ///     of strings.
-/// @li @b type - Type of the plugin, can be one of the following: @b socket, 
+/// @li @b type - Type of the plugin, can be one of the following: @b socket,
 ///     @b filter, or @b protocol.
 ///
-/// Please take a look at 
+/// Please take a look at
 /// <a href="https://github.com/commschamp/cc_tools_qt/blob/master/plugin/echo_socket/echo_socket.json">echo_socket.json</a>
 /// as an example.
 /// @code
@@ -48,9 +48,9 @@
 /// <a href="http://doc.qt.io/qt-5/qobject.html#Q_INTERFACES">Q_INTERFACES()</a>
 /// macro.
 ///
-/// Also, don't forget to use 
+/// Also, don't forget to use
 /// <a href="http://doc.qt.io/qt-5/qobject.html#Q_OBJECT">Q_OBJECT</a>
-/// macro and run 
+/// macro and run
 /// <a href="http://doc.qt.io/qt-5/why-moc.html">moc</a>
 /// utility on the header when building the plugin's shared library.
 ///
@@ -58,13 +58,13 @@
 /// Some plugins may require an ability to be configured. For example, remote address
 /// and/or port for TCP/IP client socket.
 ///
-/// The <a href="https://github.com/commschamp/cc_tools_qt">CommsChampion Tools</a> 
+/// The <a href="https://github.com/commschamp/cc_tools_qt">CommsChampion Tools</a>
 /// implement an ability to save and load the list of plugins with their
 /// respective configurations. Such list as well as plugins' configurations are
-/// stored in single file as human readable 
+/// stored in single file as human readable
 /// <a href="https://www.w3schools.com/js/js_json_objects.asp">json object</a>.
 /// The Qt framework implements its own parsing and handling of such files. The
-/// parsed json object is returned as 
+/// parsed json object is returned as
 /// <a href="http://doc.qt.io/qt-5/qvariant.html#QVariantMap-typedef">QVariantMap</a>.
 /// When requested, every plugin must be able to provide its own configuration
 /// by filling the given @b QVariantMap object as well as retrieve and apply the new
@@ -96,11 +96,11 @@
 /// } // namespace cc_tools_qt
 /// @endcode
 /// If the custom plugin being implemented requires external configuration,
-/// the inheriting class is expected to override these functions. It is 
+/// the inheriting class is expected to override these functions. It is
 /// recommended that the plugin will bundle its full configuration as
 /// single @b QVariantMap object, which will be inserted as one value into
 /// the provided @b QVariantMap full configuration object. For example,
-/// let's take a look at 
+/// let's take a look at
 /// <a href="https://github.com/commschamp/cc_tools_qt/blob/master/plugin/tcp_socket/client/TcpClientSocketPlugin.cpp">TCP/IP Client Socket</a>
 /// plugin configuration:
 /// @code
@@ -111,16 +111,16 @@
 /// void TcpClientSocketPlugin::getCurrentConfigImpl(QVariantMap& config)
 /// {
 ///     ...
-/// 
+///
 ///     // Create QVariantMap to contain plugin configuration
-///     QVariantMap subConfig; 
-/// 
+///     QVariantMap subConfig;
+///
 ///     // Store host address and port info
-///     subConfig.insert(HostSubKey, m_socket->getHost()); 
-///     subConfig.insert(PortSubKey, m_socket->getPort()); 
+///     subConfig.insert(HostSubKey, m_socket->getHost());
+///     subConfig.insert(PortSubKey, m_socket->getPort());
 ///
 ///     // Insert the configuration map as single value into provided full configuration map
-///     config.insert(MainConfigKey, QVariant::fromValue(subConfig)); 
+///     config.insert(MainConfigKey, QVariant::fromValue(subConfig));
 /// }
 ///
 /// void TcpClientSocketPlugin::reconfigureImpl(const QVariantMap& config)
@@ -131,16 +131,16 @@
 ///         return;
 ///     }
 ///     auto subConfig = subConfigVar.value<QVariantMap>();
-/// 
+///
 ///     ...
-/// 
+///
 ///     // Retrieve and configure the remote host address
 ///     auto hostVar = subConfig.value(HostSubKey);
 ///     if (hostVar.isValid() && hostVar.canConvert<QString>()) {
 ///         auto host = hostVar.value<QString>();
 ///         m_socket->setHost(host);
 ///     }
-/// 
+///
 ///     // Retrieve and configure the remote port number
 ///     typedef Socket::PortType PortType;
 ///     auto portVar = subConfig.value(PortSubKey);
@@ -154,10 +154,10 @@
 /// @subsection page_plugin_config_widget Configuration Widget
 /// As was mentioned earlier, the plugin may require some configuration. The
 /// command line application will receive required parameters via command line
-/// arguments. The GUI application, on the other hand, must provide a convenient 
-/// way to allow user to perform such configuration. 
+/// arguments. The GUI application, on the other hand, must provide a convenient
+/// way to allow user to perform such configuration.
 ///
-/// The developed plugins are expected to be used "as-is" with any of the 
+/// The developed plugins are expected to be used "as-is" with any of the
 /// <a href="https://github.com/commschamp/cc_tools_qt">CommsChampion Tools</a>
 /// applications, both GUI and command-line ones. As the result, the developed
 /// plugin is expected to be able to create and return a widget object, which will be
@@ -178,9 +178,9 @@
 /// @b NOTE, that the member function returns dynamically allocated widget object,
 /// which will be @b owned by the running application. The plugin does @b NOT need
 /// to store the pointer and delete it later.
-/// 
+///
 /// @subsection page_plugin_gui_actions GUI Actions
-/// For user's convenience, the plugin may also create multiple 
+/// For user's convenience, the plugin may also create multiple
 /// <a href="http://doc.qt.io/qt-5/qaction.html">QAction</a> objects.
 /// This objects will be inserted into main toolbar of the GUI application allowing
 /// users to perform quick updates / notifications to the running plugins.

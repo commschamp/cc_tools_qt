@@ -31,7 +31,7 @@
 namespace cc_tools_qt
 {
 
-namespace 
+namespace
 {
 
 struct MetaTypesRegistrator
@@ -45,13 +45,13 @@ struct MetaTypesRegistrator
 void registerMetaTypesIfNeeded()
 {
     [[maybe_unused]] static const MetaTypesRegistrator Registrator;
-}    
+}
 
 const std::string& debugPrefix()
 {
     static const std::string Str("(protocol)");
     return Str;
-} 
+}
 
 std::string dataToStr(const ToolsDataInfo::DataSeq& data)
 {
@@ -65,7 +65,7 @@ std::string dataToStr(const ToolsDataInfo::DataSeq& data)
     return stream.str();
 }
 
-} // namespace 
+} // namespace
 
 struct ToolsProtocol::InnerState
 {
@@ -157,9 +157,9 @@ ToolsDataInfoPtr ToolsProtocol::write(ToolsMessage& msg)
             std::cout << " | " << dataToStr(dataInfo->m_data);
         }
         std::cout << std::endl;
-    } 
+    }
 
-    return dataInfo;    
+    return dataInfo;
 }
 
 ToolsMessagesList ToolsProtocol::createAllMessages()
@@ -181,9 +181,9 @@ ToolsMessagesList ToolsProtocol::createAllMessages()
         setNameToMessageProperties(*msgPtr);
         setForceExtraInfoExistenceToMessageProperties(*msgPtr);
         updateMessage(*msgPtr);
-    }    
+    }
 
-    return allMsgs;    
+    return allMsgs;
 }
 
 ToolsMessagePtr ToolsProtocol::createMessage(const QString& idAsString, unsigned idx)
@@ -206,7 +206,7 @@ ToolsProtocol::UpdateStatus ToolsProtocol::updateMessage(ToolsMessage& msg)
             return UpdateStatus::Changed;
         }
 
-        return UpdateStatus::NoChange;          
+        return UpdateStatus::NoChange;
     }
 
     auto extraInfo = getExtraInfoFromMessageProperties(msg);
@@ -223,7 +223,7 @@ ToolsProtocol::UpdateStatus ToolsProtocol::updateMessage(ToolsMessage& msg)
     auto infoMsg = m_state->m_frame->createExtraInfoMessage();
     if (!infoMsg) {
         [[maybe_unused]] static constexpr bool Info_must_be_created = false;
-        assert(Info_must_be_created);        
+        assert(Info_must_be_created);
         return UpdateStatus::NoChange;
     }
 
@@ -244,7 +244,7 @@ ToolsProtocol::UpdateStatus ToolsProtocol::updateMessage(ToolsMessage& msg)
 
 ToolsMessagePtr ToolsProtocol::cloneMessage(const ToolsMessage& msg)
 {
-    auto copyCommonProperties = 
+    auto copyCommonProperties =
         [](const ToolsMessage& src, ToolsMessage& dst) {
             property::message::ToolsMsgDelay().copyFromTo(src, dst);
             property::message::ToolsMsgDelayUnits().copyFromTo(src, dst);

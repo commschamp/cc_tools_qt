@@ -64,7 +64,7 @@ FloatValueFieldWidget::FloatValueFieldWidget(
     if (decimals == 0) {
         decimals = DefaultDecimals;
     }
-    m_ui.m_valueSpinBox->setDecimals(decimals);    
+    m_ui.m_valueSpinBox->setDecimals(decimals);
 
     createSpecialsWidget(m_fieldPtr->specials());
 

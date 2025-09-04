@@ -62,7 +62,7 @@ RightPaneWidget::RightPaneWidget(QWidget* parentObj)
 
 void RightPaneWidget::displayMessage(ToolsMessagePtr msg)
 {
-    // Enable edit of the messages that haven't been sent or received yet, 
+    // Enable edit of the messages that haven't been sent or received yet,
     // i.e. reside in the send area.
     m_displayedMsg = msg;
     auto type = static_cast<ToolsMessage::Type>(cc_tools_qt::property::message::ToolsMsgType().getFrom(*msg));
@@ -92,7 +92,7 @@ void RightPaneWidget::msgUpdated()
             displayMessagePostponed(std::move(msgParam), forceUpdate);
         },
         Qt::QueuedConnection
-    );    
+    );
 }
 
 }  // namespace cc_tools_qt

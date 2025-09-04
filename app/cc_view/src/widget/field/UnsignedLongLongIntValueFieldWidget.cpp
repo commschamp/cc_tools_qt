@@ -115,7 +115,7 @@ void UnsignedLongLongIntValueFieldWidget::valueUpdated(const QString& value)
     if (!m_fieldPtr->canWrite()) {
         m_fieldPtr->setDisplayValue(oldValue);
     }
-    
+
     refresh();
     emitFieldUpdated();
 }

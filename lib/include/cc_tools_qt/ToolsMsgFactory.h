@@ -46,7 +46,7 @@ protected:
 private:
     void createDefaultMessagesIfNeeded();
 
-    MessagesListInternal m_defaultMsgs;  
+    MessagesListInternal m_defaultMsgs;
 };
 
 }  // namespace cc_tools_qt

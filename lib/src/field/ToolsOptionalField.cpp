@@ -33,7 +33,7 @@ ToolsOptionalField::Mode ToolsOptionalField::getMode() const
     return getModeImpl();
 }
 
-void ToolsOptionalField::setMode(Mode mode) 
+void ToolsOptionalField::setMode(Mode mode)
 {
     setModeImpl(mode);
 }

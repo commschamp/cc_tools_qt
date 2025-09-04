@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>image/add_raw.png</file>    
+        <file>image/add_raw.png</file>
         <file>image/add.png</file>
         <file>image/app_icon.png</file>
         <file>image/bottom.png</file>
@@ -27,6 +27,6 @@
         <file>image/top.png</file>
         <file>image/up.png</file>
         <file>image/upload.png</file>
-        <file>image/user_comment.png</file>     
+        <file>image/user_comment.png</file>
     </qresource>
 </RCC>

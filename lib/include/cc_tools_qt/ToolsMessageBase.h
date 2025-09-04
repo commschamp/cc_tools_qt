@@ -45,7 +45,7 @@ template <typename TBase, template<typename...> class TProtMsg, typename TActual
 class ToolsMessageBase : public TBase
 {
     using Base = TBase;
-    
+
 public:
     /// @brief Data sequence type
     using DataSeq = typename TBase::DataSeq;
@@ -65,12 +65,12 @@ public:
     /// @brief Default constructor
     ToolsMessageBase() = default;
 
-    ToolsMessageBase(const ProtMsg& msg) : 
-        m_msg(msg) 
+    ToolsMessageBase(const ProtMsg& msg) :
+        m_msg(msg)
     {
     }
 
-    ToolsMessageBase(ProtMsg&& msg) : 
+    ToolsMessageBase(ProtMsg&& msg) :
         m_msg(std::move(msg))
     {
     }
@@ -82,7 +82,7 @@ public:
     }
 
     /// @brief Move Constructor
-    ToolsMessageBase(ToolsMessageBase&& other) : 
+    ToolsMessageBase(ToolsMessageBase&& other) :
         m_msg(std::move(other.m_msg))
     {
     }
@@ -119,7 +119,7 @@ protected:
     /// @brief Overriding polymorphic name retrieval functionality
     virtual const char* nameImpl() const override
     {
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 ProtMsg::hasCustomName(),
                 HasNameTag,
@@ -140,7 +140,7 @@ protected:
     /// @brief Overriding polymorphic retrieval of the numeric id
     virtual qlonglong numericIdImpl() const override
     {
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 ProtMsg::hasStaticMsgId(),
                 HasIdTag,
@@ -155,7 +155,7 @@ protected:
     {
         auto& actObj = static_cast<TActualMsg&>(*this);
         actObj = TActualMsg();
-    }    
+    }
 
     /// @brief Overriding polymorphic assignment
     virtual bool assignImpl(const cc_tools_qt::ToolsMessage& other) override
@@ -169,7 +169,7 @@ protected:
         auto& actObj = static_cast<TActualMsg&>(*this);
         actObj = *castedOther;
         return true;
-    }    
+    }
 
     /// @brief Overriding polymorphic validity check
     /// @details Invokes @b valid() inherited from provided interface
@@ -177,7 +177,7 @@ protected:
     virtual bool isValidImpl() const override
     {
         return m_msg.doValid();
-    }    
+    }
 
     /// @brief Overriding polymorphic serialisation functionaly
     /// @details Invokes @b write() inherited from provided interface
@@ -222,7 +222,7 @@ protected:
     virtual FieldsList transportFieldsImpl() override
     {
         FieldsList fields;
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 ProtMsg::hasTransportFields(),
                 HasTransportFields,
@@ -231,7 +231,7 @@ protected:
 
         updateTransportFieldsInternal(fields, Tag());
         return fields;
-    }    
+    }
 
     virtual FieldsList payloadFieldsImpl() override
     {
@@ -245,8 +245,8 @@ private:
     struct HasIdTag {};
     struct NoIdTag {};
     struct HasNameTag {};
-    struct NoNameTag {};  
-    struct HasTransportFields {};  
+    struct NoNameTag {};
+    struct HasTransportFields {};
     struct NoTransportFields {};
 
     qlonglong numericIdInternal(HasIdTag) const
@@ -257,14 +257,14 @@ private:
 
         static_assert(IsNumeric, "Only numeric message IDs are supported");
         return static_cast<qlonglong>(m_msg.doGetId());
-    }   
+    }
 
     qlonglong numericIdInternal(NoIdTag) const
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
         return static_cast<qlonglong>(0);
-    }     
+    }
 
     const char* nameInternal(HasNameTag) const
     {
@@ -272,24 +272,24 @@ private:
         static_assert(ProtMsg::hasCustomName(), "ProtMsg is expected to define message name");
 
         return m_msg.doName();
-    }   
+    }
 
     const char* nameInternal(NoNameTag) const
     {
         assert(false); // Should not be called
         static const char* NoName = "NO-NAME";
         return NoName;
-    }     
+    }
 
     void updateTransportFieldsInternal(FieldsList& fields, HasTransportFields)
     {
         fields.reserve(std::tuple_size<typename ProtMsg::TransportFields>::value);
         comms::util::tupleForEach(m_msg.transportFields(), details::ToolsFieldCreator(fields));
     }
-    
+
     void updateTransportFieldsInternal([[maybe_unused]] FieldsList& fields, NoTransportFields)
     {
-    }    
+    }
 
     ProtMsg m_msg;
 };

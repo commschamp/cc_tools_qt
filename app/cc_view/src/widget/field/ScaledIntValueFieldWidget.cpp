@@ -50,7 +50,7 @@ ScaledIntValueFieldWidget::ScaledIntValueFieldWidget(
     auto decimals = m_fieldPtr->scaledDecimals();
     if (0 < decimals) {
         m_ui.m_valueSpinBox->setDecimals(decimals);
-    } 
+    }
 
     commonConstruct();
 

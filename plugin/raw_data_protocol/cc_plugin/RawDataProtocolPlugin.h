@@ -48,7 +48,7 @@ public:
     ~RawDataProtocolPlugin() noexcept;
 
 protected:
-    virtual ToolsProtocolPtr createProtocolImpl() override;    
+    virtual ToolsProtocolPtr createProtocolImpl() override;
 };
 
 }  // namespace cc_plugin

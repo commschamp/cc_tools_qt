@@ -94,7 +94,7 @@ SslClientSocket::SslClientSocket()
 
     connect(
         &m_socket, qOverload<const QList<QSslError>&>(&QSslSocket::sslErrors),
-        this, &SslClientSocket::sslErrorsOccurred);        
+        this, &SslClientSocket::sslErrorsOccurred);
 }
 
 SslClientSocket::~SslClientSocket() noexcept
@@ -107,7 +107,7 @@ bool SslClientSocket::socketConnectImpl()
     if ((m_socket.state() == QSslSocket::ConnectedState) ||
         (m_socket.state() == QSslSocket::ConnectingState)) {
         [[maybe_unused]] static constexpr bool Already_connected = false;
-        assert(Already_connected); 
+        assert(Already_connected);
         static const QString AlreadyConnectedError(
             tr("SSL Client is already connected or trying to connect."));
         reportError(AlreadyConnectedError);
@@ -122,18 +122,18 @@ bool SslClientSocket::socketConnectImpl()
         QSslConfiguration config;
 
         static const QString FailedToAddCaError(
-            tr("Failed to add CA certificate(s) from "));        
+            tr("Failed to add CA certificate(s) from "));
 
         if (!m_caDir.isEmpty()) {
             if (!config.addCaCertificates(m_caDir + "/*", m_caDirFormat, QSslCertificate::PatternSyntax::Wildcard)) {
                 reportError(FailedToAddCaError + m_caDir);
-            }            
+            }
         }
 
         if (!m_caFile.isEmpty()) {
             if (!config.addCaCertificates(m_caFile, m_caFileFormat)) {
                 reportError(FailedToAddCaError + m_caFile);
-            }                
+            }
         }
 
         m_socket.setSslConfiguration(config);
@@ -207,7 +207,7 @@ void SslClientSocket::applyInterPluginConfigImpl(const QVariantMap& props)
     static const QString* PortProps[] = {
         &networkPortProp(),
         &sslPortProp(),
-    };    
+    };
 
     for (auto* p : PortProps) {
         auto var = props.value(*p);
@@ -219,7 +219,7 @@ void SslClientSocket::applyInterPluginConfigImpl(const QVariantMap& props)
 
     static const QString* VerifyNameProps[] = {
         &sslVerifyNameProp(),
-    };    
+    };
 
     for (auto* p : VerifyNameProps) {
         auto var = props.value(*p);
@@ -227,7 +227,7 @@ void SslClientSocket::applyInterPluginConfigImpl(const QVariantMap& props)
             setVerifyName(var.value<QString>());
             updated = true;
         }
-    }    
+    }
 
     if (updated) {
         emit sigConfigChanged();
@@ -282,7 +282,7 @@ void SslClientSocket::socketErrorOccurred([[maybe_unused]] QAbstractSocket::Sock
 void SslClientSocket::sslErrorsOccurred(const QList<QSslError>& errs)
 {
     for (auto& e : errs) {
-        if ((m_verifyMode == QSslSocket::VerifyNone) && 
+        if ((m_verifyMode == QSslSocket::VerifyNone) &&
             (e.error() == QSslError::HostNameMismatch) &&
             (m_verifyName.isEmpty())) {
             continue;
@@ -299,7 +299,7 @@ void SslClientSocket::sslErrorsOccurred(const QList<QSslError>& errs)
                 continue;
             }
         }
-        
+
         reportError(QString("SSL Error (%1): %2").arg(e.error()).arg(e.errorString()));
     }
 }

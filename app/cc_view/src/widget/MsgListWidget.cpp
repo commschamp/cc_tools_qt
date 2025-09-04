@@ -137,7 +137,7 @@ void MsgListWidget::deleteCurrentMessage()
     auto* item = m_ui.m_listWidget->currentItem();
     if (item == nullptr) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_for_deletion = false;
-        assert(No_item_is_selected_for_deletion);        
+        assert(No_item_is_selected_for_deletion);
         return;
     }
 
@@ -200,7 +200,7 @@ void MsgListWidget::moveSelectedTop()
     auto curRow = m_ui.m_listWidget->currentRow();
     if (curRow <= 0) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
-        assert(No_item_is_selected_or_moving_up_top_item);         
+        assert(No_item_is_selected_or_moving_up_top_item);
         return;
     }
 
@@ -224,7 +224,7 @@ void MsgListWidget::moveSelectedDown()
     auto curRow = m_ui.m_listWidget->currentRow();
     if ((m_ui.m_listWidget->count() - 1) <= curRow) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
-        assert(No_item_is_selected_or_moving_down_bottom_item);        
+        assert(No_item_is_selected_or_moving_down_bottom_item);
         return;
     }
 
@@ -236,7 +236,7 @@ void MsgListWidget::moveSelectedBottom()
     auto curRow = m_ui.m_listWidget->currentRow();
     if ((m_ui.m_listWidget->count() - 1) <= curRow) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
-        assert(No_item_is_selected_or_moving_down_bottom_item); 
+        assert(No_item_is_selected_or_moving_down_bottom_item);
         return;
     }
 
@@ -312,7 +312,7 @@ void MsgListWidget::msgMovedImpl([[maybe_unused]] int idx)
 QString MsgListWidget::getTitleImpl() const
 {
     [[maybe_unused]] static constexpr bool Should_not_be_called = false;
-    assert(Should_not_be_called);     
+    assert(Should_not_be_called);
     return QString();
 }
 

@@ -53,7 +53,7 @@ public:
 class DataProp : public property::message::ToolsMsgPropBase<QString>
 {
     using Base = property::message::ToolsMsgPropBase<QString>;
-    
+
 public:
     DataProp() : Base("data") {}
 };
@@ -230,7 +230,7 @@ ToolsMessagePtr createMsgObjectFrom(
         if (!msg->decodeData(data)) {
             msg.reset();
             break;
-        }        
+        }
 
     } while (false);
 
@@ -298,7 +298,7 @@ QVariantList convertRecvMsgList(
     for (auto& msg : allMsgs) {
         if (!msg) {
             [[maybe_unused]] static constexpr bool Message_must_exist = false;
-            assert(Message_must_exist);  
+            assert(Message_must_exist);
             continue;
         }
 
@@ -352,7 +352,7 @@ QVariantList convertSendMsgList(
     for (auto& msg : allMsgs) {
         if (!msg) {
             [[maybe_unused]] static constexpr bool Message_must_exist = false;
-            assert(Message_must_exist); 
+            assert(Message_must_exist);
             continue;
         }
 

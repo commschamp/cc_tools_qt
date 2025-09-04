@@ -27,7 +27,7 @@
 namespace cc_tools_qt
 {
 
-namespace 
+namespace
 {
 
 struct MetaTypesRegistrator
@@ -46,8 +46,8 @@ void registerMetaTypesIfNeeded()
     [[maybe_unused]] static const MetaTypesRegistrator Registrator;
 }
 
-} // namespace 
-    
+} // namespace
+
 
 ToolsMessage::~ToolsMessage() noexcept = default;
 

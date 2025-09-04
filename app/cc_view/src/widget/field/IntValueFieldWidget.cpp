@@ -62,7 +62,7 @@ IntValueFieldWidget::IntValueFieldWidget(FieldPtr fieldPtr, QWidget* parentObj)
         }
 
         [[maybe_unused]] static constexpr bool The_handling_of_long_long_types_is_not_implemented_yet = false;
-        assert(The_handling_of_long_long_types_is_not_implemented_yet);  
+        assert(The_handling_of_long_long_types_is_not_implemented_yet);
         return;
     } while (false);
 

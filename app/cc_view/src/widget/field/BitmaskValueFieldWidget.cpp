@@ -111,7 +111,7 @@ void BitmaskValueFieldWidget::checkBoxUpdated(int value)
         auto iter = std::find(m_checkboxes.begin(), m_checkboxes.end(), checkbox);
         if (iter == m_checkboxes.end()) {
             [[maybe_unused]] static constexpr bool Should_not_happen = false;
-            assert(Should_not_happen);    
+            assert(Should_not_happen);
             return;
         }
         auto idx = static_cast<unsigned>(std::distance(m_checkboxes.begin(), iter));

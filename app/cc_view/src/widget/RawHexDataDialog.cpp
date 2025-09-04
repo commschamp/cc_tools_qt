@@ -142,7 +142,7 @@ void RawHexDataDialog::accept()
         auto msg = m_protocol->createInvalidMessage(dataInfo.m_data);
         if (!msg) {
             [[maybe_unused]] static constexpr bool Invalid_message_was_not_created_by_the_protocol = false;
-            assert(Invalid_message_was_not_created_by_the_protocol);               
+            assert(Invalid_message_was_not_created_by_the_protocol);
             Base::accept();
             return;
         }

@@ -42,8 +42,8 @@ public:
     ~NullSocketPlugin() noexcept;
 
 protected:
-    virtual ToolsSocketPtr createSocketImpl() override;    
-    
+    virtual ToolsSocketPtr createSocketImpl() override;
+
 private:
     ToolsSocketPtr m_socket;
 };

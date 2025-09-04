@@ -31,7 +31,7 @@ namespace cc_tools_qt
 namespace plugin
 {
 
-namespace 
+namespace
 {
 
 using PeerVerifyModeMap = std::vector<std::pair<QString, QSslSocket::PeerVerifyMode>>;
@@ -44,7 +44,7 @@ void fillComboBox(const TMap& map, QComboBox& box)
 {
     for (auto& elem : map) {
         box.addItem(elem.first, static_cast<int>(elem.second));
-    }    
+    }
 }
 
 template <typename TMap, typename TVal>
@@ -78,23 +78,23 @@ const SslProtocolMap& sslProtocolMap()
     static const SslProtocolMap Map = {
         {"Any Secure", QSsl::SecureProtocols},
         {"Any Supported", QSsl::AnyProtocol},
-#if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)        
+#if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)
         {"TLSv1.0", QSsl::TlsV1_0},
         {"TLSv1.0+", QSsl::TlsV1_0OrLater},
         {"TLSv1.1", QSsl::TlsV1_1},
         {"TLSv1.1+", QSsl::TlsV1_1OrLater},
         {"TLSv1.2", QSsl::TlsV1_2},
-#endif // #if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)         
+#endif // #if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)
         {"TLSv1.2+", QSsl::TlsV1_2OrLater},
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
         {"TLSv1.3", QSsl::TlsV1_3},
         {"TLSv1.3+", QSsl::TlsV1_3OrLater},
 #endif // #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-#if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)        
+#if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)
         {"DTLSv1.0", QSsl::DtlsV1_0},
         {"DTLSv1.0+", QSsl::DtlsV1_0OrLater},
         {"DTLSv1.2", QSsl::DtlsV1_2},
-#endif // #if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)                 
+#endif // #if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)
         {"DTLSv1.2+", QSsl::DtlsV1_2OrLater},
     };
 
@@ -124,8 +124,8 @@ const KeyAlgorithmMap& keyAlgorithmMap()
     return Map;
 }
 
-} // namespace 
-    
+} // namespace
+
 
 SslClientSocketConfigWidget::SslClientSocketConfigWidget(
     SslClientSocket& socket,
@@ -142,7 +142,7 @@ SslClientSocketConfigWidget::SslClientSocketConfigWidget(
     fillComboBox(encodingFormatMap(), *m_ui.m_caDirFormatComboBox);
     fillComboBox(encodingFormatMap(), *m_ui.m_caFileFormatComboBox);
     fillComboBox(peerVerifyModeMap(), *m_ui.m_verifyHostComboBox);
-    fillComboBox(sslProtocolMap(), *m_ui.m_protocolComboBox);    
+    fillComboBox(sslProtocolMap(), *m_ui.m_protocolComboBox);
     fillComboBox(encodingFormatMap(), *m_ui.m_certFormatComboBox);
     fillComboBox(keyAlgorithmMap(), *m_ui.m_privKeyAlgComboBox);
     fillComboBox(encodingFormatMap(), *m_ui.m_privKeyFormatComboBox);
@@ -159,7 +159,7 @@ SslClientSocketConfigWidget::SslClientSocketConfigWidget(
 
     connect(
         m_ui.m_caDirLineEdit, &QLineEdit::textChanged,
-        this, &SslClientSocketConfigWidget::caDirValueChanged);  
+        this, &SslClientSocketConfigWidget::caDirValueChanged);
 
     connect(
         m_ui.m_caDirToolButton, &QToolButton::clicked,
@@ -167,11 +167,11 @@ SslClientSocketConfigWidget::SslClientSocketConfigWidget(
 
     connect(
         m_ui.m_caDirFormatComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
-        this, &SslClientSocketConfigWidget::caDirFormatIndexChanged);     
+        this, &SslClientSocketConfigWidget::caDirFormatIndexChanged);
 
     connect(
         m_ui.m_caFileLineEdit, &QLineEdit::textChanged,
-        this, &SslClientSocketConfigWidget::caFileValueChanged);  
+        this, &SslClientSocketConfigWidget::caFileValueChanged);
 
     connect(
         m_ui.m_caFileToolButton, &QToolButton::clicked,
@@ -179,19 +179,19 @@ SslClientSocketConfigWidget::SslClientSocketConfigWidget(
 
     connect(
         m_ui.m_caFileFormatComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
-        this, &SslClientSocketConfigWidget::caFileFormatIndexChanged);         
+        this, &SslClientSocketConfigWidget::caFileFormatIndexChanged);
 
     connect(
         m_ui.m_verifyHostComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
-        this, &SslClientSocketConfigWidget::verifyHostIndexChanged);     
+        this, &SslClientSocketConfigWidget::verifyHostIndexChanged);
 
     connect(
         m_ui.m_verifyNameLineEdit, &QLineEdit::textChanged,
-        this, &SslClientSocketConfigWidget::verifyNameValueChanged);          
+        this, &SslClientSocketConfigWidget::verifyNameValueChanged);
 
     connect(
         m_ui.m_protocolComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
-        this, &SslClientSocketConfigWidget::sslProtocolIndexChanged);                   
+        this, &SslClientSocketConfigWidget::sslProtocolIndexChanged);
 
     connect(
         m_ui.m_certLineEdit,  &QLineEdit::textChanged,
@@ -227,7 +227,7 @@ SslClientSocketConfigWidget::SslClientSocketConfigWidget(
 
     connect(
         m_ui.m_privKeyShowHidePushButton,  &QPushButton::clicked,
-        this, &SslClientSocketConfigWidget::privKeyShowHideClicked);        
+        this, &SslClientSocketConfigWidget::privKeyShowHideClicked);
 }
 
 SslClientSocketConfigWidget::~SslClientSocketConfigWidget() noexcept = default;
@@ -237,17 +237,17 @@ void SslClientSocketConfigWidget::refresh()
     m_ui.m_hostLineEdit->setText(m_socket.getHost());
     m_ui.m_portSpinBox->setValue(static_cast<int>(m_socket.getPort()));
     m_ui.m_caDirLineEdit->setText(m_socket.getCaDir());
-    selectComboBoxText(encodingFormatMap(), m_socket.getCaDirFormat(), *m_ui.m_caDirFormatComboBox);     
+    selectComboBoxText(encodingFormatMap(), m_socket.getCaDirFormat(), *m_ui.m_caDirFormatComboBox);
     m_ui.m_caFileLineEdit->setText(m_socket.getCaFile());
-    selectComboBoxText(encodingFormatMap(), m_socket.getCaFileFormat(), *m_ui.m_caFileFormatComboBox);     
+    selectComboBoxText(encodingFormatMap(), m_socket.getCaFileFormat(), *m_ui.m_caFileFormatComboBox);
     selectComboBoxText(peerVerifyModeMap(), m_socket.getVerifyMode(), *m_ui.m_verifyHostComboBox);
     m_ui.m_verifyNameLineEdit->setText(m_socket.getVerifyName());
     selectComboBoxText(sslProtocolMap(), m_socket.getSslProtocol(), *m_ui.m_protocolComboBox);
     m_ui.m_certLineEdit->setText(m_socket.getCertFile());
-    selectComboBoxText(encodingFormatMap(), m_socket.getCertFormat(), *m_ui.m_certFormatComboBox);     
+    selectComboBoxText(encodingFormatMap(), m_socket.getCertFormat(), *m_ui.m_certFormatComboBox);
     m_ui.m_privKeyLineEdit->setText(m_socket.getPrivKeyFile());
-    selectComboBoxText(keyAlgorithmMap(), m_socket.getPrivKeyAlg(), *m_ui.m_privKeyAlgComboBox);     
-    selectComboBoxText(encodingFormatMap(), m_socket.getPrivKeyFormat(), *m_ui.m_privKeyFormatComboBox);     
+    selectComboBoxText(keyAlgorithmMap(), m_socket.getPrivKeyAlg(), *m_ui.m_privKeyAlgComboBox);
+    selectComboBoxText(encodingFormatMap(), m_socket.getPrivKeyFormat(), *m_ui.m_privKeyFormatComboBox);
     m_ui.m_privKeyPassLineEdit->setText(m_socket.getPrivKeyPass());
 }
 
@@ -268,9 +268,9 @@ void SslClientSocketConfigWidget::caDirValueChanged(const QString& value)
 
 void SslClientSocketConfigWidget::caDirSelectClicked()
 {
-    QString dir = 
+    QString dir =
         QFileDialog::getExistingDirectory(
-            this, 
+            this,
             tr("Select CA Directory"),
             m_socket.getCaDir(),
             QFileDialog::ShowDirsOnly);
@@ -292,9 +292,9 @@ void SslClientSocketConfigWidget::caFileValueChanged(const QString& value)
 
 void SslClientSocketConfigWidget::caFileSelectClicked()
 {
-    QString file = 
+    QString file =
         QFileDialog::getOpenFileName(
-            this, 
+            this,
             tr("Select CA File"),
             m_socket.getCaFile());
 
@@ -330,9 +330,9 @@ void SslClientSocketConfigWidget::certValueChanged(const QString& value)
 
 void SslClientSocketConfigWidget::certSelectClicked()
 {
-    QString file = 
+    QString file =
         QFileDialog::getOpenFileName(
-            this, 
+            this,
             tr("Select Local Certificate File"),
             m_socket.getCertFile());
 
@@ -353,9 +353,9 @@ void SslClientSocketConfigWidget::privKeyValueChanged(const QString& value)
 
 void SslClientSocketConfigWidget::privKeySelectClicked()
 {
-    QString file = 
+    QString file =
         QFileDialog::getOpenFileName(
-            this, 
+            this,
             tr("Select Private Key File"),
             m_socket.getPrivKeyFile());
 
@@ -387,7 +387,7 @@ void SslClientSocketConfigWidget::privKeyShowHideClicked(bool checked)
         mode = QLineEdit::Normal;
         buttonText = tr("Hide");
     }
-    
+
     m_ui.m_privKeyPassLineEdit->setEchoMode(mode);
     m_ui.m_privKeyShowHidePushButton->setText(buttonText);
 }

@@ -46,7 +46,7 @@ public:
 
     ToolsField();
     virtual ~ToolsField() noexcept;
-    
+
     ToolsField(const ToolsField&) = delete;
     ToolsField& operator=(const ToolsField&) = delete;
 
@@ -76,13 +76,13 @@ public:
 
     Members& getMembers();
     const Members& getMembers() const;
-    void setMembers(Members&& members);    
+    void setMembers(Members&& members);
 
     void forceReadOnly();
     bool isReadOnly() const;
 
     void forceHiddenSerialization();
-    bool isHiddenSerialization() const;    
+    bool isHiddenSerialization() const;
 
 protected:
     virtual const char* nameImpl() const = 0;

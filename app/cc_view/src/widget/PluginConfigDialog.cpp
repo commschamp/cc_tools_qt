@@ -329,7 +329,7 @@ void PluginConfigDialog::topClicked()
     auto curRow = m_currentSelectedList->currentRow();
     if (curRow <= 0) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
-        assert(No_item_is_selected_or_moving_up_top_item);          
+        assert(No_item_is_selected_or_moving_up_top_item);
         return;
     }
 
@@ -349,7 +349,7 @@ void PluginConfigDialog::upClicked()
     auto curRow = m_currentSelectedList->currentRow();
     if (curRow <= 0) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
-        assert(No_item_is_selected_or_moving_up_top_item);   
+        assert(No_item_is_selected_or_moving_up_top_item);
         return;
     }
 
@@ -369,7 +369,7 @@ void PluginConfigDialog::downClicked()
     auto curRow = m_currentSelectedList->currentRow();
     if ((m_currentSelectedList->count() - 1) <= curRow) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
-        assert(No_item_is_selected_or_moving_down_bottom_item);           
+        assert(No_item_is_selected_or_moving_down_bottom_item);
         return;
     }
 
@@ -385,11 +385,11 @@ void PluginConfigDialog::bottomClicked()
     auto pluginInfoPtr = getPluginInfo(item);
     assert(pluginInfoPtr);
     m_allConfigWidget->moveBottom(pluginInfoPtr);
-        
+
     auto curRow = m_currentSelectedList->currentRow();
     if ((m_currentSelectedList->count() - 1) <= curRow) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
-        assert(No_item_is_selected_or_moving_down_bottom_item);        
+        assert(No_item_is_selected_or_moving_down_bottom_item);
         return;
     }
 

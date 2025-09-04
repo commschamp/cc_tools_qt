@@ -42,7 +42,7 @@ public:
     ~EchoSocketPlugin() noexcept;
 
 protected:
-    virtual ToolsSocketPtr createSocketImpl() override;    
+    virtual ToolsSocketPtr createSocketImpl() override;
 
 private:
     cc_tools_qt::ToolsSocketPtr m_socket;

@@ -34,7 +34,7 @@ namespace raw_data_protocol
 namespace cc_plugin
 {
 
-using RawDataProtocolAllMessages = 
+using RawDataProtocolAllMessages =
     std::tuple<
         RawDataProtocolDataMessage
     >;

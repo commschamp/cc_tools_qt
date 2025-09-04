@@ -37,7 +37,7 @@ const QString PortSubKey("port");
 
 }  // namespace
 
-TcpClientSocketPlugin::TcpClientSocketPlugin() : 
+TcpClientSocketPlugin::TcpClientSocketPlugin() :
     Base(Type_Socket)
 {
 }

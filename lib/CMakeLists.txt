@@ -1,6 +1,6 @@
 function (lib_tools)
     set (name "${PROJECT_NAME}")
-    
+
     set (src
         src/field/ToolsArrayListField.cpp
         src/field/ToolsBitfieldField.cpp
@@ -44,7 +44,7 @@ function (lib_tools)
         include/cc_tools_qt/ToolsProtocol.h
         include/cc_tools_qt/ToolsSocket.h
     )
-    
+
     add_library(${name} SHARED ${src} ${moc})
     add_library (cc::${PROJECT_NAME} ALIAS ${name})
 
@@ -58,13 +58,13 @@ function (lib_tools)
             $<INSTALL_INTERFACE:include>
     )
 
-    target_compile_definitions(${name} PRIVATE -DCC_TOOLS_QT_EXPORT)    
+    target_compile_definitions(${name} PRIVATE -DCC_TOOLS_QT_EXPORT)
     target_compile_options(${name} PUBLIC
         $<$<CXX_COMPILER_ID:MSVC>:/bigobj /wd4127 /wd5054 /wd5240>
     )
-    
+
     set_target_properties(${name} PROPERTIES VERSION ${CC_TOOLS_QT_VERSION})
-    
+
     install (
         TARGETS ${name} EXPORT ${name}Export
         LIBRARY DESTINATION ${LIB_INSTALL_DIR}
@@ -83,8 +83,8 @@ function (lib_tools)
             DIRECTORY "include/cc_tools_qt"
             DESTINATION ${INC_INSTALL_DIR}
         )
-    endif()     
-    
+    endif()
+
 endfunction ()
 
 ###########################################################
@@ -92,7 +92,7 @@ endfunction ()
 find_package (Doxygen)
 if (DOXYGEN_FOUND)
     set (doc_output_dir "${DOC_INSTALL_DIR}/cc_tools_qt")
-    set (output_file "${CMAKE_CURRENT_BINARY_DIR}/doxygen.conf")    
+    set (output_file "${CMAKE_CURRENT_BINARY_DIR}/doxygen.conf")
 
     set (out_dir_match_str "OUTPUT_DIRECTORY[^\n]*")
     set (out_dir_replacement_str "OUTPUT_DIRECTORY = ${doc_output_dir}")
@@ -112,9 +112,9 @@ if (DOXYGEN_FOUND)
     add_custom_target ("doc_cc_tools_qt"
             COMMAND ${CMAKE_COMMAND} -E make_directory ${doc_output_dir}
             COMMAND ${DOXYGEN_EXECUTABLE} ${output_file}
-            COMMAND ${CMAKE_COMMAND} -DDOC_OUTPUT_DIR="${doc_output_dir}" -P 
+            COMMAND ${CMAKE_COMMAND} -DDOC_OUTPUT_DIR="${doc_output_dir}" -P
                             ${LibComms_DIR}/CC_DocCleanupScript.cmake
-            COMMAND ${CMAKE_COMMAND} -E copy_directory 
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
                     ${CMAKE_CURRENT_SOURCE_DIR}/doxygen/image ${doc_output_dir}/html/image
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 endif ()
@@ -131,12 +131,12 @@ if (WIN32)
     if (NOT QTPLATFORMSUPPORT)
         set (QTPLATFORMSUPPORT)
     endif ()
-    
+
     set (CC_PLATFORM_SPECIFIC ${QTPLATFORMSUPPORT} Setupapi.lib Ws2_32.lib opengl32.lib imm32.lib winmm.lib)
 
-endif ()   
+endif ()
 
 lib_tools()
 
-   
+
 

@@ -72,7 +72,7 @@ protected:
 
     const ValueInfosList& valuesImpl() const override
     {
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 std::is_same_v<typename Field::ValueNameInfo, const char*>,
                 SeqValuesTag,

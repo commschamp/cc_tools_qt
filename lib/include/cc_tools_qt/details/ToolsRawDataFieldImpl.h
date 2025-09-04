@@ -124,14 +124,14 @@ protected:
         if (Base::isTruncated()) {
             serValue.resize(Base::TruncateLength);
         }
-        
+
         return serValue;
     }
 
     virtual bool setSerialisedValueImpl([[maybe_unused]] const SerialisedSeq& value) override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
         return false;
     }
 

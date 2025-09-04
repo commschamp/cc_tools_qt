@@ -56,7 +56,7 @@ public:
     static ToolsFieldPtr createField(TField& field)
     {
         using DecayedField = typename std::decay<decltype(field)>::type;
-        using Tag = typename DecayedField::CommsTag;        
+        using Tag = typename DecayedField::CommsTag;
         return createFieldInternal(field, Tag());
     }
 
@@ -118,7 +118,7 @@ private:
         static_assert(std::is_integral<ValueType>::value,
             "ValueType is expected to be integral");
 
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 std::is_signed_v<ValueType> || (sizeof(ValueType) < sizeof(std::uint64_t)),
                 RegularIntTag,
@@ -290,7 +290,7 @@ private:
     }
 
 private:
-    FieldsList& m_fields;    
+    FieldsList& m_fields;
 };
 
 }  // namespace details

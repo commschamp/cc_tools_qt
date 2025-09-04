@@ -46,7 +46,7 @@ const QString AppDataStorageFileName("startup_config.json");
 QString getConfigPath(const QString& configName)
 {
     QFileInfo fileInfo(configName);
-    auto getPathFunc = 
+    auto getPathFunc =
         [&configName](const QDir& inDir)
         {
             if (configName.isEmpty()) {
@@ -126,7 +126,7 @@ void GuiAppMgr::setFilteredMessages(FilteredMessages&& filteredMessages)
     if (filteredMessages == m_filteredMessages) {
         return;
     }
-    
+
     m_filteredMessages = std::move(filteredMessages);
 
     if (recvListApplyFilter()) {

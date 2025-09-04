@@ -65,11 +65,11 @@ MessagesFilterDialog::MessagesFilterDialog(
 
     connect(
         m_ui.m_hideSelectedPushButton, &QPushButton::clicked,
-        this, &MessagesFilterDialog::hideSelectedClicked);  
+        this, &MessagesFilterDialog::hideSelectedClicked);
 
     connect(
         m_ui.m_showSelectedPushButton, &QPushButton::clicked,
-        this, &MessagesFilterDialog::showSelectedClicked);                
+        this, &MessagesFilterDialog::showSelectedClicked);
 
     connect(
         m_ui.m_showAllPushButton, &QPushButton::clicked,
@@ -81,15 +81,15 @@ MessagesFilterDialog::MessagesFilterDialog(
 
     connect(
         m_ui.m_visibleListWidget, &QListWidget::itemDoubleClicked,
-        this, &MessagesFilterDialog::hideVisible);        
+        this, &MessagesFilterDialog::hideVisible);
 
     connect(
         m_ui.m_hiddenListWidget, &QListWidget::itemSelectionChanged,
-        this, &MessagesFilterDialog::hiddenSelected);   
+        this, &MessagesFilterDialog::hiddenSelected);
 
     connect(
         m_ui.m_clearSearchToolButton, &QToolButton::clicked,
-        this, &MessagesFilterDialog::clearSearchText);              
+        this, &MessagesFilterDialog::clearSearchText);
 
     connect(
         m_ui.m_hiddenListWidget, &QListWidget::itemDoubleClicked,
@@ -218,7 +218,7 @@ void MessagesFilterDialog::moveAllMessages(FilteredMessages& from, FilteredMessa
     std::move(from.begin(), from.end(), std::back_inserter(to));
     std::sort(to.begin(), to.end());
     from.clear();
-    refresh();    
+    refresh();
 }
 
 void MessagesFilterDialog::moveSelectedMessages(QListWidget& list, FilteredMessages& from, FilteredMessages& to)
@@ -245,7 +245,7 @@ void MessagesFilterDialog::moveSelectedItem(const QListWidgetItem* item, Filtere
 
     if (finalUpdate) {
         std::sort(to.begin(), to.end());
-        refresh();        
+        refresh();
     }
 }
 

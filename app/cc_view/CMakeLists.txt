@@ -5,5 +5,5 @@ if (UNIX)
         PROGRAMS script/cc_view.sh
         DESTINATION ${BIN_INSTALL_DIR}
     )
-endif ()  
+endif ()
 

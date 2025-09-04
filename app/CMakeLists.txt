@@ -15,7 +15,7 @@ add_subdirectory (cc_view)
 
 if (WIN32)
     add_custom_target ("deploy_qt"
-        COMMAND ${CMAKE_COMMAND} 
+        COMMAND ${CMAKE_COMMAND}
             -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
             -DCC_BIN_DIR=${BIN_INSTALL_DIR} -DCC_PLUGIN_DIR=${PLUGIN_INSTALL_DIR}
             -P ${PROJECT_SOURCE_DIR}/cmake/CC_DeployQtScript.cmake

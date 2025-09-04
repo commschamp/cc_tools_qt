@@ -48,7 +48,7 @@ private slots:
     void deviceChanged(int idx);
     void deviceRefreshClicked(bool checked);
     void deviceEditClicked(bool checked);
-    
+
     void baudChanged(int value);
     void dataBitsChanged(int value);
     void parityChanged(int value);

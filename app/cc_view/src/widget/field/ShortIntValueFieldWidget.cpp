@@ -43,10 +43,10 @@ ShortIntValueFieldWidget::ShortIntValueFieldWidget(
     createSpecialsWidget(m_fieldPtr->specials());
 
     m_ui.m_valueSpinBox->setRange(
-        static_cast<int>(m_fieldPtr->minValue()), 
+        static_cast<int>(m_fieldPtr->minValue()),
         static_cast<int>(m_fieldPtr->maxValue()));
 
-    commonConstruct();        
+    commonConstruct();
 
     connect(
         m_ui.m_valueSpinBox, qOverload<int>(&QSpinBox::valueChanged),

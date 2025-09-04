@@ -1,15 +1,15 @@
 /// @mainpage cc_tools_qt Library
 /// @tableofcontents
-/// The <a href="https://github.com/commschamp/cc_tools_qt">CommsChampion Tools</a> 
-/// are there to provide consistent and generic environment for binary protocols 
-/// visualisation, traffic monitor and analysis. They are all plugin based. 
-/// Plugins are used to select I/O socket, protocol definition itself as well as 
-/// zero or more data filters in between. The @b cc_tools_qt library can be 
+/// The <a href="https://github.com/commschamp/cc_tools_qt">CommsChampion Tools</a>
+/// are there to provide consistent and generic environment for binary protocols
+/// visualisation, traffic monitor and analysis. They are all plugin based.
+/// Plugins are used to select I/O socket, protocol definition itself as well as
+/// zero or more data filters in between. The @b cc_tools_qt library can be
 /// used to develop such plugins as well as new custom tool applications.
 ///
 /// The overall picture looks like this:
 /// @diafile app_plugin_lib_rel.dia
-/// The @b cc_tools_qt shared library contains common code that 
+/// The @b cc_tools_qt shared library contains common code that
 /// is used by both the application and the plugin to it. The plugin itself is
 /// also a shared library, which is loaded by the application at run-time. It allows
 /// the @b application to be completely generic and used with any protocol.
@@ -22,17 +22,17 @@
 ///
 /// @diafile plugins.dia
 ///
-/// The @b socket and  @b protocol plugins are "must have" ones, without them 
-/// the tools won't be able to operate properly. The @b filters, on the other 
-/// hand, are optional. They need to be used when there are any additional 
-/// transport layers and/or encryption between the raw data received by the 
-/// I/O @b socket and the data delivered to the analysed communication 
-/// @b protocol for processing. 
+/// The @b socket and  @b protocol plugins are "must have" ones, without them
+/// the tools won't be able to operate properly. The @b filters, on the other
+/// hand, are optional. They need to be used when there are any additional
+/// transport layers and/or encryption between the raw data received by the
+/// I/O @b socket and the data delivered to the analysed communication
+/// @b protocol for processing.
 ///
 /// The @b cc_tools_qt shared library is implemented using
 /// <a href="https://www.qt.io/">Qt</a> framework using its
 /// signals/slots functionality and expects
-/// the main application to drive the event loop using 
+/// the main application to drive the event loop using
 /// <a href="https://doc.qt.io/qt-5/qapplication.html">QApplication</a> object.
 /// @code
 /// int main(int argc, char* argv[])

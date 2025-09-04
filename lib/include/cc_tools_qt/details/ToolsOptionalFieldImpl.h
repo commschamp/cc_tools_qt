@@ -40,7 +40,7 @@ public:
     using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
     using Field = TField;
-    
+
     explicit ToolsOptionalFieldImpl(Field& fieldRef)
       : Base(fieldRef)
     {

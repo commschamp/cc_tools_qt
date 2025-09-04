@@ -33,12 +33,12 @@ public:
     RightPaneWidget(QWidget* parentObj = nullptr);
 
 private slots:
-    void displayMessage(ToolsMessagePtr msg);    
-    void displayMessagePostponed(cc_tools_qt::ToolsMessagePtr msg, bool force);    
+    void displayMessage(ToolsMessagePtr msg);
+    void displayMessagePostponed(cc_tools_qt::ToolsMessagePtr msg, bool force);
     void msgUpdated();
 
 private:
-    MessageDisplayWidget* m_displayWidget = nullptr;  
+    MessageDisplayWidget* m_displayWidget = nullptr;
     ToolsMessagePtr m_displayedMsg;
 };
 

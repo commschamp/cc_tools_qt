@@ -1,6 +1,6 @@
 function (bin_cc_view)
     set (name "cc_view")
-    
+
     set (src
         main.cpp
         dir.cpp
@@ -54,7 +54,7 @@ function (bin_cc_view)
         widget/field/UnknownValueFieldWidget.cpp
         widget/field/SpecialValueWidget.cpp
     )
-    
+
     set (
         ui
         ui/MainWindowWidget.ui
@@ -90,9 +90,9 @@ function (bin_cc_view)
     set (resources
         ui.qrc
     )
-    
+
     set (gui_exe)
-    if ((WIN32) AND 
+    if ((WIN32) AND
         (NOT CC_TOOLS_QT_WIN32_FORCE_CONSOLE_APPS) AND
         (("${CMAKE_BUILD_TYPE}" STREQUAL "Release") OR ("${CMAKE_BUILD_TYPE}" STREQUAL "MinSizeRel")))
         set (gui_exe WIN32)
@@ -102,17 +102,17 @@ function (bin_cc_view)
 
     add_executable(${name} ${gui_exe} ${ui} ${resources} ${src})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Widgets Qt::Core)
-    
+
     install (
         TARGETS ${name}
         DESTINATION ${BIN_INSTALL_DIR})
-        
+
     install (
         FILES image/app_icon.png
         DESTINATION ${ICON_INSTALL_DIR}
         RENAME cc_view.png
     )
-        
+
 endfunction ()
 
 ###########################################################

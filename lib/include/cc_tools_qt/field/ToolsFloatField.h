@@ -39,7 +39,7 @@ public:
     using UnderlyingType = Base::UnderlyingType;
     using ActPtr = std::unique_ptr<ToolsFloatField>;
     using SpecialType = QPair<QString, UnderlyingType>;
-    using SpecialsList = QList<SpecialType>;    
+    using SpecialsList = QList<SpecialType>;
 
     ToolsFloatField();
     virtual ~ToolsFloatField() noexcept;

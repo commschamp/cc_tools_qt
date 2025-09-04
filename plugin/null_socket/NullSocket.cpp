@@ -22,7 +22,7 @@
 namespace cc_tools_qt
 {
 
-namespace plugin    
+namespace plugin
 {
 
 NullSocket::NullSocket() = default;

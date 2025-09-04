@@ -73,7 +73,7 @@ public:
     {
         return static_cast<int>(maxLength()) * 2;
     }
-    
+
 
 private:
     virtual UnderlyingType getValueImpl() const = 0;

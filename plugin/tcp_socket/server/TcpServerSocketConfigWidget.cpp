@@ -41,7 +41,7 @@ TcpServerSocketConfigWidget::TcpServerSocketConfigWidget(
 
     connect(
         &socket, &TcpServerSocket::sigConfigChanged,
-        this, &TcpServerSocketConfigWidget::refresh);      
+        this, &TcpServerSocketConfigWidget::refresh);
 
     connect(
         m_ui.m_portSpinBox, qOverload<int>(&QSpinBox::valueChanged),

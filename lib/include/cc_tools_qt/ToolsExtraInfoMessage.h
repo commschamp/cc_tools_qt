@@ -40,18 +40,18 @@ namespace details
 {
 
 template <typename TFieldBase>
-class ToolsExtraInfoMessageData : public 
+class ToolsExtraInfoMessageData : public
     comms::field::String<
         TFieldBase,
         comms::option::def::HasName
     >
 {
-    using Base = 
+    using Base =
         comms::field::String<
             TFieldBase,
             comms::option::def::HasName
-        >;        
-public:    
+        >;
+public:
     static const char* name()
     {
         return "";
@@ -91,15 +91,15 @@ class ToolsExtraInfoMessage : public
         ToolsExtraInfoMessage<TBase>
     >
 {
-    using Base = 
+    using Base =
         cc_tools_qt::ToolsMessageBase<
             TBase,
             details::ToolsExtraInfoMessageImpl,
             ToolsExtraInfoMessage<TBase>
-        >;    
+        >;
 public:
     using FieldsList = typename Base::FieldsList;
-    
+
     virtual ~ToolsExtraInfoMessage() noexcept = default;
 
 protected:
@@ -112,20 +112,20 @@ protected:
     virtual void resetImpl() override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
     }
 
     virtual bool assignImpl([[maybe_unused]] const cc_tools_qt::ToolsMessage& other) override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
         return false;
     }
 
     virtual FieldsList transportFieldsImpl() override
     {
         return FieldsList();
-    }    
+    }
 
     virtual FieldsList payloadFieldsImpl() override
     {

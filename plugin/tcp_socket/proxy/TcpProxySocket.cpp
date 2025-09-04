@@ -103,7 +103,7 @@ bool TcpProxySocket::socketConnectImpl()
 {
     if (m_server.isListening()) {
         [[maybe_unused]] static constexpr bool Already_listening = false;
-        assert(Already_listening); 
+        assert(Already_listening);
         static const QString AlreadyListeningError(
             tr("Previous run of TCP/IP Server socket wasn't terminated properly."));
         reportError(AlreadyListeningError);
@@ -196,7 +196,7 @@ void TcpProxySocket::applyInterPluginConfigImpl(const QVariantMap& props)
     static const QString* PortProps[] = {
         &networkPortProp(),
         &tcpPortProp(),
-    };    
+    };
 
     for (auto* p : PortProps) {
         auto var = props.value(*p);
@@ -209,7 +209,7 @@ void TcpProxySocket::applyInterPluginConfigImpl(const QVariantMap& props)
     static const QString* ProxyPortProps[] = {
         &networkLocalPortProp(),
         &tcpLocalPortProp(),
-    };    
+    };
 
     for (auto* p : ProxyPortProps) {
         auto var = props.value(*p);
@@ -217,7 +217,7 @@ void TcpProxySocket::applyInterPluginConfigImpl(const QVariantMap& props)
             setPort(static_cast<PortType>(var.value<int>()));
             updated = true;
         }
-    }    
+    }
 
     if (updated) {
         emit sigConfigChanged();
@@ -262,7 +262,7 @@ void TcpProxySocket::clientConnectionTerminated()
     auto* socket = qobject_cast<QTcpSocket*>(sender());
     if (socket == nullptr) {
         [[maybe_unused]] static constexpr bool Signal_from_unknown_object = false;
-        assert(Signal_from_unknown_object);         
+        assert(Signal_from_unknown_object);
         return;
     }
 
@@ -318,7 +318,7 @@ void TcpProxySocket::connectionSocketConnected()
     auto* socket = qobject_cast<QTcpSocket*>(sender());
     if (socket == nullptr) {
         [[maybe_unused]] static constexpr bool Signal_from_unknown_object = false;
-        assert(Signal_from_unknown_object);  
+        assert(Signal_from_unknown_object);
         return;
     }
 
@@ -341,7 +341,7 @@ void TcpProxySocket::connectionSocketDisconnected()
     auto* socket = qobject_cast<QTcpSocket*>(sender());
     if (socket == nullptr) {
         [[maybe_unused]] static constexpr bool Signal_from_unknown_object = false;
-        assert(Signal_from_unknown_object);  
+        assert(Signal_from_unknown_object);
         return;
     }
 

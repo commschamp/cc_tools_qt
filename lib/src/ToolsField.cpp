@@ -25,7 +25,7 @@
 namespace cc_tools_qt
 {
 
-namespace 
+namespace
 {
 
 const QString& readOnlyProp()
@@ -40,8 +40,8 @@ const QString& hiddenSerializationProp()
     return Str;
 }
 
-} // namespace 
-    
+} // namespace
+
 
 ToolsField::ToolsField() = default;
 

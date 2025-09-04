@@ -75,7 +75,7 @@ void ProtocolsStackWidget::displayMessage(ToolsMessagePtr msg, bool force)
         auto* secondChild = topProtocolItem->child(1);
         if (secondChild == nullptr) {
             [[maybe_unused]] static constexpr bool Should_not_happen = false;
-            assert(Should_not_happen);            
+            assert(Should_not_happen);
             break;
         }
 
@@ -86,7 +86,7 @@ void ProtocolsStackWidget::displayMessage(ToolsMessagePtr msg, bool force)
         auto* thirdChild = topProtocolItem->child(2);
         if (thirdChild == nullptr) {
             [[maybe_unused]] static constexpr bool Should_not_happen = false;
-            assert(Should_not_happen);   
+            assert(Should_not_happen);
             break;
         }
 

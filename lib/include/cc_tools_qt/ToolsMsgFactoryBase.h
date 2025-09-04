@@ -32,7 +32,7 @@ namespace details
 
 class TupleMsgFactoryHelper
 {
-public:    
+public:
     using MessagesListInternal = std::vector<ToolsMessagePtr>;
     TupleMsgFactoryHelper(MessagesListInternal& msgs) : m_msgs(msgs) {}
 
@@ -56,9 +56,9 @@ private:
 template <typename TAllMessages>
 class ToolsMsgFactoryBase : public ToolsMsgFactory
 {
-public: 
+public:
     using AllMessages = TAllMessages;
-    
+
 protected:
     virtual MessagesListInternal createAllMessagesImpl() override
     {

@@ -26,7 +26,7 @@
 namespace cc_tools_qt
 {
 
-/// @brief Interface class that needs to be used for the messages when implementing protocol plugin 
+/// @brief Interface class that needs to be used for the messages when implementing protocol plugin
 /// @details Extends comms::Message as well as provided interface class, while
 ///     passing required options to the latter.
 /// @tparam TMessageBase Name of the interface class defined for custom
@@ -38,7 +38,7 @@ namespace cc_tools_qt
 ///     @endcode
 /// @headerfile cc_tools_qt/ToolsProtMsgInterface.h
 template <template<typename...> class TMessageBase>
-using ToolsProtMsgInterface = 
+using ToolsProtMsgInterface =
     TMessageBase<
         comms::option::app::IdInfoInterface,
         comms::option::app::ReadIterator<const std::uint8_t*>,

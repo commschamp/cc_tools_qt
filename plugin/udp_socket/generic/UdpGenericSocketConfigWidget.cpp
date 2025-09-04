@@ -45,7 +45,7 @@ UdpGenericSocketConfigWidget::UdpGenericSocketConfigWidget(
 
     connect(
         &socket, &UdpGenericSocket::sigConfigChanged,
-        this, &UdpGenericSocketConfigWidget::refresh);     
+        this, &UdpGenericSocketConfigWidget::refresh);
 
     connect(
         m_ui.m_hostLineEdit, &QLineEdit::textChanged,

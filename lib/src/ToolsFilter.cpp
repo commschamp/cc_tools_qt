@@ -26,7 +26,7 @@
 namespace cc_tools_qt
 {
 
-namespace 
+namespace
 {
 
 std::string dataToStr(const ToolsDataInfo::DataSeq& data)
@@ -41,13 +41,13 @@ std::string dataToStr(const ToolsDataInfo::DataSeq& data)
     return stream.str();
 }
 
-} // namespace 
+} // namespace
 
 struct ToolsFilter::InnerState
 {
     unsigned m_debugLevel = 0U;
 };
-    
+
 ToolsFilter::ToolsFilter() :
     m_state(std::make_unique<InnerState>())
 {
@@ -77,7 +77,7 @@ QList<ToolsDataInfoPtr> ToolsFilter::recvData(ToolsDataInfoPtr dataPtr)
 
         auto sinceEpoch = timestamp.time_since_epoch();
         milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
-        std::cout << '[' << milliseconds << "] (" << debugNameImpl() << ") <-- " << dataPtr->m_data.size() << " bytes"; 
+        std::cout << '[' << milliseconds << "] (" << debugNameImpl() << ") <-- " << dataPtr->m_data.size() << " bytes";
         if (2U <= m_state->m_debugLevel) {
             std::cout << " | " << dataToStr(dataPtr->m_data);
         }
@@ -87,13 +87,13 @@ QList<ToolsDataInfoPtr> ToolsFilter::recvData(ToolsDataInfoPtr dataPtr)
     auto result = recvDataImpl(std::move(dataPtr));
     if (1U <= m_state->m_debugLevel) {
         for (auto& resultDataPtr : result) {
-            std::cout << '[' << milliseconds << "] " << resultDataPtr->m_data.size() << " bytes <-- (" << debugNameImpl() << ")"; 
+            std::cout << '[' << milliseconds << "] " << resultDataPtr->m_data.size() << " bytes <-- (" << debugNameImpl() << ")";
             if (2U <= m_state->m_debugLevel) {
                 std::cout << " | " << dataToStr(resultDataPtr->m_data);
             }
             std::cout << std::endl;
         }
-    }    
+    }
     return result;
 }
 
@@ -109,7 +109,7 @@ QList<ToolsDataInfoPtr> ToolsFilter::sendData(ToolsDataInfoPtr dataPtr)
 
         auto sinceEpoch = timestamp.time_since_epoch();
         milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
-        std::cout << '[' << milliseconds << "] " << dataPtr->m_data.size() << " bytes --> (" << debugNameImpl() << ")"; 
+        std::cout << '[' << milliseconds << "] " << dataPtr->m_data.size() << " bytes --> (" << debugNameImpl() << ")";
         if (1U < m_state->m_debugLevel) {
             std::cout << " | " << dataToStr(dataPtr->m_data);
         }
@@ -119,7 +119,7 @@ QList<ToolsDataInfoPtr> ToolsFilter::sendData(ToolsDataInfoPtr dataPtr)
     auto result = sendDataImpl(std::move(dataPtr));
     if (0U < m_state->m_debugLevel) {
         for (auto& resultDataPtr : result) {
-            std::cout << '[' << milliseconds << "] (" << debugNameImpl() << ") --> " << resultDataPtr->m_data.size() << " bytes"; 
+            std::cout << '[' << milliseconds << "] (" << debugNameImpl() << ") --> " << resultDataPtr->m_data.size() << " bytes";
             if (1U < m_state->m_debugLevel) {
                 std::cout << " | " << dataToStr(resultDataPtr->m_data);
             }
@@ -204,7 +204,7 @@ void ToolsFilter::reportDataToSend(ToolsDataInfoPtr dataPtr)
 
         auto sinceEpoch = timestamp.time_since_epoch();
         auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
-        std::cout << '[' << milliseconds << "] (" << debugNameImpl() << ") --> " << dataPtr->m_data.size() << " bytes"; 
+        std::cout << '[' << milliseconds << "] (" << debugNameImpl() << ") --> " << dataPtr->m_data.size() << " bytes";
         if (1U < m_state->m_debugLevel) {
             std::cout << " | " << dataToStr(dataPtr->m_data);
         }

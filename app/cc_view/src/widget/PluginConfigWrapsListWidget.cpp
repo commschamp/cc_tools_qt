@@ -47,7 +47,7 @@ void PluginConfigWrapsListWidget::addPluginConfig(PluginInfoPtr pluginInfo)
     disconnect(plugin, &ToolsPlugin::sigInterPluginConfigReport, this, nullptr);
     connect(
         plugin, &ToolsPlugin::sigInterPluginConfigReport,
-        this, 
+        this,
         [this, plugin](const QVariantMap& props)
         {
             for (auto* p : m_loadedPlugins) {
@@ -75,7 +75,7 @@ void PluginConfigWrapsListWidget::addPluginConfig(PluginInfoPtr pluginInfo)
         });
 
     auto idx = static_cast<int>(std::distance(m_widgets.begin(), iter));
-    
+
     auto* l = qobject_cast<QVBoxLayout*>(layout());
 
     auto wrap = std::make_unique<PluginConfigWrapWidget>(pluginInfo, configWidget, this);
@@ -118,7 +118,7 @@ void PluginConfigWrapsListWidget::moveTop(PluginInfoPtr pluginInfo)
         return;
     }
 
-    relocateWidget(idx, topIdx);    
+    relocateWidget(idx, topIdx);
 }
 
 void PluginConfigWrapsListWidget::moveBottom(PluginInfoPtr pluginInfo)
@@ -169,9 +169,9 @@ void PluginConfigWrapsListWidget::moveDown(PluginInfoPtr pluginInfo)
 int PluginConfigWrapsListWidget::findWidgetIdx(PluginInfoPtr pluginInfo) const
 {
     auto iid = pluginInfo->getIid();
-    auto iter = 
+    auto iter =
         std::find_if(
-            m_widgets.begin(), m_widgets.end(), 
+            m_widgets.begin(), m_widgets.end(),
             [&iid](auto& w)
             {
                 return w->getIid() == iid;
@@ -191,9 +191,9 @@ int PluginConfigWrapsListWidget::getTopFilterIdx() const
         [](auto& w, auto t)
         {
             return w->getType() < t;
-        });    
+        });
 
-    return static_cast<int>(std::distance(m_widgets.begin(), iter)); 
+    return static_cast<int>(std::distance(m_widgets.begin(), iter));
 }
 
 int PluginConfigWrapsListWidget::getBottomFilterIdx() const
@@ -203,9 +203,9 @@ int PluginConfigWrapsListWidget::getBottomFilterIdx() const
         [](auto t, auto& w)
         {
             return t < w->getType();
-        });    
+        });
 
-    return static_cast<int>(std::distance(m_widgets.begin(), iter)); 
+    return static_cast<int>(std::distance(m_widgets.begin(), iter));
 }
 
 void PluginConfigWrapsListWidget::relocateWidget(int from, int to)

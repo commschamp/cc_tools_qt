@@ -96,7 +96,7 @@ protected:
         QStringList names;
         comms::util::tupleForEachType<typename Field::Members>(MembersNameHelper(names));
         return names;
-    }  
+    }
 
 private:
     class MembersNameHelper
@@ -111,7 +111,7 @@ private:
         }
 
     private:
-        QStringList& m_names;        
+        QStringList& m_names;
     };
 
 };

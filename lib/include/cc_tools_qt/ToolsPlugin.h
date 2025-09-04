@@ -111,7 +111,7 @@ public:
     ///     delete operation on it.@n
     ///     The function will invoke @ref createConfigurationWidgetImpl().
     /// @return Dynamically allocated widget object
-    QWidget* createConfigurationWidget();    
+    QWidget* createConfigurationWidget();
 
     /// @brief Create GUI actions relevant to the plugin.
     /// @details This function will invoke the relevant callback function
@@ -130,8 +130,8 @@ public:
     ///     This function will be called for all currently chosen plugins to override
     ///     current configuration. Invokes polymorphic @ref applyInterPluginConfigImpl().
     /// @param[in] props Properties map.
-    void applyInterPluginConfig(const QVariantMap& props);  
-        
+    void applyInterPluginConfig(const QVariantMap& props);
+
     /// @brief Set debug output level
     /// @param[in] level Debug level. If @b 0, debug output is disabled
     void setDebugOutputLevel(unsigned level = 0U);
@@ -139,7 +139,7 @@ public:
 signals:
     /// @brief Signal reporting inter-plugin configuration request
     /// @param[in] props Configuration properties.
-    void sigInterPluginConfigReport(const QVariantMap& props);    
+    void sigInterPluginConfigReport(const QVariantMap& props);
 
 protected:
     /// @brief Polymorphic call to retrieve current configuration
@@ -159,7 +159,7 @@ protected:
     /// @brief Polymorphic inter-plugin configuration application.
     /// @details Invoked by the applyInterPluginConfig().
     /// @param[in] props Properties map.
-    virtual void applyInterPluginConfigImpl(const QVariantMap& props);       
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props);
 
     /// @brief Create socket object
     /// @details Expected to be overriden by the derived class.
@@ -168,12 +168,12 @@ protected:
 
     /// @brief Create filter object
     /// @details Expected to be overriden by the derived class.
-    /// @return By default returns empty pointer.    
+    /// @return By default returns empty pointer.
     virtual ToolsFilterPtr createFilterImpl();
 
     /// @brief Create protocol object
     /// @details Expected to be overriden by the derived class.
-    /// @return By default returns empty pointer.     
+    /// @return By default returns empty pointer.
     virtual ToolsProtocolPtr createProtocolImpl();
 
     /// @brief Create configuration widget
@@ -188,11 +188,11 @@ protected slots:
     /// @brief Report inter-plugin configuration.
     /// @details Sometimes configuration of one plugin may influence configuration of another.
     ///     Use this function to report inter-plugin configuration properties.
-    ///     When invoked all other plugins are expected to get their respecitve 
+    ///     When invoked all other plugins are expected to get their respecitve
     ///     @ref applyInterPluginConfig() functions invoked.@n
     ///     Emits @ref sigInterPluginConfigReport() signal.
     /// @param[in] props Reported properties.
-    void reportInterPluginConfig(const QVariantMap& props);    
+    void reportInterPluginConfig(const QVariantMap& props);
 
 private:
     struct InnerState;

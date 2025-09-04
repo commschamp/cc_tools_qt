@@ -42,7 +42,7 @@ struct DataMessageFields
         static const char* name()
         {
             return "data";
-        }        
+        }
     };
 
 
@@ -62,7 +62,7 @@ class DataMessage : public
         comms::option::HasName
     >
 {
-    using Base = 
+    using Base =
         comms::MessageBase<
             TMsgBase,
             comms::option::StaticNumIdImpl<0>,
@@ -84,7 +84,7 @@ public:
     static const char* doName()
     {
         return "Raw Data";
-    }    
+    }
 };
 
 }  // namespace raw_data_protocol

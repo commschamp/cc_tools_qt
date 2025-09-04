@@ -62,7 +62,7 @@ void ToolsMsgMgrImpl::start()
 {
     if (m_running) {
         [[maybe_unused]] static constexpr bool Already_running = false;
-        assert(Already_running);         
+        assert(Already_running);
         return;
     }
 
@@ -81,7 +81,7 @@ void ToolsMsgMgrImpl::stop()
 {
     if (!m_running) {
         [[maybe_unused]] static constexpr bool Already_stopped = false;
-        assert(Already_stopped);   
+        assert(Already_stopped);
         return;
     }
 
@@ -164,7 +164,7 @@ void ToolsMsgMgrImpl::deleteMsg(ToolsMessagePtr msg)
 
     if (iter == m_allMsgs.end()) {
         [[maybe_unused]] static constexpr bool Deleting_non_existing_message = false;
-        assert(Deleting_non_existing_message);         
+        assert(Deleting_non_existing_message);
         return;
     }
 
@@ -247,7 +247,7 @@ void ToolsMsgMgrImpl::addMsgs(const ToolsMessagesList& msgs, bool reportAdded)
 
         if (property::message::ToolsMsgType().getFrom(*m) == MsgType::Invalid) {
             [[maybe_unused]] static constexpr bool Invalid_type_of_message = false;
-            assert(Invalid_type_of_message);            
+            assert(Invalid_type_of_message);
             continue;
         }
 
@@ -274,12 +274,12 @@ void ToolsMsgMgrImpl::setSocket(ToolsSocketPtr socket)
     connect(
         socket.get(), &ToolsSocket::sigDataReceivedReport,
         this, &ToolsMsgMgrImpl::socketDataReceived
-    );        
+    );
 
     connect(
         socket.get(), &ToolsSocket::sigErrorReport,
         this, &ToolsMsgMgrImpl::socketErrorReport
-    );        
+    );
 
     connect(
         socket.get(), &ToolsSocket::sigConnectionStatusReport,
@@ -295,12 +295,12 @@ void ToolsMsgMgrImpl::setProtocol(ToolsProtocolPtr protocol)
     connect(
         protocol.get(), &ToolsProtocol::sigErrorReport,
         this, &ToolsMsgMgrImpl::protocolErrorReport
-    );      
+    );
 
     connect(
         protocol.get(), &ToolsProtocol::sigSendMessageReport,
         this, &ToolsMsgMgrImpl::protocolSendMessageReport
-    );  
+    );
 
     m_protocol = std::move(protocol);
 }
@@ -346,7 +346,7 @@ void ToolsMsgMgrImpl::socketConnectionReport(bool connected)
     if (m_protocol) {
         m_protocol->socketConnectionReport(connected);
     }
-    
+
     reportSocketConnectionStatus(connected);
 }
 
@@ -417,7 +417,7 @@ void ToolsMsgMgrImpl::socketDataReceived(ToolsDataInfoPtr dataInfoPtr)
 
 void ToolsMsgMgrImpl::filterErrorReport(const QString& msg)
 {
-    auto iter = 
+    auto iter =
         std::find_if(
             m_filters.begin() ,m_filters.end(),
             [sndr = sender()](auto& f)
@@ -438,7 +438,7 @@ void ToolsMsgMgrImpl::filterDataToSendReport(ToolsDataInfoPtr dataInfoPtr)
         return;
     }
 
-    auto senderIter = 
+    auto senderIter =
         std::find_if(
             m_filters.begin() ,m_filters.end(),
             [sndr = sender()](auto& f)
@@ -523,7 +523,7 @@ void ToolsMsgMgrImpl::reportError(const QString& error)
     auto milliseconds =
         std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
     std::cerr << '[' << milliseconds << "] ERROR: " << error.toStdString() << std::endl;
-    
+
     if (m_errorReportCallback) {
         m_errorReportCallback(error);
     }

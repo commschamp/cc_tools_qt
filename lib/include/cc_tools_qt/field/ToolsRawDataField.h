@@ -63,7 +63,7 @@ protected:
     static const std::size_t TruncateLength = 128;
 
 private:
-    bool m_forcedShowAll = false;    
+    bool m_forcedShowAll = false;
 };
 
 using ToolsRawDataFieldPtr = ToolsRawDataField::ActPtr;

@@ -31,17 +31,17 @@ ToolsMsgIdx::ToolsMsgIdx() : Base("cc.msg_idx") {}
 ToolsMsgTimestamp::ToolsMsgTimestamp() : Base("cc.msg_timestamp") {}
 ToolsMsgProtocolName::ToolsMsgProtocolName() : Base("cc.msg_prot_name") {}
 ToolsMsgTransportMsg::ToolsMsgTransportMsg() : Base("cc.msg_transport") {}
-ToolsMsgRawDataMsg::ToolsMsgRawDataMsg() : Base("cc.msg_raw_data") {} 
-ToolsMsgExtraInfoMsg::ToolsMsgExtraInfoMsg() : Base("cc.msg_extra_info") {} 
-ToolsMsgExtraInfo::ToolsMsgExtraInfo() : Base("cc.msg_extra_info_map") {} 
-ToolsMsgForceExtraInfoExistence::ToolsMsgForceExtraInfoExistence() : Base("cc.force_extra_info_exist") {} 
-ToolsMsgDelay::ToolsMsgDelay() : Base("cc.msg_delay") {} 
-ToolsMsgDelayUnits::ToolsMsgDelayUnits() : Base("cc.msg_delay_units") {} 
-ToolsMsgRepeatDuration::ToolsMsgRepeatDuration() : Base("cc.msg_repeat") {} 
-ToolsMsgRepeatDurationUnits::ToolsMsgRepeatDurationUnits() : Base("cc.msg_repeat_units") {} 
-ToolsMsgRepeatCount::ToolsMsgRepeatCount() : Base("cc.msg_repeat_count") {} 
-ToolsMsgScrollPos::ToolsMsgScrollPos() : Base("cc.msg_scroll_pos") {} 
-ToolsMsgComment::ToolsMsgComment() : Base("cc.msg_comment") {} 
+ToolsMsgRawDataMsg::ToolsMsgRawDataMsg() : Base("cc.msg_raw_data") {}
+ToolsMsgExtraInfoMsg::ToolsMsgExtraInfoMsg() : Base("cc.msg_extra_info") {}
+ToolsMsgExtraInfo::ToolsMsgExtraInfo() : Base("cc.msg_extra_info_map") {}
+ToolsMsgForceExtraInfoExistence::ToolsMsgForceExtraInfoExistence() : Base("cc.force_extra_info_exist") {}
+ToolsMsgDelay::ToolsMsgDelay() : Base("cc.msg_delay") {}
+ToolsMsgDelayUnits::ToolsMsgDelayUnits() : Base("cc.msg_delay_units") {}
+ToolsMsgRepeatDuration::ToolsMsgRepeatDuration() : Base("cc.msg_repeat") {}
+ToolsMsgRepeatDurationUnits::ToolsMsgRepeatDurationUnits() : Base("cc.msg_repeat_units") {}
+ToolsMsgRepeatCount::ToolsMsgRepeatCount() : Base("cc.msg_repeat_count") {}
+ToolsMsgScrollPos::ToolsMsgScrollPos() : Base("cc.msg_scroll_pos") {}
+ToolsMsgComment::ToolsMsgComment() : Base("cc.msg_comment") {}
 
 }  // namespace message
 

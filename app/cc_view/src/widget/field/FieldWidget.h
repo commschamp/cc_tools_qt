@@ -130,7 +130,7 @@ private:
     void performNameLabelUpdate();
     void performSerVisibilityUpdate();
     void performReadOnlyUpdate();
-    
+
     bool m_forcedReadOnly = false;
     bool m_editEnabled = true;
     QLabel* m_nameLabel = nullptr;

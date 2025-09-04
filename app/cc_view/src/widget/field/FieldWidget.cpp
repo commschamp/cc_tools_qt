@@ -198,11 +198,11 @@ void FieldWidget::performSerVisibilityUpdate()
                 widget->setHidden(hidden);
             }
         };
-            
+
     auto& f = fieldImpl();
     bool serHidden = f.isHiddenSerialization();
     setWidgetHiddenFunc(m_sepWidget, serHidden);
-    setWidgetHiddenFunc(m_serValueWidget, serHidden);    
+    setWidgetHiddenFunc(m_serValueWidget, serHidden);
 }
 
 void FieldWidget::performReadOnlyUpdate()

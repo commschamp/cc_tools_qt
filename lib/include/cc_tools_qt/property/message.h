@@ -112,7 +112,7 @@ public:
     ValueType getFrom(TFrom&& from)
     {
         return static_cast<ValueType>(Base::getFrom(std::forward<TFrom>(from)));
-    }    
+    }
 };
 
 class CC_TOOLS_API ToolsMsgIdx : public ToolsMsgPropBase<unsigned>

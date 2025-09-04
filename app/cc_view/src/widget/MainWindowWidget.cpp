@@ -105,7 +105,7 @@ MainWindowWidget::MainWindowWidget(QWidget* parentObj)
         this, &MainWindowWidget::msgCommentDialog);
     connect(
         guiAppMgr, &GuiAppMgr::sigRecvFilterDialog,
-        this, &MainWindowWidget::recvFilterDialog);        
+        this, &MainWindowWidget::recvFilterDialog);
     connect(
         m_ui.m_actionQuit, &QAction::triggered,
         this, &MainWindowWidget::close);
@@ -270,7 +270,7 @@ void MainWindowWidget::aboutInfo()
 {
     static const QString AboutTxt(
         "<p>This application is a generic "
-        "communication protocols analysis and visualization tool. " 
+        "communication protocols analysis and visualization tool. "
         "It is developed as a member project of the "
         "<a href=\"https://commschamp.github.io\">CommsChampion Ecosystem</a>."
         "</p>"

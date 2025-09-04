@@ -46,12 +46,12 @@ class ToolsTransportMessageBase : public
         TActualMsg
     >
 {
-    using Base = 
+    using Base =
         cc_tools_qt::ToolsMessageBase<
             TBase,
             TProtMsg,
             TActualMsg
-        >;    
+        >;
 public:
     using FieldsList = typename Base::FieldsList;
 
@@ -69,7 +69,7 @@ protected:
     virtual qlonglong numericIdImpl() const override
     {
         [[maybe_unused]] static constexpr bool Must_be_overriden = false;
-        assert(Must_be_overriden); 
+        assert(Must_be_overriden);
         return 0;
     }
 
@@ -77,14 +77,14 @@ protected:
     virtual void resetImpl() override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
     }
 
     /// @brief Overriding virtual cc_tools_qt::ToolsMessage::assignImpl()
     virtual bool assignImpl([[maybe_unused]] const cc_tools_qt::ToolsMessage& other) override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
         return false;
     }
 

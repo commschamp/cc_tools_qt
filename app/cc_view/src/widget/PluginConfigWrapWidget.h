@@ -44,7 +44,7 @@ public:
     Type getType() const
     {
         return m_pluginInfo->getType();
-    }    
+    }
 
 private:
     Ui::PluginConfigWrapWidget m_ui;

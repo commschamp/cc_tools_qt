@@ -73,7 +73,7 @@ QString getConfigDir()
 
 QString getAppDataDir()
 {
-    return 
+    return
         QDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
             .absoluteFilePath("cc_tools_qt");
 }
