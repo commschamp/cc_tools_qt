@@ -17,11 +17,11 @@
 
 #include "ShortIntValueFieldWidget.h"
 
+#include "SpecialValueWidget.h"
+
 #include <algorithm>
 #include <cassert>
 #include <limits>
-
-#include "SpecialValueWidget.h"
 
 namespace cc_tools_qt
 {
@@ -43,16 +43,18 @@ ShortIntValueFieldWidget::ShortIntValueFieldWidget(
     createSpecialsWidget(m_fieldPtr->specials());
 
     m_ui.m_valueSpinBox->setRange(
-        static_cast<int>(m_fieldPtr->minValue()), 
+        static_cast<int>(m_fieldPtr->minValue()),
         static_cast<int>(m_fieldPtr->maxValue()));
 
-    commonConstruct();        
+    commonConstruct();
 
-    connect(m_ui.m_valueSpinBox, SIGNAL(valueChanged(int)),
-            this, SLOT(valueUpdated(int)));
+    connect(
+        m_ui.m_valueSpinBox, qOverload<int>(&QSpinBox::valueChanged),
+        this, &ShortIntValueFieldWidget::valueUpdated);
 
-    connect(m_ui.m_serValueLineEdit, SIGNAL(textEdited(const QString&)),
-            this, SLOT(serialisedValueUpdated(const QString&)));
+    connect(
+        m_ui.m_serValueLineEdit, &QLineEdit::textEdited,
+        this, &ShortIntValueFieldWidget::serialisedValueUpdated);
 
     refresh();
 }
@@ -137,18 +139,16 @@ bool ShortIntValueFieldWidget::createSpecialsWidget(const SpecialsList& specials
 
     m_specialsWidget = new SpecialValueWidget(specials);
     connect(
-        m_specialsWidget, SIGNAL(sigIntValueChanged(long long)),
-        this, SLOT(specialSelected(long long)));
+        m_specialsWidget, &SpecialValueWidget::sigIntValueChanged,
+        this, &ShortIntValueFieldWidget::specialSelected);
 
     connect(
-        m_specialsWidget, SIGNAL(sigRefreshReq()),
-        this, SLOT(refresh()));
+        m_specialsWidget, &SpecialValueWidget::sigRefreshReq,
+        this, &ShortIntValueFieldWidget::refresh);
 
     m_ui.m_valueWidgetLayout->insertWidget(m_ui.m_valueWidgetLayout->count() - 1, m_specialsWidget);
-
     return true;
 }
 
 }  // namespace cc_tools_qt
-
 

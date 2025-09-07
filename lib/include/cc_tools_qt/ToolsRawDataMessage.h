@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/ToolsMessageBase.h"
@@ -29,7 +28,6 @@
 #include <cassert>
 #include <tuple>
 
-
 namespace cc_tools_qt
 {
 
@@ -37,13 +35,13 @@ namespace details
 {
 
 template <typename TFieldBase>
-class ToolsRawDataMessageField : public 
+class ToolsRawDataMessageField : public
     comms::field::ArrayList<
-        TFieldBase, 
+        TFieldBase,
         std::uint8_t,
         comms::option::def::HasName>
 {
-public:    
+public:
     static const char* name()
     {
         return "Data";
@@ -65,22 +63,22 @@ class ToolsRawDataMessageImpl : public
 
 /// @brief Raw data message.
 template<typename TBase>
-class ToolsRawDataMessage : public 
+class ToolsRawDataMessage : public
     cc_tools_qt::ToolsMessageBase<
         TBase,
         details::ToolsRawDataMessageImpl,
         ToolsRawDataMessage<TBase>
     >
 {
-    using Base = 
+    using Base =
         cc_tools_qt::ToolsMessageBase<
             TBase,
             details::ToolsRawDataMessageImpl,
             ToolsRawDataMessage<TBase>
-        >;    
+        >;
 public:
     using FieldsList = typename Base::FieldsList;
-    
+
     virtual ~ToolsRawDataMessage() noexcept = default;
 
 protected:
@@ -94,22 +92,21 @@ protected:
     virtual void resetImpl() override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
     }
 
     virtual bool assignImpl([[maybe_unused]] const cc_tools_qt::ToolsMessage& other) override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
         return false;
     }
 
     virtual FieldsList transportFieldsImpl() override
     {
         return FieldsList();
-    }    
+    }
 };
 
 }  // namespace cc_tools_qt
-
 

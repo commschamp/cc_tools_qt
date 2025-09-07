@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/ToolsApi.h"
@@ -110,7 +109,7 @@ public:
     ///     This function will be called for all currently chosen plugins to override
     ///     current configuration. Invokes polymorphic @ref applyInterPluginConfigImpl().
     /// @param[in] props Properties map.
-    void applyInterPluginConfig(const QVariantMap& props);       
+    void applyInterPluginConfig(const QVariantMap& props);
 
     /// @brief Set debug output level
     /// @param[in] level Debug level. If @b 0, debug output is disabled
@@ -122,7 +121,7 @@ signals:
     void sigDataReceivedReport(ToolsDataInfoPtr data);
 
     /// @brief Signal used to report error
-    /// @param[in] msg Error message.    
+    /// @param[in] msg Error message.
     void sigErrorReport(const QString& msg);
 
     /// @brief Signal used to report socket connection status
@@ -170,13 +169,13 @@ protected:
     /// @brief Polymorphic inter-plugin configuration application.
     /// @details Invoked by the applyInterPluginConfig().
     /// @param[in] props Properties map.
-    virtual void applyInterPluginConfigImpl(const QVariantMap& props);     
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props);
 
     /// @brief Get current timestamp
     static unsigned long long currTimestamp();
 
     /// @brief Get current debug output level
-    unsigned getDebugOutputLevel() const;    
+    unsigned getDebugOutputLevel() const;
 
 protected slots:
     /// @brief Report new data has been received.
@@ -203,7 +202,7 @@ protected slots:
     /// @brief Report inter-plugin configuration.
     /// @details Sometimes configuration of one plugin may influence configuration of another.
     ///     Use this function to report inter-plugin configuration properties.
-    ///     When invoked all other plugins are expected to get their respecitve 
+    ///     When invoked all other plugins are expected to get their respecitve
     ///     @ref applyInterPluginConfig() functions invoked.@n
     ///     Emits @ref sigInterPluginConfigReport() signal.
     /// @param[in] props Reported properties.

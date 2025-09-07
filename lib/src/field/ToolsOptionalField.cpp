@@ -33,7 +33,7 @@ ToolsOptionalField::Mode ToolsOptionalField::getMode() const
     return getModeImpl();
 }
 
-void ToolsOptionalField::setMode(Mode mode) 
+void ToolsOptionalField::setMode(Mode mode)
 {
     setModeImpl(mode);
 }
@@ -81,5 +81,4 @@ void ToolsOptionalField::dispatchImpl(ToolsFieldHandler& handler)
 }  // namespace field
 
 }  // namespace cc_tools_qt
-
 

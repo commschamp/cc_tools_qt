@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/details/ToolsFieldBase.h"
@@ -74,10 +73,10 @@ protected:
     {
         static constexpr bool NoPrefix =
             (!Field::hasElemFixedSerLengthFieldPrefix()) &&
-            (!Field::hasElemSerLengthFieldPrefix()) && 
+            (!Field::hasElemSerLengthFieldPrefix()) &&
             (!Field::hasSerLengthFieldPrefix()) &&
             (!Field::hasSizeFieldPrefix());
-            
+
         static constexpr bool NoSuffix =
             (!Field::hasTerminationFieldSuffix()) &&
             (!Field::hasTrailingFieldSuffix());
@@ -87,7 +86,7 @@ protected:
 
     virtual void addFieldImpl() override
     {
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 Field::hasFixedValue(),
                 NoFeatureTag,
@@ -99,7 +98,7 @@ protected:
 
     virtual void removeFieldImpl(int idx) override
     {
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 Field::hasFixedValue(),
                 NoFeatureTag,
@@ -112,7 +111,7 @@ protected:
     virtual bool setSerialisedValueImpl([[maybe_unused]] const SerialisedSeq& value) override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
         return false;
     }
 
@@ -150,7 +149,7 @@ protected:
 
     virtual void refreshMembersImpl() override
     {
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 Field::hasFixedValue(),
                 NoFeatureTag,
@@ -177,13 +176,12 @@ private:
     struct HasFixedSizeTag {};
     struct HasVarSizeTag {};
     struct HasFeatureTag {};
-    struct NoFeatureTag {};     
-
+    struct NoFeatureTag {};
 
     void adjustFixedSizeInternal(HasVarSizeTag)
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
     }
 
     void adjustFixedSizeInternal(HasFixedSizeTag)
@@ -191,30 +189,30 @@ private:
         COMMS_GNU_WARNING_PUSH
 #if defined(NDEBUG) && COMMS_IS_GCC_13 && (COMMS_IS_CPP20)
         COMMS_GNU_WARNING_DISABLE("-Wstringop-overflow")
-#endif        
+#endif
 
         Base::field().value().resize(Field::fixedSize());
-        COMMS_GNU_WARNING_POP        
+        COMMS_GNU_WARNING_POP
     }
 
     void adjustFixedSizeInternal(NoFeatureTag)
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
-    }    
+        assert(Must_not_be_called);
+    }
 
     void addFieldInternal(HasFeatureTag)
     {
         auto& col = Base::field().value();
         col.push_back(ElementType());
         refreshMembersInternal(HasFeatureTag());
-    }   
+    }
 
     void addFieldInternal(NoFeatureTag)
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called);        
-    } 
+        assert(Must_not_be_called);
+    }
 
     void removeFieldInternal(int idx, HasFeatureTag)
     {
@@ -230,14 +228,14 @@ private:
     void removeFieldInternal([[maybe_unused]] int idx, NoFeatureTag)
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called);        
+        assert(Must_not_be_called);
     }
 
     void refreshMembersInternal(HasFeatureTag)
     {
         if (!m_wrapFieldFunc) {
             [[maybe_unused]] static constexpr bool Callback_is_not_set = false;
-            assert(Callback_is_not_set);  
+            assert(Callback_is_not_set);
         }
 
         auto& storage = Base::field().value();
@@ -252,15 +250,14 @@ private:
         }
 
         Base::setMembers(std::move(mems));
-    }    
+    }
 
     void refreshMembersInternal(NoFeatureTag)
     {
-    }    
+    }
 
     WrapFieldCallbackFunc m_wrapFieldFunc;
 };
-
 
 template <typename TField>
 auto makeArrayListField(TField& field)
@@ -271,6 +268,4 @@ auto makeArrayListField(TField& field)
 }  // namespace details
 
 }  // namespace cc_tools_qt
-
-
 

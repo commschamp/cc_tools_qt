@@ -15,13 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
-#include <memory>
+#include "FieldWidget.h"
 
 #include "cc_tools_qt/field/ToolsIntField.h"
-#include "FieldWidget.h"
+
+#include <memory>
 
 namespace cc_tools_qt
 {
@@ -52,7 +52,5 @@ private:
     std::unique_ptr<FieldWidget> m_childWidget;
 };
 
-
 }  // namespace cc_tools_qt
-
 

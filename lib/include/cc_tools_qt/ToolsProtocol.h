@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/ToolsApi.h"
@@ -100,7 +99,7 @@ public:
     /// @brief Make the protocol aware about socket connection status
     /// @details Invokes @ref socketConnectionReportImpl().
     /// @param[in] connected Socket connection status.
-    void socketConnectionReport(bool connected);   
+    void socketConnectionReport(bool connected);
 
     /// @brief Make the protocol aware that the message has been received from remote end
     /// @details Invokes @ref messageReceivedReportImpl().
@@ -117,11 +116,11 @@ public:
     ///     This function will be called for all currently chosen plugins to override
     ///     current configuration. Invokes polymorphic @ref applyInterPluginConfigImpl().
     /// @param[in] props Properties map.
-    void applyInterPluginConfig(const QVariantMap& props);      
+    void applyInterPluginConfig(const QVariantMap& props);
 
     /// @brief Set debug output level
     /// @param[in] level Debug level. If @b 0, debug output is disabled
-    void setDebugOutputLevel(unsigned level = 0U);     
+    void setDebugOutputLevel(unsigned level = 0U);
 
 signals:
     /// @brief Signal used to report new protocol message to be sent out
@@ -133,8 +132,8 @@ signals:
     void sigErrorReport(const QString& str);
 
     /// @brief Signal to report inter-plugin configuration
-    /// @param[in] props Configuration properties.    
-    void sigInterPluginConfigReport(const QVariantMap& props);    
+    /// @param[in] props Configuration properties.
+    void sigInterPluginConfigReport(const QVariantMap& props);
 
 protected:
     explicit ToolsProtocol(ToolsFramePtr frame);
@@ -146,7 +145,7 @@ protected:
     /// @brief Polymorphic processing of the socket connection report
     /// @details Empty function, does nothing
     /// @param[in] connected Socket connection status
-    virtual void socketConnectionReportImpl(bool connected);    
+    virtual void socketConnectionReportImpl(bool connected);
 
     /// @brief Polymorphic processing of the message reception report
     /// @details Empty function, does nothing.
@@ -156,15 +155,15 @@ protected:
     /// @brief Make the protocol aware that the message has been sent out to the remote end
     /// @details Empty function, does nothing
     /// @param[in] msg Pointer to the message object
-    virtual void messageSentReportImpl(ToolsMessagePtr msg);    
+    virtual void messageSentReportImpl(ToolsMessagePtr msg);
 
     /// @brief Polymorphic inter-plugin configuration application.
     /// @details Invoked by the applyInterPluginConfig().
     /// @param[in] props Properties map.
-    virtual void applyInterPluginConfigImpl(const QVariantMap& props);      
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props);
 
     /// @brief Get current debug output level
-    unsigned getDebugOutputLevel() const;    
+    unsigned getDebugOutputLevel() const;
 
     /// @brief Helper function to assign "tranport message" object as a property
     ///     of application message object.
@@ -207,23 +206,23 @@ protected slots:
     ///     when some error is detected. This function will emit
     ///     @ref sigErrorReport() signal.
     /// @param[in] str Error string.
-    void reportError(const QString& str);  
+    void reportError(const QString& str);
 
     /// @brief Request a protocol message to be sent out.
     /// @details This function is expected to be invoked by the derived class,
     ///     when an extra message needs to be sent out. This function will invoke
     ///     emit @ref sigSendMessageReport() signal.
     /// @param[in] msg Pointer to the message object.
-    void sendMessageRequest(ToolsMessagePtr msg);  
+    void sendMessageRequest(ToolsMessagePtr msg);
 
     /// @brief Report inter-plugin configuration.
     /// @details Sometimes configuration of one plugin may influence configuration of another.
     ///     Use this function to report inter-plugin configuration properties.
-    ///     When invoked all other plugins are expected to get their respecitve 
+    ///     When invoked all other plugins are expected to get their respecitve
     ///     @ref applyInterPluginConfig() functions invoked.@n
     ///     Emits @ref sigInterPluginConfigReport() signal.
     /// @param[in] props Reported properties.
-    void reportInterPluginConfig(const QVariantMap& props);     
+    void reportInterPluginConfig(const QVariantMap& props);
 
 private:
     struct InnerState;

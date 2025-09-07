@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/ToolsApi.h"
@@ -124,7 +123,7 @@ protected:
 
     /// @brief Polymophic functionality to get numeric message ID.
     /// @details Invoked by idAsString().
-    virtual qlonglong numericIdImpl() const = 0;    
+    virtual qlonglong numericIdImpl() const = 0;
 
     /// @brief Polymophic functionality to get string representation of message ID.
     /// @details Invoked by idAsString().

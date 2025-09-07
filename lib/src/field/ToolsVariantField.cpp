@@ -54,10 +54,10 @@ const ToolsField* ToolsVariantField::getCurrent() const
 void ToolsVariantField::setCurrent(ToolsFieldPtr current)
 {
     if (!current) {
-        setMembers(Members());    
+        setMembers(Members());
         return;
     }
-    
+
     Members mems;
     mems.push_back(std::move(current));
     setMembers(std::move(mems));
@@ -104,5 +104,4 @@ void ToolsVariantField::dispatchImpl(ToolsFieldHandler& handler)
 }  // namespace field
 
 }  // namespace cc_tools_qt
-
 

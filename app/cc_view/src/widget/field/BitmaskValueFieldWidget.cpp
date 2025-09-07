@@ -17,11 +17,11 @@
 
 #include "BitmaskValueFieldWidget.h"
 
+#include <QtWidgets/QCheckBox>
+
 #include <algorithm>
 #include <cassert>
 #include <type_traits>
-
-#include <QtWidgets/QCheckBox>
 
 namespace cc_tools_qt
 {
@@ -48,8 +48,9 @@ BitmaskValueFieldWidget::BitmaskValueFieldWidget(
 
     refresh();
 
-    connect(m_ui.m_serValueLineEdit, SIGNAL(textEdited(const QString&)),
-            this, SLOT(serialisedValueUpdated(const QString&)));
+    connect(
+        m_ui.m_serValueLineEdit, &QLineEdit::textEdited,
+        this, &BitmaskValueFieldWidget::serialisedValueUpdated);
 }
 
 BitmaskValueFieldWidget::~BitmaskValueFieldWidget() noexcept = default;
@@ -110,7 +111,7 @@ void BitmaskValueFieldWidget::checkBoxUpdated(int value)
         auto iter = std::find(m_checkboxes.begin(), m_checkboxes.end(), checkbox);
         if (iter == m_checkboxes.end()) {
             [[maybe_unused]] static constexpr bool Should_not_happen = false;
-            assert(Should_not_happen);    
+            assert(Should_not_happen);
             return;
         }
         auto idx = static_cast<unsigned>(std::distance(m_checkboxes.begin(), iter));
@@ -147,11 +148,11 @@ void BitmaskValueFieldWidget::prepareCheckboxes()
         m_ui.m_checkboxesLayout->addWidget(checkbox);
         m_checkboxes[idx] = checkbox;
 
-        connect(checkbox, SIGNAL(stateChanged(int)),
-                this, SLOT(checkBoxUpdated(int)));
+        connect(
+            checkbox, &QCheckBox::stateChanged,
+            this, &BitmaskValueFieldWidget::checkBoxUpdated);
     }
 }
 
 }  // namespace cc_tools_qt
-
 

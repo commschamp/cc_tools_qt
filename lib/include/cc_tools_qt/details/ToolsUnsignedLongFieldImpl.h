@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/details/ToolsNumericFieldImpl.h"
@@ -103,7 +102,7 @@ protected:
 
     virtual const SpecialsList& specialsImpl() const override
     {
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 Field::hasSpecials(),
                 HasFeatureTag,
@@ -115,15 +114,15 @@ protected:
 
     virtual int scaledDecimalsImpl() const override
     {
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 Field::hasScaling(),
                 HasFeatureTag,
                 NoFeatureTag
             >;
 
-        return scaledDecimalsInternal(Tag());        
-    }   
+        return scaledDecimalsInternal(Tag());
+    }
 
     virtual UnderlyingType getDisplayValueImpl() const override
     {
@@ -132,18 +131,18 @@ protected:
 
     virtual void setDisplayValueImpl(UnderlyingType value) override
     {
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 Field::hasFixedValue(),
                 NoFeatureTag,
                 HasFeatureTag
             >;
 
-        setDisplayValueInternal(value, Tag());        
-    }       
+        setDisplayValueInternal(value, Tag());
+    }
 
 private:
-    struct HasFeatureTag{};    
+    struct HasFeatureTag{};
     struct NoFeatureTag{};
 
     static const SpecialsList& specialsInternal(HasFeatureTag)
@@ -156,7 +155,7 @@ private:
     {
         static const SpecialsList List;
         return List;
-    }  
+    }
 
     static int scaledDecimalsInternal(HasFeatureTag)
     {
@@ -166,7 +165,7 @@ private:
     static int scaledDecimalsInternal(NoFeatureTag)
     {
         return 0;
-    }     
+    }
 
     static SpecialsList createSpecialsList()
     {
@@ -183,13 +182,13 @@ private:
     void setDisplayValueInternal(UnderlyingType value, HasFeatureTag)
     {
         Base::field().setDisplayValue(value);
-    }   
+    }
 
     void setDisplayValueInternal([[maybe_unused]] UnderlyingType value, NoFeatureTag)
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
         assert(Must_not_be_called);
-    }     
+    }
 };
 
 template <typename TField>

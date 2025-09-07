@@ -32,5 +32,4 @@ QString getAppDataDir();
 
 QString getGlobalDataDir();
 
-
 } // namespace cc_tools_qt

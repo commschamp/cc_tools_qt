@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/ToolsApi.h"
@@ -24,7 +23,6 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 #include <QtCore/QVariantMap>
-
 
 namespace cc_tools_qt
 {
@@ -112,7 +110,7 @@ public:
     ValueType getFrom(TFrom&& from)
     {
         return static_cast<ValueType>(Base::getFrom(std::forward<TFrom>(from)));
-    }    
+    }
 };
 
 class CC_TOOLS_API ToolsMsgIdx : public ToolsMsgPropBase<unsigned>
@@ -225,5 +223,4 @@ public:
 }  // namespace property
 
 }  // namespace cc_tools_qt
-
 

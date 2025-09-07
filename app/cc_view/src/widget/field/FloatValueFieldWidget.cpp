@@ -17,14 +17,14 @@
 
 #include "FloatValueFieldWidget.h"
 
+#include "SpecialValueWidget.h"
+
+#include <QtCore/QTimer>
+
 #include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <limits>
-
-#include <QtCore/QTimer>
-
-#include "SpecialValueWidget.h"
 
 namespace cc_tools_qt
 {
@@ -64,7 +64,7 @@ FloatValueFieldWidget::FloatValueFieldWidget(
     if (decimals == 0) {
         decimals = DefaultDecimals;
     }
-    m_ui.m_valueSpinBox->setDecimals(decimals);    
+    m_ui.m_valueSpinBox->setDecimals(decimals);
 
     createSpecialsWidget(m_fieldPtr->specials());
 
@@ -72,15 +72,17 @@ FloatValueFieldWidget::FloatValueFieldWidget(
 
     refresh();
 
-    connect(m_ui.m_valueSpinBox, SIGNAL(valueChanged(double)),
-            this, SLOT(valueUpdated(double)));
+    connect(
+        m_ui.m_valueSpinBox, qOverload<double>(&QDoubleSpinBox::valueChanged),
+        this, &FloatValueFieldWidget::valueUpdated);
 
-    connect(m_ui.m_serValueLineEdit, SIGNAL(textEdited(const QString&)),
-            this, SLOT(serialisedValueUpdated(const QString&)));
+    connect(
+        m_ui.m_serValueLineEdit, &QLineEdit::textEdited,
+        this, &FloatValueFieldWidget::serialisedValueUpdated);
 
-    connect(m_ui.m_typeComboBox, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(typeUpdated(int)));
-
+    connect(
+        m_ui.m_typeComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &FloatValueFieldWidget::typeUpdated);
 }
 
 FloatValueFieldWidget::~FloatValueFieldWidget() noexcept = default;
@@ -261,18 +263,16 @@ bool FloatValueFieldWidget::createSpecialsWidget(const SpecialsList& specials)
 
     m_specialsWidget = new SpecialValueWidget(specials);
     connect(
-        m_specialsWidget, SIGNAL(sigFpValueChanged(double)),
-        this, SLOT(specialSelected(double)));
+        m_specialsWidget, &SpecialValueWidget::sigFpValueChanged,
+        this, &FloatValueFieldWidget::specialSelected);
 
     connect(
-        m_specialsWidget, SIGNAL(sigRefreshReq()),
-        this, SLOT(refresh()));
+        m_specialsWidget, &SpecialValueWidget::sigRefreshReq,
+        this, &FloatValueFieldWidget::refresh);
 
     m_ui.m_valueWidgetLayout->insertWidget(m_ui.m_valueWidgetLayout->count() - 1, m_specialsWidget);
-
     return true;
 }
 
 }  // namespace cc_tools_qt
-
 

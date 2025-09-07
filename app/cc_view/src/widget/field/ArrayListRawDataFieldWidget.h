@@ -15,13 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
-#include "cc_tools_qt/field/ToolsRawDataField.h"
 #include "FieldWidget.h"
-
 #include "ui_ArrayListRawDataFieldWidget.h"
+
+#include "cc_tools_qt/field/ToolsRawDataField.h"
 
 namespace cc_tools_qt
 {
@@ -54,7 +53,5 @@ private:
     FieldPtr m_fieldPtr;
 };
 
-
 }  // namespace cc_tools_qt
-
 

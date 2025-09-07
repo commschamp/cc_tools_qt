@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/details/ToolsNumericFieldImpl.h"
@@ -101,7 +100,7 @@ protected:
 
     virtual const SpecialsList& specialsImpl() const override
     {
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 Field::hasSpecials(),
                 HasFeatureTag,
@@ -117,19 +116,19 @@ protected:
     }
 
 private:
-    struct HasFeatureTag{};    
+    struct HasFeatureTag{};
     struct NoFeatureTag{};
 
     void setFieldValueInternal(typename TField::ValueType val)
     {
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 Field::hasFixedValue(),
                 NoFeatureTag,
                 HasFeatureTag
             >;
-        
-        setFieldValueInternal(val, Tag());     
+
+        setFieldValueInternal(val, Tag());
     }
 
     void setFieldValueInternal(typename TField::ValueType val, HasFeatureTag)
@@ -140,8 +139,8 @@ private:
     void setFieldValueInternal([[maybe_unused]] typename TField::ValueType val, NoFeatureTag)
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called);        
-    }    
+        assert(Must_not_be_called);
+    }
 
     static const SpecialsList& specialsInternal(HasFeatureTag)
     {
@@ -153,7 +152,7 @@ private:
     {
         static const SpecialsList List;
         return List;
-    }  
+    }
 
     static SpecialsList createSpecialsList()
     {

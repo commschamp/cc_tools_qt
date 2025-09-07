@@ -15,13 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
-#include "cc_tools_qt/field/ToolsEnumField.h"
 #include "FieldWidget.h"
-
 #include "ui_EnumValueFieldWidget.h"
+
+#include "cc_tools_qt/field/ToolsEnumField.h"
 
 namespace cc_tools_qt
 {
@@ -59,7 +58,5 @@ private:
     int m_idxOffset = 0;
 };
 
-
 }  // namespace cc_tools_qt
-
 

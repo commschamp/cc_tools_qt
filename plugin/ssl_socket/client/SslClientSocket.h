@@ -22,7 +22,7 @@
 #include <QtNetwork/QSslSocket>
 
 #ifdef CC_TOOLS_QT_DEFAULT_NETWORK_PORT
-#define SSL_CLIENT_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT    
+#define SSL_CLIENT_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT
 #else
 #define SSL_CLIENT_DEFAULT_PORT 20000
 #endif
@@ -67,7 +67,7 @@ public:
     void setCaDir(const QString& value)
     {
         m_caDir = value;
-    }    
+    }
 
     const QString& getCaDir() const
     {
@@ -77,7 +77,7 @@ public:
     void setCaDirFormat(QSsl::EncodingFormat value)
     {
         m_caDirFormat = value;
-    }    
+    }
 
     QSsl::EncodingFormat getCaDirFormat() const
     {
@@ -87,7 +87,7 @@ public:
     void setCaFile(const QString& value)
     {
         m_caFile = value;
-    }    
+    }
 
     const QString& getCaFile() const
     {
@@ -97,12 +97,12 @@ public:
     void setCaFileFormat(QSsl::EncodingFormat value)
     {
         m_caFileFormat = value;
-    }    
+    }
 
     QSsl::EncodingFormat getCaFileFormat() const
     {
         return m_caFileFormat;
-    }    
+    }
 
     void setVerifyMode(QSslSocket::PeerVerifyMode value)
     {
@@ -142,7 +142,7 @@ public:
     const QString& getCertFile() const
     {
         return m_certFile;
-    }    
+    }
 
     void setCertFormat(QSsl::EncodingFormat value)
     {
@@ -152,12 +152,12 @@ public:
     QSsl::EncodingFormat getCertFormat() const
     {
         return m_certFormat;
-    }   
+    }
 
     void setPrivKeyFile(const QString& value)
     {
         m_privKeyFile = value;
-    }     
+    }
 
     const QString& getPrivKeyFile() const
     {
@@ -167,7 +167,7 @@ public:
     void setPrivKeyAlg(QSsl::KeyAlgorithm value)
     {
         m_privKeyAlg = value;
-    }    
+    }
 
     QSsl::KeyAlgorithm getPrivKeyAlg() const
     {
@@ -177,7 +177,7 @@ public:
     void setPrivKeyFormat(QSsl::EncodingFormat value)
     {
         m_privKeyFormat = value;
-    }    
+    }
 
     QSsl::EncodingFormat getPrivKeyFormat() const
     {
@@ -188,20 +188,20 @@ public:
     {
         m_privKeyPass = value;
     }
-    
+
     const QString& getPrivKeyPass() const
     {
         return m_privKeyPass;
     }
 
 signals:
-    void sigConfigChanged();    
+    void sigConfigChanged();
 
 protected:
     virtual bool socketConnectImpl() override;
     virtual void socketDisconnectImpl() override;
     virtual void sendDataImpl(ToolsDataInfoPtr dataPtr) override;
-    virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;     
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;
 
 private slots:
     void socketDisconnected();

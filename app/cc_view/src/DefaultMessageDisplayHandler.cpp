@@ -205,13 +205,10 @@ public:
         return std::move(m_widget);
     }
 
-
 private:
     FieldWidgetPtr m_widget;
     QWidget* m_parent = nullptr;
 };
-
-
 
 }  // namespace
 
@@ -226,7 +223,7 @@ DefaultMessageDisplayHandler::MsgWidgetPtr DefaultMessageDisplayHandler::getMsgW
         WidgetCreator creator;
         f->dispatch(creator);
         auto fieldWidget = creator.getWidget();
-        widget->addExtraTransportFieldWidget(fieldWidget.release());        
+        widget->addExtraTransportFieldWidget(fieldWidget.release());
     }
 
     auto fields = msg.payloadFields();
@@ -234,12 +231,11 @@ DefaultMessageDisplayHandler::MsgWidgetPtr DefaultMessageDisplayHandler::getMsgW
         WidgetCreator creator;
         f->dispatch(creator);
         auto fieldWidget = creator.getWidget();
-        widget->addFieldWidget(fieldWidget.release());        
+        widget->addFieldWidget(fieldWidget.release());
     }
 
     return widget;
 }
 
 }  // namespace cc_tools_qt
-
 

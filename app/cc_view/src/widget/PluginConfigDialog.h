@@ -17,16 +17,16 @@
 
 #pragma once
 
-#include <QtWidgets/QDialog>
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QPushButton>
-
+#include "ActionWrap.h"
+#include "PluginConfigWrapsListWidget.h"
+#include "PluginsListWidget.h"
 #include "ui_PluginConfigDialog.h"
 
 #include "cc_tools_qt/ToolsPluginMgr.h"
-#include "PluginsListWidget.h"
-#include "ActionWrap.h"
-#include "PluginConfigWrapsListWidget.h"
+
+#include <QtWidgets/QDialog>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
 
 namespace cc_tools_qt
 {
@@ -54,7 +54,6 @@ private slots:
     void selectedSocketPluginClicked(QListWidgetItem* item);
     void selectedFilterPluginClicked(QListWidgetItem* item);
     void selectedProtocolPluginClicked(QListWidgetItem* item);
-
 
     void addClicked();
     void searchTextChanged(const QString& text);

@@ -17,14 +17,15 @@
 
 #include "SendMsgListWidget.h"
 
-#include <cassert>
+#include "GuiAppMgr.h"
+#include "MsgFileMgrG.h"
+#include "SendAreaToolBar.h"
+
+#include "cc_tools_qt/property/message.h"
 
 #include <QtWidgets/QVBoxLayout>
 
-#include "cc_tools_qt/property/message.h"
-#include "SendAreaToolBar.h"
-#include "GuiAppMgr.h"
-#include "MsgFileMgrG.h"
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -38,44 +39,44 @@ SendMsgListWidget::SendMsgListWidget(QWidget* parentObj)
     auto* guiMgr = GuiAppMgr::instance();
     assert(guiMgr != nullptr);
     connect(
-        guiMgr, SIGNAL(sigAddSendMsg(ToolsMessagePtr)),
-        this, SLOT(addMessage(ToolsMessagePtr)));
+        guiMgr, &GuiAppMgr::sigAddSendMsg,
+        this, &SendMsgListWidget::addMessage);
     connect(
-        guiMgr, SIGNAL(sigSendMsgUpdated(ToolsMessagePtr)),
-        this, SLOT(updateCurrentMessage(ToolsMessagePtr)));
+        guiMgr, &GuiAppMgr::sigSendMsgUpdated,
+        this, &SendMsgListWidget::updateCurrentMessage);
     connect(
-        guiMgr, SIGNAL(sigSendDeleteSelectedMsg()),
-        this, SLOT(deleteCurrentMessage()));
+        guiMgr, &GuiAppMgr::sigSendDeleteSelectedMsg,
+        this, &SendMsgListWidget::deleteCurrentMessage);
     connect(
-        guiMgr, SIGNAL(sigSendMsgListClearSelection()),
-        this, SLOT(clearSelection()));
+        guiMgr, &GuiAppMgr::sigSendMsgListClearSelection,
+        this, &SendMsgListWidget::clearSelection);
     connect(
-        guiMgr, SIGNAL(sigSendClear()),
-        this, SLOT(clearList()));
+        guiMgr, &GuiAppMgr::sigSendClear,
+        this, qOverload<>(&SendMsgListWidget::clearList));
     connect(
-        guiMgr, SIGNAL(sigSetSendState(int)),
-        this, SLOT(stateChanged(int)));
+        guiMgr, &GuiAppMgr::sigSetSendState,
+        this, &SendMsgListWidget::stateChanged);
     connect(
-        guiMgr, SIGNAL(sigSendMoveSelectedTop()),
-        this, SLOT(moveSelectedTop()));
+        guiMgr, &GuiAppMgr::sigSendMoveSelectedTop,
+        this, &SendMsgListWidget::moveSelectedTop);
     connect(
-        guiMgr, SIGNAL(sigSendMoveSelectedUp()),
-        this, SLOT(moveSelectedUp()));
+        guiMgr, &GuiAppMgr::sigSendMoveSelectedUp,
+        this, &SendMsgListWidget::moveSelectedUp);
     connect(
-        guiMgr, SIGNAL(sigSendMoveSelectedDown()),
-        this, SLOT(moveSelectedDown()));
+        guiMgr, &GuiAppMgr::sigSendMoveSelectedDown,
+        this, &SendMsgListWidget::moveSelectedDown);
     connect(
-        guiMgr, SIGNAL(sigSendMoveSelectedBottom()),
-        this, SLOT(moveSelectedBottom()));
+        guiMgr, &GuiAppMgr::sigSendMoveSelectedBottom,
+        this, &SendMsgListWidget::moveSelectedBottom);
     connect(
-        guiMgr, SIGNAL(sigSendLoadMsgs(bool, const QString&, ToolsProtocolPtr)),
-        this, SLOT(loadMessages(bool, const QString&, ToolsProtocolPtr)));
+        guiMgr, &GuiAppMgr::sigSendLoadMsgs,
+        this, &SendMsgListWidget::loadMessages);
     connect(
-        guiMgr, SIGNAL(sigSendSaveMsgs(const QString&)),
-        this, SLOT(saveMessages(const QString&)));
+        guiMgr, &GuiAppMgr::sigSendSaveMsgs,
+        this, &SendMsgListWidget::saveMessages);
     connect(
-        guiMgr, SIGNAL(sigSendMsgSelected(int)),
-        this, SLOT(selectMsg(int)));
+        guiMgr, &GuiAppMgr::sigSendMsgSelected,
+        this, &SendMsgListWidget::selectMsg);
 }
 
 void SendMsgListWidget::msgClickedImpl(ToolsMessagePtr msg, int idx)

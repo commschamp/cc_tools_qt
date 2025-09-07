@@ -22,7 +22,7 @@
 namespace cc_tools_qt
 {
 
-namespace 
+namespace
 {
 
 struct MetaTypesRegistrator
@@ -36,10 +36,10 @@ struct MetaTypesRegistrator
 void registerMetaTypesIfNeeded()
 {
     [[maybe_unused]] static const MetaTypesRegistrator Registrator;
-}  
+}
 
-} // namespace 
-    
+} // namespace
+
 QString ToolsPluginMgr::PluginInfo::getNameWithVersion() const
 {
     if (getVersion().isEmpty()) {
@@ -143,5 +143,4 @@ const QString& ToolsPluginMgr::getFilesFilter()
 }
 
 }  // namespace cc_tools_qt
-
 

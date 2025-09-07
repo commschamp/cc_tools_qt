@@ -7,7 +7,7 @@
         "    { \"ssl.port\": 1234} - Override the port configuration.\n",
         "    { \"ssl.verify_name\": \"some_name\"} - Override the verify name configuration.\n",
         "    { \"network.host\": \"example.com\"} - Alias to \"ssl.host\".\n",
-        "    { \"network.port\": 1234} - Alias to \"ssl.port\".\n"           
+        "    { \"network.port\": 1234} - Alias to \"ssl.port\".\n"
     ],
     "type" : "socket"
 }

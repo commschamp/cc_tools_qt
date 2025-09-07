@@ -17,12 +17,12 @@
 
 #include "BitfieldFieldWidget.h"
 
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QFrame>
+
 #include <algorithm>
 #include <cassert>
 #include <type_traits>
-
-#include <QtWidgets/QCheckBox>
-#include <QtWidgets/QFrame>
 
 namespace cc_tools_qt
 {
@@ -44,8 +44,9 @@ BitfieldFieldWidget::BitfieldFieldWidget(
 
     commonConstruct();
 
-    connect(m_ui.m_serValueLineEdit, SIGNAL(textEdited(const QString&)),
-            this, SLOT(serialisedValueUpdated(const QString&)));
+    connect(
+        m_ui.m_serValueLineEdit, &QLineEdit::textEdited,
+        this, &BitfieldFieldWidget::serialisedValueUpdated);
 }
 
 BitfieldFieldWidget::~BitfieldFieldWidget() noexcept = default;
@@ -68,8 +69,8 @@ void BitfieldFieldWidget::addMemberField(FieldWidget* memberFieldWidget)
     refreshInternal();
 
     connect(
-        memberFieldWidget, SIGNAL(sigFieldUpdated()),
-        this, SLOT(memberFieldUpdated()));
+        memberFieldWidget, &FieldWidget::sigFieldUpdated,
+        this, &BitfieldFieldWidget::memberFieldUpdated);
 }
 
 ToolsField& BitfieldFieldWidget::fieldImpl()
@@ -92,7 +93,6 @@ void BitfieldFieldWidget::editEnabledUpdatedImpl()
         memberFieldWidget->setEditEnabled(!readonly);
     }
 }
-
 
 void BitfieldFieldWidget::serialisedValueUpdated(const QString& value)
 {
@@ -143,5 +143,4 @@ void BitfieldFieldWidget::refreshMembers()
 }
 
 }  // namespace cc_tools_qt
-
 

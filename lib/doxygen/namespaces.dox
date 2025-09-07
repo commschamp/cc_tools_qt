@@ -3,12 +3,11 @@
 ///
 /// @namespace cc_tools_qt::property
 /// @brief Namespace containing classes describing various properties
-/// 
+///
 /// @namespace cc_tools_qt::property::message
 /// @brief Namespace containing classes describing various message properties.
 ///
 /// @namespace cc_tools_qt::field
 /// @brief Namespace containing definition of field classes.
-/// 
-
+///
 

@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "TcpClientSocket.h"
@@ -42,13 +41,13 @@ public:
     TcpClientSocketPlugin();
     ~TcpClientSocketPlugin() noexcept;
 
-protected:        
+protected:
     virtual void getCurrentConfigImpl(QVariantMap& config) override;
     virtual void reconfigureImpl(const QVariantMap& config) override;
-    virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;     
-    virtual ToolsSocketPtr createSocketImpl() override;    
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;
+    virtual ToolsSocketPtr createSocketImpl() override;
     virtual QWidget* createConfigurationWidgetImpl() override;
-    
+
 private:
 
     void createSocketIfNeeded();
@@ -59,7 +58,4 @@ private:
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
-
-
 

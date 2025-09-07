@@ -15,19 +15,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
-#include <functional>
-#include <vector>
-
-#include <QtCore/QVariantMap>
+#include "FieldWidget.h"
 
 #include "ui_ArrayListElementWidget.h"
 #include "ui_ArrayListFieldWidget.h"
 
 #include "cc_tools_qt/field/ToolsArrayListField.h"
-#include "FieldWidget.h"
+
+#include <QtCore/QVariantMap>
+
+#include <functional>
+#include <vector>
 
 namespace cc_tools_qt
 {
@@ -107,5 +107,4 @@ private:
 };
 
 }  // namespace cc_tools_qt
-
 

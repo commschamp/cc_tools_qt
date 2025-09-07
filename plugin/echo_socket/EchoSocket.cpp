@@ -71,4 +71,3 @@ void EchoSocket::sendDataPostponed()
 
 }  // namespace cc_tools_qt
 
-

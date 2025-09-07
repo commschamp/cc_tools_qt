@@ -15,18 +15,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "FieldWidget.h"
 
-#include <string>
-#include <algorithm>
-#include <iterator>
-#include <cassert>
-
-#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QSpinBox>
+
+#include <algorithm>
+#include <cassert>
+#include <iterator>
+#include <string>
 
 namespace cc_tools_qt
 {
@@ -198,11 +197,11 @@ void FieldWidget::performSerVisibilityUpdate()
                 widget->setHidden(hidden);
             }
         };
-            
+
     auto& f = fieldImpl();
     bool serHidden = f.isHiddenSerialization();
     setWidgetHiddenFunc(m_sepWidget, serHidden);
-    setWidgetHiddenFunc(m_serValueWidget, serHidden);    
+    setWidgetHiddenFunc(m_serValueWidget, serHidden);
 }
 
 void FieldWidget::performReadOnlyUpdate()

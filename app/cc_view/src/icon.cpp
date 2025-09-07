@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "icon.h"
 
 namespace cc_tools_qt
@@ -185,7 +184,6 @@ const QIcon& filterApply()
     static const QIcon iconObj(":/image/filter_reapply.png");
     return iconObj;
 }
-
 
 }  // namespace icon
 

@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/details/ToolsNumericFieldBase.h"
@@ -41,7 +40,7 @@ public:
     using UnderlyingType = Base::UnderlyingType ;
     using ActPtr = std::unique_ptr<ToolsIntField>;
     using SpecialType = QPair<QString, UnderlyingType>;
-    using SpecialsList = QList<SpecialType>;    
+    using SpecialsList = QList<SpecialType>;
 
     ToolsIntField();
     virtual ~ToolsIntField() noexcept;
@@ -81,13 +80,12 @@ protected:
     virtual const SpecialsList& specialsImpl() const = 0;
     virtual int scaledDecimalsImpl() const = 0;
     virtual UnderlyingType getDisplayValueImpl() const = 0;
-    virtual void setDisplayValueImpl(UnderlyingType value) = 0;    
+    virtual void setDisplayValueImpl(UnderlyingType value) = 0;
 
     virtual void dispatchImpl(ToolsFieldHandler& handler) override;
 };
 
 using ToolsIntFieldPtr = ToolsIntField::ActPtr;
-
 
 }  // namespace field
 

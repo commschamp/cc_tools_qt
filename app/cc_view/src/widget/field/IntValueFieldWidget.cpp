@@ -15,17 +15,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "IntValueFieldWidget.h"
 
-#include <cassert>
-
-#include <QtWidgets/QVBoxLayout>
-
-#include "ShortIntValueFieldWidget.h"
 #include "LongIntValueFieldWidget.h"
 #include "LongLongIntValueFieldWidget.h"
 #include "ScaledIntValueFieldWidget.h"
+#include "ShortIntValueFieldWidget.h"
+
+#include <QtWidgets/QVBoxLayout>
+
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -62,7 +61,7 @@ IntValueFieldWidget::IntValueFieldWidget(FieldPtr fieldPtr, QWidget* parentObj)
         }
 
         [[maybe_unused]] static constexpr bool The_handling_of_long_long_types_is_not_implemented_yet = false;
-        assert(The_handling_of_long_long_types_is_not_implemented_yet);  
+        assert(The_handling_of_long_long_types_is_not_implemented_yet);
         return;
     } while (false);
 
@@ -76,8 +75,8 @@ IntValueFieldWidget::IntValueFieldWidget(FieldPtr fieldPtr, QWidget* parentObj)
     m_childWidget->setEditEnabled(isEditEnabled());
 
     connect(
-        m_childWidget.get(), SIGNAL(sigFieldUpdated()),
-        this, SIGNAL(sigFieldUpdated()));   
+        m_childWidget.get(), &FieldWidget::sigFieldUpdated,
+        this, &IntValueFieldWidget::sigFieldUpdated);
 }
 
 IntValueFieldWidget::~IntValueFieldWidget() noexcept

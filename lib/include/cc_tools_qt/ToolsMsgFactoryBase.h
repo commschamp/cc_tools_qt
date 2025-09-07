@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/ToolsMsgFactory.h"
@@ -32,7 +31,7 @@ namespace details
 
 class TupleMsgFactoryHelper
 {
-public:    
+public:
     using MessagesListInternal = std::vector<ToolsMessagePtr>;
     TupleMsgFactoryHelper(MessagesListInternal& msgs) : m_msgs(msgs) {}
 
@@ -56,9 +55,9 @@ private:
 template <typename TAllMessages>
 class ToolsMsgFactoryBase : public ToolsMsgFactory
 {
-public: 
+public:
     using AllMessages = TAllMessages;
-    
+
 protected:
     virtual MessagesListInternal createAllMessagesImpl() override
     {
@@ -71,5 +70,4 @@ protected:
 };
 
 }  // namespace cc_tools_qt
-
 

@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/details/ToolsFieldBase.h"
@@ -67,7 +66,7 @@ protected:
 
     virtual void setValueImpl(const QString& val) override
     {
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 Field::hasFixedValue(),
                 NoFeatureTag,
@@ -80,7 +79,7 @@ protected:
     virtual bool setSerialisedValueImpl([[maybe_unused]] const SerialisedSeq& value) override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
         return false;
     }
 
@@ -99,9 +98,9 @@ private:
     struct SerLengthFieldExistsTag {};
     struct NoSizeFieldTag {};
     struct HasFeatureTag {};
-    struct NoFeatureTag {};    
+    struct NoFeatureTag {};
 
-    using SizeExistanceTag = 
+    using SizeExistanceTag =
         std::conditional_t<
             Field::hasSizeFieldPrefix(),
             SizeFieldExistsTag,
@@ -149,13 +148,13 @@ private:
     void setValueInternal(const QString& val, HasFeatureTag)
     {
         Base::field().setValue(val.toStdString().c_str());
-    } 
+    }
 
     void setValueInternal([[maybe_unused]] const QString& val, NoFeatureTag)
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
         assert(Must_not_be_called);
-    }        
+    }
 };
 
 template <typename TField>
@@ -167,6 +166,4 @@ auto makeStringField(TField& field)
 }  // namespace details
 
 }  // namespace cc_tools_qt
-
-
 

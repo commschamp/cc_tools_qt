@@ -7,15 +7,15 @@ endif ()
 
 function (plugin_ssl_client_socket)
     set (name "cc_tools_plugin_ssl_client_socket")
-    
+
     if (NOT TARGET Qt::Network)
         message(WARNING "Can NOT build ${name} due to missing Qt::Network library")
         return()
     endif ()
-    
+
     set (meta_file "${CMAKE_CURRENT_SOURCE_DIR}/ssl_client_socket.json")
     set (stamp_file "${CMAKE_CURRENT_BINARY_DIR}/client_refresh_stamp.txt")
-    
+
     set (refresh_plugin_header TRUE)
     if ((NOT EXISTS ${stamp_file}) OR (${meta_file} IS_NEWER_THAN ${stamp_file}))
         execute_process(
@@ -27,22 +27,22 @@ function (plugin_ssl_client_socket)
     set (
         ui
         SslClientSocketConfigWidget.ui
-    )    
-    
+    )
+
     set (src
         SslClientSocket.cpp
         SslClientSocketPlugin.h
         SslClientSocketPlugin.cpp
         SslClientSocketConfigWidget.cpp
     )
-    
+
     add_library (${name} MODULE ${ui} ${src})
     target_link_libraries(${name} PRIVATE cc::${PROJECT_NAME} Qt::Network Qt::Widgets Qt::Core)
-    
+
     install (
         TARGETS ${name}
         DESTINATION ${PLUGIN_INSTALL_DIR})
-    
+
 endfunction()
 
 ######################################################################

@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/ToolsMessageBase.h"
@@ -91,13 +90,13 @@ protected:
     virtual void resetImpl() override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
     }
 
     virtual bool assignImpl([[maybe_unused]] const cc_tools_qt::ToolsMessage& other) override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
         return false;
     }
 
@@ -110,12 +109,12 @@ protected:
         }
 
         return rawDataMsg->encodeData();
-    }    
+    }
 
     virtual DataSeq encodeFramedImpl([[maybe_unused]] ToolsFrame& frame) const override
     {
         return encodeDataImpl();
-    }    
+    }
 
     virtual typename Base::Ptr cloneImpl() const override
     {
@@ -123,11 +122,11 @@ protected:
         auto ptr = Base::cloneImpl();
         if (ptr && rawDataMsg) {
             ToolsMessagePtr p = rawDataMsg->clone();
-            property::message::ToolsMsgRawDataMsg().setTo(std::move(p), *ptr);   
+            property::message::ToolsMsgRawDataMsg().setTo(std::move(p), *ptr);
         }
 
         return ptr;
-    }    
+    }
 
     virtual FieldsList transportFieldsImpl() override
     {
@@ -136,5 +135,4 @@ protected:
 };
 
 }  // namespace cc_tools_qt
-
 

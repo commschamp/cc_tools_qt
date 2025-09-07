@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/details/ToolsFieldBase.h"
@@ -40,7 +39,7 @@ public:
     using Ptr = typename Base::Ptr;
     using ActPtr = typename Base::ActPtr;
     using Field = TField;
-    
+
     explicit ToolsOptionalFieldImpl(Field& fieldRef)
       : Base(fieldRef)
     {
@@ -72,5 +71,4 @@ auto makeOptionalField(TField& field)
 }  // namespace details
 
 }  // namespace cc_tools_qt
-
 

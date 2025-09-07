@@ -132,7 +132,6 @@ const QString& networkBroadcastRadiusProp()
 
 }  // namespace
 
-
 UdpGenericSocket::UdpGenericSocket()
 {
     connect(
@@ -143,7 +142,7 @@ UdpGenericSocket::UdpGenericSocket()
         this, &UdpGenericSocket::readFromSocket);
     connect(
         &m_socket, &QUdpSocket::errorOccurred,
-        this, &UdpGenericSocket::socketErrorOccurred);  
+        this, &UdpGenericSocket::socketErrorOccurred);
 }
 
 UdpGenericSocket::~UdpGenericSocket() noexcept
@@ -239,7 +238,7 @@ void UdpGenericSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
             auto broadcastVar = dataPtr->m_extraProperties.value(*s);
             if (broadcastVar.isValid() && broadcastVar.canConvert<bool>()) {
                 broadcastRequested = broadcastVar.value<bool>();
-            }            
+            }
         }
 
         if ((!broadcastRequested) ||
@@ -259,7 +258,7 @@ void UdpGenericSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
             auto broadcastMaskVar = dataPtr->m_extraProperties.value(*s);
             if (broadcastMaskVar.isValid() && broadcastMaskVar.canConvert<QString>()) {
                 broadcastMask = broadcastMaskVar.toString();
-            }            
+            }
         }
 
         auto broadcastTtl = m_defaultTtl;
@@ -268,19 +267,19 @@ void UdpGenericSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
             &networkBroadcastTtlProp(),
             &udpBroadcastRadiusProp(),
             &udpBroadcastTtlProp(),
-        };  
+        };
 
         for (auto* s : BroadcastTtlProps) {
             assert(s != nullptr);
             auto broadcastTtlVar = dataPtr->m_extraProperties.value(*s);
             if (broadcastTtlVar.isValid() && broadcastTtlVar.canConvert<int>()) {
                 broadcastTtl = broadcastTtlVar.value<int>();
-            }            
-        }       
+            }
+        }
 
         if (broadcastTtl != 0) {
             m_socket.setSocketOption(QUdpSocket::MulticastTtlOption, broadcastTtl);
-        } 
+        }
 
         std::size_t writtenCount = 0;
         while (writtenCount < dataPtr->m_data.size()) {
@@ -355,7 +354,7 @@ void UdpGenericSocket::applyInterPluginConfigImpl(const QVariantMap& props)
     static const QString* PortProps[] = {
         &networkPortProp(),
         &udpPortProp(),
-    };    
+    };
 
     for (auto* p : PortProps) {
         auto var = props.value(*p);
@@ -368,7 +367,7 @@ void UdpGenericSocket::applyInterPluginConfigImpl(const QVariantMap& props)
     static const QString* ProxyPortProps[] = {
         &networkLocalPortProp(),
         &udpLocalPortProp(),
-    };    
+    };
 
     for (auto* p : ProxyPortProps) {
         auto var = props.value(*p);
@@ -376,12 +375,12 @@ void UdpGenericSocket::applyInterPluginConfigImpl(const QVariantMap& props)
             setPort(static_cast<PortType>(var.value<int>()));
             updated = true;
         }
-    }   
+    }
 
     static const QString* BroadcastMasksProps[] = {
         &networkBroadcastMaskProp(),
         &udpBroadcastMaskProp(),
-    };    
+    };
 
     for (auto* p : BroadcastMasksProps) {
         auto var = props.value(*p);
@@ -389,7 +388,7 @@ void UdpGenericSocket::applyInterPluginConfigImpl(const QVariantMap& props)
             setBroadcastMask(var.value<QString>());
             updated = true;
         }
-    }      
+    }
 
     if (updated) {
         emit sigConfigChanged();

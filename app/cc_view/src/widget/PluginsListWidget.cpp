@@ -29,11 +29,11 @@ PluginsListWidget::PluginsListWidget(
     m_ui.m_groupBox->setTitle(name);
 
     connect(
-        m_ui.m_listWidget, SIGNAL(itemClicked(QListWidgetItem*)),
-        this, SIGNAL(itemClicked(QListWidgetItem*)));
+        m_ui.m_listWidget, &QListWidget::itemClicked,
+        this, &PluginsListWidget::itemClicked);
     connect(
-        m_ui.m_listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-        this, SIGNAL(itemDoubleClicked(QListWidgetItem*)));
+        m_ui.m_listWidget, &QListWidget::itemDoubleClicked,
+        this, &PluginsListWidget::itemDoubleClicked);
 }
 
 QListWidgetItem* PluginsListWidget::currentItem()
@@ -94,5 +94,4 @@ void PluginsListWidget::insertItem(int row, QListWidgetItem* itemPtr)
 }
 
 }  // namespace cc_tools_qt
-
 

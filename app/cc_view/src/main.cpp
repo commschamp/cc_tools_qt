@@ -81,7 +81,7 @@ void prepareCommandLineOptions(QCommandLineParser& parser)
         QCoreApplication::translate("main", "value") + " (=0)",
         "0"
     );
-    parser.addOption(debugOpt);    
+    parser.addOption(debugOpt);
 }
 
 }  // namespace

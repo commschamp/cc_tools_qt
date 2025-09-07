@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "SerialSocket.h"
@@ -23,7 +22,6 @@
 #include "cc_tools_qt/ToolsPlugin.h"
 
 #include <memory>
-
 
 namespace cc_tools_qt
 {
@@ -49,7 +47,7 @@ public:
 protected:
     virtual void getCurrentConfigImpl(QVariantMap& config) override;
     virtual void reconfigureImpl(const QVariantMap& config) override;
-    virtual ToolsSocketPtr createSocketImpl() override;    
+    virtual ToolsSocketPtr createSocketImpl() override;
     virtual QWidget* createConfigurationWidgetImpl() override;
 private:
 
@@ -63,7 +61,4 @@ private:
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
-
-
 

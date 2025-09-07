@@ -17,12 +17,12 @@
 
 #include "DefaultMessageWidget.h"
 
-#include <memory>
-#include <cassert>
-
-#include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QFrame>
 #include <QtCore/QVariant>
+#include <QtWidgets/QFrame>
+#include <QtWidgets/QSpacerItem>
+
+#include <cassert>
+#include <memory>
 
 namespace cc_tools_qt
 {
@@ -95,11 +95,10 @@ std::unique_ptr<QFrame> DefaultMessageWidget::createFieldSeparator()
 void DefaultMessageWidget::connectFieldSignals(FieldWidget* fieldWidget)
 {
     assert(fieldWidget != nullptr);
-    connect(this, SIGNAL(sigRefreshFields()), fieldWidget, SLOT(refresh()));
-    connect(this, SIGNAL(sigSetEditEnabled(bool)), fieldWidget, SLOT(setEditEnabled(bool)));
-    connect(fieldWidget, SIGNAL(sigFieldUpdated()), this, SIGNAL(sigMsgUpdated()));
+    connect(this, &DefaultMessageWidget::sigRefreshFields, fieldWidget, &FieldWidget::refresh);
+    connect(this, &DefaultMessageWidget::sigSetEditEnabled, fieldWidget, &FieldWidget::setEditEnabled);
+    connect(fieldWidget, &FieldWidget::sigFieldUpdated, this, &DefaultMessageWidget::sigMsgUpdated);
 }
 
 }  // namespace cc_tools_qt
-
 

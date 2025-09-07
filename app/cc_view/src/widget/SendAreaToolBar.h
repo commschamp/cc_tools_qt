@@ -15,13 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
-#include <QtWidgets/QToolBar>
-
-#include "GuiAppMgr.h"
 #include "ActionWrap.h"
+#include "GuiAppMgr.h"
+
+#include <QtWidgets/QToolBar>
 
 namespace cc_tools_qt
 {
@@ -84,5 +83,4 @@ private:
 };
 
 }  // namespace cc_tools_qt
-
 

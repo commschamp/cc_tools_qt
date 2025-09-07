@@ -69,7 +69,6 @@ const QString& networkPortProp()
 
 }  // namespace
 
-
 TcpClientSocket::TcpClientSocket()
 {
     connect(
@@ -93,7 +92,7 @@ bool TcpClientSocket::socketConnectImpl()
     if ((m_socket.state() == QTcpSocket::ConnectedState) ||
         (m_socket.state() == QTcpSocket::ConnectingState)) {
         [[maybe_unused]] static constexpr bool Already_connected = false;
-        assert(Already_connected); 
+        assert(Already_connected);
         static const QString AlreadyConnectedError(
             tr("TCP/IP Client is already connected or trying to connect."));
         reportError(AlreadyConnectedError);
@@ -142,7 +141,6 @@ void TcpClientSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
         m_socket.peerAddress().toString() + ':' +
                     QString("%1").arg(m_socket.peerPort());
 
-
     dataPtr->m_extraProperties.insert(tcpFromProp(), from);
     dataPtr->m_extraProperties.insert(tcpToProp(), to);
 
@@ -167,7 +165,7 @@ void TcpClientSocket::applyInterPluginConfigImpl(const QVariantMap& props)
     static const QString* PortProps[] = {
         &networkPortProp(),
         &tcpPortProp(),
-    };    
+    };
 
     for (auto* p : PortProps) {
         auto var = props.value(*p);

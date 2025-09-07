@@ -35,7 +35,7 @@ namespace raw_data_protocol
 {
 
 template <typename TMsgBase, typename TOpt>
-using AllMessages = 
+using AllMessages =
     std::tuple<
         DataMessage<TMsgBase, TOpt>
     >;
@@ -45,6 +45,4 @@ using AllMessages =
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
-
 

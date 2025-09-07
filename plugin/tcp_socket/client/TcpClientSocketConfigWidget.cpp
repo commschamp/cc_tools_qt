@@ -41,7 +41,7 @@ TcpClientSocketConfigWidget::TcpClientSocketConfigWidget(
 
     connect(
         &socket, &TcpClientSocket::sigConfigChanged,
-        this, &TcpClientSocketConfigWidget::refresh);    
+        this, &TcpClientSocketConfigWidget::refresh);
 
     connect(
         m_ui.m_hostLineEdit, &QLineEdit::textChanged,
@@ -75,5 +75,4 @@ void TcpClientSocketConfigWidget::portValueChanged(int value)
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
 

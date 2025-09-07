@@ -15,24 +15,24 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "MessageUpdateDialog.h"
 
-#include <cassert>
-#include <limits>
-#include <type_traits>
-#include <algorithm>
-#include <map>
-#include <utility>
-
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QPushButton>
-#include <QtCore/QJsonObject>
-#include <QtCore/QJsonDocument>
-#include <QtCore/QByteArray>
+#include "DefaultMessageDisplayWidget.h"
 
 #include "cc_tools_qt/property/message.h"
-#include "DefaultMessageDisplayWidget.h"
+
+#include <QtCore/QByteArray>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QVBoxLayout>
+
+#include <algorithm>
+#include <cassert>
+#include <limits>
+#include <map>
+#include <type_traits>
+#include <utility>
 
 namespace cc_tools_qt
 {
@@ -198,7 +198,6 @@ MessageUpdateDialog::MessageUpdateDialog(
         }
     }
 
-
     m_msgDisplayWidget->setEditEnabled(true);
 
     m_ui.setupUi(this);
@@ -262,50 +261,50 @@ MessageUpdateDialog::MessageUpdateDialog(
     resize(QSize(newWidth, newHeight));
 
     connect(
-        m_msgDisplayWidget, SIGNAL(sigMsgUpdated()),
-        this, SLOT(msgUpdated()));
+        m_msgDisplayWidget, &MessageDisplayWidget::sigMsgUpdated,
+        this, &MessageUpdateDialog::msgUpdated);
 
     connect(
-        m_ui.m_msgListWidget, SIGNAL(itemSelectionChanged()),
-        this, SLOT(newItemSelected()));
+        m_ui.m_msgListWidget, &QListWidget::itemSelectionChanged,
+        this, &MessageUpdateDialog::newItemSelected);
 
     connect(
-        m_ui.m_searchLineEdit, SIGNAL(textChanged(const QString&)),
-        this, SLOT(refreshDisplayedList(const QString&)));
+        m_ui.m_searchLineEdit, &QLineEdit::textChanged,
+        this, &MessageUpdateDialog::refreshDisplayedList);
 
     connect(
-        m_ui.m_clearSearchToolButton, SIGNAL(clicked()),
-        m_ui.m_searchLineEdit, SLOT(clear()));
+        m_ui.m_clearSearchToolButton, &QToolButton::clicked,
+        m_ui.m_searchLineEdit, &QLineEdit::clear);
 
     connect(
-        m_ui.m_delayCheckBox, SIGNAL(stateChanged(int)),
-        this, SLOT(refreshDelayInfo(int)));
+        m_ui.m_delayCheckBox, &QCheckBox::stateChanged,
+        this, &MessageUpdateDialog::refreshDelayInfo);
 
     connect(
-        m_ui.m_delaySpinBox, SIGNAL(valueChanged(int)),
-        this, SLOT(delayUpdated(int)));
+        m_ui.m_delaySpinBox, qOverload<int>(&QSpinBox::valueChanged),
+        this, &MessageUpdateDialog::delayUpdated);
 
     connect(
-        m_ui.m_repeatCheckBox, SIGNAL(stateChanged(int)),
-        this, SLOT(refreshRepeatInfo(int)));
+        m_ui.m_repeatCheckBox, &QCheckBox::stateChanged,
+        this, &MessageUpdateDialog::refreshRepeatInfo);
 
     connect(
-        m_ui.m_repeatSpinBox, SIGNAL(valueChanged(int)),
-        this, SLOT(repeatDurationUpdated(int)));
+        m_ui.m_repeatSpinBox, qOverload<int>(&QSpinBox::valueChanged),
+        this, &MessageUpdateDialog::repeatDurationUpdated);
 
     connect(
-        m_ui.m_repeatCountSpinBox, SIGNAL(valueChanged(int)),
-        this, SLOT(repeatCountUpdated(int)));
+        m_ui.m_repeatCountSpinBox, qOverload<int>(&QSpinBox::valueChanged),
+        this, &MessageUpdateDialog::repeatCountUpdated);
 
     connect(
-        m_ui.m_indefinitelyCheckBox, SIGNAL(stateChanged(int)),
-        this, SLOT(indefinitelyUpdated(int)));
+        m_ui.m_indefinitelyCheckBox, &QCheckBox::stateChanged,
+        this, &MessageUpdateDialog::indefinitelyUpdated);
 
     auto* resetButton = m_ui.m_buttonBox->button(QDialogButtonBox::Reset);
     assert(resetButton);
     connect(
-        resetButton, SIGNAL(clicked()),
-        this, SLOT(reset()));
+        resetButton, &QPushButton::clicked,
+        this, &MessageUpdateDialog::reset);
 
 }
 
@@ -557,5 +556,4 @@ void MessageUpdateDialog::refreshButtons()
 }
 
 }  // namespace cc_tools_qt
-
 

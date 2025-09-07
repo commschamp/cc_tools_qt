@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/ToolsMessage.h"
@@ -31,7 +30,6 @@
 namespace cc_tools_qt
 {
 
-
 /// @brief Base class for @b TransportMessage definition in @b protocol
 ///     plugin.
 /// @tparam TBase Base class that this class is expected to inherit. Expected to be @ref cc_tools_qt::ToolsMessage or derivative.
@@ -46,12 +44,12 @@ class ToolsTransportMessageBase : public
         TActualMsg
     >
 {
-    using Base = 
+    using Base =
         cc_tools_qt::ToolsMessageBase<
             TBase,
             TProtMsg,
             TActualMsg
-        >;    
+        >;
 public:
     using FieldsList = typename Base::FieldsList;
 
@@ -69,7 +67,7 @@ protected:
     virtual qlonglong numericIdImpl() const override
     {
         [[maybe_unused]] static constexpr bool Must_be_overriden = false;
-        assert(Must_be_overriden); 
+        assert(Must_be_overriden);
         return 0;
     }
 
@@ -77,14 +75,14 @@ protected:
     virtual void resetImpl() override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
     }
 
     /// @brief Overriding virtual cc_tools_qt::ToolsMessage::assignImpl()
     virtual bool assignImpl([[maybe_unused]] const cc_tools_qt::ToolsMessage& other) override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
         return false;
     }
 
@@ -95,5 +93,4 @@ protected:
 };
 
 }  // namespace cc_tools_qt
-
 

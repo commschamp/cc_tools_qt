@@ -47,7 +47,6 @@ const QString PrivFileSubKey("priv");
 const QString PrivAlgSubKey("priv_alg");
 const QString PrivFormatSubKey("priv_format");
 
-
 }  // namespace
 
 SslClientSocketPlugin::SslClientSocketPlugin() :
@@ -107,7 +106,7 @@ void SslClientSocketPlugin::reconfigureImpl(const QVariantMap& config)
     if (caDirVar.isValid() && caDirVar.canConvert<QString>()) {
         auto caDir = caDirVar.value<QString>();
         m_socket->setCaDir(caDir);
-    }    
+    }
 
     auto caDirFormatVar = subConfig.value(CaDirFormatSubKey);
     if (caDirFormatVar.isValid() && caDirFormatVar.canConvert<int>()) {
@@ -119,7 +118,7 @@ void SslClientSocketPlugin::reconfigureImpl(const QVariantMap& config)
     if (caFileVar.isValid() && caFileVar.canConvert<QString>()) {
         auto caFile = caFileVar.value<QString>();
         m_socket->setCaFile(caFile);
-    }    
+    }
 
     auto caFileFormatVar = subConfig.value(CaFileFormatSubKey);
     if (caFileFormatVar.isValid() && caFileFormatVar.canConvert<int>()) {
@@ -131,13 +130,13 @@ void SslClientSocketPlugin::reconfigureImpl(const QVariantMap& config)
     if (verifyVar.isValid() && verifyVar.canConvert<int>()) {
         auto verify = static_cast<QSslSocket::PeerVerifyMode>(verifyVar.value<int>());
         m_socket->setVerifyMode(verify);
-    }  
+    }
 
     auto verifyNameVar = subConfig.value(VerifyNameSubKey);
     if (verifyNameVar.isValid() && verifyNameVar.canConvert<QString>()) {
         auto verifyName = verifyNameVar.value<QString>();
         m_socket->setVerifyName(verifyName);
-    }    
+    }
 
     auto protVar = subConfig.value(SslProtSubKey);
     if (protVar.isValid() && protVar.canConvert<int>()) {
@@ -149,31 +148,31 @@ void SslClientSocketPlugin::reconfigureImpl(const QVariantMap& config)
     if (certVar.isValid() && certVar.canConvert<QString>()) {
         auto cert = certVar.value<QString>();
         m_socket->setCertFile(cert);
-    }    
+    }
 
     auto certFormatVar = subConfig.value(CertFormatSubKey);
     if (certFormatVar.isValid() && certFormatVar.canConvert<int>()) {
         auto certFormat = static_cast<QSsl::EncodingFormat>(certFormatVar.value<int>());
         m_socket->setCertFormat(certFormat);
-    }     
+    }
 
     auto privFileVar = subConfig.value(PrivFileSubKey);
     if (privFileVar.isValid() && privFileVar.canConvert<QString>()) {
         auto privFile = certVar.value<QString>();
         m_socket->setPrivKeyFile(privFile);
-    } 
+    }
 
     auto prevAlgVar = subConfig.value(PrivAlgSubKey);
     if (prevAlgVar.isValid() && prevAlgVar.canConvert<int>()) {
         auto privAlg = static_cast<QSsl::KeyAlgorithm>(prevAlgVar.value<int>());
         m_socket->setPrivKeyAlg(privAlg);
-    }  
+    }
 
     auto privFormatVar = subConfig.value(PrivFormatSubKey);
     if (privFormatVar.isValid() && privFormatVar.canConvert<int>()) {
         auto privFormat = static_cast<QSsl::EncodingFormat>(privFormatVar.value<int>());
         m_socket->setPrivKeyFormat(privFormat);
-    } 
+    }
 }
 
 void SslClientSocketPlugin::applyInterPluginConfigImpl(const QVariantMap& props)
@@ -204,5 +203,4 @@ void SslClientSocketPlugin::createSocketIfNeeded()
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
 

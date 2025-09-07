@@ -45,7 +45,7 @@ UdpProxySocketConfigWidget::UdpProxySocketConfigWidget(
 
     connect(
         &socket, &UdpProxySocket::sigConfigChanged,
-        this, &UdpProxySocketConfigWidget::refresh);     
+        this, &UdpProxySocketConfigWidget::refresh);
 
     connect(
         m_ui.m_hostLineEdit, &QLineEdit::textChanged,
@@ -91,5 +91,4 @@ void UdpProxySocketConfigWidget::localPortValueChanged(int value)
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
 

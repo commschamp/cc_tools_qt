@@ -82,7 +82,6 @@ const QString& networkLocalPortProp()
 
 }  // namespace
 
-
 UdpProxySocket::UdpProxySocket()
 {
 }
@@ -115,7 +114,7 @@ bool UdpProxySocket::socketConnectImpl()
             "Local port must be greater than 0.";
         reportError(Error);
         return false;
-    }    
+    }
 
     if (!createListenSocket()) {
         m_listenSocket.reset();
@@ -153,7 +152,6 @@ void UdpProxySocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
         m_listenSocket->localAddress().toString() + ':' +
                     QString("%1").arg(m_listenSocket->localPort());
     dataPtr->m_extraProperties.insert(udpFromProp(), from);
-
 
     assert(m_listenSocket);
     if (!m_listenSocket->isOpen()) {
@@ -201,7 +199,7 @@ void UdpProxySocket::applyInterPluginConfigImpl(const QVariantMap& props)
     static const QString* PortProps[] = {
         &networkPortProp(),
         &udpPortProp(),
-    };    
+    };
 
     for (auto* p : PortProps) {
         auto var = props.value(*p);
@@ -214,7 +212,7 @@ void UdpProxySocket::applyInterPluginConfigImpl(const QVariantMap& props)
     static const QString* ProxyPortProps[] = {
         &networkLocalPortProp(),
         &udpLocalPortProp(),
-    };    
+    };
 
     for (auto* p : ProxyPortProps) {
         auto var = props.value(*p);
@@ -222,7 +220,7 @@ void UdpProxySocket::applyInterPluginConfigImpl(const QVariantMap& props)
             setLocalPort(static_cast<PortType>(var.value<int>()));
             updated = true;
         }
-    }    
+    }
 
     if (updated) {
         emit sigConfigChanged();
@@ -282,12 +280,12 @@ void UdpProxySocket::readFromListenSocket()
 
             to = m_remoteSocket->peerAddress().toString() + ':' +
                         QString("%1").arg(m_remoteSocket->peerPort());
-        }                          
+        }
 
         dataPtr->m_extraProperties.insert(udpFromProp(), from);
         dataPtr->m_extraProperties.insert(udpToProp(), to);
         reportDataReceived(std::move(dataPtr));
-    }    
+    }
 }
 
 void UdpProxySocket::listenSocketErrorOccurred([[maybe_unused]] QAbstractSocket::SocketError err)
@@ -304,7 +302,7 @@ void UdpProxySocket::remoteSocketDisconnected()
     if (m_listenSocket) {
         m_remoteSocket->blockSignals(true);
     }
-    
+
     m_listenSocket.reset();
     m_remoteSocket->blockSignals(true);
     m_remoteSocket.release()->deleteLater();
@@ -328,7 +326,7 @@ void UdpProxySocket::readFromRemoteSocket()
 
         if (!m_running) {
             continue;
-        }            
+        }
 
         QString from =
             senderAddress.toString() + ':' +
@@ -342,12 +340,12 @@ void UdpProxySocket::readFromRemoteSocket()
 
             to = m_listenSocket->peerAddress().toString() + ':' +
                         QString("%1").arg(m_listenSocket->peerPort());
-        }            
+        }
 
         dataPtr->m_extraProperties.insert(udpFromProp(), from);
         dataPtr->m_extraProperties.insert(udpToProp(), to);
         reportDataReceived(std::move(dataPtr));
-    }    
+    }
 }
 
 void UdpProxySocket::remoteSocketErrorOccurred([[maybe_unused]] QAbstractSocket::SocketError err)
@@ -368,7 +366,7 @@ bool UdpProxySocket::createListenSocket()
         this, &UdpProxySocket::readFromListenSocket);
     connect(
         m_listenSocket.get(), &QUdpSocket::errorOccurred,
-        this, &UdpProxySocket::listenSocketErrorOccurred);  
+        this, &UdpProxySocket::listenSocketErrorOccurred);
 
     if (!m_listenSocket->bind(QHostAddress::AnyIPv4, m_localPort)) {
         reportError("Failed to bind UDP socket to port " + QString("%1").arg(m_localPort));
@@ -377,7 +375,7 @@ bool UdpProxySocket::createListenSocket()
 
     if (!m_listenSocket->open(QUdpSocket::ReadWrite)) {
         reportError("Failed to open local UDP listening on port " + QString("%1").arg(m_localPort));
-        return false;        
+        return false;
     }
 
     return true;
@@ -399,13 +397,13 @@ void UdpProxySocket::createRemoteSocketIfNeeded()
         this, &UdpProxySocket::readFromRemoteSocket);
     connect(
         m_remoteSocket.get(), &QUdpSocket::errorOccurred,
-        this, &UdpProxySocket::remoteSocketErrorOccurred);  
+        this, &UdpProxySocket::remoteSocketErrorOccurred);
 
     m_remoteSocket->connectToHost(m_host, m_port);
     if (!m_remoteSocket->waitForConnected(1000)) {
         reportError("Failed to connect to remote " + QString("%1:%2").arg(m_host).arg(m_port));
         m_remoteSocket.reset();
-        return;        
+        return;
     }
 }
 

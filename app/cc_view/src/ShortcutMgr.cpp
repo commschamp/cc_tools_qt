@@ -19,7 +19,6 @@
 
 #include <type_traits>
 
-
 namespace cc_tools_qt
 {
 
@@ -108,6 +107,5 @@ void ShortcutMgr::createInitialMap()
         m_map[i] = QKeySequence(Keys[i]);
     }
 }
-
 
 } // namespace cc_tools_qt

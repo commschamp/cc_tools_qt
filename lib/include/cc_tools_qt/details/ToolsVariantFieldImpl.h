@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/details/ToolsFieldBase.h"
@@ -96,7 +95,7 @@ protected:
         QStringList names;
         comms::util::tupleForEachType<typename Field::Members>(MembersNameHelper(names));
         return names;
-    }  
+    }
 
 private:
     class MembersNameHelper
@@ -111,7 +110,7 @@ private:
         }
 
     private:
-        QStringList& m_names;        
+        QStringList& m_names;
     };
 
 };

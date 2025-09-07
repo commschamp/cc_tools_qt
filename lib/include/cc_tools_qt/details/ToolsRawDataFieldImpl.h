@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/details/ToolsFieldBase.h"
@@ -124,14 +123,14 @@ protected:
         if (Base::isTruncated()) {
             serValue.resize(Base::TruncateLength);
         }
-        
+
         return serValue;
     }
 
     virtual bool setSerialisedValueImpl([[maybe_unused]] const SerialisedSeq& value) override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
-        assert(Must_not_be_called); 
+        assert(Must_not_be_called);
         return false;
     }
 
@@ -240,6 +239,4 @@ auto makeRawDataField(TField& field)
 }  // namespace details
 
 }  // namespace cc_tools_qt
-
-
 

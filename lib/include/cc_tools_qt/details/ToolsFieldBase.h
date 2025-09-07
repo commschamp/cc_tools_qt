@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "comms/comms.h"
@@ -178,7 +177,7 @@ private:
 
     static constexpr bool IsCollection = comms::field::isString<Field>() || comms::field::isArrayList<Field>();
 
-    using SerialisedSizePrefixTag = 
+    using SerialisedSizePrefixTag =
         std::conditional_t<
             CollectionPrefixDetect<Field, IsCollection>::HasSizeFieldPrefix,
             HasPrefixSuffixTag,
@@ -192,14 +191,14 @@ private:
             NoPrefixSuffixTag
         >;
 
-    using SerialisedTrailSuffixTag = 
+    using SerialisedTrailSuffixTag =
         std::conditional_t<
             CollectionPrefixDetect<Field, IsCollection>::HasTrailingFieldSuffix,
             HasPrefixSuffixTag,
             NoPrefixSuffixTag
         >;
 
-    using SerialisedTermSuffixTag = 
+    using SerialisedTermSuffixTag =
         std::conditional_t<
             CollectionPrefixDetect<Field, IsCollection>::HasTerminationFieldSuffix,
             HasPrefixSuffixTag,
@@ -267,10 +266,8 @@ private:
         return true;
     }
 
-
     Field& m_field;
 };
-
 
 } // namespace details
 

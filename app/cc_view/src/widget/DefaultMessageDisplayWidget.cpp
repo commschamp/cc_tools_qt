@@ -17,17 +17,17 @@
 
 #include "DefaultMessageDisplayWidget.h"
 
-#include <cassert>
-
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QSplitter>
-#include <QtCore/QJsonObject>
-#include <QtCore/QJsonDocument>
-
 #include "MsgDetailsWidget.h"
 #include "ProtocolsStackWidget.h"
 
 #include "cc_tools_qt/property/message.h"
+
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
+#include <QtWidgets/QSplitter>
+#include <QtWidgets/QVBoxLayout>
+
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -38,12 +38,12 @@ DefaultMessageDisplayWidget::DefaultMessageDisplayWidget(QWidget* parentObj)
     m_protocolsDetailsWidget(new ProtocolsStackWidget())
 {
     connect(
-        m_protocolsDetailsWidget, SIGNAL(sigMessageSelected(ToolsMessagePtr, bool)),
-        this, SLOT(msgSelectedInProtocol(ToolsMessagePtr, bool)));
+        m_protocolsDetailsWidget, &ProtocolsStackWidget::sigMessageSelected,
+        this, &DefaultMessageDisplayWidget::msgSelectedInProtocol);
 
     connect(
-        m_msgDetailsWidget, SIGNAL(sigMsgUpdated()),
-        this, SLOT(msgUpdated()));
+        m_msgDetailsWidget, &MsgDetailsWidget::sigMsgUpdated,
+        this, &DefaultMessageDisplayWidget::msgUpdated);
 
     auto* splitter = new QSplitter;
     splitter->setOrientation(Qt::Vertical);
@@ -122,9 +122,8 @@ void DefaultMessageDisplayWidget::msgUpdated()
             QByteArray(
                 reinterpret_cast<const char*>(&extraData[0]),
                 static_cast<int>(extraData.size())));
-    property::message::ToolsMsgExtraInfo().setTo(doc.object().toVariantMap(), *m_displayedMsg);    
+    property::message::ToolsMsgExtraInfo().setTo(doc.object().toVariantMap(), *m_displayedMsg);
 }
 
 }  // namespace cc_tools_qt
-
 

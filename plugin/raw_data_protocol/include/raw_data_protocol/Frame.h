@@ -41,10 +41,10 @@ namespace raw_data_protocol
 {
 
 template <typename TField, typename... TOptions>
-class IdField : public 
+class IdField : public
     comms::field::IntValue<
-        TField, 
-        std::uint8_t, 
+        TField,
+        std::uint8_t,
         TOptions...,
         comms::option::def::EmptySerialization,
         comms::option::def::HasName>
@@ -54,7 +54,7 @@ public:
     {
         return false;
     }
-    
+
     static const char* name()
     {
         return "Id";
@@ -62,18 +62,18 @@ public:
 };
 
 template <typename TField, typename... TOptions>
-class DataField : public 
+class DataField : public
     comms::field::ArrayList<
         TField,
         std::uint8_t,
         TOptions...,
         comms::option::def::HasName>
 {
-public:    
+public:
     static const char* name()
     {
         return "Data";
-    }    
+    }
 };
 
 template <
@@ -93,6 +93,4 @@ using Frame =
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
-
 

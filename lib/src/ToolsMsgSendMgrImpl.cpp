@@ -94,7 +94,7 @@ void ToolsMsgSendMgrImpl::sendPendingAndWait()
         if (reinsert) {
             if (!m_protocol) {
                 [[maybe_unused]] static constexpr bool Protocol_must_be_valid = false;
-                assert(Protocol_must_be_valid);                 
+                assert(Protocol_must_be_valid);
                 continue;
             }
 

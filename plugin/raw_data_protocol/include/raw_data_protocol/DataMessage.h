@@ -42,9 +42,8 @@ struct DataMessageFields
         static const char* name()
         {
             return "data";
-        }        
+        }
     };
-
 
     /// @brief All the fields bundled in std::tuple.
     using All = std::tuple<
@@ -62,7 +61,7 @@ class DataMessage : public
         comms::option::HasName
     >
 {
-    using Base = 
+    using Base =
         comms::MessageBase<
             TMsgBase,
             comms::option::StaticNumIdImpl<0>,
@@ -84,7 +83,7 @@ public:
     static const char* doName()
     {
         return "Raw Data";
-    }    
+    }
 };
 
 }  // namespace raw_data_protocol
@@ -92,5 +91,4 @@ public:
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
 

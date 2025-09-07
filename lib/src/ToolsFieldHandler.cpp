@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "cc_tools_qt/ToolsFieldHandler.h"
 
 namespace cc_tools_qt
@@ -91,5 +90,4 @@ void ToolsFieldHandler::handle([[maybe_unused]] ToolsField& field)
 }
 
 }  // namespace cc_tools_qt
-
 

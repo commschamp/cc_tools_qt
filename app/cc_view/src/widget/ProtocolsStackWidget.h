@@ -15,14 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
-
-#include <QtWidgets/QWidget>
 
 #include "ui_ProtocolsStackWidget.h"
 
 #include "cc_tools_qt/ToolsMessage.h"
+
+#include <QtWidgets/QWidget>
 
 namespace cc_tools_qt
 {
@@ -54,5 +53,4 @@ private:
 };
 
 }  // namespace cc_tools_qt
-
 

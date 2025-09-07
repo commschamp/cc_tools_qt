@@ -40,9 +40,7 @@ ToolsSocketPtr NullSocketPlugin::createSocketImpl()
     return makeNullSocket();
 }
 
-
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
 

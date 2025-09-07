@@ -17,13 +17,13 @@
 
 #include "SendAreaToolBar.h"
 
-#include <cassert>
+#include "ShortcutMgr.h"
+#include "icon.h"
 
 #include <QtCore/QObject>
 #include <QtGui/QIcon>
 
-#include "icon.h"
-#include "ShortcutMgr.h"
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -51,8 +51,8 @@ QAction* createLoadButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::upload(), "Load Messages");
     QObject::connect(
-        action, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(sendLoadClicked()));
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::sendLoadClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_LoadSend);
     return action;
 }
@@ -61,8 +61,8 @@ QAction* createSaveButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::save(), "Save Messages");
     QObject::connect(
-        action, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(sendSaveClicked()));
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::sendSaveClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_SaveSend);
     return action;
 }
@@ -71,8 +71,8 @@ QAction* createAddButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::add(), "Add New Message");
     QObject::connect(
-        action, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(sendAddClicked()));
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::sendAddClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_AddMessage);
     return action;
 }
@@ -81,8 +81,8 @@ QAction* createAddRawButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::addRaw(), "Add From Raw Data");
     QObject::connect(
-        action, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(sendAddRawClicked()));
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::sendAddRawClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_AddRaw);
     return action;
 }
@@ -91,8 +91,8 @@ QAction* createEditButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::edit(), "Edit Selected Message");
     QObject::connect(
-        action, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(sendEditClicked()));
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::sendEditClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_EditMessage);
     return action;
 }
@@ -101,8 +101,8 @@ QAction* createCommentButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::comment(), "Add/Edit Message Comment");
     QObject::connect(
-        action, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(sendCommentClicked()));
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::sendCommentClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_Comment);
     return action;
 }
@@ -111,8 +111,8 @@ QAction* createDupButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::dup(), "Duplicate Message");
     QObject::connect(
-        action, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(sendDupClicked()));
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::sendDupClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_DupMessage);
     return action;
 }
@@ -121,8 +121,8 @@ QAction* createDeleteButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::remove(), "Delete Selected Message");
     QObject::connect(
-        action, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(sendDeleteClicked()));
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::sendDeleteClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_Delete);
     return action;
 }
@@ -131,8 +131,8 @@ QAction* createClearButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::editClear(), "Delete All Messages");
     QObject::connect(
-        action, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(sendClearClicked()));
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::sendClearClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_ClearSend);
     return action;
 }
@@ -141,8 +141,8 @@ QAction* createTopButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::top(), "Move Message to the Top");
     QObject::connect(
-        action, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(sendTopClicked()));
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::sendTopClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_Top);
     return action;
 }
@@ -151,8 +151,8 @@ QAction* createUpButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::up(), "Move Message Up");
     QObject::connect(
-        action, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(sendUpClicked()));
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::sendUpClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_Up);
     return action;
 }
@@ -161,8 +161,8 @@ QAction* createDownButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::down(), "Move Message Down");
     QObject::connect(
-        action, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(sendDownClicked()));
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::sendDownClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_Down);
     return action;
 }
@@ -171,8 +171,8 @@ QAction* createBottomButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::bottom(), "Move Message to the Bottom");
     QObject::connect(
-        action, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(sendBottomClicked()));
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::sendBottomClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_Bottom);
     return action;
 }
@@ -200,30 +200,29 @@ SendAreaToolBar::SendAreaToolBar(QWidget* parentObj)
     m_activeState(GuiAppMgr::instance()->getActivityState())
 {
     connect(
-        m_startStopButton, SIGNAL(triggered()),
-        this, SLOT(startStopClicked()));
+        m_startStopButton, &QAction::triggered,
+        this, &SendAreaToolBar::startStopClicked);
 
     connect(
-        m_startStopAllButton, SIGNAL(triggered()),
-        this, SLOT(startStopAllClicked()));
+        m_startStopAllButton, &QAction::triggered,
+        this, &SendAreaToolBar::startStopAllClicked);
 
     auto* guiAppMgr = GuiAppMgr::instance();
     connect(
-        guiAppMgr, SIGNAL(sigSendListCountReport(unsigned)),
-        this, SLOT(sendListCountReport(unsigned)));
+        guiAppMgr, &GuiAppMgr::sigSendListCountReport,
+        this, &SendAreaToolBar::sendListCountReport);
 
     connect(
-        guiAppMgr, SIGNAL(sigSendMsgSelected(int)),
-        this, SLOT(sendMsgSelectedReport(int)));
+        guiAppMgr, &GuiAppMgr::sigSendMsgSelected,
+        this, &SendAreaToolBar::sendMsgSelectedReport);
 
     connect(
-        guiAppMgr, SIGNAL(sigSetSendState(int)),
-        this, SLOT(stateChanged(int)));
+        guiAppMgr, &GuiAppMgr::sigSetSendState,
+        this, &SendAreaToolBar::stateChanged);
 
     connect(
-        guiAppMgr, SIGNAL(sigActivityStateChanged(int)),
-        this, SLOT(activeStateChanged(int)));
-
+        guiAppMgr, &GuiAppMgr::sigActivityStateChanged,
+        this, &SendAreaToolBar::activeStateChanged);
 
     refresh();
 }

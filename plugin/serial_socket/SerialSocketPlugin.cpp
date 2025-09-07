@@ -147,7 +147,5 @@ void SerialSocketPlugin::createSocketIfNeeded()
 
 }  // namespace plugin
 
-
 }  // namespace cc_tools_qt
-
 

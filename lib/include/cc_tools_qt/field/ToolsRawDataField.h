@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/ToolsField.h"
@@ -63,7 +62,7 @@ protected:
     static const std::size_t TruncateLength = 128;
 
 private:
-    bool m_forcedShowAll = false;    
+    bool m_forcedShowAll = false;
 };
 
 using ToolsRawDataFieldPtr = ToolsRawDataField::ActPtr;
@@ -71,6 +70,4 @@ using ToolsRawDataFieldPtr = ToolsRawDataField::ActPtr;
 }  // namespace field
 
 }  // namespace cc_tools_qt
-
-
 

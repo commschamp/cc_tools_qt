@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/ToolsApi.h"
@@ -46,7 +45,7 @@ public:
 
     ToolsField();
     virtual ~ToolsField() noexcept;
-    
+
     ToolsField(const ToolsField&) = delete;
     ToolsField& operator=(const ToolsField&) = delete;
 
@@ -76,13 +75,13 @@ public:
 
     Members& getMembers();
     const Members& getMembers() const;
-    void setMembers(Members&& members);    
+    void setMembers(Members&& members);
 
     void forceReadOnly();
     bool isReadOnly() const;
 
     void forceHiddenSerialization();
-    bool isHiddenSerialization() const;    
+    bool isHiddenSerialization() const;
 
 protected:
     virtual const char* nameImpl() const = 0;

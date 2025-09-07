@@ -60,7 +60,7 @@ QSerialPort::Parity mapParityFromIdx(int idx)
 {
     if ((idx < 0) || (NumOfParityValues <= idx)) {
         [[maybe_unused]] static constexpr bool Invalid_index = false;
-        assert(Invalid_index); 
+        assert(Invalid_index);
         return ParityMap[0];
     }
 
@@ -72,7 +72,7 @@ int mapParityToIdx(QSerialPort::Parity value)
     auto iter = std::find(std::begin(ParityMap), std::end(ParityMap), value);
     if (iter == std::end(ParityMap)) {
         [[maybe_unused]] static constexpr bool Invalid_value = false;
-        assert(Invalid_value); 
+        assert(Invalid_value);
         return 0;
     }
 
@@ -83,7 +83,7 @@ QSerialPort::StopBits mapStopBitsFromIdx(int idx)
 {
     if ((idx < 0) || (NumOfStopBitValues <= idx)) {
         [[maybe_unused]] static constexpr bool Invalid_index = false;
-        assert(Invalid_index); 
+        assert(Invalid_index);
         return StopBitMap[0];
     }
 
@@ -95,7 +95,7 @@ int mapStopBitToIdx(QSerialPort::StopBits value)
     auto iter = std::find(std::begin(StopBitMap), std::end(StopBitMap), value);
     if (iter == std::end(StopBitMap)) {
         [[maybe_unused]] static constexpr bool Invalid_value = false;
-        assert(Invalid_value); 
+        assert(Invalid_value);
         return 0;
     }
 
@@ -153,19 +153,19 @@ SerialSocketConfigWidget::SerialSocketConfigWidget(
 
     connect(
         m_ui.m_deviceComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
-        this, &SerialSocketConfigWidget::deviceChanged);         
+        this, &SerialSocketConfigWidget::deviceChanged);
 
     connect(
         m_ui.m_deviceRefreshToolButton, &QToolButton::clicked,
-        this, &SerialSocketConfigWidget::deviceRefreshClicked);     
-        
+        this, &SerialSocketConfigWidget::deviceRefreshClicked);
+
     connect(
         m_ui.m_deviceEditToolButton, &QToolButton::toggled,
-        this, &SerialSocketConfigWidget::deviceEditClicked);          
+        this, &SerialSocketConfigWidget::deviceEditClicked);
 
     connect(
         m_ui.m_parityComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
-        this, &SerialSocketConfigWidget::parityChanged);        
+        this, &SerialSocketConfigWidget::parityChanged);
 
     connect(
         m_ui.m_baudSpinBox, qOverload<int>(&QSpinBox::valueChanged),
@@ -268,9 +268,9 @@ void SerialSocketConfigWidget::refreshDeviceConfigComboSignalsBlocked()
 
     if (!found) {
         m_ui.m_deviceComboBox->setCurrentIndex(-1);
-        m_ui.m_deviceEditToolButton->setChecked(true);        
+        m_ui.m_deviceEditToolButton->setChecked(true);
         m_deviceEditForced = true;
-    }    
+    }
 
     m_ui.m_deviceEditToolButton->setEnabled(found);
     m_editMode = m_deviceEditForced || (!found);
@@ -285,5 +285,4 @@ void SerialSocketConfigWidget::refreshDeviceConfigComboSignalsBlocked()
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
 

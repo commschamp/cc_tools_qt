@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include <array>
@@ -64,24 +63,24 @@ public:
     };
 
     ~ShortcutMgr() noexcept;
-    
+
     QKeySequence getKeySeq(Key k) const;
-    
+
     static ShortcutMgr* instance();
     static ShortcutMgr& instanceRef();
 
     void updateShortcut(QAction& action, ShortcutMgr::Key key);
-    
+
 signals:
-    void sigKeysUpdated();    
-    
-private: 
+    void sigKeysUpdated();
+
+private:
     using KeyMap = std::array<QKeySequence, Key_NumOfValues>;
 
-    ShortcutMgr();  
-    
+    ShortcutMgr();
+
     void createInitialMap();
-    
+
     KeyMap m_map;
 };
 

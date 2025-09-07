@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/ToolsExtraInfoMessage.h"
@@ -79,7 +78,6 @@ protected:
                 m_garbage.clear();
             };
 
-
         using ProtMsgPtr = typename ProtFrame::MsgPtr;
         using ReadIter = typename ProtInterface::ReadIterator;
         while (consumed < m_inData.size()) {
@@ -92,7 +90,7 @@ protected:
 
             qlonglong msgId = 0;
             std::size_t idx = 0;
-            auto es = 
+            auto es =
                 m_frame.read(
                     msgPtr,
                     readIter,
@@ -106,9 +104,9 @@ protected:
 
             if (es == comms::ErrorStatus::MsgAllocFailure) {
                 [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
-                assert(Must_not_be_happen); 
+                assert(Must_not_be_happen);
                 break;
-            }            
+            }
 
             if (es != comms::ErrorStatus::Success) {
                 m_garbage.push_back(*readIterBeg);
@@ -117,8 +115,8 @@ protected:
                     checkGarbageFunc();
                 }
 
-                ++consumed; 
-                continue;               
+                ++consumed;
+                continue;
             }
 
             checkGarbageFunc();
@@ -130,7 +128,7 @@ protected:
             if (!toolsMsg) {
                 [[maybe_unused]] static constexpr bool Protocol_and_Tools_Frames_Out_of_Sync = false;
                 assert(Protocol_and_Tools_Frames_Out_of_Sync);
-                
+
                 m_garbage.reserve(m_garbage.size() + diff);
                 m_garbage.insert(m_garbage.end(), readIterBeg, readIter);
                 checkGarbageFunc();
@@ -146,7 +144,7 @@ protected:
         }
 
         static_cast<void>(final);
-        
+
         assert(consumed <= m_inData.size());
         m_inData.erase(m_inData.begin(), m_inData.begin() + consumed);
 
@@ -155,7 +153,7 @@ protected:
             m_garbage.insert(m_garbage.end(), m_inData.begin(), m_inData.end());
             m_inData.clear();
             checkGarbageFunc();
-        }        
+        }
 
         if (!dataInfo.m_extraProperties.isEmpty()) {
             auto jsonObj = QJsonObject::fromVariantMap(dataInfo.m_extraProperties);
@@ -189,7 +187,7 @@ protected:
         if (extraProps.isEmpty()) {
             property::message::ToolsMsgExtraInfoMsg().setTo(ToolsMessagePtr(extraInfoMsgPtr.release()), msg);
             return;
-        }        
+        }
 
         auto jsonObj = QJsonObject::fromVariantMap(extraProps);
         QJsonDocument doc(jsonObj);
@@ -206,7 +204,7 @@ protected:
     virtual ToolsMessagePtr createRawDataMessageImpl() override
     {
         return ToolsMessagePtr(new RawDataMsg());
-    }    
+    }
 
     virtual ToolsMessagePtr createExtraInfoMessageImpl() override
     {
@@ -239,7 +237,7 @@ protected:
 
         if (es != comms::ErrorStatus::Success) {
             [[maybe_unused]] static constexpr bool Unexpected_write_update_failure = false;
-            assert(Unexpected_write_update_failure); 
+            assert(Unexpected_write_update_failure);
             data.clear();
         }
 
@@ -256,7 +254,7 @@ private:
             std::cerr << std::dec << std::endl;
 
             [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
-            assert(Must_not_be_happen);                
+            assert(Must_not_be_happen);
         }
 
         property::message::ToolsMsgTransportMsg().setTo(std::move(transportMsg), msg);
@@ -271,11 +269,11 @@ private:
             std::cerr << std::dec << std::endl;
 
             [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
-            assert(Must_not_be_happen); 
-        }    
-        
-        property::message::ToolsMsgRawDataMsg().setTo(std::move(rawDataMsg), msg);   
-    }    
+            assert(Must_not_be_happen);
+        }
+
+        property::message::ToolsMsgRawDataMsg().setTo(std::move(rawDataMsg), msg);
+    }
 
     void updateExtraInfoInternal(const DataSeq& jsonRawBytes, ToolsMessage& msg)
     {
@@ -286,11 +284,11 @@ private:
             std::cerr << std::endl;
 
             [[maybe_unused]] static constexpr bool Must_not_be_happen = false;
-            assert(Must_not_be_happen); 
+            assert(Must_not_be_happen);
         }
 
-        property::message::ToolsMsgExtraInfoMsg().setTo(std::move(extraInfoMsg), msg);        
-    }     
+        property::message::ToolsMsgExtraInfoMsg().setTo(std::move(extraInfoMsg), msg);
+    }
 
     ProtFrame m_frame;
     TMsgFactory m_factory;
@@ -299,5 +297,4 @@ private:
 };
 
 }  // namespace cc_tools_qt
-
 

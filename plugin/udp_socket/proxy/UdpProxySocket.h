@@ -24,7 +24,7 @@
 #include <memory>
 
 #ifdef CC_TOOLS_QT_DEFAULT_NETWORK_PORT
-#define UDP_PROXY_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT    
+#define UDP_PROXY_DEFAULT_PORT CC_TOOLS_QT_DEFAULT_NETWORK_PORT
 #else
 #define UDP_PROXY_DEFAULT_PORT 20000
 #endif
@@ -77,13 +77,13 @@ public:
     }
 
 signals:
-    void sigConfigChanged();    
+    void sigConfigChanged();
 
 protected:
     virtual bool socketConnectImpl() override;
     virtual void socketDisconnectImpl() override;
     virtual void sendDataImpl(ToolsDataInfoPtr dataPtr) override;
-    virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;     
+    virtual void applyInterPluginConfigImpl(const QVariantMap& props) override;
 
 private slots:
     void listenSocketDisconnected();

@@ -15,14 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
-#include <QWidget>
+#include "ui_SpecialValueWidget.h"
+
 #include <QtCore/QList>
 #include <QtCore/QPair>
-
-#include "ui_SpecialValueWidget.h"
+#include <QtWidgets/QWidget>
 
 namespace cc_tools_qt
 {
@@ -47,7 +46,6 @@ public:
         const FpValueInfosList& infos,
         QWidget* parentObj = nullptr);
 
-
     ~SpecialValueWidget() noexcept;
 
     void setIntValue(long long value);
@@ -69,7 +67,5 @@ private:
     bool m_fpSpecials = false;
 };
 
-
 }  // namespace cc_tools_qt
-
 

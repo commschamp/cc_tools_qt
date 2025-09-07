@@ -34,8 +34,9 @@ UnknownValueFieldWidget::UnknownValueFieldWidget(
 
     commonConstruct();
 
-    connect(m_ui.m_serValueLineEdit, SIGNAL(textChanged(const QString&)),
-            this, SLOT(serialisedValueUpdated(const QString&)));
+    connect(
+        m_ui.m_serValueLineEdit, &QLineEdit::textChanged,
+        this, &UnknownValueFieldWidget::serialisedValueUpdated);
 
     refresh();
 }
@@ -97,5 +98,4 @@ void UnknownValueFieldWidget::setFieldValid(bool valid)
 }
 
 }  // namespace cc_tools_qt
-
 

@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include <QtWidgets/QWidget>
@@ -48,7 +47,7 @@ private slots:
     void deviceChanged(int idx);
     void deviceRefreshClicked(bool checked);
     void deviceEditClicked(bool checked);
-    
+
     void baudChanged(int value);
     void dataBitsChanged(int value);
     void parityChanged(int value);
@@ -65,13 +64,9 @@ private:
     bool m_editMode = false;
 };
 
-
-
-
 }  // namespace serial_socket
 
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
 

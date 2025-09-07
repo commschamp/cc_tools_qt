@@ -17,9 +17,9 @@
 
 #include "ProtocolsStackWidget.h"
 
-#include <cassert>
-
 #include "cc_tools_qt/property/message.h"
+
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -37,8 +37,9 @@ ProtocolsStackWidget::ProtocolsStackWidget(QWidget* parentObj)
 {
     m_ui.setupUi(this);
 
-    connect(m_ui.m_protocolsTreeWidget, SIGNAL(itemSelectionChanged()),
-            this, SLOT(newItemSelected()));
+    connect(
+        m_ui.m_protocolsTreeWidget, &QTreeWidget::itemSelectionChanged,
+        this, &ProtocolsStackWidget::newItemSelected);
 }
 
 ProtocolsStackWidget::~ProtocolsStackWidget() noexcept = default;
@@ -74,7 +75,7 @@ void ProtocolsStackWidget::displayMessage(ToolsMessagePtr msg, bool force)
         auto* secondChild = topProtocolItem->child(1);
         if (secondChild == nullptr) {
             [[maybe_unused]] static constexpr bool Should_not_happen = false;
-            assert(Should_not_happen);            
+            assert(Should_not_happen);
             break;
         }
 
@@ -85,7 +86,7 @@ void ProtocolsStackWidget::displayMessage(ToolsMessagePtr msg, bool force)
         auto* thirdChild = topProtocolItem->child(2);
         if (thirdChild == nullptr) {
             [[maybe_unused]] static constexpr bool Should_not_happen = false;
-            assert(Should_not_happen);   
+            assert(Should_not_happen);
             break;
         }
 
@@ -207,5 +208,4 @@ ToolsMessagePtr ProtocolsStackWidget::msgFromItem(QTreeWidgetItem* item)
 }
 
 }  // namespace cc_tools_qt
-
 

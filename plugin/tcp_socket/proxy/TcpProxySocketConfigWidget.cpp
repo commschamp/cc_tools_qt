@@ -41,11 +41,11 @@ TcpProxySocketConfigWidget::TcpProxySocketConfigWidget(
         1,
         static_cast<int>(std::numeric_limits<PortType>::max()));
 
-    refresh();        
+    refresh();
 
     connect(
         &socket, &TcpProxySocket::sigConfigChanged,
-        this, &TcpProxySocketConfigWidget::refresh);  
+        this, &TcpProxySocketConfigWidget::refresh);
 
     connect(
         m_ui.m_localPortSpinBox, qOverload<int>(&QSpinBox::valueChanged),
@@ -70,7 +70,7 @@ void TcpProxySocketConfigWidget::refresh()
     m_ui.m_remoteHostLineEdit->setText(m_socket.getRemoteHost());
 
     m_ui.m_remotePortSpinBox->setValue(
-        static_cast<int>(m_socket.getRemotePort()));    
+        static_cast<int>(m_socket.getRemotePort()));
 }
 
 void TcpProxySocketConfigWidget::localPortValueChanged(int value)
@@ -91,5 +91,4 @@ void TcpProxySocketConfigWidget::remotePortValueChanged(int value)
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
 

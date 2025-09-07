@@ -15,18 +15,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "RawHexDataDialog.h"
 
-#include <cassert>
-#include <utility>
-#include <vector>
-#include <algorithm>
-#include <iterator>
+#include "cc_tools_qt/property/message.h"
 
 #include <QtWidgets/QPushButton>
 
-#include "cc_tools_qt/property/message.h"
+#include <algorithm>
+#include <cassert>
+#include <iterator>
+#include <vector>
+#include <utility>
 
 namespace cc_tools_qt
 {
@@ -43,14 +42,14 @@ RawHexDataDialog::RawHexDataDialog(
     m_ui.setupUi(this);
 
     connect(
-        m_ui.m_rawDataText, SIGNAL(textChanged()),
-        this, SLOT(valueChanged()));
+        m_ui.m_rawDataText, &QPlainTextEdit::textChanged,
+        this, &RawHexDataDialog::valueChanged);
 
     auto* resetButton = m_ui.m_buttonBox->button(QDialogButtonBox::Reset);
     assert(resetButton);
     connect(
-        resetButton, SIGNAL(clicked()),
-        this, SLOT(reset()));
+        resetButton, &QPushButton::clicked,
+        this, &RawHexDataDialog::reset);
 }
 
 RawHexDataDialog::~RawHexDataDialog() noexcept = default;
@@ -142,7 +141,7 @@ void RawHexDataDialog::accept()
         auto msg = m_protocol->createInvalidMessage(dataInfo.m_data);
         if (!msg) {
             [[maybe_unused]] static constexpr bool Invalid_message_was_not_created_by_the_protocol = false;
-            assert(Invalid_message_was_not_created_by_the_protocol);               
+            assert(Invalid_message_was_not_created_by_the_protocol);
             Base::accept();
             return;
         }

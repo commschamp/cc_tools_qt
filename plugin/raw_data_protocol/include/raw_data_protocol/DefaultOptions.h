@@ -34,4 +34,3 @@ struct DefaultOptions {};
 
 }  // namespace cc_tools_qt
 
-

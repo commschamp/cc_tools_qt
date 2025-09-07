@@ -52,12 +52,12 @@ VariantFieldWidget::VariantFieldWidget(
     commonConstruct();
 
     connect(
-        m_ui.m_idxSpinBox, SIGNAL(valueChanged(int)),
-        this, SLOT(indexUpdated(int)));
+        m_ui.m_idxSpinBox, qOverload<int>(&QSpinBox::valueChanged),
+        this, &VariantFieldWidget::indexUpdated);
 
     connect(
-        m_ui.m_memberComboBox, SIGNAL(currentIndexChanged(int)),
-        this, SLOT(memberComboUpdated(int)));        
+        m_ui.m_memberComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &VariantFieldWidget::memberComboUpdated);
 }
 
 VariantFieldWidget::~VariantFieldWidget() noexcept = default;
@@ -76,8 +76,8 @@ void VariantFieldWidget::setMemberField(FieldWidget* memberFieldWidget)
     refreshInternal();
 
     connect(
-        m_member, SIGNAL(sigFieldUpdated()),
-        this, SLOT(memberFieldUpdated()));
+        m_member, &FieldWidget::sigFieldUpdated,
+        this, &VariantFieldWidget::memberFieldUpdated);
 }
 
 ToolsField& VariantFieldWidget::fieldImpl()
@@ -229,7 +229,7 @@ void VariantFieldWidget::updateMemberCombo()
         m_ui.m_memberComboBox->setCurrentIndex(0); // Set unknown
     }
 
-    m_ui.m_memberComboBox->blockSignals(false);    
+    m_ui.m_memberComboBox->blockSignals(false);
 }
 
 void VariantFieldWidget::destroyMemberWidget()
@@ -249,8 +249,8 @@ void VariantFieldWidget::createMemberWidget()
     m_ui.m_membersLayout->addWidget(m_member);
 
     connect(
-        m_member, SIGNAL(sigFieldUpdated()),
-        this, SLOT(memberFieldUpdated()));
+        m_member, &FieldWidget::sigFieldUpdated,
+        this, &VariantFieldWidget::memberFieldUpdated);
 }
 
 void VariantFieldWidget::fillMemberCombo()
@@ -266,7 +266,7 @@ void VariantFieldWidget::fillMemberCombo()
         }
 
         membersInfo.push_back(std::make_pair(memName, idx));
-    } 
+    }
 
     std::sort(
         membersInfo.begin(), membersInfo.end(),
@@ -276,7 +276,7 @@ void VariantFieldWidget::fillMemberCombo()
         });
 
     m_ui.m_memberComboBox->blockSignals(true);
-    m_ui.m_memberComboBox->clear(); 
+    m_ui.m_memberComboBox->clear();
     m_ui.m_memberComboBox->addItem(InvalidMemberComboText, QVariant(-1));
     m_ui.m_memberComboBox->insertSeparator(1);
 
@@ -287,5 +287,4 @@ void VariantFieldWidget::fillMemberCombo()
 }
 
 }  // namespace cc_tools_qt
-
 

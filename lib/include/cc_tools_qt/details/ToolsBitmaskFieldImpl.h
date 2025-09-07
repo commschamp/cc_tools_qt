@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/details/ToolsNumericFieldImpl.h"
@@ -69,13 +68,13 @@ protected:
 
     virtual void setBitValueImpl(unsigned idx, bool value) override
     {
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 Field::hasFixedValue(),
                 NoFeatureTag,
                 HasFeatureTag
             >;
-            
+
         setBitValueInternal(idx, value, Tag());
     }
 
@@ -117,13 +116,13 @@ private:
     void setBitValueInternal(unsigned idx, bool value, HasFeatureTag)
     {
         Base::field().setBitValue(idx, value);
-    }    
+    }
 
     void setBitValueInternal([[maybe_unused]] unsigned idx, [[maybe_unused]] bool value, NoFeatureTag)
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
         assert(Must_not_be_called);
-    }        
+    }
 };
 template <typename TField>
 auto makeBitmaskField(TField& field)

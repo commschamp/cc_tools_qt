@@ -31,7 +31,6 @@ namespace plugin
 namespace
 {
 
-
 const QString& tcpFromProp()
 {
     static const QString Str("tcp.from");
@@ -92,7 +91,7 @@ bool TcpServerSocket::socketConnectImpl()
 {
     if (m_server.isListening()) {
         [[maybe_unused]] static constexpr bool Already_listening = false;
-        assert(Already_listening); 
+        assert(Already_listening);
         static const QString AlreadyListeningError(
             tr("Previous run of TCP/IP Server socket wasn't terminated properly."));
         reportError(AlreadyListeningError);
@@ -156,7 +155,7 @@ void TcpServerSocket::applyInterPluginConfigImpl(const QVariantMap& props)
         &networkPortProp(),
         &tcpLocalPortProp(),
         &tcpPortProp(),
-    };    
+    };
 
     for (auto* p : PortProps) {
         auto var = props.value(*p);
@@ -186,7 +185,7 @@ void TcpServerSocket::newConnection()
         this, &TcpServerSocket::readFromSocket);
     connect(
         newConnSocket, &QTcpSocket::errorOccurred,
-        this, &TcpServerSocket::socketErrorOccurred);      
+        this, &TcpServerSocket::socketErrorOccurred);
 }
 
 void TcpServerSocket::connectionTerminated()
@@ -195,7 +194,7 @@ void TcpServerSocket::connectionTerminated()
     auto iter = std::find(m_sockets.begin(), m_sockets.end(), socket);
     if (iter == m_sockets.end()) {
         [[maybe_unused]] static constexpr bool Must_have_found_socket = false;
-        assert(Must_have_found_socket);          
+        assert(Must_have_found_socket);
         return;
     }
 

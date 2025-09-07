@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/details/ToolsNumericFieldBase.h"
@@ -26,7 +25,6 @@
 #include <cstdint>
 #include <cassert>
 #include <memory>
-
 
 namespace cc_tools_qt
 {
@@ -42,10 +40,10 @@ public:
     using UnderlyingType = Base::UnderlyingType;
     using ActPtr = std::unique_ptr<ToolsUnsignedLongField>;
     using SpecialType = QPair<QString, UnderlyingType>;
-    using SpecialsList = QList<SpecialType>;      
+    using SpecialsList = QList<SpecialType>;
 
     ToolsUnsignedLongField();
-    
+
     virtual ~ToolsUnsignedLongField() noexcept;
 
     UnderlyingType minValue() const;
@@ -65,10 +63,10 @@ public:
     const SpecialsList& specials() const;
 
     bool hasScaledDecimals() const;
-    int scaledDecimals() const;    
+    int scaledDecimals() const;
 
     UnderlyingType getDisplayValue() const;
-    void setDisplayValue(UnderlyingType value);    
+    void setDisplayValue(UnderlyingType value);
 
     ActPtr actClone();
 
@@ -83,7 +81,7 @@ protected:
     virtual const SpecialsList& specialsImpl() const = 0;
     virtual int scaledDecimalsImpl() const = 0;
     virtual UnderlyingType getDisplayValueImpl() const = 0;
-    virtual void setDisplayValueImpl(UnderlyingType value) = 0;        
+    virtual void setDisplayValueImpl(UnderlyingType value) = 0;
 
     virtual void dispatchImpl(ToolsFieldHandler& handler) override;
 };

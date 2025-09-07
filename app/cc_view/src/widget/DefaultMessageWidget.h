@@ -15,17 +15,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
-#include <memory>
-
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QFrame>
+#include "field/FieldWidget.h"
+#include "MessageWidget.h"
 
 #include "cc_tools_qt/ToolsMessage.h"
-#include "MessageWidget.h"
-#include "field/FieldWidget.h"
+
+#include <QtWidgets/QFrame>
+#include <QtWidgets/QVBoxLayout>
+
+#include <memory>
 
 namespace cc_tools_qt
 {
@@ -61,5 +61,4 @@ private:
 };
 
 }  // namespace cc_tools_qt
-
 

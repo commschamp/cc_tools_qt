@@ -17,13 +17,13 @@
 
 #include "RightPaneWidget.h"
 
-#include "cc_tools_qt/property/message.h"
-
-#include <QtWidgets/QVBoxLayout>
-
 #include "DefaultMessageDisplayWidget.h"
 #include "GuiAppMgr.h"
 #include "MsgMgrG.h"
+
+#include "cc_tools_qt/property/message.h"
+
+#include <QtWidgets/QVBoxLayout>
 
 namespace cc_tools_qt
 {
@@ -35,14 +35,26 @@ RightPaneWidget::RightPaneWidget(QWidget* parentObj)
     m_displayWidget->setEditEnabled(false);
 
     auto* guiAppMgr = GuiAppMgr::instance();
-    connect(guiAppMgr, SIGNAL(sigDisplayMsg(ToolsMessagePtr)),
-            m_displayWidget, SLOT(displayMessage(ToolsMessagePtr)));
-    connect(guiAppMgr, SIGNAL(sigDisplayMsg(ToolsMessagePtr)),
-            this, SLOT(displayMessage(ToolsMessagePtr)));            
-    connect(guiAppMgr, SIGNAL(sigClearDisplayedMsg()),
-            m_displayWidget, SLOT(clear()));
-    connect(m_displayWidget, SIGNAL(sigMsgUpdated()),
-            this, SLOT(msgUpdated()));           
+    connect(
+        guiAppMgr, &GuiAppMgr::sigDisplayMsg,
+        m_displayWidget,
+        [this](ToolsMessagePtr msg)
+        {
+            m_displayWidget->displayMessage(msg);
+        });
+
+    connect(
+        guiAppMgr, &GuiAppMgr::sigDisplayMsg,
+        this, &RightPaneWidget::displayMessage);
+
+    connect(
+        guiAppMgr, &GuiAppMgr::sigClearDisplayedMsg,
+        m_displayWidget, &MessageDisplayWidget::clear);
+
+    connect(
+        m_displayWidget, &MessageDisplayWidget::sigMsgUpdated,
+        this, &RightPaneWidget::msgUpdated);
+
     auto* paneLayout = new QVBoxLayout();
     paneLayout->addWidget(m_displayWidget);
     setLayout(paneLayout);
@@ -50,7 +62,7 @@ RightPaneWidget::RightPaneWidget(QWidget* parentObj)
 
 void RightPaneWidget::displayMessage(ToolsMessagePtr msg)
 {
-    // Enable edit of the messages that haven't been sent or received yet, 
+    // Enable edit of the messages that haven't been sent or received yet,
     // i.e. reside in the send area.
     m_displayedMsg = msg;
     auto type = static_cast<ToolsMessage::Type>(cc_tools_qt::property::message::ToolsMsgType().getFrom(*msg));
@@ -69,6 +81,7 @@ void RightPaneWidget::msgUpdated()
     auto protocol = msgMgr.getProtocol();
     auto status = protocol->updateMessage(*m_displayedMsg);
     bool forceUpdate = (status == ToolsProtocol::UpdateStatus::Changed);
+    GuiAppMgr::instance()->sendUpdateMessage(m_displayedMsg);
 
     // Direct invocation of displayMessage(std::move(msg))
     // in place here causes SIGSEGV. No idea why.
@@ -79,9 +92,8 @@ void RightPaneWidget::msgUpdated()
             displayMessagePostponed(std::move(msgParam), forceUpdate);
         },
         Qt::QueuedConnection
-    );    
+    );
 }
 
 }  // namespace cc_tools_qt
-
 

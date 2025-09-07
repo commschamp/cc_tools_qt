@@ -130,4 +130,3 @@ bool ToolsConfigMgr::saveConfig(
 
 }  // namespace cc_tools_qt
 
-

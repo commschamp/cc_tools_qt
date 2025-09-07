@@ -15,20 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "MessagesFilterDialog.h"
 
 #include <QtWidgets/QScrollBar>
 
 namespace cc_tools_qt
 {
-
-namespace 
-{
-
-
-} // namespace 
-    
 
 MessagesFilterDialog::MessagesFilterDialog(
     FilteredMessages& filteredMessages,
@@ -67,44 +59,44 @@ MessagesFilterDialog::MessagesFilterDialog(
     resize(QSize(newWidth, newHeight));
 
     connect(
-        m_ui.m_hideAllPushButton, SIGNAL(clicked()),
-        this, SLOT(hideAllClicked()));
+        m_ui.m_hideAllPushButton, &QPushButton::clicked,
+        this, &MessagesFilterDialog::hideAllClicked);
 
     connect(
-        m_ui.m_hideSelectedPushButton, SIGNAL(clicked()),
-        this, SLOT(hideSelectedClicked()));  
+        m_ui.m_hideSelectedPushButton, &QPushButton::clicked,
+        this, &MessagesFilterDialog::hideSelectedClicked);
 
     connect(
-        m_ui.m_showSelectedPushButton, SIGNAL(clicked()),
-        this, SLOT(showSelectedClicked()));                
+        m_ui.m_showSelectedPushButton, &QPushButton::clicked,
+        this, &MessagesFilterDialog::showSelectedClicked);
 
     connect(
-        m_ui.m_showAllPushButton, SIGNAL(clicked()),
-        this, SLOT(showAllClicked()));        
+        m_ui.m_showAllPushButton, &QPushButton::clicked,
+        this, &MessagesFilterDialog::showAllClicked);
 
     connect(
-        m_ui.m_visibleListWidget, SIGNAL(itemSelectionChanged()),
-        this, SLOT(visibleSelected()));
+        m_ui.m_visibleListWidget, &QListWidget::itemSelectionChanged,
+        this, &MessagesFilterDialog::visibleSelected);
 
     connect(
-        m_ui.m_visibleListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-        this, SLOT(hideVisible(QListWidgetItem*)));        
+        m_ui.m_visibleListWidget, &QListWidget::itemDoubleClicked,
+        this, &MessagesFilterDialog::hideVisible);
 
     connect(
-        m_ui.m_hiddenListWidget, SIGNAL(itemSelectionChanged()),
-        this, SLOT(hiddenSelected()));   
+        m_ui.m_hiddenListWidget, &QListWidget::itemSelectionChanged,
+        this, &MessagesFilterDialog::hiddenSelected);
 
     connect(
-        m_ui.m_clearSearchToolButton, SIGNAL(clicked()),
-        this, SLOT(clearSearchText()));              
+        m_ui.m_clearSearchToolButton, &QToolButton::clicked,
+        this, &MessagesFilterDialog::clearSearchText);
 
     connect(
-        m_ui.m_hiddenListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-        this, SLOT(showHidden(QListWidgetItem*)));            
+        m_ui.m_hiddenListWidget, &QListWidget::itemDoubleClicked,
+        this, &MessagesFilterDialog::showHidden);
 
     connect(
-        m_ui.m_searchLineEdit, SIGNAL(textChanged(const QString&)),
-        this, SLOT(refreshDisplayedLists(const QString&)));
+        m_ui.m_searchLineEdit, &QLineEdit::textChanged,
+        this, &MessagesFilterDialog::refreshDisplayedLists);
 }
 
 void MessagesFilterDialog::refreshDisplayedLists(const QString& searchText)
@@ -225,7 +217,7 @@ void MessagesFilterDialog::moveAllMessages(FilteredMessages& from, FilteredMessa
     std::move(from.begin(), from.end(), std::back_inserter(to));
     std::sort(to.begin(), to.end());
     from.clear();
-    refresh();    
+    refresh();
 }
 
 void MessagesFilterDialog::moveSelectedMessages(QListWidget& list, FilteredMessages& from, FilteredMessages& to)
@@ -252,10 +244,9 @@ void MessagesFilterDialog::moveSelectedItem(const QListWidgetItem* item, Filtere
 
     if (finalUpdate) {
         std::sort(to.begin(), to.end());
-        refresh();        
+        refresh();
     }
 }
 
 }  // namespace cc_tools_qt
-
 

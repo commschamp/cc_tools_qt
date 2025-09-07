@@ -1,17 +1,17 @@
 /// @page page_socket_plugin Developing Custom Socket Plugin
 /// @tableofcontents
 /// The @b socket plugin is responsible to send the data over I/O link when
-/// requested as well as report any incoming data via callback. The 
+/// requested as well as report any incoming data via callback. The
 /// <a href="https://github.com/commschamp/cc_tools_qt">CommsChampion Tools Project</a>
-/// contains implementation of multiple available 
+/// contains implementation of multiple available
 /// <a href="https://github.com/commschamp/cc_tools_qt/tree/master/plugin">plugins</a>
 /// It is recommended to follow this tutorial while looking at available examples. The
 /// easy ones are <a href="https://github.com/commschamp/cc_tools_qt/tree/master/plugin/null_socket">null_socket</a>
 /// and <a href="https://github.com/commschamp/cc_tools_qt/tree/master/plugin/echo_socket">echo_socket</a>
-/// 
+///
 /// @section page_socket_plugin_socket_class Socket Class
 /// To implement the required functionality the plugin's code must define its
-/// socket class inheriting from cc_tools_qt::ToolsSocket. 
+/// socket class inheriting from cc_tools_qt::ToolsSocket.
 /// @code
 /// class MySocket : public cc_tools_qt::ToolsSocket
 /// {
@@ -36,7 +36,7 @@
 /// the default behaviour.
 ///
 /// @subsection page_socket_plugin_connection Connection / Disconnection
-/// The actual socket class is expected to override virtual 
+/// The actual socket class is expected to override virtual
 /// cc_tools_qt::ToolsSocket::socketConnectImpl() and cc_tools_qt::ToolsSocket::socketDisconnectImpl()
 /// functions.
 /// @code
@@ -57,10 +57,10 @@
 /// disconnect from remote host (if applicable), and close the low level I/O socket.
 ///
 /// Sometimes the unsolicited low level I/O socket disconnection can be detected.
-/// In this case, the socket object must use inherited 
+/// In this case, the socket object must use inherited
 /// cc_tools_qt::ToolsSocket::reportDisconnected() member function to report it
 /// to the running application. The latter will report it to the user.
-/// 
+///
 /// @b NOTE, that during requested disconnection (inside overriden
 /// @ref cc_tools_qt::ToolsSocket::socketDisconnectImpl() "socketDisconnectImpl()")
 /// the socket class must NOT report the disconnection using the decribed above
@@ -71,19 +71,19 @@
 /// be done @b asynchronously, hence it is recommended to use available signal/slot
 /// mechanism provided by the Qt framework. However, if can also be done
 /// using other third party code. In this case it is recommended to do such thing
-/// in separate thread (especially if there are blocking calls involved) and communicate 
+/// in separate thread (especially if there are blocking calls involved) and communicate
 /// the updates to the main thread using the same signal/slot facility.
 ///
-/// When new data arrival is detected, the @b socket object needs to report it 
+/// When new data arrival is detected, the @b socket object needs to report it
 /// using inherited @ref cc_tools_qt::ToolsSocket::reportDataReceived() function. Note,
 /// that the latter receives single parameter of type cc_tools_qt::ToolsDataInfoPtr.
-/// It is @b std::shared_ptr to cc_tools_qt::ToolsDataInfo. Please use 
+/// It is @b std::shared_ptr to cc_tools_qt::ToolsDataInfo. Please use
 /// cc_tools_qt::makeDataInfo() function to allocate one. The cc_tools_qt::ToolsDataInfo
 /// contains three data members:
 /// @li @ref cc_tools_qt::ToolsDataInfo::m_timestamp "m_timestamp" - timestamp when data is received
 /// @li @ref cc_tools_qt::ToolsDataInfo::m_data "m_data" - raw bytes data
 /// @li @ref cc_tools_qt::ToolsDataInfo::m_extraProperties "m_extraProperties" - optional extra information about the data.
-/// 
+///
 /// @code
 /// class MySocket : public ...
 /// {
@@ -105,12 +105,12 @@
 /// Another options is to use @ref cc_tools_qt::makeDataInfoTimed() instead of @ref cc_tools_qt::makeDataInfo().
 ///
 /// Also note, that there is @b m_extraProperties data member which can contain
-/// any extra information about the data. For example, the IP address and port 
-/// the data has arrived from in case of network socket. Such extra information 
+/// any extra information about the data. For example, the IP address and port
+/// the data has arrived from in case of network socket. Such extra information
 /// can be reported by the driving application when reporting received message details.
-/// For example, take a look at 
+/// For example, take a look at
 /// <a href="https://github.com/commschamp/cc_tools_qt/blob/master/plugin/tcp_socket/server/TcpServerSocket.cpp">TCP/IP Server Socket</a> implementation.
-/// 
+///
 /// @subsection page_socket_plugin_data_send Sending Data
 /// The socket object receives requests to send outgoing data using call to
 /// overridden virtual @ref cc_tools_qt::ToolsSocket::sendDataImpl() "sendDataImpl()".
@@ -128,17 +128,17 @@
 /// @ref cc_tools_qt::ToolsDataInfo. In addition to raw data bytes in may also contain
 /// extra properties. Depending on the socket, these properties can be used by the
 /// other plugins (@b filters and/or @b protocol) to provide extra information on
-/// how the data needs to be sent. For example, it can specify whether 
+/// how the data needs to be sent. For example, it can specify whether
 /// <a href="https://github.com/commschamp/cc_tools_qt/blob/master/plugin/udp_socket/Socket.cpp">UDP/IP Socket</a>
 /// needs to broadcast the provided data or send it directly to currently connected
 /// remote endpoint.
 ///
 /// @subsection page_socket_plugin_errors Reporting Errors
-/// If there is any error discovered, the socket object is expected to report 
+/// If there is any error discovered, the socket object is expected to report
 /// them using inherited cc_tools_qt::ToolsSocket::reportError() member function.
 ///
 /// @section page_socket_plugin_plugin_class Plugin Class
-/// Please read the @ref page_plugin page first to understand the way the 
+/// Please read the @ref page_plugin page first to understand the way the
 /// plugins are defined.
 ///
 /// The @b socket plugin must specify its type as @ref cc_tools_qt::ToolsPlugin::Type_Socket "Type_Socket" and override
@@ -165,5 +165,4 @@
 /// @endcode
 /// If the socket requires configuration, please also provide a callback which
 /// creates the widget when invoked (see @ref page_plugin_config_widget).
-
 

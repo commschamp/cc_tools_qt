@@ -7,7 +7,7 @@
         "    { \"tcp.port\": 1234} - Override the remote port configuration.\n",
         "    { \"tcp.local_port\": 1234} - Override the local port configuration.\n",
         "    { \"network.host\": \"example.com\"} - Alias to \"tcp.host\".\n",
-        "    { \"network.port\": 1234} - Alias to \"tcp.port\".\n",           
+        "    { \"network.port\": 1234} - Alias to \"tcp.port\".\n",
         "    { \"network.local_port\": 1234} - Alias to \"tcp.local_port\".\n"
     ],
     "type" : "socket"

@@ -45,7 +45,7 @@ UdpGenericSocketConfigWidget::UdpGenericSocketConfigWidget(
 
     connect(
         &socket, &UdpGenericSocket::sigConfigChanged,
-        this, &UdpGenericSocketConfigWidget::refresh);     
+        this, &UdpGenericSocketConfigWidget::refresh);
 
     connect(
         m_ui.m_hostLineEdit, &QLineEdit::textChanged,
@@ -103,5 +103,4 @@ void UdpGenericSocketConfigWidget::broadcastMaskValueChanged(const QString& valu
 }  // namespace plugin
 
 }  // namespace cc_tools_qt
-
 

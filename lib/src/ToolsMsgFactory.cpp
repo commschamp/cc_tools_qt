@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "cc_tools_qt/ToolsMsgFactory.h"
 
 #include <algorithm>
@@ -49,7 +48,7 @@ ToolsMessagePtr ToolsMsgFactory::createMessage(const QString& idAsString, unsign
 ToolsMessagePtr ToolsMsgFactory::createMessage(const qlonglong id, unsigned idx)
 {
     createDefaultMessagesIfNeeded();
-    auto lowerIter = 
+    auto lowerIter =
         std::lower_bound(
             m_defaultMsgs.begin(), m_defaultMsgs.end(), id,
             [](auto& msg, qlonglong idParam)
@@ -62,7 +61,7 @@ ToolsMessagePtr ToolsMsgFactory::createMessage(const qlonglong id, unsigned idx)
         return ToolsMessagePtr();
     }
 
-    auto upperIter = 
+    auto upperIter =
         std::upper_bound(
             m_defaultMsgs.begin(), m_defaultMsgs.end(), id,
             [](qlonglong idParam, auto& msg)

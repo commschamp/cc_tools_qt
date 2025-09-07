@@ -17,14 +17,14 @@
 
 #include "RecvAreaToolBar.h"
 
-#include <cassert>
+#include "ActionWrap.h"
+#include "ShortcutMgr.h"
+#include "icon.h"
 
 #include <QtCore/QObject>
 #include <QtGui/QIcon>
 
-#include "icon.h"
-#include "ShortcutMgr.h"
-#include "ActionWrap.h"
+#include <cassert>
 
 namespace cc_tools_qt
 {
@@ -44,18 +44,19 @@ QAction* createStartButton(QToolBar& bar)
 QAction* createLoadButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::upload(), "Load Messages");
-    QObject::connect(action, SIGNAL(triggered()),
-                     GuiAppMgr::instance(), SLOT(recvLoadClicked()));
+    QObject::connect(
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::recvLoadClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_LoadRecv);
     return action;
 }
 
-
 QAction* createSaveButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::save(), "Save Messages");
-    QObject::connect(action, SIGNAL(triggered()),
-                     GuiAppMgr::instance(), SLOT(recvSaveClicked()));
+    QObject::connect(
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::recvSaveClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_SaveRecv);
     return action;
 }
@@ -64,8 +65,8 @@ QAction* createCommentButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::comment(), "Add/Edit Message Comment");
     QObject::connect(
-        action, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(recvCommentClicked()));
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::recvCommentClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_Comment);
     return action;
 }
@@ -74,8 +75,8 @@ QAction* createDupButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::dup(), "Duplicate Message to Send Area");
     QObject::connect(
-        action, SIGNAL(triggered()),
-        GuiAppMgr::instance(), SLOT(recvDupClicked()));
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::recvDupClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_DupMessage);
     return action;
 }
@@ -83,8 +84,9 @@ QAction* createDupButton(QToolBar& bar)
 QAction* createDeleteButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::remove(), "Delete Selected Message");
-    QObject::connect(action, SIGNAL(triggered()),
-                     GuiAppMgr::instance(), SLOT(recvDeleteClicked()));
+    QObject::connect(
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::recvDeleteClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_Delete);
     return action;
 }
@@ -92,8 +94,9 @@ QAction* createDeleteButton(QToolBar& bar)
 QAction* createClearButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::editClear(), "Delete All Displayed Messages");
-    QObject::connect(action, SIGNAL(triggered()),
-                     GuiAppMgr::instance(), SLOT(recvClearClicked()));
+    QObject::connect(
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::recvClearClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_ClearRecv);
     return action;
 }
@@ -101,8 +104,9 @@ QAction* createClearButton(QToolBar& bar)
 QAction* createEditFilterButton(QToolBar& bar)
 {
     auto* action = bar.addAction(icon::filterEdit(), "Filter Displayed Messages");
-    QObject::connect(action, SIGNAL(triggered()),
-                     GuiAppMgr::instance(), SLOT(recvEditFilterClicked()));
+    QObject::connect(
+        action, &QAction::triggered,
+        GuiAppMgr::instance(), &GuiAppMgr::recvEditFilterClicked);
     ShortcutMgr::instanceRef().updateShortcut(*action, ShortcutMgr::Key_EditFilter);
     return action;
 }
@@ -115,8 +119,8 @@ QAction* createApplyFilter(QToolBar& bar)
     action->setCheckable(true);
     action->setChecked(guiAppMgr->recvListApplyFilter());
     QObject::connect(
-        action, SIGNAL(triggered(bool)),
-        guiAppMgr, SLOT(recvApplyFilterToggled(bool)));
+        action, &QAction::triggered,
+        guiAppMgr, &GuiAppMgr::recvApplyFilterToggled);
     return action;
 }
 
@@ -128,8 +132,8 @@ QAction* createShowGarbage(QToolBar& bar)
     action->setCheckable(true);
     action->setChecked(guiAppMgr->recvListShowsGarbage());
     QObject::connect(
-        action, SIGNAL(triggered(bool)),
-        guiAppMgr, SLOT(recvShowGarbageToggled(bool)));
+        action, &QAction::triggered,
+        guiAppMgr, &GuiAppMgr::recvShowGarbageToggled);
     return action;
 }
 
@@ -140,8 +144,8 @@ QAction* createShowReceived(QToolBar& bar)
     action->setCheckable(true);
     action->setChecked(guiAppMgr->recvListShowsReceived());
     QObject::connect(
-        action, SIGNAL(triggered(bool)),
-        guiAppMgr, SLOT(recvShowRecvToggled(bool)));
+        action, &QAction::triggered,
+        guiAppMgr, &GuiAppMgr::recvShowRecvToggled);
     return action;
 }
 
@@ -152,12 +156,10 @@ QAction* createShowSent(QToolBar& bar)
     action->setCheckable(true);
     action->setChecked(guiAppMgr->recvListShowsSent());
     QObject::connect(
-        action, SIGNAL(triggered(bool)),
-        guiAppMgr, SLOT(recvShowSentToggled(bool)));
+        action, &QAction::triggered,
+        guiAppMgr, &GuiAppMgr::recvShowSentToggled);
     return action;
 }
-
-
 
 }  // namespace
 
@@ -185,29 +187,29 @@ RecvAreaToolBar::RecvAreaToolBar(QWidget* parentObj)
     insertWidget(m_applyFilterButton, empty);
 
     connect(
-        m_startStopButton, SIGNAL(triggered()),
-        this, SLOT(startStopClicked()));
+        m_startStopButton, &QAction::triggered,
+        this, &RecvAreaToolBar::startStopClicked);
 
     auto* guiAppMgr = GuiAppMgr::instance();
     connect(
-        guiAppMgr, SIGNAL(sigRecvListCountReport(unsigned)),
-        this, SLOT(recvListCountReport(unsigned)));
+        guiAppMgr, &GuiAppMgr::sigRecvListCountReport,
+        this, &RecvAreaToolBar::recvListCountReport);
 
     connect(
-        guiAppMgr, SIGNAL(sigRecvMsgSelected(int)),
-        this, SLOT(recvMsgSelectedReport(int)));
+        guiAppMgr, &GuiAppMgr::sigRecvMsgSelected,
+        this, &RecvAreaToolBar::recvMsgSelectedReport);
 
     connect(
-        guiAppMgr, SIGNAL(sigSetRecvState(int)),
-        this, SLOT(recvStateChanged(int)));
+        guiAppMgr, &GuiAppMgr::sigSetRecvState,
+        this, &RecvAreaToolBar::recvStateChanged);
 
     connect(
-        guiAppMgr, SIGNAL(sigSetSendState(int)),
-        this, SLOT(sendStateChanged(int)));
+        guiAppMgr, &GuiAppMgr::sigSetSendState,
+        this, &RecvAreaToolBar::sendStateChanged);
 
     connect(
-        guiAppMgr, SIGNAL(sigActivityStateChanged(int)),
-        this, SLOT(activeStateChanged(int)));
+        guiAppMgr, &GuiAppMgr::sigActivityStateChanged,
+        this, &RecvAreaToolBar::activeStateChanged);
 
     refresh();
 }
@@ -402,7 +404,6 @@ bool RecvAreaToolBar::listEmpty() const
 {
     return 0 == m_listTotal;
 }
-
 
 }  // namespace cc_tools_qt
 

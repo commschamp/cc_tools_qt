@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "GuiAppMgr.h"
 
 #include <cassert>
@@ -46,7 +45,7 @@ const QString AppDataStorageFileName("startup_config.json");
 QString getConfigPath(const QString& configName)
 {
     QFileInfo fileInfo(configName);
-    auto getPathFunc = 
+    auto getPathFunc =
         [&configName](const QDir& inDir)
         {
             if (configName.isEmpty()) {
@@ -126,7 +125,7 @@ void GuiAppMgr::setFilteredMessages(FilteredMessages&& filteredMessages)
     if (filteredMessages == m_filteredMessages) {
         return;
     }
-    
+
     m_filteredMessages = std::move(filteredMessages);
 
     if (recvListApplyFilter()) {
@@ -697,8 +696,8 @@ GuiAppMgr::GuiAppMgr(QObject* parentObj)
     m_pendingDisplayTimer.setSingleShot(true);
 
     connect(
-        &m_pendingDisplayTimer, SIGNAL(timeout()),
-        this, SLOT(pendingDisplayTimeout()));
+        &m_pendingDisplayTimer, &QTimer::timeout,
+        this, &GuiAppMgr::pendingDisplayTimeout);
 
     m_sendMgr.setSendMsgsCallbackFunc(
         [](ToolsMessagesList&& msgsToSend)

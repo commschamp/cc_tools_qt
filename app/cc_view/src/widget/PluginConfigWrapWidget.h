@@ -17,11 +17,11 @@
 
 #pragma once
 
-#include <QtWidgets/QWidget>
+#include "ui_PluginConfigWrapWidget.h"
 
 #include "cc_tools_qt/ToolsPluginMgr.h"
 
-#include "ui_PluginConfigWrapWidget.h"
+#include <QtWidgets/QWidget>
 
 namespace cc_tools_qt
 {
@@ -44,7 +44,7 @@ public:
     Type getType() const
     {
         return m_pluginInfo->getType();
-    }    
+    }
 
 private:
     Ui::PluginConfigWrapWidget m_ui;

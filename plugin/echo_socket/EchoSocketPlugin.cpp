@@ -44,4 +44,3 @@ ToolsSocketPtr EchoSocketPlugin::createSocketImpl()
 
 }  // namespace cc_tools_qt
 
-

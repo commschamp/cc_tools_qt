@@ -35,12 +35,12 @@ ArrayListElementWidget::ArrayListElementWidget(
     updateUi();
 
     connect(
-        m_fieldWidget, SIGNAL(sigFieldUpdated()),
-        this, SIGNAL(sigFieldUpdated()));
+        m_fieldWidget, &FieldWidget::sigFieldUpdated,
+        this, &ArrayListElementWidget::sigFieldUpdated);
 
     connect(
-        m_ui.m_removePushButton, SIGNAL(clicked()),
-        this, SIGNAL(sigRemoveRequested()));
+        m_ui.m_removePushButton, &QPushButton::clicked,
+        this, &ArrayListElementWidget::sigRemoveRequested);
 
 }
 
@@ -98,8 +98,8 @@ ArrayListFieldWidget::ArrayListFieldWidget(
     updateUi();
 
     connect(
-        m_ui.m_addFieldPushButton, SIGNAL(clicked()),
-        this, SLOT(addNewField()));
+        m_ui.m_addFieldPushButton, &QPushButton::clicked,
+        this, &ArrayListFieldWidget::addNewField);
 }
 
 ArrayListFieldWidget::~ArrayListFieldWidget() noexcept = default;
@@ -177,7 +177,7 @@ void ArrayListFieldWidget::removeField()
     auto iter = std::find(m_elements.begin(), m_elements.end(), sigSender);
     if (iter == m_elements.end()) {
         [[maybe_unused]] static constexpr bool Something_is_not_right = false;
-        assert(Something_is_not_right);  
+        assert(Something_is_not_right);
         return;
     }
 
@@ -201,12 +201,12 @@ void ArrayListFieldWidget::addDataField(FieldWidget* dataFieldWidget)
     fieldPtrWidget->setDeletable(!m_fieldPtr->hasFixedSize());
 
     connect(
-        fieldPtrWidget, SIGNAL(sigFieldUpdated()),
-        this, SLOT(dataFieldUpdated()));
+        fieldPtrWidget, &ArrayListElementWidget::sigFieldUpdated,
+        this, &ArrayListFieldWidget::dataFieldUpdated);
 
     connect(
-        fieldPtrWidget, SIGNAL(sigRemoveRequested()),
-        this, SLOT(removeField()));
+        fieldPtrWidget, &ArrayListElementWidget::sigRemoveRequested,
+        this, &ArrayListFieldWidget::removeField);
 
     m_elements.push_back(fieldPtrWidget);
     m_ui.m_membersLayout->addWidget(fieldPtrWidget);
@@ -236,7 +236,7 @@ void ArrayListFieldWidget::addMissingFields()
 {
     if (!m_createMissingDataFieldsCallback) {
         [[maybe_unused]] static constexpr bool Callback_should_exist = false;
-        assert(Callback_should_exist);          
+        assert(Callback_should_exist);
         return;
     }
 
@@ -251,5 +251,4 @@ void ArrayListFieldWidget::addMissingFields()
 }
 
 }  // namespace cc_tools_qt
-
 

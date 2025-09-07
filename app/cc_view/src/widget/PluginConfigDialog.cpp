@@ -17,20 +17,21 @@
 
 #include "PluginConfigDialog.h"
 
-#include <cassert>
-#include <memory>
-
-#include <QtWidgets/QToolBar>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QFileDialog>
-#include <QtWidgets/QMessageBox>
-#include <QtCore/QDir>
+#include "PluginMgrG.h"
+#include "dir.h"
+#include "icon.h"
 
 #include "comms/util/ScopeGuard.h"
-#include "PluginMgrG.h"
-#include "icon.h"
-#include "dir.h"
+
+#include <QtCore/QDir>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QToolBar>
+
+#include <cassert>
+#include <memory>
 
 namespace cc_tools_qt
 {
@@ -328,7 +329,7 @@ void PluginConfigDialog::topClicked()
     auto curRow = m_currentSelectedList->currentRow();
     if (curRow <= 0) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
-        assert(No_item_is_selected_or_moving_up_top_item);          
+        assert(No_item_is_selected_or_moving_up_top_item);
         return;
     }
 
@@ -348,7 +349,7 @@ void PluginConfigDialog::upClicked()
     auto curRow = m_currentSelectedList->currentRow();
     if (curRow <= 0) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_up_top_item = false;
-        assert(No_item_is_selected_or_moving_up_top_item);   
+        assert(No_item_is_selected_or_moving_up_top_item);
         return;
     }
 
@@ -368,7 +369,7 @@ void PluginConfigDialog::downClicked()
     auto curRow = m_currentSelectedList->currentRow();
     if ((m_currentSelectedList->count() - 1) <= curRow) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
-        assert(No_item_is_selected_or_moving_down_bottom_item);           
+        assert(No_item_is_selected_or_moving_down_bottom_item);
         return;
     }
 
@@ -384,11 +385,11 @@ void PluginConfigDialog::bottomClicked()
     auto pluginInfoPtr = getPluginInfo(item);
     assert(pluginInfoPtr);
     m_allConfigWidget->moveBottom(pluginInfoPtr);
-        
+
     auto curRow = m_currentSelectedList->currentRow();
     if ((m_currentSelectedList->count() - 1) <= curRow) {
         [[maybe_unused]] static constexpr bool No_item_is_selected_or_moving_down_bottom_item = false;
-        assert(No_item_is_selected_or_moving_down_bottom_item);        
+        assert(No_item_is_selected_or_moving_down_bottom_item);
         return;
     }
 
@@ -459,14 +460,14 @@ void PluginConfigDialog::createAvailableToolbar()
     m_ui.m_availLayout->insertWidget(0, toolbar.release());
 
     connect(
-        m_addButton, SIGNAL(triggered()),
-        this, SLOT(addClicked()));
+        m_addButton, &QAction::triggered,
+        this, &PluginConfigDialog::addClicked);
     connect(
-        m_availSearchLineEdit, SIGNAL(textChanged(const QString&)),
-        this, SLOT(searchTextChanged(const QString&)));
+        m_availSearchLineEdit, &QLineEdit::textChanged,
+        this, &PluginConfigDialog::searchTextChanged);
     connect(
-        clearSearchAction, SIGNAL(triggered()),
-        this, SLOT(searchClearClicked()));
+        clearSearchAction, &QAction::triggered,
+        this, &PluginConfigDialog::searchClearClicked);
 }
 
 void PluginConfigDialog::createSelectedToolbar()
@@ -494,36 +495,36 @@ void PluginConfigDialog::createSelectedToolbar()
     m_ui.m_selectedLayout->insertWidget(0, toolbar.release());
 
     connect(
-        m_loadButton, SIGNAL(triggered()),
-        this, SLOT(loadClicked()));
+        m_loadButton, &QAction::triggered,
+        this, &PluginConfigDialog::loadClicked);
 
     connect(
-        m_saveButton, SIGNAL(triggered()),
-        this, SLOT(saveClicked()));
+        m_saveButton, &QAction::triggered,
+        this, &PluginConfigDialog::saveClicked);
 
     connect(
-        m_removeButton, SIGNAL(triggered()),
-        this, SLOT(removeClicked()));
+        m_removeButton, &QAction::triggered,
+        this, &PluginConfigDialog::removeClicked);
 
     connect(
-        m_clearButton, SIGNAL(triggered()),
-        this, SLOT(clearClicked()));
+        m_clearButton, &QAction::triggered,
+        this, &PluginConfigDialog::clearClicked);
 
     connect(
-        m_topButton, SIGNAL(triggered()),
-        this, SLOT(topClicked()));
+        m_topButton, &QAction::triggered,
+        this, &PluginConfigDialog::topClicked);
 
     connect(
-        m_upButton, SIGNAL(triggered()),
-        this, SLOT(upClicked()));
+        m_upButton, &QAction::triggered,
+        this, &PluginConfigDialog::upClicked);
 
     connect(
-        m_downButton, SIGNAL(triggered()),
-        this, SLOT(downClicked()));
+        m_downButton, &QAction::triggered,
+        this, &PluginConfigDialog::downClicked);
 
     connect(
-        m_bottomButton, SIGNAL(triggered()),
-        this, SLOT(bottomClicked()));
+        m_bottomButton, &QAction::triggered,
+        this, &PluginConfigDialog::bottomClicked);
 }
 
 void PluginConfigDialog::createAvailableLists()
@@ -539,34 +540,33 @@ void PluginConfigDialog::createAvailableLists()
     m_availableSocketsWidget = socketPlugins.get();
     listsLayout->addWidget(socketPlugins.release());
     connect(
-        m_availableSocketsWidget, SIGNAL(itemClicked(QListWidgetItem*)),
-        this, SLOT(availSocketPluginClicked(QListWidgetItem*)));
+        m_availableSocketsWidget, &PluginsListWidget::itemClicked,
+        this, &PluginConfigDialog::availSocketPluginClicked);
     connect(
-        m_availableSocketsWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-        this, SLOT(availSocketPluginDoubleClicked(QListWidgetItem*)));
-
+        m_availableSocketsWidget, &PluginsListWidget::itemDoubleClicked,
+        this, &PluginConfigDialog::availSocketPluginDoubleClicked);
 
     addHorLine(*listsLayout);
     std::unique_ptr<PluginsListWidget> filterPlugins(new PluginsListWidget("Filter"));
     m_availableFiltersWidget = filterPlugins.get();
     listsLayout->addWidget(filterPlugins.release());
     connect(
-        m_availableFiltersWidget, SIGNAL(itemClicked(QListWidgetItem*)),
-        this, SLOT(availFilterPluginClicked(QListWidgetItem*)));
+        m_availableFiltersWidget, &PluginsListWidget::itemClicked,
+        this, &PluginConfigDialog::availFilterPluginClicked);
     connect(
-        m_availableFiltersWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-        this, SLOT(availFilterPluginDoubleClicked(QListWidgetItem*)));
+        m_availableFiltersWidget, &PluginsListWidget::itemDoubleClicked,
+        this, &PluginConfigDialog::availFilterPluginDoubleClicked);
 
     addHorLine(*listsLayout);
     std::unique_ptr<PluginsListWidget> protocolPlugins(new PluginsListWidget("Protocol"));
     m_availableProtocolsWidget = protocolPlugins.get();
     listsLayout->addWidget(protocolPlugins.release());
     connect(
-        m_availableProtocolsWidget, SIGNAL(itemClicked(QListWidgetItem*)),
-        this, SLOT(availProtocolPluginClicked(QListWidgetItem*)));
+        m_availableProtocolsWidget, &PluginsListWidget::itemClicked,
+        this, &PluginConfigDialog::availProtocolPluginClicked);
     connect(
-        m_availableProtocolsWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-        this, SLOT(availProtocolPluginDoubleClicked(QListWidgetItem*)));
+        m_availableProtocolsWidget, &PluginsListWidget::itemDoubleClicked,
+        this, &PluginConfigDialog::availProtocolPluginDoubleClicked);
 
     listsLayout->setContentsMargins(0, 0, 0, 0);
 }
@@ -584,26 +584,24 @@ void PluginConfigDialog::createSelectedLists()
     m_selectedSocketsWidget = socketPlugins.get();
     listsLayout->addWidget(socketPlugins.release());
     connect(
-        m_selectedSocketsWidget, SIGNAL(itemClicked(QListWidgetItem*)),
-        this, SLOT(selectedSocketPluginClicked(QListWidgetItem*)));
-
+        m_selectedSocketsWidget, &PluginsListWidget::itemClicked,
+        this, &PluginConfigDialog::selectedSocketPluginClicked);
 
     addVerLine(*listsLayout);
     std::unique_ptr<PluginsListWidget> filterPlugins(new PluginsListWidget("Filter"));
     m_selectedFiltersWidget = filterPlugins.get();
     listsLayout->addWidget(filterPlugins.release());
     connect(
-        m_selectedFiltersWidget, SIGNAL(itemClicked(QListWidgetItem*)),
-        this, SLOT(selectedFilterPluginClicked(QListWidgetItem*)));
-
+        m_selectedFiltersWidget, &PluginsListWidget::itemClicked,
+        this, &PluginConfigDialog::selectedFilterPluginClicked);
 
     addVerLine(*listsLayout);
     std::unique_ptr<PluginsListWidget> protocolPlugins(new PluginsListWidget("Protocol"));
     m_selectedProtocolsWidget = protocolPlugins.get();
     listsLayout->addWidget(protocolPlugins.release());
     connect(
-        m_selectedProtocolsWidget, SIGNAL(itemClicked(QListWidgetItem*)),
-        this, SLOT(selectedProtocolPluginClicked(QListWidgetItem*)));
+        m_selectedProtocolsWidget, &PluginsListWidget::itemClicked,
+        this, &PluginConfigDialog::selectedProtocolPluginClicked);
 
     listsLayout->setContentsMargins(0, 0, 0, 0);
 }

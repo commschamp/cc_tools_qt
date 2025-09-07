@@ -15,17 +15,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
-#include <cassert>
-#include <memory>
-#include <functional>
+#include "cc_tools_qt/ToolsField.h"
 
 #include <QtCore/QVariantMap>
 #include <QtWidgets/QWidget>
 
-#include "cc_tools_qt/ToolsField.h"
+#include <cassert>
+#include <functional>
+#include <memory>
 
 class QLineEdit;
 class QLabel;
@@ -130,7 +129,7 @@ private:
     void performNameLabelUpdate();
     void performSerVisibilityUpdate();
     void performReadOnlyUpdate();
-    
+
     bool m_forcedReadOnly = false;
     bool m_editEnabled = true;
     QLabel* m_nameLabel = nullptr;
@@ -143,7 +142,4 @@ private:
 typedef std::unique_ptr<FieldWidget> FieldWidgetPtr;
 
 }  // namespace cc_tools_qt
-
-
-
 

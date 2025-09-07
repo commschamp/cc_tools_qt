@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/details/ToolsNumericFieldImpl.h"
@@ -72,7 +71,7 @@ protected:
 
     const ValueInfosList& valuesImpl() const override
     {
-        using Tag = 
+        using Tag =
             std::conditional_t<
                 std::is_same_v<typename Field::ValueNameInfo, const char*>,
                 SeqValuesTag,

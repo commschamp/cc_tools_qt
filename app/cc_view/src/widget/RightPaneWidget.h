@@ -15,12 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
-#include <QtWidgets/QWidget>
-
 #include "MessageDisplayWidget.h"
+
+#include <QtWidgets/QWidget>
 
 namespace cc_tools_qt
 {
@@ -33,15 +32,14 @@ public:
     RightPaneWidget(QWidget* parentObj = nullptr);
 
 private slots:
-    void displayMessage(ToolsMessagePtr msg);    
-    void displayMessagePostponed(cc_tools_qt::ToolsMessagePtr msg, bool force);    
+    void displayMessage(ToolsMessagePtr msg);
+    void displayMessagePostponed(cc_tools_qt::ToolsMessagePtr msg, bool force);
     void msgUpdated();
 
 private:
-    MessageDisplayWidget* m_displayWidget = nullptr;  
+    MessageDisplayWidget* m_displayWidget = nullptr;
     ToolsMessagePtr m_displayedMsg;
 };
 
 }  // namespace cc_tools_qt
-
 

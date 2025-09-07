@@ -8,7 +8,7 @@
         "    { \"udp.local_port\": 1234} - Override the local port configuration.\n",
         "    { \"udp.broadcast_mask\": \"255.255.255.255\" } - Override the default broadcast mask.\n",
         "    { \"network.host\": \"example.com\"} - Alias to \"udp.host\".\n",
-        "    { \"network.port\": 1234} - Alias to \"udp.port\".\n",           
+        "    { \"network.port\": 1234} - Alias to \"udp.port\".\n",
         "    { \"network.local_port\": 1234} - Alias to \"udp.local_port\".\n",
         "    { \"network.broadcast_mask\": 1234} - Alias to \"udp.broadcast_mask\".\n\n",
         "Supported message properties:\n",
