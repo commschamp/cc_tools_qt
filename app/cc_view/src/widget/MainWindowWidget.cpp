@@ -274,10 +274,7 @@ void MainWindowWidget::aboutInfo()
         "It is developed as a member project of the "
         "<a href=\"https://commschamp.github.io\">CommsChampion Ecosystem</a>."
         "</p>"
-        "<p>"
-        "The icons for this application were taken from: "
-        "<a href=\"http://www.fatcow.com/free-icons\">FatCow</a>"
-        "</p>");
+    );
 
     QMessageBox::information(this, tr("About"), AboutTxt);
 }
