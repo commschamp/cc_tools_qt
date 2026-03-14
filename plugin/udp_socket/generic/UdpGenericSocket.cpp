@@ -130,6 +130,22 @@ const QString& networkBroadcastRadiusProp()
     return Str;
 }
 
+bool isMulticastAddress(const QString &addr) {
+    auto tokens = addr.split(".");
+    if (tokens.size() != 4) {
+        // Not ipv4
+        return false;
+    }
+
+    bool ok = false;
+    auto first = tokens[0].toUInt(&ok);
+    if (!ok) {
+        return false;
+    }
+
+    return (224 <= first) && (first <= 239);
+}
+
 }  // namespace
 
 UdpGenericSocket::UdpGenericSocket()
@@ -168,6 +184,7 @@ bool UdpGenericSocket::socketConnectImpl()
 
     assert(!m_socket.isOpen());
     m_running = true;
+    m_multicast = isMulticastAddress(m_host);
 
     do {
         if (m_localPort == 0) {
@@ -184,6 +201,17 @@ bool UdpGenericSocket::socketConnectImpl()
         if (m_host.isEmpty()) {
             break;
         }
+
+        if (m_multicast) {
+            if (0 < getDebugOutputLevel()) {
+                std::cout << "[DEBUG]: Joining multicast group: " << m_host.toStdString() << std::endl;
+            }
+
+            if (!m_socket.joinMulticastGroup(QHostAddress(m_host))) {
+                reportError("Failed to join multicast group " + m_host);
+            }
+            break;
+        }        
 
         m_socket.connectToHost(m_host, m_port);
         if (!m_socket.waitForConnected()) {
@@ -212,6 +240,15 @@ bool UdpGenericSocket::socketConnectImpl()
 
 void UdpGenericSocket::socketDisconnectImpl()
 {
+    if (m_multicast) {
+        if (0 < getDebugOutputLevel()) {
+            std::cout << "[DEBUG]: Leaving multicast group: " << m_host.toStdString() << std::endl;
+        }
+
+        m_socket.leaveMulticastGroup(QHostAddress(m_host));
+        m_multicast = false;
+    }
+
     m_socket.blockSignals(true);
     m_socket.close();
     m_running = false;
@@ -317,10 +354,20 @@ void UdpGenericSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
     std::size_t writtenCount = 0;
     while (writtenCount < dataPtr->m_data.size()) {
         auto remSize = static_cast<qint64>(dataPtr->m_data.size() - writtenCount);
-        auto count =
-            m_socket.write(
+        qint64 count = 0;
+
+        if (m_multicast) {
+            count = m_socket.writeDatagram(
+                reinterpret_cast<const char*>(&dataPtr->m_data[writtenCount]),
+                remSize,
+                QHostAddress(m_host),
+                m_port);
+        } else {
+            count = m_socket.write(
                 reinterpret_cast<const char*>(&dataPtr->m_data[writtenCount]),
                 remSize);
+        }
+
         if (count < 0) {
             return;
         }
@@ -328,9 +375,12 @@ void UdpGenericSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
         writtenCount += static_cast<std::size_t>(count);
     }
 
-    QString to =
-        m_socket.peerAddress().toString() + ':' +
-                    QString("%1").arg(m_socket.peerPort());
+    QString to;
+    if (m_multicast) {
+        to = m_host + ':' + QString("%1").arg(m_port);
+    } else {
+        to = m_socket.peerAddress().toString() + ':' + QString("%1").arg(m_socket.peerPort());
+    }
 
     dataPtr->m_extraProperties.insert(udpToProp(), to);
 }

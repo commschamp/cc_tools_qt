@@ -110,6 +110,7 @@ private:
     QUdpSocket m_socket;
     int m_defaultTtl = 0;
     bool m_running = false;
+    bool m_multicast = false;
 };
 
 } // namespace plugin
