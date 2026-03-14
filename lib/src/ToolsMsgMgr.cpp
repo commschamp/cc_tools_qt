@@ -99,6 +99,11 @@ void ToolsMsgMgr::setProtocol(ToolsProtocolPtr protocol)
     m_impl->setProtocol(std::move(protocol));
 }
 
+void ToolsMsgMgr::clearFilters()
+{
+    m_impl->clearFilters();
+}
+
 void ToolsMsgMgr::addFilter(ToolsFilterPtr filter)
 {
     m_impl->addFilter(std::move(filter));

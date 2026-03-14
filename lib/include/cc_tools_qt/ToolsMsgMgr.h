@@ -59,6 +59,7 @@ public:
 
     void setSocket(ToolsSocketPtr socket);
     void setProtocol(ToolsProtocolPtr protocol);
+    void clearFilters();
     void addFilter(ToolsFilterPtr filter);
 
     using MsgAddedCallbackFunc = std::function<void (ToolsMessagePtr msg)>;

@@ -666,6 +666,7 @@ bool GuiAppMgr::applyNewPlugins(const ListOfPluginInfos& plugins)
 
     msgMgr.setSocket(std::move(applyInfo.m_socket));
 
+    msgMgr.clearFilters();
     for (auto& filter : applyInfo.m_filters) {
         msgMgr.addFilter(std::move(filter));
     }
