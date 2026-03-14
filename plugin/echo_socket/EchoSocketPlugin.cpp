@@ -1,6 +1,8 @@
 //
 // Copyright 2015 - 2026 (C). Alex Robenko. All rights reserved.
 //
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 
 // This file is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
