@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2026 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -59,7 +59,7 @@ struct ListsFields
         static const char* name()
         {
             return "field1";
-        }                 
+        }
     };
 
     /// @brief Raw data list that uses 1 bytes serialisation length prefix
@@ -81,8 +81,8 @@ struct ListsFields
         static const char* name()
         {
             return "field2";
-        }                 
-    };       
+        }
+    };
 
     /// @brief Element of @ref field3 list
     class field3Element : public
@@ -102,8 +102,8 @@ struct ListsFields
         static const char* name()
         {
             return "element";
-        }                 
-    };        
+        }
+    };
 
     /// @brief List of 2 bytes integer value fields, with fixed size of 3 elements
     class field3 : public
@@ -119,8 +119,8 @@ struct ListsFields
         static const char* name()
         {
             return "field3";
-        }                 
-    }; 
+        }
+    };
 
     /// @brief Element of @ref field4 list
     class field4Element : public
@@ -140,8 +140,8 @@ struct ListsFields
         static const char* name()
         {
             return "element";
-        }                 
-    }; 
+        }
+    };
 
     /// @brief List of 2 bytes integer value fields, prefixed with
     ///     2 bytes serialisation length
@@ -163,8 +163,8 @@ struct ListsFields
         static const char* name()
         {
             return "field4";
-        }                 
-    }; 
+        }
+    };
 
     /// Scope for members of @ref field5Element
     struct field5Members
@@ -187,8 +187,8 @@ struct ListsFields
             static const char* name()
             {
                 return "member1";
-            }                 
-        }; 
+            }
+        };
 
         /// @brief 1 byte unsigned integer field
         class mem2 : public
@@ -204,12 +204,12 @@ struct ListsFields
             {
                 return false;
             }
-            
+
             static const char* name()
             {
                 return "member2";
-            }                 
-        }; 
+            }
+        };
 
         /// @brief string with serialisation length prefix. The prefix is of variable
         ///         length, i.e. uses base-128 encoding.
@@ -231,8 +231,8 @@ struct ListsFields
             static const char* name()
             {
                 return "member3";
-            }                 
-        }; 
+            }
+        };
     };
 
     /// @brief Element of @ref field5 list
@@ -252,8 +252,8 @@ struct ListsFields
         static const char* name()
         {
             return "element";
-        }                 
-    }; 
+        }
+    };
 
     /// @brief List of bundles
     /// @details Every bundle contains:
@@ -293,8 +293,8 @@ struct ListsFields
         static const char* name()
         {
             return "field5";
-        }                 
-    }; 
+        }
+    };
 
     /// @brief All the fields bundled in std::tuple.
     using All = std::tuple<
@@ -382,5 +382,4 @@ public:
 }  // namespace message
 
 }  // namespace demo
-
 

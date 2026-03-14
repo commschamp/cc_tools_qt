@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2026 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ namespace demo
 namespace cc_plugin
 {
 
-qlonglong DemoTransportMessage::numericIdImpl() const 
+qlonglong DemoTransportMessage::numericIdImpl() const
 {
     return static_cast<qlonglong>(msg().field_id().value());
 }

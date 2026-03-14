@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2026 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -48,7 +48,7 @@ struct OptionalsFields
             comms::option::def::HasName
         >
     {
-    public:        
+    public:
         /// @brief Provide names for internal bits.
         /// @details See definition of @b COMMS_BITMASK_BITS macro
         ///     related to @b comms::field::BitmaskValue class from COMMS library
@@ -58,7 +58,7 @@ struct OptionalsFields
         static const char* name()
         {
             return "field1";
-        }   
+        }
 
         static const char* bitName(std::size_t idx)
         {
@@ -75,7 +75,7 @@ struct OptionalsFields
             }
 
             return Map[idx];
-        }                
+        }
     };
 
     struct field2Members
@@ -87,7 +87,7 @@ struct OptionalsFields
                 comms::option::def::HasName
             >
         {
-        public:   
+        public:
             static constexpr bool hasSpecials()
             {
                 return false;
@@ -96,7 +96,7 @@ struct OptionalsFields
             static const char* name()
             {
                 return "field2";
-            }  
+            }
         };
     };
 
@@ -114,8 +114,8 @@ struct OptionalsFields
         static const char* name()
         {
             return "field2";
-        }                 
-    }; 
+        }
+    };
 
     struct field3Members
     {
@@ -131,18 +131,18 @@ struct OptionalsFields
                 comms::option::def::HasName
             >
         {
-        public:   
+        public:
             static constexpr bool hasSpecials()
             {
                 return false;
             }
-                            
+
             static const char* name()
             {
                 return "field3";
-            }  
+            }
         };
-    };    
+    };
 
     /// @brief Optional string with 1 byte size information prefix.
     /// @details Existence of this field is controlled by bit 1 in @ref field1
@@ -154,11 +154,11 @@ struct OptionalsFields
             comms::option::def::HasName
         >
     {
-    public:            
+    public:
         static const char* name()
         {
             return "field3";
-        }  
+        }
     };
 
     struct field4Members
@@ -170,18 +170,18 @@ struct OptionalsFields
                 comms::option::def::HasName
             >
         {
-        public:  
+        public:
             static constexpr bool hasSpecials()
             {
                 return false;
             }
-                            
+
             static const char* name()
             {
                 return "field4";
-            }  
+            }
         };
-    };          
+    };
 
     /// @brief Optional 2 bytes signed integer value
     /// @details Existence of this field is controlled by the version
@@ -196,11 +196,11 @@ struct OptionalsFields
             comms::option::def::HasName
         >
     {
-    public:            
+    public:
         static const char* name()
         {
             return "field4";
-        }  
+        }
     };
 
     /// @brief All the fields bundled in std::tuple.

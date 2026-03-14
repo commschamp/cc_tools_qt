@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2026 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -14,7 +14,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 
 #pragma once
 
@@ -48,12 +47,12 @@ class DemoTransportProtMessage : public
         DemoTransportProtMessage<TMsgBase, TOptions...>
     >
 {
-    using Base = 
+    using Base =
         cc_tools_qt::ToolsTransportProtMessageBase<
             TMsgBase,
             DemoTransportMessageFields,
             DemoTransportProtMessage<TMsgBase, TOptions...>
-        >;    
+        >;
 public:
     COMMS_MSG_FIELDS_NAMES(sync, len, id, version, data, checksum);
 
@@ -62,7 +61,7 @@ public:
     {
         static const auto ChecksumLen =
             sizeof(demo::ChecksumField::ValueType);
-                    
+
         size -= ChecksumLen;
         auto es = Base::template doReadUntilAndUpdateLen<FieldIdx_checksum>(iter, size);
         if (es == comms::ErrorStatus::Success) {
@@ -71,7 +70,7 @@ public:
         }
 
         return es;
-    }            
+    }
 };
 
 }  // namespace cc_plugin

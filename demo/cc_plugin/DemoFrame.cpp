@@ -1,5 +1,5 @@
 //
-// Copyright 2015 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2015 - 2026 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -31,17 +31,17 @@ namespace demo
 namespace cc_plugin
 {
 
-class DemoFrameImpl : public 
+class DemoFrameImpl : public
     cc_tools_qt::ToolsFrameBase<
-        DemoMessage, 
-        demo::Frame<DemoMessage::ProtInterface>, 
-        DemoMsgFactory, 
+        DemoMessage,
+        demo::Frame<DemoMessage::ProtInterface>,
+        DemoMsgFactory,
         DemoTransportMessage
     >
 {
-}; 
+};
 
-DemoFrame::DemoFrame() : 
+DemoFrame::DemoFrame() :
     m_pImpl(new DemoFrameImpl)
 {
 }

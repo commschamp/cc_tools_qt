@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2026 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -78,7 +78,7 @@ struct BitfieldsFields
             }
 
             return Map[idx];
-        }           
+        }
     };
 
     /// @brief Enumeration type for the @ref field1_enum
@@ -101,7 +101,7 @@ struct BitfieldsFields
             comms::option::def::HasName
         >
     {
-        using Base = 
+        using Base =
             comms::field::EnumValue<
                 demo::FieldBase,
                 Field1Enum,
@@ -109,26 +109,26 @@ struct BitfieldsFields
                 comms::option::def::ValidNumValueRange<static_cast<int>(0), static_cast<int>(Field1Enum::NumOfValues) - 1>,
                 comms::option::def::FixedBitLength<2>,
                 comms::option::def::HasName
-            >;        
+            >;
     public:
         using ValueType = typename Base::ValueType;
         using ValueNameInfo = const char*;
         using ValueNamesMapInfo = std::pair<const ValueNameInfo*, std::size_t>;
 
-        static ValueType firstValue() 
+        static ValueType firstValue()
         {
             return ValueType::Value1;
         }
 
-        static ValueType lastValue() 
+        static ValueType lastValue()
         {
             return ValueType::Value3;
-        }        
+        }
 
-        static ValueType valuesLimit() 
+        static ValueType valuesLimit()
         {
             return ValueType::NumOfValues;
-        }  
+        }
 
         static const char* name()
         {
@@ -143,7 +143,7 @@ struct BitfieldsFields
             }
 
             return namesMapInfo.first[static_cast<std::size_t>(val)];
-        }   
+        }
 
         static ValueNamesMapInfo valueNamesMap()
         {
@@ -155,9 +155,8 @@ struct BitfieldsFields
             static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
             return std::make_pair(&Map[0], MapSize);
-        }           
+        }
     };
-
 
     /// @brief Integer field, that consumes 6 bits in @ref field1 bitfield.
     class field1_int1 : public
@@ -170,7 +169,7 @@ struct BitfieldsFields
             comms::option::def::HasName
         >
     {
-    public:  
+    public:
         static constexpr bool hasSpecials()
         {
             return false;
@@ -179,7 +178,7 @@ struct BitfieldsFields
         static const char* name()
         {
             return "field1_int1";
-        }        
+        }
     };
 
     /// @brief Integer field, that consumes 4 bits in @ref field1 bitfield.
@@ -193,16 +192,16 @@ struct BitfieldsFields
             comms::option::def::HasName
         >
     {
-    public:    
+    public:
         static constexpr bool hasSpecials()
         {
             return false;
         }
-            
+
         static const char* name()
         {
             return "field1_int2";
-        }        
+        }
     };
 
     /// @brief Bitfield containing @ref field1_bitmask, @ref field1_enum,
@@ -246,7 +245,7 @@ struct BitfieldsFields
         static const char* name()
         {
             return "field1";
-        }          
+        }
     };
 
     /// @brief All the fields bundled in std::tuple.
@@ -333,5 +332,4 @@ public:
 }  // namespace message
 
 }  // namespace demo
-
 

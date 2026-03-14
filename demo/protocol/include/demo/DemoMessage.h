@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2026 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -49,12 +49,12 @@ public:
     {
         return false;
     }
-    
+
     static const char* name()
     {
         return "VERSION";
     }
-};  
+};
 
 /// @brief Extra transport fields that every message object will contain
 using ExtraTransportFields =
@@ -101,5 +101,4 @@ public:
 };
 
 }  // namespace demo
-
 

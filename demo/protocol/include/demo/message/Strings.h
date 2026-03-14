@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2026 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -29,7 +29,6 @@
 namespace demo
 {
 
-
 namespace message
 {
 
@@ -57,8 +56,8 @@ struct StringsFields
         static const char* name()
         {
             return "field1";
-        }                 
-    }; 
+        }
+    };
 
     /// @brief String that is zero terminated
     class field2 : public
@@ -80,8 +79,8 @@ struct StringsFields
         static const char* name()
         {
             return "field2";
-        }                 
-    }; 
+        }
+    };
 
     /// @brief Fixed size of 6 characters string
     class field3 : public
@@ -96,9 +95,8 @@ struct StringsFields
         static const char* name()
         {
             return "field3";
-        }                 
-    }; 
-
+        }
+    };
 
     /// @brief All the fields bundled in std::tuple.
     using All = std::tuple<

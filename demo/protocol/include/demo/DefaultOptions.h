@@ -1,5 +1,5 @@
 //
-// Copyright 2018 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2018 - 2026 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -203,7 +203,7 @@ struct DefaultOptions
             using field2_var3 = comms::option::EmptyOption;
 
             /// @brief Extra options for @ref demo::message::VariantsFields::field2
-            using field2 = comms::option::EmptyOption;            
+            using field2 = comms::option::EmptyOption;
         };
 
         /// @brief Extra options for fields in @ref demo::message::BundlesFields struct
@@ -225,8 +225,8 @@ struct DefaultOptions
             using field2_mem2 = comms::option::EmptyOption;
 
             /// @brief Extra options for @ref demo::message::BundlesFields::field2
-            using field2 = comms::option::EmptyOption;            
-        };        
+            using field2 = comms::option::EmptyOption;
+        };
 
         /// @brief Extra options for @ref demo::message::Bitfields message
         using Bitfields = comms::option::EmptyOption;
@@ -256,7 +256,7 @@ struct DefaultOptions
         using Variants = comms::option::EmptyOption;
 
         /// @brief Extra options for @ref demo::message::Bundles message
-        using Bundles = comms::option::EmptyOption;        
+        using Bundles = comms::option::EmptyOption;
     };
 };
 

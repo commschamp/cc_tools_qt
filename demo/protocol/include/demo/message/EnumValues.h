@@ -1,5 +1,5 @@
 //
-// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2026 (C). Alex Robenko. All rights reserved.
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -58,38 +58,38 @@ struct EnumValuesFields
             comms::option::def::HasName
         >
     {
-        using Base = 
+        using Base =
             comms::field::EnumValue<
                 demo::FieldBase,
                 ValuesField1,
                 typename TOpt::message::EnumValuesFields::field1,
                 comms::option::ValidNumValueRange<static_cast<int>(0), static_cast<int>(ValuesField1::NumOfValues) - 1>,
                 comms::option::def::HasName
-            >;        
+            >;
     public:
         using ValueType = typename Base::ValueType;
         using ValueNameInfo = const char*;
         using ValueNamesMapInfo = std::pair<const ValueNameInfo*, std::size_t>;
 
-        static ValueType firstValue() 
+        static ValueType firstValue()
         {
             return ValueType::Value1;
         }
 
-        static ValueType lastValue() 
+        static ValueType lastValue()
         {
             return ValueType::Value3;
-        }        
+        }
 
-        static ValueType valuesLimit() 
+        static ValueType valuesLimit()
         {
             return ValueType::NumOfValues;
-        }          
+        }
 
         static const char* name()
         {
             return "field1";
-        }     
+        }
 
         static const char* valueName(ValueType val)
         {
@@ -99,7 +99,7 @@ struct EnumValuesFields
             }
 
             return namesMapInfo.first[static_cast<std::size_t>(val)];
-        }   
+        }
 
         static ValueNamesMapInfo valueNamesMap()
         {
@@ -111,7 +111,7 @@ struct EnumValuesFields
             static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
             return std::make_pair(&Map[0], MapSize);
-        }                         
+        }
     };
 
     /// @brief Enumeration type for the @ref field2
@@ -136,7 +136,7 @@ struct EnumValuesFields
             comms::option::def::HasName
         >
     {
-        using Base = 
+        using Base =
             comms::field::EnumValue<
                 demo::FieldBase,
                 ValuesField2,
@@ -150,25 +150,25 @@ struct EnumValuesFields
         using ValueNameInfo = std::pair<ValueType, const char*>;
         using ValueNamesMapInfo = std::pair<const ValueNameInfo*, std::size_t>;
 
-        static ValueType firstValue() 
+        static ValueType firstValue()
         {
             return ValueType::Value1;
         }
 
-        static ValueType lastValue() 
+        static ValueType lastValue()
         {
             return ValueType::Value4;
-        }        
+        }
 
-        static ValueType valuesLimit() 
+        static ValueType valuesLimit()
         {
             return static_cast<ValueType>(static_cast<int>(lastValue()) + 1);
-        }         
+        }
 
         static const char* name()
         {
             return "field2";
-        }   
+        }
 
         // @brief Custom validity check
         bool valid() const
@@ -177,7 +177,7 @@ struct EnumValuesFields
                 (Base::value() == ValueType::Value1) ||
                 (Base::value() == ValueType::Value2) ||
                 (Base::value() == ValueType::Value3) ||
-                (Base::value() == ValueType::Value4);            
+                (Base::value() == ValueType::Value4);
         }
 
         static const char* valueName(ValueType val)
@@ -197,7 +197,7 @@ struct EnumValuesFields
             }
 
             return iter->second;
-        }   
+        }
 
         static ValueNamesMapInfo valueNamesMap()
         {
@@ -210,7 +210,7 @@ struct EnumValuesFields
             static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
             return std::make_pair(&Map[0], MapSize);
-        }             
+        }
     };
 
     /// @brief Enumeration type for the @ref field3
@@ -237,7 +237,7 @@ struct EnumValuesFields
             comms::option::def::HasName
         >
     {
-        using Base = 
+        using Base =
             comms::field::EnumValue<
                 demo::FieldBase,
                 ValuesField3,
@@ -252,25 +252,25 @@ struct EnumValuesFields
         using ValueNameInfo = std::pair<ValueType, const char*>;
         using ValueNamesMapInfo = std::pair<const ValueNameInfo*, std::size_t>;
 
-        static ValueType firstValue() 
+        static ValueType firstValue()
         {
             return ValueType::Value1;
         }
 
-        static ValueType lastValue() 
+        static ValueType lastValue()
         {
             return ValueType::Value5;
-        }        
+        }
 
-        static ValueType valuesLimit() 
+        static ValueType valuesLimit()
         {
             return static_cast<ValueType>(static_cast<int>(lastValue()) + 1);
-        }           
+        }
 
         static const char* name()
         {
             return "field3";
-        }   
+        }
 
         bool valid() const
         {
@@ -279,7 +279,7 @@ struct EnumValuesFields
                 (Base::value() == ValueType::Value2) ||
                 (Base::value() == ValueType::Value3) ||
                 (Base::value() == ValueType::Value4) ||
-                (Base::value() == ValueType::Value5);            
+                (Base::value() == ValueType::Value5);
         }
 
         static const char* valueName(ValueType val)
@@ -299,7 +299,7 @@ struct EnumValuesFields
             }
 
             return iter->second;
-        }   
+        }
 
         static ValueNamesMapInfo valueNamesMap()
         {
@@ -313,7 +313,7 @@ struct EnumValuesFields
             static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
             return std::make_pair(&Map[0], MapSize);
-        }           
+        }
     };
 
     /// @brief Enumeration type for the @ref field4
@@ -337,7 +337,7 @@ struct EnumValuesFields
             comms::option::def::HasName
         >
     {
-        using Base = 
+        using Base =
             comms::field::EnumValue<
                 demo::FieldBase,
                 ValuesField4,
@@ -346,26 +346,26 @@ struct EnumValuesFields
                 comms::option::ValidBigUnsignedNumValue<static_cast<std::uintmax_t>(ValuesField4::Value2)>,
                 comms::option::ValidBigUnsignedNumValue<static_cast<std::uintmax_t>(ValuesField4::Value3)>,
                 comms::option::def::HasName
-            >; 
+            >;
     public:
         using ValueType = typename Base::ValueType;
         using ValueNameInfo = std::pair<ValueType, const char*>;
         using ValueNamesMapInfo = std::pair<const ValueNameInfo*, std::size_t>;
 
-        static ValueType firstValue() 
+        static ValueType firstValue()
         {
             return ValueType::Value1;
         }
 
-        static ValueType lastValue() 
+        static ValueType lastValue()
         {
             return ValueType::Value3;
-        }        
+        }
 
         static const char* name()
         {
             return "field4";
-        }   
+        }
 
         static const char* valueName(ValueType val)
         {
@@ -384,7 +384,7 @@ struct EnumValuesFields
             }
 
             return iter->second;
-        }   
+        }
 
         static ValueNamesMapInfo valueNamesMap()
         {
@@ -396,9 +396,8 @@ struct EnumValuesFields
             static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
             return std::make_pair(&Map[0], MapSize);
-        }                        
+        }
     };
-
 
     /// @brief All the fields bundled in std::tuple.
     using All = std::tuple<
@@ -488,6 +487,4 @@ public:
 }  // namespace message
 
 }  // namespace demo
-
-
 

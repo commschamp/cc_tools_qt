@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include "cc_tools_qt/ToolsMessageBase.h"
@@ -33,7 +32,7 @@ namespace cc_plugin
 namespace message
 {
 
-class IntValues : public 
+class IntValues : public
     cc_tools_qt::ToolsMessageBase<
         demo::cc_plugin::DemoMessage,
         demo::message::IntValues,
