@@ -21,6 +21,7 @@
 
 #include <QtCore/QtGlobal>
 #include <QtNetwork/QHostAddress>
+#include <QtNetwork/QNetworkInterface>
 
 #include <cassert>
 #include <iostream>
@@ -161,6 +162,9 @@ UdpGenericSocket::UdpGenericSocket()
     connect(
         &m_socket, &QUdpSocket::errorOccurred,
         this, &UdpGenericSocket::socketErrorOccurred);
+    connect(
+        &m_socket, &QUdpSocket::stateChanged,
+        this, &UdpGenericSocket::socketStateChanged);
 }
 
 UdpGenericSocket::~UdpGenericSocket() noexcept
@@ -204,20 +208,42 @@ bool UdpGenericSocket::socketConnectImpl()
             break;
         }
 
-        if (m_multicast) {
+        if (!m_multicast) {
+            m_socket.connectToHost(m_host, m_port);
+            if (!m_socket.waitForConnected()) {
+                reportError("Failed to connect UDP socket to " + QString("%1:%2").arg(m_host).arg(m_port));
+            }
+
             if (0 < getDebugOutputLevel()) {
-                std::cout << "[DEBUG]: Joining multicast group: " << m_host.toStdString() << std::endl;
+                std::cout << "[DEBUG]: Connected to: " << m_host.toStdString() << ":" << m_port << std::endl;
+            }
+
+            break;
+        }
+
+        QNetworkInterface netInterface;
+        assert(!netInterface.isValid());
+        if (!m_interface.isEmpty()) {
+            netInterface = QNetworkInterface::interfaceFromName(m_interface);
+        }
+
+        if (!netInterface.isValid()) {
+            if (0 < getDebugOutputLevel()) {
+                std::cout << "[DEBUG]: Joining multicast group: " << m_host.toStdString() << " on default interface" << std::endl;
             }
 
             if (!m_socket.joinMulticastGroup(QHostAddress(m_host))) {
                 reportError("Failed to join multicast group " + m_host);
             }
             break;
-        }        
+        }
 
-        m_socket.connectToHost(m_host, m_port);
-        if (!m_socket.waitForConnected()) {
-            reportError("Failed to connect UDP socket to " + QString("%1:%2").arg(m_host).arg(m_port));
+        if (0 < getDebugOutputLevel()) {
+            std::cout << "[DEBUG]: Joining multicast group: " << m_host.toStdString() << " on interface " << m_interface.toStdString() << std::endl;
+        }
+
+        if (!m_socket.joinMulticastGroup(QHostAddress(m_host), netInterface)) {
+            reportError("Failed to join multicast group " + m_host);
         }
     } while (false);
 
@@ -242,14 +268,34 @@ bool UdpGenericSocket::socketConnectImpl()
 
 void UdpGenericSocket::socketDisconnectImpl()
 {
-    if (m_multicast) {
-        if (0 < getDebugOutputLevel()) {
-            std::cout << "[DEBUG]: Leaving multicast group: " << m_host.toStdString() << std::endl;
+    do {
+        if (!m_multicast) {
+            break;
         }
 
-        m_socket.leaveMulticastGroup(QHostAddress(m_host));
         m_multicast = false;
-    }
+
+        QNetworkInterface netInterface;
+        assert(!netInterface.isValid());
+        if (!m_interface.isEmpty()) {
+            netInterface = QNetworkInterface::interfaceFromName(m_interface);
+        }
+
+        if (!netInterface.isValid()) {
+            if (0 < getDebugOutputLevel()) {
+                std::cout << "[DEBUG]: Leaving multicast group " << m_host.toStdString() << " on default interface" << std::endl;
+            }
+
+            m_socket.leaveMulticastGroup(QHostAddress(m_host));
+            break;
+        }
+
+        if (0 < getDebugOutputLevel()) {
+            std::cout << "[DEBUG]: Leaving multicast group " << m_host.toStdString() << " on interface " << m_interface.toStdString() << std::endl;
+        }
+
+        m_socket.leaveMulticastGroup(QHostAddress(m_host), netInterface);
+    } while (false);
 
     m_socket.blockSignals(true);
     m_socket.close();
@@ -346,6 +392,9 @@ void UdpGenericSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
     } while (false);
 
     if (!m_socket.isOpen()) {
+        if (1 < getDebugOutputLevel()) {
+            std::cout << "[ERROR]: Socket is not open cannot send data" << std::endl;
+        }
         return;
     }
 
@@ -359,12 +408,20 @@ void UdpGenericSocket::sendDataImpl(ToolsDataInfoPtr dataPtr)
         qint64 count = 0;
 
         if (m_multicast) {
+            if (2 < getDebugOutputLevel()) {
+                std::cout << "[DEBUG]: Multicast send of " << remSize << " bytes " << std::endl;
+            }
+
             count = m_socket.writeDatagram(
                 reinterpret_cast<const char*>(&dataPtr->m_data[writtenCount]),
                 remSize,
                 QHostAddress(m_host),
                 m_port);
         } else {
+            if (2 < getDebugOutputLevel()) {
+                std::cout << "[DEBUG]: Unicast send of " << remSize << " bytes " << std::endl;
+            }
+
             count = m_socket.write(
                 reinterpret_cast<const char*>(&dataPtr->m_data[writtenCount]),
                 remSize);
@@ -478,7 +535,7 @@ void UdpGenericSocket::readFromSocket()
         dataPtr->m_extraProperties.insert(udpToProp(), to);
         reportDataReceived(std::move(dataPtr));
 
-        if (m_socket.state() != QUdpSocket::ConnectedState) {
+        if ((m_socket.state() != QUdpSocket::ConnectedState) && (!m_multicast)) {
             m_socket.connectToHost(senderAddress, senderPort);
             m_socket.waitForConnected();
             assert(m_socket.isOpen());
@@ -492,9 +549,47 @@ void UdpGenericSocket::socketErrorOccurred([[maybe_unused]] QAbstractSocket::Soc
     std::cout << "ERROR: UDP Socket: " << m_socket.errorString().toStdString() << std::endl;
 }
 
+void UdpGenericSocket::socketStateChanged(QAbstractSocket::SocketState socketState)
+{
+    if (1 < getDebugOutputLevel()) {
+        std::cout << "[DEBUG]: Socket state changed to: " << socketState << std::endl;
+    }
+}
+
 bool UdpGenericSocket::bindSocket(QUdpSocket& socket)
 {
-    if (!socket.bind(QHostAddress::AnyIPv4, m_localPort, QUdpSocket::ShareAddress)) {
+    QHostAddress addr(QHostAddress::AnyIPv4);
+    do {
+        if (m_interface.isEmpty()) {
+            break;
+        }
+
+        auto interface = QNetworkInterface::interfaceFromName(m_interface);
+        if (!interface.isValid()) {
+            if (0 < getDebugOutputLevel()) {
+                std::cout << "[ERROR]: Unknown interface: " << m_interface.toStdString() << std::endl;
+            }
+
+            break;
+        }
+
+        auto addresses = interface.addressEntries();
+        if (addresses.isEmpty()) {
+            if (0 < getDebugOutputLevel()) {
+                std::cout << "[ERROR]: No addresses assigned for interface: " << m_interface.toStdString() << std::endl;
+            }
+
+            break;
+        }
+
+        addr = addresses.front().ip();
+    } while (false);
+
+    if (0 < getDebugOutputLevel()) {
+        std::cout << "[DEBUG]: Bind address is: " << addr.toString().toStdString() << std::endl;
+    }
+
+    if (!socket.bind(addr, m_localPort, QUdpSocket::ShareAddress)) {
         return false;
     }
 

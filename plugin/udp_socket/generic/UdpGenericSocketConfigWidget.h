@@ -23,6 +23,8 @@
 
 #include "UdpGenericSocket.h"
 
+#include <QtCore/QList>
+#include <QtNetwork/QNetworkInterface>
 #include <QtWidgets/QWidget>
 
 namespace cc_tools_qt
@@ -50,10 +52,14 @@ private slots:
     void portValueChanged(int value);
     void localPortValueChanged(int value);
     void broadcastMaskValueChanged(const QString& value);
+    void currentInterfaceValueChanged(int idx);
 
 private:
+    using NetworkInterfacesList = QList<QNetworkInterface>;
+
     UdpGenericSocket& m_socket;
     Ui::UdpGenericSocketConfigWidget m_ui;
+    NetworkInterfacesList m_networkInterfaces;
 };
 
 }  // namespace plugin

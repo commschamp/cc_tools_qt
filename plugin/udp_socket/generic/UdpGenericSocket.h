@@ -86,6 +86,16 @@ public:
         return m_broadcastMask;
     }
 
+    void setInterface(const QString& value)
+    {
+        m_interface = value;
+    }
+
+    const QString getInterface() const
+    {
+        return m_interface;
+    }
+
 signals:
     void sigConfigChanged();
 
@@ -99,6 +109,7 @@ private slots:
     void socketDisconnected();
     void readFromSocket();
     void socketErrorOccurred(QAbstractSocket::SocketError err);
+    void socketStateChanged(QAbstractSocket::SocketState socketState);
 
 private:
     bool bindSocket(QUdpSocket& socket);
@@ -109,6 +120,7 @@ private:
     PortType m_port = DefaultPort;
     PortType m_localPort = 0;
     QString m_broadcastMask = "255.255.255.255";
+    QString m_interface;
     QUdpSocket m_socket;
     int m_defaultTtl = 0;
     bool m_running = false;

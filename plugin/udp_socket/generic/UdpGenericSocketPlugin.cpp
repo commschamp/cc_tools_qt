@@ -38,6 +38,7 @@ const QString HostSubKey("host");
 const QString PortSubKey("port");
 const QString LocalPortSubKey("local_port");
 const QString BroadcastMaskSubKey("broadcast_prop");
+const QString InterfaceSubKey("interface");
 
 }  // namespace
 
@@ -57,6 +58,7 @@ void UdpGenericSocketPlugin::getCurrentConfigImpl(QVariantMap& config)
     subConfig.insert(PortSubKey, m_socket->getPort());
     subConfig.insert(LocalPortSubKey, m_socket->getLocalPort());
     subConfig.insert(BroadcastMaskSubKey, m_socket->getBroadcastMask());
+    subConfig.insert(InterfaceSubKey, m_socket->getInterface());
     config.insert(MainConfigKey, QVariant::fromValue(subConfig));
 }
 
@@ -94,6 +96,12 @@ void UdpGenericSocketPlugin::reconfigureImpl(const QVariantMap& config)
     if (broadcastMaskVar.isValid() && broadcastMaskVar.canConvert<QString>()) {
         auto broadcastMask = broadcastMaskVar.value<QString>();
         m_socket->setBroadcastMask(broadcastMask);
+    }
+
+    auto interfaceVar = subConfig.value(InterfaceSubKey);
+    if (interfaceVar.isValid() && interfaceVar.canConvert<QString>()) {
+        auto interface = interfaceVar.value<QString>();
+        m_socket->setInterface(interface);
     }
 }
 

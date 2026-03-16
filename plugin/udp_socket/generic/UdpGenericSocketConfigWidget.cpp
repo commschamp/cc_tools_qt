@@ -19,6 +19,9 @@
 
 #include "UdpGenericSocketConfigWidget.h"
 
+#include <algorithm>
+#include <cassert>
+#include <iterator>
 #include <limits>
 
 namespace cc_tools_qt
@@ -43,6 +46,12 @@ UdpGenericSocketConfigWidget::UdpGenericSocketConfigWidget(
         0,
         static_cast<int>(std::numeric_limits<PortType>::max()));
 
+    m_ui.m_interfaceComboBox->addItem(QString());
+    m_networkInterfaces = QNetworkInterface::allInterfaces();
+    for (auto& i : m_networkInterfaces) {
+        m_ui.m_interfaceComboBox->addItem(i.name());
+    }
+
     refresh();
 
     connect(
@@ -65,6 +74,9 @@ UdpGenericSocketConfigWidget::UdpGenericSocketConfigWidget(
         m_ui.m_broadcastMaskLineEdit, &QLineEdit::textChanged,
         this, &UdpGenericSocketConfigWidget::broadcastMaskValueChanged);
 
+    connect(
+        m_ui.m_interfaceComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+        this, &UdpGenericSocketConfigWidget::currentInterfaceValueChanged);
 }
 
 UdpGenericSocketConfigWidget::~UdpGenericSocketConfigWidget() noexcept = default;
@@ -80,6 +92,31 @@ void UdpGenericSocketConfigWidget::refresh()
         static_cast<int>(m_socket.getLocalPort()));
 
     m_ui.m_broadcastMaskLineEdit->setText(m_socket.getBroadcastMask());
+
+    int idx = 0;
+    do {
+        auto& interface = m_socket.getInterface();
+        if (interface.isEmpty()) {
+            break;
+        }
+
+        auto iter = std::find_if(
+            m_networkInterfaces.begin(), m_networkInterfaces.end(),
+            [&interface](auto& netInterface)
+            {
+                return netInterface.name() == interface;
+            });
+
+        if (iter == m_networkInterfaces.end()) {
+            m_socket.setInterface(QString());
+            break;
+        }
+
+        auto dist = static_cast<int>(std::distance(m_networkInterfaces.begin(), iter));
+        idx = dist + 1;
+    } while (false);
+
+    m_ui.m_interfaceComboBox->setCurrentIndex(idx);
 }
 
 void UdpGenericSocketConfigWidget::hostValueChanged(const QString& value)
@@ -100,6 +137,17 @@ void UdpGenericSocketConfigWidget::localPortValueChanged(int value)
 void UdpGenericSocketConfigWidget::broadcastMaskValueChanged(const QString& value)
 {
     m_socket.setBroadcastMask(value);
+}
+
+void UdpGenericSocketConfigWidget::currentInterfaceValueChanged(int idx)
+{
+    if (idx == 0) {
+        m_socket.setInterface(QString());
+        return;
+    }
+
+    assert(idx <= m_networkInterfaces.size());
+    m_socket.setInterface(m_networkInterfaces[idx - 1].name());
 }
 
 }  // namespace plugin
