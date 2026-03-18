@@ -1,5 +1,7 @@
 //
-// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2026 (C). Alex Robenko. All rights reserved.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -59,6 +61,7 @@ public:
 
     void setSocket(ToolsSocketPtr socket);
     void setProtocol(ToolsProtocolPtr protocol);
+    void clearFilters();
     void addFilter(ToolsFilterPtr filter);
 
     using MsgAddedCallbackFunc = std::function<void (ToolsMessagePtr msg)>;

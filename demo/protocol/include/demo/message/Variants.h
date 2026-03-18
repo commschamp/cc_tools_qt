@@ -1,5 +1,7 @@
 //
-// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2026 (C). Alex Robenko. All rights reserved.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -60,7 +62,7 @@ struct VariantsFields
             comms::option::def::HasName
         >
     {
-        using Base = 
+        using Base =
             comms::field::EnumValue<
                 demo::FieldBase,
                 VarId,
@@ -69,31 +71,31 @@ struct VariantsFields
                 comms::option::def::FailOnInvalid<>,
                 comms::option::def::FixedValue,
                 comms::option::def::HasName
-            >;                
-    public:   
+            >;
+    public:
         using ValueType = typename Base::ValueType;
         using ValueNameInfo = const char*;
         using ValueNamesMapInfo = std::pair<const ValueNameInfo*, std::size_t>;
 
-        static ValueType firstValue() 
+        static ValueType firstValue()
         {
             return ValueType::Elem1;
         }
 
-        static ValueType lastValue() 
+        static ValueType lastValue()
         {
             return ValueType::Elem3;
-        }        
+        }
 
-        static ValueType valuesLimit() 
+        static ValueType valuesLimit()
         {
             return ValueType::NumOfValues;
-        }  
+        }
 
         static const char* name()
         {
             return "id";
-        }  
+        }
 
         static const char* valueName(ValueType val)
         {
@@ -103,7 +105,7 @@ struct VariantsFields
             }
 
             return namesMapInfo.first[static_cast<std::size_t>(val)];
-        }   
+        }
 
         static ValueNamesMapInfo valueNamesMap()
         {
@@ -115,7 +117,7 @@ struct VariantsFields
             static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
             return std::make_pair(&Map[0], MapSize);
-        }               
+        }
     };
 
     /// @brief field used to identify the remaining length.
@@ -135,12 +137,12 @@ struct VariantsFields
         static const char* name()
         {
             return "length";
-        }                 
-    }; 
+        }
+    };
 
     struct field1_var1Members
     {
-        class Value : public 
+        class Value : public
             comms::field::IntValue<
                 demo::FieldBase,
                 std::uint8_t,
@@ -157,7 +159,7 @@ struct VariantsFields
             {
                 return "value";
             }
-        };                    
+        };
     };
 
     /// @brief First type that can be stored in @ref field1 variant field.
@@ -197,12 +199,12 @@ struct VariantsFields
         static const char* name()
         {
             return "field1_var1";
-        }                 
+        }
     };
 
     struct field1_var2Members
     {
-        class Value : public 
+        class Value : public
             comms::field::IntValue<
                 demo::FieldBase,
                 std::uint32_t,
@@ -214,13 +216,13 @@ struct VariantsFields
             {
                 return false;
             }
-                    
+
             static const char* name()
             {
                 return "value";
             }
-        };                    
-    };    
+        };
+    };
 
     /// @brief Second type that can be stored in @ref field1 variant field.
     /// @details Identified by @ref VarId::Elem2 (1) value which is followed by
@@ -259,12 +261,12 @@ struct VariantsFields
         static const char* name()
         {
             return "field1_var2";
-        }           
+        }
     };
 
     struct field1_var3Members
     {
-        class Value : public 
+        class Value : public
             comms::field::String<
                 demo::FieldBase,
                 comms::option::def::HasName,
@@ -281,13 +283,13 @@ struct VariantsFields
             {
                 return false;
             }
-                    
+
             static const char* name()
             {
                 return "value";
             }
-        };                    
-    };      
+        };
+    };
 
     /// @brief Third type that can be stored in @ref field1 variant field.
     /// @details Identified by @ref VarId::Elem3 (2) value which is followed by
@@ -326,7 +328,7 @@ struct VariantsFields
         static const char* name()
         {
             return "field1_var3";
-        }        
+        }
     };
 
     /// @brief Variant field.
@@ -360,7 +362,7 @@ struct VariantsFields
     public:
         using MemberNameInfo = const char*;
         using MemberNamesMapInfo = std::pair<const MemberNameInfo*, std::size_t>;
-            
+
         /// @brief Allow access to internal fields.
         /// @details See definition of @b COMMS_VARIANT_MEMBERS_NAMES macro
         ///     related to @b comms::field::Variant class from COMMS library
@@ -374,7 +376,7 @@ struct VariantsFields
         static const char* name()
         {
             return "field1";
-        }  
+        }
 
         static const char* memberName(std::size_t idx)
         {
@@ -384,7 +386,7 @@ struct VariantsFields
             }
 
             return namesMapInfo.first[idx];
-        }        
+        }
 
         static MemberNamesMapInfo memberNamesMap()
         {
@@ -397,12 +399,12 @@ struct VariantsFields
             static_assert(MapSize == FieldIdx_numOfValues, "Invalid map");
 
             return std::make_pair(&Map[0], MapSize);
-        }               
+        }
     };
 
     struct field2_var1Members
     {
-        class Value : public 
+        class Value : public
             comms::field::IntValue<
                 demo::FieldBase,
                 std::uint8_t,
@@ -419,8 +421,8 @@ struct VariantsFields
             {
                 return "value";
             }
-        };                    
-    };      
+        };
+    };
 
     /// @brief First type that can be stored in @ref field2 variant field.
     /// @details Identified by @ref VarId::Elem1 (0) value which is followed by
@@ -464,12 +466,12 @@ struct VariantsFields
         static const char* name()
         {
             return "field2_var1";
-        }        
+        }
     };
 
     struct field2_var2Members
     {
-        class Value : public 
+        class Value : public
             comms::field::IntValue<
                 demo::FieldBase,
                 std::uint32_t,
@@ -481,13 +483,13 @@ struct VariantsFields
             {
                 return false;
             }
-                    
+
             static const char* name()
             {
                 return "value";
             }
-        };                    
-    };    
+        };
+    };
 
     /// @brief Second type that can be stored in @ref field2 variant field.
     /// @details Identified by @ref VarId::Elem2 (1) value which is followed by
@@ -531,12 +533,12 @@ struct VariantsFields
         static const char* name()
         {
             return "field2_var2";
-        }        
+        }
     };
 
     struct field2_var3Members
     {
-        class Value : public 
+        class Value : public
             comms::field::String<demo::FieldBase, comms::option::def::HasName>
         {
         public:
@@ -544,8 +546,8 @@ struct VariantsFields
             {
                 return "value";
             }
-        };                    
-    };     
+        };
+    };
 
     /// @brief Third type that can be stored in @ref field2 variant field.
     /// @details Identified by @ref VarId::Elem3 (2) value which is followed by
@@ -587,8 +589,8 @@ struct VariantsFields
         static const char* name()
         {
             return "field2_var3";
-        }        
-    };    
+        }
+    };
 
     /// @brief Variant field.
     /// @details Can be one of the following:
@@ -621,7 +623,7 @@ struct VariantsFields
     public:
         using MemberNameInfo = const char*;
         using MemberNamesMapInfo = std::pair<const MemberNameInfo*, std::size_t>;
-            
+
         /// @brief Allow access to internal fields.
         /// @details See definition of @b COMMS_VARIANT_MEMBERS_NAMES macro
         ///     related to @b comms::field::Variant class from COMMS library
@@ -635,7 +637,7 @@ struct VariantsFields
         static const char* name()
         {
             return "field2";
-        }  
+        }
 
         static const char* memberName(std::size_t idx)
         {
@@ -645,7 +647,7 @@ struct VariantsFields
             }
 
             return namesMapInfo.first[idx];
-        }        
+        }
 
         static MemberNamesMapInfo memberNamesMap()
         {
@@ -658,8 +660,8 @@ struct VariantsFields
             static_assert(MapSize == FieldIdx_numOfValues, "Invalid map");
 
             return std::make_pair(&Map[0], MapSize);
-        }               
-    };    
+        }
+    };
 
     /// @brief All the fields bundled in std::tuple.
     using All = std::tuple<
@@ -743,5 +745,4 @@ public:
 }  // namespace message
 
 }  // namespace demo
-
 

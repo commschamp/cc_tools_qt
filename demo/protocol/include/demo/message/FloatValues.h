@@ -1,5 +1,7 @@
 //
-// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2026 (C). Alex Robenko. All rights reserved.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -47,13 +49,13 @@ struct FloatValuesFields
             comms::option::def::HasName
         >
     {
-        using Base = 
+        using Base =
             comms::field::FloatValue<
                 demo::FieldBase,
                 float,
                 typename TOpt::message::FloatValuesFields::field1,
                 comms::option::def::HasName
-            >;        
+            >;
     public:
         using ValueType = typename Base::ValueType;
         using SpecialNameInfo = std::pair<ValueType, const char*>;
@@ -62,12 +64,12 @@ struct FloatValuesFields
         static constexpr bool hasSpecials()
         {
             return true;
-        }        
+        }
 
         static const char* name()
         {
             return "field1";
-        }   
+        }
 
         static SpecialNamesMapInfo specialNamesMap()
         {
@@ -80,12 +82,12 @@ struct FloatValuesFields
             static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
             return std::make_pair(&Map[0], MapSize);
-        } 
+        }
 
         static constexpr unsigned displayDecimals()
         {
             return 3U;
-        }                                 
+        }
     };
 
     /// @brief Simple 8 byte IEEE 754 floating point value.
@@ -97,7 +99,7 @@ struct FloatValuesFields
             comms::option::def::HasName
         >
     {
-        using Base = 
+        using Base =
             comms::field::FloatValue<
                 demo::FieldBase,
                 double,
@@ -112,12 +114,12 @@ struct FloatValuesFields
         static constexpr bool hasSpecials()
         {
             return true;
-        }          
+        }
 
         static const char* name()
         {
             return "field2";
-        }    
+        }
 
         static SpecialNamesMapInfo specialNamesMap()
         {
@@ -130,12 +132,12 @@ struct FloatValuesFields
             static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
             return std::make_pair(&Map[0], MapSize);
-        }      
+        }
 
         static constexpr unsigned displayDecimals()
         {
             return 0U;
-        }                          
+        }
     };
 
     /// @brief Floating point value serialised as integer with (1e-2) scaling ratio.
@@ -148,7 +150,7 @@ struct FloatValuesFields
             comms::option::def::HasName
         >
     {
-        using Base = 
+        using Base =
             comms::field::IntValue<
                 demo::FieldBase,
                 std::uint8_t,
@@ -169,7 +171,7 @@ struct FloatValuesFields
         static const char* name()
         {
             return "field3";
-        }  
+        }
 
         static SpecialNamesMapInfo specialNamesMap()
         {
@@ -180,12 +182,12 @@ struct FloatValuesFields
             static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
             return std::make_pair(&Map[0], MapSize);
-        }    
+        }
 
         static constexpr unsigned displayDecimals()
         {
             return 2U;
-        }                             
+        }
     };
 
     /// @brief Floating point value serialised as 5 byte integer with (1e-11) scaling ratio.
@@ -204,16 +206,16 @@ struct FloatValuesFields
         {
             return false;
         }
-        
+
         static const char* name()
         {
             return "field4";
-        } 
+        }
 
         static constexpr unsigned displayDecimals()
         {
             return 11U;
-        }                          
+        }
     };
 
     /// @brief All the fields bundled in std::tuple.
@@ -304,6 +306,4 @@ public:
 }  // namespace message
 
 }  // namespace demo
-
-
 

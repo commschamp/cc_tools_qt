@@ -1,5 +1,7 @@
 //
-// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2026 (C). Alex Robenko. All rights reserved.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -29,7 +31,6 @@
 namespace demo
 {
 
-
 namespace message
 {
 
@@ -57,7 +58,7 @@ struct BundlesFields
         static const char* name()
         {
             return "field1_mem1";
-        }                 
+        }
     };
 
     /// @brief Second member that can be stored in @ref field1 bundle field.
@@ -73,7 +74,7 @@ struct BundlesFields
         static const char* name()
         {
             return "field1_mem2";
-        }                 
+        }
     };
 
     /// @brief Bundle field containing length and fixed size string.
@@ -89,7 +90,7 @@ struct BundlesFields
             comms::option::def::HasName
         >
     {
-        using Base = 
+        using Base =
             comms::field::Bundle<
                 demo::FieldBase,
                 std::tuple<
@@ -99,7 +100,7 @@ struct BundlesFields
                 comms::option::def::RemLengthMemberField<0>,
                 typename TOpt::message::BundlesFields::field1,
                 comms::option::def::HasName
-            >;            
+            >;
 
     public:
         /// @brief Allow access to internal fields.
@@ -108,7 +109,7 @@ struct BundlesFields
         static const char* name()
         {
             return "field1";
-        }        
+        }
     };
 
     /// @brief First member that can be stored in @ref field2 bundle field.
@@ -125,11 +126,11 @@ struct BundlesFields
         {
             return false;
         }
-        
+
         static const char* name()
         {
             return "field2_mem1";
-        }                 
+        }
     };
 
     /// @brief Second member that can be stored in @ref field2 bundle field.
@@ -146,7 +147,7 @@ struct BundlesFields
         static const char* name()
         {
             return "field2_mem2";
-        }                 
+        }
     };
 
     /// @brief Bundle field containing length and fixed size data.
@@ -162,7 +163,7 @@ struct BundlesFields
             comms::option::def::HasName
         >
     {
-        using Base = 
+        using Base =
             comms::field::Bundle<
                 demo::FieldBase,
                 std::tuple<
@@ -172,7 +173,7 @@ struct BundlesFields
                 comms::option::def::RemLengthMemberField<0>,
                 typename TOpt::message::BundlesFields::field2,
                 comms::option::def::HasName
-            >;            
+            >;
 
     public:
         /// @brief Allow access to internal fields.
@@ -181,9 +182,9 @@ struct BundlesFields
         static const char* name()
         {
             return "field2";
-        }         
+        }
     };
-        
+
     /// @brief All the fields bundled in std::tuple.
     using All = std::tuple<
         field1,

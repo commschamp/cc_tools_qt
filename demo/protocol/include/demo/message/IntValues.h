@@ -1,5 +1,7 @@
 //
-// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2026 (C). Alex Robenko. All rights reserved.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -51,7 +53,7 @@ struct IntValuesFields
             comms::option::def::HasName
         >
     {
-        using Base = 
+        using Base =
             comms::field::IntValue<
                 demo::FieldBase,
                 std::uint16_t,
@@ -72,7 +74,7 @@ struct IntValuesFields
         static const char* name()
         {
             return "field1";
-        }   
+        }
 
         static SpecialNamesMapInfo specialNamesMap()
         {
@@ -83,7 +85,7 @@ struct IntValuesFields
             static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
             return std::make_pair(&Map[0], MapSize);
-        }                      
+        }
     };
 
     /// @brief Signed integer serialised using only 3 bytes
@@ -105,7 +107,7 @@ struct IntValuesFields
         static const char* name()
         {
             return "field2";
-        }                 
+        }
     };
 
     /// @brief Variable length (base-128) encoded unsigned integer value
@@ -139,7 +141,7 @@ struct IntValuesFields
         static const char* name()
         {
             return "field3";
-        }   
+        }
 
         static SpecialNamesMapInfo specialNamesMap()
         {
@@ -150,7 +152,7 @@ struct IntValuesFields
             static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
             return std::make_pair(&Map[0], MapSize);
-        }                        
+        }
     };
 
     /// @brief Example of serialising year information as a single byte.
@@ -177,7 +179,7 @@ struct IntValuesFields
         static const char* name()
         {
             return "field4";
-        }                 
+        }
     };
 
     /// @brief Signed integer serialised using 6 bytes
@@ -214,7 +216,7 @@ struct IntValuesFields
         static const char* name()
         {
             return "field5";
-        }  
+        }
 
         static SpecialNamesMapInfo specialNamesMap()
         {
@@ -225,7 +227,7 @@ struct IntValuesFields
             static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
             return std::make_pair(&Map[0], MapSize);
-        }                       
+        }
     };
 
     /// @brief Unsigned integer serialised using 8 bytes
@@ -246,9 +248,8 @@ struct IntValuesFields
         static const char* name()
         {
             return "field6";
-        }                 
+        }
     };
-
 
     /// @brief All the fields bundled in std::tuple.
     using All = std::tuple<
@@ -339,5 +340,4 @@ public:
 }  // namespace message
 
 }  // namespace demo
-
 

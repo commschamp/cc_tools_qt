@@ -1,5 +1,7 @@
 //
-// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2026 (C). Alex Robenko. All rights reserved.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -50,7 +52,7 @@ struct BitmaskValuesFields
             comms::option::def::HasName
         >
     {
-    public:        
+    public:
         /// @brief Provide names generates access functions for internal bits.
         /// @details See definition of @b COMMS_BITMASK_BITS_SEQ_NOTEMPLATE macro
         ///     related to @b comms::field::BitmaskValue class from COMMS library
@@ -60,7 +62,7 @@ struct BitmaskValuesFields
         static const char* name()
         {
             return "field1";
-        }  
+        }
 
         static const char* bitName(std::size_t idx)
         {
@@ -80,7 +82,7 @@ struct BitmaskValuesFields
             }
 
             return Map[idx];
-        }                
+        }
     };
 
     /// @brief Bitmask with 2 bytes length
@@ -95,7 +97,7 @@ struct BitmaskValuesFields
             comms::option::def::HasName
         >
     {
-    public:        
+    public:
         /// @brief Provide names for internal bits.
         /// @details See definition of @b COMMS_BITMASK_BITS macro
         ///     related to @b comms::field::BitmaskValue class from COMMS library
@@ -111,7 +113,7 @@ struct BitmaskValuesFields
         static const char* name()
         {
             return "field2";
-        }    
+        }
 
         static const char* bitName(std::size_t idx)
         {
@@ -135,7 +137,7 @@ struct BitmaskValuesFields
             }
 
             return Map[idx];
-        }              
+        }
     };
 
     /// @brief All the fields bundled in std::tuple.
@@ -224,5 +226,4 @@ public:
 }  // namespace message
 
 }  // namespace demo
-
 

@@ -1,5 +1,7 @@
 //
-// Copyright 2014 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2014 - 2026 (C). Alex Robenko. All rights reserved.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -270,6 +272,11 @@ void ToolsMsgMgrImpl::setSocket(ToolsSocketPtr socket)
         return;
     }
 
+    if (m_socket) {
+        // Disconnect all previous signals
+        disconnect(m_socket.get(), nullptr, this, nullptr);
+    }
+
     connect(
         socket.get(), &ToolsSocket::sigDataReceivedReport,
         this, &ToolsMsgMgrImpl::socketDataReceived
@@ -291,6 +298,11 @@ void ToolsMsgMgrImpl::setSocket(ToolsSocketPtr socket)
 void ToolsMsgMgrImpl::setProtocol(ToolsProtocolPtr protocol)
 {
     assert(protocol);
+    if (m_protocol) {
+        // Disconnect all previous signals
+        disconnect(m_protocol.get(), nullptr, this, nullptr);
+    }
+
     connect(
         protocol.get(), &ToolsProtocol::sigErrorReport,
         this, &ToolsMsgMgrImpl::protocolErrorReport
@@ -302,6 +314,15 @@ void ToolsMsgMgrImpl::setProtocol(ToolsProtocolPtr protocol)
     );
 
     m_protocol = std::move(protocol);
+}
+
+void ToolsMsgMgrImpl::clearFilters()
+{
+    for (auto& f : m_filters) {
+        disconnect(f.get(), nullptr, this, nullptr);
+    }
+
+    m_filters.clear();
 }
 
 void ToolsMsgMgrImpl::addFilter(ToolsFilterPtr filter)

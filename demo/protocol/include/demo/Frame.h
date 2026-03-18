@@ -1,5 +1,7 @@
 //
-// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2026 (C). Alex Robenko. All rights reserved.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -48,12 +50,12 @@ public:
     {
         return false;
     }
-    
+
     static const char* name()
     {
         return "SYNC";
     }
-};    
+};
 
 /// @brief Field representing last two checksum bytes in message wrapping.
 class ChecksumField : public
@@ -68,12 +70,12 @@ public:
     {
         return false;
     }
-    
+
     static const char* name()
     {
         return "CHECKSUM";
     }
-};  
+};
 
 /// @brief Field representing remaining length in message wrapping.
 class LengthField : public
@@ -90,12 +92,12 @@ public:
     {
         return false;
     }
-    
+
     static const char* name()
     {
         return "LENGTH";
     }
-};  
+};
 
 /// @brief Field representing message ID in message wrapping.
 class MsgIdField : public
@@ -106,37 +108,37 @@ class MsgIdField : public
         comms::option::def::HasName
     >
 {
-    using Base = 
+    using Base =
         comms::field::EnumValue<
             FieldBase,
             MsgId,
             comms::option::def::ValidNumValueRange<0, MsgId_NumOfValues - 1>,
             comms::option::def::HasName
-        >;    
+        >;
 public:
     using ValueType = typename Base::ValueType;
     using ValueNameInfo = const char*;
     using ValueNamesMapInfo = std::pair<const ValueNameInfo*, std::size_t>;
 
-    static ValueType firstValue() 
+    static ValueType firstValue()
     {
         return MsgId_IntValues;
     }
 
-    static ValueType lastValue() 
+    static ValueType lastValue()
     {
         return MsgId_Bundles;
-    }    
+    }
 
-    static ValueType valuesLimit() 
+    static ValueType valuesLimit()
     {
         return MsgId_NumOfValues;
-    }          
+    }
 
     static const char* name()
     {
         return "ID";
-    }      
+    }
 
     static const char* valueName(ValueType val)
     {
@@ -146,7 +148,7 @@ public:
         }
 
         return namesMapInfo.first[static_cast<std::size_t>(val)];
-    }   
+    }
 
     static ValueNamesMapInfo valueNamesMap()
     {
@@ -165,12 +167,12 @@ public:
         static const std::size_t MapSize = std::extent<decltype(Map)>::value;
 
         return std::make_pair(&Map[0], MapSize);
-    }    
-};  
+    }
+};
 
 /// @brief Field representing full message payload.
 template <typename... TOptions>
-class DataField : public 
+class DataField : public
     comms::field::ArrayList<
         FieldBase,
         std::uint8_t,
@@ -183,7 +185,7 @@ public:
     {
         return "PAYLOAD";
     }
-};  
+};
 
 /// @brief Assembled protocol stack layers.
 /// @details Extended by @ref Stack
@@ -215,7 +217,6 @@ using StackBase =
             >
         >
     >;
-
 
 /// @brief Definition of Demo binary protocol stack of layers.
 /// @details It is used to process incoming binary stream of data and create
@@ -255,6 +256,4 @@ public:
 };
 
 }  // namespace demo
-
-
 

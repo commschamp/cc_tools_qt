@@ -1,5 +1,7 @@
 //
-// Copyright 2016 - 2025 (C). Alex Robenko. All rights reserved.
+// Copyright 2016 - 2026 (C). Alex Robenko. All rights reserved.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 //
 
 // This file is free software: you can redistribute it and/or modify
@@ -21,6 +23,8 @@
 
 #include "UdpGenericSocket.h"
 
+#include <QtCore/QList>
+#include <QtNetwork/QNetworkInterface>
 #include <QtWidgets/QWidget>
 
 namespace cc_tools_qt
@@ -48,10 +52,14 @@ private slots:
     void portValueChanged(int value);
     void localPortValueChanged(int value);
     void broadcastMaskValueChanged(const QString& value);
+    void currentInterfaceValueChanged(int idx);
 
 private:
+    using NetworkInterfacesList = QList<QNetworkInterface>;
+
     UdpGenericSocket& m_socket;
     Ui::UdpGenericSocketConfigWidget m_ui;
+    NetworkInterfacesList m_networkInterfaces;
 };
 
 }  // namespace plugin
