@@ -251,6 +251,7 @@ jobs:
         VERBOSE: 1   
 
   build_msvc_2022:
+    if: false
     runs-on: windows-2022
     strategy:
       fail-fast: false
@@ -310,6 +311,7 @@ jobs:
         VERBOSE: 1 
 
   build_msvc_2025:
+    if: false
     runs-on: windows-2025
     strategy:
       fail-fast: false
@@ -360,6 +362,61 @@ jobs:
           -DCC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=${{matrix.qt_ver}}
       env:
         QT_VER: ${{matrix.qt_ver == '5' && '5.15.3' || '6.2.2'}}
+
+    - name: Build Target 
+      working-directory: ${{runner.workspace}}/build
+      shell: cmd
+      run: cmake --build . --config ${{matrix.type}} --target install
+      env:
+        VERBOSE: 1 
+
+  build_msvc_2025_2:
+    runs-on: windows-2025
+    strategy:
+      fail-fast: false
+      matrix:
+        type: [Debug, Release]
+        arch: [x64]
+        cpp: [17, 20, 23]
+        qt_ver: [5, 6]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build   
+
+    - name: Install Curl
+      shell: cmd
+      run: |
+        choco install curl
+
+    - name: Install Qt (sets QT_ROOT_DIR)
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: ${{ matrix.qt_ver == 5 && '5.15.2' || '6.8.7' }}
+        cache: true
+
+    - name: Prepare externals
+      shell: cmd
+      run: |
+        %GITHUB_WORKSPACE%\script\prepare_externals.bat
+      env:
+        BUILD_DIR: ${{runner.workspace}}/build
+        PLATFORM: ${{matrix.arch}}
+        EXTERNALS_DIR: ${{runner.workspace}}/externals
+        COMMON_INSTALL_DIR: ${{runner.workspace}}/build/install
+        COMMON_BUILD_TYPE: ${{matrix.type}}
+        COMMON_CXX_STANDARD: ${{matrix.cpp}}
+        COMMS_TAG: ${{env.COMMS_TAG}}
+
+    - name: Configure CMake
+      shell: cmd
+      working-directory: ${{runner.workspace}}/build
+      run: |
+        cmake %GITHUB_WORKSPACE% -A ${{matrix.arch}} -DCMAKE_BUILD_TYPE=${{matrix.type}} -DCMAKE_INSTALL_PREFIX=install ^
+          -DCMAKE_PREFIX_PATH="${{runner.workspace}}/build/install;%QT_ROOT_DIR%" -DCMAKE_CXX_STANDARD=${{matrix.cpp}} ^
+          -DCC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=${{matrix.qt_ver}}
 
     - name: Build Target 
       working-directory: ${{runner.workspace}}/build
