@@ -26,6 +26,7 @@
 #include <QtCore/QByteArray>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
+#include <QtGlobal>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
 
@@ -262,6 +263,12 @@ MessageUpdateDialog::MessageUpdateDialog(
     auto newWidth = std::max(width(), (parentObj->width() * 7) / 10);
     resize(QSize(newWidth, newHeight));
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
+    static const auto QtCheckboxStateChangedSig = &QCheckBox::stateChanged;
+#else
+    static const auto QtCheckboxStateChangedSig = &QCheckBox::checkStateChanged;
+#endif
+
     connect(
         m_msgDisplayWidget, &MessageDisplayWidget::sigMsgUpdated,
         this, &MessageUpdateDialog::msgUpdated);
@@ -279,7 +286,7 @@ MessageUpdateDialog::MessageUpdateDialog(
         m_ui.m_searchLineEdit, &QLineEdit::clear);
 
     connect(
-        m_ui.m_delayCheckBox, &QCheckBox::stateChanged,
+        m_ui.m_delayCheckBox, QtCheckboxStateChangedSig,
         this, &MessageUpdateDialog::refreshDelayInfo);
 
     connect(
@@ -287,7 +294,7 @@ MessageUpdateDialog::MessageUpdateDialog(
         this, &MessageUpdateDialog::delayUpdated);
 
     connect(
-        m_ui.m_repeatCheckBox, &QCheckBox::stateChanged,
+        m_ui.m_repeatCheckBox, QtCheckboxStateChangedSig,
         this, &MessageUpdateDialog::refreshRepeatInfo);
 
     connect(
@@ -299,7 +306,7 @@ MessageUpdateDialog::MessageUpdateDialog(
         this, &MessageUpdateDialog::repeatCountUpdated);
 
     connect(
-        m_ui.m_indefinitelyCheckBox, &QCheckBox::stateChanged,
+        m_ui.m_indefinitelyCheckBox, QtCheckboxStateChangedSig,
         this, &MessageUpdateDialog::indefinitelyUpdated);
 
     auto* resetButton = m_ui.m_buttonBox->button(QDialogButtonBox::Reset);

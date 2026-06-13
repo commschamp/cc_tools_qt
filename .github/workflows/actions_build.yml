@@ -382,22 +382,21 @@ jobs:
         arch: [x64]
         cpp: [17, 20, 23]
         qt_ver: [5, 6]
-
+        exclude:
+          - cpp: 20
+            qt_ver: 5
+          - cpp: 23
+            qt_ver: 5
     steps:
     - uses: actions/checkout@v4
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
 
-    - name: Install Curl
-      shell: cmd
-      run: |
-        choco install curl
-
     - name: Install Qt (sets QT_ROOT_DIR)
       uses: jurplel/install-qt-action@v4
       with:
-        version: ${{ matrix.qt_ver == 5 && '5.15.2' || '6.8.2' }}
+        version: ${{ matrix.qt_ver == 5 && '5.15.*' || '6.8.*' }}
         cache: true
 
     - name: Prepare externals
