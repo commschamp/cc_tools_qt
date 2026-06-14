@@ -78,6 +78,3 @@ set -e
 export VERBOSE=1
 build_comms
 
-
-
-
