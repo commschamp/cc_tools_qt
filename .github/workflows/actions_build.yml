@@ -260,7 +260,7 @@ jobs:
         qt_ver: [5, 6]
         exclude:
           - cpp: 20
-            qt_ver: 5        
+            qt_ver: 5
 
     steps:
     - uses: actions/checkout@v4
