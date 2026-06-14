@@ -8,7 +8,7 @@ on:
       - '**'
 
 env:
-  COMMS_TAG: v5.5.1
+  COMMS_TAG: develop
 
 jobs:
 
