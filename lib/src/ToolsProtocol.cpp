@@ -95,7 +95,7 @@ ToolsMessagesList ToolsProtocol::read(
         }
 
         auto sinceEpoch = timestamp.time_since_epoch();
-        milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+        milliseconds = static_cast<decltype(milliseconds)>(std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count());
         std::cout << '[' << milliseconds << "] " << debugPrefix() << " <-- " << dataInfo.m_data.size() << " bytes";
         if (2U <= m_state->m_debugLevel) {
             std::cout << " | " << dataToStr(dataInfo.m_data);
@@ -125,7 +125,7 @@ ToolsDataInfoPtr ToolsProtocol::write(ToolsMessage& msg)
         if (milliseconds == 0) {
             auto timestamp = ToolsDataInfo::TimestampClock::now();
             auto sinceEpoch = timestamp.time_since_epoch();
-            milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+            milliseconds = static_cast<decltype(milliseconds)>(std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count());
         }
 
         std::cout << '[' << milliseconds << "] " << msg.name() << " --> " << debugPrefix() << std::endl;

@@ -8,7 +8,7 @@ on:
       - '**'
 
 env:
-  COMMS_TAG: v5.5.1
+  COMMS_TAG: v5.5.2
 
 jobs:
 
@@ -26,13 +26,13 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Prepare Install
-      run: sudo apt-get update --fix-missing    
-      
+      run: sudo apt-get update --fix-missing
+
     - name: Install Packages
       run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}}
 
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build      
+      run: cmake -E make_directory ${{runner.workspace}}/build
 
     - name: Prepare externals
       shell: bash
@@ -58,12 +58,12 @@ jobs:
         CC: gcc-${{matrix.cc_ver}}
         CXX: g++-${{matrix.cc_ver}}
 
-    - name: Build Target 
+    - name: Build Target
       working-directory: ${{runner.workspace}}/build
       shell: bash
       run: cmake --build . --config ${{matrix.type}} --target install
       env:
-        VERBOSE: 1  
+        VERBOSE: 1
 
   build_gcc_ubuntu_24_04:
     runs-on: ubuntu-24.04
@@ -76,21 +76,21 @@ jobs:
         qt_ver: [5, 6]
         exclude:
           - cc_ver: 13
-            cpp: 23 
+            cpp: 23
 
     steps:
     - uses: actions/checkout@v4
 
     - name: Prepare Install
-      run: sudo apt-get update --fix-missing    
-      
+      run: sudo apt-get update --fix-missing
+
     - name: Install Packages
       run: |
         sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev \
           gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}} doxygen dia
 
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build      
+      run: cmake -E make_directory ${{runner.workspace}}/build
 
     - name: Prepare externals
       shell: bash
@@ -116,19 +116,18 @@ jobs:
         CC: gcc-${{matrix.cc_ver}}
         CXX: g++-${{matrix.cc_ver}}
 
-    - name: Build Target 
+    - name: Build Target
       working-directory: ${{runner.workspace}}/build
       shell: bash
       run: cmake --build . --config ${{matrix.type}} --target install
       env:
-        VERBOSE: 1 
+        VERBOSE: 1
 
     - name: Documentation
       if: ${{matrix.type == 'Debug' && matrix.cc_ver == '14' && matrix.qt_ver == '5' && matrix.cpp == '17'}}
       working-directory: ${{runner.workspace}}/build
       shell: bash
       run: make doc_cc_tools_qt
-
 
   build_clang_ubuntu_22_04:
     runs-on: ubuntu-22.04
@@ -143,23 +142,23 @@ jobs:
           - cc_ver: 11
             cpp: 20
           - cc_ver: 12
-            cpp: 20   
+            cpp: 20
           - cc_ver: 13
-            cpp: 20   
+            cpp: 20
           - cc_ver: 14
-            cpp: 20      
+            cpp: 20
 
     steps:
     - uses: actions/checkout@v4
 
     - name: Prepare Install
-      run: sudo apt-get update --fix-missing    
-      
+      run: sudo apt-get update --fix-missing
+
     - name: Install Packages
       run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev clang-${{matrix.cc_ver}}
 
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build      
+      run: cmake -E make_directory ${{runner.workspace}}/build
 
     - name: Prepare externals
       shell: bash
@@ -185,12 +184,12 @@ jobs:
         CC: clang-${{matrix.cc_ver}}
         CXX: clang++-${{matrix.cc_ver}}
 
-    - name: Build Target 
+    - name: Build Target
       working-directory: ${{runner.workspace}}/build
       shell: bash
       run: cmake --build . --config ${{matrix.type}} --target install
       env:
-        VERBOSE: 1 
+        VERBOSE: 1
 
   build_clang_ubuntu_24_04:
     runs-on: ubuntu-24.04
@@ -198,7 +197,7 @@ jobs:
       fail-fast: false
       matrix:
         type: [Debug, Release]
-        cc_ver: [16, 17, 18]
+        cc_ver: [16, 17, 18, 19]
         cpp: [17, 20, 23]
         qt_ver: [5, 6]
         exclude:
@@ -211,13 +210,13 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Prepare Install
-      run: sudo apt-get update --fix-missing    
-      
+      run: sudo apt-get update --fix-missing
+
     - name: Install Packages
       run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev clang-${{matrix.cc_ver}}
 
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build      
+      run: cmake -E make_directory ${{runner.workspace}}/build
 
     - name: Prepare externals
       shell: bash
@@ -243,12 +242,12 @@ jobs:
         CC: clang-${{matrix.cc_ver}}
         CXX: clang++-${{matrix.cc_ver}}
 
-    - name: Build Target 
+    - name: Build Target
       working-directory: ${{runner.workspace}}/build
       shell: bash
       run: cmake --build . --config ${{matrix.type}} --target install
       env:
-        VERBOSE: 1   
+        VERBOSE: 1
 
   build_msvc_2022:
     runs-on: windows-2022
@@ -259,25 +258,21 @@ jobs:
         arch: [x64]
         cpp: [17, 20]
         qt_ver: [5, 6]
+        exclude:
+          - cpp: 20
+            qt_ver: 5
 
     steps:
     - uses: actions/checkout@v4
 
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build   
+      run: cmake -E make_directory ${{runner.workspace}}/build
 
-    - name: Install Curl
-      shell: cmd
-      run: |
-        choco install curl
-
-    - name: Install Qt
-      shell: cmd
-      run: |
-        curl -L https://github.com/martinrotter/qt-minimalistic-builds/releases/download/${{env.QT_VER}}/qt-${{env.QT_VER}}-dynamic-msvc2019-x86_64.7z -o ${{runner.workspace}}/qt.7z
-        7z x ${{runner.workspace}}/qt.7z -o${{runner.workspace}}/qt
-      env:
-        QT_VER: ${{matrix.qt_ver == '5' && '5.15.3' || '6.2.2'}}
+    - name: Install Qt (sets QT_ROOT_DIR)
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: ${{ matrix.qt_ver == 5 && '5.15.*' || '6.8.*' }}
+        cache: true
 
     - name: Prepare externals
       shell: cmd
@@ -297,19 +292,17 @@ jobs:
       working-directory: ${{runner.workspace}}/build
       run: |
         cmake %GITHUB_WORKSPACE% -A ${{matrix.arch}} -DCMAKE_BUILD_TYPE=${{matrix.type}} -DCMAKE_INSTALL_PREFIX=install ^
-          -DCMAKE_PREFIX_PATH="${{runner.workspace}}/build/install;${{runner.workspace}}/qt/qt-${{env.QT_VER}}-dynamic-msvc2019-x86_64" -DCMAKE_CXX_STANDARD=${{matrix.cpp}} ^
+          -DCMAKE_PREFIX_PATH="${{runner.workspace}}/build/install;%QT_ROOT_DIR%" -DCMAKE_CXX_STANDARD=${{matrix.cpp}} ^
           -DCC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=${{matrix.qt_ver}}
-      env:
-        QT_VER: ${{matrix.qt_ver == '5' && '5.15.3' || '6.2.2'}}
 
-    - name: Build Target 
+    - name: Build Target
       working-directory: ${{runner.workspace}}/build
       shell: cmd
       run: cmake --build . --config ${{matrix.type}} --target install
       env:
-        VERBOSE: 1 
+        VERBOSE: 1
 
-  build_msvc_2025:
+  build_msvc_2026:
     runs-on: windows-2025
     strategy:
       fail-fast: false
@@ -318,25 +311,22 @@ jobs:
         arch: [x64]
         cpp: [17, 20, 23]
         qt_ver: [5, 6]
-
+        exclude:
+          - cpp: 20
+            qt_ver: 5
+          - cpp: 23
+            qt_ver: 5
     steps:
     - uses: actions/checkout@v4
 
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build   
+      run: cmake -E make_directory ${{runner.workspace}}/build
 
-    - name: Install Curl
-      shell: cmd
-      run: |
-        choco install curl
-
-    - name: Install Qt
-      shell: cmd
-      run: |
-        curl -L https://github.com/martinrotter/qt-minimalistic-builds/releases/download/${{env.QT_VER}}/qt-${{env.QT_VER}}-dynamic-msvc2019-x86_64.7z -o ${{runner.workspace}}/qt.7z
-        7z x ${{runner.workspace}}/qt.7z -o${{runner.workspace}}/qt
-      env:
-        QT_VER: ${{matrix.qt_ver == '5' && '5.15.3' || '6.2.2'}}
+    - name: Install Qt (sets QT_ROOT_DIR)
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: ${{ matrix.qt_ver == 5 && '5.15.*' || '6.8.*' }}
+        cache: true
 
     - name: Prepare externals
       shell: cmd
@@ -356,14 +346,12 @@ jobs:
       working-directory: ${{runner.workspace}}/build
       run: |
         cmake %GITHUB_WORKSPACE% -A ${{matrix.arch}} -DCMAKE_BUILD_TYPE=${{matrix.type}} -DCMAKE_INSTALL_PREFIX=install ^
-          -DCMAKE_PREFIX_PATH="${{runner.workspace}}/build/install;${{runner.workspace}}/qt/qt-${{env.QT_VER}}-dynamic-msvc2019-x86_64" -DCMAKE_CXX_STANDARD=${{matrix.cpp}} ^
+          -DCMAKE_PREFIX_PATH="${{runner.workspace}}/build/install;%QT_ROOT_DIR%" -DCMAKE_CXX_STANDARD=${{matrix.cpp}} ^
           -DCC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL=ON -DCC_TOOLS_QT_MAJOR_QT_VERSION=${{matrix.qt_ver}}
-      env:
-        QT_VER: ${{matrix.qt_ver == '5' && '5.15.3' || '6.2.2'}}
 
-    - name: Build Target 
+    - name: Build Target
       working-directory: ${{runner.workspace}}/build
       shell: cmd
       run: cmake --build . --config ${{matrix.type}} --target install
       env:
-        VERBOSE: 1 
+        VERBOSE: 1

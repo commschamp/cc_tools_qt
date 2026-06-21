@@ -78,7 +78,7 @@ QList<ToolsDataInfoPtr> ToolsFilter::recvData(ToolsDataInfoPtr dataPtr)
         }
 
         auto sinceEpoch = timestamp.time_since_epoch();
-        milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+        milliseconds = static_cast<decltype(milliseconds)>(std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count());
         std::cout << '[' << milliseconds << "] (" << debugNameImpl() << ") <-- " << dataPtr->m_data.size() << " bytes";
         if (2U <= m_state->m_debugLevel) {
             std::cout << " | " << dataToStr(dataPtr->m_data);
@@ -110,7 +110,7 @@ QList<ToolsDataInfoPtr> ToolsFilter::sendData(ToolsDataInfoPtr dataPtr)
         }
 
         auto sinceEpoch = timestamp.time_since_epoch();
-        milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+        milliseconds = static_cast<decltype(milliseconds)>(std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count());
         std::cout << '[' << milliseconds << "] " << dataPtr->m_data.size() << " bytes --> (" << debugNameImpl() << ")";
         if (1U < m_state->m_debugLevel) {
             std::cout << " | " << dataToStr(dataPtr->m_data);
@@ -186,9 +186,8 @@ unsigned long long ToolsFilter::currTimestamp()
 {
     auto timestamp = std::chrono::high_resolution_clock::now();
     auto sinceEpoch = timestamp.time_since_epoch();
-    auto milliseconds =
-        std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
-    return milliseconds;
+    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+    return static_cast<unsigned long long>(milliseconds);
 }
 
 unsigned ToolsFilter::getDebugOutputLevel() const

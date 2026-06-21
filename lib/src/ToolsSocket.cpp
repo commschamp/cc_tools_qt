@@ -174,9 +174,8 @@ unsigned long long ToolsSocket::currTimestamp()
 {
     auto timestamp = std::chrono::high_resolution_clock::now();
     auto sinceEpoch = timestamp.time_since_epoch();
-    auto milliseconds =
-        std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
-    return milliseconds;
+    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+    return static_cast<unsigned long long>(milliseconds);
 }
 
 unsigned ToolsSocket::getDebugOutputLevel() const

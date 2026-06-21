@@ -19,6 +19,7 @@
 
 #include "BitmaskValueFieldWidget.h"
 
+#include <QtGlobal>
 #include <QtWidgets/QCheckBox>
 
 #include <algorithm>
@@ -140,6 +141,12 @@ void BitmaskValueFieldWidget::prepareCheckboxes()
     auto count = std::min(static_cast<unsigned>(bitNamesList.size()), m_fieldPtr->bitIdxLimit());
     m_checkboxes.resize(m_fieldPtr->bitIdxLimit());
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
+    static const auto QtCheckboxStateChangedSig = &QCheckBox::stateChanged;
+#else
+    static const auto QtCheckboxStateChangedSig = &QCheckBox::checkStateChanged;
+#endif
+
     for (unsigned idx = 0; idx < count; ++idx) {
         auto name = bitNamesList[static_cast<int>(idx)];
         if (name.isEmpty()) {
@@ -151,7 +158,7 @@ void BitmaskValueFieldWidget::prepareCheckboxes()
         m_checkboxes[idx] = checkbox;
 
         connect(
-            checkbox, &QCheckBox::stateChanged,
+            checkbox, QtCheckboxStateChangedSig,
             this, &BitmaskValueFieldWidget::checkBoxUpdated);
     }
 }

@@ -46,8 +46,7 @@ public:
 void updateMsgTimestamp(ToolsMessage& msg, const ToolsDataInfo::Timestamp& timestamp)
 {
     auto sinceEpoch = timestamp.time_since_epoch();
-    auto milliseconds =
-        std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch);
+    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch);
     property::message::ToolsMsgTimestamp().setTo(milliseconds.count(), msg);
 }
 
@@ -540,8 +539,7 @@ void ToolsMsgMgrImpl::reportError(const QString& error)
 {
     auto timestamp = std::chrono::high_resolution_clock::now();
     auto sinceEpoch = timestamp.time_since_epoch();
-    auto milliseconds =
-        std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
+    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(sinceEpoch).count();
     std::cerr << '[' << milliseconds << "] ERROR: " << error.toStdString() << std::endl;
 
     if (m_errorReportCallback) {

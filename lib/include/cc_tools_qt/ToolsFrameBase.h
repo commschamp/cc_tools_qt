@@ -148,7 +148,8 @@ protected:
         static_cast<void>(final);
 
         assert(consumed <= m_inData.size());
-        m_inData.erase(m_inData.begin(), m_inData.begin() + consumed);
+        using DiffType = typename std::iterator_traits<DataSeq::iterator>::difference_type;
+        m_inData.erase(m_inData.begin(), m_inData.begin() + static_cast<DiffType>(consumed));
 
         if (final && (!m_inData.empty())) {
             m_garbage.reserve(m_garbage.size() + m_inData.size());

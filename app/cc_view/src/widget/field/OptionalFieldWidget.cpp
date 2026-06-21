@@ -19,6 +19,7 @@
 
 #include "OptionalFieldWidget.h"
 
+#include <QtGlobal>
 #include <QtWidgets/QCheckBox>
 
 #include <algorithm>
@@ -37,6 +38,12 @@ OptionalFieldWidget::OptionalFieldWidget(
     m_ui.setupUi(this);
     setNameLabelWidget(m_ui.m_nameLabel);
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
+    static const auto QtCheckboxStateChangedSig = &QCheckBox::stateChanged;
+#else
+    static const auto QtCheckboxStateChangedSig = &QCheckBox::checkStateChanged;
+#endif
+
     commonConstruct();
 
     if (m_fieldPtr->getMode() == Mode::Tentative) {
@@ -44,7 +51,7 @@ OptionalFieldWidget::OptionalFieldWidget(
     }
 
     connect(
-        m_ui.m_optCheckBox, &QCheckBox::stateChanged,
+        m_ui.m_optCheckBox, QtCheckboxStateChangedSig,
         this, &OptionalFieldWidget::availabilityChanged);
 }
 

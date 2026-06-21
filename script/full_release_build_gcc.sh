@@ -2,7 +2,7 @@
 
 if [ -z "${CC}" ]; then
     export CC=gcc
-fi 
+fi
 
 if [ -z "${CC}" ]; then
     export CXX=g++
