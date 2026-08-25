@@ -131,7 +131,7 @@ jobs:
         VERBOSE: 1
 
     - name: Documentation
-      if: ${{matrix.type == 'Debug' matrix.cpp == '17'}}
+      if: ${{matrix.type == 'Debug' && matrix.cpp == '17'}}
       working-directory: ${{runner.workspace}}/build
       shell: bash
       run: make doc_cc_tools_qt
