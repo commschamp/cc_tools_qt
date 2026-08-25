@@ -80,7 +80,7 @@ jobs:
         type: [Debug, Release]
         cc_ver: [13, 14, 15]
         cpp: [17, 20, 23]
-        qt_ver: [5, 6]
+        qt_ver: [6]
         exclude:
           - cc_ver: 13
             cpp: 23
@@ -93,7 +93,7 @@ jobs:
 
     - name: Install Packages
       run: |
-        sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev \
+        sudo apt install qt${{matrix.qt_ver}}-base-dev qt${{matrix.qt_ver}}-serialport-dev \
           gcc-${{matrix.cc_ver}} g++-${{matrix.cc_ver}} doxygen dia
 
     - name: Create Build Environment
@@ -131,7 +131,7 @@ jobs:
         VERBOSE: 1
 
     - name: Documentation
-      if: ${{matrix.type == 'Debug' && matrix.qt_ver == '5' && matrix.cpp == '17'}}
+      if: ${{matrix.type == 'Debug' matrix.cpp == '17'}}
       working-directory: ${{runner.workspace}}/build
       shell: bash
       run: make doc_cc_tools_qt
@@ -197,7 +197,7 @@ jobs:
         type: [Debug, Release]
         cc_ver: [17, 18, 19, 20, 21, 22]
         cpp: [17, 20, 23]
-        qt_ver: [5, 6]
+        qt_ver: [6]
         exclude:
           - cc_ver: 17
             cpp: 23
@@ -209,7 +209,7 @@ jobs:
       run: sudo apt-get update --fix-missing
 
     - name: Install Packages
-      run: sudo apt install qtbase5-dev qt6-base-dev libqt${{matrix.qt_ver}}serialport${{matrix.qt_ver}}-dev clang-${{matrix.cc_ver}}
+      run: sudo apt install qt${{matrix.qt_ver}}-base-dev qt${{matrix.qt_ver}}-serialport-dev clang-${{matrix.cc_ver}}
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
