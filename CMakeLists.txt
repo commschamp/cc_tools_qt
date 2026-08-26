@@ -112,6 +112,9 @@ include (${LibComms_DIR}/CC_Compile.cmake)
 cc_compile(${extra_opts})
 cc_msvc_force_warn_opt("/W4")
 
+include (${PROJECT_SOURCE_DIR}/cmake/CC_ToolsCompile.cmake)
+cc_tools_compile()
+
 #######################################################################
 
 if (CC_TOOLS_QT_INSTALL_LIBRARY_HEADERS)
