@@ -1,0 +1,11 @@
+macro (cc_tools_compile)
+    set (extra_flags_list)
+    if (CMAKE_COMPILER_IS_GNUCC)
+        if((CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 15) AND (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 16))
+            list (APPEND extra_flags_list "-Wno-error=free-nonheap-object")
+        endif()
+    endif ()
+
+    string(REPLACE ";" " " extra_flags "${extra_flags_list}")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${extra_flags}")
+endmacro()
