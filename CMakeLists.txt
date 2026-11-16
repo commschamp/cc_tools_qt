@@ -25,7 +25,7 @@ option (CC_TOOLS_QT_BUILD_PLUGIN_RAW_DATA_PROTOCOL "Build raw data protocol plug
 option (CC_TOOLS_QT_BUILD_PLUGIN_DEMO_PROTOCOL "Build demo protocol plugin." OFF)
 
 # Extra configuration variables
-# CC_TOOLS_QT_MAJOR_QT_VERSION - Major Qt version, defaults to 5.
+# CC_TOOLS_QT_MAJOR_QT_VERSION - Major Qt version, defaults to 6.
 # CC_TOOLS_QT_DEFAULT_NETWORK_PORT - Set default network port for the network plugins.
 # CC_TOOLS_QT_CCACHE_EXECUTABLE - Path to ccache executable
 
@@ -45,7 +45,7 @@ if ("${CMAKE_CXX_STANDARD}" VERSION_LESS "17")
 endif()
 
 if ("${CC_TOOLS_QT_MAJOR_QT_VERSION}" STREQUAL "")
-    set (CC_TOOLS_QT_MAJOR_QT_VERSION 5)
+    set (CC_TOOLS_QT_MAJOR_QT_VERSION 6)
 endif ()
 
 if (NOT "${CC_TOOLS_QT_DEFAULT_NETWORK_PORT}" STREQUAL "")

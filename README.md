@@ -62,10 +62,10 @@ cmake --build . --target install
 cmake --build . --target deploy_qt    
 ```
 
-The build should support both Qt5 (default) and Qt6. It is possible to force usage of 
+The build should support both Qt5 and Qt6 (default). It is possible to force usage of 
 specific Qt major version by using **CC_TOOLS_QT_MAJOR_QT_VERSION** cmake variable.
 ```
-cmake -DCC_TOOLS_QT_MAJOR_QT_VERSION=6 ...
+cmake -DCC_TOOLS_QT_MAJOR_QT_VERSION=5 ...
 ```
 
 It is highly recommended to open main [CMakeLists.txt](CMakeLists.txt) file and review the available

@@ -81,9 +81,7 @@ jobs:
         cc_ver: [14, 15]
         cpp: [17, 20, 23]
         qt_ver: [6]
-        exclude:
-          - cc_ver: 13
-            cpp: 23
+
 
     steps:
     - uses: actions/checkout@v4
