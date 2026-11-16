@@ -66,12 +66,6 @@ jobs:
       env:
         VERBOSE: 1
 
-    - name: Documentation
-      if: ${{matrix.type == 'Debug' && matrix.qt_ver == '5' && matrix.cpp == '17'}}
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: make doc_cc_tools_qt
-
   build_gcc_ubuntu_26_04:
     runs-on: ubuntu-26.04
     strategy:
