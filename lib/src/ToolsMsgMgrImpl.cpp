@@ -104,8 +104,20 @@ void ToolsMsgMgrImpl::clear()
         stop();
     }
 
-    m_socket.reset();
-    m_protocol.reset();
+    if (m_socket) {
+        disconnect(m_socket.get(), nullptr, this, nullptr);
+        m_socket.reset();
+    }
+
+    if (m_protocol) {
+        disconnect(m_protocol.get(), nullptr, this, nullptr);
+        m_protocol.reset();
+    }
+
+    for (auto& f : m_filters) {
+        disconnect(f.get(), nullptr, this, nullptr);
+    }
+
     m_filters.clear();
 }
 
@@ -266,14 +278,14 @@ void ToolsMsgMgrImpl::addMsgs(const ToolsMessagesList& msgs, bool reportAdded)
 
 void ToolsMsgMgrImpl::setSocket(ToolsSocketPtr socket)
 {
-    if (!socket) {
-        m_socket.reset();
-        return;
-    }
-
     if (m_socket) {
         // Disconnect all previous signals
         disconnect(m_socket.get(), nullptr, this, nullptr);
+    }
+
+    if (!socket) {
+        m_socket.reset();
+        return;
     }
 
     connect(
