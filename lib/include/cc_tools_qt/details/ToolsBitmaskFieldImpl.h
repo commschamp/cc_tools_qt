@@ -63,7 +63,7 @@ public:
     ToolsBitmaskFieldImpl& operator=(const ToolsBitmaskFieldImpl&) = delete;
 
 protected:
-    virtual bool bitValueImpl(unsigned idx) const override
+    [[nodiscard]] virtual bool bitValueImpl(unsigned idx) const override
     {
         return Base::field().getBitValue(idx);
     }
@@ -80,17 +80,17 @@ protected:
         setBitValueInternal(idx, value, Tag());
     }
 
-    virtual unsigned bitIdxLimitImpl() const override
+    [[nodiscard]] virtual unsigned bitIdxLimitImpl() const override
     {
         return std::numeric_limits<ValueType>::digits;
     }
 
-    virtual Ptr cloneImpl() override
+    [[nodiscard]] virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsBitmaskFieldImpl<TField>(Base::field()));
     }
 
-    virtual const QStringList& bitsImpl() const override
+    [[nodiscard]] virtual const QStringList& bitsImpl() const override
     {
         static const QStringList Bits = createBitsList();
         return Bits;
@@ -100,7 +100,7 @@ private:
     struct HasFeatureTag {};
     struct NoFeatureTag {};
 
-    static QStringList createBitsList()
+    [[nodiscard]] static QStringList createBitsList()
     {
         QStringList result;
         for (auto idx = 0U; idx < Field::BitIdx_numOfValues; ++idx) {
@@ -127,7 +127,7 @@ private:
     }
 };
 template <typename TField>
-auto makeBitmaskField(TField& field)
+[[nodiscard]] auto makeBitmaskField(TField& field)
 {
     return std::make_unique<ToolsBitmaskFieldImpl<TField>>(field);
 }

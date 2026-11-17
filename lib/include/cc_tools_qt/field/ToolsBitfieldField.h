@@ -41,7 +41,7 @@ public:
 
     virtual ~ToolsBitfieldField() noexcept;
 
-    ActPtr actClone();
+    [[nodiscard]] ActPtr actClone();
 
 protected:
     void dispatchImpl(ToolsFieldHandler& handler);

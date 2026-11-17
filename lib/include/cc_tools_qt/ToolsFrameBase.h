@@ -59,7 +59,7 @@ public:
     ToolsFrameBase() = default;
 
 protected:
-    virtual ToolsMessagesList readDataImpl(const ToolsDataInfo& dataInfo, bool final) override
+    [[nodiscard]] virtual ToolsMessagesList readDataImpl(const ToolsDataInfo& dataInfo, bool final) override
     {
         m_inData.reserve(m_inData.size() + dataInfo.m_data.size());
         m_inData.insert(m_inData.end(), dataInfo.m_data.begin(), dataInfo.m_data.end());
@@ -199,32 +199,32 @@ protected:
         updateExtraInfoInternal(jsonRawBytes, msg);
     }
 
-    virtual ToolsMessagePtr createInvalidMessageImpl() override
+    [[nodiscard]] virtual ToolsMessagePtr createInvalidMessageImpl() override
     {
         return ToolsMessagePtr(new InvalidMsg());
     }
 
-    virtual ToolsMessagePtr createRawDataMessageImpl() override
+    [[nodiscard]] virtual ToolsMessagePtr createRawDataMessageImpl() override
     {
         return ToolsMessagePtr(new RawDataMsg());
     }
 
-    virtual ToolsMessagePtr createExtraInfoMessageImpl() override
+    [[nodiscard]] virtual ToolsMessagePtr createExtraInfoMessageImpl() override
     {
         return ToolsMessagePtr(new ExtraInfoMsg());
     }
 
-    virtual ToolsMessagesList createAllMessagesImpl() override
+    [[nodiscard]] virtual ToolsMessagesList createAllMessagesImpl() override
     {
         return m_factory.createAllMessages();
     }
 
-    virtual ToolsMessagePtr createMessageImpl(const QString& idAsString, unsigned idx) override
+    [[nodiscard]] virtual ToolsMessagePtr createMessageImpl(const QString& idAsString, unsigned idx) override
     {
         return m_factory.createMessage(idAsString, idx);
     }
 
-    virtual DataSeq writeProtMsgImpl(const void* protInterface) override
+    [[nodiscard]] virtual DataSeq writeProtMsgImpl(const void* protInterface) override
     {
         assert(protInterface != nullptr);
         auto& msg = *(reinterpret_cast<const ProtInterface*>(protInterface));

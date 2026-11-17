@@ -33,10 +33,10 @@ public:
 protected:
     virtual void msgClickedImpl(ToolsMessagePtr msg, int idx) override;
     virtual void msgListClearedImpl(ToolsMessagesList&& msgs) override;
-    virtual QString msgPrefixImpl(const ToolsMessage& msg) const override;
-    virtual const QString& msgTooltipImpl() const override;
-    virtual Qt::GlobalColor getItemColourImpl(MsgType type, bool valid) const override;
-    virtual QString getTitleImpl() const override;
+    [[nodiscard]] virtual QString msgPrefixImpl(const ToolsMessage& msg) const override;
+    [[nodiscard]] virtual const QString& msgTooltipImpl() const override;
+    [[nodiscard]] virtual Qt::GlobalColor getItemColourImpl(MsgType type, bool valid) const override;
+    [[nodiscard]] virtual QString getTitleImpl() const override;
     virtual void saveMessagesImpl(const QString& filename) override;
 
 private:

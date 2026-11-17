@@ -38,16 +38,16 @@ public:
         const QString& name,
         QWidget* parentObj = nullptr);
 
-    QListWidgetItem* currentItem();
+    [[nodiscard]] QListWidgetItem* currentItem();
     void clear();
-    int count() const;
-    QListWidgetItem* item(int idx);
-    QListWidgetItem* takeItem(int idx);
+    [[nodiscard]] int count() const;
+    [[nodiscard]] QListWidgetItem* item(int idx);
+    [[nodiscard]] QListWidgetItem* takeItem(int idx);
     void addItem(const QString& name, const QString& desc);
     void setCurrentRow(int rowIdx);
     void setCurrentItem(QListWidgetItem* itemPtr);
-    int currentRow() const;
-    int getRow(QListWidgetItem* itemPtr) const;
+    [[nodiscard]] int currentRow() const;
+    [[nodiscard]] int getRow(QListWidgetItem* itemPtr) const;
     void insertItem(int row, QListWidgetItem* itemPtr);
 
 signals:

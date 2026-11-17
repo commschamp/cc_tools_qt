@@ -48,21 +48,21 @@ public:
 
     virtual ~ToolsVariantField() noexcept;
 
-    ToolsField* getCurrent();
+    [[nodiscard]] ToolsField* getCurrent();
 
-    const ToolsField* getCurrent() const;
+    [[nodiscard]] const ToolsField* getCurrent() const;
 
     void setCurrent(ToolsFieldPtr current);
 
     void updateCurrent();
 
-    QStringList membersNames() const;
+    [[nodiscard]] QStringList membersNames() const;
 
-    int getCurrentIndex() const;
+    [[nodiscard]] int getCurrentIndex() const;
 
     void setCurrentIndex(int index);
 
-    int getMembersCount() const;
+    [[nodiscard]] int getMembersCount() const;
 
     template <typename TFunc>
     void setMemberCreateCallback(TFunc&& func)
@@ -70,14 +70,14 @@ public:
         m_createMemberCb = std::forward<TFunc>(func);
     }
 
-    ActPtr actClone();
+    [[nodiscard]] ActPtr actClone();
 
 protected:
-    virtual QStringList membersNamesImpl() const = 0;
+    [[nodiscard]] virtual QStringList membersNamesImpl() const = 0;
     virtual void dispatchImpl(ToolsFieldHandler& handler);
-    virtual int getCurrentIndexImpl() const = 0;
+    [[nodiscard]] virtual int getCurrentIndexImpl() const = 0;
     virtual void setCurrentIndexImpl(int index) = 0;
-    virtual int getMembersCountImpl() const = 0;
+    [[nodiscard]] virtual int getMembersCountImpl() const = 0;
 
 private:
     MemberCreateCallbackFunc m_createMemberCb;

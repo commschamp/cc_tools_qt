@@ -70,7 +70,7 @@ public:
     void stop();
 
     /// @brief Report whether the socket has been properly started.
-    bool isRunning() const;
+    [[nodiscard]] bool isRunning() const;
 
     /// @brief Connect socket
     /// @details After the socket has been successfully started (see start()), the driving
@@ -89,7 +89,7 @@ public:
     void socketDisconnect();
 
     /// @brief Check socket connected
-    bool isSocketConnected() const;
+    [[nodiscard]] bool isSocketConnected() const;
 
     /// @brief Request socket to send data
     /// @details Invokes the sendDataImpl(), which must be implemented in
@@ -104,7 +104,7 @@ public:
     ///     needs to be auto-connected or the application should wait for
     ///     explicty user request.
     /// @return OR-ed values of @ref ConnectionProperty values.
-    unsigned connectionProperties() const;
+    [[nodiscard]] unsigned connectionProperties() const;
 
     /// @brief Apply inter-plugin configuration.
     /// @details Allows one plugin to influence the configuration of another.
@@ -166,7 +166,7 @@ protected:
     /// @details Invoked by connectionProperties(). In can be overriden by the
     ///     derived class.
     /// @return 0.
-    virtual unsigned connectionPropertiesImpl() const;
+    [[nodiscard]] virtual unsigned connectionPropertiesImpl() const;
 
     /// @brief Polymorphic inter-plugin configuration application.
     /// @details Invoked by the applyInterPluginConfig().
@@ -174,10 +174,10 @@ protected:
     virtual void applyInterPluginConfigImpl(const QVariantMap& props);
 
     /// @brief Get current timestamp
-    static unsigned long long currTimestamp();
+    [[nodiscard]] static unsigned long long currTimestamp();
 
     /// @brief Get current debug output level
-    unsigned getDebugOutputLevel() const;
+    [[nodiscard]] unsigned getDebugOutputLevel() const;
 
 protected slots:
     /// @brief Report new data has been received.

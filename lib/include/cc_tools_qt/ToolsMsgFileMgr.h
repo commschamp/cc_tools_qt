@@ -51,14 +51,14 @@ public:
     ToolsMsgFileMgr& operator=(const ToolsMsgFileMgr&);
     ToolsMsgFileMgr& operator=(ToolsMsgFileMgr&&);
 
-    const QString& getLastFile() const;
-    static const QString& getFilesFilter();
+    [[nodiscard]] const QString& getLastFile() const;
+    [[nodiscard]] static const QString& getFilesFilter();
 
-    ToolsMessagesList load(Type type, const QString& filename, ToolsProtocol& protocol);
+    [[nodiscard]] ToolsMessagesList load(Type type, const QString& filename, ToolsProtocol& protocol);
     bool save(Type type, const QString& filename, const ToolsMessagesList& msgs);
 
     using FileSaveHandler = std::shared_ptr<QFile>;
-    static FileSaveHandler startRecvSave(const QString& filename);
+    [[nodiscard]] static FileSaveHandler startRecvSave(const QString& filename);
     static void addToRecvSave(FileSaveHandler handler, const ToolsMessage& msg, bool flush = false);
     static void flushRecvFile(FileSaveHandler handler);
 

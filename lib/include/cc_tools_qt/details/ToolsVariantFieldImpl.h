@@ -61,12 +61,12 @@ public:
     ToolsVariantFieldImpl& operator=(const ToolsVariantFieldImpl&) = delete;
 
 protected:
-    virtual Ptr cloneImpl() override
+    [[nodiscard]] virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsVariantFieldImpl(Base::field()));
     }
 
-    virtual int getCurrentIndexImpl() const override
+    [[nodiscard]] virtual int getCurrentIndexImpl() const override
     {
         if (!Base::field().currentFieldValid()) {
             return -1;
@@ -85,14 +85,14 @@ protected:
         Base::field().selectField(static_cast<std::size_t>(index));
     }
 
-    virtual int getMembersCountImpl() const override
+    [[nodiscard]] virtual int getMembersCountImpl() const override
     {
         return
             static_cast<int>(
                 std::tuple_size<typename Base::Field::Members>::value);
     }
 
-    virtual QStringList membersNamesImpl() const override
+    [[nodiscard]] virtual QStringList membersNamesImpl() const override
     {
         QStringList names;
         comms::util::tupleForEachType<typename Field::Members>(MembersNameHelper(names));
@@ -118,7 +118,7 @@ private:
 };
 
 template <typename TField>
-auto makeVariantField(TField& field)
+[[nodiscard]] auto makeVariantField(TField& field)
 {
     return std::make_unique<ToolsVariantFieldImpl<TField>>(field);
 }

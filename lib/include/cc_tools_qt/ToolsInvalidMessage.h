@@ -68,7 +68,7 @@ public:
     virtual ~ToolsInvalidMessage() noexcept = default;
 
 protected:
-    virtual const char* nameImpl() const override
+    [[nodiscard]] virtual const char* nameImpl() const override
     {
         if (property::message::ToolsMsgTransportMsg().getFrom(*this)) {
             static const char* InvalidMsgStr = "???";
@@ -79,12 +79,12 @@ protected:
         return GarbageStr;
     }
 
-    virtual bool isValidImpl() const override
+    [[nodiscard]] virtual bool isValidImpl() const override
     {
         return false;
     }
 
-    virtual qlonglong numericIdImpl() const override
+    [[nodiscard]] virtual qlonglong numericIdImpl() const override
     {
         return 0;
     }
@@ -95,14 +95,14 @@ protected:
         assert(Must_not_be_called);
     }
 
-    virtual bool assignImpl([[maybe_unused]] const cc_tools_qt::ToolsMessage& other) override
+    [[nodiscard]] virtual bool assignImpl([[maybe_unused]] const cc_tools_qt::ToolsMessage& other) override
     {
         [[maybe_unused]] static constexpr bool Must_not_be_called = false;
         assert(Must_not_be_called);
         return false;
     }
 
-    virtual DataSeq encodeDataImpl() const override
+    [[nodiscard]] virtual DataSeq encodeDataImpl() const override
     {
         ToolsMessagePtr rawDataMsg = property::message::ToolsMsgRawDataMsg().getFrom(*this);
         if (!rawDataMsg) {
@@ -113,12 +113,12 @@ protected:
         return rawDataMsg->encodeData();
     }
 
-    virtual DataSeq encodeFramedImpl([[maybe_unused]] ToolsFrame& frame) const override
+    [[nodiscard]] virtual DataSeq encodeFramedImpl([[maybe_unused]] ToolsFrame& frame) const override
     {
         return encodeDataImpl();
     }
 
-    virtual typename Base::Ptr cloneImpl() const override
+    [[nodiscard]] virtual typename Base::Ptr cloneImpl() const override
     {
         ToolsMessagePtr rawDataMsg = property::message::ToolsMsgRawDataMsg().getFrom(*this);
         auto ptr = Base::cloneImpl();
@@ -130,7 +130,7 @@ protected:
         return ptr;
     }
 
-    virtual FieldsList transportFieldsImpl() override
+    [[nodiscard]] virtual FieldsList transportFieldsImpl() override
     {
         return FieldsList();
     }

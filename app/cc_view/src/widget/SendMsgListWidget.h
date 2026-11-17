@@ -33,8 +33,8 @@ public:
 protected:
     virtual void msgClickedImpl(ToolsMessagePtr msg, int idx) override;
     virtual void msgDoubleClickedImpl(ToolsMessagePtr msg, int idx) override;
-    virtual QString msgPrefixImpl(const ToolsMessage& msg) const override;
-    virtual const QString& msgTooltipImpl() const override;
+    [[nodiscard]] virtual QString msgPrefixImpl(const ToolsMessage& msg) const override;
+    [[nodiscard]] virtual const QString& msgTooltipImpl() const override;
     virtual void stateChangedImpl(int state) override;
     virtual void msgMovedImpl(int idx) override;
     virtual void loadMessagesImpl(const QString& filename, ToolsProtocol& protocol) override;

@@ -56,32 +56,32 @@ public:
             NumOfValues
         };
 
-        const QString& getIid() const
+        [[nodiscard]] const QString& getIid() const
         {
             return m_iid;
         }
 
-        const QString& getName() const
+        [[nodiscard]] const QString& getName() const
         {
             return m_name;
         }
 
-        const QString& getDescription() const
+        [[nodiscard]] const QString& getDescription() const
         {
             return m_desc;
         }
 
-        Type getType() const
+        [[nodiscard]] Type getType() const
         {
             return m_type;
         }
 
-        const QString& getVersion() const
+        [[nodiscard]] const QString& getVersion() const
         {
             return m_version;
         }
 
-        QString getNameWithVersion() const;
+        [[nodiscard]] QString getNameWithVersion() const;
 
     private:
         PluginInfo() = default;
@@ -102,21 +102,21 @@ public:
     ~ToolsPluginMgr() noexcept;
 
     void setPluginsDir(const QString& pluginDir);
-    const ListOfPluginInfos& getAvailablePlugins();
-    const ListOfPluginInfos& getAppliedPlugins() const;
+    [[nodiscard]] const ListOfPluginInfos& getAvailablePlugins();
+    [[nodiscard]] const ListOfPluginInfos& getAppliedPlugins() const;
     void setAppliedPlugins(const ListOfPluginInfos& plugins);
-    ListOfPluginInfos loadPluginsFromConfig(const QVariantMap& config);
-    ListOfPluginInfos loadPluginsFromConfigFile(const QString& filename);
+    [[nodiscard]] ListOfPluginInfos loadPluginsFromConfig(const QVariantMap& config);
+    [[nodiscard]] ListOfPluginInfos loadPluginsFromConfigFile(const QString& filename);
     bool savePluginsToConfigFile(const ListOfPluginInfos& infos, const QString& filename);
-    ToolsPlugin* loadPlugin(const PluginInfo& info);
-    bool hasAppliedPlugins() const;
-    bool needsReload(const ListOfPluginInfos& infos) const;
-    bool isProtocolChanging(const ListOfPluginInfos& infos) const;
+    [[nodiscard]] ToolsPlugin* loadPlugin(const PluginInfo& info);
+    [[nodiscard]] bool hasAppliedPlugins() const;
+    [[nodiscard]] bool needsReload(const ListOfPluginInfos& infos) const;
+    [[nodiscard]] bool isProtocolChanging(const ListOfPluginInfos& infos) const;
     void unloadApplied();
     bool unloadAppliedPlugin(const PluginInfo& info);
-    static QVariantMap getConfigForPlugins(const ListOfPluginInfos& infos);
-    const QString& getLastFile() const;
-    static const QString& getFilesFilter();
+    [[nodiscard]] static QVariantMap getConfigForPlugins(const ListOfPluginInfos& infos);
+    [[nodiscard]] const QString& getLastFile() const;
+    [[nodiscard]] static const QString& getFilesFilter();
 
 private:
     std::unique_ptr<ToolsPluginMgrImpl> m_impl;

@@ -42,7 +42,7 @@ public:
 
     virtual ~ToolsBundleField() noexcept;
 
-    ActPtr actClone();
+    [[nodiscard]] ActPtr actClone();
 
 protected:
     void dispatchImpl(ToolsFieldHandler& handler);

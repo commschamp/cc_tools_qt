@@ -58,13 +58,13 @@ protected:
     {
     }
 
-    virtual const char* nameImpl() const override
+    [[nodiscard]] virtual const char* nameImpl() const override
     {
         static_assert(Field::hasName(), "The field class is expected use comms::option::def::HasName and define name() function.");
         return m_field.name();
     }
 
-    virtual std::size_t lengthImpl() const override
+    [[nodiscard]] virtual std::size_t lengthImpl() const override
     {
         return m_field.length();
     }
@@ -74,27 +74,27 @@ protected:
         return m_field.valid();
     }
 
-    virtual bool isReadOnlyImpl() const override
+    [[nodiscard]] virtual bool isReadOnlyImpl() const override
     {
         return Field::hasFixedValue();
     }
 
-    virtual bool isHiddenSerializationImpl() const override
+    [[nodiscard]] virtual bool isHiddenSerializationImpl() const override
     {
         return Field::hasEmptySerialization();
     }
 
-    Field& field()
+    [[nodiscard]] Field& field()
     {
         return m_field;
     }
 
-    const Field& field() const
+    [[nodiscard]] const Field& field() const
     {
         return m_field;
     }
 
-    virtual SerialisedSeq getSerialisedValueImpl() const override
+    [[nodiscard]] virtual SerialisedSeq getSerialisedValueImpl() const override
     {
         SerialisedSeq seq;
         seq.reserve(m_field.length());
@@ -145,7 +145,7 @@ protected:
         return es == comms::ErrorStatus::Success;
     }
 
-    virtual bool canWriteImpl() const override
+    [[nodiscard]] virtual bool canWriteImpl() const override
     {
         return m_field.canWrite();
     }
@@ -207,7 +207,7 @@ private:
             NoPrefixSuffixTag
         >;
 
-    bool writeSerialisedSize(SerialisedSeq& seq, std::size_t sizeVal, HasPrefixSuffixTag)
+    [[nodiscard]] bool writeSerialisedSize(SerialisedSeq& seq, std::size_t sizeVal, HasPrefixSuffixTag)
     {
         using SizePrefixField = typename Field::SizeFieldPrefix;
 
@@ -218,12 +218,12 @@ private:
         return es == comms::ErrorStatus::Success;
     }
 
-    bool writeSerialisedSize([[maybe_unused]] SerialisedSeq& seq, [[maybe_unused]] std::size_t sizeVal, NoPrefixSuffixTag)
+    [[nodiscard]] bool writeSerialisedSize([[maybe_unused]] SerialisedSeq& seq, [[maybe_unused]] std::size_t sizeVal, NoPrefixSuffixTag)
     {
         return true;
     }
 
-    bool writeSerialisedLength(SerialisedSeq& seq, std::size_t sizeVal, HasPrefixSuffixTag)
+    [[nodiscard]] bool writeSerialisedLength(SerialisedSeq& seq, std::size_t sizeVal, HasPrefixSuffixTag)
     {
         using LengthPrefixField = typename Field::SerLengthFieldPrefix;
 
@@ -234,12 +234,12 @@ private:
         return es == comms::ErrorStatus::Success;
     }
 
-    bool writeSerialisedLength([[maybe_unused]] SerialisedSeq& seq, [[maybe_unused]] std::size_t sizeVal, NoPrefixSuffixTag)
+    [[nodiscard]] bool writeSerialisedLength([[maybe_unused]] SerialisedSeq& seq, [[maybe_unused]] std::size_t sizeVal, NoPrefixSuffixTag)
     {
         return true;
     }
 
-    bool writeTrailSuffix(SerialisedSeq& seq, HasPrefixSuffixTag)
+    [[nodiscard]] bool writeTrailSuffix(SerialisedSeq& seq, HasPrefixSuffixTag)
     {
         using TrailingSuffixField = typename Field::TrailingFieldSuffix;
 
@@ -249,12 +249,12 @@ private:
         return es == comms::ErrorStatus::Success;
     }
 
-    bool writeTrailSuffix([[maybe_unused]] SerialisedSeq& seq, NoPrefixSuffixTag)
+    [[nodiscard]] bool writeTrailSuffix([[maybe_unused]] SerialisedSeq& seq, NoPrefixSuffixTag)
     {
         return true;
     }
 
-    bool writeTermSuffix(SerialisedSeq& seq, HasPrefixSuffixTag)
+    [[nodiscard]] bool writeTermSuffix(SerialisedSeq& seq, HasPrefixSuffixTag)
     {
         using TermSuffixField = typename Field::TerminationFieldSuffix;
         TermSuffixField termSuffixField;
@@ -263,7 +263,7 @@ private:
         return es == comms::ErrorStatus::Success;
     }
 
-    bool writeTermSuffix([[maybe_unused]] SerialisedSeq& seq, NoPrefixSuffixTag)
+    [[nodiscard]] bool writeTermSuffix([[maybe_unused]] SerialisedSeq& seq, NoPrefixSuffixTag)
     {
         return true;
     }

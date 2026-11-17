@@ -84,8 +84,7 @@ public:
     virtual ~ToolsRawDataMessage() noexcept = default;
 
 protected:
-    virtual const char*
-    nameImpl() const override
+    [[nodiscard]] virtual const char* nameImpl() const override
     {
         static const char* Str = "Generic Raw Data Message";
         return Str;
@@ -104,7 +103,7 @@ protected:
         return false;
     }
 
-    virtual FieldsList transportFieldsImpl() override
+    [[nodiscard]] virtual FieldsList transportFieldsImpl() override
     {
         return FieldsList();
     }

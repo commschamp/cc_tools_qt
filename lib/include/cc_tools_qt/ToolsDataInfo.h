@@ -59,11 +59,11 @@ struct CC_TOOLS_API ToolsDataInfo
 using ToolsDataInfoPtr = std::shared_ptr<ToolsDataInfo>;
 
 /// @brief Dynamically allocate @ref ToolsDataInfo and return in in @ref ToolsDataInfoPtr;
-CC_TOOLS_API ToolsDataInfoPtr makeDataInfo();
+[[nodiscard]] CC_TOOLS_API ToolsDataInfoPtr makeDataInfo();
 
 /// @brief Dynamically allocate @ref ToolsDataInfo and return in in @ref ToolsDataInfoPtr;
 /// @details Automatically populate the timestamp.
-CC_TOOLS_API ToolsDataInfoPtr makeDataInfoTimed();
+[[nodiscard]] CC_TOOLS_API ToolsDataInfoPtr makeDataInfoTimed();
 
 }  // namespace cc_tools_qt
 

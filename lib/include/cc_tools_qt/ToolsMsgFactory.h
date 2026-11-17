@@ -34,15 +34,15 @@ class CC_TOOLS_API ToolsMsgFactory
 public:
     virtual ~ToolsMsgFactory();
 
-    ToolsMessagePtr createMessage(const QString& idAsString, unsigned idx = 0);
-    ToolsMessagePtr createMessage(const qlonglong id, unsigned idx = 0);
-    ToolsMessagesList createAllMessages();
+    [[nodiscard]] ToolsMessagePtr createMessage(const QString& idAsString, unsigned idx = 0);
+    [[nodiscard]] ToolsMessagePtr createMessage(const qlonglong id, unsigned idx = 0);
+    [[nodiscard]] ToolsMessagesList createAllMessages();
 
 protected:
     using MessagesListInternal = std::vector<ToolsMessagePtr>;
 
     ToolsMsgFactory();
-    virtual MessagesListInternal createAllMessagesImpl() = 0;
+    [[nodiscard]] virtual MessagesListInternal createAllMessagesImpl() = 0;
 
 private:
     void createDefaultMessagesIfNeeded();

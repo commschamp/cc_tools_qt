@@ -39,21 +39,21 @@ public:
 
     virtual ~ToolsBitmaskField() noexcept;
 
-    bool bitValue(unsigned idx) const;
+    [[nodiscard]] bool bitValue(unsigned idx) const;
 
     void setBitValue(unsigned idx, bool value);
 
-    unsigned bitIdxLimit() const;
+    [[nodiscard]] unsigned bitIdxLimit() const;
 
-    const QStringList& bits() const;
+    [[nodiscard]] const QStringList& bits() const;
 
-    ActPtr actClone();
+    [[nodiscard]] ActPtr actClone();
 
 protected:
-    virtual bool bitValueImpl(unsigned idx) const = 0;
+    [[nodiscard]] virtual bool bitValueImpl(unsigned idx) const = 0;
     virtual void setBitValueImpl(unsigned idx, bool value) = 0;
-    virtual unsigned bitIdxLimitImpl() const = 0;
-    virtual const QStringList& bitsImpl() const = 0;
+    [[nodiscard]] virtual unsigned bitIdxLimitImpl() const = 0;
+    [[nodiscard]] virtual const QStringList& bitsImpl() const = 0;
 
     virtual void dispatchImpl(ToolsFieldHandler& handler) override;
 };

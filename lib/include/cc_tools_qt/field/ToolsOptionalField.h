@@ -41,22 +41,22 @@ public:
     ToolsOptionalField();
     virtual ~ToolsOptionalField() noexcept;
 
-    Mode getMode() const;
+    [[nodiscard]] Mode getMode() const;
 
     void setMode(Mode mode);
 
-    bool hasField() const;
+    [[nodiscard]] bool hasField() const;
 
-    ToolsField& getField();
+    [[nodiscard]] ToolsField& getField();
 
-    const ToolsField& getField() const;
+    [[nodiscard]] const ToolsField& getField() const;
 
     void setField(ToolsFieldPtr fieldPtr);
 
-    ActPtr actClone();
+    [[nodiscard]] ActPtr actClone();
 
 protected:
-    virtual Mode getModeImpl() const = 0;
+    [[nodiscard]] virtual Mode getModeImpl() const = 0;
     virtual void setModeImpl(Mode mode) = 0;
 
     void dispatchImpl(ToolsFieldHandler& handler);

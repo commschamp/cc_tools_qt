@@ -60,8 +60,8 @@ private:
     void refreshUpButton(QAction* button);
     void refreshDownButton(QAction* button);
 
-    bool msgSelected() const;
-    bool listEmpty() const;
+    [[nodiscard]] bool msgSelected() const;
+    [[nodiscard]] bool listEmpty() const;
 
     QAction* m_startStopButton = nullptr;
     QAction* m_startStopAllButton = nullptr;

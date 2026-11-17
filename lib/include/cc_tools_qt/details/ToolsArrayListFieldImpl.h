@@ -71,7 +71,7 @@ public:
     }
 
 protected:
-    virtual bool isHiddenSerializationImpl() const override
+    [[nodiscard]] virtual bool isHiddenSerializationImpl() const override
     {
         static constexpr bool NoPrefix =
             (!Field::hasElemFixedSerLengthFieldPrefix()) &&
@@ -117,12 +117,12 @@ protected:
         return false;
     }
 
-    virtual unsigned sizeImpl() const override
+    [[nodiscard]] virtual unsigned sizeImpl() const override
     {
         return static_cast<unsigned>(Base::field().value().size());
     }
 
-    virtual bool hasFixedSizeImpl() const override
+    [[nodiscard]] virtual bool hasFixedSizeImpl() const override
     {
         return Field::hasFixedSize();
     }
@@ -142,7 +142,7 @@ protected:
         adjustFixedSizeInternal(Tag());
     }
 
-    virtual Ptr cloneImpl() override
+    [[nodiscard]] virtual Ptr cloneImpl() override
     {
         ActPtr ptr(new ToolsArrayListFieldImpl(Base::field()));
         static_cast<ToolsArrayListFieldImpl<TField>*>(ptr.get())->m_wrapFieldFunc = m_wrapFieldFunc;
@@ -262,7 +262,7 @@ private:
 };
 
 template <typename TField>
-auto makeArrayListField(TField& field)
+[[nodiscard]] auto makeArrayListField(TField& field)
 {
     return std::make_unique<ToolsArrayListFieldImpl<TField>>(field);
 }

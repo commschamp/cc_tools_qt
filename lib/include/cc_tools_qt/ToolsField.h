@@ -51,51 +51,51 @@ public:
     ToolsField(const ToolsField&) = delete;
     ToolsField& operator=(const ToolsField&) = delete;
 
-    const char* name() const;
+    [[nodiscard]] const char* name() const;
 
-    std::size_t length() const;
+    [[nodiscard]] std::size_t length() const;
 
-    int width() const;
+    [[nodiscard]] int width() const;
 
-    bool valid() const;
+    [[nodiscard]] bool valid() const;
 
-    SerialisedSeq getSerialisedValue() const;
+    [[nodiscard]] SerialisedSeq getSerialisedValue() const;
 
     bool setSerialisedValue(const SerialisedSeq& value);
 
-    QString getSerialisedString() const;
+    [[nodiscard]] QString getSerialisedString() const;
 
     bool setSerialisedString(const QString& str);
 
     void dispatch(ToolsFieldHandler& handler);
 
-    Ptr clone();
+    [[nodiscard]] Ptr clone();
 
-    bool canWrite() const;
+    [[nodiscard]] bool canWrite() const;
 
     void reset();
 
-    Members& getMembers();
-    const Members& getMembers() const;
+    [[nodiscard]] Members& getMembers();
+    [[nodiscard]] const Members& getMembers() const;
     void setMembers(Members&& members);
 
     void forceReadOnly();
-    bool isReadOnly() const;
+    [[nodiscard]] bool isReadOnly() const;
 
     void forceHiddenSerialization();
-    bool isHiddenSerialization() const;
+    [[nodiscard]] bool isHiddenSerialization() const;
 
 protected:
-    virtual const char* nameImpl() const = 0;
-    virtual std::size_t lengthImpl() const = 0;
-    virtual bool validImpl() const = 0;
-    virtual bool isReadOnlyImpl() const = 0;
-    virtual bool isHiddenSerializationImpl() const = 0;
-    virtual SerialisedSeq getSerialisedValueImpl() const = 0;
+    [[nodiscard]] virtual const char* nameImpl() const = 0;
+    [[nodiscard]] virtual std::size_t lengthImpl() const = 0;
+    [[nodiscard]] virtual bool validImpl() const = 0;
+    [[nodiscard]] virtual bool isReadOnlyImpl() const = 0;
+    [[nodiscard]] virtual bool isHiddenSerializationImpl() const = 0;
+    [[nodiscard]] virtual SerialisedSeq getSerialisedValueImpl() const = 0;
     virtual bool setSerialisedValueImpl(const SerialisedSeq& value) = 0;
     virtual void dispatchImpl(ToolsFieldHandler& handler) = 0;
-    virtual Ptr cloneImpl() = 0;
-    virtual bool canWriteImpl() const = 0;
+    [[nodiscard]] virtual Ptr cloneImpl() = 0;
+    [[nodiscard]] virtual bool canWriteImpl() const = 0;
     virtual void resetImpl() = 0;
     virtual void membersUpdatedImpl();
 

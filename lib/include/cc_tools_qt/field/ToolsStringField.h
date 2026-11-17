@@ -40,18 +40,18 @@ public:
     ToolsStringField();
     virtual ~ToolsStringField() noexcept;
 
-    QString getValue() const;
+    [[nodiscard]] QString getValue() const;
 
     void setValue(const QString& val);
 
-    int maxSize() const;
+    [[nodiscard]] int maxSize() const;
 
-    ActPtr actClone();
+    [[nodiscard]] ActPtr actClone();
 
 protected:
-    virtual QString getValueImpl() const = 0;
+    [[nodiscard]] virtual QString getValueImpl() const = 0;
     virtual void setValueImpl(const QString& val) = 0;
-    virtual int maxSizeImpl() const = 0;
+    [[nodiscard]] virtual int maxSizeImpl() const = 0;
 
     void dispatchImpl(ToolsFieldHandler& handler);
 };

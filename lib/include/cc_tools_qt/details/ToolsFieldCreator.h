@@ -54,7 +54,7 @@ public:
     explicit ToolsFieldCreator(FieldsList& fields) : m_fields(fields) {}
 
     template <typename TField>
-    static ToolsFieldPtr createField(TField& field)
+    [[nodiscard]] static ToolsFieldPtr createField(TField& field)
     {
         using DecayedField = typename std::decay<decltype(field)>::type;
         using Tag = typename DecayedField::CommsTag;
@@ -110,7 +110,7 @@ private:
     };
 
     template <typename TField>
-    static ToolsFieldPtr createFieldInternal(TField& field, IntValueTag)
+    [[nodiscard]] static ToolsFieldPtr createFieldInternal(TField& field, IntValueTag)
     {
         using FieldType = std::decay_t<decltype(field)>;
         using ValueType = typename FieldType::ValueType;
@@ -129,37 +129,37 @@ private:
     }
 
     template <typename TField>
-    static ToolsFieldPtr createFieldInternal(TField& field, RegularIntTag)
+    [[nodiscard]] static ToolsFieldPtr createFieldInternal(TField& field, RegularIntTag)
     {
         return makeIntField(field);
     }
 
     template <typename TField>
-    static ToolsFieldPtr createFieldInternal(TField& field, BigUnsignedTag)
+    [[nodiscard]] static ToolsFieldPtr createFieldInternal(TField& field, BigUnsignedTag)
     {
         return makeUnsignedLongField(field);
     }
 
     template <typename TField>
-    static ToolsFieldPtr createFieldInternal(TField& field, BitmaskValueTag)
+    [[nodiscard]] static ToolsFieldPtr createFieldInternal(TField& field, BitmaskValueTag)
     {
         return makeBitmaskField(field);
     }
 
     template <typename TField>
-    static ToolsFieldPtr createFieldInternal(TField& field, EnumValueTag)
+    [[nodiscard]] static ToolsFieldPtr createFieldInternal(TField& field, EnumValueTag)
     {
         return makeEnumField(field);
     }
 
     template <typename TField>
-    static ToolsFieldPtr createFieldInternal(TField& field, StringTag)
+    [[nodiscard]] static ToolsFieldPtr createFieldInternal(TField& field, StringTag)
     {
         return makeStringField(field);
     }
 
     template <typename TField>
-    static ToolsFieldPtr createFieldInternal(TField& field, BitfieldTag)
+    [[nodiscard]] static ToolsFieldPtr createFieldInternal(TField& field, BitfieldTag)
     {
         auto toolsField = makeBitfieldField(field);
 
@@ -182,7 +182,7 @@ private:
     }
 
     template <typename TField>
-    static ToolsFieldPtr createFieldInternal(TField& field, OptionalTag)
+    [[nodiscard]] static ToolsFieldPtr createFieldInternal(TField& field, OptionalTag)
     {
         auto toolsField = makeOptionalField(field);
         auto& wrappedField = field.field();
@@ -192,7 +192,7 @@ private:
     }
 
     template <typename TField>
-    static ToolsFieldPtr createFieldInternal(TField& field, BundleTag)
+    [[nodiscard]] static ToolsFieldPtr createFieldInternal(TField& field, BundleTag)
     {
         auto toolsField = makeBundleField(field);
 
@@ -215,13 +215,13 @@ private:
     }
 
     template <typename TField>
-    static ToolsFieldPtr createFieldInternal(TField& field, RawDataArrayListTag)
+    [[nodiscard]] static ToolsFieldPtr createFieldInternal(TField& field, RawDataArrayListTag)
     {
         return makeRawDataField(field);
     }
 
     template <typename TField>
-    static ToolsFieldPtr createFieldInternal(TField& field, FieldsArrayListTag)
+    [[nodiscard]] static ToolsFieldPtr createFieldInternal(TField& field, FieldsArrayListTag)
     {
         using DecayedField = std::decay_t<decltype(field)>;
         using CollectionType = typename DecayedField::ValueType;
@@ -243,13 +243,13 @@ private:
     }
 
     template <typename TField>
-    static ToolsFieldPtr createFieldInternal(TField& field, FloatValueTag)
+    [[nodiscard]] static ToolsFieldPtr createFieldInternal(TField& field, FloatValueTag)
     {
         return makeFloatField(field);
     }
 
     template <typename TField>
-    static ToolsFieldPtr createFieldInternal(TField& field, VariantTag)
+    [[nodiscard]] static ToolsFieldPtr createFieldInternal(TField& field, VariantTag)
     {
         auto toolsField = makeVariantField(field);
 
@@ -284,7 +284,7 @@ private:
     }
 
     template <typename TField, typename TTag>
-    static ToolsFieldPtr createFieldInternal(TField& field, TTag)
+    [[nodiscard]] static ToolsFieldPtr createFieldInternal(TField& field, TTag)
     {
         return makeUnknownField(field);
     }

@@ -24,14 +24,14 @@
 namespace cc_tools_qt
 {
 
-QString getRootDir();
+[[nodiscard]] QString getRootDir();
 
-QString getPluginsDir();
+[[nodiscard]] QString getPluginsDir();
 
-QString getConfigDir();
+[[nodiscard]] QString getConfigDir();
 
-QString getAppDataDir();
+[[nodiscard]] QString getAppDataDir();
 
-QString getGlobalDataDir();
+[[nodiscard]] QString getGlobalDataDir();
 
 } // namespace cc_tools_qt

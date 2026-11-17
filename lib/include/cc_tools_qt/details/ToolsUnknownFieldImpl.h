@@ -50,14 +50,14 @@ public:
     ToolsUnknownFieldImpl& operator=(const ToolsUnknownFieldImpl&) = delete;
 
 protected:
-    virtual Ptr cloneImpl() override
+    [[nodiscard]] virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsUnknownFieldImpl<TField>(Base::field()));
     }
 };
 
 template <typename TField>
-auto makeUnknownField(TField& field)
+[[nodiscard]] auto makeUnknownField(TField& field)
 {
     return std::make_unique<ToolsUnknownFieldImpl<TField>>(field);
 }

@@ -60,17 +60,17 @@ public:
     ToolsUnsignedLongFieldImpl& operator=(const ToolsUnsignedLongFieldImpl&) = delete;
 
 protected:
-    virtual UnderlyingType minValueImpl() const override
+    [[nodiscard]] virtual UnderlyingType minValueImpl() const override
     {
         return std::numeric_limits<typename Field::ValueType>::min();
     }
 
-    virtual UnderlyingType maxValueImpl() const override
+    [[nodiscard]] virtual UnderlyingType maxValueImpl() const override
     {
         return std::numeric_limits<typename Field::ValueType>::max();
     }
 
-    virtual double getScaledImpl() const override
+    [[nodiscard]] virtual double getScaledImpl() const override
     {
         return Base::field().template scaleAs<double>();
     }
@@ -80,29 +80,29 @@ protected:
         Base::field().setScaled(value);
     }
 
-    virtual double scaleValueImpl(UnderlyingType value) const override
+    [[nodiscard]] virtual double scaleValueImpl(UnderlyingType value) const override
     {
         Field fieldTmp;
         fieldTmp.setValue(value);
         return fieldTmp.template scaleAs<double>();
     }
 
-    virtual bool isSignedImpl() const override
+    [[nodiscard]] virtual bool isSignedImpl() const override
     {
         return std::is_signed<typename Field::ValueType>::value;
     }
 
-    virtual std::size_t valueTypeSizeImpl() const override
+    [[nodiscard]] virtual std::size_t valueTypeSizeImpl() const override
     {
         return sizeof(typename Field::ValueType);
     }
 
-    virtual Ptr cloneImpl() override
+    [[nodiscard]] virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsUnsignedLongFieldImpl<TField>(Base::field()));
     }
 
-    virtual const SpecialsList& specialsImpl() const override
+    [[nodiscard]] virtual const SpecialsList& specialsImpl() const override
     {
         using Tag =
             std::conditional_t<
@@ -114,7 +114,7 @@ protected:
         return specialsInternal(Tag());
     }
 
-    virtual int scaledDecimalsImpl() const override
+    [[nodiscard]] virtual int scaledDecimalsImpl() const override
     {
         using Tag =
             std::conditional_t<
@@ -126,7 +126,7 @@ protected:
         return scaledDecimalsInternal(Tag());
     }
 
-    virtual UnderlyingType getDisplayValueImpl() const override
+    [[nodiscard]] virtual UnderlyingType getDisplayValueImpl() const override
     {
         return static_cast<UnderlyingType>(Base::field().getDisplayValue());
     }
@@ -147,29 +147,29 @@ private:
     struct HasFeatureTag{};
     struct NoFeatureTag{};
 
-    static const SpecialsList& specialsInternal(HasFeatureTag)
+    [[nodiscard]] static const SpecialsList& specialsInternal(HasFeatureTag)
     {
         static const SpecialsList List = createSpecialsList();
         return List;
     }
 
-    static const SpecialsList& specialsInternal(NoFeatureTag)
+    [[nodiscard]] static const SpecialsList& specialsInternal(NoFeatureTag)
     {
         static const SpecialsList List;
         return List;
     }
 
-    static int scaledDecimalsInternal(HasFeatureTag)
+    [[nodiscard]] static int scaledDecimalsInternal(HasFeatureTag)
     {
         return Field::displayDecimals();
     }
 
-    static int scaledDecimalsInternal(NoFeatureTag)
+    [[nodiscard]] static int scaledDecimalsInternal(NoFeatureTag)
     {
         return 0;
     }
 
-    static SpecialsList createSpecialsList()
+    [[nodiscard]] static SpecialsList createSpecialsList()
     {
         SpecialsList result;
         auto mapInfo = Field::specialNamesMap();
@@ -194,7 +194,7 @@ private:
 };
 
 template <typename TField>
-auto makeUnsignedLongField(TField& field)
+[[nodiscard]] auto makeUnsignedLongField(TField& field)
 {
     return std::make_unique<ToolsUnsignedLongFieldImpl<TField>>(field);
 }

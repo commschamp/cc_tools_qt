@@ -27,33 +27,33 @@ namespace cc_tools_qt
 namespace icon
 {
 
-const QIcon& appIcon();
-const QIcon& add();
-const QIcon& addRaw();
-const QIcon& remove();
-const QIcon& clear();
-const QIcon& editClear();
-const QIcon& top();
-const QIcon& up();
-const QIcon& down();
-const QIcon& bottom();
-const QIcon& upload();
-const QIcon& save();
-const QIcon& saveAs();
-const QIcon& start();
-const QIcon& startAll();
-const QIcon& stop();
-const QIcon& edit();
-const QIcon& showRecv();
-const QIcon& showSent();
-const QIcon& pluginEdit();
-const QIcon& errorLog();
-const QIcon& connect();
-const QIcon& disconnect();
-const QIcon& comment();
-const QIcon& dup();
-const QIcon& filterEdit();
-const QIcon& filterApply();
+[[nodiscard]] const QIcon& appIcon();
+[[nodiscard]] const QIcon& add();
+[[nodiscard]] const QIcon& addRaw();
+[[nodiscard]] const QIcon& remove();
+[[nodiscard]] const QIcon& clear();
+[[nodiscard]] const QIcon& editClear();
+[[nodiscard]] const QIcon& top();
+[[nodiscard]] const QIcon& up();
+[[nodiscard]] const QIcon& down();
+[[nodiscard]] const QIcon& bottom();
+[[nodiscard]] const QIcon& upload();
+[[nodiscard]] const QIcon& save();
+[[nodiscard]] const QIcon& saveAs();
+[[nodiscard]] const QIcon& start();
+[[nodiscard]] const QIcon& startAll();
+[[nodiscard]] const QIcon& stop();
+[[nodiscard]] const QIcon& edit();
+[[nodiscard]] const QIcon& showRecv();
+[[nodiscard]] const QIcon& showSent();
+[[nodiscard]] const QIcon& pluginEdit();
+[[nodiscard]] const QIcon& errorLog();
+[[nodiscard]] const QIcon& connect();
+[[nodiscard]] const QIcon& disconnect();
+[[nodiscard]] const QIcon& comment();
+[[nodiscard]] const QIcon& dup();
+[[nodiscard]] const QIcon& filterEdit();
+[[nodiscard]] const QIcon& filterApply();
 
 }  // namespace icon
 

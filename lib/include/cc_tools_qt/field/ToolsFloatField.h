@@ -45,28 +45,28 @@ public:
     ToolsFloatField();
     virtual ~ToolsFloatField() noexcept;
 
-    bool isNan() const;
+    [[nodiscard]] bool isNan() const;
     void setNan();
-    bool isInf() const;
+    [[nodiscard]] bool isInf() const;
     void setInf();
-    bool isMinusInf() const;
+    [[nodiscard]] bool isMinusInf() const;
     void setMinusInf();
-    double getEpsilon() const;
-    const SpecialsList& specials() const;
-    int decimals() const;
+    [[nodiscard]] double getEpsilon() const;
+    [[nodiscard]] const SpecialsList& specials() const;
+    [[nodiscard]] int decimals() const;
 
-    ActPtr actClone();
+    [[nodiscard]] ActPtr actClone();
 
 protected:
-    virtual bool isNanImpl() const = 0;
+    [[nodiscard]] virtual bool isNanImpl() const = 0;
     virtual void setNanImpl() = 0;
-    virtual bool isInfImpl() const = 0;
+    [[nodiscard]] virtual bool isInfImpl() const = 0;
     virtual void setInfImpl() = 0;
-    virtual bool isMinusInfImpl() const = 0;
+    [[nodiscard]] virtual bool isMinusInfImpl() const = 0;
     virtual void setMinusInfImpl() = 0;
-    virtual double getEpsilonImpl() const = 0;
-    virtual const SpecialsList& specialsImpl() const = 0;
-    virtual int decimalsImpl() const = 0;
+    [[nodiscard]] virtual double getEpsilonImpl() const = 0;
+    [[nodiscard]] virtual const SpecialsList& specialsImpl() const = 0;
+    [[nodiscard]] virtual int decimalsImpl() const = 0;
 
     virtual void dispatchImpl(ToolsFieldHandler& handler) override;
 };

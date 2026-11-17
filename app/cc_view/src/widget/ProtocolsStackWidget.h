@@ -38,8 +38,8 @@ public:
 
     void displayMessage(ToolsMessagePtr msg, bool force);
     void clear();
-    bool isAppMessageSelected();
-    bool isExtraInfoSelected();
+    [[nodiscard]] bool isAppMessageSelected();
+    [[nodiscard]] bool isExtraInfoSelected();
 
 signals:
     void sigMessageSelected(ToolsMessagePtr msg, bool editEnabled);
@@ -49,7 +49,7 @@ private slots:
 
 private:
     void reportMessageSelected(QTreeWidgetItem* item);
-    static ToolsMessagePtr msgFromItem(QTreeWidgetItem* item);
+    [[nodiscard]] static ToolsMessagePtr msgFromItem(QTreeWidgetItem* item);
 
     Ui::ProtocolsStackWidget m_ui;
 };

@@ -44,12 +44,12 @@ public:
     ToolsEnumField();
     virtual ~ToolsEnumField() noexcept;
 
-    const ValueInfosList& values() const;
+    [[nodiscard]] const ValueInfosList& values() const;
 
-    ActPtr actClone();
+    [[nodiscard]] ActPtr actClone();
 
 protected:
-    virtual const ValueInfosList& valuesImpl() const = 0;
+    [[nodiscard]] virtual const ValueInfosList& valuesImpl() const = 0;
 
     virtual void dispatchImpl(ToolsFieldHandler& handler) override;
 };

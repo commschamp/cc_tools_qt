@@ -46,8 +46,8 @@ public:
     void stop();
     void clear();
 
-    ToolsSocketPtr getSocket() const;
-    ToolsProtocolPtr getProtocol() const;
+    [[nodiscard]] ToolsSocketPtr getSocket() const;
+    [[nodiscard]] ToolsProtocolPtr getProtocol() const;
     void setRecvEnabled(bool enabled);
 
     void deleteMsg(ToolsMessagePtr msg);
@@ -56,7 +56,7 @@ public:
 
     void sendMsgs(ToolsMessagesList&& msgs);
 
-    const ToolsMessagesList& getAllMsgs() const;
+    [[nodiscard]] const ToolsMessagesList& getAllMsgs() const;
     void addMsgs(const ToolsMessagesList& msgs, bool reportAdded = true);
 
     void setSocket(ToolsSocketPtr socket);

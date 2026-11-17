@@ -59,8 +59,7 @@ public:
     ToolsStringFieldImpl& operator=(const ToolsStringFieldImpl&) = delete;
 
 protected:
-
-    virtual QString getValueImpl() const override
+    [[nodiscard]] virtual QString getValueImpl() const override
     {
         auto& strField = Base::field();
         return QString::fromUtf8(strField.getValue().c_str(), static_cast<int>(strField.getValue().size()));
@@ -85,12 +84,12 @@ protected:
         return false;
     }
 
-    virtual int maxSizeImpl() const override
+    [[nodiscard]] virtual int maxSizeImpl() const override
     {
         return maxSizeInternal(SizeExistanceTag());
     }
 
-    virtual Ptr cloneImpl() override
+    [[nodiscard]] virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsStringFieldImpl<TField>(Base::field()));
     }
@@ -114,7 +113,7 @@ private:
         >;
 
     template <typename TPrefixField>
-    static int maxSizeByPrefix()
+    [[nodiscard]] static int maxSizeByPrefix()
     {
         if (sizeof(int) <= TPrefixField::maxLength()) {
             return std::numeric_limits<int>::max();
@@ -126,19 +125,19 @@ private:
         return static_cast<int>((1U << shift) - 1);
     }
 
-    static int maxSizeInternal(SizeFieldExistsTag)
+    [[nodiscard]] static int maxSizeInternal(SizeFieldExistsTag)
     {
         using SizeField = typename Field::SizeFieldPrefix;
         return maxSizeByPrefix<SizeField>();
     }
 
-    static int maxSizeInternal(SerLengthFieldExistsTag)
+    [[nodiscard]] static int maxSizeInternal(SerLengthFieldExistsTag)
     {
         using LengthField = typename Field::SerLengthFieldPrefix;
         return maxSizeByPrefix<LengthField>();
     }
 
-    int maxSizeInternal(NoSizeFieldTag) const
+    [[nodiscard]] int maxSizeInternal(NoSizeFieldTag) const
     {
         return
             static_cast<int>(
@@ -160,7 +159,7 @@ private:
 };
 
 template <typename TField>
-auto makeStringField(TField& field)
+[[nodiscard]] auto makeStringField(TField& field)
 {
     return std::make_unique<ToolsStringFieldImpl<TField>>(field);
 }

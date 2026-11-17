@@ -48,7 +48,7 @@ public:
     }
 
 protected:
-    virtual Mode getModeImpl() const override
+    [[nodiscard]] virtual Mode getModeImpl() const override
     {
         return Base::field().getMode();
     }
@@ -58,14 +58,14 @@ protected:
         Base::field().setMode(mode);
     }
 
-    virtual Ptr cloneImpl() override
+    [[nodiscard]] virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsOptionalFieldImpl<TField>(Base::field()));
     }
 };
 
 template <typename TField>
-auto makeOptionalField(TField& field)
+[[nodiscard]] auto makeOptionalField(TField& field)
 {
     return std::make_unique<ToolsOptionalFieldImpl<TField>>(field);
 }

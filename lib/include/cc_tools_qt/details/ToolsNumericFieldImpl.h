@@ -66,7 +66,7 @@ protected:
 
     virtual ~ToolsNumericFieldImpl() noexcept = default;
 
-    virtual UnderlyingType getValueImpl() const override
+    [[nodiscard]] virtual UnderlyingType getValueImpl() const override
     {
         return static_cast<UnderlyingType>(Base::field().getValue());
     }
@@ -83,12 +83,12 @@ protected:
         setValueInternal(value, Tag());
     }
 
-    virtual std::size_t minLengthImpl() const override
+    [[nodiscard]] virtual std::size_t minLengthImpl() const override
     {
         return Base::field().minLength();
     }
 
-    virtual std::size_t maxLengthImpl() const override
+    [[nodiscard]] virtual std::size_t maxLengthImpl() const override
     {
         return Base::field().maxLength();
     }

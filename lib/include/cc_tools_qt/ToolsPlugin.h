@@ -77,7 +77,7 @@ public:
     ///     the derived class. It is responsible to update the provided
     ///     configuration with new entries relevant to the plugin.
     /// @return Configuration map.
-    QVariantMap getCurrentConfig();
+    [[nodiscard]] QVariantMap getCurrentConfig();
 
     /// @brief Request to perform reconfigure.
     /// @details Invokes reconfigureImpl(), which can be overridden by the
@@ -89,19 +89,19 @@ public:
     /// @details This function will be called if it is @b socket plugin. It
     ///     will invoke @ref createSocketImpl() if assigned type is @ref Type_Socket.
     /// @return Allocated socket object
-    ToolsSocketPtr createSocket();
+    [[nodiscard]] ToolsSocketPtr createSocket();
 
     /// @brief Create filter
     /// @details This function will be called if it is @b filter plugin. It
     ///     will invoke @ref createFilterImpl() if assigned type is @ref Type_Filter.
     /// @return Allocated filter object
-    ToolsFilterPtr createFilter();
+    [[nodiscard]] ToolsFilterPtr createFilter();
 
     /// @brief Create protocol
     /// @details This function will be called if it is @b protocol plugin. It
     ///     will invoke @ref createProtocolImpl() if assigned type is @ref Type_Protocol.
     /// @return Allocated protocol object
-    ToolsProtocolPtr createProtocol();
+    [[nodiscard]] ToolsProtocolPtr createProtocol();
 
     /// @brief Create a widget to perform plugin configuration in GUI application.
     /// @details Sometimes there is a need to provide a way to configure the
@@ -112,7 +112,7 @@ public:
     ///     delete operation on it.@n
     ///     The function will invoke @ref createConfigurationWidgetImpl().
     /// @return Dynamically allocated widget object
-    QWidget* createConfigurationWidget();
+    [[nodiscard]] QWidget* createConfigurationWidget();
 
     /// @brief Create GUI actions relevant to the plugin.
     /// @details This function will invoke the relevant callback function
@@ -124,7 +124,7 @@ public:
     ///     doesn't need to do it explicityly.@n
     ///     The function will invoke @ref createGuiActionsImpl().
     /// @return List of GUI QAction objects.
-    ListOfGuiActions createGuiActions();
+    [[nodiscard]] ListOfGuiActions createGuiActions();
 
     /// @brief Apply inter-plugin configuration.
     /// @details Allows one plugin to influence the configuration of another.
@@ -165,25 +165,25 @@ protected:
     /// @brief Create socket object
     /// @details Expected to be overriden by the derived class.
     /// @return By default returns empty pointer.
-    virtual ToolsSocketPtr createSocketImpl();
+    [[nodiscard]] virtual ToolsSocketPtr createSocketImpl();
 
     /// @brief Create filter object
     /// @details Expected to be overriden by the derived class.
     /// @return By default returns empty pointer.
-    virtual ToolsFilterPtr createFilterImpl();
+    [[nodiscard]] virtual ToolsFilterPtr createFilterImpl();
 
     /// @brief Create protocol object
     /// @details Expected to be overriden by the derived class.
     /// @return By default returns empty pointer.
-    virtual ToolsProtocolPtr createProtocolImpl();
+    [[nodiscard]] virtual ToolsProtocolPtr createProtocolImpl();
 
     /// @brief Create configuration widget
     /// @return If not overriden returns @b nullptr.
-    virtual QWidget* createConfigurationWidgetImpl();
+    [[nodiscard]] virtual QWidget* createConfigurationWidgetImpl();
 
     /// @brief Create GUI actions.
     /// @return If not overriden returns empty list.
-    virtual ListOfGuiActions createGuiActionsImpl();
+    [[nodiscard]] virtual ListOfGuiActions createGuiActionsImpl();
 
 protected slots:
     /// @brief Report inter-plugin configuration.

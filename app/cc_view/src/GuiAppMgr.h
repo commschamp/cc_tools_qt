@@ -75,8 +75,8 @@ public:
         Active,
     };
 
-    static GuiAppMgr* instance();
-    static GuiAppMgr& instanceRef();
+    [[nodiscard]] static GuiAppMgr* instance();
+    [[nodiscard]] static GuiAppMgr& instanceRef();
 
     ~GuiAppMgr() noexcept;
 
@@ -84,9 +84,9 @@ public:
     bool startFromConfig(const QString& configName);
     bool startFromFile(const QString& filename);
 
-    RecvState recvState() const;
+    [[nodiscard]] RecvState recvState() const;
     bool recvMsgListSelectOnAddEnabled();
-    bool recvListEmpty() const;
+    [[nodiscard]] bool recvListEmpty() const;
     void recvLoadMsgsFromFile(const QString& filename);
     void recvSaveMsgsToFile(const QString& filename);
     bool recvListShowsReceived() const;
@@ -95,10 +95,10 @@ public:
     bool recvListApplyFilter() const;
     unsigned recvListModeMask() const;
 
-    SendState sendState() const;
+    [[nodiscard]] SendState sendState() const;
     void sendAddNewMessage(ToolsMessagePtr msg);
     void sendUpdateMessage(ToolsMessagePtr msg);
-    bool sendListEmpty() const;
+    [[nodiscard]] bool sendListEmpty() const;
     void sendLoadMsgsFromFile(bool clear, const QString& filename);
     void sendSaveMsgsToFile(const QString& filename);
     void sendUpdateList(const ToolsMessagesList& msgs);
@@ -106,14 +106,14 @@ public:
     void deleteMessages(ToolsMessagesList&& msgs);
     void sendMessages(ToolsMessagesList&& msgs);
 
-    static ActivityState getActivityState();
+    [[nodiscard]] static ActivityState getActivityState();
     bool applyNewPlugins(const ListOfPluginInfos& plugins);
     void msgCommentUpdated(ToolsMessagePtr msg);
 
     const FilteredMessages& getFilteredMessages() const;
     void setFilteredMessages(FilteredMessages&& filteredMessages);
 
-    static QString messageDesc(const ToolsMessage& msg);
+    [[nodiscard]] static QString messageDesc(const ToolsMessage& msg);
 
     void setDebugOutputLevel(unsigned level);
 

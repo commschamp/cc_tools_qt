@@ -47,21 +47,21 @@ public:
 
     void removeField(int idx);
 
-    unsigned size() const;
+    [[nodiscard]] unsigned size() const;
 
-    bool hasFixedSize() const;
+    [[nodiscard]] bool hasFixedSize() const;
 
     void adjustFixedSize();
 
     void refreshMembers();
 
-    ActPtr actClone();
+    [[nodiscard]] ActPtr actClone();
 
 protected:
     virtual void addFieldImpl() = 0;
     virtual void removeFieldImpl(int idx) = 0;
-    virtual unsigned sizeImpl() const = 0;
-    virtual bool hasFixedSizeImpl() const = 0;
+    [[nodiscard]] virtual unsigned sizeImpl() const = 0;
+    [[nodiscard]] virtual bool hasFixedSizeImpl() const = 0;
     virtual void adjustFixedSizeImpl() = 0;
     virtual void refreshMembersImpl() = 0;
 

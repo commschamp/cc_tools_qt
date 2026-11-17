@@ -37,26 +37,26 @@ public:
 
     virtual ~ToolsFrame();
 
-    ToolsMessagesList readData(const ToolsDataInfo& dataInfo, bool final);
+    [[nodiscard]] ToolsMessagesList readData(const ToolsDataInfo& dataInfo, bool final);
     void updateMessage(ToolsMessage& msg);
-    ToolsMessagePtr createInvalidMessage();
-    ToolsMessagePtr createRawDataMessage();
-    ToolsMessagePtr createExtraInfoMessage();
-    ToolsMessagesList createAllMessages();
-    ToolsMessagePtr createMessage(const QString& idAsString, unsigned idx);
-    DataSeq writeProtMsg(const void* protInterface);
+    [[nodiscard]] ToolsMessagePtr createInvalidMessage();
+    [[nodiscard]] ToolsMessagePtr createRawDataMessage();
+    [[nodiscard]] ToolsMessagePtr createExtraInfoMessage();
+    [[nodiscard]] ToolsMessagesList createAllMessages();
+    [[nodiscard]] ToolsMessagePtr createMessage(const QString& idAsString, unsigned idx);
+    [[nodiscard]] DataSeq writeProtMsg(const void* protInterface);
 
 protected:
     ToolsFrame() = default;
 
-    virtual ToolsMessagesList readDataImpl(const ToolsDataInfo& dataInfo, bool final) = 0;
+    [[nodiscard]] virtual ToolsMessagesList readDataImpl(const ToolsDataInfo& dataInfo, bool final) = 0;
     virtual void updateMessageImpl(ToolsMessage& msg) = 0;
-    virtual ToolsMessagePtr createInvalidMessageImpl() = 0;
-    virtual ToolsMessagePtr createRawDataMessageImpl() = 0;
-    virtual ToolsMessagePtr createExtraInfoMessageImpl() = 0;
-    virtual ToolsMessagesList createAllMessagesImpl() = 0;
-    virtual ToolsMessagePtr createMessageImpl(const QString& idAsString, unsigned idx) = 0;
-    virtual DataSeq writeProtMsgImpl(const void* protInterface) = 0;
+    [[nodiscard]] virtual ToolsMessagePtr createInvalidMessageImpl() = 0;
+    [[nodiscard]] virtual ToolsMessagePtr createRawDataMessageImpl() = 0;
+    [[nodiscard]] virtual ToolsMessagePtr createExtraInfoMessageImpl() = 0;
+    [[nodiscard]] virtual ToolsMessagesList createAllMessagesImpl() = 0;
+    [[nodiscard]] virtual ToolsMessagePtr createMessageImpl(const QString& idAsString, unsigned idx) = 0;
+    [[nodiscard]] virtual DataSeq writeProtMsgImpl(const void* protInterface) = 0;
 };
 
 using ToolsFramePtr = std::unique_ptr<ToolsFrame>;

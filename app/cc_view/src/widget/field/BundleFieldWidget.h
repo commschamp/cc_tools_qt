@@ -50,7 +50,7 @@ public:
     void addMemberField(FieldWidget* memberFieldWidget);
 
 protected:
-    virtual ToolsField& fieldImpl() override;
+    [[nodiscard]] virtual ToolsField& fieldImpl() override;
     virtual void refreshImpl() override;
     virtual void editEnabledUpdatedImpl() override;
 

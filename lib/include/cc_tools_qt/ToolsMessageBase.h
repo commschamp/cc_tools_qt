@@ -105,12 +105,12 @@ public:
         return *this;
     }
 
-    ProtMsg& msg()
+    [[nodiscard]] ProtMsg& msg()
     {
         return m_msg;
     }
 
-    const ProtMsg& msg() const
+    [[nodiscard]] const ProtMsg& msg() const
     {
         return m_msg;
     }
@@ -118,7 +118,7 @@ public:
 protected:
 
     /// @brief Overriding polymorphic name retrieval functionality
-    virtual const char* nameImpl() const override
+    [[nodiscard]] virtual const char* nameImpl() const override
     {
         using Tag =
             std::conditional_t<
@@ -139,7 +139,7 @@ protected:
     }
 
     /// @brief Overriding polymorphic retrieval of the numeric id
-    virtual qlonglong numericIdImpl() const override
+    [[nodiscard]] virtual qlonglong numericIdImpl() const override
     {
         using Tag =
             std::conditional_t<
@@ -175,7 +175,7 @@ protected:
     /// @brief Overriding polymorphic validity check
     /// @details Invokes @b valid() inherited from provided interface
     ///     class.
-    virtual bool isValidImpl() const override
+    [[nodiscard]] virtual bool isValidImpl() const override
     {
         return m_msg.doValid();
     }
@@ -183,7 +183,7 @@ protected:
     /// @brief Overriding polymorphic serialisation functionaly
     /// @details Invokes @b write() inherited from provided interface
     ///     class.
-    virtual DataSeq encodeDataImpl() const override
+    [[nodiscard]] virtual DataSeq encodeDataImpl() const override
     {
         DataSeq data;
         data.reserve(m_msg.doLength());
@@ -196,14 +196,14 @@ protected:
     /// @brief Overriding polymorphic deserialisation functionaly
     /// @details Invokes @b read() inherited from provided interface
     ///     class.
-    virtual bool decodeDataImpl(const DataSeq& data) override
+    [[nodiscard]] virtual bool decodeDataImpl(const DataSeq& data) override
     {
         auto iter = data.data();
         auto es = m_msg.doRead(iter, data.size());
         return es == comms::ErrorStatus::Success;
     }
 
-    virtual typename Base::Ptr cloneImpl() const override
+    [[nodiscard]] virtual typename Base::Ptr cloneImpl() const override
     {
         return typename Base::Ptr(new TActualMsg(static_cast<const TActualMsg&>(*this)));
     }
@@ -215,12 +215,12 @@ protected:
         m_msg = std::move(*actProtMsg);
     }
 
-    virtual DataSeq encodeFramedImpl(ToolsFrame& frame) const override
+    [[nodiscard]] virtual DataSeq encodeFramedImpl(ToolsFrame& frame) const override
     {
         return frame.writeProtMsg(&m_msg);
     }
 
-    virtual FieldsList transportFieldsImpl() override
+    [[nodiscard]] virtual FieldsList transportFieldsImpl() override
     {
         FieldsList fields;
         using Tag =
@@ -234,7 +234,7 @@ protected:
         return fields;
     }
 
-    virtual FieldsList payloadFieldsImpl() override
+    [[nodiscard]] virtual FieldsList payloadFieldsImpl() override
     {
         FieldsList fields;
         fields.reserve(std::tuple_size<typename ProtMsg::AllFields>::value);

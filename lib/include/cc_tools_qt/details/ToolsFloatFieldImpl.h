@@ -60,12 +60,12 @@ public:
     ToolsFloatFieldImpl& operator=(const ToolsFloatFieldImpl&) = delete;
 
 protected:
-    virtual Ptr cloneImpl() override
+    [[nodiscard]] virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsFloatFieldImpl<TField>(Base::field()));
     }
 
-    virtual bool isNanImpl() const override
+    [[nodiscard]] virtual bool isNanImpl() const override
     {
         return std::isnan(Base::field().getValue());
     }
@@ -75,7 +75,7 @@ protected:
         setFieldValueInternal(std::numeric_limits<typename TField::ValueType>::quiet_NaN());
     }
 
-    virtual bool isInfImpl() const override
+    [[nodiscard]] virtual bool isInfImpl() const override
     {
         return std::isinf(Base::field().getValue()) && (0 < Base::field().getValue());
     }
@@ -85,7 +85,7 @@ protected:
         setFieldValueInternal(std::numeric_limits<typename TField::ValueType>::infinity());
     }
 
-    virtual bool isMinusInfImpl() const override
+    [[nodiscard]] virtual bool isMinusInfImpl() const override
     {
         return std::isinf(Base::field().getValue()) && (Base::field().getValue() < 0);
     }
@@ -95,12 +95,12 @@ protected:
         setFieldValueInternal(-std::numeric_limits<typename TField::ValueType>::infinity());
     }
 
-    virtual double getEpsilonImpl() const override
+    [[nodiscard]] virtual double getEpsilonImpl() const override
     {
         return static_cast<double>(std::numeric_limits<typename TField::ValueType>::epsilon());
     }
 
-    virtual const SpecialsList& specialsImpl() const override
+    [[nodiscard]] virtual const SpecialsList& specialsImpl() const override
     {
         using Tag =
             std::conditional_t<
@@ -112,7 +112,7 @@ protected:
         return specialsInternal(Tag());
     }
 
-    virtual int decimalsImpl() const override
+    [[nodiscard]] virtual int decimalsImpl() const override
     {
         return Field::displayDecimals();
     }
@@ -144,19 +144,19 @@ private:
         assert(Must_not_be_called);
     }
 
-    static const SpecialsList& specialsInternal(HasFeatureTag)
+    [[nodiscard]] static const SpecialsList& specialsInternal(HasFeatureTag)
     {
         static const SpecialsList List = createSpecialsList();
         return List;
     }
 
-    static const SpecialsList& specialsInternal(NoFeatureTag)
+    [[nodiscard]] static const SpecialsList& specialsInternal(NoFeatureTag)
     {
         static const SpecialsList List;
         return List;
     }
 
-    static SpecialsList createSpecialsList()
+    [[nodiscard]] static SpecialsList createSpecialsList()
     {
         SpecialsList result;
         auto mapInfo = Field::specialNamesMap();
@@ -170,7 +170,7 @@ private:
 };
 
 template <typename TField>
-auto makeFloatField(TField& field)
+[[nodiscard]] auto makeFloatField(TField& field)
 {
     return std::make_unique<ToolsFloatFieldImpl<TField>>(field);
 }

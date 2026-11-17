@@ -48,41 +48,41 @@ public:
 
     virtual ~ToolsUnsignedLongField() noexcept;
 
-    UnderlyingType minValue() const;
+    [[nodiscard]] UnderlyingType minValue() const;
 
-    UnderlyingType maxValue() const;
+    [[nodiscard]] UnderlyingType maxValue() const;
 
-    double getScaled() const;
+    [[nodiscard]] double getScaled() const;
 
     void setScaled(double value);
 
-    double scaleValue(UnderlyingType value) const;
+    [[nodiscard]] double scaleValue(UnderlyingType value) const;
 
-    bool isSigned() const;
+    [[nodiscard]] bool isSigned() const;
 
-    std::size_t valueTypeSize() const;
+    [[nodiscard]] std::size_t valueTypeSize() const;
 
-    const SpecialsList& specials() const;
+    [[nodiscard]] const SpecialsList& specials() const;
 
-    bool hasScaledDecimals() const;
-    int scaledDecimals() const;
+    [[nodiscard]] bool hasScaledDecimals() const;
+    [[nodiscard]] int scaledDecimals() const;
 
-    UnderlyingType getDisplayValue() const;
+    [[nodiscard]] UnderlyingType getDisplayValue() const;
     void setDisplayValue(UnderlyingType value);
 
-    ActPtr actClone();
+    [[nodiscard]] ActPtr actClone();
 
 protected:
-    virtual UnderlyingType minValueImpl() const = 0;
-    virtual UnderlyingType maxValueImpl() const = 0;
-    virtual double getScaledImpl() const = 0;
+    [[nodiscard]] virtual UnderlyingType minValueImpl() const = 0;
+    [[nodiscard]] virtual UnderlyingType maxValueImpl() const = 0;
+    [[nodiscard]] virtual double getScaledImpl() const = 0;
     virtual void setScaledImpl(double value) = 0;
-    virtual double scaleValueImpl(UnderlyingType value) const = 0;
-    virtual bool isSignedImpl() const = 0;
-    virtual std::size_t valueTypeSizeImpl() const = 0;
-    virtual const SpecialsList& specialsImpl() const = 0;
-    virtual int scaledDecimalsImpl() const = 0;
-    virtual UnderlyingType getDisplayValueImpl() const = 0;
+    [[nodiscard]] virtual double scaleValueImpl(UnderlyingType value) const = 0;
+    [[nodiscard]] virtual bool isSignedImpl() const = 0;
+    [[nodiscard]] virtual std::size_t valueTypeSizeImpl() const = 0;
+    [[nodiscard]] virtual const SpecialsList& specialsImpl() const = 0;
+    [[nodiscard]] virtual int scaledDecimalsImpl() const = 0;
+    [[nodiscard]] virtual UnderlyingType getDisplayValueImpl() const = 0;
     virtual void setDisplayValueImpl(UnderlyingType value) = 0;
 
     virtual void dispatchImpl(ToolsFieldHandler& handler) override;

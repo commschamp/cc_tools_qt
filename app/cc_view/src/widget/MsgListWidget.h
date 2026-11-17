@@ -68,17 +68,17 @@ protected:
     virtual void msgClickedImpl(ToolsMessagePtr msg, int idx);
     virtual void msgDoubleClickedImpl(ToolsMessagePtr msg, int idx);
     virtual void msgListClearedImpl(ToolsMessagesList&& msgsList);
-    virtual QString msgPrefixImpl(const ToolsMessage& msg) const;
-    virtual const QString& msgTooltipImpl() const;
+    [[nodiscard]] virtual QString msgPrefixImpl(const ToolsMessage& msg) const;
+    [[nodiscard]] virtual const QString& msgTooltipImpl() const;
     virtual void stateChangedImpl(int state);
-    virtual Qt::GlobalColor getItemColourImpl(MsgType type, bool valid) const;
+    [[nodiscard]] virtual Qt::GlobalColor getItemColourImpl(MsgType type, bool valid) const;
     virtual void msgMovedImpl(int idx);
-    virtual QString getTitleImpl() const;
+    [[nodiscard]] virtual QString getTitleImpl() const;
     virtual void loadMessagesImpl(const QString& filename, ToolsProtocol& protocol);
     virtual void saveMessagesImpl(const QString& filename);
 
-    ToolsMessagePtr currentMsg() const;
-    ToolsMessagesList allMsgs() const;
+    [[nodiscard]] ToolsMessagePtr currentMsg() const;
+    [[nodiscard]] ToolsMessagesList allMsgs() const;
 
 private slots:
     void itemClicked(QListWidgetItem* item);

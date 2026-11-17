@@ -68,7 +68,7 @@ public:
 
     /// @brief Get message name
     /// @details Invokes virtual nameImpl().
-    const char* name() const;
+    [[nodiscard]] const char* name() const;
 
     /// @brief Refresh message contents
     /// @details Needs to be invoked by the <b>CommsChampion Tools</b> when
@@ -78,9 +78,9 @@ public:
 
     /// @brief Get string representation of message ID.
     /// @details Invokes idAsStringImpl().
-    QString idAsString() const;
+    [[nodiscard]] QString idAsString() const;
 
-    qlonglong numericId() const;
+    [[nodiscard]] qlonglong numericId() const;
 
     /// @brief Reset message contents to default constructed values
     void reset();
@@ -92,24 +92,24 @@ public:
 
     /// @brief Check the message contents are valid.
     /// @details Invokes isValidImpl().
-    bool isValid() const;
+    [[nodiscard]] bool isValid() const;
 
     /// @brief Encode (or serialise) message contents
     /// @details Invokes encodeDataImpl().
-    DataSeq encodeData() const;
+    [[nodiscard]] DataSeq encodeData() const;
 
     /// @brief Decode (or deserialise) message contents
     /// @details Invokes decodeDataImpl().
-    bool decodeData(const DataSeq& data);
+    [[nodiscard]] bool decodeData(const DataSeq& data);
 
-    Ptr clone() const;
+    [[nodiscard]] Ptr clone() const;
 
     void assignProtMessage(void* protMsg);
 
-    DataSeq encodeFramed(ToolsFrame& frame) const;
+    [[nodiscard]] DataSeq encodeFramed(ToolsFrame& frame) const;
 
-    FieldsList transportFields();
-    FieldsList payloadFields();
+    [[nodiscard]] FieldsList transportFields();
+    [[nodiscard]] FieldsList payloadFields();
 
 protected:
 

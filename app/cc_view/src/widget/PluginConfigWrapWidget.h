@@ -38,12 +38,12 @@ public:
     PluginConfigWrapWidget(PluginInfoPtr pluginInfo, QWidget* configWidget, QWidget* parentObj = nullptr);
     ~PluginConfigWrapWidget();
 
-    const QString& getIid() const
+    [[nodiscard]] const QString& getIid() const
     {
         return m_pluginInfo->getIid();
     }
 
-    Type getType() const
+    [[nodiscard]] Type getType() const
     {
         return m_pluginInfo->getType();
     }

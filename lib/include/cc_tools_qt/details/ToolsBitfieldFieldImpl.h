@@ -59,7 +59,7 @@ public:
     ToolsBitfieldFieldImpl& operator=(const ToolsBitfieldFieldImpl&) = delete;
 
 protected:
-    virtual Ptr cloneImpl() override
+    [[nodiscard]] virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsBitfieldFieldImpl<TField>(Base::field()));
     }
@@ -76,7 +76,7 @@ protected:
 };
 
 template <typename TField>
-auto makeBitfieldField(TField& field)
+[[nodiscard]] auto makeBitfieldField(TField& field)
 {
     return std::make_unique<ToolsBitfieldFieldImpl<TField>>(field);
 }

@@ -64,28 +64,28 @@ public:
 
     /// @brief Retrieve name of the protocol.
     /// @details Invokes @ref nameImpl().
-    const QString& name() const;
+    [[nodiscard]] const QString& name() const;
 
     /// @brief Read the received data input.
     /// @param[in] dataInfo Received data information
     /// @param[in] final Final input indication, if @b true no more data is expected
     /// @return List of created messages
-    ToolsMessagesList read(const ToolsDataInfo& dataInfo, bool final = false);
+    [[nodiscard]] ToolsMessagesList read(const ToolsDataInfo& dataInfo, bool final = false);
 
     /// @brief Serialise message.
     /// @param[in] msg Reference to message object, passed by non-const reference
     ///     to allow update of the message properties.
     /// @return Serialised data.
-    ToolsDataInfoPtr write(ToolsMessage& msg);
+    [[nodiscard]] ToolsDataInfoPtr write(ToolsMessage& msg);
 
     /// @brief Create all messages supported by the protocol.
-    ToolsMessagesList createAllMessages();
+    [[nodiscard]] ToolsMessagesList createAllMessages();
 
     /// @brief Create message object given string representation of the message ID.
     /// @param[in] idAsString String representation of the message ID.
     /// @param[in] idx Index of the message type within the range of message types
     ///     with the same ID.
-    ToolsMessagePtr createMessage(const QString& idAsString, unsigned idx = 0);
+    [[nodiscard]] ToolsMessagePtr createMessage(const QString& idAsString, unsigned idx = 0);
 
     /// @brief Update (or refresh) message contents
     /// @return Status of the update.
@@ -93,10 +93,10 @@ public:
 
     /// @brief Clone the message object
     /// @return Pointer to newly created message with the same contents
-    ToolsMessagePtr cloneMessage(const ToolsMessage& msg);
+    [[nodiscard]] ToolsMessagePtr cloneMessage(const ToolsMessage& msg);
 
     /// @brief Create dummy message containing invalid input
-    ToolsMessagePtr createInvalidMessage(const MsgDataSeq& data);
+    [[nodiscard]] ToolsMessagePtr createInvalidMessage(const MsgDataSeq& data);
 
     /// @brief Make the protocol aware about socket connection status
     /// @details Invokes @ref socketConnectionReportImpl().
@@ -142,7 +142,7 @@ protected:
 
     /// @brief Polymorphic protocol name retrieval.
     /// @details Invoked by name().
-    virtual const QString& nameImpl() const = 0;
+    [[nodiscard]] virtual const QString& nameImpl() const = 0;
 
     /// @brief Polymorphic processing of the socket connection report
     /// @details Empty function, does nothing
@@ -165,7 +165,7 @@ protected:
     virtual void applyInterPluginConfigImpl(const QVariantMap& props);
 
     /// @brief Get current debug output level
-    unsigned getDebugOutputLevel() const;
+    [[nodiscard]] unsigned getDebugOutputLevel() const;
 
     /// @brief Helper function to assign "tranport message" object as a property
     ///     of application message object.
@@ -181,10 +181,10 @@ protected:
 
     /// @brief Helper function to retrieve "extra info message" object from properties
     ///     of the application message object.
-    static ToolsMessagePtr getExtraInfoMsgToMessageProperties(const ToolsMessage& msg);
+    [[nodiscard]] static ToolsMessagePtr getExtraInfoMsgToMessageProperties(const ToolsMessage& msg);
 
     /// @brief Helper function to retrieve "extra info" from message properties.
-    static QVariantMap getExtraInfoFromMessageProperties(const ToolsMessage& msg);
+    [[nodiscard]] static QVariantMap getExtraInfoFromMessageProperties(const ToolsMessage& msg);
 
     /// @brief Helper function to set "extra info" to message properties.
     static void setExtraInfoToMessageProperties(const QVariantMap& extraInfo, ToolsMessage& msg);

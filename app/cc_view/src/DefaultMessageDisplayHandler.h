@@ -39,7 +39,7 @@ public:
 
     ~DefaultMessageDisplayHandler() noexcept;
 
-    static MsgWidgetPtr getMsgWidget(ToolsMessage& msg);
+    [[nodiscard]] static MsgWidgetPtr getMsgWidget(ToolsMessage& msg);
 };
 
 }  // namespace cc_tools_qt

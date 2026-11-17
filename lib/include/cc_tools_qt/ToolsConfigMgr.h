@@ -38,8 +38,8 @@ public:
     ToolsConfigMgr();
     ~ToolsConfigMgr() noexcept;
 
-    const QString& getLastFile() const;
-    static const QString& getFilesFilter();
+    [[nodiscard]] const QString& getLastFile() const;
+    [[nodiscard]] static const QString& getFilesFilter();
 
     QVariantMap loadConfig(const QString& filename);
     QVariantMap loadConfig(const QString& filename, bool updateAsLast);

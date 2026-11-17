@@ -45,7 +45,7 @@ public:
 
     virtual ~ToolsNumericFieldBase() noexcept = default;
 
-    UnderlyingType getValue() const
+    [[nodiscard]] UnderlyingType getValue() const
     {
         return getValueImpl();
     }
@@ -55,31 +55,31 @@ public:
         setValueImpl(value);
     }
 
-    std::size_t minLength() const
+    [[nodiscard]] std::size_t minLength() const
     {
         return minLengthImpl();
     }
 
-    std::size_t maxLength() const
+    [[nodiscard]] std::size_t maxLength() const
     {
         return maxLengthImpl();
     }
 
-    int minWidth() const
+    [[nodiscard]] int minWidth() const
     {
         return static_cast<int>(minLength()) * 2;
     }
 
-    int maxWidth() const
+    [[nodiscard]] int maxWidth() const
     {
         return static_cast<int>(maxLength()) * 2;
     }
 
 private:
-    virtual UnderlyingType getValueImpl() const = 0;
+    [[nodiscard]] virtual UnderlyingType getValueImpl() const = 0;
     virtual void setValueImpl(UnderlyingType value) = 0;
-    virtual std::size_t minLengthImpl() const = 0;
-    virtual std::size_t maxLengthImpl() const = 0;
+    [[nodiscard]] virtual std::size_t minLengthImpl() const = 0;
+    [[nodiscard]] virtual std::size_t maxLengthImpl() const = 0;
 };
 
 }  // namespace details

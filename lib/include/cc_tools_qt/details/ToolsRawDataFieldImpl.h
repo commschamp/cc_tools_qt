@@ -58,8 +58,7 @@ public:
     ToolsRawDataFieldImpl& operator=(const ToolsRawDataFieldImpl&) = delete;
 
 protected:
-
-    virtual QString getValueImpl() const override
+    [[nodiscard]] virtual QString getValueImpl() const override
     {
         QString retStr;
         auto& dataField = Base::field();
@@ -119,7 +118,7 @@ protected:
         Base::setSerialisedValueImpl(data);
     }
 
-    virtual SerialisedSeq getSerialisedValueImpl() const override
+    [[nodiscard]] virtual SerialisedSeq getSerialisedValueImpl() const override
     {
         auto serValue = Base::getSerialisedValueImpl();
         if (Base::isTruncated()) {
@@ -136,17 +135,17 @@ protected:
         return false;
     }
 
-    virtual int maxSizeImpl() const override
+    [[nodiscard]] virtual int maxSizeImpl() const override
     {
         return maxSizeInternal(SizeExistanceTag());
     }
 
-    virtual int minSizeImpl() const override
+    [[nodiscard]] virtual int minSizeImpl() const override
     {
         return minSizeInternal(SizeExistanceTag());
     }
 
-    virtual Ptr cloneImpl() override
+    [[nodiscard]] virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsRawDataFieldImpl<TField>(Base::field()));
     }
@@ -173,7 +172,7 @@ private:
         >;
 
     template <typename TPrefixField>
-    static int maxSizeByPrefix()
+    [[nodiscard]] static int maxSizeByPrefix()
     {
         if (sizeof(int) <= TPrefixField::maxLength()) {
             return std::numeric_limits<int>::max();
@@ -185,24 +184,24 @@ private:
         return static_cast<int>((1U << shift) - 1);
     }
 
-    static int maxSizeInternal(SizeFieldExistsTag)
+    [[nodiscard]] static int maxSizeInternal(SizeFieldExistsTag)
     {
         using PrefixField = typename Field::SizeFieldPrefix;
         return maxSizeByPrefix<PrefixField>();
     }
 
-    static int maxSizeInternal(SerLengthFieldExistsTag)
+    [[nodiscard]] static int maxSizeInternal(SerLengthFieldExistsTag)
     {
         using PrefixField = typename Field::SerLengthFieldPrefix;
         return maxSizeByPrefix<PrefixField>();
     }
 
-    static int maxSizeInternal(FixedSizeTag)
+    [[nodiscard]] static int maxSizeInternal(FixedSizeTag)
     {
         return static_cast<int>(Field::fixedSize());
     }
 
-    int maxSizeInternal(NoLimitsTag) const
+    [[nodiscard]] int maxSizeInternal(NoLimitsTag) const
     {
         return
             static_cast<int>(
@@ -211,29 +210,29 @@ private:
                     Base::field().value().max_size()));
     }
 
-    static int minSizeInternal(SizeFieldExistsTag)
+    [[nodiscard]] static int minSizeInternal(SizeFieldExistsTag)
     {
         return 0;
     }
 
-    static int minSizeInternal(SerLengthFieldExistsTag)
+    [[nodiscard]] static int minSizeInternal(SerLengthFieldExistsTag)
     {
         return 0;
     }
 
-    static int minSizeInternal(FixedSizeTag)
+    [[nodiscard]] static int minSizeInternal(FixedSizeTag)
     {
         return static_cast<int>(Field::fixedSize());
     }
 
-    int minSizeInternal(NoLimitsTag) const
+    [[nodiscard]] int minSizeInternal(NoLimitsTag) const
     {
         return 0;
     }
 };
 
 template <typename TField>
-auto makeRawDataField(TField& field)
+[[nodiscard]] auto makeRawDataField(TField& field)
 {
     return std::make_unique<ToolsRawDataFieldImpl<TField>>(field);
 }

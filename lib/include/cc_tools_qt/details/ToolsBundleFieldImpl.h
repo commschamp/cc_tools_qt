@@ -59,19 +59,19 @@ public:
     ToolsBundleFieldImpl& operator=(const ToolsBundleFieldImpl&) = delete;
 
 protected:
-    virtual Ptr cloneImpl() override
+    [[nodiscard]] virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsBundleFieldImpl(Base::field()));
     }
 
-    virtual bool isHiddenSerializationImpl() const override
+    [[nodiscard]] virtual bool isHiddenSerializationImpl() const override
     {
         return true;
     }
 };
 
 template <typename TField>
-auto makeBundleField(TField& field)
+[[nodiscard]] auto makeBundleField(TField& field)
 {
     return std::make_unique<ToolsBundleFieldImpl<TField>>(field);
 }

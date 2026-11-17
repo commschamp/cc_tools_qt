@@ -61,7 +61,7 @@ public:
         assert(map.value(name).template canConvert<ValueType>());
     }
 
-    ValueType getFrom(const QObject& obj, const ValueType& defaultVal = ValueType()) const
+    [[nodiscard]] ValueType getFrom(const QObject& obj, const ValueType& defaultVal = ValueType()) const
     {
         auto var = obj.property(m_propName);
         if ((!var.isValid()) || (!var.template canConvert<ValueType>())) {
@@ -71,7 +71,7 @@ public:
         return var.template value<ValueType>();
     }
 
-    ValueType getFrom(const QVariantMap& map, const ValueType& defaultVal = ValueType()) const
+    [[nodiscard]] ValueType getFrom(const QVariantMap& map, const ValueType& defaultVal = ValueType()) const
     {
         QString name(m_propName);
         auto var = map.value(name);
@@ -109,7 +109,7 @@ public:
     }
 
     template <typename TFrom>
-    ValueType getFrom(TFrom&& from)
+    [[nodiscard]] ValueType getFrom(TFrom&& from)
     {
         return static_cast<ValueType>(Base::getFrom(std::forward<TFrom>(from)));
     }

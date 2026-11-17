@@ -26,12 +26,12 @@ template <typename T>
 class ToolsStaticSingleton
 {
 public:
-    static T* instance()
+    [[nodiscard]] static T* instance()
     {
         return &(instanceRef());
     }
 
-    static T& instanceRef()
+    [[nodiscard]] static T& instanceRef()
     {
         static T obj;
         return obj;

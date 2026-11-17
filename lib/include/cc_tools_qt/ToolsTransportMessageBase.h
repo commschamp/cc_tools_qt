@@ -60,13 +60,13 @@ public:
 
 protected:
     /// @brief Overriding virtual cc_tools_qt::ToolsMessage::nameImpl()
-    virtual const char* nameImpl() const override
+    [[nodiscard]] virtual const char* nameImpl() const override
     {
         static const char* Str = "Generic Transport Message";
         return Str;
     }
 
-    virtual qlonglong numericIdImpl() const override
+    [[nodiscard]] virtual qlonglong numericIdImpl() const override
     {
         [[maybe_unused]] static constexpr bool Must_be_overriden = false;
         assert(Must_be_overriden);
@@ -88,7 +88,7 @@ protected:
         return false;
     }
 
-    virtual FieldsList transportFieldsImpl() override
+    [[nodiscard]] virtual FieldsList transportFieldsImpl() override
     {
         return FieldsList();
     }

@@ -39,25 +39,25 @@ public:
     ToolsRawDataField();
     virtual ~ToolsRawDataField() noexcept;
 
-    QString getValue() const;
+    [[nodiscard]] QString getValue() const;
 
     void setValue(const QString& val);
 
-    int maxSize() const;
+    [[nodiscard]] int maxSize() const;
 
-    int minSize() const;
+    [[nodiscard]] int minSize() const;
 
-    bool getForcedShowAll() const;
+    [[nodiscard]] bool getForcedShowAll() const;
     void setForcedShowAll(bool val = true);
-    bool isTruncated() const;
+    [[nodiscard]] bool isTruncated() const;
 
-    ActPtr actClone();
+    [[nodiscard]] ActPtr actClone();
 
 protected:
-    virtual QString getValueImpl() const = 0;
+    [[nodiscard]] virtual QString getValueImpl() const = 0;
     virtual void setValueImpl(const QString& val) = 0;
-    virtual int maxSizeImpl() const = 0;
-    virtual int minSizeImpl() const = 0;
+    [[nodiscard]] virtual int maxSizeImpl() const = 0;
+    [[nodiscard]] virtual int minSizeImpl() const = 0;
 
     void dispatchImpl(ToolsFieldHandler& handler);
 

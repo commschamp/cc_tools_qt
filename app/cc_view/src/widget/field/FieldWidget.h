@@ -46,12 +46,12 @@ public:
 
     void setNameSuffix(const QString& value);
 
-    const QString& getNameSuffix() const
+    [[nodiscard]] const QString& getNameSuffix() const
     {
         return m_nameSuffix;
     }
 
-    ToolsField& field()
+    [[nodiscard]] ToolsField& field()
     {
         return fieldImpl();
     }
@@ -122,7 +122,7 @@ protected:
 
     void commonConstruct();
 
-    virtual ToolsField& fieldImpl() = 0;
+    [[nodiscard]] virtual ToolsField& fieldImpl() = 0;
     virtual void refreshImpl() = 0;
     virtual void editEnabledUpdatedImpl();
     virtual void nameSuffixUpdatedImpl();

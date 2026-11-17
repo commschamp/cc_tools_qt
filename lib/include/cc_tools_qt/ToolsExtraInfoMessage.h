@@ -52,12 +52,12 @@ class ToolsExtraInfoMessageData : public
             comms::option::def::HasName
         >;
 public:
-    static const char* name()
+    [[nodiscard]] static const char* name()
     {
         return "";
     }
 
-    bool valid() const
+    [[nodiscard]] bool valid() const
     {
         auto& val = Base::value();
         if (val.empty()) {
@@ -103,7 +103,7 @@ public:
     virtual ~ToolsExtraInfoMessage() noexcept = default;
 
 protected:
-    virtual const char* nameImpl() const override
+    [[nodiscard]] virtual const char* nameImpl() const override
     {
         static const char* Str = "Generic Extra Info Message";
         return Str;
@@ -122,12 +122,12 @@ protected:
         return false;
     }
 
-    virtual FieldsList transportFieldsImpl() override
+    [[nodiscard]] virtual FieldsList transportFieldsImpl() override
     {
         return FieldsList();
     }
 
-    virtual FieldsList payloadFieldsImpl() override
+    [[nodiscard]] virtual FieldsList payloadFieldsImpl() override
     {
         auto fields = Base::payloadFieldsImpl();
         for (auto& f : fields) {

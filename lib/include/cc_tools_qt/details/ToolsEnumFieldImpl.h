@@ -66,12 +66,12 @@ public:
     ToolsEnumFieldImpl& operator=(const ToolsEnumFieldImpl&) = delete;
 
 protected:
-    virtual Ptr cloneImpl() override
+    [[nodiscard]] virtual Ptr cloneImpl() override
     {
         return ActPtr(new ToolsEnumFieldImpl<TField>(Base::field()));
     }
 
-    const ValueInfosList& valuesImpl() const override
+    [[nodiscard]] const ValueInfosList& valuesImpl() const override
     {
         using Tag =
             std::conditional_t<
@@ -88,7 +88,7 @@ private:
     struct SeqValuesTag{};
     struct SparseValuesTag{};
 
-    static ValueInfosList createValues(SeqValuesTag)
+    [[nodiscard]] static ValueInfosList createValues(SeqValuesTag)
     {
         ValueInfosList result;
         auto namesMap = Field::valueNamesMap();
@@ -103,7 +103,7 @@ private:
         return result;
     }
 
-    static ValueInfosList createValues(SparseValuesTag)
+    [[nodiscard]] static ValueInfosList createValues(SparseValuesTag)
     {
         ValueInfosList result;
         auto namesMap = Field::valueNamesMap();
@@ -116,7 +116,7 @@ private:
 };
 
 template <typename TField>
-auto makeEnumField(TField& field)
+[[nodiscard]] auto makeEnumField(TField& field)
 {
     return std::make_unique<ToolsEnumFieldImpl<TField>>(field);
 }

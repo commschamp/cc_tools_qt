@@ -61,7 +61,7 @@ public:
     using AllMessages = TAllMessages;
 
 protected:
-    virtual MessagesListInternal createAllMessagesImpl() override
+    [[nodiscard]] virtual MessagesListInternal createAllMessagesImpl() override
     {
         MessagesListInternal result;
         static_assert(comms::util::IsTuple<TAllMessages>::Value, "TAllMessages must be std::tuple");

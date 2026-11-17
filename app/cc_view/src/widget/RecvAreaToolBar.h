@@ -61,8 +61,8 @@ private:
     void refreshClearButton();
     void refreshEditFilterButton();
 
-    bool msgSelected() const;
-    bool listEmpty() const;
+    [[nodiscard]] bool msgSelected() const;
+    [[nodiscard]] bool listEmpty() const;
 
     QAction* m_startStopButton = nullptr;
     QAction* m_loadButton = nullptr;

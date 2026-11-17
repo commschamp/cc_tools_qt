@@ -66,10 +66,10 @@ public:
 
     ~ShortcutMgr() noexcept;
 
-    QKeySequence getKeySeq(Key k) const;
+    [[nodiscard]] QKeySequence getKeySeq(Key k) const;
 
-    static ShortcutMgr* instance();
-    static ShortcutMgr& instanceRef();
+    [[nodiscard]] static ShortcutMgr* instance();
+    [[nodiscard]] static ShortcutMgr& instanceRef();
 
     void updateShortcut(QAction& action, ShortcutMgr::Key key);
 
